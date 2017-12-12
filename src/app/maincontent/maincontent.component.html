@@ -1,0 +1,7 @@
+<div class="alnmt" >
+    <button mat-button mat-icon-button (click)="side=!side">
+        <mat-icon>list</mat-icon>
+    </button>
+    <app-leftmenu *ngIf="side" class="leftsd"></app-leftmenu>
+    <app-rightcontent class="rightsd"></app-rightcontent>
+</div>

@@ -1,0 +1,90 @@
+<form class="example-form">
+	<button mat-raised-button color="accent" style="width:90%">SITE ADMINISTRATION</button>
+	
+	<mat-form-field class="example-form-field" style="width:90%">
+			<input matInput type="text" placeholder="Search" [(ngModel)]="value" [matAutocomplete]="auto"  [ngModelOptions]="{standalone: true}"/>
+			<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+					<mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+						{{ option.name }}
+					</mat-option>
+				</mat-autocomplete>
+			<button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+			  <mat-icon>close</mat-icon>
+			</button>
+			
+			<button mat-button *ngIf="!value" matSuffix mat-icon-button aria-label="Search">
+					<mat-icon>search</mat-icon>
+				  </button>
+		  </mat-form-field>
+
+		  <mat-accordion>
+				<mat-expansion-panel style="width:90%">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Personal data
+					</mat-panel-title>
+					
+				  </mat-expansion-panel-header>
+					<p ng-href="">Article 1</p>
+					<p ng-href="">Article 2</p>
+					<p ng-href="">Article 3</p>
+				</mat-expansion-panel>
+
+				<mat-expansion-panel style="width:90%">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Self aware panel
+					</mat-panel-title>
+					
+				  </mat-expansion-panel-header>
+				  <p>I'm visible because I am open</p>
+				</mat-expansion-panel>
+				<mat-expansion-panel style="width:90%">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Self aware panel 1
+					</mat-panel-title>
+					
+				  </mat-expansion-panel-header>
+				  <p>I'm visible because I am open</p>
+				</mat-expansion-panel>
+				<mat-expansion-panel style="width:90%">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Self aware panel 2
+					</mat-panel-title>
+					
+				  </mat-expansion-panel-header>
+				  <p>I'm visible because I am open</p>
+				</mat-expansion-panel>
+				<mat-expansion-panel style="width:90%">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Self aware panel 3
+					</mat-panel-title>
+					
+				  </mat-expansion-panel-header>
+				  <p>I'm visible because I am open</p>
+				</mat-expansion-panel>
+				<mat-expansion-panel style="width:90%">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Self aware panel 4
+					</mat-panel-title>
+					
+				  </mat-expansion-panel-header>
+				  <p>I'm visible because I am open</p>
+				</mat-expansion-panel>
+				<mat-expansion-panel style="width:90%">
+				  <mat-expansion-panel-header>
+					<mat-panel-title>
+					  Self aware panel 5
+					</mat-panel-title>
+					
+				  </mat-expansion-panel-header>
+				  <p>I'm visible because I am open</p>
+				</mat-expansion-panel>
+
+			  </mat-accordion>
+
+</form>
