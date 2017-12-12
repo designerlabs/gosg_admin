@@ -17,7 +17,8 @@ export class RightcontentComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): {
+  ngOnInit() {
+    // this.dataSource.paginator = this.paginator;
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
