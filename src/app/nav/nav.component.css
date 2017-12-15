@@ -66,7 +66,7 @@ height: 60px; }
     transition-property: height;
 	transition-duration: 1s;
 	z-index: 10000;
-	background: rgb(0, 189, 187);
+	/* background: rgb(0, 189, 187); */
 }
 .containerinside {
     margin-right: auto;
