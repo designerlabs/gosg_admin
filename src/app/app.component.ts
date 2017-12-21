@@ -9,4 +9,10 @@ import { Http } from '@angular/http';
 export class AppComponent {
   title = 'app';
   bTop = '15px';
+  side = true;
+
+  menuId(data) {
+    debugger;
+    console.log(data);
+  }
 }

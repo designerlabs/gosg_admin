@@ -1,11 +1,13 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div [ngStyle]="{'min-height': clientHeight + 'px', 'margin-bottom': '0px'}">
 <app-nav ></app-nav>
-
-<div>
-    <app-maincontent></app-maincontent>
-    
-</div> 
+<div class="alnmt" >
+    <button mat-button mat-icon-button (click)="side=!side">
+        <mat-icon>list</mat-icon>
+    </button>
+    <app-leftmenu (menuId) = "menuId($event)" *ngIf="side" class="leftsd"></app-leftmenu>
+    <router-outlet  class="rightsd"></router-outlet>
+</div>
 </div>
 
 

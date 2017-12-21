@@ -13,14 +13,9 @@ import { Observable } from 'rxjs/Observable';
 export class AddtemplateComponent implements OnInit {
 
 
-  constructor(private http: HttpClient) { }
+  constructor() { }
 
   ngOnInit() {
-    this.http.get('http://10.1.70.148:8080/gosg-service-admin/menu/list?lang=1').subscribe(data => {
-      // tslint:disable-next-line:no-debugger
-      debugger;
-      console.log(data);
-    });
   }
 }
 

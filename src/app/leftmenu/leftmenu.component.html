@@ -17,65 +17,23 @@
 				  </button>
 		  </mat-form-field>
 
-		  <mat-accordion>
-				<mat-expansion-panel style="width:90%">
-				  <mat-expansion-panel-header>
-					<mat-panel-title>
-					  Personal data
-					</mat-panel-title>
-					
-				  </mat-expansion-panel-header>
-					<p ng-href="">Article 1</p>
-					<p ng-href="">Article 2</p>
-					<p ng-href="">Article 3</p>
+		  <mat-accordion *ngIf='menulst'  >
+				<mat-expansion-panel style="width:90%" *ngFor="let mnu of menulst.menuList" >
+				 <mat-expansion-panel-header *ngIf='mnu.isActive'>
+						<mat-panel-title style="font-weight: bold;"> 
+							{{mnu.mainMenuTitle}}
+						</mat-panel-title>					
+					</mat-expansion-panel-header>
+						<div *ngFor="let sub of mnu.subMenu" style="padding-bottom: 0px;">
+							<!-- <p >{{sub.subMenuTitle}}</p> -->
+							<button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" [routerLink]="['/articletbl']" 
+							(click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</button>
+						</div>
+						
 				</mat-expansion-panel>
 
-				<mat-expansion-panel style="width:90%">
-				  <mat-expansion-panel-header>
-					<mat-panel-title>
-					  Self aware panel
-					</mat-panel-title>
-					
-				  </mat-expansion-panel-header>
-				  <p>I'm visible because I am open</p>
-				</mat-expansion-panel>
-				<mat-expansion-panel style="width:90%">
-				  <mat-expansion-panel-header>
-					<mat-panel-title>
-					  Self aware panel 1
-					</mat-panel-title>
-					
-				  </mat-expansion-panel-header>
-				  <p>I'm visible because I am open</p>
-				</mat-expansion-panel>
-				<mat-expansion-panel style="width:90%">
-				  <mat-expansion-panel-header>
-					<mat-panel-title>
-					  Self aware panel 2
-					</mat-panel-title>
-					
-				  </mat-expansion-panel-header>
-				  <p>I'm visible because I am open</p>
-				</mat-expansion-panel>
-				<mat-expansion-panel style="width:90%">
-				  <mat-expansion-panel-header>
-					<mat-panel-title>
-					  Self aware panel 3
-					</mat-panel-title>
-					
-				  </mat-expansion-panel-header>
-				  <p>I'm visible because I am open</p>
-				</mat-expansion-panel>
-				<mat-expansion-panel style="width:90%">
-				  <mat-expansion-panel-header>
-					<mat-panel-title>
-					  Self aware panel 4
-					</mat-panel-title>
-					
-				  </mat-expansion-panel-header>
-				  <p>I'm visible because I am open</p>
-				</mat-expansion-panel>
-				<mat-expansion-panel style="width:90%">
+				
+				<!-- <mat-expansion-panel style="width:90%">
 				  <mat-expansion-panel-header>
 					<mat-panel-title>
 					  Self aware panel 5
@@ -83,8 +41,17 @@
 					
 				  </mat-expansion-panel-header>
 				  <p>I'm visible because I am open</p>
-				</mat-expansion-panel>
+				</mat-expansion-panel> -->
 
-			  </mat-accordion>
+				</mat-accordion>
+
+		
+			
+				<!-- {{menulst.mainMenuTitle}} -->
+
+			
 
 </form>
+	<!-- <ul *ngFor="let mnu of menulst.menuList">
+					<li>{{mnu.mainMenuTitle}}</li>
+				</ul> -->

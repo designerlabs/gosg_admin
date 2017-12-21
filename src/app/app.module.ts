@@ -7,14 +7,17 @@ import { RouterModule, ActivatedRouteSnapshot } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { appRoutes } from './routes';
+// import { AppConfig } from './config/app.config.modules';
+import { AppConfigModule } from './config/app.config.module';
 import { NavComponent } from './nav/nav.component';
 import { LeftmenuComponent } from './leftmenu/leftmenu.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
-import { MaincontentComponent } from './maincontent/maincontent.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AddtemplateComponent } from './addtemplate/addtemplate.component';
+import { ArticletblComponent } from './articletbl/articletbl.component';
+import { CommonService } from './service/common.service';
 
 
 @NgModule({
@@ -22,16 +25,17 @@ import { AddtemplateComponent } from './addtemplate/addtemplate.component';
     AppComponent,
     NavComponent,
     LeftmenuComponent,
-    MaincontentComponent,
     RightcontentComponent,
     ErrorComponent,
     AddtemplateComponent,
+    ArticletblComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,
+    AppConfigModule,
     SharedModule,
     FormsModule,
     RouterModule.forRoot(appRoutes),

@@ -41,3 +41,29 @@
         top: 41px !important;
     }
 }
+
+.leftsd{
+	height: 900px;
+	width: 25%;
+	float: left;
+	/* padding-left: 5%; */
+	/* padding-top: 200px; */
+}
+.rightsd{
+	height: 900px;
+	width: 65%;
+	/* float: right; */
+	padding-right: 5%;
+	/* padding-top: 200px; */
+}
+.alnmt{
+	margin-left: 70px;
+	padding-right: 5%;
+}
+
+.rtCompall{
+	float: right;
+    width: 75%;
+    padding-right: 0%;
+    height: 900px;
+}
