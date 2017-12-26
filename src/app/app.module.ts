@@ -19,6 +19,7 @@ import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { FeedbackComponent } from './feedback/feedback.component';
+import { UserComponent } from './user/user.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
     AddtemplateComponent,
     ArticletblComponent,
     FeedbackComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
