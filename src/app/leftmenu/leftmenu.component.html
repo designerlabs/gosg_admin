@@ -25,9 +25,8 @@
 						</mat-panel-title>					
 					</mat-expansion-panel-header>
 						<div *ngFor="let sub of mnu.subMenu" style="padding-bottom: 0px;">
-							<!-- <p >{{sub.subMenuTitle}}</p> -->
-							<button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" [routerLink]="['/articletbl']" 
-							(click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</button>
+							<!-- <button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)" [routerLink]="['articletbl', sub.subMenuId]">{{sub.subMenuTitle}}</button> -->
+							<a id="{{sub.subMenuId}}" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a>
 						</div>
 						
 				</mat-expansion-panel>

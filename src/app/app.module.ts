@@ -18,6 +18,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
+import { FeedbackComponent } from './feedback/feedback.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { CommonService } from './service/common.service';
     ErrorComponent,
     AddtemplateComponent,
     ArticletblComponent,
+    FeedbackComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import { CommonService } from './service/common.service';
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot()
     ],
-  providers: [],
+  providers: [CommonService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

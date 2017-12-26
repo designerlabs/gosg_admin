@@ -7,6 +7,8 @@ import { SharedModule } from '../shared/shared.module';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
+import { Router, RouterModule } from '@angular/router';
+// import { Router } from '@angular/router/src/router';
 
 export class User {
   constructor(public name) { }
@@ -22,6 +24,7 @@ export class User {
 
 
 export class LeftmenuComponent implements OnInit {
+  @Output() menuClick = new EventEmitter();
   myControl = new FormControl();
   menulst: object;
   dataTbl: object;
@@ -34,10 +37,10 @@ export class LeftmenuComponent implements OnInit {
   panelOpenState: false;
   filteredOptions: Observable<User[]>;
   value = 'Clear me';
-  @Output() menuId = new EventEmitter();
 //   public objMenu: object;
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService ) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router ) { }
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
@@ -49,7 +52,7 @@ export class LeftmenuComponent implements OnInit {
 
     this.http.get(this.appConfig.urlMenu + 'lang=1').subscribe(data => {
       // tslint:disable-next-line:no-debugger
-    //   debugger;
+      debugger;
       console.log(data);
       this.menulst = data;
     });
@@ -65,12 +68,17 @@ export class LeftmenuComponent implements OnInit {
   }
 
   getTbl(mainid, subid) {
+    debugger;
        const obj = {
            mainMenu: mainid,
            subMenu: subid
        };
-       this.menuId.emit(obj);
        this.commonservice.ObjMenuid = obj;
+       this.commonservice.subid = subid;
+       this.commonservice.setMenuID(obj);
+
+
+       this.router.navigate(['articletbl', subid]);
     //    this.objMenu = obj;
     // if (mainid === 1 && subid === 3) {
     //     this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(data => {
