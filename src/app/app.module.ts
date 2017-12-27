@@ -20,6 +20,7 @@ import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UserComponent } from './user/user.component';
+import { UserManagementComponent } from './user-management/user-management.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { UserComponent } from './user/user.component';
     ArticletblComponent,
     FeedbackComponent,
     UserComponent,
+    UserManagementComponent,
   ],
   imports: [
     BrowserModule,

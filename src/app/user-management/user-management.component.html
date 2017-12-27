@@ -1,0 +1,61 @@
+<p style="margin-top: 10px;" class="font-size-l">User Management</p>
+<!-- Button Row -->
+  <div class="button-row" style="padding-left:80%; padding-bottom:10px;">
+      <!-- Here "Article" is dynamic -->
+      <button mat-raised-button color="primary" style="background-color:#1ebebc" [routerLink]="['/addtemplate']"><mat-icon>add</mat-icon> Add User</button> 
+      <button mat-raised-button color="primary" style="background-color:#1ebebc"><mat-icon>call_made</mat-icon> API </button> 
+  </div> 
+<div class="example-container mat-elevation-z8" style="">
+  <!-- Search and Filter Section -->
+  <mat-form-field class="example-form-field">
+      <input matInput type="text" placeholder="Clearable input" [(ngModel)]="value"/>
+      <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+          <mat-icon>close</mat-icon>
+      </button>
+  </mat-form-field>
+  <!-- Data table -->
+  <mat-table #table [dataSource]="dataSource">
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+    </ng-container>
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="symbol">
+      <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <!-- <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]">
+  </mat-paginator> -->
+  <!-- Pagination -->
+  <div style="float:right; margin-top: 10px;">
+      <mat-form-field style="width:50px;">         
+          <mat-select class="font-size-s" value="10" style="text-align: center;">
+              <mat-option value="5">5</mat-option>
+              <mat-option value="10">10</mat-option>
+              <mat-option value="25">25</mat-option>
+              <mat-option value="50">50</mat-option>
+          </mat-select>
+      </mat-form-field>   
+      <span style="padding-right:20px; float:right;">
+          <span style="color:#000; padding-right:20px;">Pages <strong>1</strong> of <strong>27</strong> in <strong>267</strong> items</span>
+          <button mat-mini-fab color="basic" matSuffix ><mat-icon>navigate_before</mat-icon></button>
+          <button mat-mini-fab color="basic"  ><mat-icon>navigate_next</mat-icon></button>
+      </span>
+  </div>
+</div>
