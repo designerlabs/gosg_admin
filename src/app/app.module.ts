@@ -18,6 +18,7 @@ import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
+import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UserComponent } from './user/user.component';
 import { UserManagementComponent } from './user-management/user-management.component';
@@ -48,7 +49,7 @@ import { UserManagementComponent } from './user-management/user-management.compo
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot()
     ],
-  providers: [CommonService],
+  providers: [CommonService, NavRouterActivatorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

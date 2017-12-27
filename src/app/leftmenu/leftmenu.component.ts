@@ -51,8 +51,6 @@ export class LeftmenuComponent implements OnInit {
     );
 
     this.http.get(this.appConfig.urlMenu + 'lang=1').subscribe(data => {
-      // tslint:disable-next-line:no-debugger
-      debugger;
       console.log(data);
       this.menulst = data;
     });
@@ -68,7 +66,6 @@ export class LeftmenuComponent implements OnInit {
   }
 
   getTbl(mainid, subid) {
-    debugger;
        const obj = {
            mainMenu: mainid,
            subMenu: subid
@@ -76,9 +73,11 @@ export class LeftmenuComponent implements OnInit {
        this.commonservice.ObjMenuid = obj;
        this.commonservice.subid = subid;
        this.commonservice.setMenuID(obj);
+       this.commonservice.simpleGet(subid);
+       this.commonservice.mainid = mainid;
+      //  this.router.navigate(['articletbl', subid.toString()]);
 
-
-       this.router.navigate(['articletbl', subid]);
+      //  this.router.navigate(['articletbl', subid]);
     //    this.objMenu = obj;
     // if (mainid === 1 && subid === 3) {
     //     this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(data => {

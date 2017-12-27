@@ -26,17 +26,20 @@ export class CommonService {
     console.log('This is from Common Service ,' + ID);
     if (!isNaN(ID)) {
       // ...using get request
-     return this.http.get(this.appConfig.urlCommon + 'article/category/1')
+    //  return this.http.get(this.appConfig.urlCommon + 'article/category/1')
      // ...and calling .json() on the response to return data
-     .map((response: Response) => response.json());
+    //  .map((response: Response) => response.json());
     // .subscribe( response => this.dataTbl );
+    return ID;
   }
 }
 getForecastData(forecastId): Observable<any> {
   return this.http.get<any>('/api/forecasts/' + forecastId + '/data');
 }
 getContact(id) {
-  return this.http.get<any>(this.appConfig.urlCommon + 'article/category/1');
+  // tslint:disable-next-line:no-debugger
+  debugger;
+  return this.http.get(this.appConfig.urlCommon + 'article/category/1');
 }
 
 // triggerArticle(topicID) {
@@ -48,25 +51,32 @@ getContact(id) {
 //   .subscribe();
 // }
 
-  // triggerArticle(topicID) {
-  //       if (!isNaN(topicID)) {
-  //           return this.route.paramMap
-  //           .switchMap((params: ParamMap) =>
-  //           this.getMenuID(topicID))
-  //           .subscribe(resSliderData => this.dataTbl = resSliderData);
-  //       }
-  //      }
+  triggerArticle(topicID) {
+        if (!isNaN(topicID)) {
+            return this.route.paramMap
+            .switchMap((params: ParamMap) =>
+            this.getMenuID(topicID))
+            .subscribe(resSliderData => this.dataTbl = resSliderData);
+        }
+       }
 
   setMenuID(data) {
     this.subid = data.subMenu;
     this.subid = data.mainMenu;
+
+    // this.route.params
+    // .map(params => params['id'])
+    // .switchMap(id => this.simpleGet(id))
+    // .subscribe(contact => this.resultData = contact);
+
   }
   simpleGet(topicID) {
-    this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(Rdata => {
+    return this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(Rdata => {
       this.dataTbl = Rdata;
       console.log(this.dataTbl);
-      return this.dataTbl;
   });
+  
+  // return this.dataTbl;
   }
 
 
