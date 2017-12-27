@@ -25,23 +25,11 @@
 						</mat-panel-title>					
 					</mat-expansion-panel-header>
 						<div *ngFor="let sub of mnu.subMenu" style="padding-bottom: 0px;">
-							<!-- <button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)" [routerLink]="['articletbl', sub.subMenuId]">{{sub.subMenuTitle}}</button> -->
-							<a id="{{sub.subMenuId}}" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a>
+							<button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" [routerLink]="['articletbl', sub.subMenuId]" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</button>
+							<!-- <a id="{{sub.subMenuId}}"  [routerLink]="['articletbl', sub.subMenuId]" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a> -->
 						</div>
 						
-				</mat-expansion-panel>
-
-				
-				<!-- <mat-expansion-panel style="width:90%">
-				  <mat-expansion-panel-header>
-					<mat-panel-title>
-					  Self aware panel 5
-					</mat-panel-title>
-					
-				  </mat-expansion-panel-header>
-				  <p>I'm visible because I am open</p>
-				</mat-expansion-panel> -->
-
+				</mat-expansion-panel>	
 				</mat-accordion>
 
 		
