@@ -71,10 +71,8 @@ export class LeftmenuComponent implements OnInit {
            subMenu: subid
        };
        this.commonservice.ObjMenuid = obj;
-       this.commonservice.subid = subid;
-       this.commonservice.setMenuID(obj);
-       this.commonservice.simpleGet(subid);
-       this.commonservice.mainid = mainid;
+       this.commonservice.getMenuID(obj);
+       this.commonservice.GetList(subid);
       //  this.router.navigate(['articletbl', subid.toString()]);
 
       //  this.router.navigate(['articletbl', subid]);

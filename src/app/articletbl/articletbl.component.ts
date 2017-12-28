@@ -28,30 +28,10 @@ export class ArticletblComponent implements OnInit {
     }
 
   ngOnInit() {
-    // tslint:disable-next-line:no-debugger
-    // debugger;
-
     this.menus = this.commonservice.ObjMenuid;
     // tslint:disable-next-line:radix
     this.topicID = parseInt(this.router.url.split('/')[2]);
-    // this.menuid = this.commonservice.subid;
-    // console.log(this.route.params.id);
-    // this.getid();
-    // this.commonservice.triggerArticle(this.topicID);
-
-    // this.route.params
-    //  .switchMap((params: Params) => this.commonservice.triggerArticle(this.topicID))
-    //  .subscribe(data => this.resultData = data);
-
-    this.route.params
-    .map(params => params['id'])
-    .switchMap(id => this.commonservice.getContact(id))
-    .subscribe(contact => this.resultData = contact);
-
-    // this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(Rdata => {
-    //   this.dataTbl = Rdata;
-    //   console.log(this.dataTbl);
-    //  });
+    this.commonservice.GetList(this.topicID);
 
     console.log(this.resultData);
 }
