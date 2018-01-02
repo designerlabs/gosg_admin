@@ -1,15 +1,3 @@
-<!-- <p *ngFor="let user of users">{{ user.username }}</p> -->
-<!-- <form [formGroup]="updateForm" autocomplete="off" (ngSubmit)="updateUser()" role="form" novalidate>
-  <div class="col-md-12">
-    <div class="row">
-      <div class="form-group col-md-4">
-        <input #perPost formControlName="username" type="text" placeholder="Username" required />
-      </div>
-    </div>
-  </div>
-
-
-</form> -->
 <div class="container">
 <form [formGroup]="updateForm" autocomplete="off" (ngSubmit)="updateUser(updateForm.value)" role="form" novalidate>
   <div class="col-md-12">
