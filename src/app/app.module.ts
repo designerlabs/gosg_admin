@@ -43,6 +43,7 @@ import { UserComponent } from './user/user.component';
     AppConfigModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot()

@@ -10,31 +10,45 @@
 
 
 </form> -->
-{{ username }}
-<form enctype="multipart/form-data" action="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/"
-  method="post" id="user_form" novalidate="">
-  <input type="hidden" name="csrfmiddlewaretoken" value="8TEPi06VhCcSCLyDdKZYwI6Jwd6w3kAxPAN2HuC7f46sbPJbQWI0TqqUtNmfu1N6">
-  <div>
-    <!-- Popup Hidden Field -->
+<div class="container">
+<form [formGroup]="updateForm" autocomplete="off" (ngSubmit)="updateUser(updateForm.value)" role="form" novalidate>
+  <div class="col-md-12">
+      <label class="staticLabel font-size-l">Change User</label>
+    <div class="formbg row">
+        <div class="form-group col-md-4">
+          <label class="font-size-m" for="username">Username</label>
+          <!-- <div class="staticLabel font-size-m boldText" for="fullname">{{ fullname }}</div> -->
+          <mat-form-field class="example-full-width">
+            <input matInput type="text" formControlName="username" value="{{ username }}" maxlength="150">
+          </mat-form-field>
+        </div>
+    </div>
+    <div class="formbg row">
+        <div class="form-header">
+            <label class="staticLabel font-size-m" for="username">First Name</label>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="font-size-m" for="username">First Name</label>
+          <!-- <div class="staticLabel font-size-m boldText" for="fullname">{{ fullname }}</div> -->
+          <mat-form-field class="example-full-width">
+            <input matInput type="text" formControlName="firstname" value="{{ firstname }}" maxlength="150">
+          </mat-form-field>
+        </div>
+        <div class="form-group col-md-4">
+          <label class="font-size-m" for="username">Username</label>
+          <!-- <div class="staticLabel font-size-m boldText" for="fullname">{{ fullname }}</div> -->
+          <mat-form-field class="example-full-width">
+            <input matInput type="text" formControlName="lastname" value="{{ lastname }}" maxlength="150">
+          </mat-form-field>
+        </div>
 
 
-    <!-- No Submit-Row on Top -->
+    </div>
 
-    <!-- Errors -->
-
-
-    <!-- Fieldsets -->
-
-
-
-    <fieldset class="module grp-module ">
+    <!-- <fieldset class="module grp-module ">
       <div class="form-row grp-row grp-cells-1 username ">
         <div class="field-box l-2c-fluid l-d-4">
-          <div class="c-1">
-            <label class="required" for="id_username">Username</label>
-          </div>
           <div class="c-2">
-            <input type="text" name="username" value="{{ username }}" required="" maxlength="150" class="vTextField" id="id_username">
             <p class="grp-help">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
           </div>
         </div>
@@ -73,7 +87,7 @@
             <label for="id_first_name">First name</label>
           </div>
           <div class="c-2">
-            <input type="text" name="first_name" value="adam daniel" maxlength="30" class="vTextField" id="id_first_name">
+            <input type="text" name="first_name" value="{{ firstname }}" maxlength="30" class="vTextField" id="id_first_name">
           </div>
         </div>
       </div>
@@ -83,7 +97,7 @@
             <label for="id_last_name">Last name</label>
           </div>
           <div class="c-2">
-            <input type="text" name="last_name" value="ahmad zafir" maxlength="30" class="vTextField" id="id_last_name">
+            <input type="text" name="last_name" value="{{ lastname }}" maxlength="30" class="vTextField" id="id_last_name">
           </div>
         </div>
       </div>
@@ -93,7 +107,7 @@
             <label for="id_email">Email address</label>
           </div>
           <div class="c-2">
-            <input type="text" name="email" value="normala.sahari.cry@gmail.com" maxlength="254" class="vTextField" id="id_email">
+            <input type="text" name="email" value="{{ email }}" maxlength="254" class="vTextField" id="id_email">
           </div>
         </div>
       </div>
@@ -776,63 +790,8 @@
           </div>
         </div>
       </div>
-    </fieldset>
-
-
-
-
-
-
-    <!-- Inlines -->
-
-
-
-
-
-
-    <!-- Submit-Row -->
-
-    <footer class="grp-module grp-submit-row grp-fixed-footer">
-      <header style="display:none">
-        <h1>Submit Options</h1>
-      </header>
-      <ul>
-
-
-        <li class="grp-float-left">
-          <a href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/delete/" class="grp-button grp-delete-link">Delete</a>
-        </li>
-
-
-        <li>
-          <input type="submit" value="Save" class="grp-button grp-default" name="_save">
-        </li>
-
-
-
-        <li>
-          <input type="submit" value="Save and add another" class="grp-button" name="_addanother">
-        </li>
-
-
-        <li>
-          <input type="submit" value="Save and continue editing" class="grp-button" name="_continue">
-        </li>
-
-      </ul>
-    </footer>
-
-
-    <!-- JS for prepopulated fields -->
-
-
-    <script type="text/javascript">
-      (function ($) {
-        var field;
-
-      })(grp.jQuery);
-    </script>
-
+    </fieldset> -->
 
   </div>
 </form>
+</div>

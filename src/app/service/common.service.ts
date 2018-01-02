@@ -57,14 +57,14 @@ export class CommonService {
   getMenuID(data) {
     this.subid = data.subMenu;
     this.mainid = data.mainMenu;
-    // this.GetList(data.subMenu);
+    this.GetList(data.subMenu);
   }
 
   GetList(topicID) {
     if (this.mainid === 1 && topicID === 3) {
       return this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(Rdata => {
         this.dataTbl = Rdata;
-        // console.log(this.dataTbl);
+        console.log(this.dataTbl);
       });
     }
   }
