@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
+  selector: 'app-usertbl',
+  templateUrl: './usertbl.component.html',
+  styleUrls: ['./usertbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserComponent implements OnInit {
+export class UsertblComponent implements OnInit {
 
   constructor() { }
 

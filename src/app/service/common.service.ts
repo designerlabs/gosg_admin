@@ -49,6 +49,8 @@ export class CommonService {
         this.dataTbl = Rdata;
         console.log(this.dataTbl);
       });
+    }else {
+      this.dataTbl = [];
     }
   }
 

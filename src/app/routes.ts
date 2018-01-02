@@ -13,13 +13,13 @@ export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
 {path: 'addtemplate', component: AddtemplateComponent},
-{path: 'articletbl/:id', component: ArticletblComponent,  canActivate: [NavRouterActivatorService] },
+{path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 {path: 'feedback', component: FeedbackComponent},
 {path: '404', component: ErrorComponent},
 
 
 
-// {path: '**', component: ErrorComponent},
+// {path: '**', component: ErrorComponent}, 
 ];
 
 // export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
