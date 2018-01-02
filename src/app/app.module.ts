@@ -21,7 +21,6 @@ import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UserComponent } from './user/user.component';
-import { UserManagementComponent } from './user-management/user-management.component';
 
 
 @NgModule({
@@ -35,7 +34,6 @@ import { UserManagementComponent } from './user-management/user-management.compo
     ArticletblComponent,
     FeedbackComponent,
     UserComponent,
-    UserManagementComponent,
   ],
   imports: [
     BrowserModule,

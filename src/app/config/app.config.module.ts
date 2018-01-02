@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
-const baseURL = 'http://10.1.17.12:3000/';
+const baseURL = 'http://localhost/locale-api/';
+// const baseURL = 'http://10.1.17.12:3000/';
 
 // // common service
 // let portalBaseURL = 'http://localhost:8020/portal/';
@@ -17,13 +18,17 @@ const commonURL = 'http://10.1.70.148:8003/service-admin-protected/';
 export class AppConfig {
     apiEndpoint: string;
     urlMenu: string;
-    urlCommon: string;
+    urlCommon: string;  
+    baseURL: string;
+    urlUsers: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
     urlMenu: commonURL + 'menu/list?',
-    urlCommon: 'http://10.1.70.148:8003/service-admin-protected/'
+    urlCommon: 'http://10.1.70.148:8003/service-admin-protected/',
+    baseURL: 'http://localhost/locale-api/',
+    urlUsers: baseURL+'users/'
 };
 
 @NgModule({
