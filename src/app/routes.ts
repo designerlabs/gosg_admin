@@ -8,6 +8,7 @@ import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
+import { UserComponent } from './user/user.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -16,6 +17,7 @@ export const appRoutes: Routes = [
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 {path: 'feedback', component: FeedbackComponent},
 {path: '404', component: ErrorComponent},
+{path: 'user/:id', component: UserComponent},
 
 
 

@@ -1,3 +1,838 @@
-<p>
-  user works!
-</p>
+<!-- <p *ngFor="let user of users">{{ user.username }}</p> -->
+<!-- <form [formGroup]="updateForm" autocomplete="off" (ngSubmit)="updateUser()" role="form" novalidate>
+  <div class="col-md-12">
+    <div class="row">
+      <div class="form-group col-md-4">
+        <input #perPost formControlName="username" type="text" placeholder="Username" required />
+      </div>
+    </div>
+  </div>
+
+
+</form> -->
+{{ username }}
+<form enctype="multipart/form-data" action="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/"
+  method="post" id="user_form" novalidate="">
+  <input type="hidden" name="csrfmiddlewaretoken" value="8TEPi06VhCcSCLyDdKZYwI6Jwd6w3kAxPAN2HuC7f46sbPJbQWI0TqqUtNmfu1N6">
+  <div>
+    <!-- Popup Hidden Field -->
+
+
+    <!-- No Submit-Row on Top -->
+
+    <!-- Errors -->
+
+
+    <!-- Fieldsets -->
+
+
+
+    <fieldset class="module grp-module ">
+      <div class="form-row grp-row grp-cells-1 username ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label class="required" for="id_username">Username</label>
+          </div>
+          <div class="c-2">
+            <input type="text" name="username" value="{{ username }}" required="" maxlength="150" class="vTextField" id="id_username">
+            <p class="grp-help">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 password ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label for="id_password">Password</label>
+          </div>
+          <div class="c-2">
+            <div id="id_password">
+              <strong>algorithm</strong>: pbkdf2_sha256
+
+              <strong>iterations</strong>: 36000
+
+              <strong>salt</strong>: Byd9f5******
+
+              <strong>hash</strong>: rpRY8w**************************************
+
+            </div>
+            <p class="grp-help">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password
+              using
+              <a href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/password/">this form</a>.</p>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+
+
+    <fieldset class="module grp-module ">
+      <h2 class="grp-collapse-handler">Personal info</h2>
+      <div class="form-row grp-row grp-cells-1 first_name ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label for="id_first_name">First name</label>
+          </div>
+          <div class="c-2">
+            <input type="text" name="first_name" value="adam daniel" maxlength="30" class="vTextField" id="id_first_name">
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 last_name ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label for="id_last_name">Last name</label>
+          </div>
+          <div class="c-2">
+            <input type="text" name="last_name" value="ahmad zafir" maxlength="30" class="vTextField" id="id_last_name">
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 email ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label for="id_email">Email address</label>
+          </div>
+          <div class="c-2">
+            <input type="text" name="email" value="normala.sahari.cry@gmail.com" maxlength="254" class="vTextField" id="id_email">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+
+
+    <fieldset class="module grp-module ">
+      <h2 class="grp-collapse-handler">Permissions</h2>
+      <div class="form-row grp-row grp-cells-1 is_active ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">&nbsp;</div>
+          <div class="c-2">
+            <input type="checkbox" name="is_active" checked="" id="id_is_active">
+            <label class="vCheckboxLabel" for="id_is_active">Active</label>
+            <p class="grp-help">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 is_staff ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">&nbsp;</div>
+          <div class="c-2">
+            <input type="checkbox" name="is_staff" id="id_is_staff">
+            <label class="vCheckboxLabel" for="id_is_staff">Staff status</label>
+            <p class="grp-help">Designates whether the user can log into this admin site.</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 is_superuser ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">&nbsp;</div>
+          <div class="c-2">
+            <input type="checkbox" name="is_superuser" checked="" id="id_is_superuser">
+            <label class="vCheckboxLabel" for="id_is_superuser">Superuser status</label>
+            <p class="grp-help">Designates that this user has all permissions without explicitly assigning them.</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 groups ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label for="id_groups">Groups</label>
+          </div>
+          <div class="c-2">
+            <div class="grp-related-widget-wrapper related-widget-wrapper">
+              <ul class="grp-tools grp-related-widget-tools">
+                <li>
+                  <a class="grp-related-widget-wrapper-link grp-add-related grp-add-another related-widget-wrapper-link add-related add-another"
+                    id="add_id_groups" href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/group/add/?_to_field=id&amp;_popup=1"
+                    title="Add another group"></a>
+                </li>
+              </ul>
+              <div class="selector">
+                <div class="selector-available">
+                  <h2>Available groups
+                    <span class="help help-tooltip help-icon" title="This is the list of available groups. You may choose some by selecting them in the box below and then clicking the &quot;Choose&quot; arrow between the two boxes."></span>
+                  </h2>
+                  <p id="id_groups_filter" class="selector-filter">
+                    <label for="id_groups_input">
+                      <span class="help-tooltip search-label-icon" title="Type into this box to filter down the list of available groups."></span>
+                    </label>
+                    <input type="text" placeholder="Filter" id="id_groups_input">
+                  </p>
+                  <select name="groups_old" multiple="multiple" data-field-name="groups" data-is-stacked="0" id="id_groups_from"
+                    class="filtered">
+                    <option value="3" title="Content Admin">Content Admin</option>
+                    <option value="4" title="hasiadygroup">hasiadygroup</option>
+                    <option value="13" title="monitoring">monitoring</option>
+                    <option value="1" title="Perhilitan">Perhilitan</option>
+                    <option value="2" title="Perikanan">Perikanan</option>
+                    <option value="8" title="TeamFAQ">TeamFAQ</option>
+                    <option value="10" title="TeamPolls">TeamPolls</option>
+                    <option value="12" title="test">test</option>
+                    <option value="6" title="Tukang Pengumunan">Tukang Pengumunan</option>
+                  </select>
+                  <a title="Click to choose all groups at once." href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#"
+                    id="id_groups_add_all_link" class="selector-chooseall active">Choose all</a>
+                </div>
+                <ul class="selector-chooser">
+                  <li>
+                    <a title="Choose" href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#" id="id_groups_add_link"
+                      class="selector-add">Choose</a>
+                  </li>
+                  <li>
+                    <a title="Remove" href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#" id="id_groups_remove_link"
+                      class="selector-remove">Remove</a>
+                  </li>
+                </ul>
+                <div class="selector-chosen">
+                  <h2>Chosen groups
+                    <span class="help help-tooltip help-icon" title="This is the list of chosen groups. You may remove some by selecting them in the box below and then clicking the &quot;Remove&quot; arrow between the two boxes."></span>
+                  </h2>
+                  <select id="id_groups_to" multiple="multiple" size="0" name="groups" class="filtered">
+                    <option value="7" title="Admin Kandungan">Admin Kandungan</option>
+                  </select>
+                  <a title="Click to remove all chosen groups at once." href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#"
+                    id="id_groups_remove_all_link" class="selector-clearall active">Remove all</a>
+                </div>
+              </div>
+            </div>
+            <p class="grp-help">The groups this user belongs to. A user will get all permissions granted to each of their groups. Hold down "Control",
+              or "Command" on a Mac, to select more than one.</p>
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 user_permissions ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label for="id_user_permissions">User permissions</label>
+          </div>
+          <div class="c-2">
+            <div class="grp-related-widget-wrapper related-widget-wrapper">
+              <div class="selector">
+                <div class="selector-available">
+                  <h2>Available user permissions
+                    <span class="help help-tooltip help-icon" title="This is the list of available user permissions. You may choose some by selecting them in the box below and then clicking the &quot;Choose&quot; arrow between the two boxes."></span>
+                  </h2>
+                  <p id="id_user_permissions_filter" class="selector-filter">
+                    <label for="id_user_permissions_input">
+                      <span class="help-tooltip search-label-icon" title="Type into this box to filter down the list of available user permissions."></span>
+                    </label>
+                    <input type="text" placeholder="Filter" id="id_user_permissions_input">
+                  </p>
+                  <select name="user_permissions_old" multiple="multiple" data-field-name="user permissions" data-is-stacked="0"
+                    id="id_user_permissions_from" class="filtered">
+                    <option value="157" title="announcement | announcement | Can add announcement">announcement | announcement | Can add announcement</option>
+                    <option value="158" title="announcement | announcement | Can change announcement">announcement | announcement | Can change announcement</option>
+                    <option value="159" title="announcement | announcement | Can delete announcement">announcement | announcement | Can delete announcement</option>
+                    <option value="154" title="announcement | announcement category | Can add announcement category">announcement | announcement category | Can add announcement category</option>
+                    <option value="155" title="announcement | announcement category | Can change announcement category">announcement | announcement category | Can change announcement category</option>
+                    <option value="156" title="announcement | announcement category | Can delete announcement category">announcement | announcement category | Can delete announcement category</option>
+                    <option value="193" title="archive | archive announcement | Can add archive announcement">archive | archive announcement | Can add archive announcement</option>
+                    <option value="194" title="archive | archive announcement | Can change archive announcement">archive | archive announcement | Can change archive announcement</option>
+                    <option value="195" title="archive | archive announcement | Can delete archive announcement">archive | archive announcement | Can delete archive announcement</option>
+                    <option value="181" title="archive | archive article | Can add archive article">archive | archive article | Can add archive article</option>
+                    <option value="182" title="archive | archive article | Can change archive article">archive | archive article | Can change archive article</option>
+                    <option value="183" title="archive | archive article | Can delete archive article">archive | archive article | Can delete archive article</option>
+                    <option value="265" title="archive | archive epenyertaan | Can add archive epenyertaan">archive | archive epenyertaan | Can add archive epenyertaan</option>
+                    <option value="266" title="archive | archive epenyertaan | Can change archive epenyertaan">archive | archive epenyertaan | Can change archive epenyertaan</option>
+                    <option value="267" title="archive | archive epenyertaan | Can delete archive epenyertaan">archive | archive epenyertaan | Can delete archive epenyertaan</option>
+                    <option value="190" title="archive | archive feedback | Can add archive feedback">archive | archive feedback | Can add archive feedback</option>
+                    <option value="191" title="archive | archive feedback | Can change archive feedback">archive | archive feedback | Can change archive feedback</option>
+                    <option value="192" title="archive | archive feedback | Can delete archive feedback">archive | archive feedback | Can delete archive feedback</option>
+                    <option value="292" title="archive | archive menu description | Can add archive menu description">archive | archive menu description | Can add archive menu description</option>
+                    <option value="293" title="archive | archive menu description | Can change archive menu description">archive | archive menu description | Can change archive menu description</option>
+                    <option value="294"
+                      title="archive | archive menu description | Can delete archive menu description">archive | archive menu description | Can delete archive menu description</option>
+                    <option value="262"
+                      title="archive | archive publication | Can add archive publication">archive | archive publication | Can add archive publication</option>
+                    <option value="263" title="archive | archive publication | Can change archive publication">archive | archive publication | Can change archive publication</option>
+                    <option value="264" title="archive | archive publication | Can delete archive publication">archive | archive publication | Can delete archive publication</option>
+                    <option value="19" title="article | article | Can add article">article | article | Can add article</option>
+                    <option value="20" title="article | article | Can change article">article | article | Can change article</option>
+                    <option value="21" title="article | article | Can delete article">article | article | Can delete article</option>
+                    <option value="103" title="article | article category | Can add article category">article | article category | Can add article category</option>
+                    <option value="104" title="article | article category | Can change article category">article | article category | Can change article category</option>
+                    <option value="105" title="article | article category | Can delete article category">article | article category | Can delete article category</option>
+                    <option value="133" title="article | article category topic | Can add article category topic">article | article category topic | Can add article category topic</option>
+                    <option value="134" title="article | article category topic | Can change article category topic">article | article category topic | Can change article category topic</option>
+                    <option value="135" title="article | article category topic | Can delete article category topic">article | article category topic | Can delete article category topic</option>
+                    <option value="283" title="article | article onlineservice topic | Can add article onlineservice topic">article | article onlineservice topic | Can add article onlineservice topic</option>
+                    <option value="284"
+                      title="article | article onlineservice topic | Can change article onlineservice topic">article | article onlineservice topic | Can change article onlineservice topic</option>
+                    <option value="285"
+                      title="article | article onlineservice topic | Can delete article onlineservice topic">article | article onlineservice topic | Can delete article onlineservice topic</option>
+                    <option value="118"
+                      title="article | article revision | Can add article revision">article | article revision | Can add article revision</option>
+                    <option value="119" title="article | article revision | Can change article revision">article | article revision | Can change article revision</option>
+                    <option value="120" title="article | article revision | Can delete article revision">article | article revision | Can delete article revision</option>
+                    <option value="130" title="article | article steps | Can add article steps">article | article steps | Can add article steps</option>
+                    <option value="131" title="article | article steps | Can change article steps">article | article steps | Can change article steps</option>
+                    <option value="132" title="article | article steps | Can delete article steps">article | article steps | Can delete article steps</option>
+                    <option value="121" title="article | article steps group | Can add article steps group">article | article steps group | Can add article steps group</option>
+                    <option value="122" title="article | article steps group | Can change article steps group">article | article steps group | Can change article steps group</option>
+                    <option value="123" title="article | article steps group | Can delete article steps group">article | article steps group | Can delete article steps group</option>
+                    <option value="139" title="article | article target | Can add article target">article | article target | Can add article target</option>
+                    <option value="140" title="article | article target | Can change article target">article | article target | Can change article target</option>
+                    <option value="141" title="article | article target | Can delete article target">article | article target | Can delete article target</option>
+                    <option value="136" title="article | article target map | Can add article target map">article | article target map | Can add article target map</option>
+                    <option value="137" title="article | article target map | Can change article target map">article | article target map | Can change article target map</option>
+                    <option value="138" title="article | article target map | Can delete article target map">article | article target map | Can delete article target map</option>
+                    <option value="124" title="article | article topic | Can add article topic">article | article topic | Can add article topic</option>
+                    <option value="125" title="article | article topic | Can change article topic">article | article topic | Can change article topic</option>
+                    <option value="126" title="article | article topic | Can delete article topic">article | article topic | Can delete article topic</option>
+                    <option value="127" title="article | article type | Can add article type">article | article type | Can add article type</option>
+                    <option value="128" title="article | article type | Can change article type">article | article type | Can change article type</option>
+                    <option value="129" title="article | article type | Can delete article type">article | article type | Can delete article type</option>
+                    <option value="253" title="article | historical article | Can add historical article">article | historical article | Can add historical article</option>
+                    <option value="254" title="article | historical article | Can change historical article">article | historical article | Can change historical article</option>
+                    <option value="255" title="article | historical article | Can delete historical article">article | historical article | Can delete historical article</option>
+                    <option value="10" title="auth | group | Can add group">auth | group | Can add group</option>
+                    <option value="11" title="auth | group | Can change group">auth | group | Can change group</option>
+                    <option value="12" title="auth | group | Can delete group">auth | group | Can delete group</option>
+                    <option value="4" title="auth | permission | Can add permission">auth | permission | Can add permission</option>
+                    <option value="5" title="auth | permission | Can change permission">auth | permission | Can change permission</option>
+                    <option value="6" title="auth | permission | Can delete permission">auth | permission | Can delete permission</option>
+                    <option value="7" title="auth | user | Can add user">auth | user | Can add user</option>
+                    <option value="8" title="auth | user | Can change user">auth | user | Can change user</option>
+                    <option value="9" title="auth | user | Can delete user">auth | user | Can delete user</option>
+                    <option value="22" title="business | agency | Can add agency">business | agency | Can add agency</option>
+                    <option value="23" title="business | agency | Can change agency">business | agency | Can change agency</option>
+                    <option value="24" title="business | agency | Can delete agency">business | agency | Can delete agency</option>
+                    <option value="25" title="business | agency application | Can add agency application">business | agency application | Can add agency application</option>
+                    <option value="26" title="business | agency application | Can change agency application">business | agency application | Can change agency application</option>
+                    <option value="27" title="business | agency application | Can delete agency application">business | agency application | Can delete agency application</option>
+                    <option value="28" title="business | agency application form | Can add agency application form">business | agency application form | Can add agency application form</option>
+                    <option value="29" title="business | agency application form | Can change agency application form">business | agency application form | Can change agency application form</option>
+                    <option value="30" title="business | agency application form | Can delete agency application form">business | agency application form | Can delete agency application form</option>
+                    <option value="31" title="business | agency service | Can add agency service">business | agency service | Can add agency service</option>
+                    <option value="32" title="business | agency service | Can change agency service">business | agency service | Can change agency service</option>
+                    <option value="33" title="business | agency service | Can delete agency service">business | agency service | Can delete agency service</option>
+                    <option value="34" title="business | agency service status | Can add agency service status">business | agency service status | Can add agency service status</option>
+                    <option value="35" title="business | agency service status | Can change agency service status">business | agency service status | Can change agency service status</option>
+                    <option value="36" title="business | agency service status | Can delete agency service status">business | agency service status | Can delete agency service status</option>
+                    <option value="37" title="business | agency service type | Can add agency service type">business | agency service type | Can add agency service type</option>
+                    <option value="38" title="business | agency service type | Can change agency service type">business | agency service type | Can change agency service type</option>
+                    <option value="39" title="business | agency service type | Can delete agency service type">business | agency service type | Can delete agency service type</option>
+                    <option value="40" title="business | application submission | Can add application submission">business | application submission | Can add application submission</option>
+                    <option value="41" title="business | application submission | Can change application submission">business | application submission | Can change application submission</option>
+                    <option value="42" title="business | application submission | Can delete application submission">business | application submission | Can delete application submission</option>
+                    <option value="43" title="business | client | Can add client">business | client | Can add client</option>
+                    <option value="44" title="business | client | Can change client">business | client | Can change client</option>
+                    <option value="45" title="business | client | Can delete client">business | client | Can delete client</option>
+                    <option value="115" title="business | company | Can add company">business | company | Can add company</option>
+                    <option value="116" title="business | company | Can change company">business | company | Can change company</option>
+                    <option value="117" title="business | company | Can delete company">business | company | Can delete company</option>
+                    <option value="46" title="business | ministry | Can add ministry">business | ministry | Can add ministry</option>
+                    <option value="47" title="business | ministry | Can change ministry">business | ministry | Can change ministry</option>
+                    <option value="48" title="business | ministry | Can delete ministry">business | ministry | Can delete ministry</option>
+                    <option value="247" title="business | my identity reply log | Can add my identity reply log">business | my identity reply log | Can add my identity reply log</option>
+                    <option value="248" title="business | my identity reply log | Can change my identity reply log">business | my identity reply log | Can change my identity reply log</option>
+                    <option value="249" title="business | my identity reply log | Can delete my identity reply log">business | my identity reply log | Can delete my identity reply log</option>
+                    <option value="250" title="business | my identity request log | Can add my identity request log">business | my identity request log | Can add my identity request log</option>
+                    <option value="251" title="business | my identity request log | Can change my identity request log">business | my identity request log | Can change my identity request log</option>
+                    <option value="252" title="business | my identity request log | Can delete my identity request log">business | my identity request log | Can delete my identity request log</option>
+                    <option value="413" title="business | race | Can add race">business | race | Can add race</option>
+                    <option value="414" title="business | race | Can change race">business | race | Can change race</option>
+                    <option value="415" title="business | race | Can delete race">business | race | Can delete race</option>
+                    <option value="410" title="business | religion | Can add religion">business | religion | Can add religion</option>
+                    <option value="411" title="business | religion | Can change religion">business | religion | Can change religion</option>
+                    <option value="412" title="business | religion | Can delete religion">business | religion | Can delete religion</option>
+                    <option value="49" title="business | transaction | Can add transaction">business | transaction | Can add transaction</option>
+                    <option value="50" title="business | transaction | Can change transaction">business | transaction | Can change transaction</option>
+                    <option value="51" title="business | transaction | Can delete transaction">business | transaction | Can delete transaction</option>
+                    <option value="52" title="business | transaction status | Can add transaction status">business | transaction status | Can add transaction status</option>
+                    <option value="53" title="business | transaction status | Can change transaction status">business | transaction status | Can change transaction status</option>
+                    <option value="54" title="business | transaction status | Can delete transaction status">business | transaction status | Can delete transaction status</option>
+                    <option value="55" title="business | transaction type | Can add transaction type">business | transaction type | Can add transaction type</option>
+                    <option value="56" title="business | transaction type | Can change transaction type">business | transaction type | Can change transaction type</option>
+                    <option value="57" title="business | transaction type | Can delete transaction type">business | transaction type | Can delete transaction type</option>
+                    <option value="349" title="client_charter | client charter | Can add client charter">client_charter | client charter | Can add client charter</option>
+                    <option value="350" title="client_charter | client charter | Can change client charter">client_charter | client charter | Can change client charter</option>
+                    <option value="351" title="client_charter | client charter | Can delete client charter">client_charter | client charter | Can delete client charter</option>
+                    <option value="346" title="client_charter | client charter title | Can add client charter title">client_charter | client charter title | Can add client charter title</option>
+                    <option value="347" title="client_charter | client charter title | Can change client charter title">client_charter | client charter title | Can change client charter title</option>
+                    <option value="348" title="client_charter | client charter title | Can delete client charter title">client_charter | client charter title | Can delete client charter title</option>
+                    <option value="13" title="contenttypes | content type | Can add content type">contenttypes | content type | Can add content type</option>
+                    <option value="14" title="contenttypes | content type | Can change content type">contenttypes | content type | Can change content type</option>
+                    <option value="15" title="contenttypes | content type | Can delete content type">contenttypes | content type | Can delete content type</option>
+                    <option value="434" title="counter | cat hits | Can add cat hits">counter | cat hits | Can add cat hits</option>
+                    <option value="435" title="counter | cat hits | Can change cat hits">counter | cat hits | Can change cat hits</option>
+                    <option value="436" title="counter | cat hits | Can delete cat hits">counter | cat hits | Can delete cat hits</option>
+                    <option value="172" title="counter | counter article | Can add counter article">counter | counter article | Can add counter article</option>
+                    <option value="173" title="counter | counter article | Can change counter article">counter | counter article | Can change counter article</option>
+                    <option value="174" title="counter | counter article | Can delete counter article">counter | counter article | Can delete counter article</option>
+                    <option value="169" title="counter | counter article topic | Can add counter article topic">counter | counter article topic | Can add counter article topic</option>
+                    <option value="170" title="counter | counter article topic | Can change counter article topic">counter | counter article topic | Can change counter article topic</option>
+                    <option value="171" title="counter | counter article topic | Can delete counter article topic">counter | counter article topic | Can delete counter article topic</option>
+                    <option value="175" title="counter | counter keyword | Can add counter keyword">counter | counter keyword | Can add counter keyword</option>
+                    <option value="176" title="counter | counter keyword | Can change counter keyword">counter | counter keyword | Can change counter keyword</option>
+                    <option value="177" title="counter | counter keyword | Can delete counter keyword">counter | counter keyword | Can delete counter keyword</option>
+                    <option value="217" title="counter | counter online | Can add counter online">counter | counter online | Can add counter online</option>
+                    <option value="218" title="counter | counter online | Can change counter online">counter | counter online | Can change counter online</option>
+                    <option value="219" title="counter | counter online | Can delete counter online">counter | counter online | Can delete counter online</option>
+                    <option value="259" title="counter | counter online service | Can add counter online service">counter | counter online service | Can add counter online service</option>
+                    <option value="260" title="counter | counter online service | Can change counter online service">counter | counter online service | Can change counter online service</option>
+                    <option value="261" title="counter | counter online service | Can delete counter online service">counter | counter online service | Can delete counter online service</option>
+                    <option value="166" title="counter | counter visit | Can add counter visit">counter | counter visit | Can add counter visit</option>
+                    <option value="167" title="counter | counter visit | Can change counter visit">counter | counter visit | Can change counter visit</option>
+                    <option value="168" title="counter | counter visit | Can delete counter visit">counter | counter visit | Can delete counter visit</option>
+                    <option value="365" title="counter | counter visit google analytic | Can add counter visit google analytic">counter | counter visit google analytic | Can add counter visit google analytic</option>
+                    <option value="366"
+                      title="counter | counter visit google analytic | Can change counter visit google analytic">counter | counter visit google analytic | Can change counter visit google analytic</option>
+                    <option value="367"
+                      title="counter | counter visit google analytic | Can delete counter visit google analytic">counter | counter visit google analytic | Can delete counter visit google analytic</option>
+                    <option value="431"
+                      title="counter | topichits | Can add topic hits">counter | topichits | Can add topic hits</option>
+                    <option value="432" title="counter | topichits | Can change topic hits">counter | topichits | Can change topic hits</option>
+                    <option value="433" title="counter | topichits | Can delete topic hits">counter | topichits | Can delete topic hits</option>
+                    <option value="91" title="easy_thumbnails | source | Can add source">easy_thumbnails | source | Can add source</option>
+                    <option value="92" title="easy_thumbnails | source | Can change source">easy_thumbnails | source | Can change source</option>
+                    <option value="93" title="easy_thumbnails | source | Can delete source">easy_thumbnails | source | Can delete source</option>
+                    <option value="88" title="easy_thumbnails | thumbnail | Can add thumbnail">easy_thumbnails | thumbnail | Can add thumbnail</option>
+                    <option value="89" title="easy_thumbnails | thumbnail | Can change thumbnail">easy_thumbnails | thumbnail | Can change thumbnail</option>
+                    <option value="90" title="easy_thumbnails | thumbnail | Can delete thumbnail">easy_thumbnails | thumbnail | Can delete thumbnail</option>
+                    <option value="94" title="easy_thumbnails | thumbnaildimensions | Can add thumbnail dimensions">easy_thumbnails | thumbnaildimensions | Can add thumbnail dimensions</option>
+                    <option value="95" title="easy_thumbnails | thumbnaildimensions | Can change thumbnail dimensions">easy_thumbnails | thumbnaildimensions | Can change thumbnail dimensions</option>
+                    <option value="96" title="easy_thumbnails | thumbnaildimensions | Can delete thumbnail dimensions">easy_thumbnails | thumbnaildimensions | Can delete thumbnail dimensions</option>
+                    <option value="178" title="epenyertaan | epenyertaan | Can add epenyertaan">epenyertaan | epenyertaan | Can add epenyertaan</option>
+                    <option value="179" title="epenyertaan | epenyertaan | Can change epenyertaan">epenyertaan | epenyertaan | Can change epenyertaan</option>
+                    <option value="180" title="epenyertaan | epenyertaan | Can delete epenyertaan">epenyertaan | epenyertaan | Can delete epenyertaan</option>
+                    <option value="187" title="epenyertaan | epenyertaan_ agencies | Can add epenyertaan_ agencies">epenyertaan | epenyertaan_ agencies | Can add epenyertaan_ agencies</option>
+                    <option value="188" title="epenyertaan | epenyertaan_ agencies | Can change epenyertaan_ agencies">epenyertaan | epenyertaan_ agencies | Can change epenyertaan_ agencies</option>
+                    <option value="189" title="epenyertaan | epenyertaan_ agencies | Can delete epenyertaan_ agencies">epenyertaan | epenyertaan_ agencies | Can delete epenyertaan_ agencies</option>
+                    <option value="238" title="epenyertaan | epenyertaan_ policy | Can add epenyertaan_ policy">epenyertaan | epenyertaan_ policy | Can add epenyertaan_ policy</option>
+                    <option value="239" title="epenyertaan | epenyertaan_ policy | Can change epenyertaan_ policy">epenyertaan | epenyertaan_ policy | Can change epenyertaan_ policy</option>
+                    <option value="240" title="epenyertaan | epenyertaan_ policy | Can delete epenyertaan_ policy">epenyertaan | epenyertaan_ policy | Can delete epenyertaan_ policy</option>
+                    <option value="377" title="FAQ | faq | Can add faq">FAQ | faq | Can add faq</option>
+                    <option value="378" title="FAQ | faq | Can change faq">FAQ | faq | Can change faq</option>
+                    <option value="379" title="FAQ | faq | Can delete faq">FAQ | faq | Can delete faq</option>
+                    <option value="148" title="feedback | feedback | Can add feedback">feedback | feedback | Can add feedback</option>
+                    <option value="149" title="feedback | feedback | Can change feedback">feedback | feedback | Can change feedback</option>
+                    <option value="150" title="feedback | feedback | Can delete feedback">feedback | feedback | Can delete feedback</option>
+                    <option value="160" title="feedback | feedback sent | Can add feedback sent">feedback | feedback sent | Can add feedback sent</option>
+                    <option value="161" title="feedback | feedback sent | Can change feedback sent">feedback | feedback sent | Can change feedback sent</option>
+                    <option value="162" title="feedback | feedback sent | Can delete feedback sent">feedback | feedback sent | Can delete feedback sent</option>
+                    <option value="371" title="feedback | feedback subject | Can add feedback subject">feedback | feedback subject | Can add feedback subject</option>
+                    <option value="372" title="feedback | feedback subject | Can change feedback subject">feedback | feedback subject | Can change feedback subject</option>
+                    <option value="373" title="feedback | feedback subject | Can delete feedback subject">feedback | feedback subject | Can delete feedback subject</option>
+                    <option value="374" title="feedback | feedback type | Can add feedback type">feedback | feedback type | Can add feedback type</option>
+                    <option value="375" title="feedback | feedback type | Can change feedback type">feedback | feedback type | Can change feedback type</option>
+                    <option value="376" title="feedback | feedback type | Can delete feedback type">feedback | feedback type | Can delete feedback type</option>
+                    <option value="437" title="feedback | historical feedback | Can add historical feedback">feedback | historical feedback | Can add historical feedback</option>
+                    <option value="438" title="feedback | historical feedback | Can change historical feedback">feedback | historical feedback | Can change historical feedback</option>
+                    <option value="439" title="feedback | historical feedback | Can delete historical feedback">feedback | historical feedback | Can delete historical feedback</option>
+                    <option value="440" title="feedback | historical feedback sent | Can add historical feedback sent">feedback | historical feedback sent | Can add historical feedback sent</option>
+                    <option value="441" title="feedback | historical feedback sent | Can change historical feedback sent">feedback | historical feedback sent | Can change historical feedback sent</option>
+                    <option value="442"
+                      title="feedback | historical feedback sent | Can delete historical feedback sent">feedback | historical feedback sent | Can delete historical feedback sent</option>
+                    <option value="79"
+                      title="fobi | formelement | Can add Form element plugin">fobi | formelement | Can add Form element plugin</option>
+                    <option value="80" title="fobi | formelement | Can change Form element plugin">fobi | formelement | Can change Form element plugin</option>
+                    <option value="81" title="fobi | formelement | Can delete Form element plugin">fobi | formelement | Can delete Form element plugin</option>
+                    <option value="82" title="fobi | formelemententry | Can add Form element entry">fobi | formelemententry | Can add Form element entry</option>
+                    <option value="83" title="fobi | formelemententry | Can change Form element entry">fobi | formelemententry | Can change Form element entry</option>
+                    <option value="84" title="fobi | formelemententry | Can delete Form element entry">fobi | formelemententry | Can delete Form element entry</option>
+                    <option value="85" title="fobi | formentry | Can add Form entry">fobi | formentry | Can add Form entry</option>
+                    <option value="86" title="fobi | formentry | Can change Form entry">fobi | formentry | Can change Form entry</option>
+                    <option value="87" title="fobi | formentry | Can delete Form entry">fobi | formentry | Can delete Form entry</option>
+                    <option value="58" title="fobi | formfieldsetentry | Can add Form fieldset entry">fobi | formfieldsetentry | Can add Form fieldset entry</option>
+                    <option value="59" title="fobi | formfieldsetentry | Can change Form fieldset entry">fobi | formfieldsetentry | Can change Form fieldset entry</option>
+                    <option value="60" title="fobi | formfieldsetentry | Can delete Form fieldset entry">fobi | formfieldsetentry | Can delete Form fieldset entry</option>
+                    <option value="61" title="fobi | formhandler | Can add Form handler plugin">fobi | formhandler | Can add Form handler plugin</option>
+                    <option value="62" title="fobi | formhandler | Can change Form handler plugin">fobi | formhandler | Can change Form handler plugin</option>
+                    <option value="63" title="fobi | formhandler | Can delete Form handler plugin">fobi | formhandler | Can delete Form handler plugin</option>
+                    <option value="64" title="fobi | formhandlerentry | Can add Form handler entry">fobi | formhandlerentry | Can add Form handler entry</option>
+                    <option value="65" title="fobi | formhandlerentry | Can change Form handler entry">fobi | formhandlerentry | Can change Form handler entry</option>
+                    <option value="66" title="fobi | formhandlerentry | Can delete Form handler entry">fobi | formhandlerentry | Can delete Form handler entry</option>
+                    <option value="70" title="fobi | formwizardentry | Can add Form wizard entry">fobi | formwizardentry | Can add Form wizard entry</option>
+                    <option value="71" title="fobi | formwizardentry | Can change Form wizard entry">fobi | formwizardentry | Can change Form wizard entry</option>
+                    <option value="72" title="fobi | formwizardentry | Can delete Form wizard entry">fobi | formwizardentry | Can delete Form wizard entry</option>
+                    <option value="73" title="fobi | formwizardformentry | Can add Form wizard form entry">fobi | formwizardformentry | Can add Form wizard form entry</option>
+                    <option value="74" title="fobi | formwizardformentry | Can change Form wizard form entry">fobi | formwizardformentry | Can change Form wizard form entry</option>
+                    <option value="75" title="fobi | formwizardformentry | Can delete Form wizard form entry">fobi | formwizardformentry | Can delete Form wizard form entry</option>
+                    <option value="67" title="fobi | formwizardhandler | Can add Form wizard handler plugin">fobi | formwizardhandler | Can add Form wizard handler plugin</option>
+                    <option value="68" title="fobi | formwizardhandler | Can change Form wizard handler plugin">fobi | formwizardhandler | Can change Form wizard handler plugin</option>
+                    <option value="69" title="fobi | formwizardhandler | Can delete Form wizard handler plugin">fobi | formwizardhandler | Can delete Form wizard handler plugin</option>
+                    <option value="76" title="fobi | formwizardhandlerentry | Can add Form wizard handler entry">fobi | formwizardhandlerentry | Can add Form wizard handler entry</option>
+                    <option value="77" title="fobi | formwizardhandlerentry | Can change Form wizard handler entry">fobi | formwizardhandlerentry | Can change Form wizard handler entry</option>
+                    <option value="78" title="fobi | formwizardhandlerentry | Can delete Form wizard handler entry">fobi | formwizardhandlerentry | Can delete Form wizard handler entry</option>
+                    <option value="112" title="fobi_contrib_plugins_form_handlers_db_store | savedformdataentry | Can add Saved form data entry">fobi_contrib_plugins_form_handlers_db_store | savedformdataentry | Can add Saved form data entry</option>
+                    <option
+                      value="113" title="fobi_contrib_plugins_form_handlers_db_store | savedformdataentry | Can change Saved form data entry">fobi_contrib_plugins_form_handlers_db_store | savedformdataentry | Can change Saved form data entry</option>
+                      <option
+                        value="114" title="fobi_contrib_plugins_form_handlers_db_store | savedformdataentry | Can delete Saved form data entry">fobi_contrib_plugins_form_handlers_db_store | savedformdataentry | Can delete Saved form data entry</option>
+                        <option
+                          value="109" title="fobi_contrib_plugins_form_handlers_db_store | savedformwizarddataentry | Can add Saved form wizard data entry">fobi_contrib_plugins_form_handlers_db_store | savedformwizarddataentry | Can add Saved form wizard
+                          data entry</option>
+                          <option value="110" title="fobi_contrib_plugins_form_handlers_db_store | savedformwizarddataentry | Can change Saved form wizard data entry">fobi_contrib_plugins_form_handlers_db_store | savedformwizarddataentry | Can change Saved form
+                            wizard data entry</option>
+                          <option value="111" title="fobi_contrib_plugins_form_handlers_db_store | savedformwizarddataentry | Can delete Saved form wizard data entry">fobi_contrib_plugins_form_handlers_db_store | savedformwizarddataentry | Can delete Saved form
+                            wizard data entry</option>
+                          <option value="343" title="footer | footer | Can add footer">footer | footer | Can add footer</option>
+                          <option value="344" title="footer | footer | Can change footer">footer | footer | Can change footer</option>
+                          <option value="345" title="footer | footer | Can delete footer">footer | footer | Can delete footer</option>
+                          <option value="331" title="footer | footer bottom | Can add footer bottom">footer | footer bottom | Can add footer bottom</option>
+                          <option value="332" title="footer | footer bottom | Can change footer bottom">footer | footer bottom | Can change footer bottom</option>
+                          <option value="333" title="footer | footer bottom | Can delete footer bottom">footer | footer bottom | Can delete footer bottom</option>
+                          <option value="337" title="footer | footer ext | Can add footer ext">footer | footer ext | Can add footer ext</option>
+                          <option value="338" title="footer | footer ext | Can change footer ext">footer | footer ext | Can change footer ext</option>
+                          <option value="339" title="footer | footer ext | Can delete footer ext">footer | footer ext | Can delete footer ext</option>
+                          <option value="328" title="footer | footer links | Can add footer links">footer | footer links | Can add footer links</option>
+                          <option value="329" title="footer | footer links | Can change footer links">footer | footer links | Can change footer links</option>
+                          <option value="330" title="footer | footer links | Can delete footer links">footer | footer links | Can delete footer links</option>
+                          <option value="340" title="footer | footer middle | Can add footer middle">footer | footer middle | Can add footer middle</option>
+                          <option value="341" title="footer | footer middle | Can change footer middle">footer | footer middle | Can change footer middle</option>
+                          <option value="342" title="footer | footer middle | Can delete footer middle">footer | footer middle | Can delete footer middle</option>
+                          <option value="359" title="footer | footer social | Can add footer social">footer | footer social | Can add footer social</option>
+                          <option value="360" title="footer | footer social | Can change footer social">footer | footer social | Can change footer social</option>
+                          <option value="361" title="footer | footer social | Can delete footer social">footer | footer social | Can delete footer social</option>
+                          <option value="334" title="footer | footer visit | Can add footer visit">footer | footer visit | Can add footer visit</option>
+                          <option value="335" title="footer | footer visit | Can change footer visit">footer | footer visit | Can change footer visit</option>
+                          <option value="336" title="footer | footer visit | Can delete footer visit">footer | footer visit | Can delete footer visit</option>
+                          <option value="232" title="gallery | audio | Can add audio">gallery | audio | Can add audio</option>
+                          <option value="233" title="gallery | audio | Can change audio">gallery | audio | Can change audio</option>
+                          <option value="234" title="gallery | audio | Can delete audio">gallery | audio | Can delete audio</option>
+                          <option value="401" title="gallery | image | Can add image">gallery | image | Can add image</option>
+                          <option value="402" title="gallery | image | Can change image">gallery | image | Can change image</option>
+                          <option value="403" title="gallery | image | Can delete image">gallery | image | Can delete image</option>
+                          <option value="235" title="gallery | video | Can add video">gallery | video | Can add video</option>
+                          <option value="236" title="gallery | video | Can change video">gallery | video | Can change video</option>
+                          <option value="237" title="gallery | video | Can delete video">gallery | video | Can delete video</option>
+                          <option value="244" title="gosg_sitemaps | gosg sitemap | Can add gosg sitemap">gosg_sitemaps | gosg sitemap | Can add gosg sitemap</option>
+                          <option value="245" title="gosg_sitemaps | gosg sitemap | Can change gosg sitemap">gosg_sitemaps | gosg sitemap | Can change gosg sitemap</option>
+                          <option value="246" title="gosg_sitemaps | gosg sitemap | Can delete gosg sitemap">gosg_sitemaps | gosg sitemap | Can delete gosg sitemap</option>
+                          <option value="362" title="gosg_token | gosg token | Can add gosg token">gosg_token | gosg token | Can add gosg token</option>
+                          <option value="363" title="gosg_token | gosg token | Can change gosg token">gosg_token | gosg token | Can change gosg token</option>
+                          <option value="364" title="gosg_token | gosg token | Can delete gosg token">gosg_token | gosg token | Can delete gosg token</option>
+                          <option value="389" title="header | header | Can add header">header | header | Can add header</option>
+                          <option value="390" title="header | header | Can change header">header | header | Can change header</option>
+                          <option value="391" title="header | header | Can delete header">header | header | Can delete header</option>
+                          <option value="184" title="inbox | inbox | Can add inbox">inbox | inbox | Can add inbox</option>
+                          <option value="185" title="inbox | inbox | Can change inbox">inbox | inbox | Can change inbox</option>
+                          <option value="186" title="inbox | inbox | Can delete inbox">inbox | inbox | Can delete inbox</option>
+                          <option value="392" title="inbox | inbox sent | Can add inbox sent">inbox | inbox sent | Can add inbox sent</option>
+                          <option value="393" title="inbox | inbox sent | Can change inbox sent">inbox | inbox sent | Can change inbox sent</option>
+                          <option value="394" title="inbox | inbox sent | Can delete inbox sent">inbox | inbox sent | Can delete inbox sent</option>
+                          <option value="398" title="intro | highlight | Can add highlight">intro | highlight | Can add highlight</option>
+                          <option value="399" title="intro | highlight | Can change highlight">intro | highlight | Can change highlight</option>
+                          <option value="400" title="intro | highlight | Can delete highlight">intro | highlight | Can delete highlight</option>
+                          <option value="142" title="intro | intro | Can add intro">intro | intro | Can add intro</option>
+                          <option value="143" title="intro | intro | Can change intro">intro | intro | Can change intro</option>
+                          <option value="144" title="intro | intro | Can delete intro">intro | intro | Can delete intro</option>
+                          <option value="395" title="intro | life event | Can add life event">intro | life event | Can add life event</option>
+                          <option value="396" title="intro | life event | Can change life event">intro | life event | Can change life event</option>
+                          <option value="397" title="intro | life event | Can delete life event">intro | life event | Can delete life event</option>
+                          <option value="97" title="landing | landing | Can add landing">landing | landing | Can add landing</option>
+                          <option value="98" title="landing | landing | Can change landing">landing | landing | Can change landing</option>
+                          <option value="99" title="landing | landing | Can delete landing">landing | landing | Can delete landing</option>
+                          <option value="100" title="landing | landingobject | Can add landing object">landing | landingobject | Can add landing object</option>
+                          <option value="101" title="landing | landingobject | Can change landing object">landing | landingobject | Can change landing object</option>
+                          <option value="102" title="landing | landingobject | Can delete landing object">landing | landingobject | Can delete landing object</option>
+                          <option value="229" title="mycalendar | my calendar | Can add my calendar">mycalendar | my calendar | Can add my calendar</option>
+                          <option value="230" title="mycalendar | my calendar | Can change my calendar">mycalendar | my calendar | Can change my calendar</option>
+                          <option value="231" title="mycalendar | my calendar | Can delete my calendar">mycalendar | my calendar | Can delete my calendar</option>
+                          <option value="428" title="onlineservice | agency services_system | Can add agency services_system">onlineservice | agency services_system | Can add agency services_system</option>
+                          <option value="429"
+                            title="onlineservice | agency services_system | Can change agency services_system">onlineservice | agency services_system | Can change agency services_system</option>
+                          <option value="430"
+                            title="onlineservice | agency services_system | Can delete agency services_system">onlineservice | agency services_system | Can delete agency services_system</option>
+                          <option value="226"
+                            title="onlineservice | os agency | Can add os agency">onlineservice | os agency | Can add os agency</option>
+                          <option value="227" title="onlineservice | os agency | Can change os agency">onlineservice | os agency | Can change os agency</option>
+                          <option value="228" title="onlineservice | os agency | Can delete os agency">onlineservice | os agency | Can delete os agency</option>
+                          <option value="404" title="onlineservice | Branch | Can add Branch">onlineservice | Branch | Can add Branch</option>
+                          <option value="405" title="onlineservice | Branch | Can change Branch">onlineservice | Branch | Can change Branch</option>
+                          <option value="406" title="onlineservice | Branch | Can delete Branch">onlineservice | Branch | Can delete Branch</option>
+                          <option value="241" title="onlineservice | os location | Can add os location">onlineservice | os location | Can add os location</option>
+                          <option value="242" title="onlineservice | os location | Can change os location">onlineservice | os location | Can change os location</option>
+                          <option value="243" title="onlineservice | os location | Can delete os location">onlineservice | os location | Can delete os location</option>
+                          <option value="416" title="onlineservice | os location download | Can add os location download">onlineservice | os location download | Can add os location download</option>
+                          <option value="417"
+                            title="onlineservice | os location download | Can change os location download">onlineservice | os location download | Can change os location download</option>
+                          <option value="418"
+                            title="onlineservice | os location download | Can delete os location download">onlineservice | os location download | Can delete os location download</option>
+                          <option value="223"
+                            title="onlineservice | os ministry | Can add os ministry">onlineservice | os ministry | Can add os ministry</option>
+                          <option value="224" title="onlineservice | os ministry | Can change os ministry">onlineservice | os ministry | Can change os ministry</option>
+                          <option value="225" title="onlineservice | os ministry | Can delete os ministry">onlineservice | os ministry | Can delete os ministry</option>
+                          <option value="407" title="onlineservice | Branch | Can add Branch">onlineservice | Branch | Can add Branch</option>
+                          <option value="408" title="onlineservice | Branch | Can change Branch">onlineservice | Branch | Can change Branch</option>
+                          <option value="409" title="onlineservice | Branch | Can delete Branch">onlineservice | Branch | Can delete Branch</option>
+                          <option value="220" title="onlineservice | os resource | Can add os resource">onlineservice | os resource | Can add os resource</option>
+                          <option value="221" title="onlineservice | os resource | Can change os resource">onlineservice | os resource | Can change os resource</option>
+                          <option value="222" title="onlineservice | os resource | Can delete os resource">onlineservice | os resource | Can delete os resource</option>
+                          <option value="202" title="photologue | gallery | Can add gallery">photologue | gallery | Can add gallery</option>
+                          <option value="203" title="photologue | gallery | Can change gallery">photologue | gallery | Can change gallery</option>
+                          <option value="204" title="photologue | gallery | Can delete gallery">photologue | gallery | Can delete gallery</option>
+                          <option value="208" title="photologue | photo | Can add photo">photologue | photo | Can add photo</option>
+                          <option value="209" title="photologue | photo | Can change photo">photologue | photo | Can change photo</option>
+                          <option value="210" title="photologue | photo | Can delete photo">photologue | photo | Can delete photo</option>
+                          <option value="214" title="photologue | photo effect | Can add photo effect">photologue | photo effect | Can add photo effect</option>
+                          <option value="215" title="photologue | photo effect | Can change photo effect">photologue | photo effect | Can change photo effect</option>
+                          <option value="216" title="photologue | photo effect | Can delete photo effect">photologue | photo effect | Can delete photo effect</option>
+                          <option value="211" title="photologue | photo size | Can add photo size">photologue | photo size | Can add photo size</option>
+                          <option value="212" title="photologue | photo size | Can change photo size">photologue | photo size | Can change photo size</option>
+                          <option value="213" title="photologue | photo size | Can delete photo size">photologue | photo size | Can delete photo size</option>
+                          <option value="205" title="photologue | watermark | Can add watermark">photologue | watermark | Can add watermark</option>
+                          <option value="206" title="photologue | watermark | Can change watermark">photologue | watermark | Can change watermark</option>
+                          <option value="207" title="photologue | watermark | Can delete watermark">photologue | watermark | Can delete watermark</option>
+                          <option value="145" title="polls | polls | Can add polls">polls | polls | Can add polls</option>
+                          <option value="146" title="polls | polls | Can change polls">polls | polls | Can change polls</option>
+                          <option value="147" title="polls | polls | Can delete polls">polls | polls | Can delete polls</option>
+                          <option value="163" title="polls | polls question | Can add polls question">polls | polls question | Can add polls question</option>
+                          <option value="164" title="polls | polls question | Can change polls question">polls | polls question | Can change polls question</option>
+                          <option value="165" title="polls | polls question | Can delete polls question">polls | polls question | Can delete polls question</option>
+                          <option value="199" title="publication | publication | Can add publication">publication | publication | Can add publication</option>
+                          <option value="200" title="publication | publication | Can change publication">publication | publication | Can change publication</option>
+                          <option value="201" title="publication | publication | Can delete publication">publication | publication | Can delete publication</option>
+                          <option value="256" title="publication | publication agency | Can add publication agency">publication | publication agency | Can add publication agency</option>
+                          <option value="257" title="publication | publication agency | Can change publication agency">publication | publication agency | Can change publication agency</option>
+                          <option value="258" title="publication | publication agency | Can delete publication agency">publication | publication agency | Can delete publication agency</option>
+                          <option value="196" title="publication | publication category | Can add publication category">publication | publication category | Can add publication category</option>
+                          <option value="197" title="publication | publication category | Can change publication category">publication | publication category | Can change publication category</option>
+                          <option value="198"
+                            title="publication | publication category | Can delete publication category">publication | publication category | Can delete publication category</option>
+                          <option value="295"
+                            title="request | request | Can add request">request | request | Can add request</option>
+                          <option value="296" title="request | request | Can change request">request | request | Can change request</option>
+                          <option value="297" title="request | request | Can delete request">request | request | Can delete request</option>
+                          <option value="289" title="rss | rss | Can add rss">rss | rss | Can add rss</option>
+                          <option value="290" title="rss | rss | Can change rss">rss | rss | Can change rss</option>
+                          <option value="291" title="rss | rss | Can delete rss">rss | rss | Can delete rss</option>
+                          <option value="16" title="sessions | session | Can add session">sessions | session | Can add session</option>
+                          <option value="17" title="sessions | session | Can change session">sessions | session | Can change session</option>
+                          <option value="18" title="sessions | session | Can delete session">sessions | session | Can delete session</option>
+                          <option value="386" title="settings | city | Can add city">settings | city | Can add city</option>
+                          <option value="387" title="settings | city | Can change city">settings | city | Can change city</option>
+                          <option value="388" title="settings | city | Can delete city">settings | city | Can delete city</option>
+                          <option value="383" title="settings | country | Can add country">settings | country | Can add country</option>
+                          <option value="384" title="settings | country | Can change country">settings | country | Can change country</option>
+                          <option value="385" title="settings | country | Can delete country">settings | country | Can delete country</option>
+                          <option value="443" title="settings | ethnicity | Can add ethnicity">settings | ethnicity | Can add ethnicity</option>
+                          <option value="444" title="settings | ethnicity | Can change ethnicity">settings | ethnicity | Can change ethnicity</option>
+                          <option value="445" title="settings | ethnicity | Can delete ethnicity">settings | ethnicity | Can delete ethnicity</option>
+                          <option value="446" title="settings | religion | Can add religion">settings | religion | Can add religion</option>
+                          <option value="447" title="settings | religion | Can change religion">settings | religion | Can change religion</option>
+                          <option value="448" title="settings | religion | Can delete religion">settings | religion | Can delete religion</option>
+                          <option value="380" title="settings | state | Can add state">settings | state | Can add state</option>
+                          <option value="381" title="settings | state | Can change state">settings | state | Can change state</option>
+                          <option value="382" title="settings | state | Can delete state">settings | state | Can delete state</option>
+                          <option value="106" title="sites | site | Can add site">sites | site | Can add site</option>
+                          <option value="107" title="sites | site | Can change site">sites | site | Can change site</option>
+                          <option value="108" title="sites | site | Can delete site">sites | site | Can delete site</option>
+                          <option value="151" title="slides | slides | Can add slides">slides | slides | Can add slides</option>
+                          <option value="152" title="slides | slides | Can change slides">slides | slides | Can change slides</option>
+                          <option value="153" title="slides | slides | Can delete slides">slides | slides | Can delete slides</option>
+                          <option value="419" title="statistic | reg user | Can add reg user">statistic | reg user | Can add reg user</option>
+                          <option value="420" title="statistic | reg user | Can change reg user">statistic | reg user | Can change reg user</option>
+                          <option value="421" title="statistic | reg user | Can delete reg user">statistic | reg user | Can delete reg user</option>
+                          <option value="277" title="subscription | subscription | Can add subscription">subscription | subscription | Can add subscription</option>
+                          <option value="278" title="subscription | subscription | Can change subscription">subscription | subscription | Can change subscription</option>
+                          <option value="279" title="subscription | subscription | Can delete subscription">subscription | subscription | Can delete subscription</option>
+                          <option value="280" title="subscription | subscription_ broadcast_ list | Can add subscription_ broadcast_ list">subscription | subscription_ broadcast_ list | Can add subscription_ broadcast_ list</option>
+                          <option
+                            value="281" title="subscription | subscription_ broadcast_ list | Can change subscription_ broadcast_ list">subscription | subscription_ broadcast_ list | Can change subscription_ broadcast_ list</option>
+                            <option
+                              value="282" title="subscription | subscription_ broadcast_ list | Can delete subscription_ broadcast_ list">subscription | subscription_ broadcast_ list | Can delete subscription_ broadcast_ list</option>
+                              <option
+                                value="286" title="subscription | subscription_ captcha | Can add subscription_ captcha">subscription | subscription_ captcha | Can add subscription_ captcha</option>
+                                <option value="287"
+                                  title="subscription | subscription_ captcha | Can change subscription_ captcha">subscription | subscription_ captcha | Can change subscription_ captcha</option>
+                                <option value="288"
+                                  title="subscription | subscription_ captcha | Can delete subscription_ captcha">subscription | subscription_ captcha | Can delete subscription_ captcha</option>
+                                <option value="268"
+                                  title="subscription | subscription_ outbox | Can add subscription_ outbox">subscription | subscription_ outbox | Can add subscription_ outbox</option>
+                                <option value="269"
+                                  title="subscription | subscription_ outbox | Can change subscription_ outbox">subscription | subscription_ outbox | Can change subscription_ outbox</option>
+                                <option value="270"
+                                  title="subscription | subscription_ outbox | Can delete subscription_ outbox">subscription | subscription_ outbox | Can delete subscription_ outbox</option>
+                                <option value="271"
+                                  title="subscription | subscription_ sent | Can add subscription_ sent">subscription | subscription_ sent | Can add subscription_ sent</option>
+                                <option value="272"
+                                  title="subscription | subscription_ sent | Can change subscription_ sent">subscription | subscription_ sent | Can change subscription_ sent</option>
+                                <option value="273"
+                                  title="subscription | subscription_ sent | Can delete subscription_ sent">subscription | subscription_ sent | Can delete subscription_ sent</option>
+                                <option value="274"
+                                  title="subscription | subscription_ user | Can add subscription_ user">subscription | subscription_ user | Can add subscription_ user</option>
+                                <option value="275"
+                                  title="subscription | subscription_ user | Can change subscription_ user">subscription | subscription_ user | Can change subscription_ user</option>
+                                <option value="276"
+                                  title="subscription | subscription_ user | Can delete subscription_ user">subscription | subscription_ user | Can delete subscription_ user</option>
+                                <option value="310"
+                                  title="survey | answer base | Can add answer base">survey | answer base | Can add answer base</option>
+                                <option value="311" title="survey | answer base | Can change answer base">survey | answer base | Can change answer base</option>
+                                <option value="312" title="survey | answer base | Can delete answer base">survey | answer base | Can delete answer base</option>
+                                <option value="325" title="survey | answer integer | Can add answer integer">survey | answer integer | Can add answer integer</option>
+                                <option value="326" title="survey | answer integer | Can change answer integer">survey | answer integer | Can change answer integer</option>
+                                <option value="327" title="survey | answer integer | Can delete answer integer">survey | answer integer | Can delete answer integer</option>
+                                <option value="316" title="survey | answer radio | Can add answer radio">survey | answer radio | Can add answer radio</option>
+                                <option value="317" title="survey | answer radio | Can change answer radio">survey | answer radio | Can change answer radio</option>
+                                <option value="318" title="survey | answer radio | Can delete answer radio">survey | answer radio | Can delete answer radio</option>
+                                <option value="319" title="survey | answer select | Can add answer select">survey | answer select | Can add answer select</option>
+                                <option value="320" title="survey | answer select | Can change answer select">survey | answer select | Can change answer select</option>
+                                <option value="321" title="survey | answer select | Can delete answer select">survey | answer select | Can delete answer select</option>
+                                <option value="322" title="survey | answer select multiple | Can add answer select multiple">survey | answer select multiple | Can add answer select multiple</option>
+                                <option value="323"
+                                  title="survey | answer select multiple | Can change answer select multiple">survey | answer select multiple | Can change answer select multiple</option>
+                                <option value="324"
+                                  title="survey | answer select multiple | Can delete answer select multiple">survey | answer select multiple | Can delete answer select multiple</option>
+                                <option value="313"
+                                  title="survey | answer text | Can add answer text">survey | answer text | Can add answer text</option>
+                                <option value="314" title="survey | answer text | Can change answer text">survey | answer text | Can change answer text</option>
+                                <option value="315" title="survey | answer text | Can delete answer text">survey | answer text | Can delete answer text</option>
+                                <option value="301" title="survey | category | Can add category">survey | category | Can add category</option>
+                                <option value="302" title="survey | category | Can change category">survey | category | Can change category</option>
+                                <option value="303" title="survey | category | Can delete category">survey | category | Can delete category</option>
+                                <option value="304" title="survey | question | Can add question">survey | question | Can add question</option>
+                                <option value="305" title="survey | question | Can change question">survey | question | Can change question</option>
+                                <option value="306" title="survey | question | Can delete question">survey | question | Can delete question</option>
+                                <option value="307" title="survey | response | Can add response">survey | response | Can add response</option>
+                                <option value="308" title="survey | response | Can change response">survey | response | Can change response</option>
+                                <option value="309" title="survey | response | Can delete response">survey | response | Can delete response</option>
+                                <option value="298" title="survey | survey | Can add survey">survey | survey | Can add survey</option>
+                                <option value="299" title="survey | survey | Can change survey">survey | survey | Can change survey</option>
+                                <option value="300" title="survey | survey | Can delete survey">survey | survey | Can delete survey</option>
+                                <option value="352" title="tracking | pageview | Can add pageview">tracking | pageview | Can add pageview</option>
+                                <option value="353" title="tracking | pageview | Can change pageview">tracking | pageview | Can change pageview</option>
+                                <option value="354" title="tracking | pageview | Can delete pageview">tracking | pageview | Can delete pageview</option>
+                                <option value="355" title="tracking | visitor | Can add visitor">tracking | visitor | Can add visitor</option>
+                                <option value="356" title="tracking | visitor | Can change visitor">tracking | visitor | Can change visitor</option>
+                                <option value="357" title="tracking | visitor | Can delete visitor">tracking | visitor | Can delete visitor</option>
+                                <option value="358" title="tracking | visitor | Can view visitor">tracking | visitor | Can view visitor</option>
+                  </select>
+                  <a title="Click to choose all user permissions at once." href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#"
+                    id="id_user_permissions_add_all_link" class="selector-chooseall active">Choose all</a>
+                </div>
+                <ul class="selector-chooser">
+                  <li>
+                    <a title="Choose" href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#" id="id_user_permissions_add_link"
+                      class="selector-add">Choose</a>
+                  </li>
+                  <li>
+                    <a title="Remove" href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#" id="id_user_permissions_remove_link"
+                      class="selector-remove">Remove</a>
+                  </li>
+                </ul>
+                <div class="selector-chosen">
+                  <h2>Chosen user permissions
+                    <span class="help help-tooltip help-icon" title="This is the list of chosen user permissions. You may remove some by selecting them in the box below and then clicking the &quot;Remove&quot; arrow between the two boxes."></span>
+                  </h2>
+                  <select id="id_user_permissions_to" multiple="multiple" size="0" name="user_permissions" class="filtered">
+                    <option value="1" title="admin | log entry | Can add log entry">admin | log entry | Can add log entry</option>
+                    <option value="2" title="admin | log entry | Can change log entry">admin | log entry | Can change log entry</option>
+                    <option value="3" title="admin | log entry | Can delete log entry">admin | log entry | Can delete log entry</option>
+                    <option value="368" title="upload_file | upload file | Can add upload file">upload_file | upload file | Can add upload file</option>
+                    <option value="369" title="upload_file | upload file | Can change upload file">upload_file | upload file | Can change upload file</option>
+                    <option value="370" title="upload_file | upload file | Can delete upload file">upload_file | upload file | Can delete upload file</option>
+                  </select>
+                  <a title="Click to remove all chosen user permissions at once." href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/change/#"
+                    id="id_user_permissions_remove_all_link" class="selector-clearall active">Remove all</a>
+                </div>
+              </div>
+            </div>
+            <p class="grp-help">Specific permissions for this user. Hold down "Control", or "Command" on a Mac, to select more than one.</p>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+
+
+    <fieldset class="module grp-module ">
+      <h2 class="grp-collapse-handler">Important dates</h2>
+      <div class="form-row grp-row grp-cells-1 last_login ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label for="id_last_login_0">Last login</label>
+          </div>
+          <div class="c-2">
+            <p class="datetime">
+              <input type="text" name="last_login_0" size="10" class="vDateField hasDatepicker" id="id_last_login_0">
+              <button type="button" class="ui-datepicker-trigger"></button>
+              <br>
+              <input type="text" name="last_login_1" size="8" class="vTimeField hasTimepicker" id="id_last_login_1">
+              <button type="button" class="ui-timepicker-trigger"></button>
+              <button type="button" class="ui-timepicker-trigger"></button>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="form-row grp-row grp-cells-1 date_joined ">
+        <div class="field-box l-2c-fluid l-d-4">
+          <div class="c-1">
+            <label class="required" for="id_date_joined_0">Date joined</label>
+          </div>
+          <div class="c-2">
+            <p class="datetime">
+              <input type="text" name="date_joined_0" value="2017-11-27" size="10" required="" class="vDateField hasDatepicker" id="id_date_joined_0">
+              <button type="button" class="ui-datepicker-trigger"></button>
+              <br>
+              <input type="text" name="date_joined_1" value="15:58:29" size="8" required="" class="vTimeField hasTimepicker"
+                id="id_date_joined_1">
+              <button type="button" class="ui-timepicker-trigger"></button>
+              <button type="button" class="ui-timepicker-trigger"></button>
+            </p>
+            <input type="hidden" name="initial-date_joined_0" value="2017-11-27" id="initial-id_date_joined_0">
+            <input type="hidden" name="initial-date_joined_1" value="15:58:29" id="initial-id_date_joined_1">
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+
+
+
+
+
+    <!-- Inlines -->
+
+
+
+
+
+
+    <!-- Submit-Row -->
+
+    <footer class="grp-module grp-submit-row grp-fixed-footer">
+      <header style="display:none">
+        <h1>Submit Options</h1>
+      </header>
+      <ul>
+
+
+        <li class="grp-float-left">
+          <a href="https://arowanastg.malaysia.gov.my/arowana/admin/adminauth/user/273/delete/" class="grp-button grp-delete-link">Delete</a>
+        </li>
+
+
+        <li>
+          <input type="submit" value="Save" class="grp-button grp-default" name="_save">
+        </li>
+
+
+
+        <li>
+          <input type="submit" value="Save and add another" class="grp-button" name="_addanother">
+        </li>
+
+
+        <li>
+          <input type="submit" value="Save and continue editing" class="grp-button" name="_continue">
+        </li>
+
+      </ul>
+    </footer>
+
+
+    <!-- JS for prepopulated fields -->
+
+
+    <script type="text/javascript">
+      (function ($) {
+        var field;
+
+      })(grp.jQuery);
+    </script>
+
+
+  </div>
+</form>
