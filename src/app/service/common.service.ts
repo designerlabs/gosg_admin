@@ -18,7 +18,8 @@ export class CommonService {
  mainid;
  subid;
  uid;
-
+ userInfo: object;
+temp = null;
   // tslint:disable-next-line:max-line-length
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
 
@@ -78,8 +79,15 @@ export class CommonService {
     }
   }
 
+  GetUser(userId) {
+    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(Rdata => {
+      this.dataTbl = Rdata;
+      this.router.navigate(['user', userId]);
+    });
+  }
+
   private handleError(error: Response) {
-    let msg = `Status code ${error.status} on url ${error.url}`;
+    const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
     return Observable.throw(msg);
 

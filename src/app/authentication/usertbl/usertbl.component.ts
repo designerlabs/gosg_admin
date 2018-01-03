@@ -37,6 +37,11 @@ export class UsertblComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
   }
+
+  getRow(row) {
+    console.log(row);
+    this.commonservice.GetUser(row.userId);
+  }
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

@@ -23,7 +23,7 @@ export const appRoutes: Routes = [
 
 
 
-// {path: '**', component: ErrorComponent}, 
+// {path: '**', component: ErrorComponent},
 ];
 
 // export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
