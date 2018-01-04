@@ -16,6 +16,11 @@ export class UsertblComponent implements OnInit, AfterViewInit {
 
   userList = null;
   displayedColumns = ['fullName', 'email', 'lastName', 'dateOfBirth'];
+  userPageSize = 10;
+  userPageCount = 1;
+  noPrevData = true;
+  noNextData = false;
+  rerender = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -28,14 +33,34 @@ export class UsertblComponent implements OnInit, AfterViewInit {
   }
   // tslint:disable-next-line:max-line-length
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router) {
-    this.http.get(this.appConfig.urlUserList).subscribe(data => {
-      this.userList = data;
-      this.dataSource.data = this.userList.userList;
-    });
+    this.getUserList(this.userPageCount, this.userPageSize);
   }
 
   ngOnInit() {
+    this.getUserList(this.userPageCount, this.userPageSize);
+  }
 
+  getUserList(count, size) { //'?page=1&size=10'
+    this.http.get(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size).subscribe(data => {
+      this.userList = data;
+      this.dataSource.data = this.userList.userList;
+      this.commonservice.userTable = this.userList;
+      this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+    });
+  }
+
+  paginatorL(page) {
+    this.getUserList(page - 1, this.userPageSize);
+    this.noPrevData = page <= 2 ? true : false;
+    this.noNextData = false;
+  }
+
+  paginatorR(page, totalPages) {
+    this.noPrevData = page >= 1 ? false : true;
+    let pageInc: any;
+    pageInc = page + 1;
+    // this.noNextData = pageInc === totalPages;
+    this.getUserList(page + 1, this.userPageSize);
   }
 
   getRow(row) {
@@ -47,6 +72,11 @@ export class UsertblComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
    }
+   pageChange(event, totalPages) {
+    this.getUserList(this.userPageCount, event.value);
+    this.userPageSize = event.value;
+    this.noPrevData = true;
+  }
 
    onPaginateChange(event) {
     // alert(JSON.stringify(event));

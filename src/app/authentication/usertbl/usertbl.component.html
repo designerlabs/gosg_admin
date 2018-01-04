@@ -1,4 +1,4 @@
-<h1>User List</h1>
+<h1>User List </h1>
 
 <!-- <table class="mat-table">
   <tr class="mat-header-row" style="height:45px">
@@ -72,21 +72,20 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <!-- <mat-paginator [length]="100"  [pageSize]="10"  [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
-  <mat-form-field style="width:50px;">
-    <mat-select class="font-size-s" value="10" (change)="pageChange($event)">
-      <mat-option value="5">5</mat-option>
-      <mat-option value="10">10</mat-option>
-      <mat-option value="25">25</mat-option>
-      <mat-option value="50">50</mat-option>
-    </mat-select>
-  </mat-form-field>
   <div style="float:right; margin-top: 10px;">
-      <!-- <span style="color:#000; padding-right:20px;">Pages <strong>{{mailData?.pageNumber}}</strong> of <strong>{{mailData?.totalPages}}</strong> in <strong>{{mailData?.totalElements}}</strong> mails</span> -->
-      <span style="color:#000; padding-right:20px;">Pages <strong>1</strong> of <strong>10</strong> in <strong>100</strong> Users</span>
-      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(mailData?.pageNumber)"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
-      <button mat-mini-fab color="basic" [disabled]="noNextData"  (click)="paginatorR(mailData?.pageNumber, mailData?.totalPages)"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
-   </div>
-  
+    <mat-form-field style="width:50px;">         
+        <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.userTable?.totalPages)">
+            <mat-option value="5">5</mat-option>
+            <mat-option value="10">10</mat-option>
+            <mat-option value="25">25</mat-option>
+            <mat-option value="50">50</mat-option>
+        </mat-select>
+    </mat-form-field>   
+    <span style="padding-right:20px; float:right;">
+      <span style="color:#000; padding-right:20px;">Pages <strong>{{commonservice.userTable?.pageNumber}}</strong> of <strong>{{commonservice.userTable?.totalPages}}</strong> in <strong>{{commonservice.userTable?.totalElements}}</strong> users</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.userTable?.pageNumber)"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData"  (click)="paginatorR(commonservice.userTable?.pageNumber, commonservice.userTable?.totalPages)"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+    </span>
+</div>  
 
 </div>
