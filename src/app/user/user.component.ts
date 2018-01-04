@@ -178,7 +178,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   updateUser(formValues:any) {
     // console.log(this.userID)
-    console.log(formValues)
+    // console.log(formValues)
     // console.log(JSON.stringify(formValues))
 
     let body = {

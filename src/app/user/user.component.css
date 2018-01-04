@@ -89,7 +89,8 @@ html {
     /* font-weight: 500; */
 }
 
-/* .mat-error {
+.mat-error {
+    font-size: small;
     display: block;
-    margin-top: -2%;
-} */
+    /* margin-top: -2%; */
+}

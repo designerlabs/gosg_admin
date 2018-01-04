@@ -1,5 +1,6 @@
 <form [formGroup]="updateForm" *ngIf='userInfo' autocomplete="off" role="form" novalidate>
   <!-- {{userInfo.fullName}} -->
+  <div class="container animated flipInX">
   <div class="col-md-12">
       <h5>Change User</h5>
     <div class="formbg row">
@@ -7,10 +8,10 @@
           <!-- <label class="font-size-s semiBoldText">Username</label> -->
           <mat-form-field class="example-full-width font-size-s">
             <input matInput placeholder="Username" formControlName="username" value="{{ userInfo.fullName }}" (change)="checkReqValues()" required>
+            <mat-error *ngIf="updateForm.controls.username.hasError('required')">
+              Username is required
+            </mat-error>
           </mat-form-field>
-          <mat-error *ngIf="updateForm.controls.username.hasError('required')">
-              Username is <strong>required</strong>
-          </mat-error>
           <!-- <div style="font-size: small">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div> -->
         </div>
         <div class="col-md-4">
@@ -39,31 +40,31 @@
           <!-- <label class="font-size-s semiBoldText" for="username">First Name</label> -->
           <mat-form-field class="example-full-width font-size-s">
             <input matInput placeholder="First Name" formControlName="firstname" value="{{ userInfo.firstName }}" (change)="checkReqValues()" required>
+            <mat-error *ngIf="updateForm.controls.firstname.hasError('required')">
+              First Name is required
+            </mat-error>
           </mat-form-field>
-          <mat-error *ngIf="updateForm.controls.firstname.hasError('required')">
-              First Name is <strong>required</strong>
-          </mat-error>
         </div>
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText" for="username">Last Name</label> -->
           <mat-form-field class="example-full-width font-size-s">
             <input matInput placeholder="Last Name" formControlName="lastname" value="{{ userInfo.lastName }}" (change)="checkReqValues()" required>
+            <mat-error *ngIf="updateForm.controls.lastname.hasError('required')">
+              Last Name is required
+            </mat-error>
           </mat-form-field>
-          <mat-error *ngIf="updateForm.controls.lastname.hasError('required')">
-              Last Name is <strong>required</strong>
-          </mat-error>
         </div>
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText" for="username">Email Address</label> -->
           <mat-form-field class="example-full-width font-size-s">
             <input matInput placeholder="Email Address" formControlName="email" value="{{ userInfo.email }}" (change)="checkReqValues()" required>
+            <mat-error *ngIf="updateForm.controls.email.hasError('pattern')">
+              Please enter a valid email address
+            </mat-error>
+            <mat-error *ngIf="updateForm.controls.email.hasError('required')">
+              Email is required
+            </mat-error>
           </mat-form-field>
-          <mat-error *ngIf="updateForm.controls.email.hasError('pattern')">
-            Please enter a valid email address
-          </mat-error>
-          <mat-error *ngIf="updateForm.controls.email.hasError('required')">
-            Email is <strong>required</strong>
-          </mat-error>
         </div>
         <div class="col-md-12"> &nbsp;</div>
     </div>
@@ -109,10 +110,10 @@
                 </mat-select-trigger>
                 <mat-option *ngFor="let group of groups" [value]="group">{{group}}</mat-option>
               </mat-select>
+              <mat-error *ngIf="updateForm.controls.usergroup.hasError('required')">
+                  Groups is required
+              </mat-error>
             </mat-form-field>
-            <mat-error *ngIf="updateForm.controls.usergroup.hasError('required')">
-                Groups is <strong>required</strong>
-            </mat-error>
           </div>
         </div>
         <div class="row">
@@ -126,10 +127,10 @@
               <mat-select placeholder="Permissions" [formControl]="userpermission" (change)="checkReqValues()" multiple required>
                 <mat-option *ngFor="let permission of permissions" [value]="permission">{{permission}}</mat-option>
               </mat-select>
+              <mat-error *ngIf="updateForm.controls.userpermission.hasError('required')">
+                  Permissions is required
+              </mat-error>
             </mat-form-field>
-            <mat-error *ngIf="updateForm.controls.userpermission.hasError('required')">
-                Permissions is <strong>required</strong>
-            </mat-error>
           </div>
         </div>
         <div class="col-md-12">&nbsp;</div>
@@ -143,5 +144,5 @@
       (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
       <i class="fa fa-check"></i> Submit</button>
   </div>
-  <!-- </div> -->
+  </div>
 </form>
