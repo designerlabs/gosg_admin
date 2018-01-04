@@ -1,37 +1,160 @@
-<div class="container">
-<form [formGroup]="updateForm" autocomplete="off" (ngSubmit)="updateUser(updateForm.value)" role="form" novalidate>
+<form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
   <div class="col-md-12">
-      <label class="staticLabel font-size-l">Change User</label>
+      <h5>Change User</h5>
     <div class="formbg row">
-        <div class="form-group col-md-4">
-          <label class="font-size-m" for="username">Username</label>
-          <!-- <div class="staticLabel font-size-m boldText" for="fullname">{{ fullname }}</div> -->
+        <div class="col-md-4">
+          <!-- <label class="font-size-s semiBoldText">Username</label> -->
           <mat-form-field class="example-full-width">
-            <input matInput type="text" formControlName="username" value="{{ username }}" maxlength="150">
+            <input matInput placeholder="Username" formControlName="username" value="{{ username }}" (change)="checkReqValues()" required>
           </mat-form-field>
+          <mat-error *ngIf="updateForm.controls.username.hasError('required')">
+              Username is <strong>required</strong>
+          </mat-error>
+          <!-- <div style="font-size: small">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div> -->
         </div>
+        <div class="col-md-4">
+            <div class="font-size-s semiBoldText">Last Login</div>
+            <div class="staticLabel font-size-m">{{ datelastlogin  | date:'dd/MM/yyyy' }}</div>
+        </div>
+        <div class="col-md-4">
+            <div class="font-size-s semiBoldText">Date Joined</div>
+            <div class="staticLabel font-size-m">{{ datejoined  | date:'dd/MM/yyyy' }}</div>
+        </div>
+        <div class="col-md-12"> &nbsp;</div>
+        <div class="col-md-12">
+            <div class="font-size-s semiBoldText">Password</div>
+            <div class="staticLabel font-size-m">algorithm: pbkdf2_sha256 iterations: 36000 salt: Byd9f5****** hash: rpRY8w**************************************</div>
+            <div class="font-size-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using this form.</div>
+        </div>
+        <div class="col-md-12"> &nbsp;</div>
     </div>
+
+    <!-- Personal Info -->
     <div class="formbg row">
-        <div class="form-header">
-            <label class="staticLabel font-size-m" for="username">First Name</label>
+        <div class="form-header col-md-12">
+            <label class="staticLabel font-size-m boldText">Personal Info</label>
         </div>
-        <div class="form-group col-md-4">
-          <label class="font-size-m" for="username">First Name</label>
-          <!-- <div class="staticLabel font-size-m boldText" for="fullname">{{ fullname }}</div> -->
+        <div class="col-md-4">
+          <!-- <label class="font-size-s semiBoldText" for="username">First Name</label> -->
           <mat-form-field class="example-full-width">
-            <input matInput type="text" formControlName="firstname" value="{{ firstname }}" maxlength="150">
+            <input matInput placeholder="First Name" formControlName="firstname" value="{{ firstname }}" (change)="checkReqValues()" required>
           </mat-form-field>
+          <mat-error *ngIf="updateForm.controls.firstname.hasError('required')">
+              First Name is <strong>required</strong>
+          </mat-error>
         </div>
-        <div class="form-group col-md-4">
-          <label class="font-size-m" for="username">Username</label>
-          <!-- <div class="staticLabel font-size-m boldText" for="fullname">{{ fullname }}</div> -->
+        <div class="col-md-4">
+          <!-- <label class="font-size-s semiBoldText" for="username">Last Name</label> -->
           <mat-form-field class="example-full-width">
-            <input matInput type="text" formControlName="lastname" value="{{ lastname }}" maxlength="150">
+            <input matInput placeholder="Last Name" formControlName="lastname" value="{{ lastname }}" (change)="checkReqValues()" required>
           </mat-form-field>
+          <mat-error *ngIf="updateForm.controls.lastname.hasError('required')">
+              Last Name is <strong>required</strong>
+          </mat-error>
         </div>
-
-
+        <div class="col-md-4">
+          <!-- <label class="font-size-s semiBoldText" for="username">Email Address</label> -->
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Email Address" formControlName="email" value="{{ email }}" (change)="checkReqValues()" required>
+          </mat-form-field>
+          <mat-error *ngIf="updateForm.controls.email.hasError('pattern')">
+            Please enter a valid email address
+          </mat-error>
+          <mat-error *ngIf="updateForm.controls.email.hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+        </div>
+        <div class="col-md-12"> &nbsp;</div>
     </div>
+
+    <!-- Permission -->
+    <div class="formbg row">
+      <div class="form-header col-md-12">
+        <label class="staticLabel font-size-m boldText">Permissions</label>
+      </div>
+      <!-- <div class="container"> -->
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-checkbox formControlName="active">Active</mat-checkbox>
+            <div class="font-size-s thinText">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
+          </div>
+          <div class="col-md-4">
+            <mat-checkbox formControlName="staffstatus">Staff Status</mat-checkbox>
+            <div class="font-size-s thinText">Designates whether the user can log into this admin site.</div>
+          </div>
+          <div class="col-md-4">
+            <mat-checkbox formControlName="superuserstatus">Superuser Status</mat-checkbox>
+            <div class="font-size-s thinText">Designates that this user has all permissions without explicitly assigning them.</div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row">
+          <!-- <div class="col-md-6">
+            <label class="staticLabel font-size-m seBoldText">Groups</label>
+          </div> -->
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Groups" [formControl]="usergroup" (change)="checkReqValues()" multiple required>
+                <mat-select-trigger>
+                  {{ usergroup.value ? usergroup.value : ' ' }}
+                  <span *ngIf="usergroup.value?.length > 3" class="example-additional-selection">
+                    (+{{usergroup.value.length - 3}} others)
+                  </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let group of groups" [value]="group">{{group}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="updateForm.controls.usergroup.hasError('required')">
+                Groups is <strong>required</strong>
+            </mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="col-md-12">
+            <label class="staticLabel font-size-m seBoldText">Permissions</label>
+          </div> -->
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width">
+              <mat-select placeholder="Permissions" [formControl]="userpermission" (change)="checkReqValues()" multiple required>
+                <mat-option *ngFor="let permission of permissions" [value]="permission">{{permission}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-error *ngIf="updateForm.controls.userpermission.hasError('required')">
+                Permissions is <strong>required</strong>
+            </mat-error>
+          </div>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+    </div>
+    
+  </div>
+  <!-- <div class="container"> -->
+  <div class="form-group" style="margin-right: 1%">
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+      (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="complete">
+      <i class="fa fa-check"></i> Submit</button>
+  </div>
+  <!-- </div> -->
+</form>
+
+<!-- <div class="row">
+        <div class="col-md-12">
+            <label class="staticLabel font-size-m seBoldText">Groups</label>
+            <mat-form-field>
+                <mat-select placeholder="Toppings" [formControl]="toppings" multiple>
+                  <mat-option *ngFor="let group of groups" [value]="group">{{group}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </div>
+      </div> -->
 
     <!-- <fieldset class="module grp-module ">
       <div class="form-row grp-row grp-cells-1 username ">
@@ -779,7 +902,3 @@
         </div>
       </div>
     </fieldset> -->
-
-  </div>
-</form>
-</div>

@@ -1,3 +1,8 @@
+html {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: inherit;
+}
+
 .formbg {    
     border: 1px solid #dedede;
     border-radius: 5px;
@@ -5,15 +10,28 @@
     background-color: #eeeeee;	
     color: #000;
     /* padding: 13px 10px; */
-    margin-top: 0px;
+    margin-top: 15px;
     margin-bottom: 1%;
+    padding-top: 10px;
+    /* padding-bottom: 15px; */
     box-shadow: #eeeeee 0px 0px 10px 0px;
 }
 
 .formbg label {
     color : rgb(0, 0, 0);
     /* rgb(179, 179, 179); */
-    font-size: 13px;
+    margin-bottom: 0px;
+}
+
+.thinText {
+    font-weight: 400;
+}
+
+.semiBoldText {
+    font-weight: 500;
+}
+
+.boldText {
     font-weight: bold;
 }
 
@@ -32,12 +50,46 @@
     -moz-border-radius-topright: 3px;
     -webkit-border-top-right-radius: 3px;
     border-top-right-radius: 3px;
+    margin-top: -1%;
+    margin-bottom: 1%;
 }
 
-.form-group {
+/* .form-group {
     padding: 10px;
-}
+} */
 
 .example-full-width {
     width: 100%;
-    }
+}
+
+.close-top {
+    margin-bottom: -1%; margin-top: -8%;
+}
+
+.font-size-s {
+    font-size: small
+}
+
+.font-size-m {
+    font-size: medium
+}
+
+.font-size-l {
+    font-size: large
+}
+
+.mat-form-field-placeholder-wrapper {
+    position: absolute;
+    left: 0;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    font-weight: 500;
+}
+
+/* .mat-error {
+    display: block;
+    margin-top: -2%;
+} */
