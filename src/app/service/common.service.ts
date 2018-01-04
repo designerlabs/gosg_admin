@@ -19,7 +19,8 @@ export class CommonService {
  subid;
  uid;
  userInfo: object;
- temp = null;
+ userTable: object;
+temp = null;
   // tslint:disable-next-line:max-line-length
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
 
@@ -69,7 +70,7 @@ export class CommonService {
         this.router.navigate(['articletbl', topicID]);
       });
     }else if (this.mainid === 1 && topicID === 4) {
-      return this.http.get(this.appConfig.urlUserList+'/?page=1&size=10').subscribe(Rdata => {
+      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10').subscribe(Rdata => {
         this.dataTbl = Rdata;
         this.router.navigate(['userlist']);
         // console.log(this.dataTbl);
