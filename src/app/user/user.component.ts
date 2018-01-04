@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { CommonService } from '../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import { debug } from 'util';
-import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { APP_CONFIG, AppConfig } from '../config/app.config.module';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 // import { ToastrService } from "ngx-toastr";
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -22,9 +24,11 @@ export class UserComponent implements OnInit, AfterViewInit {
   permissions = ['Article', 'Announcements', 'Business Agency', 'Client Charterer', 'Counter', 'Feedback'];
 
   userData: any;
-  userID:any;
-  complete: boolean = false;
-  
+  complete: boolean;
+  users: any[];
+  userInfo = null;
+  userId = null;
+
   username: FormControl
   firstname: FormControl
   lastname: FormControl
@@ -37,18 +41,34 @@ export class UserComponent implements OnInit, AfterViewInit {
   datejoined: FormControl
   datelastlogin: FormControl
 
-  constructor(
-    private commonService:CommonService, 
-    private route:ActivatedRoute,
-  ) { }
+  // tslint:disable-next-line:max-line-length
+  constructor(private route: ActivatedRoute, private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonService: CommonService) {
+    this.route.params.subscribe( params => this.userId = params.id);
+
+    this.http.get(this.appConfig.urlUserList + '/' + this.userId + '?langId=1').subscribe(data => {
+      let temp = null;
+      temp = data;
+      this.userInfo = temp.user;
+      
+      // fill in formControl values
+      this.updateForm.get('username').setValue(this.userInfo.fullName);
+      this.updateForm.get('firstname').setValue(this.userInfo.firstName);
+      this.updateForm.get('lastname').setValue(this.userInfo.lastName);
+      this.updateForm.get('email').setValue(this.userInfo.email);
+      this.updateForm.get('staffstatus').setValue(this.userInfo.isStaff);
+      this.checkReqValues();
+    });
+   }
 
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
-      this.userID = params['id'];
-    });
+    // this.route.params.subscribe(params => {
+    //   this.userID = params['id'];
+    // });
 
-    this.getUserByID(this.userID)
+    this.complete = false;
+
+    // this.getUserByID(this.userID)
     this.username = new FormControl()
     this.firstname = new FormControl('',
     Validators.required)
@@ -72,10 +92,8 @@ export class UserComponent implements OnInit, AfterViewInit {
       usergroup: this.usergroup,
       userpermission: this.userpermission,
     });
-
-    this.checkReqValues();
   }
-  
+
   ngAfterViewInit() {
   }
   
@@ -91,69 +109,75 @@ export class UserComponent implements OnInit, AfterViewInit {
         // });
         // }
         
-        getUserByID(uid){
-          return this.commonService.getUsersDataByID(uid)
-          .subscribe(resUsersData => {
-            this.userData = resUsersData;
-            console.log(this.userData)
+        // getUserByID(uid){
+        //   return this.commonService.getUsersDataByID(uid)
+        //   .subscribe(resUsersData => {
+        //     this.userData = resUsersData;
+        //     console.log(this.userData)
             
-            // fill data from service
-            this.username = this.userData.username;
-            this.firstname = this.userData.firstName;
-            this.lastname = this.userData.lastName;
-            this.email = this.userData.email;
-            this.active = this.userData.accountStatusId;
-            this.staffstatus = this.userData.isStaff;
-            this.superuserstatus = this.userData.superuser_status;
-            this.active = this.userData.active;
-            this.datejoined = this.userData.date_joined;
-            this.datelastlogin = this.userData.date_last_login;
+        //     // fill data from service
+        //     this.username = this.userData.username;
+        //     this.firstname = this.userData.firstName;
+        //     this.lastname = this.userData.lastName;
+        //     this.email = this.userData.email;
+        //     this.active = this.userData.accountStatusId;
+        //     this.staffstatus = this.userData.isStaff;
+        //     this.superuserstatus = this.userData.superuser_status;
+        //     this.active = this.userData.active;
+        //     this.datejoined = this.userData.date_joined;
+        //     this.datelastlogin = this.userData.date_last_login;
           
-            // update form values
-            this.updateForm.get('username').setValue(this.username);
-            this.updateForm.get('firstname').setValue(this.firstname);
-            this.updateForm.get('lastname').setValue(this.lastname);
-            this.updateForm.get('email').setValue(this.email);
-            this.updateForm.get('active').setValue(this.active);
-            this.updateForm.get('staffstatus').setValue(this.staffstatus);
-            this.updateForm.get('superuserstatus').setValue(this.superuserstatus);
+        //     // update form values
+        //     this.updateForm.get('username').setValue(this.username);
+        //     this.updateForm.get('firstname').setValue(this.firstname);
+        //     this.updateForm.get('lastname').setValue(this.lastname);
+        //     this.updateForm.get('email').setValue(this.email);
+        //     this.updateForm.get('active').setValue(this.active);
+        //     this.updateForm.get('staffstatus').setValue(this.staffstatus);
+        //     this.updateForm.get('superuserstatus').setValue(this.superuserstatus);
 
-            if(this.updateForm.get('usergroup').value !== null && this.updateForm.get('userpermission').value !== null) {
-              this.updateForm.get('usergroup').setValue(this.usergroup);
-              this.updateForm.get('userpermission').setValue(this.userpermission);
-            }
+        //     if(this.updateForm.get('usergroup').value !== null && this.updateForm.get('userpermission').value !== null) {
+        //       this.updateForm.get('usergroup').setValue(this.usergroup);
+        //       this.updateForm.get('userpermission').setValue(this.userpermission);
+        //     }
 
-          },
-          Error => {
-            // this.toastr.error(this.translate.instant('Server is down!'), '');            
-          });
-        }
+        //   },
+        //   Error => {
+            // this.toastr.error(this.translate.instant('Server is down!'), '');
+        //   });
+        // }
 
   checkReqValues() {
-    let username = this.updateForm.get('username').value;
-    let firstname = this.updateForm.get('firstname').value;
-    let lastname = this.updateForm.get('lastname').value;
-    let email = this.updateForm.get('email').value;
-    let usergroup = this.updateForm.get('usergroup').value;
-    let userpermission = this.updateForm.get('userpermission').value;
+    let username = "username";
+    let firstname = "firstname";
+    let lastname = "lastname";
+    let email = "email";
+    let usergroup = "usergroup";
+    let userpermission = "userpermission";
 
     let reqVal:any = [ username, firstname, lastname, email, usergroup, userpermission ];
+    let nullPointers:any = [];
 
-    // console.log(reqVal)
-    // console.log(this.groups)
+    for(var reqData of reqVal) {
+      let elem = this.updateForm.get(reqData);
 
-    // if(username) {
-    if(username != null && firstname != null && lastname != null && email != null && usergroup !=null && userpermission != null) {
+      if(elem.value == "" || elem.value == null) {
+        elem.setValue(null)
+        nullPointers.push(null)
+      }
+    }
+
+    if(nullPointers.length > 0) {
       this.complete = false;
     } else {
-      // this.toastr.error(this.translate.instant('Country error!'), '');
       this.complete = true;
+      // this.toastr.error(this.translate.instant('Country error!'), '');
     }
 
   }
-        
+
   updateUser(formValues:any) {
-    console.log(this.userID)
+    // console.log(this.userID)
     console.log(formValues)
     // console.log(JSON.stringify(formValues))
 
@@ -171,7 +195,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       "date_update": null,
     }
 
-    body.user_id = this.userID;
+    body.user_id = this.userId;
     body.username = formValues.username;
     body.first_name = formValues.firstname;
     body.last_name = formValues.lastname;

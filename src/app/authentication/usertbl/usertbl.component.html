@@ -1,3 +1,92 @@
-<p>
-  usertbl works!
-</p>
+<h1>User List</h1>
+
+<!-- <table class="mat-table">
+  <tr class="mat-header-row" style="height:45px">
+    <td width="3%" class="mat-header-cell text-center"></td>
+    <td width="5%" class="mat-header-cell">User Name</td>
+    <td width="5%" class="mat-header-cell">Email Address</td>
+    <td width="5%" class="mat-header-cell">First Name</td>
+    <td width="5%" class="mat-header-cell text-center">Last Name</td>
+    <td width="5%" class="mat-header-cell text-center">Active</td>
+    <td width="5%" class="mat-header-cell text-center">Staff status</td>
+    <td width="5%" class="mat-header-cell text-center">Superuser status</td>
+    <td width="5%" class="mat-header-cell text-center">Date Joined</td>
+    <td width="5%" class="mat-header-cell text-center">Last login</td>
+    <td width="5%" class="mat-header-cell text-center">Send Message</td>
+  </tr>
+  <tr class="mat-row table_row table_row_height" *ngFor='let user of userList?.userList' [style.font-weight]='bold'>
+    <td class="mat-cell text-center"><mat-checkbox></mat-checkbox></td>
+    <td class="mat-cell">{{user.fullName}}</td>
+    <td class="mat-cell">{{user.email}}</td>
+    <td class="mat-cell">{{user.firstName}}</td>
+    <td class="mat-cell">{{user.lastName}}</td>
+    <td class="mat-cell">{{user.accountStatusId}}</td>
+    <td class="mat-cell">{{user.isStaff}}</td>
+    <td class="mat-cell">{{user.isMyIdentityVerified}}</td>
+    <td class="mat-cell">{{user.dateOfBirth}}</td>
+    <td class="mat-cell">--</td>
+    <td class="mat-cell"><button mat-raised-button color="primary">Send Message</button></td>   
+  </tr>
+</table> -->
+
+<div class="example-container mat-elevation-z8">
+  <div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+
+  <mat-table #table [dataSource]="dataSource">
+
+    <!-- fullName Column -->
+    <ng-container matColumnDef="userId">
+      <mat-header-cell *matHeaderCellDef> User Id </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+    </ng-container>
+
+    <!-- fullName Column -->
+    <ng-container matColumnDef="fullName">
+      <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
+    </ng-container>
+
+    <!-- email Column -->
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+    </ng-container>
+
+    <!-- lastName Column -->
+    <ng-container matColumnDef="lastName">
+      <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
+    </ng-container>
+
+    <!-- dateOfBirth Column -->
+    <ng-container matColumnDef="dateOfBirth">
+      <mat-header-cell *matHeaderCellDef> DOB </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <!-- <mat-paginator [length]="100"  [pageSize]="10"  [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator> -->
+  <mat-form-field style="width:50px;">
+    <mat-select class="font-size-s" value="10" (change)="pageChange($event)">
+      <mat-option value="5">5</mat-option>
+      <mat-option value="10">10</mat-option>
+      <mat-option value="25">25</mat-option>
+      <mat-option value="50">50</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div style="float:right; margin-top: 10px;">
+      <!-- <span style="color:#000; padding-right:20px;">Pages <strong>{{mailData?.pageNumber}}</strong> of <strong>{{mailData?.totalPages}}</strong> in <strong>{{mailData?.totalElements}}</strong> mails</span> -->
+      <span style="color:#000; padding-right:20px;">Pages <strong>1</strong> of <strong>10</strong> in <strong>100</strong> Users</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(mailData?.pageNumber)"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData"  (click)="paginatorR(mailData?.pageNumber, mailData?.totalPages)"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+   </div>
+  
+
+</div>

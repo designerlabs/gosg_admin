@@ -18,9 +18,10 @@ const commonURL = 'http://10.1.70.148:8003/service-admin-protected/';
 export class AppConfig {
     apiEndpoint: string;
     urlMenu: string;
-    urlCommon: string;  
+    urlCommon: string;
     baseURL: string;
     urlUsers: string;
+    urlUserList: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -28,7 +29,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlMenu: commonURL + 'menu/list?',
     urlCommon: 'http://10.1.70.148:8003/service-admin-protected/',
     baseURL: 'http://localhost/locale-api/',
-    urlUsers: baseURL+'users/'
+    urlUsers: baseURL + 'users/',
+    urlUserList: commonURL + 'usermanagement'
 };
 
 @NgModule({

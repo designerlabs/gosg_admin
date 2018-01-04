@@ -9,6 +9,7 @@ import { ArticletblComponent } from './articletbl/articletbl.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
+import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -18,10 +19,11 @@ export const appRoutes: Routes = [
 {path: 'feedback', component: FeedbackComponent},
 {path: '404', component: ErrorComponent},
 {path: 'user/:id', component: UserComponent},
+{path: 'userlist', component: UsertblComponent}
 
 
 
-// {path: '**', component: ErrorComponent}, 
+// {path: '**', component: ErrorComponent},
 ];
 
 // export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

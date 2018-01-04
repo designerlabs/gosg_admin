@@ -50,7 +50,7 @@ export class LeftmenuComponent implements OnInit {
       map(name => name ? this.filter(name) : this.options.slice())
     );
 
-    this.http.get(this.appConfig.urlMenu + 'lang=1').subscribe(data => {
+    this.http.get(this.appConfig.urlMenu + 'langId=1').subscribe(data => {
       console.log(data);
       this.menulst = data;
     });
@@ -73,6 +73,7 @@ export class LeftmenuComponent implements OnInit {
        this.commonservice.ObjMenuid = obj;
        this.commonservice.getMenuID(obj);
        this.commonservice.GetList(subid);
+       console.log(subid);
       //  this.router.navigate(['articletbl', subid.toString()]);
 
       //  this.router.navigate(['articletbl', subid]);
