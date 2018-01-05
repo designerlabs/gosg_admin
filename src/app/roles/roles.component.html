@@ -1,0 +1,56 @@
+<h1>Roles</h1>
+
+<div class="container animated flipInX" breadcrumbtitle="World" style="color:#1ebebc">
+    <div class="row ">
+        <div class="col-md-12 formbg">
+          <mat-form-field class="example-full-width font-size-s">
+            <input matInput #name tabindex="2" minlength="2" maxlength="60" placeholder="Roles Name"
+              required>
+            <!-- <mat-hint align="end">{{name.value?.length || 0}}/60</mat-hint> -->
+            <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.required">
+              {{'register.err.name' | translate }}
+            </mat-error> -->
+            <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.pattern">
+              {{'register.pattern.name' | translate }}
+            </mat-error> -->
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" style="width:100%">
+              <mat-select tabindex="1"  placeholder="Permission" name="feedbacktype" id="feedbacktype"
+                  required multiple>
+                  <mat-option>
+                      <!-- {{data.feedbackTypeDescription}} -->
+                      1
+                  </mat-option>
+                  <mat-option>
+                      <!-- {{data.feedbackTypeDescription}} -->
+                      2
+                  </mat-option>
+              </mat-select>
+              <!-- <mat-error *ngIf="!validateCtrlChk(feedbacktype) && feedbackFormgrp.controls.feedbacktype.errors.required">{{'feedback.err.drop' | translate }}
+              </mat-error> -->
+          </mat-form-field>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- <app-confirm-dialog  #resetModal 
+[title]="'common.icon.warn'" 
+[content]="'common.msg.reset'"
+[state]="'common.state.warn'" 
+[isReset]="'true'"
+(resetMethod)="resetMethod($event)">
+</app-confirm-dialog>
+
+<app-confirm-dialog  #infoModal 
+[title]="'common.icon.success'" 
+[content]="'register.popupmsg.success_content1'"
+[email] = "getEmail"
+[content2] = "'register.popupmsg.success_content2'" 
+[state]="'common.state.success'" 
+[isRegister]="'index'">
+</app-confirm-dialog> -->
