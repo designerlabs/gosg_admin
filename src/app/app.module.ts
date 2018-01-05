@@ -14,7 +14,7 @@ import { LeftmenuComponent } from './leftmenu/leftmenu.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+// import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
@@ -47,9 +47,10 @@ import { RolesComponent } from './roles/roles.component';
     AppConfigModule,
     SharedModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes),
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot()
+    ReactiveFormsModule,
+    RouterModule.forRoot(appRoutes)
+    // FroalaEditorModule.forRoot(),
+    // FroalaViewModule.forRoot()
     ],
   providers: [CommonService, NavRouterActivatorService],
   bootstrap: [AppComponent]

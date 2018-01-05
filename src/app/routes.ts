@@ -11,6 +11,7 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 
+import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -21,9 +22,11 @@ export const appRoutes: Routes = [
 {path: '404', component: ErrorComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
+{path: 'userlist', component: UsertblComponent}
 
 
-// {path: '**', component: ErrorComponent}, 
+
+// {path: '**', component: ErrorComponent},
 ];
 
 // export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);

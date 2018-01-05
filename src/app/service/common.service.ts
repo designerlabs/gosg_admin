@@ -18,10 +18,12 @@ export class CommonService {
  mainid;
  subid;
  uid;
- 
+ userInfo: object;
+ userTable: object;
+temp = null;
   // tslint:disable-next-line:max-line-length
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
-  
+
   private usersUrl: string = this.appConfig.urlUsers;
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
@@ -48,7 +50,7 @@ export class CommonService {
   }
 
   getUsersDataByID(uid): Observable<any[]> {
-    return this.http.get(this.usersUrl+uid)
+    return this.http.get(this.usersUrl + uid)
       .map((response: Response) => response.json())
       .catch(this.handleError);
 
@@ -57,7 +59,7 @@ export class CommonService {
   getMenuID(data) {
     this.subid = data.subMenu;
     this.mainid = data.mainMenu;
-    // this.GetList(data.subMenu);
+    this.GetList(data.subMenu);
   }
 
   GetList(topicID) {
@@ -65,14 +67,28 @@ export class CommonService {
       return this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(Rdata => {
         this.dataTbl = Rdata;
         // console.log(this.dataTbl);
+        this.router.navigate(['articletbl', topicID]);
+      });
+    }else if (this.mainid === 1 && topicID === 4) {
+      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10').subscribe(Rdata => {
+        this.dataTbl = Rdata;
+        this.router.navigate(['userlist']);
+        // console.log(this.dataTbl);
       });
     }else {
       this.dataTbl = [];
     }
   }
 
+  GetUser(userId) {
+    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(Rdata => {
+      this.dataTbl = Rdata;
+      this.router.navigate(['user', userId]);
+    });
+  }
+
   private handleError(error: Response) {
-    let msg = `Status code ${error.status} on url ${error.url}`;
+    const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
     return Observable.throw(msg);
 

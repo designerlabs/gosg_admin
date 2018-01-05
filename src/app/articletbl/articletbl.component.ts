@@ -29,7 +29,6 @@ export class ArticletblComponent implements OnInit {
     }
 
   ngOnInit() {
-    debugger;
     this.menus = this.commonservice.ObjMenuid;
     // tslint:disable-next-line:radix
     this.topicID = parseInt(this.router.url.split('/')[2]);
