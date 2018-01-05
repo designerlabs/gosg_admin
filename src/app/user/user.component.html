@@ -15,16 +15,16 @@
           <!-- <div style="font-size: small">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div> -->
         </div>
         <div class="col-md-4">
-            <div class="font-size-s semiBoldText">Last Login</div>
+            <div class="font-size-s thinText">Last Login</div>
             <div class="staticLabel font-size-m">{{ datelastlogin  | date:'dd/MM/yyyy' }}</div>
         </div>
         <div class="col-md-4">
-            <div class="font-size-s semiBoldText">Date Joined</div>
+            <div class="font-size-s thinText">Date Joined</div>
             <div class="staticLabel font-size-m">{{ datejoined  | date:'dd/MM/yyyy' }}</div>
         </div>
         <div class="col-md-12"> &nbsp;</div>
         <div class="col-md-12">
-            <div class="font-size-s semiBoldText">Password</div>
+            <div class="font-size-s thinText">Password</div>
             <div class="staticLabel font-size-m">algorithm: pbkdf2_sha256 iterations: 36000 salt: Byd9f5****** hash: rpRY8w**************************************</div>
             <div class="font-size-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using this form.</div>
         </div>
@@ -55,16 +55,17 @@
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <!-- <label class="font-size-s semiBoldText" for="username">Email Address</label> -->
-          <mat-form-field class="example-full-width font-size-s">
-            <input matInput placeholder="Email Address" formControlName="email" value="{{ userInfo.email }}" (change)="checkReqValues()" required>
+          <label class="font-size-s thinText">Email Address</label>
+          <div class="staticLabel font-size-s">{{ userInfo.email }}</div>
+          <!-- <mat-form-field class="example-full-width font-size-s"> -->
+            <!-- <input matInput placeholder="Email Address" formControlName="email" value="{{ userInfo.email }}" (change)="checkReqValues()" required>
             <mat-error *ngIf="updateForm.controls.email.hasError('pattern')">
               Please enter a valid email address
             </mat-error>
             <mat-error *ngIf="updateForm.controls.email.hasError('required')">
               Email is required
-            </mat-error>
-          </mat-form-field>
+            </mat-error> -->
+          <!-- </mat-form-field> -->
         </div>
         <div class="col-md-12"> &nbsp;</div>
     </div>

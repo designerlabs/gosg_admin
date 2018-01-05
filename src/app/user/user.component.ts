@@ -28,11 +28,15 @@ export class UserComponent implements OnInit, AfterViewInit {
   users: any[];
   userInfo = null;
   userId = null;
+  pid:String;
+  email:String;
+  userTypeId = null;
+  accountStatusId = null;
 
   username: FormControl
   firstname: FormControl
   lastname: FormControl
-  email: FormControl
+  // email: FormControl
   staffstatus: FormControl
   active: FormControl
   superuserstatus: FormControl
@@ -52,15 +56,23 @@ export class UserComponent implements OnInit, AfterViewInit {
         temp = data;
         this.userInfo = temp.user;
 
-        console.log(data)
+        console.log(this.userInfo)
+
+        this.pid = this.userInfo.pid;
+        this.email = this.userInfo.email;
+        this.userTypeId = this.userInfo.userType.userTypeId;
+        this.accountStatusId = this.userInfo.accountStatus.accountStatusId;
+
+        console.log(this.userTypeId)
+        console.log(this.accountStatusId)
         
         // fill in formControl values
         this.updateForm.get('username').setValue(this.userInfo.fullName);
         this.updateForm.get('firstname').setValue(this.userInfo.firstName);
         this.updateForm.get('lastname').setValue(this.userInfo.lastName);
-        this.updateForm.get('email').setValue(this.userInfo.email);
+        // this.updateForm.get('email').setValue(this.userInfo.email);
         this.updateForm.get('staffstatus').setValue(this.userInfo.isStaff);
-        this.updateForm.get('active').setValue(this.userInfo.accountStatusId);
+        this.updateForm.get('active').setValue(this.accountStatusId);
         this.checkReqValues();
       },
       error => {
@@ -81,8 +93,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.firstname = new FormControl('',
     Validators.required)
     this.lastname = new FormControl()
-    this.email = new FormControl('', 
-      Validators.pattern(EMAIL_REGEX))
+    // this.email = new FormControl('', Validators.pattern(EMAIL_REGEX))
     this.active = new FormControl()
     this.staffstatus = new FormControl()
     this.superuserstatus = new FormControl()
@@ -93,7 +104,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       username: this.username,
       firstname: this.firstname,
       lastname: this.lastname,
-      email: this.email,
+      // email: this.email,
       active: this.active,
       staffstatus: this.staffstatus,
       superuserstatus: this.superuserstatus,
@@ -109,11 +120,11 @@ export class UserComponent implements OnInit, AfterViewInit {
     let username = "username";
     let firstname = "firstname";
     let lastname = "lastname";
-    let email = "email";
+    // let email = "email";
     let usergroup = "usergroup";
     let userpermission = "userpermission";
 
-    let reqVal:any = [ username, firstname, lastname, email, usergroup, userpermission ];
+    let reqVal:any = [ username, firstname, lastname, usergroup, userpermission ];
     let nullPointers:any = [];
 
     for(var reqData of reqVal) {
@@ -140,7 +151,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       "userId": null,
       "pid": null,
       "userTypeId": null,
-      "username": null,
+      "fullName": null,
       "firstName": null,
       "lastName": null,
       "email": null,
@@ -152,32 +163,39 @@ export class UserComponent implements OnInit, AfterViewInit {
       "phoneNo": null,
       "accountStatusId": null,
       "isStaff": null,
-      "superuser_status": null,
-      "roles": null,
-      "permissions": null,
-      "isMyIdentityVerified": null,
-      "isMyIdentityValid": null,
-      "agencyForwardUrl": null,
-      "date_update": null,
+      // "superuser_status": null,
+      // "roles": null,
+      // "permissions": null,
+      "isMyIdentityVerified": true,
+      "isMyIdentityValid": true,
+      "agencyForwardUrl": null
+      // "date_update": null
     }
 
+    body.pid = this.pid;
+    body.userTypeId = this.userTypeId;
+    body.accountStatusId = this.accountStatusId;
     body.userId = parseInt(this.userId);
-    body.username = formValues.username;
+    body.fullName = formValues.username;
     body.firstName = formValues.firstname;
     body.lastName = formValues.lastname;
-    body.email = formValues.email;
+    body.email = this.email;
     body.accountStatusId = formValues.active;
     body.isStaff = formValues.staffstatus;
-    body.superuser_status = formValues.superuserstatus;
-    body.roles = formValues.usergroup;
-    body.permissions = formValues.userpermission;
-    body.date_update = new Date().getTime();
+    // body.superuser_status = formValues.superuserstatus;
+    // body.roles = formValues.usergroup;
+    // body.permissions = formValues.userpermission;
+    // body.date_update = new Date().getTime();
+
+        // console.log(JSON.stringify(body))
+        // console.log(body)
 
     // Update User Service
-    this.commonService.updateUser(body)
-    .subscribe(
+    this.commonService.updateUser(body).subscribe(
       data => {
+        console.log(JSON.stringify(body))
         console.log(body)
+        alert('Update successful!')
         // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
       },
       error => {

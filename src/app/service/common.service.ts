@@ -90,7 +90,11 @@ temp = null;
   }
 
   updateUser(user) {
-    return this.http.put(this.appConfig.urlUsers + user.userId, user)
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(user)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    return this.http.put(this.appConfig.urlUserList + '/' + user.userId + '?langId=1', user)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
