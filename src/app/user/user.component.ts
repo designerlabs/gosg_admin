@@ -46,18 +46,27 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.route.params.subscribe( params => this.userId = params.id);
 
     this.http.get(this.appConfig.urlUserList + '/' + this.userId + '?langId=1').subscribe(data => {
-      let temp = null;
-      temp = data;
-      this.userInfo = temp.user;
-      
-      // fill in formControl values
-      this.updateForm.get('username').setValue(this.userInfo.fullName);
-      this.updateForm.get('firstname').setValue(this.userInfo.firstName);
-      this.updateForm.get('lastname').setValue(this.userInfo.lastName);
-      this.updateForm.get('email').setValue(this.userInfo.email);
-      this.updateForm.get('staffstatus').setValue(this.userInfo.isStaff);
-      this.checkReqValues();
-    });
+    // this.http.get(this.appConfig.urlUsers + this.userId).subscribe(data => {
+        let temp = null;
+        // this.userInfo = data;
+        temp = data;
+        this.userInfo = temp.user;
+
+        console.log(data)
+        
+        // fill in formControl values
+        this.updateForm.get('username').setValue(this.userInfo.fullName);
+        this.updateForm.get('firstname').setValue(this.userInfo.firstName);
+        this.updateForm.get('lastname').setValue(this.userInfo.lastName);
+        this.updateForm.get('email').setValue(this.userInfo.email);
+        this.updateForm.get('staffstatus').setValue(this.userInfo.isStaff);
+        this.updateForm.get('active').setValue(this.userInfo.accountStatusId);
+        this.checkReqValues();
+      },
+      error => {
+        // console.log("no data")
+        // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+      });
    }
 
   ngOnInit() {
@@ -68,7 +77,6 @@ export class UserComponent implements OnInit, AfterViewInit {
 
     this.complete = false;
 
-    // this.getUserByID(this.userID)
     this.username = new FormControl()
     this.firstname = new FormControl('',
     Validators.required)
@@ -97,56 +105,6 @@ export class UserComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
   
-  // getAllUsers(){
-    //       return this.commonService.getUsersData()
-    //         .subscribe(resUsersData => {
-      // this.users = resUsersData;
-      // this.username = this.users[0].username
-      // debugger;
-      // },
-      // Error => {
-        // this.toastr.error(this.translate.instant('Server is down!'), '');            
-        // });
-        // }
-        
-        // getUserByID(uid){
-        //   return this.commonService.getUsersDataByID(uid)
-        //   .subscribe(resUsersData => {
-        //     this.userData = resUsersData;
-        //     console.log(this.userData)
-            
-        //     // fill data from service
-        //     this.username = this.userData.username;
-        //     this.firstname = this.userData.firstName;
-        //     this.lastname = this.userData.lastName;
-        //     this.email = this.userData.email;
-        //     this.active = this.userData.accountStatusId;
-        //     this.staffstatus = this.userData.isStaff;
-        //     this.superuserstatus = this.userData.superuser_status;
-        //     this.active = this.userData.active;
-        //     this.datejoined = this.userData.date_joined;
-        //     this.datelastlogin = this.userData.date_last_login;
-          
-        //     // update form values
-        //     this.updateForm.get('username').setValue(this.username);
-        //     this.updateForm.get('firstname').setValue(this.firstname);
-        //     this.updateForm.get('lastname').setValue(this.lastname);
-        //     this.updateForm.get('email').setValue(this.email);
-        //     this.updateForm.get('active').setValue(this.active);
-        //     this.updateForm.get('staffstatus').setValue(this.staffstatus);
-        //     this.updateForm.get('superuserstatus').setValue(this.superuserstatus);
-
-        //     if(this.updateForm.get('usergroup').value !== null && this.updateForm.get('userpermission').value !== null) {
-        //       this.updateForm.get('usergroup').setValue(this.usergroup);
-        //       this.updateForm.get('userpermission').setValue(this.userpermission);
-        //     }
-
-        //   },
-        //   Error => {
-            // this.toastr.error(this.translate.instant('Server is down!'), '');
-        //   });
-        // }
-
   checkReqValues() {
     let username = "username";
     let firstname = "firstname";
@@ -177,38 +135,54 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   updateUser(formValues:any) {
-    // console.log(this.userID)
-    // console.log(formValues)
-    // console.log(JSON.stringify(formValues))
 
     let body = {
-      "user_id": null,
+      "userId": null,
+      "pid": null,
+      "userTypeId": null,
       "username": null,
-      "first_name": null,
-      "last_name": null,
+      "firstName": null,
+      "lastName": null,
       "email": null,
-      "active": null,
-      "staff_status": null,
+      "dateOfBirth": null,
+      "countryId": null,
+      "genderId": null,
+      "raceId": null,
+      "religionId": null,
+      "phoneNo": null,
+      "accountStatusId": null,
+      "isStaff": null,
       "superuser_status": null,
-      "user_group": null,
-      "user_permission": null,
+      "roles": null,
+      "permissions": null,
+      "isMyIdentityVerified": null,
+      "isMyIdentityValid": null,
+      "agencyForwardUrl": null,
       "date_update": null,
     }
 
-    body.user_id = this.userId;
+    body.userId = parseInt(this.userId);
     body.username = formValues.username;
-    body.first_name = formValues.firstname;
-    body.last_name = formValues.lastname;
+    body.firstName = formValues.firstname;
+    body.lastName = formValues.lastname;
     body.email = formValues.email;
-    body.active = formValues.active;
-    body.staff_status = formValues.staffstatus;
+    body.accountStatusId = formValues.active;
+    body.isStaff = formValues.staffstatus;
     body.superuser_status = formValues.superuserstatus;
-    body.user_group = formValues.usergroup;
-    body.user_permission = formValues.userpermission;
+    body.roles = formValues.usergroup;
+    body.permissions = formValues.userpermission;
     body.date_update = new Date().getTime();
 
-    console.log(body)
-    // console.log(JSON.stringify(body))
-// 
+    // Update User Service
+    this.commonService.updateUser(body)
+    .subscribe(
+      data => {
+        console.log(body)
+        // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+      },
+      error => {
+        console.log("No Data")
+        // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+      });
   }
 }

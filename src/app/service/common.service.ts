@@ -64,13 +64,15 @@ temp = null;
 
   GetList(topicID) {
     if (this.mainid === 1 && topicID === 3) {
-      return this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(Rdata => {
+      return this.http.get(this.appConfig.urlCommon + 'article/category/1')
+      .subscribe(Rdata => {
         this.dataTbl = Rdata;
         // console.log(this.dataTbl);
         this.router.navigate(['articletbl', topicID]);
       });
     }else if (this.mainid === 1 && topicID === 4) {
-      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10').subscribe(Rdata => {
+      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10')
+      .subscribe(Rdata => {
         this.dataTbl = Rdata;
         this.router.navigate(['userlist']);
         // console.log(this.dataTbl);
@@ -85,6 +87,12 @@ temp = null;
       this.dataTbl = Rdata;
       this.router.navigate(['user', userId]);
     });
+  }
+
+  updateUser(user) {
+    return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
   }
 
   private handleError(error: Response) {
