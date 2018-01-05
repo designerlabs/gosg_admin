@@ -9,6 +9,8 @@ import { ArticletblComponent } from './articletbl/articletbl.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
+import { RolesComponent } from './roles/roles.component';
+
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -18,7 +20,7 @@ export const appRoutes: Routes = [
 {path: 'feedback', component: FeedbackComponent},
 {path: '404', component: ErrorComponent},
 {path: 'user/:id', component: UserComponent},
-
+{path: 'roles', component: RolesComponent},
 
 
 // {path: '**', component: ErrorComponent}, 
