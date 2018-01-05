@@ -22,6 +22,7 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { FeedbackComponent } from './feedback/feedback.component';
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
+import { RolesComponent } from './roles/roles.component';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { UsertblComponent } from './authentication/usertbl/usertbl.component';
     FeedbackComponent,
     UserComponent,
     UsertblComponent,
+    RolesComponent,
   ],
   imports: [
     BrowserModule,
