@@ -1,10 +1,10 @@
-<h1>Roles</h1>
+<h5>Change Roles</h5>
 
-<div class="container animated flipInX" breadcrumbtitle="World" style="color:#1ebebc">
+<div class="container animated flipInX">
     <div class="row ">
         <div class="col-md-12 formbg">
           <mat-form-field class="example-full-width font-size-s">
-            <input matInput #name tabindex="2" minlength="2" maxlength="60" placeholder="Roles Name"
+            <input matInput placeholder="Role Name"
               required>
             <!-- <mat-hint align="end">{{name.value?.length || 0}}/60</mat-hint> -->
             <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.required">
@@ -13,22 +13,21 @@
             <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.pattern">
               {{'register.pattern.name' | translate }}
             </mat-error> -->
+            <!-- <mat-error *ngIf="updateForm.controls.rolesname.hasError('required')">
+              Role Name is required
+            </mat-error> -->
           </mat-form-field>
 
-          <mat-form-field class="example-full-width" style="width:100%">
-              <mat-select tabindex="1"  placeholder="Permission" name="feedbacktype" id="feedbacktype"
-                  required multiple>
-                  <mat-option>
-                      <!-- {{data.feedbackTypeDescription}} -->
-                      1
-                  </mat-option>
-                  <mat-option>
-                      <!-- {{data.feedbackTypeDescription}} -->
-                      2
-                  </mat-option>
-              </mat-select>
-              <!-- <mat-error *ngIf="!validateCtrlChk(feedbacktype) && feedbackFormgrp.controls.feedbacktype.errors.required">{{'feedback.err.drop' | translate }}
-              </mat-error> -->
+          <mat-form-field class="example-full-width font-size-s" style="width:100%">
+            <mat-select placeholder="Permission" [formControl]="permission"
+                required multiple>
+                <mat-option *ngFor="let roles of rolespermission" [value]="roles">{{roles}}</mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="!validateCtrlChk(feedbacktype) && feedbackFormgrp.controls.feedbacktype.errors.required">{{'feedback.err.drop' | translate }}
+            </mat-error> -->
+            <!-- <mat-error *ngIf="updateForm.controls.rolespermission.hasError('required')">
+              Permissions is required
+            </mat-error> -->
           </mat-form-field>
 
     </div>
