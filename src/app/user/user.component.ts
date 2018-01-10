@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { CommonService } from '../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 import { debug } from 'util';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -45,9 +45,28 @@ export class UserComponent implements OnInit, AfterViewInit {
   datejoined: FormControl
   datelastlogin: FormControl
 
+  userList = null;
+  displayedColumns = ['fullName', 'email', 'lastName', 'dateOfBirth'];
+  userPageSize = 10;
+  userPageCount = 1;
+  noPrevData = true;
+  noNextData = false;
+  rerender = false;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  dataSource = new MatTableDataSource<object>(this.userList);
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+
   // tslint:disable-next-line:max-line-length
   constructor(private route: ActivatedRoute, private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonService: CommonService) {
     this.route.params.subscribe( params => this.userId = params.id);
+    this.getUserList(this.userPageCount, this.userPageSize);
 
     this.http.get(this.appConfig.urlUserList + '/' + this.userId + '?langId=1').subscribe(data => {
     // this.http.get(this.appConfig.urlUsers + this.userId).subscribe(data => {
@@ -82,7 +101,7 @@ export class UserComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit() {
-
+    this.getUserList(this.userPageCount, this.userPageSize);
     // this.route.params.subscribe(params => {
     //   this.userID = params['id'];
     // });
@@ -113,8 +132,42 @@ export class UserComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getUserList(count, size) { //'?page=1&size=10'
+    this.http.get(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size).subscribe(data => {
+      this.userList = data;
+      this.dataSource.data = this.userList.userList;
+      this.commonService.userTable = this.userList;
+      this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+    });
+  }
+
+  paginatorL(page) {
+    this.getUserList(page - 1, this.userPageSize);
+    this.noPrevData = page <= 2 ? true : false;
+    this.noNextData = false;
+  }
+
+  paginatorR(page, totalPages) {
+    this.noPrevData = page >= 1 ? false : true;
+    let pageInc: any;
+    pageInc = page + 1;
+    // this.noNextData = pageInc === totalPages;
+    this.getUserList(page + 1, this.userPageSize);
+  }
+
+  getRow(row) {
+    console.log(row);
+    this.commonService.GetUser(row.userId);
+  }
+
   ngAfterViewInit() {
   }
+
+  pageChange(event, totalPages) {
+   this.getUserList(this.userPageCount, event.value);
+   this.userPageSize = event.value;
+   this.noPrevData = true;
+ }
   
   checkReqValues() {
     let username = "username";

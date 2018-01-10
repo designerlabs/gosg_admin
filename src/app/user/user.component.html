@@ -3,7 +3,12 @@
   <div class="container animated flipInX">
   <div class="col-md-12">
       <h5>Change User</h5>
-    <div class="formbg row">
+      
+    <!-- Personal Info -->
+    <div class="row" style="border: 1px solid #000;">
+      <div class="form-header col-md-12" style="background: transparent; margin-top: 5px;">
+          <label class="staticLabel font-size-m boldText">Personal Info</label>
+      </div>
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText">Username</label> -->
           <mat-form-field class="example-full-width font-size-s">
@@ -29,13 +34,6 @@
             <div class="font-size-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using this form.</div>
         </div>
         <div class="col-md-12"> &nbsp;</div>
-    </div>
-
-    <!-- Personal Info -->
-    <div class="formbg row">
-        <div class="form-header col-md-12">
-            <label class="staticLabel font-size-m boldText">Personal Info</label>
-        </div>
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText" for="username">First Name</label> -->
           <mat-form-field class="example-full-width font-size-s">
@@ -87,8 +85,8 @@
             <div class="font-size-s thinText">Designates whether the user can log into this admin site.</div>
           </div>
           <div class="col-md-4">
-            <mat-checkbox formControlName="superuserstatus">Superuser Status</mat-checkbox>
-            <div class="font-size-s thinText">Designates that this user has all permissions without explicitly assigning them.</div>
+            <!-- <mat-checkbox formControlName="superuserstatus">Superuser Status</mat-checkbox>
+            <div class="font-size-s thinText">Designates that this user has all permissions without explicitly assigning them.</div> -->
           </div>
         </div>
         <div class="row">
@@ -97,10 +95,10 @@
       </div>
       <div class="col-md-12">
         <div class="row">
-          <!-- <div class="col-md-6">
+          <div class="col-md-6">
             <label class="staticLabel font-size-m seBoldText">Groups</label>
-          </div> -->
-          <div class="col-md-12">
+          </div>
+          <!-- <div class="col-md-12">
             <mat-form-field class="example-full-width font-size-s">
               <mat-select placeholder="Groups" [formControl]="usergroup" (change)="checkReqValues()" multiple required>
                 <mat-select-trigger>
@@ -117,14 +115,77 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="row">
+        <div class="row"> -->
           <!-- <div class="col-md-12">
             <label class="staticLabel font-size-m seBoldText">Permissions</label>
           </div> -->
         <div class="col-md-12">&nbsp;</div>
         </div>
         <div class="row">
-          <div class="col-md-12">
+
+            <div class="example-container mat-elevation-z col-md-12">
+              <div class=""><h3 id="selectedGroups"><span style="background: #000" class="badge badge-secondary font-size-s">LOGIN&nbsp;<span style="cursor: pointer">X</span></span>&nbsp;<span style="background: #000" class="badge badge-secondary font-size-s">FEEDBACK&nbsp;<span style="cursor: pointer">X</span></span></h3></div>
+              <div class="example-header">
+                <mat-form-field class="example-full-width font-size-s">
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+              </div>
+            
+              <mat-table #table [dataSource]="dataSource">
+            
+                <!-- fullName Column -->
+                <ng-container matColumnDef="userId">
+                  <mat-header-cell *matHeaderCellDef> User Id </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
+                </ng-container>
+            
+                <!-- fullName Column -->
+                <ng-container matColumnDef="fullName">
+                  <mat-header-cell *matHeaderCellDef> Module </mat-header-cell>
+                  <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
+                </ng-container>
+            
+                <!-- email Column -->w
+                <ng-container matColumnDef="email">
+                  <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                </ng-container>
+            
+                <!-- lastName Column -->
+                <ng-container matColumnDef="lastName">
+                  <mat-header-cell *matHeaderCellDef> Update </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
+                </ng-container>
+            
+                <!-- dateOfBirth Column -->
+                <ng-container matColumnDef="dateOfBirth">
+                  <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
+                </ng-container>
+            
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+            
+              <div style="float:right; margin-top: 10px;">
+                <mat-form-field style="width:50px;">         
+                    <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonService.userTable?.totalPages)">
+                        <mat-option value="5">5</mat-option>
+                        <mat-option value="10">10</mat-option>
+                        <mat-option value="25">25</mat-option>
+                        <mat-option value="50">50</mat-option>
+                    </mat-select>
+                </mat-form-field>   
+                <span style="padding-right:20px; float:right;">
+                  <span style="color:#000; padding-right:20px;">Pages <strong>{{commonService.userTable?.pageNumber}}</strong> of <strong>{{commonService.userTable?.totalPages}}</strong> in <strong>{{commonService.userTable?.totalElements}}</strong> users</span>
+                  <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonService.userTable?.pageNumber)"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
+                  <button mat-mini-fab color="basic" [disabled]="noNextData"  (click)="paginatorR(commonService.userTable?.pageNumber, commonService.userTable?.totalPages)"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
+                </span>
+            </div>  
+            
+            </div>
+          
+          <!-- <div class="col-md-12">
             <mat-form-field class="example-full-width font-size-s">
               <mat-select placeholder="Permissions" [formControl]="userpermission" (change)="checkReqValues()" multiple required>
                 <mat-option *ngFor="let permission of permissions" [value]="permission">{{permission}}</mat-option>
@@ -133,7 +194,8 @@
                   Permissions is required
               </mat-error>
             </mat-form-field>
-          </div>
+          </div> -->
+
         </div>
         <div class="col-md-12">&nbsp;</div>
       </div>
