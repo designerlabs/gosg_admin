@@ -76,6 +76,7 @@ export class RolesComponent implements OnInit {
 export interface Element {
   modules: string;
 }
+
 const ELEMENT_DATA: Element[] = [
   {modules: 'Email'},
   {modules: 'Feedback'},
