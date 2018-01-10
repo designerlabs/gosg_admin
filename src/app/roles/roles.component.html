@@ -32,12 +32,28 @@
 
           <div class="col-md-12 example-container mat-elevation-z8">
               <div class="example-header">
-                <mat-form-field>
+                <mat-form-field class="example-full-width font-size-s">
                   <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                 </mat-form-field>
               </div>
 
-              <mat-table #table [dataSource]="dataSource">               
+              <mat-table #table [dataSource]="dataSource">     
+                
+                  <!-- Checkbox Column -->
+                  <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef>
+                      <mat-checkbox (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                      </mat-checkbox>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)">
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
               
                   <!-- modules Column -->
                   <ng-container matColumnDef="modules">
@@ -47,33 +63,43 @@
 
                   <!-- viewCol Column -->
                   <ng-container matColumnDef="viewCol">
-                      <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.viewCol}} </mat-cell>
-                    </ng-container>
+                    <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
               
                   <!-- addCol Column -->
                   <ng-container matColumnDef="addCol">
                     <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.addCol}} </mat-cell>
+                    <mat-cell *matCellDef="let row">
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-cell>>
                   </ng-container>
               
                   <!-- updateCol Column -->
                   <ng-container matColumnDef="updateCol">
                     <mat-header-cell *matHeaderCellDef> Update </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.updateCol}} </mat-cell>
+                    <mat-cell *matCellDef="let row">
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-cell>
                   </ng-container>
               
                   <!-- deleteCol Column -->
                   <ng-container matColumnDef="deleteCol">
                     <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.deleteCol}} </mat-cell>
+                    <mat-cell *matCellDef="let row">
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-cell>
                   </ng-container>
 
                   <!-- allCol Column -->
                   <ng-container matColumnDef="allCol">
-                      <mat-header-cell *matHeaderCellDef> All </mat-header-cell>
-                      <mat-cell *matCellDef="let element"> {{element.allCol}} </mat-cell>
-                    </ng-container>
+                    <mat-header-cell *matHeaderCellDef> All </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <mat-checkbox ></mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
               
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

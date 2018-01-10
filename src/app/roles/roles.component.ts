@@ -5,6 +5,7 @@ import { APP_CONFIG, AppConfig } from './../config/app.config.module';
 import { CommonService } from './../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-roles',
@@ -24,23 +25,39 @@ export class RolesComponent implements OnInit {
   permission: FormControl
 
   rolesList = null;
-  displayedColumns = ['modules', 'viewCol', 'addCol', 'updateCol', 'deleteCol', 'allCol'];
+  displayedColumns = ['select', 'modules', 'viewCol', 'addCol', 'updateCol', 'deleteCol', 'allCol'];
   userPageSize = 10;
   userPageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
 
-  rolesData = ['Login', 'Email', 'Feedback', 'Announcement'];
+  //dataSource = new MatTableDataSource<object>(this.rolesList);
+  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  selection = new SelectionModel<Element>(true, []);
 
-  dataSource = new MatTableDataSource<object>(this.rolesList);
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
 
-  constructor() { }
+  constructor() {  
+  }
 
   ngOnInit() {
     
@@ -55,3 +72,13 @@ export class RolesComponent implements OnInit {
   }
 
 }
+
+export interface Element {
+  modules: string;
+}
+const ELEMENT_DATA: Element[] = [
+  {modules: 'Email'},
+  {modules: 'Feedback'},
+  {modules: 'Login'},
+  {modules: 'Announcement'},
+];
