@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { APP_CONFIG, AppConfig } from './../config/app.config.module';
+import { CommonService } from './../service/common.service';
+import { Router, RouterModule } from '@angular/router';
+import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-roles',
@@ -17,6 +22,23 @@ export class RolesComponent implements OnInit {
 
   rolesname: FormControl  
   permission: FormControl
+
+  rolesList = null;
+  displayedColumns = ['modules', 'viewCol', 'addCol', 'updateCol', 'deleteCol', 'allCol'];
+  userPageSize = 10;
+  userPageCount = 1;
+  noPrevData = true;
+  noNextData = false;
+  rerender = false;
+
+  rolesData = ['Login', 'Email', 'Feedback', 'Announcement'];
+
+  dataSource = new MatTableDataSource<object>(this.rolesList);
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
 
   constructor() { }
 

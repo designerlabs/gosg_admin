@@ -1,44 +1,94 @@
 <h5>Change Roles</h5>
+<form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+  <div class="container-sample animated flipInX">
+      <div class="row ">
+          <div class="col-md-12 formbg">
+            <mat-form-field class="example-full-width font-size-s">
+              <input matInput placeholder="Role Name" [formControl]="rolesname"
+                required>
+              <!-- <mat-hint align="end">{{name.value?.length || 0}}/60</mat-hint> -->
+              <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.required">
+                {{'register.err.name' | translate }}
+              </mat-error> -->
+              <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.pattern">
+                {{'register.pattern.name' | translate }}
+              </mat-error> -->
+              <mat-error *ngIf="updateForm.controls.rolesname.hasError('required')">
+                Role Name is required
+              </mat-error>
+            </mat-form-field>
 
-<div class="container-sample animated flipInX">
-    <div class="row ">
-        <div class="col-md-12 formbg">
-          <mat-form-field class="example-full-width font-size-s">
-            <input matInput placeholder="Role Name"
-              required>
-            <!-- <mat-hint align="end">{{name.value?.length || 0}}/60</mat-hint> -->
-            <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.required">
-              {{'register.err.name' | translate }}
-            </mat-error> -->
-            <!-- <mat-error *ngIf="!validateCtrlChk(nama_penuh) && citizenFormGrp.controls.nama_penuh.errors.pattern">
-              {{'register.pattern.name' | translate }}
-            </mat-error> -->
-            <!-- <mat-error *ngIf="updateForm.controls.rolesname.hasError('required')">
-              Role Name is required
-            </mat-error> -->
-          </mat-form-field>
+            <!-- <mat-form-field class="example-full-width font-size-s" style="width:100%">
+              <mat-select placeholder="Permission" [formControl]="permission"
+                  required multiple>
+                  <mat-option *ngFor="let roles of rolespermission" [value]="roles">{{roles}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="updateForm.controls.permission.hasError('required')">
+                Permissions is required
+              </mat-error>
+            </mat-form-field> -->
+                        
+          </div>
 
-          <mat-form-field class="example-full-width font-size-s" style="width:100%">
-            <mat-select placeholder="Permission" [formControl]="permission"
-                required multiple>
-                <mat-option *ngFor="let roles of rolespermission" [value]="roles">{{roles}}</mat-option>
-            </mat-select>
-            <!-- <mat-error *ngIf="!validateCtrlChk(feedbacktype) && feedbackFormgrp.controls.feedbacktype.errors.required">{{'feedback.err.drop' | translate }}
-            </mat-error> -->
-            <!-- <mat-error *ngIf="updateForm.controls.rolespermission.hasError('required')">
-              Permissions is required
-            </mat-error> -->
-          </mat-form-field>
-          
-        </div>
+          <div class="col-md-12 example-container mat-elevation-z8">
+              <div class="example-header">
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+              </div>
 
-        <div class="form-group">
-          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-          (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-right: 5px;">
-          <i class="fa fa-check"></i> Submit</button>
-        </div>
-    </div>
-</div>
+              <mat-table #table [dataSource]="dataSource">               
+              
+                  <!-- modules Column -->
+                  <ng-container matColumnDef="modules">
+                    <mat-header-cell *matHeaderCellDef> Modules </mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.modules}} </mat-cell>
+                  </ng-container>
+
+                  <!-- viewCol Column -->
+                  <ng-container matColumnDef="viewCol">
+                      <mat-header-cell *matHeaderCellDef> View </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.viewCol}} </mat-cell>
+                    </ng-container>
+              
+                  <!-- addCol Column -->
+                  <ng-container matColumnDef="addCol">
+                    <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.addCol}} </mat-cell>
+                  </ng-container>
+              
+                  <!-- updateCol Column -->
+                  <ng-container matColumnDef="updateCol">
+                    <mat-header-cell *matHeaderCellDef> Update </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.updateCol}} </mat-cell>
+                  </ng-container>
+              
+                  <!-- deleteCol Column -->
+                  <ng-container matColumnDef="deleteCol">
+                    <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.deleteCol}} </mat-cell>
+                  </ng-container>
+
+                  <!-- allCol Column -->
+                  <ng-container matColumnDef="allCol">
+                      <mat-header-cell *matHeaderCellDef> All </mat-header-cell>
+                      <mat-cell *matCellDef="let element"> {{element.allCol}} </mat-cell>
+                    </ng-container>
+              
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              
+          </div>
+
+          <div class="form-group">
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-right: 5px;">
+            <i class="fa fa-check"></i> Submit</button>
+          </div>
+      </div>
+  </div>
+</form>
 
 
 
