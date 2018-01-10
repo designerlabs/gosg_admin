@@ -30,11 +30,11 @@
 </table> -->
 
 <div class="example-container mat-elevation-z8">
-  <div class="example-header">
+  <!-- <div class="example-header">
     <mat-form-field>
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
     </mat-form-field>
-  </div>
+  </div> -->
 
   <mat-table #table [dataSource]="dataSource">
 
@@ -50,23 +50,43 @@
       <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
     </ng-container>
 
-    <!-- email Column -->
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+    <!-- User Type Column -->
+    <ng-container matColumnDef="userTypeId">
+      <mat-header-cell *matHeaderCellDef> User Type </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.userTypeId}} </mat-cell>
     </ng-container>
+
+    <!-- Account Status Column -->
+    <ng-container matColumnDef="accountStatusId">
+      <mat-header-cell *matHeaderCellDef> Acc Status </mat-header-cell>
+      <mat-cell *matCellDef="let element" > {{element.accountStatusId}} </mat-cell>
+    </ng-container>
+
+    <!-- Staff Status Column -->
+    <ng-container matColumnDef="isStaff">
+      <mat-header-cell *matHeaderCellDef> Staff </mat-header-cell>
+      <mat-cell *matCellDef="let element" > {{element.isStaff}} </mat-cell>
+    </ng-container>
+
+
+
+    <!-- fullName Column -->
+    <!-- <ng-container matColumnDef="fullName">
+      <mat-header-cell *matHeaderCellDef> Full Name </mat-header-cell>
+      <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
+    </ng-container> -->
 
     <!-- lastName Column -->
-    <ng-container matColumnDef="lastName">
+    <!-- <ng-container matColumnDef="lastName">
       <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
-    </ng-container>
+    </ng-container> -->
 
     <!-- dateOfBirth Column -->
-    <ng-container matColumnDef="dateOfBirth">
+    <!-- <ng-container matColumnDef="dateOfBirth">
       <mat-header-cell *matHeaderCellDef> DOB </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
-    </ng-container>
+    </ng-container> -->
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -81,11 +101,11 @@
             <mat-option value="50">50</mat-option>
         </mat-select>
     </mat-form-field>   
-    <span style="padding-right:20px; float:right;">
+    <span style="padding-right:20px; float:right; width:100%">
       <span style="color:#000; padding-right:20px;">Pages <strong>{{commonservice.userTable?.pageNumber}}</strong> of <strong>{{commonservice.userTable?.totalPages}}</strong> in <strong>{{commonservice.userTable?.totalElements}}</strong> users</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.userTable?.pageNumber)"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
       <button mat-mini-fab color="basic" [disabled]="noNextData"  (click)="paginatorR(commonservice.userTable?.pageNumber, commonservice.userTable?.totalPages)"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
     </span>
-</div>  
+  </div>  
 
 </div>

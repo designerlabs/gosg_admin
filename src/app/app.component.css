@@ -44,17 +44,17 @@
 
 .leftsd{
 	height: 900px;
-	width: 25%;
+	width: 22%;
 	float: left;
 	/* padding-left: 5%; */
-	/* padding-top: 200px; */
+	padding-top: 10px;
 }
 .rightsd{
 	height: 900px;
-	width: 65%;
-	/* float: right; */
-	padding-right: 5%;
-	/* padding-top: 200px; */
+	width: 74%;
+	float: right;
+	/* padding-right: 5%; */
+	/* padding-top: 10px; */
 }
 .alnmt{
 	margin-left: 70px;
