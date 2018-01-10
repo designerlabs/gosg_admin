@@ -99,6 +99,13 @@ temp = null;
     .catch(this.handleError);
   }
 
+
+  getFeedbackType(){
+    return this.http.get(this.appConfig.urlFbTypeList + 'type/?langId=1')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);

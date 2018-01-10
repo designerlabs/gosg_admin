@@ -23,6 +23,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
+import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { RolesComponent } from './roles/roles.component';
     UserComponent,
     UsertblComponent,
     RolesComponent,
+    FeedbacktblComponent,
   ],
   imports: [
     BrowserModule,

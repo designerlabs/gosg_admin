@@ -15,7 +15,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 export class UsertblComponent implements OnInit, AfterViewInit {
 
   userList = null;
-  displayedColumns = ['fullName', 'email', 'lastName', 'dateOfBirth'];
+  displayedColumns = ['fullName', 'userTypeId', 'accountStatusId', 'isStaff'];
   userPageSize = 10;
   userPageCount = 1;
   noPrevData = true;

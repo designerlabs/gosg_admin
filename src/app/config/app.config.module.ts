@@ -22,6 +22,7 @@ export class AppConfig {
     baseURL: string;
     urlUsers: string;
     urlUserList: string;
+    urlFbTypeList: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -30,7 +31,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCommon: 'http://10.1.70.148:8003/service-admin-protected/',
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
-    urlUserList: commonURL + 'usermanagement'
+    urlUserList: commonURL + 'usermanagement',
+    urlFbTypeList : commonURL + 'feedback/'
 };
 
 @NgModule({
