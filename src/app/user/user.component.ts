@@ -20,7 +20,8 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   date = new Date();
   updateForm: FormGroup
-  groups = ['Content Admin', 'FAQ Team', 'Polls Team', 'Monitoring', 'Perhilitan', 'Perikanan'];
+  groupsTemp = ['Content Admin', 'FAQ Team', 'Polls Team', 'Monitoring', 'Perhilitan', 'Perikanan'];
+  groupsData: any;
   permissions = ['Article', 'Announcements', 'Business Agency', 'Client Charterer', 'Counter', 'Feedback'];
 
   userData: any;
@@ -70,6 +71,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
     this.http.get(this.appConfig.urlUserList + '/' + this.userId + '?langId=1').subscribe(data => {
     // this.http.get(this.appConfig.urlUsers + this.userId).subscribe(data => {
+      console.log(this.appConfig.urlUsers + this.userId)
         let temp = null;
         // this.userInfo = data;
         temp = data;
@@ -79,11 +81,13 @@ export class UserComponent implements OnInit, AfterViewInit {
 
         this.pid = this.userInfo.pid;
         this.email = this.userInfo.email;
+        this.userTypeId = this.userInfo.userTypeId;
+        this.accountStatusId = this.userInfo.accountStatusId;
         this.userTypeId = this.userInfo.userType.userTypeId;
         this.accountStatusId = this.userInfo.accountStatus.accountStatusId;
 
-        console.log(this.userTypeId)
-        console.log(this.accountStatusId)
+        // console.log(this.userTypeId)
+        // console.log(this.accountStatusId)
         
         // fill in formControl values
         this.updateForm.get('username').setValue(this.userInfo.fullName);
@@ -102,6 +106,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getUserList(this.userPageCount, this.userPageSize);
+    this.getGroups()
     // this.route.params.subscribe(params => {
     //   this.userID = params['id'];
     // });
@@ -141,6 +146,17 @@ export class UserComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getGroups() {
+      return this.commonService.getGroupsData()
+          .subscribe(resGroupData => {
+            console.log(resGroupData)
+            if(resGroupData == null || resGroupData == 'undefined')
+              this.groupsData = this.groupsTemp;
+            else
+              this.groupsData = resGroupData;
+          });
+  }
+
   paginatorL(page) {
     this.getUserList(page - 1, this.userPageSize);
     this.noPrevData = page <= 2 ? true : false;
@@ -177,7 +193,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     let usergroup = "usergroup";
     let userpermission = "userpermission";
 
-    let reqVal:any = [ username, firstname, lastname, usergroup, userpermission ];
+    let reqVal:any = [ username, firstname, lastname, usergroup ];
     let nullPointers:any = [];
 
     for(var reqData of reqVal) {

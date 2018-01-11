@@ -23,6 +23,10 @@ html {
     margin-bottom: 0px;
 }
 
+label {
+    color: rgba(0,0,0,.54);
+}
+
 .thinText {
     font-weight: 400;
 }
@@ -64,6 +68,18 @@ html {
 
 .close-top {
     margin-bottom: -1%; margin-top: -8%;
+}
+
+.font-size-xx-s {
+    font-size: xx-small
+}
+
+.font-size-x-s {
+    font-size: x-small
+}
+
+.font-size-xs {
+    font-size: smaller
 }
 
 .font-size-s {

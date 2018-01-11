@@ -23,6 +23,7 @@ export class AppConfig {
     urlUsers: string;
     urlUserList: string;
     urlFbTypeList: string;
+    urlGroup: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -31,6 +32,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCommon: 'http://10.1.70.148:8003/service-admin-protected/',
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
+    urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/'
 };

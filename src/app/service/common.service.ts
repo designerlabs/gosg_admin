@@ -99,6 +99,12 @@ temp = null;
     .catch(this.handleError);
   }
 
+  getGroupsData() {
+    console.log(this.appConfig.urlGroup)
+    return this.http.get(this.appConfig.urlGroup)
+    .map((response: Response) => response.json().groupList)
+    .catch(this.handleError);
+  }
 
   getFeedbackType(){
     return this.http.get(this.appConfig.urlFbTypeList + 'type/?langId=1')

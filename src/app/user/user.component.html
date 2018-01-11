@@ -1,18 +1,21 @@
 <form [formGroup]="updateForm" *ngIf='userInfo' autocomplete="off" role="form" novalidate>
   <!-- {{userInfo.fullName}} -->
   <div class="container animated flipInX">
-  <div class="col-md-12">
+    <div class="col-md-12" style="padding: 10px 10px 10px 0px">
       <h5>Change User</h5>
-      
-    <!-- Personal Info -->
-    <div class="row" style="border: 1px solid #000;">
-      <div class="form-header col-md-12" style="background: transparent; margin-top: 5px;">
+    </div>
+
+      <!-- Personal Info -->
+      <div class="row mat-elevation-z8" style="border: 0px solid #000; padding: 0px">
+        <div class="form-header col-md-12" style="background: transparent;">
           <label class="staticLabel font-size-m boldText">Personal Info</label>
-      </div>
+        </div>
+
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText">Username</label> -->
-          <mat-form-field class="example-full-width font-size-s">
-            <input matInput placeholder="Username" formControlName="username" value="{{ userInfo.fullName }}" (change)="checkReqValues()" required>
+          <mat-form-field class="font-size-s">
+            <input matInput placeholder="Username" formControlName="username" value="{{ userInfo.fullName }}" (change)="checkReqValues()"
+              required>
             <mat-error *ngIf="updateForm.controls.username.hasError('required')">
               Username is required
             </mat-error>
@@ -20,24 +23,24 @@
           <!-- <div style="font-size: small">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div> -->
         </div>
         <div class="col-md-4">
-            <div class="font-size-s thinText">Last Login</div>
-            <div class="staticLabel font-size-m">{{ datelastlogin  | date:'dd/MM/yyyy' }}</div>
+          <label class="staticLabel font-size-x-s thinText">Last Login</label>
+          <div class=" font-size-m">{{ datelastlogin | date:'dd/MM/yyyy' }}</div>
         </div>
         <div class="col-md-4">
-            <div class="font-size-s thinText">Date Joined</div>
-            <div class="staticLabel font-size-m">{{ datejoined  | date:'dd/MM/yyyy' }}</div>
+          <label class="staticLabel font-size-x-s thinText">Date Joined</label>
+          <div class=" font-size-m">{{ datejoined | date:'dd/MM/yyyy' }}</div>
         </div>
-        <div class="col-md-12"> &nbsp;</div>
         <div class="col-md-12">
-            <div class="font-size-s thinText">Password</div>
-            <div class="staticLabel font-size-m">algorithm: pbkdf2_sha256 iterations: 36000 salt: Byd9f5****** hash: rpRY8w**************************************</div>
-            <div class="font-size-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using this form.</div>
+          <label class="font-size-x-s thinText">Password</label>
+          <div class="staticLabel font-size-x-s">algorithm: pbkdf2_sha256 iterations: 36000 salt: Byd9f5****** hash: rpRY8w**************************************</div>
+          <div class="font-size-xx-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using
+            this form.</div>
         </div>
-        <div class="col-md-12"> &nbsp;</div>
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText" for="username">First Name</label> -->
-          <mat-form-field class="example-full-width font-size-s">
-            <input matInput placeholder="First Name" formControlName="firstname" value="{{ userInfo.firstName }}" (change)="checkReqValues()" required>
+          <mat-form-field class="font-size-s">
+            <input matInput placeholder="First Name" formControlName="firstname" value="{{ userInfo.firstName }}" (change)="checkReqValues()"
+              required>
             <mat-error *ngIf="updateForm.controls.firstname.hasError('required')">
               First Name is required
             </mat-error>
@@ -45,18 +48,19 @@
         </div>
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText" for="username">Last Name</label> -->
-          <mat-form-field class="example-full-width font-size-s">
-            <input matInput placeholder="Last Name" formControlName="lastname" value="{{ userInfo.lastName }}" (change)="checkReqValues()" required>
+          <mat-form-field class=" font-size-s">
+            <input matInput placeholder="Last Name" formControlName="lastname" value="{{ userInfo.lastName }}" (change)="checkReqValues()"
+              required>
             <mat-error *ngIf="updateForm.controls.lastname.hasError('required')">
               Last Name is required
             </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-4">
-          <label class="font-size-s thinText">Email Address</label>
-          <div class="staticLabel font-size-s">{{ userInfo.email }}</div>
+          <label class="font-size-x-s thinText">Email Address</label>
+          <div class="font-size-s">{{ userInfo.email }}</div>
           <!-- <mat-form-field class="example-full-width font-size-s"> -->
-            <!-- <input matInput placeholder="Email Address" formControlName="email" value="{{ userInfo.email }}" (change)="checkReqValues()" required>
+          <!-- <input matInput placeholder="Email Address" formControlName="email" value="{{ userInfo.email }}" (change)="checkReqValues()" required>
             <mat-error *ngIf="updateForm.controls.email.hasError('pattern')">
               Please enter a valid email address
             </mat-error>
@@ -65,40 +69,39 @@
             </mat-error> -->
           <!-- </mat-form-field> -->
         </div>
-        <div class="col-md-12"> &nbsp;</div>
-    </div>
+      </div>
 
-    <!-- Permission -->
-    <div class="formbg row">
-      <div class="form-header col-md-12">
-        <label class="staticLabel font-size-m boldText">Permissions</label>
-      </div>
-      <!-- <div class="container"> -->
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-4">
-            <mat-checkbox formControlName="active">Active</mat-checkbox>
-            <div class="font-size-s thinText">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
-          </div>
-          <div class="col-md-4">
-            <mat-checkbox formControlName="staffstatus">Staff Status</mat-checkbox>
-            <div class="font-size-s thinText">Designates whether the user can log into this admin site.</div>
-          </div>
-          <div class="col-md-4">
-            <!-- <mat-checkbox formControlName="superuserstatus">Superuser Status</mat-checkbox>
+      <!-- Permission -->
+      <div class="formbg row">
+        <div class="form-header col-md-12" style="padding: 10px">
+          <label class="staticLabel font-size-m boldText">Permissions</label>
+        </div>
+        <!-- <div class="container"> -->
+        <div class="col-md-12" style="padding: 10px">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-checkbox formControlName="active">Active</mat-checkbox>
+              <div class="font-size-s thinText">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
+            </div>
+            <div class="col-md-6">
+              <mat-checkbox formControlName="staffstatus">Staff Status</mat-checkbox>
+              <div class="font-size-s thinText">Designates whether the user can log into this admin site.</div>
+            </div>
+            <div class="col-md-4">
+              <!-- <mat-checkbox formControlName="superuserstatus">Superuser Status</mat-checkbox>
             <div class="font-size-s thinText">Designates that this user has all permissions without explicitly assigning them.</div> -->
+            </div>
           </div>
-        </div>
-        <div class="row">
+          <!-- <div class="row">
             <div class="col-md-12">&nbsp;</div>
+          </div> -->
         </div>
-      </div>
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-6">
-            <label class="staticLabel font-size-m seBoldText">Groups</label>
-          </div>
-          <!-- <div class="col-md-12">
+        <div class="col-md-12" style="padding: 10px">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="staticLabel font-size-m seBoldText">Groups</label>
+            </div>
+            <!-- <div class="col-md-12">
             <mat-form-field class="example-full-width font-size-s">
               <mat-select placeholder="Groups" [formControl]="usergroup" (change)="checkReqValues()" multiple required>
                 <mat-select-trigger>
@@ -116,14 +119,14 @@
           </div>
         </div>
         <div class="row"> -->
-          <!-- <div class="col-md-12">
+            <!-- <div class="col-md-12">
             <label class="staticLabel font-size-m seBoldText">Permissions</label>
           </div> -->
-        <div class="col-md-12">&nbsp;</div>
-        </div>
-        <div class="row">
+            <!-- <div class="col-md-12">&nbsp;</div> -->
+          </div>
+          <div class="row">
 
-            <div class="example-container mat-elevation-z col-md-12">
+            <!-- <div class="example-container mat-elevation-z col-md-12">
               <div class=""><h3 id="selectedGroups"><span style="background: #000" class="badge badge-secondary font-size-s">LOGIN&nbsp;<span style="cursor: pointer">X</span></span>&nbsp;<span style="background: #000" class="badge badge-secondary font-size-s">FEEDBACK&nbsp;<span style="cursor: pointer">X</span></span></h3></div>
               <div class="example-header">
                 <mat-form-field class="example-full-width font-size-s">
@@ -133,31 +136,26 @@
             
               <mat-table #table [dataSource]="dataSource">
             
-                <!-- fullName Column -->
                 <ng-container matColumnDef="userId">
                   <mat-header-cell *matHeaderCellDef> User Id </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
                 </ng-container>
             
-                <!-- fullName Column -->
                 <ng-container matColumnDef="fullName">
                   <mat-header-cell *matHeaderCellDef> Module </mat-header-cell>
                   <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
                 </ng-container>
             
-                <!-- email Column -->w
                 <ng-container matColumnDef="email">
                   <mat-header-cell *matHeaderCellDef> Add </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
                 </ng-container>
             
-                <!-- lastName Column -->
                 <ng-container matColumnDef="lastName">
                   <mat-header-cell *matHeaderCellDef> Update </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
                 </ng-container>
             
-                <!-- dateOfBirth Column -->
                 <ng-container matColumnDef="dateOfBirth">
                   <mat-header-cell *matHeaderCellDef> Delete </mat-header-cell>
                   <mat-cell *matCellDef="let element"> {{element.dateOfBirth}} </mat-cell>
@@ -181,32 +179,30 @@
                   <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonService.userTable?.pageNumber)"><i class="fa fa-angle-left" aria-hidden="true"></i></button>
                   <button mat-mini-fab color="basic" [disabled]="noNextData"  (click)="paginatorR(commonService.userTable?.pageNumber, commonService.userTable?.totalPages)"><i class="fa fa-angle-right" aria-hidden="true"></i></button>
                 </span>
-            </div>  
-            
-            </div>
-          
-          <!-- <div class="col-md-12">
-            <mat-form-field class="example-full-width font-size-s">
-              <mat-select placeholder="Permissions" [formControl]="userpermission" (change)="checkReqValues()" multiple required>
-                <mat-option *ngFor="let permission of permissions" [value]="permission">{{permission}}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="updateForm.controls.userpermission.hasError('required')">
-                  Permissions is required
-              </mat-error>
-            </mat-form-field>
-          </div> -->
+            </div>   -->
 
+            <!-- </div> -->
+
+            <div class="col-md-12">
+              <mat-form-field class="example-full-width font-size-s">
+                <mat-select placeholder="Roles" [formControl]="userpermission" (change)="checkReqValues()" multiple required>
+                  <mat-option *ngFor="let group of groupsData" [(value)]="group.groupId">{{group.groupName}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="updateForm.controls.userpermission.hasError('required')">
+                  Permissions is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
         </div>
-        <div class="col-md-12">&nbsp;</div>
       </div>
-    </div>
-    
-  </div>
-  <!-- <div class="container"> -->
-  <div class="form-group" style="margin-right: 1%">
+
+    <!-- <div class="container"> -->
+    <div class="form-group" style="margin-right: -1%">
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-      (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-      <i class="fa fa-check"></i> Submit</button>
-  </div>
+        (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        <i class="fa fa-check"></i> Submit</button>
+    </div>
   </div>
 </form>
