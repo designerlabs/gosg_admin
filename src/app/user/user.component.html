@@ -13,7 +13,7 @@
 
         <div class="col-md-4">
           <!-- <label class="font-size-s semiBoldText">Username</label> -->
-          <mat-form-field class="font-size-s">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
             <input matInput placeholder="Username" formControlName="username" value="{{ userInfo.fullName }}" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.username.hasError('required')">
@@ -24,21 +24,23 @@
         </div>
         <div class="col-md-4">
           <label class="staticLabel font-size-x-s thinText">Last Login</label>
-          <div class=" font-size-m">{{ datelastlogin | date:'dd/MM/yyyy' }}</div>
+          <!-- <div class=" font-size-m close-top" style="font-weight: 250;">12/01/2018</div> -->
+          <div class=" font-size-m close-top">{{ datelastlogin | date:'dd/MM/yyyy' }}</div>
         </div>
         <div class="col-md-4">
           <label class="staticLabel font-size-x-s thinText">Date Joined</label>
-          <div class=" font-size-m">{{ datejoined | date:'dd/MM/yyyy' }}</div>
+          <!-- <div class=" font-size-m close-top" style="font-weight: 250;">12/01/2018</div> -->
+          <div class=" font-size-m close-top">{{ datejoined | date:'dd/MM/yyyy' }}</div>
         </div>
         <div class="col-md-12">
           <label class="font-size-x-s thinText">Password</label>
-          <div class="staticLabel font-size-x-s">algorithm: pbkdf2_sha256 iterations: 36000 salt: Byd9f5****** hash: rpRY8w**************************************</div>
-          <div class="font-size-xx-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using
+          <div class="staticLabel font-size-s">algorithm: pbkdf2_sha256 iterations: 36000 salt: Byd9f5****** hash: rpRY8w**************************************</div>
+          <div class="font-size-x-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using
             this form.</div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 paddingTop-10">
           <!-- <label class="font-size-s semiBoldText" for="username">First Name</label> -->
-          <mat-form-field class="font-size-s">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
             <input matInput placeholder="First Name" formControlName="firstname" value="{{ userInfo.firstName }}" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.firstname.hasError('required')">
@@ -46,9 +48,9 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 paddingTop-10">
           <!-- <label class="font-size-s semiBoldText" for="username">Last Name</label> -->
-          <mat-form-field class=" font-size-s">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
             <input matInput placeholder="Last Name" formControlName="lastname" value="{{ userInfo.lastName }}" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.lastname.hasError('required')">
@@ -56,9 +58,9 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 paddingTop-10">
           <label class="font-size-x-s thinText">Email Address</label>
-          <div class="font-size-s">{{ userInfo.email }}</div>
+          <div class="font-size-m close-top" style="font-weight: 250;">{{ userInfo.email }}</div>
           <!-- <mat-form-field class="example-full-width font-size-s"> -->
           <!-- <input matInput placeholder="Email Address" formControlName="email" value="{{ userInfo.email }}" (change)="checkReqValues()" required>
             <mat-error *ngIf="updateForm.controls.email.hasError('pattern')">
@@ -69,6 +71,7 @@
             </mat-error> -->
           <!-- </mat-form-field> -->
         </div>
+        <div class="col-md-12">&nbsp;</div>
       </div>
 
       <!-- Permission -->
@@ -185,11 +188,11 @@
 
             <div class="col-md-12">
               <mat-form-field class="example-full-width font-size-s">
-                <mat-select placeholder="Roles" [formControl]="userpermission" (change)="checkReqValues()" multiple required>
+                <mat-select placeholder="Roles" [formControl]="usergroup" (change)="checkReqValues()" multiple required>
                   <mat-option *ngFor="let group of groupsData" [(value)]="group.groupId">{{group.groupName}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="updateForm.controls.userpermission.hasError('required')">
-                  Permissions is required
+                <mat-error *ngIf="updateForm.controls.usergroup.hasError('required')">
+                  Roles is required
                 </mat-error>
               </mat-form-field>
             </div>

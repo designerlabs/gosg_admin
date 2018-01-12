@@ -24,7 +24,7 @@ html {
 }
 
 label {
-    color: rgba(0,0,0,.54);
+    color: rgba(0,0,0,0.70);
 }
 
 .thinText {
@@ -40,12 +40,13 @@ label {
 }
 
 .staticLabel{
+    font: inherit;
     text-transform: capitalize;
 }
 
 .form-header {
     background: #dbdbdb;
-    padding: 5px 10px 4px;
+    padding: 20px 10px 4px;
     text-shadow: 0 1px 0 #f5f5f5;
     border-bottom: 1px solid #ccc;
     -moz-border-radius-topleft: 3px;
@@ -66,8 +67,12 @@ label {
     width: 100%;
 }
 
-.close-top {
+.closer-top {
     margin-bottom: -1%; margin-top: -8%;
+}
+
+.close-top {
+    margin-bottom: -1%; margin-top: -3%;
 }
 
 .font-size-xx-s {
@@ -92,6 +97,10 @@ label {
 
 .font-size-l {
     font-size: large
+}
+
+.paddingTop-10 {
+    padding-top: 10px;
 }
 
 .mat-form-field-placeholder-wrapper {
@@ -136,4 +145,8 @@ label {
   .mat-table {
     overflow: auto;
     max-height: 500px;
+  }
+
+  .mat-form-field-placeholder {
+    color: rgba(0,0,0,1);
   }
