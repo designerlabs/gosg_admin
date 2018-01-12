@@ -20,6 +20,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   date = new Date();
   updateForm: FormGroup
+  isLocalAPI: boolean;
   groupsTemp = ['Content Admin', 'FAQ Team', 'Polls Team', 'Monitoring', 'Perhilitan', 'Perikanan'];
   groupsData: any;
   permissions = ['Article', 'Announcements', 'Business Agency', 'Client Charterer', 'Counter', 'Feedback'];
@@ -105,8 +106,9 @@ export class UserComponent implements OnInit, AfterViewInit {
    }
 
   ngOnInit() {
+    this.isLocalAPI = true;
     this.getUserList(this.userPageCount, this.userPageSize);
-    this.getGroups()
+    // this.getGroups()
     // this.route.params.subscribe(params => {
     //   this.userID = params['id'];
     // });
