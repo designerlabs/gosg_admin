@@ -1,0 +1,63 @@
+.staticLabel{
+    /* font: inherit; */
+    text-transform: uppercase;
+}
+
+.closer-top {
+    margin-bottom: -1%; margin-top: -8%;
+}
+
+.close-top {
+    margin-bottom: -1%; margin-top: -3%;
+}
+
+.font-size-xx-s {
+    font-size: xx-small
+}
+
+.font-size-x-s {
+    font-size: x-small
+}
+
+.font-size-xs {
+    font-size: smaller
+}
+
+.font-size-s {
+    font-size: small
+}
+
+.font-size-m {
+    font-size: medium
+}
+
+.font-size-l {
+    font-size: large
+}
+
+.font-size-xl {
+    font-size: x-large
+}
+
+.font-size-xxl {
+    font-size: xx-large
+}
+
+.paddingTop-10 {
+    padding-top: 10px;
+}
+
+.paddingTop-15 {
+    padding-top: 15px;
+}
+
+.backTitle {
+margin-left: -1%;
+    cursor: pointer;
+}
+
+.backTitle:hover {
+margin-left: -1%;
+    color: #ff4081;
+    cursor: pointer;
+}

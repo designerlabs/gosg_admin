@@ -139,6 +139,10 @@ export class UserComponent implements OnInit, AfterViewInit {
     });
   }
 
+  navigateBack() {
+    history.back();
+  }
+
   getUserList(count, size) { //'?page=1&size=10'
     this.http.get(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size).subscribe(data => {
       this.userList = data;
@@ -150,7 +154,8 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   getGroups() {
       return this.commonService.getGroupsData()
-          .subscribe(resGroupData => {
+          .subscribe(
+            resGroupData => {
             console.log(resGroupData)
             if(resGroupData == null || resGroupData == 'undefined')
               this.groupsData = this.groupsTemp;

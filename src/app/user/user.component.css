@@ -3,6 +3,10 @@ html {
     font-size: inherit;
 }
 
+form {
+    width: 100%;
+}
+
 .formbg {    
     border: 1px solid #dedede;
     border-radius: 5px;
@@ -40,8 +44,8 @@ label {
 }
 
 .staticLabel{
-    font: inherit;
-    text-transform: capitalize;
+    /* font: inherit; */
+    text-transform: uppercase;
 }
 
 .form-header {
@@ -99,8 +103,20 @@ label {
     font-size: large
 }
 
+.font-size-xl {
+    font-size: x-large
+}
+
+.font-size-xxl {
+    font-size: xx-large
+}
+
 .paddingTop-10 {
     padding-top: 10px;
+}
+
+.paddingTop-15 {
+    padding-top: 15px;
 }
 
 .mat-form-field-placeholder-wrapper {
@@ -149,4 +165,15 @@ label {
 
   .mat-form-field-placeholder {
     color: rgba(0,0,0,1);
+  }
+
+  .backTitle {
+    margin-left: -1%;
+      cursor: pointer;
+  }
+
+  .backTitle:hover {
+    margin-left: -1%;
+      color: #ff4081;
+      cursor: pointer;
   }
