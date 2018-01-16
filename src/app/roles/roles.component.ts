@@ -31,6 +31,9 @@ export class RolesComponent implements OnInit {
   noPrevData = true;
   noNextData = false;
   rerender = false;
+  isEdit: boolean;
+  isComplete: boolean = true;
+  pageMode: String;
 
   //dataSource = new MatTableDataSource<object>(this.rolesList);
   dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
@@ -60,7 +63,8 @@ export class RolesComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+  
+    this.pageModeChange();
     this.rolesname = new FormControl()
     this.permission = new FormControl()
 
@@ -69,6 +73,17 @@ export class RolesComponent implements OnInit {
       rolesname: this.rolesname,
       permission: this.permission,
     });
+  }
+
+  pageModeChange() {
+    if(this.isEdit)
+      this.pageMode = "Update"
+    else
+      this.pageMode = "Create"
+  }
+
+  navigateBack() {
+    history.back();
   }
 
 }
