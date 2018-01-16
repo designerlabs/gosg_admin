@@ -3,6 +3,10 @@ html {
     font-size: inherit;
 }
 
+.right-content {
+    width: 100%;
+}
+
 form {
     width: 100%;
 }

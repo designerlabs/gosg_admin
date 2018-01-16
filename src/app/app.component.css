@@ -43,21 +43,34 @@
 }
 
 .leftsd{
-	height: 900px;
+	height: auto;
 	width: 22%;
 	float: left;
 	/* padding-left: 5%; */
 	padding-top: 10px;
 }
 .rightsd{
-	height: 900px;
+	height: auto;
 	width: 74%;
 	float: right;
 	/* padding-right: 5%; */
 	/* padding-top: 10px; */
 }
+
+.router-full {
+    width: 100%;
+	height: auto;
+	float: right;
+}
+
+.router-70 {
+    width: 70%;
+}
+
 .alnmt{
-	margin-left: 70px;
+    /* border: 1px solid #000; */
+    margin-left: 70px;
+    margin-bottom: -10px;
 	padding-right: 5%;
 }
 

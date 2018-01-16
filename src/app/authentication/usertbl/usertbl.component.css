@@ -1,3 +1,7 @@
+.right-content {
+    width: 100%;
+}
+
 .staticLabel{
     /* font: inherit; */
     text-transform: uppercase;
