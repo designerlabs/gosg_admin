@@ -24,6 +24,7 @@ import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
 import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
+import { PollquestionComponent } from './pollquestion/pollquestion.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.comp
     UsertblComponent,
     RolesComponent,
     FeedbacktblComponent,
+    PollquestionComponent,
   ],
   imports: [
     BrowserModule,
