@@ -1,12 +1,14 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <!-- <div [ngStyle]="{'min-height': clientHeight + 'px', 'margin-bottom': '0px'}"> -->
 <app-nav ></app-nav>
-<div class="alnmt">
-    <button mat-button mat-icon-button (click)="side=!side">
-        <mat-icon>list</mat-icon>
-    </button>
-    <app-leftmenu *ngIf="side" class="leftsd"></app-leftmenu>
-    <div [ngClass]="{'router-full':!side,'rightsd':side}">
+<app-leftmenu [ngClass]="{'leftsdC':!side,'leftsdE':side}"></app-leftmenu>
+    <div class="alnmt">
+        <div [ngClass]="{'cascadeBtn':!side,'expandBtn':side}">
+            <button mat-button mat-icon-button (click)="side=!side">
+                <mat-icon>list</mat-icon>
+            </button>
+        </div>
+    <div [ngClass]="{'rightsdE':!side,'rightsdC':side}">
         <router-outlet></router-outlet>
     </div>
    

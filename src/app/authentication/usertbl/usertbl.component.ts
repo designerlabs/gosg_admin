@@ -41,7 +41,7 @@ export class UsertblComponent implements OnInit, AfterViewInit {
   }
 
   getUserList(count, size) { //'?page=1&size=10'
-  console.log(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size)
+  // console.log(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size)
     this.http.get(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size).subscribe(data => {
       this.userList = data;
       this.dataSource.data = this.userList.userList;
