@@ -86,6 +86,8 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.accountStatusId = this.userInfo.accountStatusId;
         this.userTypeId = this.userInfo.userType.userTypeId;
         this.accountStatusId = this.userInfo.accountStatus.accountStatusId;
+        // this.userTypeId = 1;
+        // this.accountStatusId = 1;
 
         // console.log(this.userTypeId)
         // console.log(this.accountStatusId)

@@ -63,6 +63,10 @@ label {
     margin-bottom: 1%;
 }
 
+.right-content {
+    width: 100%;
+}
+
 /* .form-group {
     padding: 10px;
 } */
