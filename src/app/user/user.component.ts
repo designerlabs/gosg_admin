@@ -66,7 +66,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       console.log(this.userList)
       this.dataSource.data = this.userList.userList;
       this.commonservice.userTable = this.userList;
-      this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+     // this.noNextData = this.userList.pageNumber === this.userList.totalPages;
     });
   }
 

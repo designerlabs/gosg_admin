@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../config/app.config.module';
 import { CommonService } from './../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
@@ -17,26 +17,20 @@ export class PollquestionComponent implements OnInit {
 
   updateForm: FormGroup
 
-  rolespermission = ['admin | log entry | Can add log entry', 'admin | log entry | Can change log entry', 
-  'admin | log entry | Can delete log entry', 'announcement | announcement | Can change announcement', 
-  'announcement | announcement | Can delete announcement', 'announcement | announcement category | Can add announcement category'];
-
-  permission: FormControl
-
-  rolesList = null;
+  pqList = null;
   displayedColumns = ['num', 'pq_en', 'pq_bm', 'status', 'action'];
-  pollquestionList = null;
-  userPageSize = 10;
-  userPageCount = 1;
+  pageSize = 10;
+  pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
-  isEdit: boolean;
-  isComplete: boolean = true;
-  pageMode: String;
 
-  //dataSource = new MatTableDataSource<object>(this.rolesList);
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  dataUrl: any;  
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  dataSource = new MatTableDataSource<object>(this.pqList);
   selection = new SelectionModel<Element>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -59,28 +53,30 @@ export class PollquestionComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  // getPQList(count, size) { //'?page=1&size=10'
-  // // console.log(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size)
-  //   this.http.get(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size)
-  //   .subscribe(data => {
-  //     this.userList = data;
-  //     this.dataSource.data = this.userList.userList;
-  //     this.commonservice.userTable = this.userList;
-  //     this.noNextData = this.userList.pageNumber === this.userList.totalPages;
-  //   });
-  // }
-
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) { }
+  private commonservice: CommonService, private router: Router) {
+    this.getPQList(this.pageCount, this.pageSize);
+  }
 
   ngOnInit() {
+    this.getPQList(this.pageCount, this.pageSize);
+  }
 
-    this.pageModeChange();
-    this.permission = new FormControl()
+  getPQList(count, size) { //'?page=1&size=10'
+  
+    this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
 
-    this.updateForm = new FormGroup({   
-      permission: this.permission
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    .subscribe(data => {
+      this.pqList = data;
+
+      console.log("data");
+      console.log(data);
+      
+      this.dataSource.data = this.pqList.announcementList;
+      this.commonservice.pqTable = this.pqList;
+      this.noNextData = this.pqList.pageNumber === this.pqList.totalPages;
     });
   }
 
@@ -93,26 +89,59 @@ export class PollquestionComponent implements OnInit {
     
   }
 
-  pageModeChange() {
-    if(this.isEdit)
-      this.pageMode = "Update"
-    else
-      this.pageMode = "Create"
+  paginatorL(page) {
+    this.getPQList(page - 1, this.pageSize);
+    this.noPrevData = page <= 2 ? true : false;
+    this.noNextData = false;
   }
 
-  navigateBack() {
-    history.back();
+  paginatorR(page, totalPages) {
+    this.noPrevData = page >= 1 ? false : true;
+    let pageInc: any;
+    pageInc = page + 1;
+    // this.noNextData = pageInc === totalPages;
+    this.getPQList(page + 1, this.pageSize);
+  }
+
+  // pageModeChange() {
+  //   if(this.isEdit)
+  //     this.pageMode = "Update"
+  //   else
+  //     this.pageMode = "Create"
+  // }
+
+  // navigateBack() {
+  //   history.back();
+  // }
+
+  add() {
+    // console.log();
+    alert("Add Admin User");
+    // this.commonservice.GetUser(row.userId);
+  }
+
+  updateRow(row) {
+    
+    console.log(row);
+    alert("Update pq id: "+row);
+    // this.commonservice.GetUser(row.userId);
+  }
+
+  deleteRow(row) {
+    console.log(row);
+    alert("Delete pq id: "+row);
+    // this.commonservice.GetUser(row.userId);
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  pageChange(event, totalPages) {
+    this.getPQList(this.pageCount, event.value);
+    this.pageSize = event.value;
+    this.noPrevData = true;
   }
 
 }
-
-export interface Element {
-  modules: string;
-}
-
-const ELEMENT_DATA: Element[] = [
-  {modules: 'Question 1'},
-  {modules: 'Question 2'},
-  {modules: 'Question 3'},
-  {modules: 'Question 4'}
-];

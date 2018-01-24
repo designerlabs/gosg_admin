@@ -20,6 +20,8 @@ export class CommonService {
  uid;
  userInfo: object;
  userTable: object;
+
+ pqTable: object;
 temp = null;
   // tslint:disable-next-line:max-line-length
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
