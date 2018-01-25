@@ -25,6 +25,7 @@ temp = null;
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
 
   private usersUrl: string = this.appConfig.urlUsers;
+  private slidersUrl: string = this.appConfig.urlSlides;
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
   //   debugger;
@@ -44,6 +45,13 @@ temp = null;
   //      }
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+
+  }
+  
+  getSlidersData(): Observable<any[]> {
+    return this.http.get(this.slidersUrl)
       .map((response: Response) => response.json())
       .catch(this.handleError);
 

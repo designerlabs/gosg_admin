@@ -25,7 +25,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   noPrevData = true;
   noNextData = false;
   rerender = false;
-  viewSeq = 1; /* View Page Sequence Based on Discussion */
+  viewSeq = 1; /* View Page Sequence Based on Discussion {1,2} */
   dataUrl:any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -43,9 +43,9 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.viewSeq = 2;
+    this.viewSeq = 2; /* View Page change by {1,2} */
     if(this.viewSeq == 1) {
-      this.displayedColumns = ['userId','fullName', 'userTypeId', 'accountStatusId' ];
+      this.displayedColumns = ['userId','fullName', 'userTypeId', 'accountStatusId'];
     } else if(this.viewSeq == 2) {
       this.displayedColumns = ['userId','fullName', 'pid', 'userTypeId', 'isStaff', 'accountStatusId'  ];
     }

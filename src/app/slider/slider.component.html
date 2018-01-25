@@ -1,0 +1,341 @@
+<div *ngIf="viewSeq == 1" class="container right-content">
+  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+    <h1 class="paddingTop-15 staticLabel">Slider Management</h1>
+    <span class="pull-right editBtn">
+      <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
+        <i class="fa fa-plus font-size-l"></i>
+      </button>
+    </span>
+  </div>
+
+  <div class="example-container mat-elevation-z8">
+    <!-- <div class="example-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div> -->
+
+    <mat-table #table [dataSource]="dataSource">
+
+      <!-- slideId Column -->
+      <ng-container matColumnDef="slideId">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 5%;">No.</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 5%;"> {{element.slideId}} </mat-cell>
+      </ng-container>
+
+      <!-- slideTitle Column -->
+      <ng-container matColumnDef="slideTitle">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;"> Title </mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 20%;"> {{element.slideTitle}} </mat-cell>
+      </ng-container>
+
+      <!-- slideDescription Column -->
+      <ng-container matColumnDef="slideDescription">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.slideDescription}} </mat-cell>
+      </ng-container>
+
+      <!-- slideImage Column -->
+      <ng-container matColumnDef="slideImage">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">Image Source</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 20%;"> {{element.slideImage}} </mat-cell>
+      </ng-container>
+
+      <!-- slideActiveFlag Column -->
+      <ng-container matColumnDef="slideActiveFlag">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 5%;"> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 5%;"> {{element.slideActiveFlag}} </mat-cell>
+      </ng-container>
+      
+      <!-- Action Column -->
+      <ng-container matColumnDef="slideAction">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;"> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 20%;">
+          <button mat-mini-fab style="background: orange" title="Update {{ element.slideId }}">
+            <i class="fa fa-edit" (click)="updateRow(element.slideId)"></i>
+          </button>&nbsp;
+          <button mat-mini-fab style="background: red">
+            <i class="fa fa-trash" (click)="deleteRow(element.slideId)" title="Delete {{ element.slideId }}"></i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+
+  <!-- <div class="float-right paddingTop-15">
+    <mat-form-field style="width:50px; margin-top: -10px">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.userTable?.totalPages)">
+        <mat-option value="5">5</mat-option>
+        <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+        <strong>{{commonservice.userTable?.pageNumber}}</strong> of
+        <strong>{{commonservice.userTable?.totalPages}}</strong> in
+        <strong>{{commonservice.userTable?.totalElements}}</strong> users</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.userTable?.pageNumber)">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+      </button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.userTable?.pageNumber, commonservice.userTable?.totalPages)">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div> -->
+
+</div>
+
+<!-- VIEW: ADD SLIDER -->
+<div *ngIf="viewSeq == 2" class="container right-content">
+  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+    <h1 class="paddingTop-15 staticLabel">Add Slider</h1>
+    <span class="pull-right editBtn">
+      <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
+        <i class="fa fa-plus font-size-l"></i>
+      </button>
+    </span>
+  </div>
+
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+    <div class="container right-content">
+      <!-- {{userInfo.fullName}} -->
+      <div class="col-md-12">
+        <h4 class="staticLabel marginTop-10">
+          <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i> Change User</h4>
+      </div>
+  
+      <!-- Personal Info -->
+      <div class="mat-elevation-z8 marginTop-10">
+        <div class="form-header">
+          <label class="staticLabel font-size-s boldText">Personal Info</label>
+        </div>
+  
+        <div class="container row">
+          <div class="col-md-4">
+            <!-- <label class="font-size-s semiBoldText">Username</label> -->
+            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+              <input matInput placeholder="Username" formControlName="username" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="updateForm.controls.username.hasError('required')">
+                Username is required
+              </mat-error>
+            </mat-form-field>
+            <!-- <div style="font-size: small">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div> -->
+          </div>
+          <div class="col-md-4">
+            <label class="staticLabel font-size-x-s thinText">Last Login</label>
+            <!-- <div class=" font-size-m close-top" style="font-weight: 250;">12/01/2018</div> -->
+            <div class=" font-size-m close-top">{{ datelastlogin | date:'dd/MM/yyyy' }}</div>
+          </div>
+          <div class="col-md-4">
+            <label class="staticLabel font-size-x-s thinText">Date Joined</label>
+            <!-- <div class=" font-size-m close-top" style="font-weight: 250;">12/01/2018</div> -->
+            <div class=" font-size-m close-top">{{ datejoined | date:'dd/MM/yyyy' }}</div>
+          </div>
+        </div>
+        <div class="container row">
+          <div class="col-md-12">
+            <label class="font-size-x-s thinText">Password</label>
+            <div class="staticLabel font-size-s">algorithm: pbkdf2_sha256 iterations: 36000 salt: Byd9f5****** hash: rpRY8w**************************************</div>
+            <div class="font-size-x-s thinText">Raw passwords are not stored, so there is no way to see this user's password, but you can change the password using
+              this form.</div>
+          </div>
+        </div>
+        <div class="container row">
+          <div class="col-md-4 paddingTop-10">
+            <!-- <label class="font-size-s semiBoldText" for="username">First Name</label> -->
+            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+              <input matInput placeholder="First Name" formControlName="firstname" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="updateForm.controls.firstname.hasError('required')">
+                First Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 paddingTop-10">
+            <!-- <label class="font-size-s semiBoldText" for="username">Last Name</label> -->
+            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+              <input matInput placeholder="Last Name" formControlName="lastname" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="updateForm.controls.lastname.hasError('required')">
+                Last Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4 paddingTop-10">
+            <label class="font-size-x-s thinText">Email Address</label>
+            <div class="font-size-m close-top" style="font-weight: 250;"></div>
+            <!-- <mat-form-field class="example-full-width font-size-s"> -->
+            <!-- <input matInput placeholder="Email Address" formControlName="email" value="{{ userInfo.email }}" (change)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.email.hasError('pattern')">
+                Please enter a valid email address
+              </mat-error>
+              <mat-error *ngIf="updateForm.controls.email.hasError('required')">
+                Email is required
+              </mat-error> -->
+            <!-- </mat-form-field> -->
+          </div>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+  
+      <!-- Permission -->
+      <div class="formbg">
+        <div class="form-header-dark">
+          <label class="staticLabel font-size-s boldText">Permissions</label>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="container row">
+          <div class="col-md-6">
+            <mat-checkbox formControlName="active">Active</mat-checkbox>
+            <div class="font-size-s thinText">Designates whether this user should be treated as active. Unselect this instead of deleting accounts.</div>
+          </div>
+          <div class="col-md-6">
+            <mat-checkbox formControlName="staffstatus">Staff Status</mat-checkbox>
+            <div class="font-size-s thinText">Designates whether the user can log into this admin site.</div>
+          </div>
+          <!-- <div class="col-md-4"> -->
+          <!-- <mat-checkbox formControlName="superuserstatus">Superuser Status</mat-checkbox>
+              <div class="font-size-s thinText">Designates that this user has all permissions without explicitly assigning them.</div> -->
+          <!-- </div> -->
+        </div>
+        <div class="container row">
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+        <!-- </div> -->
+        <div class="container row">
+          <div class="col-md-12">
+            <label class="staticLabel font-size-m seBoldText">Groups</label>
+          </div>
+        </div>
+        <div class="container row">
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width font-size-s">
+              <mat-select placeholder="Roles" [formControl]="usergroup" (change)="checkReqValues()" multiple required>
+                <mat-option *ngFor="let group of groupsTemp" [value]="group">{{group}}</mat-option>
+                <!-- <mat-option *ngFor="let group of groupsData" [(value)]="group.groupId">{{group.groupName}}</mat-option> -->
+              </mat-select>
+              <mat-error *ngIf="updateForm.controls.usergroup.hasError('required')">
+                Roles is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+  
+      <!-- <div class="container"> -->
+      <div class="container form-group" style="margin-right: -1%">
+        <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+          (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          <i *ngIf="complete" class="fa fa-check"></i>
+          <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+      <div class="col-md-12">&nbsp;</div>
+    <!-- </div> -->
+  </div>
+  </form>
+</div>
+
+<!-- VIEW: EDIT SLIDER LIST -->
+<div *ngIf="viewSeq == 3" class="container right-content">
+  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+    <h1 class="paddingTop-15 staticLabel">Add Slider</h1>
+    <span class="pull-right editBtn">
+      <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
+        <i class="fa fa-plus font-size-l"></i>
+      </button>
+    </span>
+  </div>
+
+  <div class="example-container mat-elevation-z8">
+    <div class="col-md-12">
+      <mat-form-field class="example-full-width">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource">
+      <!-- fullName Column -->
+      <ng-container matColumnDef="userId">
+        <mat-header-cell *matHeaderCellDef>No.</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="text-align: left"> {{element.userId}} </mat-cell>
+      </ng-container>
+
+      <!-- fullName Column -->
+      <ng-container matColumnDef="fullName">
+        <mat-header-cell *matHeaderCellDef style="width: 25%"> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
+      </ng-container>
+
+      <!-- ICNO Column -->
+      <ng-container matColumnDef="pid">
+        <mat-header-cell *matHeaderCellDef style="width: 10%"> ICNO </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.pid}} </mat-cell>
+      </ng-container>
+
+      <!-- User Type Column -->
+      <ng-container matColumnDef="userTypeId">
+        <mat-header-cell *matHeaderCellDef style="width: 25%"> Email </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}}</mat-cell>
+      </ng-container>
+
+      <!-- Account Status Column -->
+      <ng-container matColumnDef="isStaff">
+        <mat-header-cell *matHeaderCellDef style="text-align: center; width: 10%"> Account Status </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="text-align: center">
+          <span *ngIf="element.isStaff == false" style="color: red">Inactive</span>
+          <span *ngIf="element.isStaff == true" style="color: green">Active</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="accountStatusId">
+        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-mini-fab style="background: orange" title="Update {{ element.userId }}">
+            <i class="fa fa-edit" (click)="updateRow(element.userId)"></i>
+          </button>&nbsp;
+          <button mat-mini-fab style="background: red">
+            <i class="fa fa-trash" (click)="deleteRow(element.userId)" title="Delete {{ element.userId }}"></i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+    </mat-table>
+
+  </div>
+
+  <div class="float-right paddingTop-15">
+    <mat-form-field style="width:50px; margin-top: -10px">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.userTable?.totalPages)">
+        <mat-option value="5">5</mat-option>
+        <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+        <strong>{{commonservice.userTable?.pageNumber}}</strong> of
+        <strong>{{commonservice.userTable?.totalPages}}</strong> in
+        <strong>{{commonservice.userTable?.totalElements}}</strong> users</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.userTable?.pageNumber)">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+      </button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.userTable?.pageNumber, commonservice.userTable?.totalPages)">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div>
+
+</div>
