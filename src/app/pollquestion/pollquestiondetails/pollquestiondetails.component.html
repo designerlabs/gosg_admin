@@ -1,73 +1,144 @@
 <form style="padding-right: 15px; padding-left: 15px;" [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
     <div class="container-sample animated flipInX">
-      <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
-          <h4 class="paddingTop-15 staticLabel">
-            <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
-      </div>
-    <div class="row ">
-        <div class="col-md-12 paddingTop-25">
-          <div class="mat-elevation-z8">
-              <div class="form-header col-md-12">
-                <label class="staticLabel font-size-m boldText">Edit Polls Questions</label>
-              </div>
-              <div class="example-header">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <textarea matInput placeholder="Poll Question (English)" [formControl]="pollEng" required></textarea>
-                    <mat-error *ngIf="updateForm.controls.pollEng.hasError('required')">
-                        Poll Question (English) is required
-                    </mat-error>
-                </mat-form-field>
-              </div><br>
-              <div class="example-header">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <textarea matInput placeholder="Poll Question (Malay)" [formControl]="pollMalay" required></textarea>
-                    <mat-error *ngIf="updateForm.controls.pollMalay.hasError('required')">
-                        Poll Question (Malay) is required
-                    </mat-error>
-                </mat-form-field>
-              </div><br>
-
-              <mat-table #table [dataSource]="dataSource">     
-                            
-                  <!-- option en Column -->
-                  <ng-container matColumnDef="optionEn">
-                      <mat-header-cell class="text-align-Left" *matHeaderCellDef> Option (Eng) </mat-header-cell>
-                      <mat-cell class="text-align-Left" *matCellDef="let element">
-                          <input matInput placeholder="Option (En)" required>
-                      </mat-cell>
-                  </ng-container>
-  
-                  <!-- option bm Column -->
-                  <ng-container matColumnDef="optionBm">
-                      <mat-header-cell class="text-align-Left" *matHeaderCellDef> Option (Malay) </mat-header-cell>
-                      <mat-cell class="text-align-Left" *matCellDef="let element">
-                          <input matInput placeholder="Option (Malay)" required>
-                      </mat-cell>
-                  </ng-container>
-              
-                  <!-- action Column -->
-                  <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Action </mat-header-cell>
-                    <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
-                        <i class="fa fa-check" style="color: green;"></i>
-                    </mat-cell>
-                  </ng-container>                  
-              
-                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-              </mat-table>
-          </div>
-          
-          <div class="form-group" style="margin-top: 2%">
-              <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-                (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!isComplete">
-                <i *ngIf="isComplete" class="fa fa-check"></i><i *ngIf="!isComplete" class="fa fa-times"></i> {{ pageMode }} </button>
-          </div>
+        <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
+            <h4 class="paddingTop-15 staticLabel">
+                <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
         </div>
-  
+        <div class="row ">
+            <div class="col-md-12 paddingTop-25">
+                <div class="mat-elevation-z8">
+                    <div class="form-header col-md-12">
+                        <label class="staticLabel font-size-m boldText">Edit Polls Questions</label>
+                    </div>
+                    <div class="example-header">
+                        <mat-form-field class="example-full-width font-size-s" >
+                            <textarea matInput placeholder="Poll Question (English)" [formControl]="pollEng" required></textarea>
+                            <mat-error *ngIf="updateForm.controls.pollEng.hasError('required')">
+                                Poll Question (English) is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div><br>
+                    <div class="example-header">
+                        <mat-form-field class="example-full-width font-size-s" >
+                            <textarea matInput placeholder="Poll Question (Malay)" [formControl]="pollMalay" required></textarea>
+                            <mat-error *ngIf="updateForm.controls.pollMalay.hasError('required')">
+                                Poll Question (Malay) is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div><br>
+
+                    <div class="example-header">
+                        <div class="col-md-6 text-align-Center font-size-m"> Option (Eng) </div>
+                        <div class="col-md-6 text-align-Center font-size-m"> Option (Malay) </div>
+                    </div>
+
+                    <div class="example-header">
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 1 (Eng)" [formControl]="opt1En" required>
+                                <mat-error *ngIf="updateForm.controls.opt1En.hasError('required')">
+                                    Option 1 (Eng) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 1 (Malay)" [formControl]="opt1Bm" required>
+                                <mat-error *ngIf="updateForm.controls.opt1Bm.hasError('required')">
+                                    Option 1 (Malay) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="example-header">
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 2 (Eng)" [formControl]="opt2En" required>
+                                <mat-error *ngIf="updateForm.controls.opt2En.hasError('required')">
+                                    Option 2 (Eng) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 2 (Malay)" [formControl]="opt2Bm" required>
+                                <mat-error *ngIf="updateForm.controls.opt2Bm.hasError('required')">
+                                    Option 2 (Malay) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="example-header">
+                        <div class="col-md-6">
+                        <mat-form-field class="example-full-width font-size-s" >
+                            <input matInput placeholder="Option 3 (Eng)" [formControl]="opt3En">
+                            <mat-error *ngIf="updateForm.controls.opt3En.hasError('required')">
+                                Option 3 (Eng) is required
+                            </mat-error>
+                        </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 3 (Malay)" [formControl]="opt3Bm">
+                                <mat-error *ngIf="updateForm.controls.opt3Bm.hasError('required')">
+                                    Option 3 (Malay) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="example-header">
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 4 (Eng)" [formControl]="opt4En">
+                                <mat-error *ngIf="updateForm.controls.opt4En.hasError('required')">
+                                    Option 4 (Eng) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 4 (Malay)" [formControl]="opt4Bm">
+                                <mat-error *ngIf="updateForm.controls.opt4Bm.hasError('required')">
+                                    Option 4 (Malay) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="example-header">
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 5 (Eng)" [formControl]="opt5En">
+                                <mat-error *ngIf="updateForm.controls.opt5En.hasError('required')">
+                                    Option 5 (Eng) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <input matInput placeholder="Option 5 (Malay)" [formControl]="opt5Bm">
+                                <mat-error *ngIf="updateForm.controls.opt5Bm.hasError('required')">
+                                    Option 5 (Malay) is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                </div>
+            
+                <div class="form-group" style="margin-top: 2%">
+                    <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+                        (click)="submitForm(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;">
+                        <i *ngIf="isComplete" class="fa fa-check"></i><i *ngIf="!isComplete" class="fa fa-times"></i> {{ pageMode }} </button>
+                </div>
+            </div>
+    
+        </div>
     </div>
-  </div>
-  </form>
+</form>
   
   
   

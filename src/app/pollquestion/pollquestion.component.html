@@ -1,107 +1,123 @@
-<form style="padding-right: 15px; padding-left: 15px;" [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
-  <div class="container-sample animated flipInX">
-    <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
+
+  <!-- <div class="container-sample animated flipInX"> -->
+    <!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
         <h4 class="paddingTop-15 staticLabel">
           <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
+    </div> -->
+    <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+        <h1 class="paddingTop-15 staticLabel">Polls Questions</h1>
+        <span class="pull-right editBtn">
+            <button type="button" mat-fab color="warn" (click)="add()" 
+            [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">&nbsp;
+            <i class="fa fa-plus font-size-l"></i></button>
+        </span>
+    </div> 
+    <div class="row ">
+        <div class="col-md-12 paddingTop-25">
+            <div class="mat-elevation-z8">
+                <div class="form-header col-md-12">
+                <label class="staticLabel font-size-m boldText">View Polls Questions</label>
+                </div>
+                <div class="example-header">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+                </div>
+
+                <mat-table #table [dataSource]="dataSource">     
+                
+                    <!-- Checkbox Column -->
+                    <!-- <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </mat-cell>
+                    </ng-container> -->
+
+                    <!-- num Column -->
+                    <ng-container matColumnDef="num">
+                        <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
+                        <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
+                            {{element.announcementCategoryId}} 
+                        </mat-cell>
+                    </ng-container>
+                
+                    <!-- question en Column -->
+                    <ng-container matColumnDef="pq_en">
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (EN) </mat-header-cell>
+                        <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
+                            {{element.announcementCategoryName}} 
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- question bm Column -->
+                    <ng-container matColumnDef="pq_bm">
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (BM) </mat-header-cell>
+                        <mat-cell class="text-align-Left" *matCellDef="let element">
+                            {{element.announcementCategoryDescription}}
+                        </mat-cell>
+                    </ng-container>
+                
+                    <!-- status Column -->
+                    <ng-container matColumnDef="status">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Active Status </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
+                        <i class="fa fa-check" style="color: green;"></i>
+                    </mat-cell>
+                    </ng-container>
+
+                    <!-- action Column -->
+                    <ng-container matColumnDef="action">
+                        <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
+                        <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                            <button mat-mini-fab style="background: orange" title="Update {{ element.announcementCategoryId }}">
+                            <i class="fa fa-edit" (click)="updateRow(element.announcementCategoryId)"></i></button>&nbsp;
+                            <button mat-mini-fab style="background: red">
+                            <i class="fa fa-trash" (click)="deleteRow(element.announcementCategoryId)" title="Delete {{ element.announcementCategoryId }}"></i></button>
+                        </mat-cell>
+                    </ng-container>
+                
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+                
+            </div>
+            
+            <div class="float-right paddingTop-15">
+                <mat-form-field style="width:50px; margin-top: -10px">
+                    <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.pqTable?.totalPages)">
+                    <mat-option value="5">5</mat-option>
+                    <mat-option value="10">10</mat-option>
+                    <mat-option value="25">25</mat-option>
+                    <mat-option value="50">50</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <span class="float-right">
+                    <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+                        <strong>{{commonservice.pqTable?.pageNumber}}</strong> of
+                        <strong>{{commonservice.pqTable?.totalPages}}</strong> in
+                        <strong>{{commonservice.pqTable?.totalElements}}</strong> polls questions
+                    </span>
+                    <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.pqTable?.pageNumber)">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </button>
+                    <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.pqTable?.pageNumber, commonservice.pqTable?.totalPages)">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+
     </div>
-  <div class="row ">
-      <div class="col-md-12 paddingTop-25">
-        <div class="mat-elevation-z8">
-            <div class="form-header col-md-12">
-              <label class="staticLabel font-size-m boldText">View Polls Questions</label>
-            </div>
-            <div class="example-header">
-              <mat-form-field class="example-full-width font-size-s" >
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-              </mat-form-field>
-            </div>
-
-            <mat-table #table [dataSource]="dataSource">     
-              
-                <!-- Checkbox Column -->
-                <!-- <ng-container matColumnDef="select">
-                  <mat-header-cell *matHeaderCellDef>
-                    <mat-checkbox (change)="$event ? masterToggle() : null"
-                                  [checked]="selection.hasValue() && isAllSelected()"
-                                  [indeterminate]="selection.hasValue() && !isAllSelected()">
-                    </mat-checkbox>
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let row">
-                    <mat-checkbox (click)="$event.stopPropagation()"
-                                  (change)="$event ? selection.toggle(row) : null"
-                                  [checked]="selection.isSelected(row)">
-                    </mat-checkbox>
-                  </mat-cell>
-                </ng-container> -->
-
-                <!-- num Column -->
-                <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
-                    <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let row">
-                        {{element}} 
-                    </mat-cell>
-                </ng-container>
-            
-                <!-- question en Column -->
-                <ng-container matColumnDef="pq_en">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (EN) </mat-header-cell>
-                    <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
-                        {{element.modules}} 
-                    </mat-cell>
-                </ng-container>
-
-                <!-- question bm Column -->
-                <ng-container matColumnDef="pq_bm">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (BM) </mat-header-cell>
-                    <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.modules}}
-                    </mat-cell>
-                </ng-container>
-            
-                <!-- status Column -->
-                <ng-container matColumnDef="status">
-                  <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Active Status </mat-header-cell>
-                  <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
-                      <i class="fa fa-check" style="color: green;"></i>
-                  </mat-cell>
-                </ng-container>
-
-                <!-- action Column -->
-                <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
-                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
-                        <button mat-raised-button type="button" color="primary" id="btnsubmit" 
-                        class="form-control btn btn-md btn-success font-size-s" 
-                        style="width: 100px; font-family: Roboto; margin-left: 5px;"
-                        (click)="clickEdit(updateForm.value)">
-                        <i class="fa fa-pencil"></i> Edit </button>
-                        <button mat-raised-button type="button" color="primary" id="btnsubmit" 
-                        class="form-control btn btn-md btn-danger font-size-s" 
-                        style="width: 100px; font-family: Roboto; margin-left: 5px;">
-                        <i class="fa fa-times"></i> Delete </button>
-                    </mat-cell>
-                </ng-container>
-            
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
-            
-        </div>
-        
-        <div class="form-group" style="margin-top: 2%">
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-              (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!isComplete">
-              <i *ngIf="isComplete" class="fa fa-check"></i><i *ngIf="!isComplete" class="fa fa-times"></i> {{ pageMode }} </button>
-        </div>
-      </div>
-
-  </div>
-</div>
-</form>
-
-
-
-
+  <!-- </div> -->
 
 
 <!-- <app-confirm-dialog  #resetModal 
