@@ -28,17 +28,13 @@ export class SliderComponent implements OnInit {
   updateForm: FormGroup
   isLocalAPI: boolean;
 
-  username: FormControl
-  firstname: FormControl
-  lastname: FormControl
-  // email: FormControl
-  staffstatus: FormControl
+  titleEn: FormControl
+  titleBm: FormControl
+  descEn: FormControl
+  descBm: FormControl
+  imgEn: FormControl
+  imgBm: FormControl
   active: FormControl
-  superuserstatus: FormControl
-  usergroup: FormControl
-  userpermission: FormControl
-  datejoined: FormControl
-  datelastlogin: FormControl
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -55,44 +51,37 @@ export class SliderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.viewSeq = 1; /* View Page change by {1,2} */
+    this.viewSeq = 2; /* View Page change by {1,2} */
     this.displayedColumns = ['slideId','slideTitle', 'slideDescription', 'slideImage', 'slideActiveFlag','slideAction'];
     this.displayedColumns2 = ['userId','fullName', 'pid', 'userTypeId', 'isStaff', 'accountStatusId'  ];
     this.getSlidersData();
     // console.log(this.dataSource)
 
-    
-
     // this.complete = false;
 
-    this.username = new FormControl()
-    this.firstname = new FormControl('',
-    Validators.required)
-    this.lastname = new FormControl()
-    // this.email = new FormControl('', Validators.pattern(EMAIL_REGEX))
+    this.titleEn = new FormControl()
+    this.titleBm = new FormControl()
+    this.descEn = new FormControl()
+    this.descBm = new FormControl()
+    this.imgEn = new FormControl()
+    this.imgBm = new FormControl()
     this.active = new FormControl()
-    this.staffstatus = new FormControl()
-    this.superuserstatus = new FormControl()
-    this.usergroup = new FormControl()
-    this.userpermission = new FormControl()
+    // this.email = new FormControl('', Validators.pattern(EMAIL_REGEX))
 
     this.updateForm = new FormGroup({
-      username: this.username,
-      firstname: this.firstname,
-      lastname: this.lastname,
-      // email: this.email,
-      active: this.active,
-      staffstatus: this.staffstatus,
-      superuserstatus: this.superuserstatus,
-      usergroup: this.usergroup,
-      userpermission: this.userpermission,
+      titleEn: this.titleEn,
+      descEn: this.descEn,
+      imgEn: this.descEn,
+      active: this.active
     });
   }
 
+  // get Slider Data 
   getSlidersData() { //'?page=1&size=10'
   // console.log(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size)
+
   // if(this.viewSeq == 1)
-    this.dataUrl = this.appConfig.urlSlides;
+    this.dataUrl = this.appConfig.urlSlides+ '?langId=2';
   // else if(this.viewSeq == 2)
     // this.dataUrl = this.appConfig.urlUsers;
 
@@ -100,7 +89,7 @@ export class SliderComponent implements OnInit {
     this.http.get(this.dataUrl).subscribe(data => {
       
       this.sliderList = data;
-      console.log(this.sliderList)
+      // console.log(this.sliderList);
       this.dataSource.data = this.sliderList.slideList;
       this.commonservice.userTable = this.sliderList;
       // this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
@@ -121,10 +110,10 @@ export class SliderComponent implements OnInit {
     this.getSlidersData();
   }
 
-  getRow(row) {
-    console.log(row);
-    this.commonservice.GetUser(row.userId);
-  }
+  // getRow(row) {
+  //   console.log(row);
+  //   this.commonservice.GetUser(row.userId);
+  // }
 
   add() {
     // console.log();

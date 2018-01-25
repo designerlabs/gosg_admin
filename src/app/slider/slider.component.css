@@ -135,6 +135,14 @@ label {
     padding-top: 15px;
 }
 
+.activeFontColor {
+    color: green;
+}
+
+.inactiveFontColor {
+    color:red;
+}
+
 .mat-form-field-placeholder-wrapper {
     position: absolute;
     left: 0;

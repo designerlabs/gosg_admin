@@ -41,11 +41,11 @@ export class PollquestionComponent implements OnInit {
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
+  // masterToggle() {
+  //   this.isAllSelected() ?
+  //       this.selection.clear() :
+  //       this.dataSource.data.forEach(row => this.selection.select(row));
+  // }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -66,8 +66,8 @@ export class PollquestionComponent implements OnInit {
   getPQList(count, size) { //'?page=1&size=10'
   
     this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
-
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    // + '/?page=' + count + '&size=' + size
+    this.http.get(this.dataUrl )
     .subscribe(data => {
       this.pqList = data;
 

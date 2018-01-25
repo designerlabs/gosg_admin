@@ -93,7 +93,8 @@ temp = null;
   }
 
   GetUser(userId) {
-    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(Rdata => {
+    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(
+      Rdata => {
       this.dataTbl = Rdata;
       this.router.navigate(['user', userId]);
     });
