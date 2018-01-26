@@ -6,7 +6,7 @@
 
 <div class="container right-content">
     <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-        <h1 class="paddingTop-15 staticLabel">Polls Questions</h1>
+        <h1 class="paddingTop-15 staticLabel">View Polls Questions</h1>
         <span class="pull-right editBtn" style="z-index: 1;">
             <button type="button" mat-fab color="warn" (click)="add()" 
             [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">&nbsp;
@@ -15,16 +15,16 @@
     </div> 
   
     <div class="example-container mat-elevation-z8">
-        <div class="form-header col-md-12" style="background-color:lightgrey;">
+        <!-- <div class="form-header col-md-12" style="background-color:lightgrey;">
             <label class="staticLabel font-size-m boldText">View Polls Questions</label>
-        </div>
+        </div> -->
         <div class="example-header">
-            <mat-form-field class="example-full-width font-size-s" >
+            <mat-form-field class="font-size-s" >
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
             </mat-form-field>
         </div>
 
-        <mat-table #table [dataSource]="dataSource">     
+        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">     
         
             <!-- Checkbox Column -->
             <!-- <ng-container matColumnDef="select">
