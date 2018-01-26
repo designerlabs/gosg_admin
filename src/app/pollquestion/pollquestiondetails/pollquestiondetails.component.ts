@@ -132,8 +132,6 @@ export class PollquestiondetailsComponent implements OnInit {
       this.complete = true;
     }
   }
- 
-
 
 }
 

@@ -16,7 +16,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class PollresultComponent implements OnInit {
 
   pqList = null;
-  displayedColumns = ['num', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+  displayedColumns = ['num', 'question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -50,17 +50,21 @@ export class PollresultComponent implements OnInit {
 
   getPQList(count, size) {
   
-    this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
-
+    //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
+    this.dataUrl = this.appConfig.urlUserList;
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-    this.http.get(this.dataUrl)
+    //this.http.get(this.dataUrl)
+    
+ 
+
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     .subscribe(data => {
       this.pqList = data;
 
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.pqList.announcementList;
+      this.dataSource.data = this.pqList.userList;
       this.commonservice.pqTable = this.pqList;
       this.noNextData = this.pqList.pageNumber === this.pqList.totalPages;
     });

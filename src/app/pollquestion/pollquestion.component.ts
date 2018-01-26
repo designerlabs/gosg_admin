@@ -26,6 +26,8 @@ export class PollquestionComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
+  isEdit: boolean;
+  pageMode: String;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -52,7 +54,6 @@ export class PollquestionComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) {
@@ -97,10 +98,10 @@ export class PollquestionComponent implements OnInit {
   }
 
   // pageModeChange() {
-  //   if(this.isEdit)
+  //   if(this.isEdit == true)
   //     this.pageMode = "Update"
   //   else
-  //     this.pageMode = "Create"
+  //     this.pageMode = "Add"
   // }
 
   // navigateBack() {
@@ -108,8 +109,10 @@ export class PollquestionComponent implements OnInit {
   // }
 
   add() {
-
-    this.router.navigate(['pollquestion', "add"]);
+    // this.isEdit = false;
+    // this.pageModeChange(this.isEdit);
+    this.router.navigate(['pollquestion', 'add']);
+    
     // this.commonservice.GetUser(row.userId);
   }
 
