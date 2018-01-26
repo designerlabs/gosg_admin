@@ -1,6 +1,6 @@
 <div *ngIf="viewSeq == 1" class="container right-content">
   <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-    <h1 class="paddingTop-15 staticLabel">Slider Management</h1>
+    <h2 class="staticLabel">Slider Management</h2>
     <span class="pull-right editBtn">
       <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
         <i class="fa fa-plus font-size-l"></i>
@@ -45,20 +45,17 @@
       <ng-container matColumnDef="slideActiveFlag">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%; text-align: center"> Status </mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 10%; text-align: center; vertical-align: top;">
-          <i [ngClass]="{'fa fa-check-circle font-size-xxl activeFontColor':element.slideActiveFlag,'fa fa-times-circle font-size-xxl inactiveFontColor':!element.slideActiveFlag}"></i>
+          <i [ngClass]="{'fa fa-check font-size-xxl activeFontColor':element.slideActiveFlag,'fa fa-times font-size-xxl inactiveFontColor':!element.slideActiveFlag}"></i>
         </mat-cell>
       </ng-container>
       
       <!-- Action Column -->
       <ng-container matColumnDef="slideAction">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 15%;"> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 15%;">
-          <button mat-mini-fab style="background: orange" title="Update {{ element.slideId }}">
-            <i class="fa fa-edit" (click)="updateRow(element.slideId)"></i>
-          </button>&nbsp;
-          <button mat-mini-fab style="background: red">
-            <i class="fa fa-trash" (click)="deleteRow(element.slideId)" title="Delete {{ element.slideId }}"></i>
-          </button>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 15%; text-align: center"> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 15%; text-align: center">
+            <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.slideId)"></i>
+            &nbsp;
+            <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.slideId)" title="Delete {{ element.slideId }}"></i>
         </mat-cell>
       </ng-container>
 
@@ -68,9 +65,9 @@
 
   </div>
 
-  <!-- <div class="float-right paddingTop-15">
+  <div class="float-right paddingTop-15">
     <mat-form-field style="width:50px; margin-top: -10px">
-      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.userTable?.totalPages)">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.sliderTable?.totalPages)">
         <mat-option value="5">5</mat-option>
         <mat-option value="10">10</mat-option>
         <mat-option value="25">25</mat-option>
@@ -79,24 +76,24 @@
     </mat-form-field>
     <span class="float-right">
       <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-        <strong>{{commonservice.userTable?.pageNumber}}</strong> of
-        <strong>{{commonservice.userTable?.totalPages}}</strong> in
-        <strong>{{commonservice.userTable?.totalElements}}</strong> users</span>
-      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.userTable?.pageNumber)">
+        <strong>{{commonservice.sliderTable?.pageNumber}}</strong> of
+        <strong>{{commonservice.sliderTable?.totalPages}}</strong> in
+        <strong>{{commonservice.sliderTable?.totalElements}}</strong> sliders</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.sliderTable?.pageNumber)">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
       </button>
-      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.userTable?.pageNumber, commonservice.userTable?.totalPages)">
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.sliderTable?.pageNumber, commonservice.sliderTable?.totalPages)">
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </button>
     </span>
-  </div> -->
+  </div>
 
 </div>
 
 <!-- VIEW: ADD/EDIT SLIDER -->
 <div *ngIf="viewSeq == 2" class="container right-content">
   <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-    <h1 class="paddingTop-15 staticLabel">{{ pageMode }} Slider</h1>
+    <h2>{{ pageMode }} Slider</h2>
     <!-- <span class="pull-right editBtn">
       <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
         <i class="fa fa-plus font-size-l"></i>
@@ -108,7 +105,7 @@
     <div class="row">
   
       <!-- EN -->
-      <div class="mat-elevation-z8 marginTop-10 col-md-12 right-content">
+      <div class="mat-elevation-z8 col-md-12 right-content">
         <div class="row">
           <div class="form-header col-md-6">
             <label class="staticLabel font-size-s boldText">English</label>
@@ -130,9 +127,9 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <input matInput placeholder="Title" formControlName="titleEn" value="" (change)="checkReqValues()"
+              <input matInput placeholder="Title" formControlName="titleBm" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="sliderForm.controls.titleEn.hasError('required')">
+              <mat-error *ngIf="sliderForm.controls.titleBm.hasError('required')">
                 Title is required
               </mat-error>
             </mat-form-field>
@@ -142,20 +139,23 @@
         <div class="row">
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <textarea matInput placeholder="Description" formControlName="descEn" value="" (change)="checkReqValues()"
+              <textarea matInput placeholder="Description" formControlName="descEn" #descEn (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="sliderForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
+              <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <textarea matInput placeholder="Description" formControlName="descEn" value="" (change)="checkReqValues()"
+              <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="sliderForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="sliderForm.controls.descBm.hasError('required')">
                 Description is required
               </mat-error>
+              <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+              <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
             </mat-form-field>
           </div>
           <div class="col-md-12">&nbsp;</div>
@@ -167,8 +167,12 @@
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
             <mat-form-field class="example-full-width font-size-s">
-                <input matInput formControlName="imgEn" placeholder="Image File" valuePlaceholder="No file selected" required />
-                <mat-icon matSuffix>folder</mat-icon>
+                  <mat-select tabindex="1" formControlName="imgEn" placeholder="Select Image" required>
+                      <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
+                      <mat-option [value]="1">image1.png</mat-option>
+                      <mat-option [value]="2">image2.jpg</mat-option>
+                      <mat-option [value]="3">image3.png</mat-option>
+                  </mat-select>
                 <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
                   Please select a file
                 </mat-error>
@@ -183,11 +187,15 @@
           </div>
           <div class="col-md-5" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width font-size-s">
-                <input matInput formControlName="imgEn" placeholder="Image File" valuePlaceholder="No file selected" required />
-                <mat-icon matSuffix>folder</mat-icon>
-                <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
-                  Please select a file
-                </mat-error>
+              <mat-select tabindex="1" formControlName="imgEn" placeholder="Select Image" required>
+                  <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
+                  <mat-option [value]="1">image1.png</mat-option>
+                  <mat-option [value]="2">image2.jpg</mat-option>
+                  <mat-option [value]="3">image3.png</mat-option>
+              </mat-select>
+            <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
+              Please select a file
+            </mat-error>
                 <!-- <mat-error *ngIf="sliderForm.get('imgEn').hasError('maxContentSize')">
                   The total size must not exceed {{sliderForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
                   ({{sliderForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
@@ -210,15 +218,15 @@
   
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
-          <div class="container form-group" style="margin-right: -1%">
-              <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-                (click)="updateSlider(sliderForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-                <i *ngIf="complete" class="fa fa-check"></i>
-                <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
-            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+        <div class="col-md-12 form-group">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="updateSlider(sliderForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
+          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
             <i class="fa fa-refresh"></i>Reset</button>
-      </div>
+        </div>
       <div class="col-md-12">&nbsp;</div>
     <!-- </div> -->
   </div>
