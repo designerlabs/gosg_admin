@@ -25,8 +25,10 @@ export class SliderComponent implements OnInit {
   viewSeq = 1; /* View Page Sequence Based on Discussion {1,2} */
   dataUrl:any;
   date = new Date();
-  updateForm: FormGroup
+  sliderForm: FormGroup
   isLocalAPI: boolean;
+  isEdit: boolean;
+  pageMode:String;
 
   titleEn: FormControl
   titleBm: FormControl
@@ -35,6 +37,7 @@ export class SliderComponent implements OnInit {
   imgEn: FormControl
   imgBm: FormControl
   active: FormControl
+  copyImg: FormControl
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -47,14 +50,16 @@ export class SliderComponent implements OnInit {
   }
   // tslint:disable-next-line:max-line-length
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router) {
-    this.getSlidersData();
+    this.getSlidersData(this.userPageCount, this.userPageSize);
   }
 
   ngOnInit() {
-    this.viewSeq = 2; /* View Page change by {1,2} */
+    // this.viewSeq = 1; /* View Page change by {1,2} */
+    this.isEdit = false;
+    // this.changePageMode(this.isEdit);
     this.displayedColumns = ['slideId','slideTitle', 'slideDescription', 'slideImage', 'slideActiveFlag','slideAction'];
     this.displayedColumns2 = ['userId','fullName', 'pid', 'userTypeId', 'isStaff', 'accountStatusId'  ];
-    this.getSlidersData();
+    this.getSlidersData(this.userPageCount, this.userPageSize);
     // console.log(this.dataSource)
 
     // this.complete = false;
@@ -63,30 +68,35 @@ export class SliderComponent implements OnInit {
     this.titleBm = new FormControl()
     this.descEn = new FormControl()
     this.descBm = new FormControl()
-    this.imgEn = new FormControl()
+    this.imgEn = new FormControl([Validators.required])
     this.imgBm = new FormControl()
     this.active = new FormControl()
+    this.copyImg = new FormControl()
     // this.email = new FormControl('', Validators.pattern(EMAIL_REGEX))
 
-    this.updateForm = new FormGroup({
+    this.sliderForm = new FormGroup({
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.descEn,
-      active: this.active
+      titleBm: this.titleEn,
+      descBm: this.descEn,
+      imgBm: this.descEn,
+      active: this.active,
+      copyImg: this.copyImg
     });
   }
 
   // get Slider Data 
-  getSlidersData() { //'?page=1&size=10'
+  getSlidersData(count,size) { //'?page=1&size=10'
   // console.log(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size)
 
   // if(this.viewSeq == 1)
-    this.dataUrl = this.appConfig.urlSlides+ '?langId=2';
+    this.dataUrl = this.appConfig.urlSlides;
   // else if(this.viewSeq == 2)
     // this.dataUrl = this.appConfig.urlUsers;
 
-    // this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(data => {
-    this.http.get(this.dataUrl).subscribe(data => {
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(data => {
+    // this.http.get(this.dataUrl).subscribe(data => {
       
       this.sliderList = data;
       // console.log(this.sliderList);
@@ -97,7 +107,7 @@ export class SliderComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getSlidersData();
+    this.getSlidersData(this.userPageCount, this.userPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -107,31 +117,27 @@ export class SliderComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSlidersData();
+    this.getSlidersData(this.userPageCount, this.userPageSize);
   }
 
   // getRow(row) {
   //   console.log(row);
   //   this.commonservice.GetUser(row.userId);
   // }
+  changePageMode(isEdit) {
+    if(isEdit == false) {
+      this.pageMode = "Add";
+    } else if(isEdit == true) {
+      this.pageMode = "Update";
+    }
+  }
 
-  add() {
+  addBtn() {
     // console.log();
+
     this.viewSeq = 2;
+    this.router.navigate(['slider', "add"]);
     alert("Add Slider");
-    // this.commonservice.GetUser(row.userId);
-  }
-
-  updateRow(row) {
-    console.log(this.viewSeq);
-    console.log(row);
-    alert("Update Slider id: "+row);
-    // this.commonservice.GetUser(row.userId);
-  }
-
-  deleteRow(row) {
-    console.log(row);
-    alert("Delete Slider id: "+row);
     // this.commonservice.GetUser(row.userId);
   }
   // tslint:disable-next-line:use-life-cycle-interface
@@ -140,7 +146,7 @@ export class SliderComponent implements OnInit {
     this.dataSource.sort = this.sort;
    }
    pageChange(event, totalPages) {
-    this.getSlidersData();
+    this.getSlidersData(this.userPageCount, this.userPageSize);
     this.userPageSize = event.value;
     this.noPrevData = true;
   }
@@ -154,5 +160,46 @@ export class SliderComponent implements OnInit {
 
   navigateBack() {
     history.back();
+  }
+
+  // add, update, delete
+  updateRow(row) {
+    console.log(this.viewSeq);
+    console.log(row);
+    alert("Update Slider id: "+row);
+    // this.commonservice.GetUser(row.userId);
+  }
+
+  deleteRow(row) {
+    console.log(row);
+    alert("Delete Slider id: "+row);
+    // this.commonservice.GetUser(row.userId);
+  }
+
+  updateSlider(formValues:any) {
+    console.log(this.viewSeq);
+
+    let body = [{
+      "slideTitle": null,
+      "slideDescription": null,
+      "slideImage": null,
+      "slideActiveFlag": false,
+      "slideSort": null,
+      "language": {
+        "languageId": 1
+      },
+      "slideCode": null
+    }, {
+      "slideTitle": null,
+      "slideDescription": null,
+      "slideImage": null,
+      "slideActiveFlag": false,
+      "slideSort": 1,
+      "language": {
+        "languageId": 2
+      },
+      "slideCode": null
+    }];
+
   }
 }

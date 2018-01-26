@@ -25,6 +25,7 @@ import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
 import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
+import { GroupsviewComponent } from './authentication/groups/groupsview/groupsview.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
@@ -45,6 +46,7 @@ import { SliderComponent } from './slider/slider.component';
     RolesComponent,
     FeedbacktblComponent,
     PollquestionComponent,
+    GroupsviewComponent,
     PollquestiondetailsComponent,
     PollresultComponent,
     SliderComponent,

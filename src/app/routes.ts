@@ -10,6 +10,7 @@ import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.comp
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
+import { GroupsviewComponent } from './authentication/groups/groupsview/groupsview.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
@@ -27,10 +28,12 @@ export const appRoutes: Routes = [
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
+{path: 'groups' , component: GroupsviewComponent},
 {path: 'pollquestion', component: PollquestionComponent},
 {path: 'pollquestion/:id', component: PollquestiondetailsComponent},
 {path: 'pollresult', component: PollresultComponent},
 {path: 'slider', component: SliderComponent},
+{path: 'slider/:id', component: SliderComponent},
 
 
 

@@ -25,6 +25,7 @@ export class AppConfig {
     urlUserList: string;
     urlFbTypeList: string;
     urlGroup: string;
+    urlGroupList: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -35,8 +36,9 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
-    urlSlides: commonURL + 'slide',
-    urlFbTypeList : commonURL + 'feedback/'
+    urlFbTypeList : commonURL + 'feedback/',
+    urlGroupList: './app/apidata/groupslist.json',
+    urlSlides: commonURL + 'slide'
 };
 
 @NgModule({

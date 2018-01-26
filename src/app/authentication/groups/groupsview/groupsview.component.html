@@ -1,0 +1,45 @@
+<div class="container right-content">
+  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+    <h4 class="paddingTop-15 staticLabel">Groups List </h4>
+  </div>
+
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+      <!-- groupName Column -->
+      <ng-container matColumnDef="groupName">
+        <mat-header-cell *matHeaderCellDef> Group Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.groupName}} </mat-cell>
+      </ng-container>  
+      <!-- isActive Column -->
+      <ng-container matColumnDef="isActive">
+        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.isActive}} </mat-cell>
+      </ng-container>  
+      <!-- User Type Column -->
+      <ng-container matColumnDef="modules">
+        <mat-header-cell *matHeaderCellDef> Modules </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="padding:5px;">          
+              <mat-chip-list >
+                  <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules ? element.modules.slice(0,3): [])">{{ele.name}}</mat-chip>                
+              </mat-chip-list>                       
+        </mat-cell>
+      </ng-container>  
+      <!-- Account Status Column -->
+      <!-- <ng-container matColumnDef="accountStatusId">
+        <mat-header-cell *matHeaderCellDef> Acc Status </mat-header-cell>
+        <mat-cell *matCellDef="let element" > {{element.accountStatusId}} </mat-cell>
+      </ng-container>   -->
+      <!-- Staff Status Column -->
+      <!-- <ng-container matColumnDef="isStaff">
+        <mat-header-cell *matHeaderCellDef> Staff </mat-header-cell>
+        <mat-cell *matCellDef="let element" > {{element.isStaff}} </mat-cell>
+      </ng-container>   -->
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+  </div>
+
+
+  </div>
+

@@ -1,0 +1,58 @@
+{
+	"type": "RESPONSE",
+	"statusCode": "S001",
+	"statusDesc": "Find All Groups",
+	"groupList": [
+	{
+	"groupId": 1,
+	"groupName": "Address Module",
+	"isActive": true,
+	"modules": [
+		{
+			"name": "City",
+			"id": "23"
+		},
+		{
+			"name": "State",
+			"id": "24"
+		},
+		{
+			"name": "Country",
+			"id": "25"
+		}
+	]
+	},
+	{
+		"groupId": 2,
+		"groupName": "Article Module",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Articles",
+				"id": "20"
+			},
+			{
+				"name": "Article Topics",
+				"id": "21"
+			},
+			{
+				"name": "Article Categories",
+				"id": "22"
+			},
+			{
+				"name": "Article Category Topics",
+				"id": "19"
+			},
+			{
+				"name": "Article Onlineservice Topics",
+				"id": "18"
+			}
+		]
+		}
+	],
+	"pageNumber": 1,
+	"pageSize": 2,
+	"numberOfElements": 2,
+	"totalElements": 25,
+	"totalPages": 13
+	}
