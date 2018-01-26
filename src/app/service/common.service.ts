@@ -20,7 +20,7 @@ export class CommonService {
  uid;
  userInfo: object;
  userTable: object;
-
+ sliderTable: object;
  pqTable: object;
 temp = null;
   // tslint:disable-next-line:max-line-length
