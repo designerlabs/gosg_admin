@@ -138,6 +138,7 @@
             </mat-form-field>
           </div>
         </div>
+
         <div class="container row">
           <div class="col-md-12">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
@@ -147,7 +148,7 @@
                 First Name is required
               </mat-error>
             </mat-form-field>
-            <mat-form-field>
+            <!-- <mat-form-field>
                 <app-input-file formControlName="requiredfile" placeholder="Required input" valuePlaceholder="No file selected" required></app-input-file>
                 <mat-icon matSuffix>folder</mat-icon>
                 <mat-error *ngIf="formDoc.get('requiredfile').hasError('required')">
@@ -157,8 +158,9 @@
                   The total size must not exceed {{formDoc.get('requiredfile')?.getError('maxContentSize').maxSize | byteFormat}}
                   ({{formDoc.get('requiredfile')?.getError('maxContentSize').actualSize | byteFormat}}).
                 </mat-error>
-              </mat-form-field>
+              </mat-form-field> -->
           </div>
+        </div>
         <!--   <div class="col-md-4 paddingTop-10">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <input matInput placeholder="Last Name" formControlName="lastname" value="" (change)="checkReqValues()"
