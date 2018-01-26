@@ -2,7 +2,7 @@
   <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
     <h1 class="paddingTop-15 staticLabel">Slider Management</h1>
     <span class="pull-right editBtn">
-      <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
+      <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
         <i class="fa fa-plus font-size-l"></i>
       </button>
     </span>
@@ -96,7 +96,7 @@
 <!-- VIEW: ADD/EDIT SLIDER -->
 <div *ngIf="viewSeq == 2" class="container right-content">
   <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-    <h1 class="paddingTop-15 staticLabel">Add Slider</h1>
+    <h1 class="paddingTop-15 staticLabel">{{ pageMode }} Slider</h1>
     <!-- <span class="pull-right editBtn">
       <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
         <i class="fa fa-plus font-size-l"></i>
@@ -104,87 +104,120 @@
     </span> -->
   </div>
 
-  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
-    <div class="right-content">
+  <form [formGroup]="sliderForm" autocomplete="off" role="form" novalidate>
+    <div class="row">
   
       <!-- EN -->
-      <div class="mat-elevation-z8 marginTop-10 col-md-6">
-        <div class="container row">
-          <div class="form-header col-md-12 ">
+      <div class="mat-elevation-z8 marginTop-10 col-md-12 right-content">
+        <div class="row">
+          <div class="form-header col-md-6">
             <label class="staticLabel font-size-s boldText">English</label>
+          </div>
+          <div class="form-header col-md-6">
+            <label class="staticLabel font-size-s boldText">Bahasa Malaysia</label>
           </div>
         </div>
   
-        <div class="container row">
-          <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <input matInput placeholder="Title" formControlName="titleEn" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
+              <mat-error *ngIf="sliderForm.controls.titleEn.hasError('required')">
+                Title is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+              <input matInput placeholder="Title" formControlName="titleEn" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="sliderForm.controls.titleEn.hasError('required')">
                 Title is required
               </mat-error>
             </mat-form-field>
           </div>
         </div>
   
-        <div class="container row">
-          <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <textarea matInput placeholder="Description" formControlName="descEn" value="" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="sliderForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+              <textarea matInput placeholder="Description" formControlName="descEn" value="" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="sliderForm.controls.descEn.hasError('required')">
+                Description is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
         </div>
 
-        <div class="container row">
-          <div class="col-md-12">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <input matInput placeholder="First Name" formControlName="firstname" value="" (change)="checkReqValues()"
-                required>
-              <mat-error *ngIf="updateForm.controls.firstname.hasError('required')">
-                First Name is required
-              </mat-error>
-            </mat-form-field>
-            <!-- <mat-form-field>
-                <app-input-file formControlName="requiredfile" placeholder="Required input" valuePlaceholder="No file selected" required></app-input-file>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="font-size-s">Slider Image</label>
+            </div>
+          <div class="col-md-5" style="border: 0px solid #000">
+            <mat-form-field class="example-full-width font-size-s">
+                <input matInput formControlName="imgEn" placeholder="Image File" valuePlaceholder="No file selected" required />
                 <mat-icon matSuffix>folder</mat-icon>
-                <mat-error *ngIf="formDoc.get('requiredfile').hasError('required')">
+                <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
                   Please select a file
                 </mat-error>
-                <mat-error *ngIf="formDoc.get('requiredfile').hasError('maxContentSize')">
-                  The total size must not exceed {{formDoc.get('requiredfile')?.getError('maxContentSize').maxSize | byteFormat}}
-                  ({{formDoc.get('requiredfile')?.getError('maxContentSize').actualSize | byteFormat}}).
-                </mat-error>
-              </mat-form-field> -->
-          </div>
-        </div>
-        <!--   <div class="col-md-4 paddingTop-10">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <input matInput placeholder="Last Name" formControlName="lastname" value="" (change)="checkReqValues()"
-                required>
-              <mat-error *ngIf="updateForm.controls.lastname.hasError('required')">
-                Last Name is required
-              </mat-error>
+                <!-- <mat-error *ngIf="sliderForm.get('imgEn').hasError('maxContentSize')">
+                  The total size must not exceed {{sliderForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
+                  ({{sliderForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
+                </mat-error> -->
             </mat-form-field>
           </div>
-          <div class="col-md-4 paddingTop-10">
-            <label class="font-size-x-s thinText">Email Address</label>
-            <div class="font-size-m close-top" style="font-weight: 250;"></div>
+          <div class="col-md-2" style="text-align: center">
+              <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="font-size-s">&nbsp;Copy</span>
           </div>
-        </div> -->
+          <div class="col-md-5" style="border: 0px solid #000; text-align: left">
+            <mat-form-field class="example-full-width font-size-s">
+                <input matInput formControlName="imgEn" placeholder="Image File" valuePlaceholder="No file selected" required />
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
+                  Please select a file
+                </mat-error>
+                <!-- <mat-error *ngIf="sliderForm.get('imgEn').hasError('maxContentSize')">
+                  The total size must not exceed {{sliderForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
+                  ({{sliderForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
+                </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-1">
+            &nbsp;
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <mat-checkbox formControlName="active" (change)="isChecked($event)"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+          </div>
+        </div>
         <div class="col-md-12">&nbsp;</div>
       </div>
   
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
-      <div class="container form-group" style="margin-right: -1%">
-        <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-          (click)="updateUser(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-          <i *ngIf="complete" class="fa fa-check"></i>
-          <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
+          <div class="container form-group" style="margin-right: -1%">
+              <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+                (click)="updateSlider(sliderForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+                <i *ngIf="complete" class="fa fa-check"></i>
+                <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
+            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
+            <i class="fa fa-refresh"></i>Reset</button>
       </div>
       <div class="col-md-12">&nbsp;</div>
     <!-- </div> -->

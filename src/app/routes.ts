@@ -31,6 +31,7 @@ export const appRoutes: Routes = [
 {path: 'pollquestion/:id', component: PollquestiondetailsComponent},
 {path: 'pollresult', component: PollresultComponent},
 {path: 'slider', component: SliderComponent},
+{path: 'slider/:id', component: SliderComponent},
 
 
 
