@@ -26,6 +26,7 @@ import { RolesComponent } from './roles/roles.component';
 import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
+import { PollresultComponent } from './pollresult/pollresult.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails
     FeedbacktblComponent,
     PollquestionComponent,
     PollquestiondetailsComponent,
+    PollresultComponent,
   ],
   imports: [
     BrowserModule,

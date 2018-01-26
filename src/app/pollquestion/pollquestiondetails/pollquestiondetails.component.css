@@ -3,6 +3,10 @@ html {
     font-size: inherit;
 }
 
+.right-content {
+    width: 100%;
+}
+
 form {
     width: 100%;
 }
@@ -13,11 +17,8 @@ form {
     background: #fff;
     background-color: #eeeeee;	
     color: #000;
-    /* padding: 13px 10px; */
     margin-top: 15px;
     margin-bottom: 1%;
-    padding-top: 10px;
-    /* padding-bottom: 15px; */
     box-shadow: #eeeeee 0px 0px 10px 0px;
 }
 
@@ -29,6 +30,7 @@ form {
 
 label {
     color: rgba(0,0,0,0.70);
+    margin-bottom: 0px;
 }
 
 .thinText {
@@ -49,8 +51,19 @@ label {
 }
 
 .form-header {
+    padding: 10px;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+}
+
+.form-header-dark {
+    padding: 10px;
     background: #dbdbdb;
-    padding: 10px 10px 0px;
+    /* margin-bottom: 1%; */
+}
+
+/* .form-header {
+    background: #dbdbdb;
     text-shadow: 0 1px 0 #f5f5f5;
     border-bottom: 1px solid #ccc;
     -moz-border-radius-topleft: 3px;
@@ -59,13 +72,8 @@ label {
     -moz-border-radius-topright: 3px;
     -webkit-border-top-right-radius: 3px;
     border-top-right-radius: 3px;
-    margin-top: -1%;
     margin-bottom: 1%;
-}
-
-.right-content {
-    width: 100%;
-}
+} */
 
 /* .form-group {
     padding: 10px;
@@ -115,28 +123,16 @@ label {
     font-size: xx-large
 }
 
+.marginTop-10 {
+    margin-top: 10px;
+}
+
 .paddingTop-10 {
     padding-top: 10px;
 }
 
 .paddingTop-15 {
     padding-top: 15px;
-}
-
-.paddingTop-20 {
-    padding-top: 20px;
-}
-
-.paddingTop-25 {
-    padding-top: 25px;
-}
-
-.text-align-Center {
-    text-align: center;
-}
-
-.text-align-Left {
-    text-align: left;
 }
 
 .mat-form-field-placeholder-wrapper {
@@ -167,7 +163,7 @@ label {
     min-height: 64px;
     display: flex;
     align-items: baseline;
-    padding: 0px 24px 0;
+    padding: 8px 24px 0;
     font-size: 20px;
     justify-content: space-between;
   }
@@ -188,30 +184,58 @@ label {
   }
 
   .backTitle {
-    margin-left: -1%;
+    margin-left: -2%;
       cursor: pointer;
   }
 
   .backTitle:hover {
-    margin-left: -1%;
+    margin-left: -2%;
       color: #ff4081;
       cursor: pointer;
   }
 
-.error2{
-background-color: #E3C3C5;
+  .mat-mini-fab:not([class*=mat-elevation-z]) {
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,0), 0 6px 10px 0 rgba(0,0,0,0), 0 1px 18px 0 rgba(0,0,0,0); 
+  }
+
+  .editBtn-color {
+      background: orange;
+  }
+
+  .deleteBtn-color {
+      background: red;
+  }
+
+  .mat-cell, .mat-header-cell {
+    flex: 0;
+    overflow: hidden;
+    /* word-wrap: break-word; */
+  }
+  
+  .editBtn{
+      position: absolute;
+      right: 10px;
+      top: 65%;
+    }
+  
+.editBtn:hover {
+    position: absolute;
+    background-color: rgb(109, 185, 38);
+    color: #FFF;
+    right: 10px;
+    top: 65%;
+  }
+  
+  .editBtn-active {
+    position: absolute;
+    background-color: rgb(109, 185, 38);
+    color: #FFF;
+    right: 10px;
+    top: 65%;
+  }
+
+  .mat-fab .mat-button-wrapper {
+    padding: 18px 2px 15px 0px;
+    display: inline-block;
+    line-height: 24px;
 }
-
-@media (min-width: 1200px){
-	.container {
-		width: 100%;
-    }    
-    .container-sample {
-        width: 100%;
-        padding-top: 5px; 
-        box-sizing: inherit !important; 
-	}
-}
-
-
-
