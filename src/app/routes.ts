@@ -16,6 +16,7 @@ import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
+import { GroupseditComponent } from './authentication/groups/groupsedit/groupsedit.component';
 
 
 export const appRoutes: Routes = [
@@ -29,11 +30,13 @@ export const appRoutes: Routes = [
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
 {path: 'groups' , component: GroupsviewComponent},
+{path: 'groups/:id', component: GroupseditComponent},
 {path: 'pollquestion', component: PollquestionComponent},
 {path: 'pollquestion/:id', component: PollquestiondetailsComponent},
 {path: 'pollresult', component: PollresultComponent},
 {path: 'slider', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
+
 
 
 
