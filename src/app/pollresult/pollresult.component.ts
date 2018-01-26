@@ -16,7 +16,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class PollresultComponent implements OnInit {
 
   pqList = null;
-  displayedColumns = ['num', 'pq_en', 'pq_bm', 'status', 'action'];
+  displayedColumns = ['num', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
