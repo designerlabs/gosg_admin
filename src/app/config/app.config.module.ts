@@ -21,6 +21,7 @@ export class AppConfig {
     urlCommon: string;
     baseURL: string;
     urlUsers: string;
+    urlSlides: string;
     urlUserList: string;
     urlFbTypeList: string;
     urlGroup: string;
@@ -34,6 +35,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
+    urlSlides: commonURL + 'slide',
     urlFbTypeList : commonURL + 'feedback/'
 };
 

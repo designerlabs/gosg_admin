@@ -27,6 +27,7 @@ import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.comp
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
+import { SliderComponent } from './slider/slider.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { PollresultComponent } from './pollresult/pollresult.component';
     PollquestionComponent,
     PollquestiondetailsComponent,
     PollresultComponent,
+    SliderComponent,
   ],
   imports: [
     BrowserModule,

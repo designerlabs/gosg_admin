@@ -14,6 +14,7 @@ import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
+import { SliderComponent } from './slider/slider.component';
 
 
 export const appRoutes: Routes = [
@@ -29,6 +30,7 @@ export const appRoutes: Routes = [
 {path: 'pollquestion', component: PollquestionComponent},
 {path: 'pollquestion/:id', component: PollquestiondetailsComponent},
 {path: 'pollresult', component: PollresultComponent},
+{path: 'slider', component: SliderComponent},
 
 
 
