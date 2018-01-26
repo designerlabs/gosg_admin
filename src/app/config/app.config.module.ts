@@ -9,7 +9,7 @@ const baseURL = 'http://localhost/locale-api/';
 // // common service
 // let portalBaseURL = 'http://localhost:8020/portal/';
 // let protectedBaseURL = 'http://localhost:8021/portal-protected/';
-const commonURL = 'http://10.1.70.148:8003/service-admin-protected/';
+const commonURL = 'http://10.1.70.148:8080/service-admin-protected/';
 // let publicURL = 'http://10.1.70.148:8080/gosg-service-public/';
 
 // let baseLocalURL = './app/apidata/';
@@ -24,17 +24,19 @@ export class AppConfig {
     urlUserList: string;
     urlFbTypeList: string;
     urlGroup: string;
+    urlGroupList: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
     urlMenu: commonURL + 'menu/list?',
-    urlCommon: 'http://10.1.70.148:8003/service-admin-protected/',
+    urlCommon: 'http://10.1.70.148:8080/service-admin-protected/',
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
-    urlFbTypeList : commonURL + 'feedback/'
+    urlFbTypeList : commonURL + 'feedback/',
+    urlGroupList: './app/apidata/groupslist.json'
 };
 
 @NgModule({

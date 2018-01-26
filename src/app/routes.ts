@@ -10,7 +10,7 @@ import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.comp
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
-
+import { GroupsviewComponent } from './authentication/groups/groupsview/groupsview.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 
 export const appRoutes: Routes = [
@@ -22,7 +22,8 @@ export const appRoutes: Routes = [
 {path: '404', component: ErrorComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
-{path: 'userlist', component: UsertblComponent}
+{path: 'userlist', component: UsertblComponent},
+{path: 'groups' , component: GroupsviewComponent}
 
 
 
