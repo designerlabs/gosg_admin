@@ -135,6 +135,14 @@ label {
     padding-top: 15px;
 }
 
+.activeFontColor {
+    color: green;
+}
+
+.inactiveFontColor {
+    color:red;
+}
+
 .mat-form-field-placeholder-wrapper {
     position: absolute;
     left: 0;
@@ -235,7 +243,7 @@ label {
   }
 
   .mat-fab .mat-button-wrapper {
-    padding: 18px 2px 15px 0px;
+    padding: 19px 6px 15px 0px;
     display: inline-block;
     line-height: 24px;
 }

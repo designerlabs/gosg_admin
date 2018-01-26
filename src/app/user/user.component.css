@@ -193,3 +193,49 @@ label {
       color: #ff4081;
       cursor: pointer;
   }
+
+  .mat-mini-fab:not([class*=mat-elevation-z]) {
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,0), 0 6px 10px 0 rgba(0,0,0,0), 0 1px 18px 0 rgba(0,0,0,0); 
+  }
+
+  .editBtn-color {
+      background: orange;
+  }
+
+  .deleteBtn-color {
+      background: red;
+  }
+
+  .mat-cell, .mat-header-cell {
+    flex: 0;
+    overflow: hidden;
+    /* word-wrap: break-word; */
+  }
+  
+  .editBtn{
+      position: absolute;
+      right: 10px;
+      top: 65%;
+    }
+  
+.editBtn:hover {
+    position: absolute;
+    background-color: rgb(109, 185, 38);
+    color: #FFF;
+    right: 10px;
+    top: 65%;
+  }
+  
+  .editBtn-active {
+    position: absolute;
+    background-color: rgb(109, 185, 38);
+    color: #FFF;
+    right: 10px;
+    top: 65%;
+  }
+
+  .mat-fab .mat-button-wrapper {
+    padding: 18px 2px 15px 0px;
+    display: inline-block;
+    line-height: 24px;
+}

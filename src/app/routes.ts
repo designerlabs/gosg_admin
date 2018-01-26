@@ -12,6 +12,11 @@ import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { GroupsviewComponent } from './authentication/groups/groupsview/groupsview.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
+import { PollquestionComponent } from './pollquestion/pollquestion.component';
+import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
+import { PollresultComponent } from './pollresult/pollresult.component';
+import { SliderComponent } from './slider/slider.component';
+
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -23,7 +28,11 @@ export const appRoutes: Routes = [
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
-{path: 'groups' , component: GroupsviewComponent}
+{path: 'groups' , component: GroupsviewComponent},
+{path: 'pollquestion', component: PollquestionComponent},
+{path: 'pollquestion/:id', component: PollquestiondetailsComponent},
+{path: 'pollresult', component: PollresultComponent},
+{path: 'slider', component: SliderComponent},
 
 
 

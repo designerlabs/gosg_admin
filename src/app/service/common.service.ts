@@ -20,11 +20,14 @@ export class CommonService {
  uid;
  userInfo: object;
  userTable: object;
+
+ pqTable: object;
 temp = null;
   // tslint:disable-next-line:max-line-length
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
 
   private usersUrl: string = this.appConfig.urlUsers;
+  private slidersUrl: string = this.appConfig.urlSlides;
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
   //   debugger;
@@ -44,6 +47,13 @@ temp = null;
   //      }
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+
+  }
+  
+  getSlidersData(): Observable<any[]> {
+    return this.http.get(this.slidersUrl)
       .map((response: Response) => response.json())
       .catch(this.handleError);
 
@@ -83,7 +93,8 @@ temp = null;
   }
 
   GetUser(userId) {
-    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(Rdata => {
+    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(
+      Rdata => {
       this.dataTbl = Rdata;
       this.router.navigate(['user', userId]);
     });

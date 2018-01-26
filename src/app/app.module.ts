@@ -26,6 +26,9 @@ import { RolesComponent } from './roles/roles.component';
 import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { GroupsviewComponent } from './authentication/groups/groupsview/groupsview.component';
+import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
+import { PollresultComponent } from './pollresult/pollresult.component';
+import { SliderComponent } from './slider/slider.component';
 
 
 @NgModule({
@@ -44,6 +47,9 @@ import { GroupsviewComponent } from './authentication/groups/groupsview/groupsvi
     FeedbacktblComponent,
     PollquestionComponent,
     GroupsviewComponent,
+    PollquestiondetailsComponent,
+    PollresultComponent,
+    SliderComponent,
   ],
   imports: [
     BrowserModule,
