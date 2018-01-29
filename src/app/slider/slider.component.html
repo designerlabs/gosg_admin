@@ -139,7 +139,7 @@
         <div class="row">
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <textarea matInput placeholder="Description" formControlName="descEn" #descEn (change)="checkReqValues()"
+              <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="sliderForm.controls.descEn.hasError('required')">
                 Description is required
@@ -167,7 +167,7 @@
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
             <mat-form-field class="example-full-width font-size-s">
-                  <mat-select tabindex="1" formControlName="imgEn" placeholder="Select Image" required>
+                  <mat-select tabindex="1" formControlName="imgEn" placeholder="Select Image" (change)="checkReqValues()" required>
                       <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
                       <mat-option [value]="1">image1.png</mat-option>
                       <mat-option [value]="2">image2.jpg</mat-option>
@@ -187,13 +187,13 @@
           </div>
           <div class="col-md-5" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width font-size-s">
-              <mat-select tabindex="1" formControlName="imgEn" placeholder="Select Image" required>
+              <mat-select tabindex="1" formControlName="imgBm" placeholder="Select Image" (change)="checkReqValues()" required>
                   <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
                   <mat-option [value]="1">image1.png</mat-option>
                   <mat-option [value]="2">image2.jpg</mat-option>
                   <mat-option [value]="3">image3.png</mat-option>
               </mat-select>
-            <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
+            <mat-error *ngIf="sliderForm.get('imgBm').hasError('required')">
               Please select a file
             </mat-error>
                 <!-- <mat-error *ngIf="sliderForm.get('imgEn').hasError('maxContentSize')">
@@ -210,7 +210,7 @@
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <mat-checkbox formControlName="active" (change)="isChecked($event)"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+            <mat-checkbox formControlName="active" (change)="checkReqValues()"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
           </div>
         </div>
         <div class="col-md-12">&nbsp;</div>
@@ -224,7 +224,7 @@
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
           <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
-            style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
+            style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i>Reset</button>
         </div>
       <div class="col-md-12">&nbsp;</div>
