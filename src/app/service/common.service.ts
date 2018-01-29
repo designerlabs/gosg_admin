@@ -12,17 +12,21 @@ import 'rxjs/add/observable/of';
 
 @Injectable()
 export class CommonService {
- ObjMenuid: object;
- dataTbl: object;
- data: object;
- mainid;
- subid;
- uid;
- userInfo: object;
- userTable: object;
- sliderTable: object;
- pqTable: object;
-temp = null;
+  ObjMenuid: object;
+  dataTbl: object;
+  data: object;
+  mainid;
+  subid;
+  uid;
+  userInfo: object;
+  userTable: object;
+  sliderTable: object;
+  pqTable: object;
+  temp = null;
+
+  isEdit: boolean;
+  pageMode: String;
+
   // tslint:disable-next-line:max-line-length
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
 
@@ -121,6 +125,13 @@ temp = null;
     return this.http.get(this.appConfig.urlFbTypeList + 'type/?langId=1')
     .map((response: Response) => response.json())
     .catch(this.handleError);
+  }
+
+  pageModeChange(isEdit) {
+    if(isEdit == true)
+      this.pageMode = "Update"
+    else
+      this.pageMode = "Add"
   }
 
   private handleError(error: Response) {

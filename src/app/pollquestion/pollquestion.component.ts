@@ -26,9 +26,7 @@ export class PollquestionComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
-  isEdit: boolean;
-  pageMode: String;
-
+  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -97,8 +95,8 @@ export class PollquestionComponent implements OnInit {
     this.getPQList(page + 1, this.pageSize);
   }
 
-  // pageModeChange() {
-  //   if(this.isEdit == true)
+  // pageModeChange(isEdit) {
+  //   if(isEdit == true)
   //     this.pageMode = "Update"
   //   else
   //     this.pageMode = "Add"
@@ -109,8 +107,10 @@ export class PollquestionComponent implements OnInit {
   // }
 
   add() {
+    
+    debugger;
     // this.isEdit = false;
-    // this.pageModeChange(this.isEdit);
+    // this.commonservice.pageModeChange(this.isEdit);
     this.router.navigate(['pollquestion', 'add']);
     
     // this.commonservice.GetUser(row.userId);
