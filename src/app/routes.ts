@@ -10,13 +10,13 @@ import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.comp
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
-import { GroupsviewComponent } from './authentication/groups/groupsview/groupsview.component';
+import { GroupsviewComponent } from './authentication/groups/groupsview.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { GroupseditComponent } from './authentication/groups/groupsedit/groupsedit.component';
+import { GroupseditComponent } from './authentication/groups/groupsedit.component';
 
 
 export const appRoutes: Routes = [
