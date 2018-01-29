@@ -66,10 +66,7 @@ export class LeftmenuComponent implements OnInit {
   }
 
   getTbl(mainid) {
-    debugger;
-
     this.router.navigate([mainid]);
-
       //  this.router.navigate(['articletbl', subid]);
     //    this.objMenu = obj;
     // if (mainid === 1 && subid === 3) {
