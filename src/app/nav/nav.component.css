@@ -79,9 +79,19 @@ height: 60px; }
     color: #8a0a0a;
 	/* top:35px; */
 }
+
+.userContainer{
+    color: #1ebebc; float: right; top: 20px; position: relative;
+}
+
+
+.logoContainer{
+    color: #1ebebc;
+}
+
 .mdcontainer{
 	width: 90%;
-    height: 53px;
+    height: auto;
     position: relative;
     background-color: rgb(255, 255, 255);
     margin-bottom: 1%;
