@@ -17,8 +17,8 @@ export class SliderComponent implements OnInit {
   sliderList = null;
   displayedColumns :any;
   displayedColumns2 :any;
-  userPageSize = 10;
-  userPageCount = 1;
+  sliderPageSize = 10;
+  sliderPageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -50,16 +50,16 @@ export class SliderComponent implements OnInit {
   }
   // tslint:disable-next-line:max-line-length
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router) {
-    this.getSlidersData(this.userPageCount, this.userPageSize);
+    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
   }
 
   ngOnInit() {
     // this.viewSeq = 1; /* View Page change by {1,2} */
     this.isEdit = false;
-    // this.changePageMode(this.isEdit);
+    this.changePageMode(this.isEdit);
     this.displayedColumns = ['slideId','slideTitle', 'slideDescription', 'slideImage', 'slideActiveFlag','slideAction'];
-    this.displayedColumns2 = ['userId','fullName', 'pid', 'userTypeId', 'isStaff', 'accountStatusId'  ];
-    this.getSlidersData(this.userPageCount, this.userPageSize);
+    this.displayedColumns2 = ['sliderId','fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'  ];
+    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
     // console.log(this.dataSource)
 
     // this.complete = false;
@@ -87,27 +87,23 @@ export class SliderComponent implements OnInit {
   }
 
   // get Slider Data 
-  getSlidersData(count,size) { //'?page=1&size=10'
-  // console.log(this.appConfig.urlUserList + '/?page=' + count + '&size=' + size)
+  getSlidersData(count,size) {
+  // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
 
-  // if(this.viewSeq == 1)
     this.dataUrl = this.appConfig.urlSlides;
-  // else if(this.viewSeq == 2)
-    // this.dataUrl = this.appConfig.urlUsers;
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(data => {
-    // this.http.get(this.dataUrl).subscribe(data => {
-      
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
+      data => {
       this.sliderList = data;
-      // console.log(this.sliderList);
+        console.log(this.sliderList)
       this.dataSource.data = this.sliderList.slideList;
-      this.commonservice.userTable = this.sliderList;
-      // this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+      this.commonservice.sliderTable = this.sliderList;
+      this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
     });
   }
 
   paginatorL(page) {
-    this.getSlidersData(this.userPageCount, this.userPageSize);
+    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -117,13 +113,9 @@ export class SliderComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSlidersData(this.userPageCount, this.userPageSize);
+    this.getSlidersData(this.sliderPageCount + 1, this.sliderPageSize);
   }
 
-  // getRow(row) {
-  //   console.log(row);
-  //   this.commonservice.GetUser(row.userId);
-  // }
   changePageMode(isEdit) {
     if(isEdit == false) {
       this.pageMode = "Add";
@@ -133,12 +125,11 @@ export class SliderComponent implements OnInit {
   }
 
   addBtn() {
-    // console.log();
-
+    // this.router.navigate(['slider', "add"]);
+    
     this.viewSeq = 2;
-    this.router.navigate(['slider', "add"]);
     alert("Add Slider");
-    // this.commonservice.GetUser(row.userId);
+    console.log(this.viewSeq);
   }
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
@@ -146,8 +137,8 @@ export class SliderComponent implements OnInit {
     this.dataSource.sort = this.sort;
    }
    pageChange(event, totalPages) {
-    this.getSlidersData(this.userPageCount, this.userPageSize);
-    this.userPageSize = event.value;
+    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+    this.sliderPageSize = event.value;
     this.noPrevData = true;
   }
 

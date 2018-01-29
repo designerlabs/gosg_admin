@@ -29,6 +29,7 @@ import { GroupsviewComponent } from './authentication/groups/groupsview/groupsvi
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
+import { GroupseditComponent } from './authentication/groups/groupsedit/groupsedit.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { SliderComponent } from './slider/slider.component';
     PollquestiondetailsComponent,
     PollresultComponent,
     SliderComponent,
+    GroupseditComponent,
   ],
   imports: [
     BrowserModule,

@@ -16,7 +16,7 @@ export class GroupsviewComponent implements OnInit {
   groupPageCount = 1;
   groupPageSize = 10;
   groupList = null;
-  displayedColumns = ['groupName', 'isActive', 'modules'];
+  displayedColumns = ['groupName', 'isActive', 'modules', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.groupList);
 
@@ -37,6 +37,11 @@ export class GroupsviewComponent implements OnInit {
       // this.commonservice.userTable = this.groupList;
       this.groupList = this.groupList.pageNumber === this.groupList.totalPages;
     });
+  }
+
+  editGroup(gId) {
+    console.log(gId);
+    this.router.navigate(['groups', gId]);
   }
 
 }

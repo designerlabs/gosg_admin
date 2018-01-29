@@ -1,6 +1,4 @@
 <form class="example-form">
-	<button mat-raised-button color="accent" style="width:90%">SITE ADMINISTRATION</button>
-	
 	<mat-form-field class="example-form-field" style="width:90%">
 			<input matInput type="text" placeholder="Search" [(ngModel)]="value" [matAutocomplete]="auto"  [ngModelOptions]="{standalone: true}"/>
 			<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
