@@ -15,22 +15,22 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class SliderComponent implements OnInit {
 
   sliderList = null;
-  displayedColumns :any;
-  displayedColumns2 :any;
+  displayedColumns: any;
+  displayedColumns2: any;
   sliderPageSize = 10;
   sliderPageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
   viewSeq = 1; /* View Page Sequence Based on Discussion {1,2} */
-  dataUrl:any;
+  dataUrl: any;
   date = new Date();
   sliderForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
-  complete:boolean;
-  pageMode:String;
-  
+  complete: boolean;
+  pageMode: String;
+
 
   titleEn: FormControl
   titleBm: FormControl
@@ -59,8 +59,8 @@ export class SliderComponent implements OnInit {
   ngOnInit() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.displayedColumns = ['slideId','slideTitle', 'slideDescription', 'slideImage', 'slideActiveFlag','slideAction'];
-    this.displayedColumns2 = ['sliderId','fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'  ];
+    this.displayedColumns = ['slideId', 'slideTitle', 'slideDescription', 'slideImage', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns2 = ['sliderId', 'fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'];
     this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
 
     // this.complete = false;
@@ -89,19 +89,19 @@ export class SliderComponent implements OnInit {
   }
 
   // get Slider Data 
-  getSlidersData(count,size) {
-  // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
+  getSlidersData(count, size) {
+    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
 
     this.dataUrl = this.appConfig.urlSlides;
 
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
       data => {
-      this.sliderList = data;
+        this.sliderList = data;
         // console.log(this.sliderList)
-      this.dataSource.data = this.sliderList.slideList;
-      this.commonservice.sliderTable = this.sliderList;
-      this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
-    });
+        this.dataSource.data = this.sliderList.slideList;
+        this.commonservice.sliderTable = this.sliderList;
+        this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+      });
   }
 
   paginatorL(page) {
@@ -119,16 +119,16 @@ export class SliderComponent implements OnInit {
   }
 
   changePageMode(isEdit) {
-    if(isEdit == false) {
+    if (isEdit == false) {
       this.pageMode = "Add";
-    } else if(isEdit == true) {
+    } else if (isEdit == true) {
       this.pageMode = "Update";
     }
   }
 
   addBtn() {
     // this.router.navigate(['slider', "add"]);
-    
+
     this.viewSeq = 2;
     alert("Add Slider");
     // console.log(this.viewSeq);
@@ -137,18 +137,18 @@ export class SliderComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-   }
-   pageChange(event, totalPages) {
+  }
+  pageChange(event, totalPages) {
     this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
     this.sliderPageSize = event.value;
     this.noPrevData = true;
   }
 
-   onPaginateChange(event) {
+  onPaginateChange(event) {
     // alert(JSON.stringify(event));
     //  const startIndex = event.pageIndex * event.pageSize;
     // this.drugmap.getDrugDataForClient(startIndex, event.pageSize);
-      // this.dataSource = new ExampleDataSource(this.exampleDatabase,this.paginator);
+    // this.dataSource = new ExampleDataSource(this.exampleDatabase,this.paginator);
   }
 
   navigateBack() {
@@ -159,20 +159,19 @@ export class SliderComponent implements OnInit {
   updateRow(row) {
     console.log(this.viewSeq);
     console.log(row);
-    alert("Update Slider id: "+row);
+    alert("Update Slider id: " + row);
     // this.commonservice.GetUser(row.userId);
   }
 
   deleteRow(row) {
     console.log(row);
-    alert("Delete Slider id: "+row);
+    alert("Delete Slider id: " + row);
     // this.commonservice.GetUser(row.userId);
   }
 
   isChecked(e) {
 
-    if(e.checked)
-    {
+    if (e.checked) {
       this.sliderForm.get("imgBm").setValue(this.sliderForm.get("imgEn").value);
       // console.log(e.checked)
     } else {
@@ -190,19 +189,19 @@ export class SliderComponent implements OnInit {
     let imgBm = "imgBm";
     let active = "active";
 
-    let reqVal:any = [ titleEn, descEn, imgEn, titleBm, descBm, imgBm, active ];
-    let nullPointers:any = [];
+    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, active];
+    let nullPointers: any = [];
 
-    for(var reqData of reqVal) {
+    for (var reqData of reqVal) {
       let elem = this.sliderForm.get(reqData);
 
-      if(elem.value == "" || elem.value == null) {
+      if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
         nullPointers.push(null)
       }
     }
 
-    if(nullPointers.length > 0) {
+    if (nullPointers.length > 0) {
       this.complete = false;
     } else {
       this.complete = true;
@@ -210,19 +209,19 @@ export class SliderComponent implements OnInit {
     }
 
   }
-  
+
   myFunction() {
     var txt;
     var r = confirm("Are you sure to reset the form?");
     if (r == true) {
-        txt = "You pressed OK!";
-        this.sliderForm.reset();
+      txt = "You pressed OK!";
+      this.sliderForm.reset();
     } else {
-        txt = "You pressed Cancel!";
+      txt = "You pressed Cancel!";
     }
   }
 
-  updateSlider(formValues:any) {
+  updateSlider(formValues: any) {
     console.log(this.viewSeq);
 
     let body = [{
