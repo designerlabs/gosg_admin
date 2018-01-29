@@ -51,7 +51,7 @@
           </ng-container>
       
           <!-- question en Column -->
-          <ng-container matColumnDef="pq_en">
+          <ng-container matColumnDef="col2">
               <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (EN) </mat-header-cell>
               <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
                   {{element.announcementCategoryName}} 
@@ -59,7 +59,7 @@
           </ng-container>
 
           <!-- question bm Column -->
-          <ng-container matColumnDef="pq_bm">
+          <ng-container matColumnDef="col3">
               <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (BM) </mat-header-cell>
               <mat-cell class="text-align-Left" *matCellDef="let element">
                   {{element.announcementCategoryDescription}}
@@ -67,7 +67,7 @@
           </ng-container>
       
           <!-- status Column -->
-          <ng-container matColumnDef="status">
+          <ng-container matColumnDef="col4">
               <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Active Status </mat-header-cell>
               <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
                   <i class="fa fa-check" style="color: green;"></i>

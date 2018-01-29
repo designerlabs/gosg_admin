@@ -31,7 +31,8 @@ export class PollquestionComponent implements OnInit {
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
+  debugger;
+  
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
@@ -58,14 +59,14 @@ export class PollquestionComponent implements OnInit {
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) {
 
-    this.getPQList(this.pageCount, this.pageSize);
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
-    this.getPQList(this.pageCount, this.pageSize);
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
-  getPQList(count, size) {
+  getRecordList(count, size) {
   
     this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
 
@@ -84,7 +85,7 @@ export class PollquestionComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getPQList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -94,7 +95,7 @@ export class PollquestionComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getPQList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize);
   }
 
   // pageModeChange(isEdit) {
@@ -110,7 +111,7 @@ export class PollquestionComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['pollquestion', 'add']);
+    this.router.navigate(['poll','questions', 'add']);
     this.commonservice.pageModeChange(false);
     // this.commonservice.GetUser(row.userId);
   }
@@ -119,7 +120,7 @@ export class PollquestionComponent implements OnInit {
     
     console.log(row);
     alert("Update pq id: "+row);
-    this.router.navigate(['pollquestion', row]);
+    this.router.navigate(['poll', 'questions',row]);
     this.commonservice.pageModeChange(true);
     // this.commonservice.GetUser(row.userId);
   }
@@ -136,7 +137,7 @@ export class PollquestionComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getPQList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

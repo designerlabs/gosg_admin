@@ -16,7 +16,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class FeedbacktypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num', 'pq_en', 'pq_bm', 'status', 'action'];
+  displayedColumns = ['num', 'col2', 'col3', 'col4', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -30,6 +30,8 @@ export class FeedbacktypetblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+
+  
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(filterValue: string) {
