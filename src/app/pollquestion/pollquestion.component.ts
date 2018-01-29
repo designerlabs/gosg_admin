@@ -109,8 +109,8 @@ export class PollquestionComponent implements OnInit {
   add() {
     
     debugger;
-    this.isEdit = false;
-    this.commonservice.pageModeChange(this.isEdit);
+    // this.isEdit = false;
+    // this.commonservice.pageModeChange(this.isEdit);
     this.router.navigate(['pollquestion', 'add']);
     
     // this.commonservice.GetUser(row.userId);
