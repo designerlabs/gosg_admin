@@ -21,10 +21,9 @@ export class CommonService {
   userInfo: object;
   userTable: object;
   sliderTable: object;
-  pqTable: object;
+  recordTable: object;
   temp = null;
 
-  isEdit: boolean;
   pageMode: String;
 
   // tslint:disable-next-line:max-line-length
@@ -127,11 +126,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  pageModeChange(isEdit) {
-    if(isEdit == true)
+  pageModeChange(isEdit: boolean) {
+    if(isEdit === true)
       this.pageMode = "Update"
     else
       this.pageMode = "Add"
+
+    return this.pageMode;
   }
 
   private handleError(error: Response) {

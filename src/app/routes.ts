@@ -16,6 +16,8 @@ import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
+import { FeedbacktypeComponent } from './feedbackTypeMod/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedbackTypeMod/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupseditComponent } from './authentication/groups/groupsedit.component';
 
 
@@ -24,16 +26,19 @@ export const appRoutes: Routes = [
 {path: '', redirectTo: 'index', pathMatch: 'full'},
 {path: 'addtemplate', component: AddtemplateComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
-{path: 'feedback', component: FeedbacktblComponent},
+{path: 'feedback/message/visitor', component: FeedbacktblComponent},
+{path: 'feedback/message/admin', component: FeedbacktblComponent},
+{path: 'feedback/type', component: FeedbacktypetblComponent},
+{path: 'feedback/type/:id', component: FeedbacktypeComponent},
 {path: '404', component: ErrorComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
 {path: 'groupmodule' , component: GroupsviewComponent},
 {path: 'groups/:id', component: GroupseditComponent},
-{path: 'pollquestion', component: PollquestionComponent},
-{path: 'pollquestion/:id', component: PollquestiondetailsComponent},
-{path: 'pollresult', component: PollresultComponent},
+{path: 'poll/questions', component: PollquestionComponent},
+{path: 'poll/questions/:id', component: PollquestiondetailsComponent},
+{path: 'poll/results', component: PollresultComponent},
 {path: 'slider', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
 
