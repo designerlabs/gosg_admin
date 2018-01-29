@@ -65,16 +65,10 @@ export class LeftmenuComponent implements OnInit {
     return user ? user.name : user;
   }
 
-  getTbl(mainid, subid) {
-       const obj = {
-           mainMenu: mainid,
-           subMenu: subid
-       };
-       this.commonservice.ObjMenuid = obj;
-       this.commonservice.getMenuID(obj);
-       this.commonservice.GetList(subid);
-       console.log(subid);
-      //  this.router.navigate(['articletbl', subid.toString()]);
+  getTbl(mainid) {
+    debugger;
+
+    this.router.navigate([mainid]);
 
       //  this.router.navigate(['articletbl', subid]);
     //    this.objMenu = obj;
