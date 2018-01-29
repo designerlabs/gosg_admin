@@ -32,13 +32,13 @@ export class PollquestiondetailsComponent implements OnInit {
   opt4Bm: FormControl;
   opt5Bm: FormControl;
 
-  complete: any;
   displayedColumns = ['optionEn', 'optionBm'];
+  complete: boolean;
 
   constructor(private commonservice: CommonService) { }
 
   ngOnInit() {
-
+  
     this.pollEng = new FormControl();
     this.pollMalay = new FormControl();
 

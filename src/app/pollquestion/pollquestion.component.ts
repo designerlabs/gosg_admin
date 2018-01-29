@@ -17,7 +17,7 @@ export class PollquestionComponent implements OnInit {
 
   updateForm: FormGroup
 
-  pqList = null;
+  recordList = null;
   displayedColumns = ['num', 'pq_en', 'pq_bm', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
@@ -26,11 +26,13 @@ export class PollquestionComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
+  isEdit: boolean;
+
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.pqList);
+  dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -70,14 +72,14 @@ export class PollquestionComponent implements OnInit {
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.pqList = data;
+      this.recordList = data;
 
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.pqList.announcementList;
-      this.commonservice.pqTable = this.pqList;
-      this.noNextData = this.pqList.pageNumber === this.pqList.totalPages;
+      this.dataSource.data = this.recordList.announcementList;
+      this.commonservice.recordTable = this.recordList;
+      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
   }
 
@@ -107,12 +109,9 @@ export class PollquestionComponent implements OnInit {
   // }
 
   add() {
-    
-    debugger;
-    // this.isEdit = false;
-    // this.commonservice.pageModeChange(this.isEdit);
+
     this.router.navigate(['pollquestion', 'add']);
-    
+    this.commonservice.pageModeChange(false);
     // this.commonservice.GetUser(row.userId);
   }
 
@@ -121,6 +120,7 @@ export class PollquestionComponent implements OnInit {
     console.log(row);
     alert("Update pq id: "+row);
     this.router.navigate(['pollquestion', row]);
+    this.commonservice.pageModeChange(true);
     // this.commonservice.GetUser(row.userId);
   }
 
