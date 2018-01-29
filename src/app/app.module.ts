@@ -32,6 +32,11 @@ import { SliderComponent } from './slider/slider.component';
 import { FeedbacktypeComponent } from './feedbackTypeMod/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedbackTypeMod/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupseditComponent } from './authentication/groups/groupsedit.component';
+import { CountryComponent } from './referencecode/country/country.component';
+import { CityComponent } from './referencecode/city/city.component';
+import { StateComponent } from './referencecode/state/state.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { ReligionComponent } from './referencecode/religion/religion.component';
 
 
 @NgModule({
@@ -56,6 +61,11 @@ import { GroupseditComponent } from './authentication/groups/groupsedit.componen
     GroupseditComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
+    CountryComponent,
+    CityComponent,
+    StateComponent,
+    EthnicityComponent,
+    ReligionComponent,
   ],
   imports: [
     BrowserModule,
