@@ -134,5 +134,16 @@ export class PollquestiondetailsComponent implements OnInit {
     }
   }
 
+  myFunction() {
+    var txt;
+    var r = confirm("Are you sure to reset the form?");
+    if (r == true) {
+        txt = "You pressed OK!";
+        this.updateForm.reset();
+    } else {
+        txt = "You pressed Cancel!";
+    }
+  }
+
 }
 
