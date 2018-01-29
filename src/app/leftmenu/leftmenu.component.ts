@@ -65,7 +65,7 @@ export class LeftmenuComponent implements OnInit {
     return user ? user.name : user;
   }
 
-  getTbl(mainid, subid) {
+  getTbl(mainid, subid, subUrl) {
        const obj = {
            mainMenu: mainid,
            subMenu: subid
@@ -74,7 +74,7 @@ export class LeftmenuComponent implements OnInit {
        this.commonservice.getMenuID(obj);
        this.commonservice.GetList(subid);
        console.log(subid);
-      //  this.router.navigate(['articletbl', subid.toString()]);
+       this.router.navigate([subUrl]);
 
       //  this.router.navigate(['articletbl', subid]);
     //    this.objMenu = obj;
