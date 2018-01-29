@@ -28,7 +28,9 @@ export class SliderComponent implements OnInit {
   sliderForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
+  complete:boolean;
   pageMode:String;
+  
 
   titleEn: FormControl
   titleBm: FormControl
@@ -52,15 +54,14 @@ export class SliderComponent implements OnInit {
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router) {
     this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
   }
+  resetMsg = this.resetMsg;
 
   ngOnInit() {
-    // this.viewSeq = 1; /* View Page change by {1,2} */
     this.isEdit = false;
     this.changePageMode(this.isEdit);
     this.displayedColumns = ['slideId','slideTitle', 'slideDescription', 'slideImage', 'slideActiveFlag','slideAction'];
     this.displayedColumns2 = ['sliderId','fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'  ];
     this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
-    // console.log(this.dataSource)
 
     // this.complete = false;
 
@@ -68,7 +69,7 @@ export class SliderComponent implements OnInit {
     this.titleBm = new FormControl()
     this.descEn = new FormControl()
     this.descBm = new FormControl()
-    this.imgEn = new FormControl([Validators.required])
+    this.imgEn = new FormControl()
     this.imgBm = new FormControl()
     this.active = new FormControl()
     this.copyImg = new FormControl()
@@ -77,13 +78,14 @@ export class SliderComponent implements OnInit {
     this.sliderForm = new FormGroup({
       titleEn: this.titleEn,
       descEn: this.descEn,
-      imgEn: this.descEn,
-      titleBm: this.titleEn,
-      descBm: this.descEn,
-      imgBm: this.descEn,
+      imgEn: this.imgEn,
+      titleBm: this.titleBm,
+      descBm: this.descBm,
+      imgBm: this.imgBm,
       active: this.active,
       copyImg: this.copyImg
     });
+
   }
 
   // get Slider Data 
@@ -95,7 +97,7 @@ export class SliderComponent implements OnInit {
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
       data => {
       this.sliderList = data;
-        console.log(this.sliderList)
+        // console.log(this.sliderList)
       this.dataSource.data = this.sliderList.slideList;
       this.commonservice.sliderTable = this.sliderList;
       this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
@@ -129,7 +131,7 @@ export class SliderComponent implements OnInit {
     
     this.viewSeq = 2;
     alert("Add Slider");
-    console.log(this.viewSeq);
+    // console.log(this.viewSeq);
   }
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
@@ -167,6 +169,59 @@ export class SliderComponent implements OnInit {
     // this.commonservice.GetUser(row.userId);
   }
 
+  isChecked(e) {
+
+    if(e.checked)
+    {
+      this.sliderForm.get("imgBm").setValue(this.sliderForm.get("imgEn").value);
+      // console.log(e.checked)
+    } else {
+      this.sliderForm.get("imgBm").setValue("");
+    }
+    this.copyImg = e.checked;
+  }
+
+  checkReqValues() {
+    let titleEn = "titleEn";
+    let descEn = "descEn";
+    let imgEn = "imgEn";
+    let titleBm = "titleBm";
+    let descBm = "descBm";
+    let imgBm = "imgBm";
+    let active = "active";
+
+    let reqVal:any = [ titleEn, descEn, imgEn, titleBm, descBm, imgBm, active ];
+    let nullPointers:any = [];
+
+    for(var reqData of reqVal) {
+      let elem = this.sliderForm.get(reqData);
+
+      if(elem.value == "" || elem.value == null) {
+        elem.setValue(null)
+        nullPointers.push(null)
+      }
+    }
+
+    if(nullPointers.length > 0) {
+      this.complete = false;
+    } else {
+      this.complete = true;
+      // this.toastr.error(this.translate.instant('Country error!'), '');
+    }
+
+  }
+  
+  myFunction() {
+    var txt;
+    var r = confirm("Are you sure to reset the form?");
+    if (r == true) {
+        txt = "You pressed OK!";
+        this.sliderForm.reset();
+    } else {
+        txt = "You pressed Cancel!";
+    }
+  }
+
   updateSlider(formValues:any) {
     console.log(this.viewSeq);
 
@@ -193,4 +248,28 @@ export class SliderComponent implements OnInit {
     }];
 
   }
+
+  // showResetMsg(){
+  //   this.dialogsService
+  //   .confirm('', this.translate.instant('feedback.reset'))
+  //   .subscribe(
+  //     data => {
+  //       if(data){
+  //         this.resetForm();
+  //       }
+  //     });
+  // }
+
+  // resetForm(){
+  //   this.nama_penuh.reset();
+  //   this.feedback_message.reset();
+  //   this.email.reset();
+  //   this.feedbacksubject.reset();
+  //   this.feedbacktype.reset();
+  //   this.sendMsg = true;
+  // } 
+
+  // resetMethod(event) {
+  //   this.resetForm();
+  // }
 }
