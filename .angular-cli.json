@@ -25,8 +25,7 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/multiselect/css/multi-select.css"
       ],
-      "scripts": [
-        "../node_modules/jquery/dist/jquery.js",
+      "scripts": [        
         "../node_modules/multiselect/js/jquery.multi-select.js"
       ],
       "environmentSource": "environments/environment.ts",
