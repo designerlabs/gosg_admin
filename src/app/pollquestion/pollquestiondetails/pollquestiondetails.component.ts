@@ -12,8 +12,14 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
+<<<<<<< HEAD
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+=======
+import { Router, RouterModule } from '@angular/router';
+// import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+// import { SelectionModel } from '@angular/cdk/collections';
+>>>>>>> 333c561bfc7c5e882488e2b8edce8f5c5e359688
 
 @Component({
   selector: 'app-pollquestiondetails',
