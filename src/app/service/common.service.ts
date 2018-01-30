@@ -135,6 +135,17 @@ export class CommonService {
     return this.pageMode;
   }
 
+  // SLIDER
+  addSlider(slider) {
+
+    console.log(this.appConfig.urlSlides)
+    console.log(slider)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    return this.http.post(this.appConfig.urlSlides, slider)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
