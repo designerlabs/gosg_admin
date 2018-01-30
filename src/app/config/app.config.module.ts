@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
 const baseURL = 'http://localhost/locale-api/';
+const localDB = 'http://10.1.22.34:3000/';
 // const baseURL = 'http://10.1.17.12:3000/';
 
 // // common service
@@ -42,8 +43,16 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
+<<<<<<< HEAD
     urlGroupList: './app/apidata/groupslist.json',
     urlSlides: commonURL + 'slide',  
+=======
+    // urlGroupList: './app/apidata/groupslist.json',
+    urlGroupList: localDB + 'groupListView',
+    
+    urlSlides: commonURL + 'slide',
+
+>>>>>>> 29a2ea9a524de3720e686afcbf351f22c31796f3
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
