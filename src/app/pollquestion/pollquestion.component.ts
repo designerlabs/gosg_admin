@@ -120,10 +120,9 @@ debugger;
     
     console.log(row);
     // alert("Update pq id: "+row);
-    // this.router.navigate(['poll/questions', row]);
-    // this.commonservice.pageModeChange(true);
+    this.router.navigate(['poll/questions', row]);
+    this.commonservice.pageModeChange(true);
     // this.commonservice.GetUser(row.userId);
-    this.router.navigate(['groups', row]);
   }
 
   deleteRow(row) {
