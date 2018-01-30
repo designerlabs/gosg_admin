@@ -53,9 +53,7 @@ export class PollresultComponent implements OnInit {
     //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
     this.dataUrl = this.appConfig.urlUserList;
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-    //this.http.get(this.dataUrl)
-    
- 
+    //this.http.get(this.dataUrl) 
 
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     .subscribe(data => {
