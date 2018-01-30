@@ -9,15 +9,20 @@
   </div> 
 
   <div class="example-container mat-elevation-z8">
-    <mat-table #table [dataSource]="dataSource">
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <!-- Number Column -->
+      <!-- <ng-container matColumnDef="No">
+          <mat-header-cell *matHeaderCellDef > No. </mat-header-cell>
+          <mat-cell *matCellDef="let element" > {{element.groupName}} </mat-cell>
+        </ng-container>   -->
       <!-- groupName Column -->
       <ng-container matColumnDef="groupName">
-        <mat-header-cell *matHeaderCellDef > Group Name </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Group Name </mat-header-cell>
         <mat-cell *matCellDef="let element" > {{element.groupName}} </mat-cell>
       </ng-container>  
       <!-- User Type Column -->
       <ng-container matColumnDef="modules" >
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 50%'"> Modules </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 50%'"> Modules </mat-header-cell>
         <mat-cell *matCellDef="let element" style="padding:5px;" [style.flex]="'0 0 50%'">          
               <mat-chip-list >
                   <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules ? element.modules.slice(0,3): [])">{{ele.name}}</mat-chip>                
@@ -26,14 +31,14 @@
       </ng-container> 
       <!-- isActive Column -->
       <ng-container matColumnDef="isActive" >
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 10%'"> Status </mat-header-cell>
+          <mat-header-cell mat-sort-header *matHeaderCellDef [style.flex]="'0 0 10%'"> Status </mat-header-cell>
           <mat-cell *matCellDef="let element" [style.flex]="'0 0 10%'"> {{element.isActive}}
                 
           </mat-cell>
         </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action" >
-        <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 20%'"> Action </mat-header-cell>
+        <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 20%'"> Action </mat-header-cell>
         <mat-cell class="text-align-Center" *matCellDef="let element" style="padding:5px;" [style.flex]="'0 0 20%'">
             <button mat-mini-fab style="background: orange" title="Update {{ element.groupId }}">
             <i class="fa fa-edit" (click)="editGroup(element.groupId)"></i></button>&nbsp;
@@ -57,6 +62,29 @@
   
   </div>
 
+  <div class="float-right paddingTop-15">
+      <mat-form-field style="width:50px;">
+        <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, groupList?.totalPages)">
+          <mat-option value="5">5</mat-option>
+          <mat-option value="10">10</mat-option>
+          <mat-option value="25">25</mat-option>
+          <mat-option value="50">50</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="float-right">
+        <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+          <strong>{{groupList?.pageNumber}}</strong> of
+          <strong>{{groupList?.totalPages}}</strong> in
+          <strong>{{groupList?.totalElements}}</strong> users</span>
+        <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(groupList?.pageNumber)">
+          <i class="fa fa-angle-left" aria-hidden="true"></i>
+        </button>
+        <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(groupList?.pageNumber, groupList?.totalPages)">
+          <i class="fa fa-angle-right" aria-hidden="true"></i>
+        </button>
+      </span>
+    </div>
+    
 
   </div>
 
