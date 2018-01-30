@@ -25,8 +25,10 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 50%'"> Modules </mat-header-cell>
         <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 50%'">          
               <mat-chip-list >
-                  <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules ? element.modules.slice(0,3): [])">{{ele.name}}</mat-chip>                
-              </mat-chip-list>                       
+                  <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules ? element.modules.slice(0,3): [])">{{ele.name}}</mat-chip>
+                                
+              </mat-chip-list>  
+              {{element.modules.length - 3}}                     
         </mat-cell>
       </ng-container> 
       <!-- isActive Column -->

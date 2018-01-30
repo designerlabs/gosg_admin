@@ -58,7 +58,7 @@ export class PollquestionComponent implements OnInit {
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) {
-
+debugger;
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
@@ -111,7 +111,7 @@ export class PollquestionComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['poll','questions', 'add']);
+    this.router.navigate(['poll/questions', 'add']);
     this.commonservice.pageModeChange(false);
     // this.commonservice.GetUser(row.userId);
   }
@@ -119,10 +119,11 @@ export class PollquestionComponent implements OnInit {
   updateRow(row) {
     
     console.log(row);
-    alert("Update pq id: "+row);
-    this.router.navigate(['poll', 'questions',row]);
-    this.commonservice.pageModeChange(true);
+    // alert("Update pq id: "+row);
+    // this.router.navigate(['poll/questions', row]);
+    // this.commonservice.pageModeChange(true);
     // this.commonservice.GetUser(row.userId);
+    this.router.navigate(['groups', row]);
   }
 
   deleteRow(row) {
