@@ -49,7 +49,7 @@ export class PollresultComponent implements OnInit {
   }
 
   getRecordList(count, size) {
-  
+    
     //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
     this.dataUrl = this.appConfig.urlUserList;
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)

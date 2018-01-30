@@ -8,64 +8,63 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-feedbacktypetbl',
-  templateUrl: './feedbacktypetbl.component.html',
-  styleUrls: ['./feedbacktypetbl.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-city',
+  templateUrl: './city.component.html',
+  styleUrls: ['./city.component.css']
 })
-export class FeedbacktypetblComponent implements OnInit {
+export class CityComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num', 'col2', 'col3', 'col4', 'action'];
+  displayedColumns = ['cityName', 'cityId', 'cityCode', 'stateName', 'stateId'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
 
-  dataUrl: any;  
-  isEdit: boolean;
+  dataUrl: any;
 
-  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
-  
   dataSource = new MatTableDataSource<object>(this.recordList);
+  selection = new SelectionModel<Element>(true, []);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) { 
 
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
+              private commonservice: CommonService, private router: Router) {
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
-
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
-  
-    this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
 
+    //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
+    this.dataUrl = this.appConfig.urlCityList;
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-    this.http.get(this.dataUrl)
-    .subscribe(data => {
-      this.recordList = data;
+    //this.http.get(this.dataUrl)
 
-      console.log("data");
-      console.log(data);
-      
-      this.dataSource.data = this.recordList.announcementList;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-    });
+
+
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+      .subscribe(data => {
+        this.recordList = data;
+
+        console.log("data");
+        console.log(data);
+
+        this.dataSource.data = this.recordList.cityList;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      });
   }
 
   paginatorL(page) {
@@ -80,28 +79,6 @@ export class FeedbacktypetblComponent implements OnInit {
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
     this.getRecordList(page + 1, this.pageSize);
-  }
-
-  add() {
-
-    this.router.navigate(['feedbacktype', 'add']);
-    this.commonservice.pageModeChange(false);
-    // this.commonservice.GetUser(row.userId);
-  }
-
-  updateRow(row) {
-    
-    console.log(row);
-    alert("Update pq id: "+row);
-    this.router.navigate(['feedbacktype', row]);
-    this.commonservice.pageModeChange(true);
-    // this.commonservice.GetUser(row.userId);
-  }
-
-  deleteRow(row) {
-    console.log(row);
-    alert("Delete pq id: "+row);
-    // this.commonservice.GetUser(row.userId);
   }
 
   ngAfterViewInit() {
