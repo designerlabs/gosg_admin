@@ -18,7 +18,7 @@ export class GroupsviewComponent implements OnInit {
   groupList = null;
   noPrevData = true;
   noNextData = false;
-  displayedColumns = ['groupName', 'isActive', 'modules', 'action'];
+  displayedColumns = ['moduleGroupName', 'isActive', 'moduleName', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.groupList);
   @ViewChild(MatSort) sort: MatSort;
@@ -39,7 +39,7 @@ export class GroupsviewComponent implements OnInit {
     // debugger;
     this.http.get(this.appConfig.urlGroupList).subscribe(data => {
       this.groupList = data;
-      this.dataSource.data = this.groupList.groupList;
+      this.dataSource.data = this.groupList;
       // this.commonservice.userTable = this.groupList;
       // this.groupList = this.groupList.pageNumber === this.groupList.totalPages;
       this.noNextData = this.groupList.pageNumber === this.groupList.totalPages;
