@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { SelectionModel } from '@angular/cdk/collections';
+// import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+// import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-pollquestiondetails',
@@ -32,7 +32,7 @@ export class PollquestiondetailsComponent implements OnInit {
   opt4Bm: FormControl;
   opt5Bm: FormControl;
 
-  displayedColumns = ['optionEn', 'optionBm'];
+  // displayedColumns = ['optionEn', 'optionBm'];
   complete: boolean;
 
   constructor(private commonservice: CommonService) { }
