@@ -23,7 +23,7 @@
       <!-- User Type Column -->
       <ng-container matColumnDef="modules" >
         <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 50%'"> Modules </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="padding:5px;" [style.flex]="'0 0 50%'">          
+        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 50%'">          
               <mat-chip-list >
                   <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules ? element.modules.slice(0,3): [])">{{ele.name}}</mat-chip>                
               </mat-chip-list>                       
@@ -39,7 +39,7 @@
       <!-- action Column -->
       <ng-container matColumnDef="action" >
         <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 20%'"> Action </mat-header-cell>
-        <mat-cell class="text-align-Center" *matCellDef="let element" style="padding:5px;" [style.flex]="'0 0 20%'">
+        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 20%'">
             <button mat-mini-fab style="background: orange" title="Update {{ element.groupId }}">
             <i class="fa fa-edit" (click)="editGroup(element.groupId)"></i></button>&nbsp;
             <button mat-mini-fab style="background: red">
