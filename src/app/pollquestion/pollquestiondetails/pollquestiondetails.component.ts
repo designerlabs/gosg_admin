@@ -25,27 +25,28 @@ export class PollquestiondetailsComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  pollEng: FormControl;  
-  pollMalay: FormControl;
+  public pollEng: FormControl;  
+  public pollMalay: FormControl;
 
-  opt1En: FormControl;
-  opt2En: FormControl;
-  opt3En: FormControl;
-  opt4En: FormControl;
-  opt5En: FormControl;
+  public opt1En: FormControl;
+  public opt2En: FormControl;
+  public opt3En: FormControl;
+  public opt4En: FormControl;
+  public opt5En: FormControl;
 
-  opt1Bm: FormControl;
-  opt2Bm: FormControl;
-  opt3Bm: FormControl;
-  opt4Bm: FormControl;
-  opt5Bm: FormControl;
+  public opt1Bm: FormControl;
+  public opt2Bm: FormControl;
+  public opt3Bm: FormControl;
+  public opt4Bm: FormControl;
+  public opt5Bm: FormControl;
 
-  active: FormControl
+  public active: FormControl
 
   displayedColumns = ['optionEn', 'optionBm'];
   complete: boolean;
 
-  constructor(private commonservice: CommonService) { }
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
+  private commonservice: CommonService, private router: Router) { }
 
   ngOnInit() {
   
@@ -86,89 +87,118 @@ export class PollquestiondetailsComponent implements OnInit {
     });      
   }
 
-  // submitForm(formValues:any){
-  //   let body = {
-  //     "pollqen":null,
-  //     "pollqbm":null,
-  //     "opt1en": null,
-  //     "opt1bm":null,
-  //     "opt2en": null,
-  //     "opt2bm":null,
-  //     "opt3en": null,
-  //     "opt3bm":null,
-  //     "opt4en": null,
-  //     "opt4bm":null,
-  //     "opt5en": null,
-  //     "opt5bm":null,
-  //   };
+  update(formValues: any) {
+    let body = [
+      {
+        "pollsId": null,
+        "pollsQuestion": null,
+        "pollsAnswer1": null,
+        "pollsAnswer2": null,
+        "pollsAnswer3": null,
+        "pollsAnswer4": null,
+        "pollsAnswer5": null,
+        "pollsActiveFlag": false,
+        "pollsResult1": null,
+        "pollsResult2": null,
+        "pollsResult3": null,
+        "pollsResult4": null,
+        "pollsResult5": null,
+        "pollsReference": null,
+        "language": {
+            "languageId": null
+        }
+      },{
+        "pollsId": null,
+        "pollsQuestion": null,
+        "pollsAnswer1": null,
+        "pollsAnswer2": null,
+        "pollsAnswer3": null,
+        "pollsAnswer4": null,
+        "pollsAnswer5": null,
+        "pollsActiveFlag": false,
+        "pollsResult1": null,
+        "pollsResult2": null,
+        "pollsResult3": null,
+        "pollsResult4": null,
+        "pollsResult5": null,
+        "pollsReference": null,
+        "language": {
+            "languageId": null
+        }
+      }
+    ]    
+    
+    console.log(formValues)
 
-  //   body.pollqen = formValues.pollEng;
-  //   body.pollqbm = formValues.pollMalay;
-  //   body.opt1en = {"opts1en": formValues.opt1en};
-  //   body.opt1bm = {"opts1bm": formValues.opt1bm};
-  //   body.opt2en = {"opts2en": formValues.opt2en};
-  //   body.opt2bm = {"opts2bm": formValues.opt2bm};
-  //   body.opt3en = {"opts3en": formValues.opt3en};
-  //   body.opt3bm = {"opts3bm": formValues.opt3bm};
-  //   body.opt4en = {"opts4en": formValues.opt4en};
-  //   body.opt4bm = {"opts4bm": formValues.opt4bm};
-  //   body.opt5en = {"opts5en": formValues.opt5en};
-  //   body.opt5bm = {"opts5bm": formValues.opt5bm};   
-   
-  //   let datasend = JSON.stringify(body);   
+    body[0].pollsId = 98;
+    body[0].pollsQuestion = formValues.pollMalay;
+    body[0].pollsAnswer1 = formValues.opt1Bm;
+    body[0].pollsAnswer2 = formValues.opt2Bm;
+    body[0].pollsAnswer3 = formValues.opt3Bm;
+    body[0].pollsAnswer4 = formValues.opt4Bm;
+    body[0].pollsAnswer5 = formValues.opt5Bm;
+    body[0].pollsActiveFlag = formValues.active;;
+    body[0].pollsResult1 = null;
+    body[0].pollsResult2 = null;
+    body[0].pollsResult3= null;
+    body[0].pollsResult4 = null;
+    body[0].pollsResult5 = null;
+    body[0].pollsReference = null;
+    body[0].language.languageId = 2;
 
-  //   alert(datasend);
-  // }
+    body[1].pollsId = 99;
+    body[1].pollsQuestion = formValues.pollEng;
+    body[1].pollsAnswer1 = formValues.opt1En;
+    body[1].pollsAnswer2 = formValues.opt2En;
+    body[1].pollsAnswer3 = formValues.opt3En;
+    body[1].pollsAnswer4 = formValues.opt4En;
+    body[1].pollsAnswer5 = formValues.opt5En;
+    body[1].pollsActiveFlag = formValues.active;
+    body[0].pollsResult1 = null;
+    body[0].pollsResult2 = null;
+    body[0].pollsResult3= null;
+    body[0].pollsResult4 = null;
+    body[0].pollsResult5 = null;
+    body[0].pollsReference = null;
+    body[0].language.languageId = 1;
+
+    console.log(body)
+
+    // this.commonservice.addRecord(body).subscribe(
+    //   data => {
+    //     console.log(JSON.stringify(body))
+    //     console.log(body)
+    //     alert('Record added successfully!')
+    //     this.router.navigate(['poll/questions/add']);
+    //     // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+    //   },
+    //   error => {
+    //     console.log("No Data")
+    //     // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+    // });
+  }
+
+
 
   checkReqValues() {
 
-    debugger;
-   // this.complete = true;
-    let pollEng = "pollEng";
-    let pollMalay = "pollMalay";
-    let opt1en = "opt1en";
-    let opt1bm = "opt1bm";
-    let opt2en = "opt2en";
-    let opt2bm = "opt2bm";
-
-    let reqVal:any = [pollEng, opt1en];
+    let reqVal:any = ["pollEng", "pollMalay", "opt1En", "opt1Bm", "opt2En", "opt2Bm"];
     let nullPointers:any = [];
 
-    let elem = this.updateForm.getRawValue();
+    for (var reqData of reqVal) {
+      let elem = this.updateForm.get(reqData);
 
-
-    //for(var reqData of reqVal) {
-    // for(var i=0; i<reqVal.length; i++){
-      
-    //   let elem3 = this.updateForm.controls[reqVal][i].value;
-
-    //   console.log(elem3);
-
-    //   // if(tes.value == "" || tes.value == null) {
-    //   //   tes.setValue(null)
-    //   //   nullPointers.push(null)
-    //   // }
-    // }
-   
-      if(elem.pollEng == null || elem.pollEng == "" || elem.pollMalay == null || elem.pollMalay == "" || elem.opt1en == null || elem.opt1en == ""
-      || elem.opt1bm == null || elem.opt1bm == "" || elem.opt2en == null || elem.opt2en == "" || elem.opt2bm == null || elem.opt2bm == ""){
-      
-        this.complete = false;
+      if (elem.value == "" || elem.value == null) {
+        elem.setValue(null)
+        nullPointers.push(null)
       }
-
-      else{
+    }
       
-        this.complete = true;
-      }
-    
-
-    console.log(this.complete);
-      
-    // if(nullPointers.length > 0) {
-    //   this.complete = false;
-    // } else {
-    //   this.complete = true;
-    // }
+    if(nullPointers.length > 0) {
+      this.complete = false;
+    } else {
+      this.complete = true;
+    }
   }
 
   myFunction() {

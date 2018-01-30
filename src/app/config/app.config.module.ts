@@ -30,6 +30,7 @@ export class AppConfig {
     urlCountryList: string;
     urlStateList: string;
     urlCityList: string;
+    urlPoll: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -42,11 +43,11 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
     urlGroupList: './app/apidata/groupslist.json',
-    urlSlides: commonURL + 'slide',
-
+    urlSlides: commonURL + 'slide',  
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
-    urlCityList: serviceURL + 'city'
+    urlCityList: serviceURL + 'city',
+    urlPoll: commonURL + 'polls', 
 };
 
 @NgModule({

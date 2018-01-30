@@ -31,7 +31,6 @@ export class PollquestionComponent implements OnInit {
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  debugger;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
@@ -58,7 +57,6 @@ export class PollquestionComponent implements OnInit {
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) {
-debugger;
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
@@ -98,20 +96,9 @@ debugger;
     this.getRecordList(page + 1, this.pageSize);
   }
 
-  // pageModeChange(isEdit) {
-  //   if(isEdit == true)
-  //     this.pageMode = "Update"
-  //   else
-  //     this.pageMode = "Add"
-  // }
-
-  // navigateBack() {
-  //   history.back();
-  // }
-
   add() {
 
-    this.router.navigate(['poll/questions', 'add']);
+    this.router.navigate(['poll/questions/add']);
     this.commonservice.pageModeChange(false);
     // this.commonservice.GetUser(row.userId);
   }
