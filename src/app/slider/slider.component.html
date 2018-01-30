@@ -16,46 +16,40 @@
     </div> -->
 
     <mat-table #table [dataSource]="dataSource">
-
+      {{ element }}
       <!-- slideId Column -->
-      <ng-container matColumnDef="slideId">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 5%;">No.</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 5%;"> {{element.slideId}} </mat-cell>
+      <ng-container matColumnDef="slideCode">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;">Code</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.slideCode}} </mat-cell>
       </ng-container>
 
       <!-- slideTitle Column -->
-      <ng-container matColumnDef="slideTitle">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;"> Title </mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 20%;"> {{element.slideTitle}} </mat-cell>
+      <ng-container matColumnDef="slideTitleEn">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Title (EN)</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.slideList[0].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideDescription Column -->
-      <ng-container matColumnDef="slideDescription">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Description </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.slideDescription}} </mat-cell>
-      </ng-container>
-
-      <!-- slideImage Column -->
-      <ng-container matColumnDef="slideImage">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">Image Source</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 20%;"> {{element.slideImage}} </mat-cell>
+      <ng-container matColumnDef="slideTitleBm">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Title (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.slideList[1].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->
       <ng-container matColumnDef="slideActiveFlag">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%; text-align: center"> Status </mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 10%; text-align: center; vertical-align: top;">
-          <i [ngClass]="{'fa fa-check font-size-xxl activeFontColor':element.slideActiveFlag,'fa fa-times font-size-xxl inactiveFontColor':!element.slideActiveFlag}"></i>
+          <i [ngClass]="{'fa fa-check font-size-xxl activeFontColor':element.slideList[0].slideActiveFlag,'fa fa-times font-size-xxl inactiveFontColor':!element.slideList[0].slideActiveFlag}"></i>
         </mat-cell>
       </ng-container>
       
       <!-- Action Column -->
       <ng-container matColumnDef="slideAction">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 15%; text-align: center"> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 15%; text-align: center">
-            <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.slideId)"></i>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%; text-align: center"> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 20%; text-align: center">
+            <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.slideCode)" title="Update {{ element.slideCode }}"></i>
             &nbsp;
-            <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.slideId)" title="Delete {{ element.slideId }}"></i>
+            <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.slideList[0].slideId,element.slideList[1].slideId)" title="Delete {{ element.slideList[0].slideId }},{{ element.slideList[1].slideId }}"></i>
         </mat-cell>
       </ng-container>
 
@@ -92,12 +86,15 @@
 
 <!-- VIEW: ADD/EDIT SLIDER -->
 <div *ngIf="viewSeq == 2" class="container right-content">
-  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+  <div class="col-md-12">
     <h2>{{ pageMode }} Slider</h2>
     <span class="pull-right backBtn">
-      <button type="button" mat-raised-button class="form-control btn btn-md btn-info font-size-s" (click)="navigateBack()">
+      <a class="font-size-s" (click)="navigateBack()">
         <i class="fa fa-chevron-left font-size-m"></i> BACK
-      </button>
+      </a>
+      <!-- <button type="button" mat-raised-button class="form-control btn btn-md btn-info font-size-s" (click)="navigateBack()">
+        <i class="fa fa-chevron-left font-size-m"></i> BACK
+      </button> -->
       <br />
     </span>
   </div>
@@ -168,7 +165,7 @@
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
             <mat-form-field class="example-full-width font-size-s">
-                  <mat-select tabindex="1" formControlName="imgEn" placeholder="Select Image" (change)="checkReqValues()" required>
+                  <mat-select formControlName="imgEn" placeholder="Select Image" (change)="checkReqValues()" required>
                       <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
                       <mat-option [value]="1">image1.png</mat-option>
                       <mat-option [value]="2">image2.jpg</mat-option>
@@ -188,7 +185,7 @@
           </div>
           <div class="col-md-5" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width font-size-s">
-              <mat-select tabindex="1" formControlName="imgBm" placeholder="Select Image" (change)="checkReqValues()" required>
+              <mat-select formControlName="imgBm" placeholder="Select Image" (change)="checkReqValues()" required>
                   <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
                   <mat-option [value]="1">image1.png</mat-option>
                   <mat-option [value]="2">image2.jpg</mat-option>
@@ -224,7 +221,7 @@
             (click)="updateSlider(sliderForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
-          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i>Reset</button>
         </div>
