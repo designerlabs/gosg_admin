@@ -156,8 +156,9 @@ export class SliderComponent implements OnInit {
 
   // add, update, delete
   updateRow(row) {
-    console.log(this.viewSeq);
-    console.log(row);
+    this.viewSeq = 2;
+    // console.log(this.viewSeq);
+    // console.log(row);
     alert("Update Slider id: " + row);
     // this.commonservice.GetUser(row.userId);
   }
@@ -166,6 +167,17 @@ export class SliderComponent implements OnInit {
     // console.log(enId);
     alert("Delete Slider id: " + enId + " & " +bmId);
     // this.commonservice.GetUser(row.userId);
+
+    // this.deletePopup(enId,bmId)
+
+    this.commonservice.delSlider(enId,bmId).subscribe(
+      data => {
+        alert('Slider deleted successfully!')
+        this.router.navigate(['slider']);
+      },
+      error => {
+        console.log("No Data")
+      });
   }
 
   isChecked(e) {
@@ -217,6 +229,17 @@ export class SliderComponent implements OnInit {
       this.sliderForm.reset();
     } else {
       txt = "You pressed Cancel!";
+    }
+  }
+
+  deletePopup(enId,bmId) {
+    let txt;
+    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+    if (r == true) {
+      txt = "Delete successful!";
+      this.sliderForm.reset();
+    } else {
+      txt = "Delete Cancelled!";
     }
   }
 

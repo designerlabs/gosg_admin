@@ -141,7 +141,17 @@ export class CommonService {
     console.log(this.appConfig.urlSlides)
     console.log(slider)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
     return this.http.post(this.appConfig.urlSlides, slider)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delSlider(enId, bmId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=", enId + "," +bmId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
