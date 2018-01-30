@@ -42,6 +42,7 @@ export const appRoutes: Routes = [
 {path: 'groups/:id', component: GroupseditComponent},
 {path: 'poll/questions', component: PollquestionComponent},
 {path: 'poll/questions/:id', component: PollquestiondetailsComponent},
+{path: 'poll/questions/add', component: PollquestiondetailsComponent},
 {path: 'poll/results', component: PollresultComponent},
 {path: 'slider', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
