@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { SelectionModel } from '@angular/cdk/collections';
+// import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
+// import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-pollquestiondetails',
@@ -32,12 +32,13 @@ export class PollquestiondetailsComponent implements OnInit {
   opt4Bm: FormControl;
   opt5Bm: FormControl;
 
-  complete: any;
+  // displayedColumns = ['optionEn', 'optionBm'];
+  complete: boolean;
 
-  displayedColumns = ['optionEn', 'optionBm'];
-  constructor() { }
+  constructor(private commonservice: CommonService) { }
 
   ngOnInit() {
+  
     this.pollEng = new FormControl();
     this.pollMalay = new FormControl();
 
@@ -132,8 +133,17 @@ export class PollquestiondetailsComponent implements OnInit {
       this.complete = true;
     }
   }
- 
 
+  myFunction() {
+    var txt;
+    var r = confirm("Are you sure to reset the form?");
+    if (r == true) {
+        txt = "You pressed OK!";
+        this.updateForm.reset();
+    } else {
+        txt = "You pressed Cancel!";
+    }
+  }
 
 }
 

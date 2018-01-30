@@ -1,18 +1,17 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<!-- <div [ngStyle]="{'min-height': clientHeight + 'px', 'margin-bottom': '0px'}"> -->
+<!-- <div [ngStyle]="{'min-height': clientHeight + 'px', 'margin-bottom': '0px'}"> 
+<div [ngClass]="{'cascadeBtn':!side,'expandBtn':side}">
+    <button mat-button mat-icon-button (click)="side=!side">
+        <mat-icon>list</mat-icon>
+    </button>
+</div>  [ngClass]="{'rightsdE':!side,'rightsdC':side}"-->
+
 <app-nav ></app-nav>
-<app-leftmenu [ngClass]="{'leftsdC':!side,'leftsdE':side}"></app-leftmenu>
-    <div class="alnmt">
-        <div [ngClass]="{'cascadeBtn':!side,'expandBtn':side}">
-            <button mat-button mat-icon-button (click)="side=!side">
-                <mat-icon>list</mat-icon>
-            </button>
-        </div>
-    <div [ngClass]="{'rightsdE':!side,'rightsdC':side}">
+<app-leftmenu class="leftsdE"></app-leftmenu>
+<div class="alnmt">
+    <div class="rightsdC">
         <router-outlet></router-outlet>
     </div>
-   
 </div>
-<!-- </div> -->
 
 

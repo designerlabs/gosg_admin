@@ -9,7 +9,8 @@
       "outDir": "dist",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "app/apidata"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -20,14 +21,13 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-        "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
-        "../node_modules/froala-editor/css/froala_style.min.css",
         "../node_modules/font-awesome/css/font-awesome.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/multiselect/css/multi-select.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
-        "../node_modules/froala-editor/js/froala_editor.pkgd.min.js"
+        "../node_modules/multiselect/js/jquery.multi-select.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

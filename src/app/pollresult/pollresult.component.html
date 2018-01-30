@@ -6,7 +6,7 @@
 
 <div class="container right-content">
     <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-        <h1 class="paddingTop-15 staticLabel">View Polls Results</h1>
+        <h2 class="staticLabel">View Polls Results</h2>
     </div> 
   
     <div class="example-container mat-elevation-z8">
@@ -23,49 +23,82 @@
 
             <!-- num Column -->
             <ng-container matColumnDef="num">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No. </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element">
-                    {{element.announcementCategoryId}} 
+                <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element">
+                    {{element.userId}} 
+                </mat-cell>
+            </ng-container>
+
+            <!-- Question 1 Column -->
+            <ng-container matColumnDef="question">
+                <mat-header-cell class="text-align-Left" style="flex: 0 0 21%;" *matHeaderCellDef> Question </mat-header-cell>
+                <mat-cell class="text-align-Left padding5" style="flex: 0 0 21%;" *matCellDef="let element">
+                    {{element.fullName}} 
                 </mat-cell>
             </ng-container>
         
             <!-- Option 1 Column -->
             <ng-container matColumnDef="opt1">
-                <mat-header-cell class="text-align-Left" style="flex: 0 0 19%;" *matHeaderCellDef> Option 1 </mat-header-cell>
-                <mat-cell class="text-align-Left" style="flex: 0 0 19%;" *matCellDef="let element" (click)="getRow(element)">
-                    {{element.announcementCategoryName}} 
+                <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 1 </mat-header-cell>
+                <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
+                    <div class="col-md-12">
+                        {{element.isMyIdentityValid}} 
+                    </div>
+                    <div class="col-md-12">
+                        {{element.userId}}/{{element.userId}}
+                    </div>
                 </mat-cell>
             </ng-container>
 
             <!-- Option 2 Column -->
             <ng-container matColumnDef="opt2">
-                <mat-header-cell class="text-align-Left" style="flex: 0 0 19%;" *matHeaderCellDef> Option 2 </mat-header-cell>
-                <mat-cell class="text-align-Left" style="flex: 0 0 19%;" *matCellDef="let element">
-                    {{element.announcementCategoryName}}
+                <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 2 </mat-header-cell>
+                <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
+                    <div class="col-md-12">
+                        {{element.isMyIdentityValid}} 
+                    </div>
+                    <div class="col-md-12">
+                        {{element.userId}}/{{element.userId}}
+                    </div>
                 </mat-cell>
             </ng-container>
         
             <!-- Option 3 Column -->
             <ng-container matColumnDef="opt3">
-                <mat-header-cell class="text-align-Center" style="flex: 0 0 19%;" *matHeaderCellDef> Option 3 </mat-header-cell>
-                <mat-cell class="text-align-Left" style="flex: 0 0 19%;" *matCellDef="let element">
-                    {{element.announcementCategoryName}}
+                <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 3 </mat-header-cell>
+                <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
+                    <div class="col-md-12">
+                        {{element.isMyIdentityValid}} 
+                    </div>
+                    <div class="col-md-12">
+                        {{element.userId}}/{{element.userId}}
+                    </div>
                 </mat-cell>
             </ng-container>
 
             <!-- Option 4 Column -->
             <ng-container matColumnDef="opt4">
-                <mat-header-cell class="text-align-Center" style="flex: 0 0 19%;" *matHeaderCellDef> Option 4 </mat-header-cell>
-                <mat-cell class="text-align-Left" style="flex: 0 0 19%;" *matCellDef="let element">
-                    {{element.announcementCategoryName}}
+                <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 4 </mat-header-cell>
+                <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
+                    <div class="col-md-12">
+                        {{element.isMyIdentityValid}} 
+                    </div>
+                    <div class="col-md-12">
+                        {{element.userId}}/{{element.userId}}
+                    </div>
                 </mat-cell>
             </ng-container>
 
             <!-- Option 5 Column -->
             <ng-container matColumnDef="opt5">
-                <mat-header-cell class="text-align-Center" style="flex: 0 0 19%;" *matHeaderCellDef> Option 5 </mat-header-cell>
-                <mat-cell class="text-align-Left" style="flex: 0 0 19%;" *matCellDef="let element">
-                    {{element.announcementCategoryName}}
+                <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 5 </mat-header-cell>
+                <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
+                    <div class="col-md-12">
+                        {{element.isMyIdentityValid}} 
+                    </div>
+                    <div class="col-md-12">
+                        {{element.userId}}/{{element.userId}}
+                    </div>
                 </mat-cell>
             </ng-container>
         
@@ -77,7 +110,7 @@
     
     <div class="float-right paddingTop-15">
         <mat-form-field style="width:50px; margin-top: -10px">
-            <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.pqTable?.totalPages)">
+            <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
             <mat-option value="5">5</mat-option>
             <mat-option value="10">10</mat-option>
             <mat-option value="25">25</mat-option>
@@ -86,14 +119,14 @@
         </mat-form-field>
         <span class="float-right">
             <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                <strong>{{commonservice.pqTable?.pageNumber}}</strong> of
-                <strong>{{commonservice.pqTable?.totalPages}}</strong> in
-                <strong>{{commonservice.pqTable?.totalElements}}</strong> polls questions
+                <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
+                <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+                <strong>{{commonservice.recordTable?.totalElements}}</strong> polls questions
             </span>
-            <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.pqTable?.pageNumber)">
+            <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
             <i class="fa fa-angle-left" aria-hidden="true"></i>
             </button>
-            <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.pqTable?.pageNumber, commonservice.pqTable?.totalPages)">
+            <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
             <i class="fa fa-angle-right" aria-hidden="true"></i>
             </button>
         </span>

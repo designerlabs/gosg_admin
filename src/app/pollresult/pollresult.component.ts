@@ -15,8 +15,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 })
 export class PollresultComponent implements OnInit {
 
-  pqList = null;
-  displayedColumns = ['num', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+  recordList = null;
+  displayedColumns = ['num', 'question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -28,7 +28,7 @@ export class PollresultComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.pqList);
+  dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
   applyFilter(filterValue: string) {
@@ -40,34 +40,38 @@ export class PollresultComponent implements OnInit {
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) { 
 
-    this.getPQList(this.pageCount, this.pageSize);
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
 
-    this.getPQList(this.pageCount, this.pageSize);
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
-  getPQList(count, size) {
-  
-    this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
-
+  getRecordList(count, size) {
+    
+    //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
+    this.dataUrl = this.appConfig.urlUserList;
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-    this.http.get(this.dataUrl)
+    //this.http.get(this.dataUrl)
+    
+ 
+
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     .subscribe(data => {
-      this.pqList = data;
+      this.recordList = data;
 
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.pqList.announcementList;
-      this.commonservice.pqTable = this.pqList;
-      this.noNextData = this.pqList.pageNumber === this.pqList.totalPages;
+      this.dataSource.data = this.recordList.userList;
+      this.commonservice.recordTable = this.recordList;
+      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
   }
 
   paginatorL(page) {
-    this.getPQList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -77,7 +81,7 @@ export class PollresultComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getPQList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize);
   }
 
   ngAfterViewInit() {
@@ -86,7 +90,7 @@ export class PollresultComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getPQList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

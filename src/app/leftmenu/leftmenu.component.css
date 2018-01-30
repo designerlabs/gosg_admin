@@ -1,0 +1,12 @@
+.submenu_link{
+    display: block;
+    padding: 10px 5px;
+    font-size: 14px;
+    color: #000;
+}
+
+.submenu_link:hover, .submenu_link:focus, .submenu_link:visited, .submenu_link_active{
+    text-decoration: none;
+    background: #cecece;
+    color: #000;
+}

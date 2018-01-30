@@ -1,44 +1,36 @@
 <form class="example-form">
-	<button mat-raised-button color="accent" style="width:90%">SITE ADMINISTRATION</button>
-	
-	<mat-form-field class="example-form-field" style="width:90%">
-			<input matInput type="text" placeholder="Search" [(ngModel)]="value" [matAutocomplete]="auto"  [ngModelOptions]="{standalone: true}"/>
-			<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-					<mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-						{{ option.name }}
-					</mat-option>
-				</mat-autocomplete>
-			<button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-			  <mat-icon>close</mat-icon>
-			</button>
-			
-			<button mat-button *ngIf="!value" matSuffix mat-icon-button aria-label="Search">
-					<mat-icon>search</mat-icon>
-				  </button>
-		  </mat-form-field>
-
-		  <mat-accordion *ngIf='menulst'  >
-				<mat-expansion-panel style="width:90%" *ngFor="let mnu of menulst.menuList" >
-				 <mat-expansion-panel-header *ngIf='mnu.isActive'>
-						<mat-panel-title style="font-weight: bold;"> 
-							{{mnu.mainMenuTitle}}
-						</mat-panel-title>					
-					</mat-expansion-panel-header>
-						<div *ngFor="let sub of mnu.subMenu" style="padding-bottom: 0px;">
-							<button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</button>
-							<!-- <a id="{{sub.subMenuId}}"  [routerLink]="['articletbl', sub.subMenuId]" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a> -->
-						</div>
-						
-				</mat-expansion-panel>	
-				</mat-accordion>
-
+	<mat-form-field class="example-form-field" style="width:100%">
+		<input matInput type="text" placeholder="Search" [(ngModel)]="value" [matAutocomplete]="auto"  [ngModelOptions]="{standalone: true}"/>
+		<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+			<mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+				{{ option.name }}
+			</mat-option>
+		</mat-autocomplete>
+		<button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+			<mat-icon>close</mat-icon>
+		</button>
 		
-			
-				<!-- {{menulst.mainMenuTitle}} -->
+		<button mat-button *ngIf="!value" matSuffix mat-icon-button aria-label="Search">
+			<mat-icon>search</mat-icon>
+		</button>
+	</mat-form-field>
 
+	<mat-accordion *ngIf='menulst'>
+		
+		<mat-expansion-panel *ngFor="let menu of menulst.menuList" >
 			
+			<mat-expansion-panel-header *ngIf='menu.isActive'>
+				<mat-panel-title style="font-weight: bold;"> 
+					{{menu.mainMenuTitle}}
+				</mat-panel-title>					
+			</mat-expansion-panel-header>
+			<div *ngFor="let sub of menu.subMenu" style="padding-bottom: 0px;">
+				<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[sub.subMenuUrl] >{{sub.subMenuTitle}}</a>
+				<!-- <button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" (click)="getTbl(menu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</button> -->
+				<!-- <a id="{{sub.subMenuId}}"  [routerLink]="['articletbl', sub.subMenuId]" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a> -->
+			</div>
+				
+		</mat-expansion-panel>	
+	</mat-accordion>
 
 </form>
-	<!-- <ul *ngFor="let mnu of menulst.menuList">
-					<li>{{mnu.mainMenuTitle}}</li>
-				</ul> -->

@@ -220,12 +220,12 @@ label {
     /* word-wrap: break-word; */
   }
   
-  .editBtn{
+    .editBtn{
       position: absolute;
       right: 10px;
       top: 65%;
     }
-  
+
 .editBtn:hover {
     position: absolute;
     background-color: rgb(109, 185, 38);
@@ -242,8 +242,14 @@ label {
     top: 65%;
   }
 
+  .backBtn {
+    position: absolute;
+    right: 10px;
+    top: 40%;
+  }
+
   .mat-fab .mat-button-wrapper {
-    padding: 19px 6px 15px 0px;
+    padding: 16px 6px 15px 0px;
     display: inline-block;
     line-height: 24px;
 }

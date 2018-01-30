@@ -19,15 +19,24 @@ import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
-import { FeedbackComponent } from './feedback/feedback.component';
+import { FeedbackComponent } from './feedbackMod/feedback/feedback.component';
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
 import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
 import { PollquestionComponent } from './pollquestion/pollquestion.component';
+import { GroupsviewComponent } from './authentication/groups/groupsview.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
+import { FeedbacktypeComponent } from './feedbackTypeMod/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedbackTypeMod/feedbacktypetbl/feedbacktypetbl.component';
+import { GroupseditComponent } from './authentication/groups/groupsedit.component';
+import { CountryComponent } from './referencecode/country/country.component';
+import { CityComponent } from './referencecode/city/city.component';
+import { StateComponent } from './referencecode/state/state.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { ReligionComponent } from './referencecode/religion/religion.component';
 
 
 @NgModule({
@@ -45,9 +54,18 @@ import { SliderComponent } from './slider/slider.component';
     RolesComponent,
     FeedbacktblComponent,
     PollquestionComponent,
+    GroupsviewComponent,
     PollquestiondetailsComponent,
     PollresultComponent,
     SliderComponent,
+    GroupseditComponent,
+    FeedbacktypeComponent,
+    FeedbacktypetblComponent,
+    CountryComponent,
+    CityComponent,
+    StateComponent,
+    EthnicityComponent,
+    ReligionComponent,
   ],
   imports: [
     BrowserModule,
