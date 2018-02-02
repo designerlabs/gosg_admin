@@ -1,0 +1,63 @@
+<div class="container right-content">
+    <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+      <h2 class="staticLabel">Post Code of Malaysia</h2>
+    </div>
+
+  <div class="col-md-12">
+    <div class="col-md-6">
+        <mat-form-field class="font-size-s" style="width:80%;">
+          <mat-select (change)="getCitiesByState($event)" placeholder="State">
+            <mat-option *ngFor="let state of getStateData" [value]="state">{{ state?.stateName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-md-6">
+        <mat-form-field class="font-size-s" style="width:80%;">
+          <mat-select (change)="getPostcodeByCity($event)"  placeholder="City">
+            <mat-option *ngFor="let city of getCityData" [value]="city">{{ city?.cityName }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+  </div>
+  <h3>
+      <span *ngIf="selStateInfo">
+          {{selStateInfo?.value.stateName}} (State ID: {{selStateInfo?.value.stateId}})
+      </span> 
+      <span *ngIf="getPostData">
+          ,{{selCityInfo?.value.cityName}} (City Code: {{selCityInfo?.value.cityCode}})
+      </span>
+    </h3>
+  <div *ngIf="getPostData">
+    
+    <mat-grid-list cols="6" rowHeight="30px">
+        <mat-grid-tile *ngFor="let postcode of getPostData"  style="border:#e2e2e2 solid 1px;">
+          {{postcode.postCode}}
+        </mat-grid-tile>
+      </mat-grid-list>
+  </div>
+  <div class="paddingTop-15" *ngIf="getPostData">
+      <mat-form-field style="width:50px; margin-top: -10px">
+        <mat-select class="font-size-s" value="10" style="text-align: center;" >
+          <mat-option value="5">5</mat-option>
+          <mat-option value="10">10</mat-option>
+          <mat-option value="25">25</mat-option>
+          <mat-option value="50">50</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div style="float:right;">
+              <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+                  <strong>1</strong> of
+                  <strong>3</strong> in
+                  <strong>{{getPostData?.length}}</strong> postcode list
+              </span>
+              <button mat-mini-fab color="basic" [disabled]="noPrevData" >
+              <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </button>
+              <button mat-mini-fab color="basic" [disabled]="noNextData" >
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </button>
+            </div>
+    </div>
+    
+</div>
+

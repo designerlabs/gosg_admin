@@ -5,6 +5,7 @@ export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
 const baseURL = 'http://localhost/locale-api/';
 const mockApiURL = 'http://10.1.22.34:3000/';
+
 // const baseURL = 'http://10.1.17.12:3000/';
 
 // // common service
@@ -33,6 +34,10 @@ export class AppConfig {
     urlCityList: string;
     urlModuleList: string;
     urlGroupModuleList: string;
+    urlPostcode:string;
+    urlPoll: string;
+    urlFeedback: string;
+
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -44,13 +49,19 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
-    urlGroupList: './app/apidata/groupslist.json',
     urlSlides: commonURL + 'slide',
     urlModuleList: mockApiURL + 'moduleList',
     urlGroupModuleList: mockApiURL + 'groupList',
+    // urlGroupList: './app/apidata/groupslist.json',
+    urlGroupList: mockApiURL + 'groupListView',
+
+
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
-    urlCityList: serviceURL + 'city'
+    urlCityList: serviceURL + 'city/state/',
+    urlPoll: commonURL + 'polls', 
+    urlFeedback: serviceURL,
+    urlPostcode: serviceURL + 'postcode/city/'
 };
 
 @NgModule({

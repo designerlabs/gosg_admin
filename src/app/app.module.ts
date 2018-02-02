@@ -20,24 +20,27 @@ import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
-import { FeedbackComponent } from './feedbackMod/feedback/feedback.component';
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
-import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
-import { PollquestionComponent } from './pollquestion/pollquestion.component';
+import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
+import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
+import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupsviewComponent } from './authentication/groups/groupsview.component';
-import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './pollresult/pollresult.component';
+import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
+import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
+import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { FeedbacktypeComponent } from './feedbackTypeMod/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedbackTypeMod/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupseditComponent } from './authentication/groups/groupsedit.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
+import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 
 
 @NgModule({
@@ -53,13 +56,13 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
     UserComponent,
     UsertblComponent,
     RolesComponent,
-    FeedbacktblComponent,
     PollquestionComponent,
     GroupsviewComponent,
     PollquestiondetailsComponent,
     PollresultComponent,
     SliderComponent,
-    GroupseditComponent,
+    GroupseditComponent,    
+    FeedbacktblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
     CountryComponent,
@@ -67,6 +70,9 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
     StateComponent,
     EthnicityComponent,
     ReligionComponent,
+    PostcodeComponent,
+    FeedbacksubjectComponent,
+    FeedbacksubjecttblComponent,
   ],
   imports: [
     BrowserModule,

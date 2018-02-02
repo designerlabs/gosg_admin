@@ -48,7 +48,154 @@
 				"id": "18"
 			}
 		]
-		}
+	},
+	{
+		"groupId": 3,
+		"groupName": "Feedback Module",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Option Feedback Type",
+				"id": "26"
+			},
+			{
+				"name": "Sent By Admin",
+				"id": "27"
+			},
+			{
+				"name": "Sent By Visitors",
+				"id": "28"
+			},
+			{
+				"name": "Option Feedback Subject",
+				"id": "29"
+			}
+		]
+	},
+	{
+		"groupId": 4,
+		"groupName": "Inbox",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Inbox",
+				"id": "30"
+			},
+			{
+				"name": "Sent",
+				"id": "31"
+			}
+		]
+	},
+	{
+		"groupId": 5,
+		"groupName": "Polls",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Polls Questions",
+				"id": "32"
+			},
+			{
+				"name": "Polls Results",
+				"id": "33"
+			}
+		]
+	},
+	{
+		"groupId": 6,
+		"groupName": "Reference Code",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Ethnicity",
+				"id": "34"
+			},
+			{
+				"name": "City",
+				"id": "32"
+			},
+			{
+				"name": "Country",
+				"id": "33"
+			},
+			{
+				"name": "State",
+				"id": "34"
+			},
+			{
+				"name": "Religion",
+				"id": "35"
+			}
+			
+		]
+	},
+	{
+		"groupId": 7,
+		"groupName": "Admin User Management",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Add Admin user",
+				"id": "35"
+			}			
+		]
+	},
+	{
+		"groupId": 8,
+		"groupName": "Module Grouping Management",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Grouping Module",
+				"id": "36"
+			}			
+		]
+	},
+	{
+		"groupId": 9,
+		"groupName": "Announcement",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Sample Announcement",
+				"id": "37"
+			}			
+		]
+	},
+	{
+		"groupId": 10,
+		"groupName": "Archive",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Sample Archive",
+				"id": "38"
+			}			
+		]
+	},	
+	{
+		"groupId": 11,
+		"groupName": "Content Type",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Sample Content",
+				"id": "39"
+			}			
+		]
+	},		
+	{
+		"groupId": 12,
+		"groupName": "Ministry",
+		"isActive": true,
+		"modules": [
+			{
+				"name": "Sample Ministry",
+				"id": "40"
+			}			
+		]
+	}	
 	],
 	"pageNumber": 1,
 	"pageSize": 2,
