@@ -21,6 +21,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./pollquestiondetails.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class PollquestiondetailsComponent implements OnInit {
 
   updateForm: FormGroup;
@@ -42,7 +43,6 @@ export class PollquestiondetailsComponent implements OnInit {
 
   public active: FormControl
 
-  displayedColumns = ['optionEn', 'optionBm'];
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -179,8 +179,6 @@ export class PollquestiondetailsComponent implements OnInit {
         // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
     });
   }
-
-
 
   checkReqValues() {
 

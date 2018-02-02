@@ -13,10 +13,11 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['./feedbacktypetbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class FeedbacktypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num', 'col2', 'col3', 'col4', 'action'];
+  displayedColumns = ['num', 'feedbackEng', 'feedbackMalay', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -25,12 +26,9 @@ export class FeedbacktypetblComponent implements OnInit {
 
   dataUrl: any;  
   isEdit: boolean;
-
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-
-
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
@@ -39,6 +37,7 @@ export class FeedbacktypetblComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
+  
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) { 
 
@@ -84,7 +83,7 @@ export class FeedbacktypetblComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['feedbacktype', 'add']);
+    this.router.navigate(['feedback/type/add']);
     this.commonservice.pageModeChange(false);
     // this.commonservice.GetUser(row.userId);
   }
@@ -93,7 +92,7 @@ export class FeedbacktypetblComponent implements OnInit {
     
     console.log(row);
     alert("Update pq id: "+row);
-    this.router.navigate(['feedbacktype', row]);
+    this.router.navigate(['feedback/type/', row]);
     this.commonservice.pageModeChange(true);
     // this.commonservice.GetUser(row.userId);
   }

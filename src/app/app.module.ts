@@ -38,6 +38,8 @@ import { StateComponent } from './referencecode/state/state.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
+import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 
 
 @NgModule({
@@ -68,6 +70,8 @@ import { PostcodeComponent } from './referencecode/postcode/postcode.component';
     EthnicityComponent,
     ReligionComponent,
     PostcodeComponent,
+    FeedbacksubjectComponent,
+    FeedbacksubjecttblComponent,
   ],
   imports: [
     BrowserModule,

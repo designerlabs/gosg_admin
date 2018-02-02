@@ -25,6 +25,8 @@ import { CityComponent } from './referencecode/city/city.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -35,6 +37,10 @@ export const appRoutes: Routes = [
 {path: 'feedback/message/admin', component: FeedbacktblComponent},
 {path: 'feedback/type', component: FeedbacktypetblComponent},
 {path: 'feedback/type/:id', component: FeedbacktypeComponent},
+{path: 'feedback/type/add', component: FeedbacktypeComponent},
+{path: 'feedback/subject', component: FeedbacksubjecttblComponent},
+{path: 'feedback/subject/:id', component: FeedbacksubjectComponent},
+{path: 'feedback/subject/add', component: FeedbacksubjectComponent},
 {path: '404', component: ErrorComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},

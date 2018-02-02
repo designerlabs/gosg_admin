@@ -8,18 +8,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-pollquestion',
-  templateUrl: './pollquestion.component.html',
-  styleUrls: ['./pollquestion.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-feedbacksubjecttbl',
+  templateUrl: './feedbacksubjecttbl.component.html',
+  styleUrls: ['./feedbacksubjecttbl.component.css']
 })
 
-export class PollquestionComponent implements OnInit {
-
-  updateForm: FormGroup
+export class FeedbacksubjecttblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num', 'pq_en', 'pq_bm', 'status', 'action'];
+  displayedColumns = ['num', 'feedbackEng', 'feedbackMalay', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -33,34 +30,21 @@ export class PollquestionComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
-  selection = new SelectionModel<Element>(true, []);
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // masterToggle() {
-  //   this.isAllSelected() ?
-  //       this.selection.clear() :
-  //       this.dataSource.data.forEach(row => this.selection.select(row));
-  // }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  
+
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) {
+  private commonservice: CommonService, private router: Router) { 
+
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
+
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
@@ -98,7 +82,7 @@ export class PollquestionComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['poll/questions/add']);
+    this.router.navigate(['feedback/subject/add']);
     this.commonservice.pageModeChange(false);
     // this.commonservice.GetUser(row.userId);
   }
@@ -106,8 +90,8 @@ export class PollquestionComponent implements OnInit {
   updateRow(row) {
     
     console.log(row);
-    // alert("Update pq id: "+row);
-    this.router.navigate(['poll/questions', row]);
+    alert("Update pq id: "+row);
+    this.router.navigate(['feedback/subject/', row]);
     this.commonservice.pageModeChange(true);
     // this.commonservice.GetUser(row.userId);
   }

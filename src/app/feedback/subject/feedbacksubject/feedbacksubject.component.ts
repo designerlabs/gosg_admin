@@ -1,23 +1,24 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
 import { CommonService } from '../../../service/common.service';
-import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
-  selector: 'app-feedbacktype',
-  templateUrl: './feedbacktype.component.html',
-  styleUrls: ['./feedbacktype.component.css']
+  selector: 'app-feedbacksubject',
+  templateUrl: './feedbacksubject.component.html',
+  styleUrls: ['./feedbacksubject.component.css']
 })
 
-export class FeedbacktypeComponent implements OnInit {
+export class FeedbacksubjectComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  public typeEn: FormControl;  
-  public typeBm: FormControl;
+  public subjectEn: FormControl;  
+  public subjectBm: FormControl;
 
   public active: FormControl
 
@@ -28,34 +29,34 @@ export class FeedbacktypeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.typeEn = new FormControl();
-    this.typeBm = new FormControl();
+    this.subjectEn = new FormControl();
+    this.subjectBm = new FormControl();
 
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      typeEn: this.typeEn,
-      typeBm: this.typeBm,
+      subjectEn: this.subjectEn,
+      subjectBm: this.subjectBm,
 
       active: this.active
       
-    }); 
+    });
   }
 
   update(formValues: any) {
     let body = [
       {
-        "typeId": null,
-        "type": null,
-        "typeReference": null,
+        "subjectId": null,
+        "subject": null,
+        "subjectReference": null,
         "language": {
             "languageId": null
         }
       },{
-        "typeId": null,
-        "type": null,
-        "typeReference": null,
+        "subjectId": null,
+        "subject": null,
+        "subjectReference": null,
         "language": {
             "languageId": null
         }
@@ -64,14 +65,14 @@ export class FeedbacktypeComponent implements OnInit {
     
     console.log(formValues)
 
-    body[0].typeId = 98;
-    body[0].type = formValues.typeBm;
-    body[0].typeReference = 22;
+    body[0].subjectId = 98;
+    body[0].subject = formValues.typeBm;
+    body[0].subjectReference = 22;
     body[0].language.languageId = 2;
 
-    body[1].typeId = 99;
-    body[1].type = formValues.typeEn;
-    body[1].typeReference = 22;
+    body[1].subjectId = 99;
+    body[1].subject = formValues.typeEn;
+    body[1].subjectReference = 22;
     body[1].language.languageId = 1;
 
 
@@ -94,7 +95,7 @@ export class FeedbacktypeComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["typeEn", "typeBm"];
+    let reqVal:any = ["subjectEn", "subjectBm"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
