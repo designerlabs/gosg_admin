@@ -135,6 +135,36 @@ export class CommonService {
     return this.pageMode;
   }
 
+  // SLIDER
+  addSlider(slider) {
+
+    console.log(this.appConfig.urlSlides)
+    console.log(slider)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlSlides, slider)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addRecord(record) {
+    let fullUrl = this.appConfig.urlPoll + "/question";
+    console.log(fullUrl)
+    console.log(record)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  delSlider(enId, bmId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=", enId + "," +bmId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);

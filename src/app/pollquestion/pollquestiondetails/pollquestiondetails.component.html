@@ -1,15 +1,16 @@
 <form style="padding-right: 15px; padding-left: 15px;" [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
     <div class="container right-content">
-        <!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
+        <!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0formpx solid #000">
             <h4 class="paddingTop-15 staticLabel">
                 <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
         </div> -->
+        <a routerLink='/poll/questions'> Back</a>
         <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
             <h2 class="staticLabel">{{commonservice.pageMode}} Polls Questions</h2>
         </div> 
                    
         <div class="example-container mat-elevation-z8">
-            <div class="form-header col-md-12">
+            <div class="bg-form-header col-md-12">
                 <div class="row">
                     <label class="col-md-6 staticLabel font-size-s boldText">English</label>
                     <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
@@ -54,7 +55,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 1" formControlName="opt1En" (change)="checkReqValues()"
-                        required>
+                        value="" required>
                         <mat-error *ngIf="updateForm.controls.opt1En.hasError('required')">
                             Option 1 is required
                         </mat-error>
@@ -63,7 +64,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 1" formControlName="opt1Bm" (change)="checkReqValues()"
-                        required>
+                        value="" required>
                         <mat-error *ngIf="updateForm.controls.opt1Bm.hasError('required')">
                             Option 1 is required
                         </mat-error>
@@ -75,7 +76,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 2" formControlName="opt2En" (change)="checkReqValues()"
-                        required>
+                        value="" required>
                         <mat-error *ngIf="updateForm.controls.opt2En.hasError('required')">
                             Option 2 is required
                         </mat-error>
@@ -84,7 +85,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 2" formControlName="opt2Bm" (change)="checkReqValues()" 
-                        required>
+                        value="" required>
                         <mat-error *ngIf="updateForm.controls.opt2Bm.hasError('required')">
                             Option 2 is required
                         </mat-error>
@@ -151,7 +152,7 @@
 
             <div class="example-header">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width font-size-s">Active</mat-checkbox>
+                    <mat-checkbox class="example-full-width font-size-s" formControlName="active">Active</mat-checkbox>
                 </div>
             </div>
         

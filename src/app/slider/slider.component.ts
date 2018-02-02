@@ -22,7 +22,7 @@ export class SliderComponent implements OnInit {
   noPrevData = true;
   noNextData = false;
   rerender = false;
-  viewSeq = 1; /* View Page Sequence Based on Discussion {1,2} */
+  viewSeq: any; /* View Page Sequence Based on Discussion {1,2} */
   dataUrl: any;
   date = new Date();
   sliderForm: FormGroup
@@ -30,7 +30,6 @@ export class SliderComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-
 
   titleEn: FormControl
   titleBm: FormControl
@@ -57,11 +56,12 @@ export class SliderComponent implements OnInit {
   resetMsg = this.resetMsg;
 
   ngOnInit() {
+    this.viewSeq = 1;
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.displayedColumns = ['slideId', 'slideTitle', 'slideDescription', 'slideImage', 'slideActiveFlag', 'slideAction'];
-    this.displayedColumns2 = ['sliderId', 'fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'];
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+    this.displayedColumns = ['slideCode', 'slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    // this.displayedColumns2 = ['sliderId', 'fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'];
+    // this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
 
     // this.complete = false;
 
@@ -88,17 +88,21 @@ export class SliderComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
   // get Slider Data 
   getSlidersData(count, size) {
     // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
-
     this.dataUrl = this.appConfig.urlSlides;
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
+    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       data => {
         this.sliderList = data;
-        // console.log(this.sliderList)
-        this.dataSource.data = this.sliderList.slideList;
+        console.log(this.sliderList)
+        this.dataSource.data = this.sliderList.slideCodeList;
         this.commonservice.sliderTable = this.sliderList;
         this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
       });
@@ -115,7 +119,13 @@ export class SliderComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSlidersData(this.sliderPageCount + 1, this.sliderPageSize);
+    this.getSlidersData(page + 1, this.sliderPageSize);
+  }
+
+  pageChange(event, totalPages) {
+    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+    this.sliderPageSize = event.value;
+    this.noPrevData = true;
   }
 
   changePageMode(isEdit) {
@@ -126,24 +136,6 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  addBtn() {
-    // this.router.navigate(['slider', "add"]);
-
-    this.viewSeq = 2;
-    alert("Add Slider");
-    // console.log(this.viewSeq);
-  }
-  // tslint:disable-next-line:use-life-cycle-interface
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-  pageChange(event, totalPages) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
-    this.sliderPageSize = event.value;
-    this.noPrevData = true;
-  }
-
   onPaginateChange(event) {
     // alert(JSON.stringify(event));
     //  const startIndex = event.pageIndex * event.pageSize;
@@ -151,22 +143,41 @@ export class SliderComponent implements OnInit {
     // this.dataSource = new ExampleDataSource(this.exampleDatabase,this.paginator);
   }
 
+  addBtn() {
+    this.viewSeq = 2;
+    // console.log(this.viewSeq);
+    // this.router.navigate(['slider', "add"]);
+  }
+
   navigateBack() {
-    history.back();
+    // this.router.navigate(['slider']);
+    this.viewSeq = 1;
   }
 
   // add, update, delete
   updateRow(row) {
-    console.log(this.viewSeq);
-    console.log(row);
+    this.viewSeq = 2;
+    // console.log(this.viewSeq);
+    // console.log(row);
     alert("Update Slider id: " + row);
     // this.commonservice.GetUser(row.userId);
   }
 
-  deleteRow(row) {
-    console.log(row);
-    alert("Delete Slider id: " + row);
+  deleteRow(enId,bmId) {
+    // console.log(enId);
+    alert("Delete Slider id: " + enId + " & " +bmId);
     // this.commonservice.GetUser(row.userId);
+
+    // this.deletePopup(enId,bmId)
+
+    this.commonservice.delSlider(enId,bmId).subscribe(
+      data => {
+        alert('Slider deleted successfully!')
+        this.router.navigate(['slider']);
+      },
+      error => {
+        console.log("No Data")
+      });
   }
 
   isChecked(e) {
@@ -211,8 +222,8 @@ export class SliderComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
+    let txt;
+    let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
       this.sliderForm.reset();
@@ -221,30 +232,75 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  updateSlider(formValues: any) {
-    console.log(this.viewSeq);
+  deletePopup(enId,bmId) {
+    let txt;
+    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+    if (r == true) {
+      txt = "Delete successful!";
+      this.sliderForm.reset();
+    } else {
+      txt = "Delete Cancelled!";
+    }
+  }
 
-    let body = [{
-      "slideTitle": null,
-      "slideDescription": null,
-      "slideImage": null,
-      "slideActiveFlag": false,
-      "slideSort": null,
-      "language": {
-        "languageId": 1
+  updateSlider(formValues: any) {
+    // console.log(this.viewSeq);
+
+    let body = [
+      {
+        "slideTitle": null,
+        "slideDescription": null,
+        "slideImage": null,
+        "slideCode": null,
+        "slideSort": null,
+        "slideActiveFlag": false,
+        "language": {
+          "languageId": null
+        }
+      }, 
+      {
+        "slideTitle": null,
+        "slideDescription": null,
+        "slideImage": null,
+        "slideCode": null,
+        "slideSort": null,
+        "slideActiveFlag": false,
+        "language": {
+          "languageId": null
+        }
+      }
+    ];
+    
+    // console.log(formValues)
+
+    body[0].slideTitle = formValues.titleEn;
+    body[0].slideDescription = formValues.descEn;
+    body[0].slideImage = "enImg.png";
+    body[0].slideCode = null;
+    body[0].slideSort = null;
+    body[0].slideActiveFlag = formValues.active;
+    body[0].language.languageId = 1;
+
+    body[1].slideTitle = formValues.titleBm;
+    body[1].slideDescription = formValues.descBm;
+    body[1].slideImage = "bmImg.jpg";
+    body[1].slideCode = null;
+    body[1].slideSort = null;
+    body[1].slideActiveFlag = formValues.active;
+    body[1].language.languageId = 2;
+
+    console.log(body)
+    // console.log(JSON.stringify(body))
+
+    // Add Slider Service
+    this.commonservice.addSlider(body).subscribe(
+      data => {
+        alert('Slider added successfully!')
+        this.router.navigate(['slider']);
       },
-      "slideCode": null
-    }, {
-      "slideTitle": null,
-      "slideDescription": null,
-      "slideImage": null,
-      "slideActiveFlag": false,
-      "slideSort": 1,
-      "language": {
-        "languageId": 2
-      },
-      "slideCode": null
-    }];
+      error => {
+        console.log("No Data")
+      });
 
   }
 

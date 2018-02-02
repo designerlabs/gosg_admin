@@ -26,6 +26,8 @@
         "../node_modules/multiselect/css/multi-select.css"
       ],
       "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/multiselect/js/jquery.multi-select.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
