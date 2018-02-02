@@ -51,7 +51,7 @@ export class FeedbacktypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
+    this.dataUrl = this.appConfig.urlFeedback + 'feedback/type';
 
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
@@ -61,7 +61,7 @@ export class FeedbacktypetblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.announcementList;
+      this.dataSource.data = this.recordList.feedbackTypeList;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });

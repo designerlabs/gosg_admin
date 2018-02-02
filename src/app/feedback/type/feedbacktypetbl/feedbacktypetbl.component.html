@@ -28,7 +28,7 @@
             <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
-                    {{element.announcementCategoryId}} 
+                    {{element.feedbackTypeId}} 
                 </mat-cell>
             </ng-container>
       
@@ -36,7 +36,7 @@
             <ng-container matColumnDef="feedbackEng">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (EN) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
-                    {{element.announcementCategoryName}} 
+                    {{element.feedbackTypeDescription}} 
                 </mat-cell>
             </ng-container>
 
@@ -44,7 +44,7 @@
             <ng-container matColumnDef="feedbackMalay">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (BM) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.announcementCategoryDescription}}
+                    {{element.feedbackTypeDescription}}
                 </mat-cell>
             </ng-container>
       
@@ -60,10 +60,11 @@
             <ng-container matColumnDef="action">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
                 <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
-                    <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.announcementCategoryId)"></i>
+                    <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.feedbackTypeCode)"
+                    title="Update {{ element.feedbackTypeCode }}"></i>  
                     &nbsp;
-                    <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.announcementCategoryId)" 
-                    title="Delete {{ element.announcementCategoryId }}"></i>
+                    <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.feedbackTypeId)" 
+                    title="Delete {{ element.feedbackTypeCode }}"></i>
                 </mat-cell>
             </ng-container>
         

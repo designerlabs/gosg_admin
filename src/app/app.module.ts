@@ -13,6 +13,7 @@ import { NavComponent } from './nav/nav.component';
 import { LeftmenuComponent } from './leftmenu/leftmenu.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DragulaModule } from 'ng2-dragula';
 import { ErrorComponent } from './error/error.component';
 // import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { AddtemplateComponent } from './addtemplate/addtemplate.component';
@@ -81,6 +82,7 @@ import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjectt
     AppConfigModule,
     SharedModule,
     FormsModule,
+    DragulaModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
     // FroalaEditorModule.forRoot(),

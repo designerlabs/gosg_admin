@@ -117,6 +117,18 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getModuleList(){
+    return this.http.get(this.appConfig.urlModuleList)
+    .map((response: Response) => response.json()[0])
+    .catch(this.handleError);
+  }
+
+  getGroupList(){
+    return this.http.get(this.appConfig.urlGroupModuleList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getGroupsData() {
     console.log(this.appConfig.urlGroup)
     return this.http.get(this.appConfig.urlGroup)
