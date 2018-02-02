@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
 import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
-import { FeedbacktblComponent } from './feedbackMod/feedbacktbl/feedbacktbl.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
@@ -16,8 +15,9 @@ import { PollquestionComponent } from './pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './pollquestion/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { FeedbacktypeComponent } from './feedbackTypeMod/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedbackTypeMod/feedbacktypetbl/feedbacktypetbl.component';
+import { FeedbacktblComponent } from './feedbackMod/view/feedbacktbl/feedbacktbl.component';
+import { FeedbacktypeComponent } from './feedbackMod/type/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedbackMod/type/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupseditComponent } from './authentication/groups/groupsedit.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
@@ -46,11 +46,11 @@ export const appRoutes: Routes = [
 {path: 'poll/results', component: PollresultComponent},
 {path: 'slider', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
-  {path: 'reference/country', component: CountryComponent},
-  {path: 'reference/city', component: CityComponent},
-  {path: 'reference/state', component: StateComponent},
-  {path: 'reference/ethnicity', component: EthnicityComponent},
-  {path: 'reference/religion', component: ReligionComponent}
+{path: 'reference/country', component: CountryComponent},
+{path: 'reference/city', component: CityComponent},
+{path: 'reference/state', component: StateComponent},
+{path: 'reference/ethnicity', component: EthnicityComponent},
+{path: 'reference/religion', component: ReligionComponent}
 
 
 

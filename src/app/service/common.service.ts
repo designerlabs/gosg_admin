@@ -156,6 +156,7 @@ export class CommonService {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  
   delSlider(enId, bmId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
