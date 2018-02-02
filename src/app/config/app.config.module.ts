@@ -43,16 +43,11 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
-<<<<<<< HEAD
-    urlGroupList: './app/apidata/groupslist.json',
     urlSlides: commonURL + 'slide',  
-=======
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: localDB + 'groupListView',
-    
-    urlSlides: commonURL + 'slide',
 
->>>>>>> 29a2ea9a524de3720e686afcbf351f22c31796f3
+
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
