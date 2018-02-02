@@ -18,8 +18,12 @@ export class FeedbacktypeComponent implements OnInit {
   
   public typeEn: FormControl;  
   public typeBm: FormControl;
+  public active: FormControl;
 
-  public active: FormControl
+  public dataUrl: any;  
+  public recordList: any;
+
+  public typeDesc: any;
 
   complete: boolean;
 
@@ -30,7 +34,6 @@ export class FeedbacktypeComponent implements OnInit {
 
     this.typeEn = new FormControl();
     this.typeBm = new FormControl();
-
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
@@ -41,6 +44,8 @@ export class FeedbacktypeComponent implements OnInit {
       active: this.active
       
     }); 
+
+    this.getData();
   }
 
   update(formValues: any) {
@@ -91,6 +96,31 @@ export class FeedbacktypeComponent implements OnInit {
     //     // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
     // });
   }
+
+  getData() {
+
+    let _getRefID = this.router.url.split('/')[3];
+  
+    this.dataUrl = this.appConfig.urlFeedback + 'feedback/type/'+_getRefID;
+
+    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    this.http.get(this.dataUrl)
+    .subscribe(data => {
+      this.recordList = data;
+
+      console.log("data");
+      console.log(data);
+
+      if(this.recordList.feedbackType.feedbackTypeDescription){
+        this.updateForm.get('typeEn').setValue(this.recordList.feedbackType.feedbackTypeDescription);
+        this.updateForm.get('typeBm').setValue(this.recordList.feedbackType.feedbackTypeDescription);
+      }
+
+      console.log(this.recordList.feedbackType.feedbackTypeDescription)
+      
+    });
+  }
+  
 
   checkReqValues() {
 
