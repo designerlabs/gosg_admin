@@ -57,7 +57,7 @@ export const appRoutes: Routes = [
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},
 {path: 'reference/ethnicity', component: EthnicityComponent},
-{path: 'reference/religion', component: ReligionComponent}
+{path: 'reference/religion', component: ReligionComponent},
 {path: 'reference/postcode', component: PostcodeComponent}
 
 

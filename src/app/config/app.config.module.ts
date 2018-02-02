@@ -31,6 +31,7 @@ export class AppConfig {
     urlCountryList: string;
     urlStateList: string;
     urlCityList: string;
+    urlPostcode:string;
     urlPoll: string;
     urlFeedback: string;
 
@@ -52,9 +53,10 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
-    urlCityList: serviceURL + 'city',
+    urlCityList: serviceURL + 'city/state/',
     urlPoll: commonURL + 'polls', 
-    urlFeedback: serviceURL
+    urlFeedback: serviceURL,
+    urlPostcode: serviceURL + 'postcode/city/'
 };
 
 @NgModule({
