@@ -24,6 +24,7 @@ import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -50,7 +51,8 @@ export const appRoutes: Routes = [
   {path: 'reference/city', component: CityComponent},
   {path: 'reference/state', component: StateComponent},
   {path: 'reference/ethnicity', component: EthnicityComponent},
-  {path: 'reference/religion', component: ReligionComponent}
+  {path: 'reference/religion', component: ReligionComponent},
+  {path: 'reference/postcode', component: PostcodeComponent}
 
 
 
