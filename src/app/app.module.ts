@@ -37,6 +37,7 @@ import { CityComponent } from './referencecode/city/city.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
     StateComponent,
     EthnicityComponent,
     ReligionComponent,
+    PostcodeComponent,
   ],
   imports: [
     BrowserModule,
