@@ -1,12 +1,17 @@
-<form style="padding-right: 15px; padding-left: 15px;" [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+<form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
     <div class="container right-content">
         <!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0formpx solid #000">
             <h4 class="paddingTop-15 staticLabel">
                 <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
         </div> -->
-        <a routerLink='/poll/questions'> Back</a>
         <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-            <h2 class="staticLabel">{{commonservice.pageMode}} Polls Questions</h2>
+            <h2 class="staticLabel pull-left">{{commonservice.pageMode}} Polls Questions</h2>
+            <br><br>
+            <span class="pull-right">            
+              <a routerLink='/poll/questions'>
+                <i class="fa fa-chevron-left font-size-m"></i> BACK
+              </a>
+            </span>
         </div> 
                    
         <div class="example-container mat-elevation-z8">
@@ -15,7 +20,7 @@
                     <label class="col-md-6 staticLabel font-size-s boldText">English</label>
                     <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
                 </div>
-            </div>
+            </div><br>
 
             <div class="example-header">
                 <div class="col-md-6 text-align-Center font-size-m"> Poll Question</div>
@@ -162,7 +167,7 @@
             <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
             (click)="update(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
-            <i *ngIf="!complete" class="fa fa-times"></i> Update </button>
+            <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
             <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i>Reset</button>

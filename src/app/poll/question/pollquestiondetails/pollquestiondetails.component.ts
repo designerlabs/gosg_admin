@@ -10,8 +10,8 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-import { CommonService } from '../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -21,6 +21,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./pollquestiondetails.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class PollquestiondetailsComponent implements OnInit {
 
   updateForm: FormGroup;
@@ -42,7 +43,6 @@ export class PollquestiondetailsComponent implements OnInit {
 
   public active: FormControl
 
-  displayedColumns = ['optionEn', 'optionBm'];
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -143,7 +143,7 @@ export class PollquestiondetailsComponent implements OnInit {
     body[0].pollsResult3= null;
     body[0].pollsResult4 = null;
     body[0].pollsResult5 = null;
-    body[0].pollsReference = null;
+    body[0].pollsReference = 22;
     body[0].language.languageId = 2;
 
     body[1].pollsId = 99;
@@ -154,31 +154,31 @@ export class PollquestiondetailsComponent implements OnInit {
     body[1].pollsAnswer4 = formValues.opt4En;
     body[1].pollsAnswer5 = formValues.opt5En;
     body[1].pollsActiveFlag = formValues.active;
-    body[0].pollsResult1 = null;
-    body[0].pollsResult2 = null;
-    body[0].pollsResult3= null;
-    body[0].pollsResult4 = null;
-    body[0].pollsResult5 = null;
-    body[0].pollsReference = null;
-    body[0].language.languageId = 1;
+    body[1].pollsResult1 = null;
+    body[1].pollsResult2 = null;
+    body[1].pollsResult3= null;
+    body[1].pollsResult4 = null;
+    body[1].pollsResult5 = null;
+    body[1].pollsReference = 22;
+    body[1].language.languageId = 1;
 
+
+    console.log("TEST")
     console.log(body)
 
-    // this.commonservice.addRecord(body).subscribe(
-    //   data => {
-    //     console.log(JSON.stringify(body))
-    //     console.log(body)
-    //     alert('Record added successfully!')
-    //     this.router.navigate(['poll/questions/add']);
-    //     // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //     // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
-    // });
+    this.commonservice.addRecord(body).subscribe(
+      data => {
+        console.log(JSON.stringify(body))
+        console.log(body)
+        alert('Record added successfully!')
+        this.router.navigate(['poll/questions/add']);
+        // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+      },
+      error => {
+        console.log("No Data")
+        // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+    });
   }
-
-
 
   checkReqValues() {
 
