@@ -147,6 +147,15 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  delSlider(enId, bmId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=", enId + "," +bmId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
     console.log(fullUrl)
@@ -156,10 +165,8 @@ export class CommonService {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
-  
-  delSlider(enId, bmId) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+  delRecord(enId, bmId) {
     
     return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=", enId + "," +bmId)
     .map((response: Response) => response.json())

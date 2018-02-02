@@ -84,7 +84,6 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
     this.router.navigate(['feedback/subject/add']);
     this.commonservice.pageModeChange(false);
-    // this.commonservice.GetUser(row.userId);
   }
 
   updateRow(row) {
@@ -93,13 +92,19 @@ export class FeedbacksubjecttblComponent implements OnInit {
     alert("Update pq id: "+row);
     this.router.navigate(['feedback/subject/', row]);
     this.commonservice.pageModeChange(true);
-    // this.commonservice.GetUser(row.userId);
   }
 
-  deleteRow(row) {
-    console.log(row);
-    alert("Delete pq id: "+row);
-    // this.commonservice.GetUser(row.userId);
+  deleteRow(enId, bmId) {
+
+    console.log(enId + bmId);
+    this.commonservice.delRecord(enId, bmId).subscribe(
+      data => {
+        alert('Record deleted successfully!')
+        this.router.navigate(['feedback/subject']);
+      },
+      error => {
+        console.log("No Data")
+    });
   }
 
   ngAfterViewInit() {

@@ -85,22 +85,25 @@ export class FeedbacktypetblComponent implements OnInit {
 
     this.router.navigate(['feedback/type/add']);
     this.commonservice.pageModeChange(false);
-    // this.commonservice.GetUser(row.userId);
   }
 
   updateRow(row) {
     
-    console.log(row);
-    alert("Update pq id: "+row);
     this.router.navigate(['feedback/type/', row]);
     this.commonservice.pageModeChange(true);
-    // this.commonservice.GetUser(row.userId);
   }
 
-  deleteRow(row) {
-    console.log(row);
-    alert("Delete pq id: "+row);
-    // this.commonservice.GetUser(row.userId);
+  deleteRow(enId, bmId) {
+
+    console.log(enId + bmId);
+    this.commonservice.delRecord(enId, bmId).subscribe(
+      data => {
+        alert('Record deleted successfully!')
+        this.router.navigate(['feedback/type']);
+      },
+      error => {
+        console.log("No Data")
+    });
   }
 
   ngAfterViewInit() {
