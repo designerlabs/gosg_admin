@@ -102,8 +102,8 @@ export class SliderComponent implements OnInit {
     // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlSlides;
 
-    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-      this.http.get(this.dataUrl).subscribe(
+    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+      // this.http.get(this.dataUrl).subscribe(
       data => {
         this.sliderList = data;
         console.log(this.sliderList)
@@ -169,14 +169,14 @@ export class SliderComponent implements OnInit {
     this.changePageMode(this.isEdit);
 
     // Update Slider Service
-    return this.http.get(this.appConfig.urlSlides + '/' + row + '/').subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
       Rdata => {
 
         this.sliderData = Rdata;
+        console.log(this.sliderData)
+        console.log(this.appConfig.urlSlides + '/' + row)
         let dataEn = this.sliderData['slideList'][0];
         let dataBm = this.sliderData['slideList'][1];
-
-      // console.log(this.sliderData['slideList'])
 
       // populate data
       this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
