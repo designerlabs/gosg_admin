@@ -1,11 +1,6 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-import { CommonService } from '../../service/common.service';
-import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { SelectionModel } from '@angular/cdk/collections';
 import { debug } from 'util';
 
 @Component({
@@ -49,9 +44,6 @@ export class ReligionComponent implements OnInit {
   // getRecordList(count, size) {
 
   //   this.dataUrl = this.appConfig.urlReligionList;
-
-
-
   //   this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
   //     .subscribe(data => {
   //       this.recordList = data;
@@ -61,19 +53,6 @@ export class ReligionComponent implements OnInit {
 
   //       this.dataSource.data = this.recordList.religionList;
   //       this.commonservice.recordTable = this.recordList;
-
-  //       // this.dataSource.data = this.reconstruct.religionList;
-  //       // this.commonservice.recordTable = this.reconstruct;
-        
-  //       //==============
-  //       // reconstruct = [];
-
-  //       // for(let result of this.dataSource.data){
-  //       //   // reconstruct.push(result.Id);
-  //       //   console.log(result);
-  //       //   console.log(this.dataSource.data);
-  //       // }
-
   //       for (let i=0; i< this.dataSource.data.length; i++) {
   //         this.found = false;
   //         for (let j=0; j< this.religionList.length; j++) {
@@ -101,19 +80,11 @@ export class ReligionComponent implements OnInit {
   //               malay : null,
   //               english : this.dataSource.data[i].religion,
   //             });
-  //           }
-           
+  //           }           
   //         }
-
-  //         // obj = {};
-  //         // obj.itemId = results[i].id;
-  //         // transformedResult.push(obj);
   //       }
 
-        
-
   //       console.log(this.religionList);
-
   //       this.reconstruct.pageNumber = 1;
   //       this.reconstruct.pageSize = 10;
   //       this.reconstruct.totalPages = 1;
