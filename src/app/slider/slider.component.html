@@ -1,5 +1,5 @@
 <div *ngIf="viewSeq == 1" class="container right-content">
-  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+  <div class="col-md-12">
     <h2 class="staticLabel">Slider Management</h2>
     <span class="pull-right editBtn">
       <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
@@ -49,7 +49,7 @@
         <mat-cell *matCellDef="let element" style="flex: 0 0 20%; text-align: center">
             <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.slideCode)" title="Update {{ element.slideCode }}"></i>
             &nbsp;
-            <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deletePopup(element.slideList[0].slideId,element.slideList[1].slideId)" title="Delete {{ element.slideList[0].slideId }},{{ element.slideList[1].slideId }}"></i>
+            <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.slideList[0].slideId,element.slideList[1].slideId)" title="Delete {{ element.slideList[0].slideId }},{{ element.slideList[1].slideId }}"></i>
         </mat-cell>
       </ng-container>
 
@@ -87,7 +87,7 @@
 <!-- VIEW: ADD/EDIT SLIDER -->
 <div *ngIf="viewSeq == 2" class="container right-content">
   <div class="col-md-12">
-    <h2>{{ pageMode }} Slider</h2>
+    <h2 class="staticLabel">{{ pageMode }} Slider</h2>
     <span class="pull-right backBtn">
       <a class="font-size-s" (click)="navigateBack()">
         <i class="fa fa-chevron-left font-size-m"></i> BACK
@@ -100,20 +100,20 @@
   </div>
 
   <form [formGroup]="sliderForm" autocomplete="off" role="form" novalidate>
-    <div class="row">
   
       <!-- EN -->
-      <div class="mat-elevation-z8 col-md-12 right-content">
+      <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
-          <div class="slider-form-header col-md-6">
+          <div class="bg-form-header col-md-6">
             <label class="staticLabel font-size-s boldText">English</label>
           </div>
-          <div class="slider-form-header col-md-6">
+          <div class="bg-form-header col-md-6">
             <label class="staticLabel font-size-s boldText">Bahasa Malaysia</label>
           </div>
         </div>
   
         <div class="row">
+          <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()"
@@ -227,6 +227,5 @@
         </div>
       <div class="col-md-12">&nbsp;</div>
     <!-- </div> -->
-  </div>
   </form>
 </div>

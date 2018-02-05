@@ -162,7 +162,7 @@ export class SliderComponent implements OnInit {
   // add, update, delete
   updateRow(row) {
 
-    this.router.navigate(['slider', row]);
+    // this.router.navigate(['slider', row]);
     this.viewSeq = 2;
     // alert("Update Slider id: " + row);
     this.isEdit = true;
@@ -186,21 +186,11 @@ export class SliderComponent implements OnInit {
       this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
       this.sliderForm.get('imgBm').setValue(dataBm.slideImage);
       this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
-      this.slideCode = this.sliderData['slideCode'];
+      this.slideCode = this.sliderData['slideList'][0]['slideCode'];
       this.slideIdEn = dataEn.slideId;
       this.slideIdBm = dataBm.slideId;
       // this.copyImg
     });
-    
-  }
-
-  deleteRow(enId,bmId) {
-    // console.log(enId);
-    // alert("Delete Slider id: " + enId + " & " +bmId);
-    // this.commonservice.GetUser(row.userId);
-
-    this.deletePopup(enId,bmId)
-
     
   }
 
@@ -256,7 +246,7 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  deletePopup(enId,bmId) {
+  deleteRow(enId,bmId) {
     let txt;
     let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
     if (r == true) {

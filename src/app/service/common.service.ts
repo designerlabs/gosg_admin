@@ -178,7 +178,7 @@ export class CommonService {
     console.log(slider)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    return this.http.put(this.appConfig.urlSlides + '/' + slider[0].slideCode + '/', slider)
+    return this.http.put(this.appConfig.urlSlides + '/' + slider[0].slideCode, slider)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
