@@ -226,7 +226,7 @@ export class CommonService {
   }
 
   getCitiesbyState(code): Observable<any[]> {
-    return this.http.get(this.cityUrl + code)
+    return this.http.get(this.cityUrl + '/state/' + code)
       .map((response: Response) => response.json().cityList)
       .retry(5)
       .catch(this.handleError);
