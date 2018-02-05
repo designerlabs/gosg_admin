@@ -32,6 +32,7 @@ export class AppConfig {
     urlCountryList: string;
     urlStateList: string;
     urlCityList: string;
+    urlReligionList: string;
     urlModuleList: string;
     urlGroupModuleList: string;
     urlPostcode:string;
@@ -58,7 +59,9 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
-    urlCityList: serviceURL + 'city/state/',
+    urlCityList: serviceURL + 'city',
+    urlReligionList: serviceURL + 'religion',
+    //urlCityList: serviceURL + 'city/state/',
     urlPoll: commonURL + 'polls', 
     urlFeedback: serviceURL,
     urlPostcode: serviceURL + 'postcode/city/'

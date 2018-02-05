@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit, ElementRef, Inject } from '@angular/core';
-import * as $ from 'jquery';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonService } from '../../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
@@ -10,7 +9,7 @@ import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms
 @Component({
   selector: 'app-groupsedit',
   templateUrl: './groupsedit.component.html',
-  styleUrls: ['./groupsedit.component.css', '../../../../node_modules/dragula/dist/dragula.css']  
+  styleUrls: ['./groupsedit.component.css']  
 })
 export class GroupseditComponent implements OnInit {
   moduleListSelected: any;
