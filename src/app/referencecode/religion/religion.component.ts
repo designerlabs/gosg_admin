@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -6,6 +7,12 @@ import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+=======
+import { Component, OnInit } from '@angular/core';
+import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { debug } from 'util';
+>>>>>>> a40a3a9daff8f67e037fba8d14b0d668e6f3b3d4
 
 @Component({
   selector: 'app-religion',
@@ -15,12 +22,17 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class ReligionComponent implements OnInit {
 
   recordList = null;
+<<<<<<< HEAD
   displayedColumns = ['english', 'malay', 'action'];
+=======
+  displayedColumns = ['num', 'Enreligion', 'Bmreligion', 'status', 'action'];
+>>>>>>> a40a3a9daff8f67e037fba8d14b0d668e6f3b3d4
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
+<<<<<<< HEAD
 
   reconstruct = {};
   religionList = [];
@@ -47,6 +59,30 @@ export class ReligionComponent implements OnInit {
 
   ngOnInit() {
     this.getRecordList(this.pageCount, this.pageSize);
+=======
+  dataUrl: any;
+
+  dataSource = new MatTableDataSource<object>(this.recordList);
+
+  constructor(private http: HttpClient,) { }
+
+  ngOnInit() {
+    this.getRecordList();
+  }
+
+  getRecordList() {
+  debugger;
+    this.dataUrl = './app/apidata/religion.json';
+
+    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    this.http.get(this.dataUrl)
+    .subscribe(data => {
+      this.recordList = data;
+      console.log(data);
+      this.dataSource.data = this.recordList.religionList;      
+      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+    });
+>>>>>>> a40a3a9daff8f67e037fba8d14b0d668e6f3b3d4
   }
 
   getRecordList(count, size) {
