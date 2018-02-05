@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,12 +6,7 @@ import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-=======
-import { Component, OnInit } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { debug } from 'util';
->>>>>>> a40a3a9daff8f67e037fba8d14b0d668e6f3b3d4
 
 @Component({
   selector: 'app-religion',
@@ -22,44 +16,12 @@ import { debug } from 'util';
 export class ReligionComponent implements OnInit {
 
   recordList = null;
-<<<<<<< HEAD
-  displayedColumns = ['english', 'malay', 'action'];
-=======
   displayedColumns = ['num', 'Enreligion', 'Bmreligion', 'status', 'action'];
->>>>>>> a40a3a9daff8f67e037fba8d14b0d668e6f3b3d4
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
-<<<<<<< HEAD
-
-  reconstruct = {};
-  religionList = [];
-  found = false;
-
-  dataUrl: any;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  
-  selection = new SelectionModel<Element>(true, []);
-
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-              private commonservice: CommonService, private router: Router) {
-    this.getRecordList(this.pageCount, this.pageSize);
-  }
-
-  ngOnInit() {
-    this.getRecordList(this.pageCount, this.pageSize);
-=======
   dataUrl: any;
 
   dataSource = new MatTableDataSource<object>(this.recordList);
@@ -82,121 +44,120 @@ export class ReligionComponent implements OnInit {
       this.dataSource.data = this.recordList.religionList;      
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
->>>>>>> a40a3a9daff8f67e037fba8d14b0d668e6f3b3d4
   }
 
-  getRecordList(count, size) {
+  // getRecordList(count, size) {
 
-    this.dataUrl = this.appConfig.urlReligionList;
+  //   this.dataUrl = this.appConfig.urlReligionList;
 
 
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-      .subscribe(data => {
-        this.recordList = data;
+  //   this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+  //     .subscribe(data => {
+  //       this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+  //       console.log("data");
+  //       console.log(data);
 
-        this.dataSource.data = this.recordList.religionList;
-        this.commonservice.recordTable = this.recordList;
+  //       this.dataSource.data = this.recordList.religionList;
+  //       this.commonservice.recordTable = this.recordList;
 
-        // this.dataSource.data = this.reconstruct.religionList;
-        // this.commonservice.recordTable = this.reconstruct;
+  //       // this.dataSource.data = this.reconstruct.religionList;
+  //       // this.commonservice.recordTable = this.reconstruct;
         
-        //==============
-        // reconstruct = [];
+  //       //==============
+  //       // reconstruct = [];
 
-        // for(let result of this.dataSource.data){
-        //   // reconstruct.push(result.Id);
-        //   console.log(result);
-        //   console.log(this.dataSource.data);
-        // }
+  //       // for(let result of this.dataSource.data){
+  //       //   // reconstruct.push(result.Id);
+  //       //   console.log(result);
+  //       //   console.log(this.dataSource.data);
+  //       // }
 
-        for (let i=0; i< this.dataSource.data.length; i++) {
-          this.found = false;
-          for (let j=0; j< this.religionList.length; j++) {
-              if(this.religionList[j].religionCode == this.dataSource.data[i].religionCode){
-                if (this.dataSource.data[i].language.languageId == 2) {
-                  this.religionList[j].malay = this.dataSource.data[i].religion;
-                } else {
-                  this.religionList[j].english = this.dataSource.data[i].religion;
-                }
-                this.found = true;
-                break;
-              }
-          }
+  //       for (let i=0; i< this.dataSource.data.length; i++) {
+  //         this.found = false;
+  //         for (let j=0; j< this.religionList.length; j++) {
+  //             if(this.religionList[j].religionCode == this.dataSource.data[i].religionCode){
+  //               if (this.dataSource.data[i].language.languageId == 2) {
+  //                 this.religionList[j].malay = this.dataSource.data[i].religion;
+  //               } else {
+  //                 this.religionList[j].english = this.dataSource.data[i].religion;
+  //               }
+  //               this.found = true;
+  //               break;
+  //             }
+  //         }
 
-          if(!this.found) {
-            if (this.dataSource.data[i].language.languageId == 2) {
-              this.religionList.push({
-                religionCode : this.dataSource.data[i].religionCode,
-                malay : this.dataSource.data[i].religion,
-                english : null,
-              });
-            } else {
-              this.religionList.push({
-                religionCode : this.dataSource.data[i].religionCode,
-                malay : null,
-                english : this.dataSource.data[i].religion,
-              });
-            }
+  //         if(!this.found) {
+  //           if (this.dataSource.data[i].language.languageId == 2) {
+  //             this.religionList.push({
+  //               religionCode : this.dataSource.data[i].religionCode,
+  //               malay : this.dataSource.data[i].religion,
+  //               english : null,
+  //             });
+  //           } else {
+  //             this.religionList.push({
+  //               religionCode : this.dataSource.data[i].religionCode,
+  //               malay : null,
+  //               english : this.dataSource.data[i].religion,
+  //             });
+  //           }
            
-          }
+  //         }
 
-          // obj = {};
-          // obj.itemId = results[i].id;
-          // transformedResult.push(obj);
-        }
+  //         // obj = {};
+  //         // obj.itemId = results[i].id;
+  //         // transformedResult.push(obj);
+  //       }
 
         
 
-        console.log(this.religionList);
+  //       console.log(this.religionList);
 
-        this.reconstruct.pageNumber = 1;
-        this.reconstruct.pageSize = 10;
-        this.reconstruct.totalPages = 1;
-        this.reconstruct.totalElements = this.religionList.length;
-        this.reconstruct.religionList = this.religionList;
+  //       this.reconstruct.pageNumber = 1;
+  //       this.reconstruct.pageSize = 10;
+  //       this.reconstruct.totalPages = 1;
+  //       this.reconstruct.totalElements = this.religionList.length;
+  //       this.reconstruct.religionList = this.religionList;
 
-        console.log(this.reconstruct);
-        //==============
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-      });
-  }
+  //       console.log(this.reconstruct);
+  //       //==============
+  //       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+  //     });
+  // }
 
-  dataSource = new MatTableDataSource<object>(this.religionList);
+  // dataSource = new MatTableDataSource<object>(this.religionList);
 
-  paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
-    this.noPrevData = page <= 2 ? true : false;
-    this.noNextData = false;
-  }
+  // paginatorL(page) {
+  //   this.getRecordList(page - 1, this.pageSize);
+  //   this.noPrevData = page <= 2 ? true : false;
+  //   this.noNextData = false;
+  // }
 
-  paginatorR(page, totalPages) {
-    this.noPrevData = page >= 1 ? false : true;
-    let pageInc: any;
-    pageInc = page + 1;
-    this.getRecordList(page + 1, this.pageSize);
-  }
+  // paginatorR(page, totalPages) {
+  //   this.noPrevData = page >= 1 ? false : true;
+  //   let pageInc: any;
+  //   pageInc = page + 1;
+  //   this.getRecordList(page + 1, this.pageSize);
+  // }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  //   this.dataSource.sort = this.sort;
+  // }
 
-  pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
-    this.pageSize = event.value;
-    this.noPrevData = true;
-  }
+  // pageChange(event, totalPages) {
+  //   this.getRecordList(this.pageCount, event.value);
+  //   this.pageSize = event.value;
+  //   this.noPrevData = true;
+  // }
 
-  add() {
+  // add() {
 
-    this.router.navigate(['poll/questions/add']);
-    this.commonservice.pageModeChange(false);
-    // this.commonservice.GetUser(row.userId);
-  }
+  //   this.router.navigate(['poll/questions/add']);
+  //   this.commonservice.pageModeChange(false);
+  //   // this.commonservice.GetUser(row.userId);
+  // }
 
   // updateRow(row) {
     
