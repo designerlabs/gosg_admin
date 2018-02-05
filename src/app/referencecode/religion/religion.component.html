@@ -1,3 +1,168 @@
-<p>
-  religion works!
-</p>
+<<<<<<< HEAD
+
+
+<div class="container right-content">
+  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+    <h2 class="staticLabel">View Religion</h2>
+    <span class="pull-right editBtn" style="z-index: 1;">
+      <button type="button" mat-fab color="warn" (click)="add()"
+      [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">&nbsp;
+      <i class="fa fa-plus font-size-l"></i></button>
+  </span>
+  </div>
+
+  <div class="example-container mat-elevation-z8">
+    <div class="example-header">
+      <mat-form-field class="font-size-s" >
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">
+
+      <!-- Religion 1 Column -->
+      <ng-container matColumnDef="english">
+        <mat-header-cell class="text-align-left" style="flex: 0 0 45%;" *matHeaderCellDef> English </mat-header-cell>
+        <mat-cell class="text-align-left" style="flex: 0 0 45%;" *matCellDef="let element">
+          {{element.english}}
+        </mat-cell>
+      </ng-container>
+
+
+      <!-- Language Name 1 Column -->
+      <ng-container matColumnDef="malay">
+        <mat-header-cell class="text-align-Left" style="flex: 0 0 45%;" *matHeaderCellDef> Malay </mat-header-cell>
+        <mat-cell class="text-align-Left" style="flex: 0 0 45%;" *matCellDef="let element">
+          {{element.malay}}
+        </mat-cell>
+      </ng-container>
+
+      
+
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+            <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.announcementCategoryId)"></i>
+            &nbsp;
+            <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.announcementCategoryId)"
+            title="Delete {{ element.announcementCategoryId }}"></i>
+        </mat-cell>
+      </ng-container>
+
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+
+  <div class="float-right paddingTop-15">
+    <mat-form-field style="width:50px; margin-top: -10px">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+        <mat-option value="5">5</mat-option>
+        <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+            <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+                <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
+                <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+                <strong>{{commonservice.recordTable?.totalElements}}</strong> city list
+            </span>
+            <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </button>
+            <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </button>
+        </span>
+  </div>
+=======
+<div class="container right-content">
+    <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+        <h2 class="staticLabel pull-left">View Religion</h2>
+        <span class="pull-right editBtn" style="z-index: 1;">
+            <button type="button" mat-fab color="warn" 
+            [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">&nbsp;
+            <i class="fa fa-plus font-size-l"></i></button>
+        </span>
+    </div>
+
+    <div class="example-container mat-elevation-z8">
+       
+        <mat-table [dataSource]="dataSource" style="max-height: 550px;">
+            <ng-container matColumnDef="num">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
+                    {{element.religionListID}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- question en Column -->
+            <ng-container matColumnDef="Enreligion">
+                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Religion (EN) </mat-header-cell>
+                <mat-cell class="text-align-Left padding5" *matCellDef="let element">
+                    {{element.En.religion}} 
+                </mat-cell>
+            </ng-container>
+
+            <!-- question bm Column -->
+            <ng-container matColumnDef="Bmreligion">
+                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Religion (BM) </mat-header-cell>
+                <mat-cell class="text-align-Left padding5" *matCellDef="let element">
+                    {{element.Bm.religion}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- status Column -->
+            <ng-container matColumnDef="status">
+                <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Active Status </mat-header-cell>
+                <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
+                    {{element.ActiveFlag}}
+                </mat-cell>
+            </ng-container>
+
+            <!-- action Column -->
+            <ng-container matColumnDef="action">
+                <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
+                <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                    <i class="fa fa-edit font-size-xxl" style="color: orange" ></i>
+                    &nbsp;
+                    <i class="fa fa-trash font-size-xxl" style="color: red" title="Delete"></i>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+
+    </div>
+
+    <div class="paddingTop-15">
+        <mat-form-field style="width:50px; margin-top: -10px">
+            <mat-select class="font-size-s" value="10" style="text-align: center;">
+            <mat-option value="5">5</mat-option>
+            <mat-option value="10">10</mat-option>
+            <mat-option value="25">25</mat-option>
+            <mat-option value="50">50</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <span style="float:right;">
+            <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+                <strong>1</strong> of
+                <strong>3</strong> in
+                <strong>4</strong> Religion list
+            </span>
+            <button mat-mini-fab color="basic" [disabled]="noPrevData" >
+            <i class="fa fa-angle-left" aria-hidden="true"></i>
+            </button>
+            <button mat-mini-fab color="basic" [disabled]="noNextData">
+            <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </button>
+        </span>
+    </div>
+>>>>>>> a40a3a9daff8f67e037fba8d14b0d668e6f3b3d4
+</div>

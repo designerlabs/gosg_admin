@@ -1,0 +1,199 @@
+<form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+    <div class="container right-content">
+        <!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0formpx solid #000">
+            <h4 class="paddingTop-15 staticLabel">
+                <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
+        </div> -->
+        <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+            <h2 class="staticLabel pull-left">{{commonservice.pageMode}} Polls Questions</h2>
+            <br><br>
+            <span class="pull-right">            
+              <a routerLink='/poll/questions'>
+                <i class="fa fa-chevron-left font-size-m"></i> BACK
+              </a>
+            </span>
+        </div> 
+                   
+        <div class="example-container mat-elevation-z8">
+            <div class="bg-form-header col-md-12">
+                <div class="row">
+                    <label class="col-md-6 staticLabel font-size-s boldText">English</label>
+                    <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                </div>
+            </div><br>
+
+            <div class="example-header">
+                <div class="col-md-6 text-align-Center font-size-m"> Poll Question</div>
+                <div class="col-md-6 text-align-Center font-size-m"> Poll Question</div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <textarea matInput placeholder="Poll Question" formControlName="pollEng" #pollEng maxlength="200" 
+                        (change)="checkReqValues()" required></textarea>
+                        <mat-error *ngIf="updateForm.controls.pollEng.hasError('required')">
+                            Poll Question is required
+                        </mat-error>
+                        <mat-hint align="end">{{pollEng.value?.length || 0}}/200</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <textarea matInput placeholder="Poll Question" formControlName="pollMalay" #pollMalay maxlength="200" 
+                        (change)="checkReqValues()" required></textarea>
+                        <mat-error *ngIf="updateForm.controls.pollMalay.hasError('required')">
+                            Poll Question is required
+                        </mat-error>
+                        <mat-hint align="end">{{pollMalay.value?.length || 0}}/200</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6 text-align-Center font-size-m"> Options</div>
+                <div class="col-md-6 text-align-Center font-size-m"> Options</div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 1" formControlName="opt1En" (change)="checkReqValues()"
+                        value="" required>
+                        <mat-error *ngIf="updateForm.controls.opt1En.hasError('required')">
+                            Option 1 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 1" formControlName="opt1Bm" (change)="checkReqValues()"
+                        value="" required>
+                        <mat-error *ngIf="updateForm.controls.opt1Bm.hasError('required')">
+                            Option 1 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 2" formControlName="opt2En" (change)="checkReqValues()"
+                        value="" required>
+                        <mat-error *ngIf="updateForm.controls.opt2En.hasError('required')">
+                            Option 2 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 2" formControlName="opt2Bm" (change)="checkReqValues()" 
+                        value="" required>
+                        <mat-error *ngIf="updateForm.controls.opt2Bm.hasError('required')">
+                            Option 2 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput placeholder="Option 3" formControlName="opt3En">
+                    <mat-error *ngIf="updateForm.controls.opt3En.hasError('required')">
+                        Option 3 is required
+                    </mat-error>
+                </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 3" formControlName="opt3Bm">
+                        <mat-error *ngIf="updateForm.controls.opt3Bm.hasError('required')">
+                            Option 3 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 4" formControlName="opt4En">
+                        <mat-error *ngIf="updateForm.controls.opt4En.hasError('required')">
+                            Option 4 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 4" formControlName="opt4Bm">
+                        <mat-error *ngIf="updateForm.controls.opt4Bm.hasError('required')">
+                            Option 4 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 5" formControlName="opt5En">
+                        <mat-error *ngIf="updateForm.controls.opt5En.hasError('required')">
+                            Option 5 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 5" formControlName="opt5Bm">
+                        <mat-error *ngIf="updateForm.controls.opt5Bm.hasError('required')">
+                            Option 5 is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-12">
+                    <mat-checkbox class="example-full-width font-size-s" formControlName="active">Active</mat-checkbox>
+                </div>
+            </div>
+        
+        </div>
+    
+        <div class="form-group" style="margin-top: 2%">
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="update(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
+            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            style="width: 100px; font-family: Roboto" (click)="myFunction()">
+            <i class="fa fa-refresh"></i>Reset</button>
+        </div>      
+
+    </div>
+</form>
+  
+  
+  
+  
+  
+  
+  <!-- <app-confirm-dialog  #resetModal 
+  [title]="'common.icon.warn'" 
+  [content]="'common.msg.reset'"
+  [state]="'common.state.warn'" 
+  [isReset]="'true'"
+  (resetMethod)="resetMethod($event)">
+  </app-confirm-dialog>
+  
+  <app-confirm-dialog  #infoModal 
+  [title]="'common.icon.success'" 
+  [content]="'register.popupmsg.success_content1'"
+  [email] = "getEmail"
+  [content2] = "'register.popupmsg.success_content2'" 
+  [state]="'common.state.success'" 
+  [isRegister]="'index'">
+  </app-confirm-dialog> -->

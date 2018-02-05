@@ -1,0 +1,22 @@
+.right-content {
+    width: 100%;
+}
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+  
+.mat-table {
+  overflow: auto;
+  max-height: 800px;
+}
+
+.mat-header-cell.mat-sort-header-sorted {
+  color: black;
+}
+
+.padding5 {
+    padding:5px;
+}
+  

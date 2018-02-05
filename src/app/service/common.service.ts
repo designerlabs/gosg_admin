@@ -9,6 +9,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/retry';
 
 @Injectable()
 export class CommonService {
@@ -31,6 +32,9 @@ export class CommonService {
 
   private usersUrl: string = this.appConfig.urlUsers;
   private slidersUrl: string = this.appConfig.urlSlides;
+  private stateUrl: string = this.appConfig.urlStateList;
+  private cityUrl: string = this.appConfig.urlCityList;
+  private postcodeUrl:string = this.appConfig.urlPostcode;
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
   //   debugger;
@@ -113,6 +117,18 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getModuleList(){
+    return this.http.get(this.appConfig.urlModuleList)
+    .map((response: Response) => response.json()[0])
+    .catch(this.handleError);
+  }
+
+  getGroupList(){
+    return this.http.get(this.appConfig.urlGroupModuleList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getGroupsData() {
     console.log(this.appConfig.urlGroup)
     return this.http.get(this.appConfig.urlGroup)
@@ -176,12 +192,56 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecord(record) {
+    let fullUrl = this.appConfig.urlPoll + "/question";
+    console.log(fullUrl)
+    console.log(record)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecord(enId, bmId) {
+    
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=", enId + "," +bmId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
     return Observable.throw(msg);
 
   }
+
+  getStateData(): Observable<any[]> {
+    //  console.log(this.countryUrl);
+    return this.http.get(this.stateUrl)
+      .map((response: Response) => response.json().stateList)
+      .retry(5)
+      .catch(this.handleError);
+
+  }
+
+  getCitiesbyState(code): Observable<any[]> {
+    return this.http.get(this.cityUrl + code)
+      .map((response: Response) => response.json().cityList)
+      .retry(5)
+      .catch(this.handleError);
+
+  }
+
+  getPostCodeData(code): Observable<any[]> {
+    //  console.log(this.countryUrl);
+    return this.http.get(this.postcodeUrl+ code)
+      .map((response: Response) => response.json().postcodeList)
+      .retry(5)
+      .catch(this.handleError);
+  }
+
+
 
 }
 

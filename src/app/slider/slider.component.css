@@ -2,21 +2,6 @@
     width: 100%;
 }
 
-.slider-form-header {
-    padding: 10px;
-    background: transparent;
-    border-bottom: 1px solid #ccc;
-}
-
-.slider-header-dark {
-    padding: 10px;
-    background: #dbdbdb;
-    /* margin-bottom: 1%; */
-}
-
-.example-full-width {
-    width: 100%;
-}
 
 .activeFontColor {
     color: green;
