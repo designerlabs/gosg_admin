@@ -130,9 +130,16 @@ export class CommonService {
   }
 
   getGroupsData() {
-    console.log(this.appConfig.urlGroup)
+    console.log(this.appConfig.urlGroup);
     return this.http.get(this.appConfig.urlGroup)
     .map((response: Response) => response.json().groupList)
+    .catch(this.handleError);
+  }
+
+  getFaqData() {
+    console.log(this.appConfig.urlFaq);
+    return this.http.get(this.appConfig.urlFaq)
+    .map((response: Response) => response.json().faqCodeList)
     .catch(this.handleError);
   }
 

@@ -38,6 +38,7 @@ export class AppConfig {
     urlPostcode:string;
     urlPoll: string;
     urlFeedback: string;
+    urlFaq: string;
 
 }
 
@@ -65,7 +66,8 @@ export const APP_DI_CONFIG: AppConfig = {
     //urlCityList: serviceURL + 'city/state/',
     urlPoll: commonURL + 'polls', 
     urlFeedback: serviceURL,
-    urlPostcode: serviceURL + 'postcode/city/'
+    urlPostcode: serviceURL + 'postcode/city/',
+    urlFaq: './app/apidata/faq.json',
 };
 
 @NgModule({

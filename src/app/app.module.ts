@@ -40,7 +40,8 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
-
+import { FaqComponent } from './faq/faq.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjectt
     PostcodeComponent,
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
+    FaqComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,7 +84,8 @@ import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjectt
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgxEditorModule
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
