@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "portal-admin-protected",
       "assets": [
         "assets",
         "favicon.ico",
@@ -25,7 +25,7 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css"
       ],
       "scripts": [
-        "../node_modules/jquery/dist/jquery.min.js"
+        
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {
