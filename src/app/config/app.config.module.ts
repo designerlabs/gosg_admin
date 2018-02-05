@@ -31,6 +31,7 @@ export class AppConfig {
     urlCountryList: string;
     urlStateList: string;
     urlCityList: string;
+    urlReligionList: string;
     urlPoll: string;
 }
 
@@ -51,6 +52,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
+    urlReligionList: serviceURL + 'religion',
     urlPoll: commonURL + 'polls', 
 };
 
