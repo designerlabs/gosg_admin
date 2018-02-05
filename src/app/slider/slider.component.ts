@@ -14,6 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SliderComponent implements OnInit {
 
+  sliderData: Object;
   sliderList = null;
   displayedColumns: any;
   displayedColumns2: any;
@@ -30,6 +31,9 @@ export class SliderComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
+  slideCode:any;
+  slideIdEn:any;
+  slideIdBm:any;
 
   titleEn: FormControl
   titleBm: FormControl
@@ -98,7 +102,8 @@ export class SliderComponent implements OnInit {
     // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlSlides;
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+      this.http.get(this.dataUrl).subscribe(
       data => {
         this.sliderList = data;
         console.log(this.sliderList)
@@ -150,17 +155,43 @@ export class SliderComponent implements OnInit {
   }
 
   navigateBack() {
-    // this.router.navigate(['slider']);
     this.viewSeq = 1;
+    this.router.navigate(['slider']);
   }
 
   // add, update, delete
   updateRow(row) {
+
+    this.router.navigate(['slider', row]);
     this.viewSeq = 2;
-    // console.log(this.viewSeq);
-    // console.log(row);
-    alert("Update Slider id: " + row);
-    // this.commonservice.GetUser(row.userId);
+    // alert("Update Slider id: " + row);
+    this.isEdit = true;
+    this.changePageMode(this.isEdit);
+
+    // Update Slider Service
+    return this.http.get(this.appConfig.urlSlides + '/' + row + '/').subscribe(
+      Rdata => {
+
+        this.sliderData = Rdata;
+        let dataEn = this.sliderData['slideList'][0];
+        let dataBm = this.sliderData['slideList'][1];
+
+      // console.log(this.sliderData['slideList'])
+
+      // populate data
+      this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
+      this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
+      this.sliderForm.get('imgEn').setValue(dataEn.slideImage);
+      this.sliderForm.get('titleBm').setValue(dataBm.slideTitle);
+      this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
+      this.sliderForm.get('imgBm').setValue(dataBm.slideImage);
+      this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
+      this.slideCode = this.sliderData['slideCode'];
+      this.slideIdEn = dataEn.slideId;
+      this.slideIdBm = dataBm.slideId;
+      // this.copyImg
+    });
+    
   }
 
   deleteRow(enId,bmId) {
@@ -248,6 +279,7 @@ export class SliderComponent implements OnInit {
 
     let body = [
       {
+        "slideId": null,
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
@@ -259,6 +291,7 @@ export class SliderComponent implements OnInit {
         }
       }, 
       {
+        "slideId": null,
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
@@ -292,15 +325,35 @@ export class SliderComponent implements OnInit {
     console.log(body)
     // console.log(JSON.stringify(body))
 
+    if(!this.isEdit) {
+
     // Add Slider Service
     this.commonservice.addSlider(body).subscribe(
       data => {
         alert('Slider added successfully!')
-        this.router.navigate(['slider']);
       },
       error => {
         console.log("No Data")
       });
+
+    } else {
+      
+      body[0].slideId = this.slideIdEn;
+      body[1].slideId = this.slideIdBm;
+      body[0].slideCode = this.slideCode;
+      body[1].slideCode = this.slideCode;
+
+    // Update Slider Service
+      this.commonservice.updateSlider(body).subscribe(
+        data => {
+          alert('Slider update successful!')
+        },
+        error => {
+          console.log("No Data")
+        });
+    }
+    
+    this.router.navigate(['slider']);
 
   }
 
