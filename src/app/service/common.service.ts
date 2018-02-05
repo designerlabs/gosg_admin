@@ -154,7 +154,7 @@ export class CommonService {
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlSlides + '/' + code + '/').subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/' + code).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
