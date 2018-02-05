@@ -136,6 +136,15 @@ export class CommonService {
   }
 
   // SLIDER
+  getSlider(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/' + code + '/').subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
   addSlider(slider) {
 
     console.log(this.appConfig.urlSlides)
@@ -143,6 +152,17 @@ export class CommonService {
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
     return this.http.post(this.appConfig.urlSlides, slider)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateSlider(slider) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    console.log(slider)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    return this.http.put(this.appConfig.urlSlides + '/' + slider[0].slideCode + '/', slider)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

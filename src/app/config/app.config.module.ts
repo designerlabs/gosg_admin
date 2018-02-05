@@ -45,7 +45,8 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: localDB + 'groupListView',
     
-    urlSlides: commonURL + 'slide',
+    urlSlides: baseURL + 'slide/',
+    // urlSlides: commonURL + 'slide',
 
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
