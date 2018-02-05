@@ -196,19 +196,12 @@ export class SliderComponent implements OnInit {
 
   deleteRow(enId,bmId) {
     // console.log(enId);
-    alert("Delete Slider id: " + enId + " & " +bmId);
+    // alert("Delete Slider id: " + enId + " & " +bmId);
     // this.commonservice.GetUser(row.userId);
 
-    // this.deletePopup(enId,bmId)
+    this.deletePopup(enId,bmId)
 
-    this.commonservice.delSlider(enId,bmId).subscribe(
-      data => {
-        alert('Slider deleted successfully!')
-        this.router.navigate(['slider']);
-      },
-      error => {
-        console.log("No Data")
-      });
+    
   }
 
   isChecked(e) {
@@ -267,10 +260,20 @@ export class SliderComponent implements OnInit {
     let txt;
     let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
     if (r == true) {
-      txt = "Delete successful!";
-      this.sliderForm.reset();
+
+      this.commonservice.delSlider(enId,bmId).subscribe(
+        data => {
+          txt = "Slider deleted successfully!";
+          this.router.navigate(['slider']);
+        },
+        error => {
+          console.log("No Data")
+        });
+
+      // this.sliderForm.reset();
     } else {
       txt = "Delete Cancelled!";
+      alert(txt)
     }
   }
 
