@@ -27,7 +27,6 @@ export class PollquestionComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
-  isEdit: boolean;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -66,9 +65,8 @@ export class PollquestionComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
+    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -76,7 +74,7 @@ export class PollquestionComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.announcementList;
+      this.dataSource.data = this.recordList.pollQuestionFormatList;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
@@ -115,7 +113,8 @@ export class PollquestionComponent implements OnInit {
     this.commonservice.delRecord(enId, bmId).subscribe(
       data => {
         alert('Record deleted successfully!')
-        this.router.navigate(['feedback/subject']);
+        this.router.navigate(['poll/questions']);
+        this.getRecordList(this.pageCount, this.pageSize);
       },
       error => {
         console.log("No Data")

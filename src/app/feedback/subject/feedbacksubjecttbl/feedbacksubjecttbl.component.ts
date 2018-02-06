@@ -24,7 +24,6 @@ export class FeedbacksubjecttblComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
-  isEdit: boolean;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -40,7 +39,6 @@ export class FeedbacksubjecttblComponent implements OnInit {
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) { 
 
-    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
@@ -50,7 +48,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
+    this.dataUrl = this.appConfig.urlFeedback + 'feedback/subject';
 
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
@@ -60,7 +58,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.announcementList;
+      this.dataSource.data = this.recordList.feedbackSubjectList;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
@@ -81,15 +79,12 @@ export class FeedbacksubjecttblComponent implements OnInit {
   }
 
   add() {
-
     this.router.navigate(['feedback/subject/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
-    
     console.log(row);
-    alert("Update pq id: "+row);
     this.router.navigate(['feedback/subject/', row]);
     this.commonservice.pageModeChange(true);
   }

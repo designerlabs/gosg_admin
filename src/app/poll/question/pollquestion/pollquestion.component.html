@@ -45,7 +45,7 @@
             <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
-                    {{element.announcementCategoryId}}
+                    {{element.pollRefNo}}
                 </mat-cell>
             </ng-container>
 
@@ -53,7 +53,7 @@
             <ng-container matColumnDef="pq_en">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (EN) </mat-header-cell>
                 <mat-cell class="text-align-Left padding5" *matCellDef="let element">
-                    {{element.announcementCategoryDescription}} 
+                    {{element.en[0].pollquestion}} 
                 </mat-cell>
             </ng-container>
 
@@ -61,7 +61,7 @@
             <ng-container matColumnDef="pq_bm">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Poll Question (BM) </mat-header-cell>
                 <mat-cell class="text-align-Left padding5" *matCellDef="let element">
-                    {{element.announcementCategoryDescription}}
+                    {{element.bm[0].pollquestion}}
                 </mat-cell>
             </ng-container>
 
@@ -69,7 +69,8 @@
             <ng-container matColumnDef="status">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Active Status </mat-header-cell>
                 <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
-                    <i class="fa fa-check" style="color: green;"></i>
+                    <i *ngIf="element.pollsActiveFlag == true" class="fa fa-check" style="color: green;"></i>
+                    <i *ngIf="element.pollsActiveFlag == false" class="fa fa-times" style="color: red;"></i>
                 </mat-cell>
             </ng-container>
 
@@ -77,10 +78,11 @@
             <ng-container matColumnDef="action">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
                 <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
-                    <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.announcementCategoryId)"></i>
+                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.pollRefNo)">
+                    <i class="fa fa-edit" ></i></button>
                     &nbsp;
-                    <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.announcementCategoryId)"
-                    title="Delete {{ element.announcementCategoryId }}"></i>
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.en[0].id,element.bm[0].id)">
+                    <i class="fa fa-trash" title="Delete {{ element.en[0].id}},{{element.bm[0].id }}"></i></button>
                 </mat-cell>
             </ng-container>
 
