@@ -1,12 +1,3 @@
-// import { Component, OnInit, ViewEncapsulation, ViewChild, Inject  } from '@angular/core';
-// import { FormControl, FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-// import { CommonService } from '../../service/common.service';
-// import { Router, RouterModule } from '@angular/router';
-// import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-// import { SelectionModel } from '@angular/cdk/collections';
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
