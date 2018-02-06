@@ -49,21 +49,13 @@ export const appRoutes: Routes = [
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
-<<<<<<< HEAD
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
 {path: 'poll/questions', component: PollquestionComponent},
-{path: 'poll/questions/:id', component: PollquestiondetailsComponent},
-{path: 'poll/questions/add', component: PollquestiondetailsComponent},
-=======
-{path: 'groupmodule' , component: GroupsviewComponent},
-{path: 'groupmodule/add' , component: GroupseditComponent},
-{path: 'groups/:id', component: GroupseditComponent},
 {path: 'poll/questions', component: PollquestiontblComponent},
 {path: 'poll/questions/:id', component: PollquestionComponent},
 {path: 'poll/questions/add', component: PollquestionComponent},
->>>>>>> 4d68827d894c114c148f878a70086c2ffdab6e47
 {path: 'poll/results', component: PollresultComponent},
 {path: 'slider', component: SlidertblComponent},
 {path: 'slider/add', component: SliderComponent},
