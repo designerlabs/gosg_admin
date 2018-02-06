@@ -28,6 +28,7 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -53,7 +54,8 @@ export const appRoutes: Routes = [
 {path: 'poll/questions/:id', component: PollquestiondetailsComponent},
 {path: 'poll/questions/add', component: PollquestiondetailsComponent},
 {path: 'poll/results', component: PollresultComponent},
-{path: 'slider', component: SliderComponent},
+{path: 'slider', component: SlidertblComponent},
+{path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},

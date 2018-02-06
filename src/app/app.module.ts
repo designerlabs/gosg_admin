@@ -41,6 +41,7 @@ import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 
 
 @NgModule({
@@ -74,6 +75,7 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
     EthnicitytblComponent,
+    SlidertblComponent,
   ],
   imports: [
     BrowserModule,
