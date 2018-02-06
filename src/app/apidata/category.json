@@ -1,0 +1,408 @@
+{
+	"type": "RESPONSE",
+	"statusCode": "S001",
+	"statusDesc": "Category All",
+	"categoryCodeList": [
+		{
+			"categoryCode": "11",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 108,
+					"categoryTitle": "qqqqqqWishing a Very Happy Eid Mubarak",
+					"categoryDescription": "May Shawal this time give a thousand meanings and blessings from the Almighty",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,					
+					"categoryCode": "11",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 109,
+					"categoryTitle": "qqqqqqqSalam Aidilfitri",
+					"categoryDescription": "Semoga Syawal kali ini memberi seribu makna dan berkat dariNya",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "11",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "99",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 826,
+					"categoryTitle": "HAPPY HOLIDAYS",
+					"categoryDescription": "12345",
+					"categoryImage": "",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "99",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 827,
+					"categoryTitle": "SELAMAT BERCUTI",
+					"categoryDescription": "ZAQWSX",
+					"categoryImage": "",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "99",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "13",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 110,
+					"categoryTitle": "Wishing a Very Happy Eid Mubarak",
+					"categoryDescription": "May Shawal this time give a thousand meanings and blessings from the Almighty",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "13",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 111,
+					"categoryTitle": "Salam Aidilfitri",
+					"categoryDescription": "Semoga Syawal kali ini memberi seribu makna dan berkat dariNya",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "13",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "14",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 822,
+					"categoryTitle": "Happy Federal Day",
+					"categoryDescription": "Enjoy your holiday",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "14",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 823,
+					"categoryTitle": "Hari Wilayah Peseketuan",
+					"categoryDescription": "Selamat bercuti",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "14",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "15",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 824,
+					"categoryTitle": "HAPPY THAIPUSAM",
+					"categoryDescription": "ASDF",
+					"categoryImage": "",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "15",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 825,
+					"categoryTitle": "SELAMAT MENYAMBUT HARI THAIPUSAM",
+					"categoryDescription": "qwerty",
+					"categoryImage": "",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "15",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "1",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 815,
+					"categoryTitle": "Selamat Hari Thaipusam",
+					"categoryDescription": "Selamat Menyambut Hari Thaipusam",
+					"categoryImage": "Thaipusam.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "1",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 816,
+					"categoryTitle": "Selamat Hari Thaipusam",
+					"categoryDescription": "Selamat Menyambut Hari Thaipusam",
+					"categoryImage": "Thaipusam.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "1",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "2",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 4,
+					"categoryTitle": "Happy Malaysia Day",
+					"categoryDescription": "Celebrating Malaysia Day 16 September 2017",
+					"categoryImage": "1_Banner-Hari-Malaysia.jpg",
+					"categoryUrl": "https://",
+					"categoryActiveFlag": false,
+					"categoryCode": "2",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 3,
+					"categoryTitle": "Selamat Hari Malaysia",
+					"categoryDescription": "Selamat Menyambut Hari Malaysia 16 September 2017",
+					"categoryImage": "1_Banner-Hari-Malaysia.jpg",
+					"categoryUrl": "https://",
+					"categoryActiveFlag": false,
+					"categoryCode": "2",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "3",
+			"categorySort": 2,
+			"categoryList": [
+				{
+					"categoryId": 6,
+					"categoryTitle": "Kuala Lumpur 2017 - 29th SEA Games & 9th ASEAN Para Games",
+					"categoryDescription": "The Southeast Asian Games will take place between 19th and 30th August 2017. The ASEAN Para Games will be held from September 17th to 23rd, 2017. Rising Together!",
+					"categoryImage": "Banner-Sukan-Sea_1.jpg",
+					"categoryUrl": "http://kualalumpur2017.com.my",
+					"categoryActiveFlag": false,
+					"categoryCode": "3",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 5,
+					"categoryTitle": "Kuala Lumpur 2017 - Sukan SEA ke 29 & Sukan Para ASEAN ke 9",
+					"categoryDescription": "Sukan SEA akan berlangsung dari 19 hingga 30 Ogos 2017 sementara Sukan Para ASEAN pula akan diadakan dari 17 hingga 23 September 2017.  Bangkit Bersama!",
+					"categoryImage": "Banner-Sukan-Sea_1.jpg",
+					"categoryUrl": "http://kualalumpur2017.com.my",
+					"categoryActiveFlag": false,
+					"categoryCode": "3",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "5",
+			"categorySort": 3,
+			"categoryList": [
+				{
+					"categoryId": 10,
+					"categoryTitle": "EPF Kiosk Service",
+					"categoryDescription": "Kiosk is able to offer more interactive and responsive information to users",
+					"categoryImage": "KWSP-684-x-280-.jpg",
+					"categoryUrl": "https://gosgstg.malaysia.gov.my/public/cms/article/page/783/",
+					"categoryActiveFlag": false,
+					"categoryCode": "5",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 9,
+					"categoryTitle": "Perkhidmatan Kios KWSP",
+					"categoryDescription": "Kiosk mampu menawarkan informasi yang lebih interaktif dan responsif kepada pengguna",
+					"categoryImage": "KWSP-684-x-280-.jpg",
+					"categoryUrl": "https://gosgstg.malaysia.gov.my/public/cms/article/page/783/",
+					"categoryActiveFlag": false,
+					"categoryCode": "5",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "6",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 88,
+					"categoryTitle": "Wishing a Very Happy Eid Mubarak",
+					"categoryDescription": "May Shawal this time give a thousand meanings and blessings from the Almighty",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "6",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 89,
+					"categoryTitle": "Salam Aidilfitri",
+					"categoryDescription": "Semoga Syawal kali ini memberi seribu makna dan berkat dariNya",
+					"categoryImage": "GOSG_Banner_Raya-BM.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "6",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		},
+		{
+			"categoryCode": "8",
+			"categorySort": 1,
+			"categoryList": [
+				{
+					"categoryId": 96,
+					"categoryTitle": "Federal Teritory",
+					"categoryDescription": "Happy Holiday",
+					"categoryImage": "Federal_Territory.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "8",
+					"language": {
+						"languageId": 1,
+						"languageCode": "en",
+						"languageName": "ENGLISH",
+						"languageDescription": "English Language"
+					}
+				},
+				{
+					"categoryId": 97,
+					"categoryTitle": "Salam Hari Wilayah",
+					"categoryDescription": "Selamat Menyambut Hari Wilayah",
+					"categoryImage": "HariWilayah.jpg",
+					"categoryUrl": null,
+					"categoryActiveFlag": false,
+					"categoryCode": "8",
+					"language": {
+						"languageId": 2,
+						"languageCode": "my",
+						"languageName": "BAHASA MALAYSIA",
+						"languageDescription": "Bahasa Malaysia"
+					}
+				}
+			]
+		}		
+	],
+	"pageNumber": 0,
+	"pageSize": 20,
+	"numberOfElements": 13,
+	"totalElements": 13,
+	"totalPages": 1
+}
