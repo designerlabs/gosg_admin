@@ -51,6 +51,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
+    // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',
     urlModuleList: mockApiURL + 'moduleList',
     urlGroupModuleList: mockApiURL + 'groupList',

@@ -154,7 +154,7 @@ export class CommonService {
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlSlides + '/' + code + '/').subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/' + code).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -175,10 +175,10 @@ export class CommonService {
   updateSlider(slider) {
 
     // console.log(this.appConfig.urlUsers + user.userId)
-    console.log(slider)
+    // console.log(slider)
     // debugger;
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    return this.http.put(this.appConfig.urlSlides + '/' + slider[0].slideCode + '/', slider)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlSlides+ "/multiple/update", slider)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -187,7 +187,7 @@ export class CommonService {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=", enId + "," +bmId)
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=" + enId + "," +bmId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -226,7 +226,7 @@ export class CommonService {
   }
 
   getCitiesbyState(code): Observable<any[]> {
-    return this.http.get(this.cityUrl + code)
+    return this.http.get(this.cityUrl + '/state/' + code)
       .map((response: Response) => response.json().cityList)
       .retry(5)
       .catch(this.handleError);
