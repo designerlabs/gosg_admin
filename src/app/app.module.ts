@@ -45,7 +45,7 @@ import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
-
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -84,6 +84,9 @@ import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
   ],
   imports: [
     BrowserModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,
