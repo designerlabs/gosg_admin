@@ -23,6 +23,8 @@ export class GroupsComponent implements OnInit {
   elementRef: ElementRef;
   groupModule: FormGroup;
   groupmodulename: FormControl;
+  active: FormControl;
+  groupmoduledesc: FormControl;
   
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
@@ -43,8 +45,12 @@ export class GroupsComponent implements OnInit {
   ngOnInit() {
     this.route.snapshot.params.id;
     this.groupmodulename = new FormControl()
+    this.active = new FormControl();
+    this.groupmoduledesc = new FormControl();
     this.groupModule = new FormGroup({
-      groupmodulename: this.groupmodulename
+      groupmodulename: this.groupmodulename,
+      active: this.active,
+      groupmoduledesc: this.groupmoduledesc
     });
 
     this.getModuleData();
@@ -65,6 +71,9 @@ export class GroupsComponent implements OnInit {
         this.moduleList = data.data[0];
         this.selectedItems = data.data[1];
         this.groupModule.get('groupmodulename').setValue(this.groupName);
+        this.groupModule.get('active').setValue(this.activeStatus);
+        this.groupModule.get('groupmoduledesc').setValue('a');
+        
       });
     }
   }
