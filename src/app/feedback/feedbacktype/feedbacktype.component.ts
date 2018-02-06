@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
-import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
+import { CommonService } from './../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-feedbacktype',
@@ -27,7 +28,7 @@ export class FeedbacktypeComponent implements OnInit {
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -160,4 +161,7 @@ export class FeedbacktypeComponent implements OnInit {
     }
   }
 
+  back(){
+    this.router.navigate(['feedback/type']);
+  }
 }

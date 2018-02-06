@@ -16,8 +16,8 @@ import { PollquestionComponent } from './poll/pollquestion/pollquestion.componen
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
-import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
+import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
