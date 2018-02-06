@@ -26,29 +26,34 @@ import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
-import { GroupsviewComponent } from './authentication/groups/groupsview.component';
-import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
-import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
+import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
+import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
+import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
+import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { GroupseditComponent } from './authentication/groups/groupsedit.component';
+import { GroupsComponent } from './authentication/groups/groups.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { EthnicityComponent } from './referencecode/ethnic/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
-import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
-import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
+import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+<<<<<<< HEAD
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
 
+=======
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
+import { ToastrModule } from 'ngx-toastr';
+>>>>>>> 5d27357b053c83ff6a3dc33cfa19e8adf3133492
 
 @NgModule({
   declarations: [
@@ -62,13 +67,13 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
     FeedbackComponent,
     UserComponent,
     UsertblComponent,
-    RolesComponent,
+    GroupstblComponent,
+    RolesComponent,    
+    PollquestiontblComponent,
     PollquestionComponent,
-    GroupsviewComponent,
-    PollquestiondetailsComponent,
     PollresultComponent,
     SliderComponent,
-    GroupseditComponent,    
+    GroupsComponent,    
     FeedbacktblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
@@ -83,13 +88,20 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
     FaqComponent,
     EditorComponent,
     EthnicitytblComponent,
+<<<<<<< HEAD
     FaqtblComponent,
     AnnouncementComponent,
     AnnouncementtblComponent,
     CategorytblComponent,
+=======
+    SlidertblComponent,
+>>>>>>> 5d27357b053c83ff6a3dc33cfa19e8adf3133492
   ],
   imports: [
     BrowserModule,
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,

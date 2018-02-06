@@ -5,6 +5,7 @@ import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-slider',
@@ -13,17 +14,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   encapsulation: ViewEncapsulation.None
 })
 export class SliderComponent implements OnInit {
-
+  
   sliderData: Object;
-  sliderList = null;
-  displayedColumns: any;
-  displayedColumns2: any;
-  sliderPageSize = 10;
-  sliderPageCount = 1;
-  noPrevData = true;
-  noNextData = false;
-  rerender = false;
-  viewSeq: any; /* View Page Sequence Based on Discussion {1,2} */
   dataUrl: any;
   date = new Date();
   sliderForm: FormGroup
@@ -43,31 +35,21 @@ export class SliderComponent implements OnInit {
   imgBm: FormControl
   active: FormControl
   copyImg: FormControl
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  dataSource = new MatTableDataSource<object>(this.sliderList);
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-  // tslint:disable-next-line:max-line-length
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
-  }
   resetMsg = this.resetMsg;
 
-  ngOnInit() {
-    this.viewSeq = 1;
-    this.isEdit = false;
-    this.changePageMode(this.isEdit);
-    this.displayedColumns = ['slideCode', 'slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
-    // this.displayedColumns2 = ['sliderId', 'fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'];
-    // this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService, 
+    private router: Router,
+    private toastr: ToastrService
+  ) { }
 
-    // this.complete = false;
+  ngOnInit() {
+    // this.isEdit = false;
+    // this.changePageMode(this.isEdit); 
+
+    let refCode = this.router.url.split('/')[2];
 
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
@@ -77,7 +59,6 @@ export class SliderComponent implements OnInit {
     this.imgBm = new FormControl()
     this.active = new FormControl()
     this.copyImg = new FormControl()
-    // this.email = new FormControl('', Validators.pattern(EMAIL_REGEX))
 
     this.sliderForm = new FormGroup({
       titleEn: this.titleEn,
@@ -90,55 +71,18 @@ export class SliderComponent implements OnInit {
       copyImg: this.copyImg
     });
 
+    if(refCode == "add") {
+      this.isEdit = false;
+      this.pageMode = "Add";
+      this.sliderForm.get('active').setValue(true);
+    } else {
+      this.isEdit = true;
+      this.pageMode = "Update";
+      this.getRow(refCode);
+    }
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  // get Slider Data 
-  getSlidersData(count, size) {
-    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
-    this.dataUrl = this.appConfig.urlSlides;
-
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-      // this.http.get(this.dataUrl).subscribe(
-      data => {
-        this.sliderList = data;
-        console.log(this.sliderList)
-        this.dataSource.data = this.sliderList.list;
-        this.commonservice.sliderTable = this.sliderList;
-        this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
-      });
-  }
-
-  paginatorL(page) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
-    this.noPrevData = page <= 2 ? true : false;
-    this.noNextData = false;
-  }
-
-  paginatorR(page, totalPages) {
-    this.noPrevData = page >= 1 ? false : true;
-    let pageInc: any;
-    pageInc = page + 1;
-    // this.noNextData = pageInc === totalPages;
-    this.getSlidersData(page + 1, this.sliderPageSize);
-  }
-
-  pageChange(event, totalPages) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
-    this.sliderPageSize = event.value;
-    this.noPrevData = true;
-  }
-
-  changePageMode(isEdit) {
-    if (isEdit == false) {
-      this.pageMode = "Add";
-    } else if (isEdit == true) {
-      this.pageMode = "Update";
-    }
   }
 
   isSameImg(enImg,bmImg) {
@@ -151,45 +95,17 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  // isSameImgAsEn(enImg,bmImg) {
-  //   if(enImg !== "" && enImg === bmImg) {
-  //     this.sliderForm.get('copyImg').setValue(true);
-  //   } else {
-  //     this.sliderForm.get('copyImg').setValue(false);
-  //   }
-  // }
-
-  onPaginateChange(event) {
-    // alert(JSON.stringify(event));
-    //  const startIndex = event.pageIndex * event.pageSize;
-    // this.drugmap.getDrugDataForClient(startIndex, event.pageSize);
-    // this.dataSource = new ExampleDataSource(this.exampleDatabase,this.paginator);
-  }
-
-  addBtn() {
-    this.isEdit = false;
-    this.changePageMode(this.isEdit);
-    this.viewSeq = 2;
-    this.sliderForm.reset();
-    this.sliderForm.get('active').setValue(true)
-    // console.log(this.viewSeq);
-    // this.router.navigate(['slider', "add"]);
-  }
-
   navigateBack() {
-    this.viewSeq = 1;
     this.isEdit = false;
     this.router.navigate(['slider']);
   }
 
-  // add, update, delete
-  updateRow(row) {
+  back(){
+    this.router.navigate(['slider']);
+  }
 
-    // this.router.navigate(['slider', row]);
-    this.viewSeq = 2;
-    // alert("Update Slider id: " + row);
-    this.isEdit = true;
-    this.changePageMode(this.isEdit);
+  // get, add, update, delete
+  getRow(row) {
 
     // Update Slider Service
     return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
@@ -301,7 +217,7 @@ export class SliderComponent implements OnInit {
   
   updateSlider(formValues: any) {
     // console.log(this.viewSeq);
-    let sliderCode = Math.floor((Math.random() * 100) + 1);
+    // let sliderCode = Math.floor((Math.random() * 100) + 1);
     
     if(!this.isEdit) {
 
@@ -310,7 +226,7 @@ export class SliderComponent implements OnInit {
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": sliderCode,
+        "slideCode": null,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -321,7 +237,7 @@ export class SliderComponent implements OnInit {
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": sliderCode,
+        "slideCode": null,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -347,13 +263,12 @@ export class SliderComponent implements OnInit {
     body[1].language.languageId = 2;
 
     console.log(body)
-    // console.log(JSON.stringify(body))
 
     // Add Slider Service
     this.commonservice.addSlider(body).subscribe(
       data => {
-        alert('Slider added successfully!')
-        window.location.reload()
+        this.toastr.success('Slider added successfully!', ''); 
+        this.router.navigate(['slider']);
       },
       error => {
         console.log("No Data")
@@ -367,7 +282,7 @@ export class SliderComponent implements OnInit {
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": sliderCode,
+        "slideCode": null,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -379,7 +294,7 @@ export class SliderComponent implements OnInit {
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": sliderCode,
+        "slideCode": null,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -406,11 +321,13 @@ export class SliderComponent implements OnInit {
     body[1].slideActiveFlag = formValues.active;
     body[1].language.languageId = 2;
 
+    console.log(body);
+
     // Update Slider Service
     this.commonservice.updateSlider(body).subscribe(
       data => {
-        alert('Slider update successful!')
-        window.location.reload()
+        this.toastr.success('Slider update successful!', '');   
+        this.router.navigate(['slider']);
       },
       error => {
         console.log("No Data")
@@ -420,27 +337,4 @@ export class SliderComponent implements OnInit {
 
   }
 
-  // showResetMsg(){
-  //   this.dialogsService
-  //   .confirm('', this.translate.instant('feedback.reset'))
-  //   .subscribe(
-  //     data => {
-  //       if(data){
-  //         this.resetForm();
-  //       }
-  //     });
-  // }
-
-  // resetForm(){
-  //   this.nama_penuh.reset();
-  //   this.feedback_message.reset();
-  //   this.email.reset();
-  //   this.feedbacksubject.reset();
-  //   this.feedbacktype.reset();
-  //   this.sendMsg = true;
-  // } 
-
-  // resetMethod(event) {
-  //   this.resetForm();
-  // }
 }

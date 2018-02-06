@@ -1,6 +1,6 @@
 .dragdrop_container{
     background:#eee;
-    height:200px; 
+    height:500px; 
     width:20%;
     float:left;
     padding: 0px;
@@ -33,7 +33,4 @@
     position: relative;
 }
 
-.ng-valid{
-    
-}
     

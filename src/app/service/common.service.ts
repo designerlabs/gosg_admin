@@ -177,8 +177,8 @@ export class CommonService {
 
   addSlider(slider) {
 
-    console.log(this.appConfig.urlSlides)
-    console.log(slider)
+    // console.log(this.appConfig.urlSlides)
+    // console.log(slider)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
     return this.http.post(this.appConfig.urlSlides, slider)

@@ -1,29 +1,28 @@
-<!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
-    <h4 class="paddingTop-15 staticLabel">
-        <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
-</div> -->
-
-<div class="container right-content">
-    <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-        <h2 class="staticLabel pull-left">View Polls Questions</h2>
-        <span class="pull-right editBtn" style="z-index: 1;">
-            <button type="button" mat-fab color="warn" (click)="add()"
-            [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">&nbsp;
-            <i class="fa fa-plus font-size-l"></i></button>
-        </span>
+<div class="container-fluid">
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>Polls Questions List</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="warn" (click)="add()" >
+                <i class="fa fa-plus font-size-l"></i></button>
+            </span>
+        </div> 
     </div>
 
     <div class="example-container mat-elevation-z8">
         <!-- <div class="form-header col-md-12" style="background-color:lightgrey;">
             <label class="staticLabel font-size-m boldText">View Polls Questions</label>
         </div> -->
-        <div class="col-md-12 paddingTop-25 example-header">
+        <!-- <div class="col-md-12 paddingTop-25 example-header">
             <mat-form-field class="font-size-s" >
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
             </mat-form-field>
-        </div>
+        </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">
+        <mat-table #table [dataSource]="dataSource">
 
             <!-- Checkbox Column -->
             <!-- <ng-container matColumnDef="select">
@@ -42,12 +41,12 @@
             </ng-container> -->
 
             <!-- num Column -->
-            <ng-container matColumnDef="num">
+            <!-- <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
                     {{element.pollRefNo}}
                 </mat-cell>
-            </ng-container>
+            </ng-container> -->
 
             <!-- question en Column -->
             <ng-container matColumnDef="pq_en">

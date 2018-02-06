@@ -1,2 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+mat-header-cell{
+    font-weight: 800 !important;
+}
+
+.mat-row {
+    min-height: 50px !important;
+}
+
+
+.activeFontColor {
+    color: green;
+}
+
+.inactiveFontColor {
+    color:red;
+}
+
+.curdHeadingLeft{
+    padding-left:0px !important;
+}
+
+.curdHeadingRight{
+    padding-right: 0px !important;
+}
+
+.curdHeader{
+    padding-bottom:10px;
+    display: flex;
+}
+
+.float-right{
+    float: right;
+}
+
+.paddingTop-10 {
+    padding-top: 10px;
+}
+
+.paddingTop-15 {
+    padding-top: 15px;
+}
+
+.paddingTop-20 {
+    padding-top: 20px;
+}
+
+.paddingTop-25 {
+    padding-top: 25px;
+}
+
+.right-content {
+    width: 100% !important;
+}

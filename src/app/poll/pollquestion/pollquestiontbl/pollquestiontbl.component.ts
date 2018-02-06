@@ -6,20 +6,21 @@ import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-pollquestion',
-  templateUrl: './pollquestion.component.html',
-  styleUrls: ['./pollquestion.component.css'],
+  selector: 'app-pollquestiontbl',
+  templateUrl: './pollquestiontbl.component.html',
+  styleUrls: ['./pollquestiontbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class PollquestionComponent implements OnInit {
+export class PollquestiontblComponent implements OnInit {
 
   updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['num', 'pq_en', 'pq_bm', 'status', 'action'];
+  displayedColumns = ['pq_en', 'pq_bm', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -55,12 +56,13 @@ export class PollquestionComponent implements OnInit {
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) {
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
+
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
-    this.getRecordList(this.pageCount, this.pageSize);
+    // this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
@@ -73,11 +75,13 @@ export class PollquestionComponent implements OnInit {
 
       console.log("data");
       console.log(data);
-      
+
       this.dataSource.data = this.recordList.pollQuestionFormatList;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
     });
+
   }
 
   paginatorL(page) {
@@ -108,17 +112,28 @@ export class PollquestionComponent implements OnInit {
   }
 
   deleteRow(enId, bmId) {
+  
+    let txt;
+    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+    if (r == true) {
 
-    console.log(enId + bmId);
-    this.commonservice.delRecord(enId, bmId).subscribe(
-      data => {
-        alert('Record deleted successfully!')
-        this.router.navigate(['poll/questions']);
-        this.getRecordList(this.pageCount, this.pageSize);
-      },
-      error => {
-        console.log("No Data")
-    });
+      this.commonservice.delRecord(enId, bmId).subscribe(
+        data => {         
+          
+          txt = "Record deleted successfully!";
+
+          this.toastr.success(txt, '');   
+          this.router.navigate(['poll/questions']);
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+
+    else{
+      txt = "Delete Cancelled!";
+    }
   }
 
   ngAfterViewInit() {

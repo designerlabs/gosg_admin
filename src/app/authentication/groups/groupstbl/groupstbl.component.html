@@ -1,12 +1,17 @@
-<div class="container right-content">
-  <h1 class="paddingTop-15 staticLabel">Groups List</h1>
-  <!-- <mat-icon>check</mat-icon><mat-icon>close</mat-icon> -->
-  <div class="col-md-12">
-      <span class="pull-right" style="z-index: 1;">
-          <button type="button" mat-fab color="warn" (click)="add()" >
-          <i class="fa fa-plus font-size-l"></i></button>
-      </span>
-  </div> 
+<div class="container-fluid">
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>Groups List</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="warn" (click)="add()" >
+              <i class="fa fa-plus font-size-l"></i></button>
+          </span>
+      </div> 
+  </div>
+  
 
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource" matSort>
@@ -17,13 +22,13 @@
         </ng-container>   -->
       <!-- groupName Column -->
       <ng-container matColumnDef="moduleGroupName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Group Name </mat-header-cell>
-        <mat-cell *matCellDef="let element" > {{element.moduleGroupName}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 30%'"> Group Name </mat-header-cell>
+        <mat-cell *matCellDef="let element" [style.flex]="'0 0 30%'"> {{element.moduleGroupName}} </mat-cell>
       </ng-container>  
       <!-- User Type Column -->
       <ng-container matColumnDef="moduleName" >
-        <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 50%'"> Modules </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 50%'">          
+        <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 45%'"> Modules </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 45%'">          
               <mat-chip-list >
                   <mat-chip color="primary" selected="true" *ngFor="let ele of (element.subModuleGroups ? element.subModuleGroups.slice(0,3): [])">{{ele.moduleName}}</mat-chip>  
               </mat-chip-list>  
@@ -33,14 +38,14 @@
       <!-- isActive Column -->
       <ng-container matColumnDef="isActive" >
           <mat-header-cell mat-sort-header *matHeaderCellDef [style.flex]="'0 0 10%'"> Status </mat-header-cell>
-          <mat-cell *matCellDef="let element" [style.flex]="'0 0 10%'"> {{element.isActive}}
-                
+          <mat-cell *matCellDef="let element" [style.flex]="'0 0 10%'">
+            <i [ngClass]="[element.isActive ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
           </mat-cell>
         </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action" >
-        <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 30%'"> Action </mat-header-cell>
-        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 30%'">
+        <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 15%'"> Action </mat-header-cell>
+        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 15%'">
             <button mat-mini-fab style="background: orange" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
             <i class="fa fa-edit" ></i></button>&nbsp;
             <button mat-mini-fab style="background: red" (click)="deleteRow(element.moduleGroupId)">
