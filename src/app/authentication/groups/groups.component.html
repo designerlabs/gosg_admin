@@ -1,6 +1,19 @@
 
 <div class="container-fluid">
-    <h3>Grouping Management</h3>
+
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>Grouping Management</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="accent" (click)="back()" >
+                <i class="fa fa-arrow-left font-size-l"></i></button>
+            </span>
+        </div> 
+    </div>
+
 
     <form [formGroup]="groupModule" autocomplete="off" (ngSubmit)="updateGroup(groupModule.value)" role="form" novalidate>
         <div class="row">
@@ -11,7 +24,6 @@
             </div>
         </div>
 
-
   
         <ul  class="dragdrop_container">
             <li *ngFor='let group of moduleList?.items' (click)="moveItem(group)">
@@ -19,7 +31,7 @@
             </li>
         </ul>
         
-        <div class="middle_icon"><img src="./assets/images/switch.png" alt=""></div>
+        <div class="middle_icon"><img src="assets/images/switch.png" alt=""></div>
         <ul class="dragdrop_container">
             <li *ngFor='let group of selectedItems?.items' (click)="moveItemR(group)">
                 {{group.moduleName }}
@@ -36,7 +48,5 @@
        
     </form>
 
-    
-   
 </div>
   

@@ -1,24 +1,24 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-import { CommonService } from '../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
-  selector: 'app-groupsview',
-  templateUrl: './groupsview.component.html',
-  styleUrls: ['./groupsview.component.css'],
+  selector: 'app-groupstbl',
+  templateUrl: './groupstbl.component.html',
+  styleUrls: ['./groupstbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class GroupsviewComponent implements OnInit {
+export class GroupstblComponent implements OnInit {
 
   groupPageCount = 1;
   groupPageSize = 10;
   groupList = null;
   noPrevData = true;
   noNextData = false;
-  displayedColumns = ['moduleGroupName', 'isActive', 'moduleName', 'action'];
+  displayedColumns = ['moduleGroupName', 'moduleName', 'isActive', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.groupList);
   @ViewChild(MatSort) sort: MatSort;

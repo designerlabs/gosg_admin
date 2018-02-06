@@ -2,16 +2,17 @@ import { Component, OnInit, AfterViewInit, ElementRef, Inject } from '@angular/c
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonService } from '../../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 // multiSelect()
 // import * as multiSelect from 'multiSelect';
 // compMultiSelect.multiSelect()
 
 @Component({
   selector: 'app-groupsedit',
-  templateUrl: './groupsedit.component.html',
-  styleUrls: ['./groupsedit.component.css']  
+  templateUrl: './groups.component.html',
+  styleUrls: ['./groups.component.css']  
 })
-export class GroupseditComponent implements OnInit {
+export class GroupsComponent implements OnInit {
   moduleListSelected: any;
   selectedItems: any;
   target: any;
@@ -23,7 +24,8 @@ export class GroupseditComponent implements OnInit {
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
     private commonservice:CommonService,
-    private http:HttpClient
+    private http:HttpClient,
+    private router:Router
   ) {
     this.elementRef = elementRef;
     
@@ -74,5 +76,9 @@ export class GroupseditComponent implements OnInit {
 
   submit(){
     debugger;
+  }
+
+  back(){
+    this.router.navigate(['groupmodule']);
   }
 }

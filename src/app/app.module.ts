@@ -26,12 +26,12 @@ import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
-import { GroupsviewComponent } from './authentication/groups/groupsview.component';
+import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { GroupseditComponent } from './authentication/groups/groupsedit.component';
+import { GroupsComponent } from './authentication/groups/groups.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { StateComponent } from './referencecode/state/state.component';
@@ -44,6 +44,7 @@ import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 
 
 @NgModule({
@@ -58,13 +59,13 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     FeedbackComponent,
     UserComponent,
     UsertblComponent,
+    GroupstblComponent,
     RolesComponent,    
-    GroupsviewComponent,
     PollquestiontblComponent,
     PollquestionComponent,
     PollresultComponent,
     SliderComponent,
-    GroupseditComponent,    
+    GroupsComponent,    
     FeedbacktblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
@@ -79,6 +80,7 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     FaqComponent,
     EditorComponent,
     EthnicitytblComponent,
+    SlidertblComponent,
   ],
   imports: [
     BrowserModule,
