@@ -188,6 +188,7 @@ export class SliderComponent implements OnInit {
     if (r == true) {
       txt = "You pressed OK!";
       this.sliderForm.reset();
+      this.sliderForm.get('active').setValue(true);
     } else {
       txt = "You pressed Cancel!";
     }
