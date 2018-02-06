@@ -6,6 +6,7 @@ import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-feedbacktypetbl',
@@ -17,7 +18,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class FeedbacktypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num', 'feedbackEng', 'feedbackMalay', 'status', 'action'];
+  displayedColumns = ['feedbackEng', 'feedbackMalay', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -38,14 +39,14 @@ export class FeedbacktypetblComponent implements OnInit {
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) { 
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
 
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
 
-    this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
