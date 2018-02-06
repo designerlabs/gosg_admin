@@ -10,19 +10,19 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
-import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
+import { CommonService } from './../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-pollquestiondetails',
-  templateUrl: './pollquestiondetails.component.html',
-  styleUrls: ['./pollquestiondetails.component.css'],
+  selector: 'app-pollquestion',
+  templateUrl: './pollquestion.component.html',
+  styleUrls: ['./pollquestion.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class PollquestiondetailsComponent implements OnInit {
+export class PollquestionComponent implements OnInit {
 
   updateForm: FormGroup;
   
@@ -50,7 +50,7 @@ export class PollquestiondetailsComponent implements OnInit {
   public getIdBm: any;
   public getRefId: any;
 
-  complete: boolean;
+  public complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router) { }
@@ -97,6 +97,7 @@ export class PollquestiondetailsComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -113,8 +114,6 @@ export class PollquestiondetailsComponent implements OnInit {
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
-
-      console.log(data);
 
       this.updateForm.get('pollEng').setValue(this.recordList[0].questionTitle);
       this.updateForm.get('pollMalay').setValue(this.recordList[1].questionTitle); 
@@ -134,24 +133,16 @@ export class PollquestiondetailsComponent implements OnInit {
       this.getIdBm = this.recordList[1].questionId;
       this.getRefId = this.recordList[0].pollReference;
 
+      this.checkReqValues();
+
     });
   }
 
   submit(formValues: any) {
     
-    let flag = false;
-
-    if(formValues.active == null){
-      flag = false;
-    }
-
-    else{
-      flag = formValues.active;
-    }
-
     let urlEdit = this.router.url.split('/')[3];
 
-    // delete form
+    // add form
     if(urlEdit === 'add'){
 
       let body = [
@@ -168,7 +159,6 @@ export class PollquestiondetailsComponent implements OnInit {
           "pollsResult3": null,
           "pollsResult4": null,
           "pollsResult5": null,
-          "pollsReference": null,
           "language": {
               "languageId": null
           }
@@ -185,43 +175,31 @@ export class PollquestiondetailsComponent implements OnInit {
           "pollsResult3": null,
           "pollsResult4": null,
           "pollsResult5": null,
-          "pollsReference": null,
           "language": {
               "languageId": null
           }
         }
-      ]   
- 
-      body[0].pollsQuestion = formValues.pollMalay;
-      body[0].pollsAnswer1 = formValues.opt1Bm;
-      body[0].pollsAnswer2 = formValues.opt2Bm;
-      body[0].pollsAnswer3 = formValues.opt3Bm;
-      body[0].pollsAnswer4 = formValues.opt4Bm;
-      body[0].pollsAnswer5 = formValues.opt5Bm;
-      body[0].pollsActiveFlag = flag;
-      body[0].pollsResult1 = null;
-      body[0].pollsResult2 = null;
-      body[0].pollsResult3= null;
-      body[0].pollsResult4 = null;
-      body[0].pollsResult5 = null;
-      body[0].pollsReference = 50;
-      body[0].language.languageId = 2;
+      ]    
+      
+      body[0].pollsQuestion = formValues.pollEng;
+      body[0].pollsAnswer1 = formValues.opt1En;
+      body[0].pollsAnswer2 = formValues.opt2En;
+      body[0].pollsAnswer3 = formValues.opt3En;
+      body[0].pollsAnswer4 = formValues.opt4En;
+      body[0].pollsAnswer5 = formValues.opt5En;
+      body[0].pollsActiveFlag = formValues.active;
+      body[0].language.languageId = 1;
 
-      body[1].pollsQuestion = formValues.pollEng;
-      body[1].pollsAnswer1 = formValues.opt1En;
-      body[1].pollsAnswer2 = formValues.opt2En;
-      body[1].pollsAnswer3 = formValues.opt3En;
-      body[1].pollsAnswer4 = formValues.opt4En;
-      body[1].pollsAnswer5 = formValues.opt5En;
-      body[1].pollsActiveFlag = flag;
-      body[1].pollsResult1 = null;
-      body[1].pollsResult2 = null;
-      body[1].pollsResult3= null;
-      body[1].pollsResult4 = null;
-      body[1].pollsResult5 = null;
-      body[1].pollsReference = 50;
-      body[1].language.languageId = 1;
+      body[1].pollsQuestion = formValues.pollMalay;
+      body[1].pollsAnswer1 = formValues.opt1Bm;
+      body[1].pollsAnswer2 = formValues.opt2Bm;
+      body[1].pollsAnswer3 = formValues.opt3Bm;
+      body[1].pollsAnswer4 = formValues.opt4Bm;
+      body[1].pollsAnswer5 = formValues.opt5Bm;
+      body[1].pollsActiveFlag = formValues.active;   
+      body[1].language.languageId = 2;
 
+      console.log("ADD BODY: ");
       console.log(body);
 
       this.commonservice.addRecord(body).subscribe(
@@ -243,7 +221,7 @@ export class PollquestiondetailsComponent implements OnInit {
 
       let body = [
         {
-          "pollsQuestionId": null,
+          "pollsQuestionId": this.getIdEn,
           "pollsQuestion": null,
           "pollsAnswer1": null,
           "pollsAnswer2": null,
@@ -256,12 +234,12 @@ export class PollquestiondetailsComponent implements OnInit {
           "pollsResult3": null,
           "pollsResult4": null,
           "pollsResult5": null,
-          "pollsReference": null,
+          "pollsReference": this.getRefId,
           "language": {
               "languageId": null
           }
         },{
-          "pollsQuestionId": null,
+          "pollsQuestionId": this.getIdBm,
           "pollsQuestion": null,
           "pollsAnswer1": null,
           "pollsAnswer2": null,
@@ -274,45 +252,32 @@ export class PollquestiondetailsComponent implements OnInit {
           "pollsResult3": null,
           "pollsResult4": null,
           "pollsResult5": null,
-          "pollsReference": null,
+          "pollsReference": this.getRefId,
           "language": {
               "languageId": null
           }
         }
       ]    
 
-      body[0].pollsQuestionId = this.getIdBm;
-      body[0].pollsQuestion = formValues.pollMalay;
-      body[0].pollsAnswer1 = formValues.opt1Bm;
-      body[0].pollsAnswer2 = formValues.opt2Bm;
-      body[0].pollsAnswer3 = formValues.opt3Bm;
-      body[0].pollsAnswer4 = formValues.opt4Bm;
-      body[0].pollsAnswer5 = formValues.opt5Bm;
-      body[0].pollsActiveFlag = flag;
-      body[0].pollsResult1 = null;
-      body[0].pollsResult2 = null;
-      body[0].pollsResult3= null;
-      body[0].pollsResult4 = null;
-      body[0].pollsResult5 = null;
-      body[0].pollsReference = this.getRefId;
-      body[0].language.languageId = 2;
+      body[0].pollsQuestion = formValues.pollEng;
+      body[0].pollsAnswer1 = formValues.opt1En;
+      body[0].pollsAnswer2 = formValues.opt2En;
+      body[0].pollsAnswer3 = formValues.opt3En;
+      body[0].pollsAnswer4 = formValues.opt4En;
+      body[0].pollsAnswer5 = formValues.opt5En;
+      body[0].pollsActiveFlag = formValues.active;
+      body[0].language.languageId = 1;
 
-      body[1].pollsQuestionId = this.getIdEn;
-      body[1].pollsQuestion = formValues.pollEng;
-      body[1].pollsAnswer1 = formValues.opt1En;
-      body[1].pollsAnswer2 = formValues.opt2En;
-      body[1].pollsAnswer3 = formValues.opt3En;
-      body[1].pollsAnswer4 = formValues.opt4En;
-      body[1].pollsAnswer5 = formValues.opt5En;
-      body[1].pollsActiveFlag = flag;
-      body[1].pollsResult1 = null;
-      body[1].pollsResult2 = null;
-      body[1].pollsResult3= null;
-      body[1].pollsResult4 = null;
-      body[1].pollsResult5 = null;
-      body[1].pollsReference = this.getRefId;
-      body[1].language.languageId = 1;
+      body[1].pollsQuestion = formValues.pollMalay;
+      body[1].pollsAnswer1 = formValues.opt1Bm;
+      body[1].pollsAnswer2 = formValues.opt2Bm;
+      body[1].pollsAnswer3 = formValues.opt3Bm;
+      body[1].pollsAnswer4 = formValues.opt4Bm;
+      body[1].pollsAnswer5 = formValues.opt5Bm;
+      body[1].pollsActiveFlag = formValues.active;
+      body[1].language.languageId = 2;
 
+      console.log("UPDATE DELETE: ");
       console.log(body);
 
       this.commonservice.updateRecord(body).subscribe(

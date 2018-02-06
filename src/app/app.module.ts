@@ -27,9 +27,9 @@ import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.co
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
-import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
-import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
+import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
+import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
+import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
 import { CountryComponent } from './referencecode/country/country.component';
@@ -44,6 +44,7 @@ import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 
 
 @NgModule({
@@ -58,10 +59,10 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     FeedbackComponent,
     UserComponent,
     UsertblComponent,
-    RolesComponent,
-    PollquestionComponent,
     GroupstblComponent,
-    PollquestiondetailsComponent,
+    RolesComponent,    
+    PollquestiontblComponent,
+    PollquestionComponent,
     PollresultComponent,
     SliderComponent,
     GroupsComponent,    
@@ -79,6 +80,7 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     FaqComponent,
     EditorComponent,
     EthnicitytblComponent,
+    SlidertblComponent,
   ],
   imports: [
     BrowserModule,

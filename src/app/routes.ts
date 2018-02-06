@@ -11,9 +11,9 @@ import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
-import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
-import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
+import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
+import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
+import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
@@ -30,6 +30,7 @@ import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjectt
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
 import { FaqComponent } from './faq/faq.component';
 import { EditorComponent } from './editor/editor.component';
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -48,14 +49,24 @@ export const appRoutes: Routes = [
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
+<<<<<<< HEAD
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
 {path: 'poll/questions', component: PollquestionComponent},
 {path: 'poll/questions/:id', component: PollquestiondetailsComponent},
 {path: 'poll/questions/add', component: PollquestiondetailsComponent},
+=======
+{path: 'groupmodule' , component: GroupsviewComponent},
+{path: 'groupmodule/add' , component: GroupseditComponent},
+{path: 'groups/:id', component: GroupseditComponent},
+{path: 'poll/questions', component: PollquestiontblComponent},
+{path: 'poll/questions/:id', component: PollquestionComponent},
+{path: 'poll/questions/add', component: PollquestionComponent},
+>>>>>>> 4d68827d894c114c148f878a70086c2ffdab6e47
 {path: 'poll/results', component: PollresultComponent},
-{path: 'slider', component: SliderComponent},
+{path: 'slider', component: SlidertblComponent},
+{path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
