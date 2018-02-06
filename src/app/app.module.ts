@@ -42,6 +42,7 @@ import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/fee
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import { NgxEditorModule } from 'ngx-editor';
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
     FaqComponent,
+    EditorComponent,
   ],
   imports: [
     BrowserModule,

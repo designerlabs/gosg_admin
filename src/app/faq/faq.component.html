@@ -1,4 +1,4 @@
-<div class="container right-content">
+ <div class="container-fluid"> <!--class="container right-content" -->
   <h1 class="paddingTop-15 staticLabel">FAQs</h1>
   <div class="col-md-12">
     <span class="pull-right" style="z-index: 1;">
@@ -13,27 +13,27 @@
 
       <!-- groupName Column -->
       <ng-container matColumnDef="faqSort">
-        <mat-header-cell *matHeaderCellDef> No </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.faqList.faqSort}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> No </mat-header-cell>
+        <mat-cell *matCellDef="let element" [style.flex]="'0 0 5%'"> {{element.faqList[0].faqSort}} </mat-cell>
       </ng-container>
       <!-- Title (BM) Column -->
       <ng-container matColumnDef="faqTitle_bm">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 50%'"> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 50%'">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">
           {{element.faqList[0].faqTitle}}
         </mat-cell>
       </ng-container>
       <!-- Title (EN) Column -->
       <ng-container matColumnDef="faqTitle_en">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 10%'"> Title (EN) </mat-header-cell>
-        <mat-cell *matCellDef="let element" [style.flex]="'0 0 10%'"> {{element.faqList[1].faqTitle}}
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (EN) </mat-header-cell>
+        <mat-cell *matCellDef="let element" [style.flex]="'0 0 40%'"> {{element.faqList[1].faqTitle}}
 
         </mat-cell>
       </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 20%'"> Action </mat-header-cell>
-        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 20%'">
+        <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 15%'"> Action </mat-header-cell>
+        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 15%'">
           <button mat-mini-fab style="background: orange" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
             <i class="fa fa-edit"></i>
           </button>&nbsp;
@@ -70,17 +70,6 @@
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </button>
     </span>
-  </div>
-
-
-  <app-ngx-editor [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="htmlContent"></app-ngx-editor>
-
-  <h1>then here</h1>
-  <div *ngIf="htmlContent" class="htmlblock block">
-    <h6>HTML Output</h6>
-    <div class="html">
-      {{ htmlContent }}
-    </div>
   </div>
 
 </div>

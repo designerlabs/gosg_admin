@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms'
-import { Subject } from 'rxjs/Subject';
+
 
 @Component({
   selector: 'app-faq',
@@ -20,21 +19,6 @@ export class FaqComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.faqList);
 
-  title = 'ngx-editor';
-  latestRelease: any = {};
-  private subscription: Subject<any> = new Subject();
-
-  editorConfig = {
-    editable: true,
-    spellcheck: false,
-    height: '5rem',
-    minHeight: '2rem',
-    placeholder: 'Type something. Test the Editor... ヽ(^。^)丿',
-    translate: 'no'
-  };
-
-  htmlContent = '';
-
   constructor(private commonservice: CommonService, private router: Router) { 
     this.getFaqList(this.faqPageCount, this.faqPageSize);
   }
@@ -45,9 +29,10 @@ export class FaqComponent implements OnInit {
 
   getFaqList(count, size) {
     // getFaqData
+    debugger;
       return this.commonservice.getFaqData()
        .subscribe(resStateData => {
-          this.faqList = resStateData.faqCodeList;  
+          this.faqList = resStateData;  
           this.dataSource.data = this.faqList;      
         },
         Error => {
