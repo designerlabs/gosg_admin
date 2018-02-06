@@ -63,8 +63,8 @@
                     <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
                     <i class="fa fa-edit" title="Update {{ element.feedbackSubjectId }}"></i></button>
                     &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].addressTypeId,element.list[1].addressTypeId)">
-                    <i class="fa fa-trash"title="Delete {{ element.list[0].addressTypeId}},{{element.list[1].addressTypeId }}"></i></button>
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].refCode)">
+                    <i class="fa fa-trash"title="Delete {{ element.list[0].refCode}}"></i></button>
                 </mat-cell>
             </ng-container>
         

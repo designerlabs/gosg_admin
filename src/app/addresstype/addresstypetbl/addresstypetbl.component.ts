@@ -86,17 +86,26 @@ export class AddresstypetblComponent implements OnInit {
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(enId, bmId) {
+  deleteRow(refcode) {
+    let txt;
+    let r = confirm("Are you sure to delete " + refcode+"?");
+    if (r == true) {
 
-    console.log(enId + bmId);
-    this.commonservice.delRecord(enId, bmId).subscribe(
-      data => {
-        alert('Record deleted successfully!')
-        this.router.navigate(['address/type']);
-      },
-      error => {
-        console.log("No Data")
-    });
+      console.log(refcode);
+      this.commonservice.delRecordAddType(refcode).subscribe(
+        data => {
+          alert('Record deleted successfully!')
+          this.router.navigate(['address/type']);
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+
+    else{
+      txt = "Delete Cancelled!";
+    }
   }
 
   ngAfterViewInit() {

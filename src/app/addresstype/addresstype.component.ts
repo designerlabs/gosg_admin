@@ -74,6 +74,7 @@ export class AddresstypeComponent implements OnInit {
 
       this.updateForm.get('addTypeEn').setValue(this.recordList[0].addressType);
       this.updateForm.get('addTypeBm').setValue(this.recordList[1].addressType);      
+      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
 
       this.getIdEn = this.recordList[0].addressTypeId;
       this.getIdBm = this.recordList[1].addressTypeId;
@@ -132,18 +133,18 @@ export class AddresstypeComponent implements OnInit {
     else{
       let body = [
         {
-          "addressTypeId":null,
+          "addressTypeId":this.getIdEn,
           "addressType": null,
           "enabled":false,
-          "refCode": null,
+          "refCode": this.getRefId,
           "language": {
               "languageId": 1
           }
         },{
-          "addressTypeId":null,
+          "addressTypeId":this.getIdBm,
           "addressType": null,
           "enabled":false,
-          "refCode": null,
+          "refCode": this.getRefId,
           "language": {
               "languageId": 2
           }

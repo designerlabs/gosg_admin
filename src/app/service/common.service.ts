@@ -249,10 +249,10 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  delRecordAddType(enId, bmId) {
+  delRecordAddType(refCode) {
     let fullUrl = this.appConfig.urlAddressType;
 
-    return this.http.delete(fullUrl + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(fullUrl + "/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
