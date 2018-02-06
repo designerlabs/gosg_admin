@@ -54,10 +54,12 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',
-    urlModuleList: mockApiURL + 'moduleList',
+    urlModuleList: commonURL + 'authorization/module/moduleList',
+    
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
+    
 
 
     urlCountryList: serviceURL + 'country',

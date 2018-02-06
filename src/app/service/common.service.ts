@@ -117,8 +117,8 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getModuleList(){
-    return this.http.get(this.appConfig.urlModuleList)
+  getModuleList(id){
+    return this.http.get(this.appConfig.urlModuleList+'/'+id)
     .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }

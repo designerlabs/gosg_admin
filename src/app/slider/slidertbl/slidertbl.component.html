@@ -49,16 +49,16 @@
 
       <!-- slideActiveFlag Column -->
       <ng-container matColumnDef="slideActiveFlag">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%; text-align: center;"> Status</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 10%; text-align: center; vertical-align: top;">
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="statusColumn">
           <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
         </mat-cell>
       </ng-container>
       
       <!-- Action Column -->
       <ng-container matColumnDef="slideAction">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%; text-align: center"> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 20%; text-align: center">
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
               <i class="fa fa-edit" ></i>
             </button>

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angula
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
 import { CommonService } from '../../../service/common.service';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 
 @Component({
@@ -23,7 +23,12 @@ export class GroupstblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.groupList);
   @ViewChild(MatSort) sort: MatSort;
   // tslint:disable-next-line:max-line-length
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router) {
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService, 
+    private router: Router,
+    private route:ActivatedRoute) {
     this.getGroupList(this.groupPageCount, this.groupPageSize);
   }
 
