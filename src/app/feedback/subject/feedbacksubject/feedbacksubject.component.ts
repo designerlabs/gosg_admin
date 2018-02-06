@@ -19,8 +19,10 @@ export class FeedbacksubjectComponent implements OnInit {
   
   public subjectEn: FormControl;  
   public subjectBm: FormControl;
-
   public active: FormControl
+
+  public dataUrl: any;  
+  public recordList: any;
 
   complete: boolean;
 
@@ -31,17 +33,25 @@ export class FeedbacksubjectComponent implements OnInit {
 
     this.subjectEn = new FormControl();
     this.subjectBm = new FormControl();
-
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
       subjectEn: this.subjectEn,
       subjectBm: this.subjectBm,
-
-      active: this.active
-      
+      active: this.active      
     });
+
+    let urlEdit = this.router.url.split('/')[3];
+    
+    if (urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);
+    }
+    else{
+      this.commonservice.pageModeChange(true);
+    }
+
+    this.getData();
   }
 
   update(formValues: any) {
@@ -91,6 +101,30 @@ export class FeedbacksubjectComponent implements OnInit {
     //     console.log("No Data")
     //     // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
     // });
+  }
+
+  getData() {
+
+    let _getRefID = this.router.url.split('/')[3];
+  
+    this.dataUrl = this.appConfig.urlFeedback + 'feedback/type/'+_getRefID;
+
+    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    this.http.get(this.dataUrl)
+    .subscribe(data => {
+      this.recordList = data;
+
+      console.log("data");
+      console.log(data);
+
+      if(this.recordList.feedbackType.feedbackTypeDescription){
+        this.updateForm.get('typeEn').setValue(this.recordList.feedbackType.feedbackTypeDescription);
+        this.updateForm.get('typeBm').setValue(this.recordList.feedbackType.feedbackTypeDescription);
+      }
+
+      console.log(this.recordList.feedbackType.feedbackTypeDescription)
+      
+    });
   }
 
   checkReqValues() {
