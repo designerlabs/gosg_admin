@@ -26,11 +26,16 @@ import { EthnicityComponent } from './referencecode/ethnic/ethnicity/ethnicity.c
 // import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
+import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
+import { AnnouncementComponent } from './announcement/announcement.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FaqComponent } from './faq/faq.component';
 import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+import { CategoryComponent } from './category/category.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -66,9 +71,21 @@ export const appRoutes: Routes = [
 // {path: 'reference/ethnic/ethnicitytbl', component: EthnicitytblComponent},
 {path: 'reference/religion', component: ReligionComponent},
 {path: 'reference/postcode', component: PostcodeComponent},
-{path: 'faq', component: FaqComponent},
-{path: 'editor', component: EditorComponent}
+{path: 'faq', component: FaqtblComponent},
+{path: 'faq/:id', component: FaqComponent},
+{path: 'faq/add', component: FaqComponent},
+{path: 'editor', component: EditorComponent},
+{path: 'announcement', component: AnnouncementtblComponent},
+{path: 'announcement/:id', component: AnnouncementComponent},
+{path: 'announcement/add', component: AnnouncementComponent},
+// Article and Announcement Category
 
+{path: 'announcement/category', component: CategorytblComponent},
+{path: 'article/category', component: CategorytblComponent},
+{path: 'announcement/category/add', component: CategoryComponent},
+{path: 'article/category/add', component: CategoryComponent},
+{path: 'announcement/category/:id', component: CategoryComponent},
+{path: 'article/category/:id', component: CategoryComponent}
 
 
 
