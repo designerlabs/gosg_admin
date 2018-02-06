@@ -1,0 +1,57 @@
+{
+"type": "RESPONSE",
+"statusCode": "S001",
+"statusDesc": "Religion All",
+"religionList": [
+        {
+            "religionListID": 1,
+            "ActiveFlag": true,
+            "En":{         
+                    "religionId": 13,
+	                  "religionCode": "01",
+	                  "religion": "BUDDHISM"
+			},
+            "Bm":{
+                   "religionId": 3,
+	                 "religionCode": "01",
+	                 "religion": "BUDDHA"
+                } 
+        },
+        {
+            "religionListID": 2,
+            "ActiveFlag": true,
+            "En":{
+                    "religionId": 12,
+                    "religionCode": "02",
+                    "religion": "CHRISTIANITY"
+                }
+            ,
+            "Bm":{
+                  "religionId": 2,
+                  "religionCode": "02",
+                  "religion": "KRISTIAN"
+                }   
+        },
+        {
+            "religionListID": 2,
+            "ActiveFlag": true,
+            "En":{
+                    "religionId": 14,
+                    "religionCode": "03",
+                    "religion": "HINDUISM"
+				},
+            "Bm":{
+                  "religionId": 4,
+                  "religionCode": "03",
+                  "religion": "HINDU"
+                }  
+        }
+],
+        
+    "pageNumber": 1,
+    "pageSize": 25,
+    "numberOfElements": 25,
+    "totalElements": 36,
+    "totalPages": 2
+
+}

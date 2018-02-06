@@ -14,6 +14,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SliderComponent implements OnInit {
 
+  sliderData: Object;
   sliderList = null;
   displayedColumns: any;
   displayedColumns2: any;
@@ -30,6 +31,9 @@ export class SliderComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
+  slideCode:any;
+  slideIdEn:any;
+  slideIdBm:any;
 
   titleEn: FormControl
   titleBm: FormControl
@@ -99,10 +103,11 @@ export class SliderComponent implements OnInit {
     this.dataUrl = this.appConfig.urlSlides;
 
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+      // this.http.get(this.dataUrl).subscribe(
       data => {
         this.sliderList = data;
         console.log(this.sliderList)
-        this.dataSource.data = this.sliderList.slideCodeList;
+        this.dataSource.data = this.sliderList.list;
         this.commonservice.sliderTable = this.sliderList;
         this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
       });
@@ -136,6 +141,24 @@ export class SliderComponent implements OnInit {
     }
   }
 
+  isSameImg(enImg,bmImg) {
+
+    console.log(enImg)
+    if(enImg != null && enImg == bmImg) {
+      this.sliderForm.get('copyImg').setValue(true);
+    } else {
+      this.sliderForm.get('copyImg').setValue(false);
+    }
+  }
+
+  // isSameImgAsEn(enImg,bmImg) {
+  //   if(enImg !== "" && enImg === bmImg) {
+  //     this.sliderForm.get('copyImg').setValue(true);
+  //   } else {
+  //     this.sliderForm.get('copyImg').setValue(false);
+  //   }
+  // }
+
   onPaginateChange(event) {
     // alert(JSON.stringify(event));
     //  const startIndex = event.pageIndex * event.pageSize;
@@ -144,63 +167,82 @@ export class SliderComponent implements OnInit {
   }
 
   addBtn() {
+    this.isEdit = false;
+    this.changePageMode(this.isEdit);
     this.viewSeq = 2;
+    this.sliderForm.reset();
+    this.sliderForm.get('active').setValue(true)
     // console.log(this.viewSeq);
     // this.router.navigate(['slider', "add"]);
   }
 
   navigateBack() {
-    // this.router.navigate(['slider']);
     this.viewSeq = 1;
+    this.isEdit = false;
+    this.router.navigate(['slider']);
   }
 
   // add, update, delete
   updateRow(row) {
+
+    // this.router.navigate(['slider', row]);
     this.viewSeq = 2;
-    // console.log(this.viewSeq);
-    // console.log(row);
-    alert("Update Slider id: " + row);
-    // this.commonservice.GetUser(row.userId);
-  }
+    // alert("Update Slider id: " + row);
+    this.isEdit = true;
+    this.changePageMode(this.isEdit);
 
-  deleteRow(enId,bmId) {
-    // console.log(enId);
-    alert("Delete Slider id: " + enId + " & " +bmId);
-    // this.commonservice.GetUser(row.userId);
+    // Update Slider Service
+    return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
+    // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
+      Rdata => {
 
-    // this.deletePopup(enId,bmId)
+        this.sliderData = Rdata;
+        console.log(this.sliderData)
+        console.log(this.appConfig.urlSlides + "/" + row)
+        let dataEn = this.sliderData['list'][0];
+        let dataBm = this.sliderData['list'][1];
 
-    this.commonservice.delSlider(enId,bmId).subscribe(
-      data => {
-        alert('Slider deleted successfully!')
-        this.router.navigate(['slider']);
-      },
-      error => {
-        console.log("No Data")
-      });
+      // populate data
+      this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
+      this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
+      this.sliderForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
+      this.sliderForm.get('titleBm').setValue(dataBm.slideTitle);
+      this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
+      this.sliderForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
+      this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
+      this.slideCode = dataEn.slideCode;
+      this.slideIdEn = dataEn.slideId;
+      this.slideIdBm = dataBm.slideId;
+      
+      this.isSameImg(dataEn.slideImage,dataBm.slideImage);
+
+      this.checkReqValues();
+    });
+    
   }
 
   isChecked(e) {
 
     if (e.checked) {
-      this.sliderForm.get("imgBm").setValue(this.sliderForm.get("imgEn").value);
-      // console.log(e.checked)
+      this.sliderForm.get("imgBm").setValue(this.imgEn.value);
     } else {
       this.sliderForm.get("imgBm").setValue("");
     }
     this.copyImg = e.checked;
+    this.checkReqValues();
   }
 
   checkReqValues() {
+
     let titleEn = "titleEn";
     let descEn = "descEn";
     let imgEn = "imgEn";
     let titleBm = "titleBm";
     let descBm = "descBm";
     let imgBm = "imgBm";
-    let active = "active";
+    // let active = "active";
 
-    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, active];
+    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -212,11 +254,14 @@ export class SliderComponent implements OnInit {
       }
     }
 
+    this.isSameImg(this.sliderForm.get(imgEn).value,this.sliderForm.get(imgBm).value);
+
+      // console.log(nullPointers)
+
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
       this.complete = true;
-      // this.toastr.error(this.translate.instant('Country error!'), '');
     }
 
   }
@@ -232,26 +277,40 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  deletePopup(enId,bmId) {
+  deleteRow(enId,bmId) {
     let txt;
     let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
     if (r == true) {
-      txt = "Delete successful!";
-      this.sliderForm.reset();
+
+      this.commonservice.delSlider(enId,bmId).subscribe(
+        data => {
+          txt = "Slider deleted successfully!";
+          // this.router.navigate(['slider']);
+          window.location.reload()
+        },
+        error => {
+          console.log("No Data")
+        });
+
+      // this.sliderForm.reset();
     } else {
       txt = "Delete Cancelled!";
+      alert(txt)
     }
   }
-
+  
   updateSlider(formValues: any) {
     // console.log(this.viewSeq);
+    let sliderCode = Math.floor((Math.random() * 100) + 1);
+    
+    if(!this.isEdit) {
 
     let body = [
       {
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": null,
+        "slideCode": sliderCode,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -262,7 +321,7 @@ export class SliderComponent implements OnInit {
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": null,
+        "slideCode": sliderCode,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -275,16 +334,14 @@ export class SliderComponent implements OnInit {
 
     body[0].slideTitle = formValues.titleEn;
     body[0].slideDescription = formValues.descEn;
-    body[0].slideImage = "enImg.png";
-    body[0].slideCode = null;
+    body[0].slideImage = formValues.imgEn;
     body[0].slideSort = null;
     body[0].slideActiveFlag = formValues.active;
     body[0].language.languageId = 1;
 
     body[1].slideTitle = formValues.titleBm;
     body[1].slideDescription = formValues.descBm;
-    body[1].slideImage = "bmImg.jpg";
-    body[1].slideCode = null;
+    body[1].slideImage = formValues.imgBm;
     body[1].slideSort = null;
     body[1].slideActiveFlag = formValues.active;
     body[1].language.languageId = 2;
@@ -296,11 +353,70 @@ export class SliderComponent implements OnInit {
     this.commonservice.addSlider(body).subscribe(
       data => {
         alert('Slider added successfully!')
-        this.router.navigate(['slider']);
+        window.location.reload()
       },
       error => {
         console.log("No Data")
       });
+
+    } else {
+      
+    let body = [
+      {
+        "slideId": null,
+        "slideTitle": null,
+        "slideDescription": null,
+        "slideImage": null,
+        "slideCode": sliderCode,
+        "slideSort": null,
+        "slideActiveFlag": false,
+        "language": {
+          "languageId": null
+        }
+      }, 
+      {
+        "slideId": null,
+        "slideTitle": null,
+        "slideDescription": null,
+        "slideImage": null,
+        "slideCode": sliderCode,
+        "slideSort": null,
+        "slideActiveFlag": false,
+        "language": {
+          "languageId": null
+        }
+      }
+    ];
+      
+    body[0].slideCode = this.slideCode;
+    body[0].slideId = this.slideIdEn;
+    body[0].slideTitle = formValues.titleEn;
+    body[0].slideDescription = formValues.descEn;
+    body[0].slideImage = formValues.imgEn;
+    body[0].slideSort = null;
+    body[0].slideActiveFlag = formValues.active;
+    body[0].language.languageId = 1;
+    
+    body[1].slideCode = this.slideCode;
+    body[1].slideId = this.slideIdBm;
+    body[1].slideTitle = formValues.titleBm;
+    body[1].slideDescription = formValues.descBm;
+    body[1].slideImage = formValues.imgBm;
+    body[1].slideSort = null;
+    body[1].slideActiveFlag = formValues.active;
+    body[1].language.languageId = 2;
+
+    // Update Slider Service
+    this.commonservice.updateSlider(body).subscribe(
+      data => {
+        alert('Slider update successful!')
+        window.location.reload()
+      },
+      error => {
+        console.log("No Data")
+      });
+    }
+    
 
   }
 
