@@ -16,21 +16,27 @@ import { PollquestionComponent } from './poll/pollquestion/pollquestion.componen
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
-import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
+import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
-import { PostcodeComponent } from './referencecode/postcode/postcode.component';
-import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
-import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
-import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
+import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
+import { AnnouncementComponent } from './announcement/announcement.component';
+import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FaqComponent } from './faq/faq.component';
 import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+import { CategoryComponent } from './category/category.component';
+import { AddresstypeComponent } from './addresstype/addresstype.component';
+import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -52,7 +58,6 @@ export const appRoutes: Routes = [
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
-{path: 'poll/questions', component: PollquestionComponent},
 {path: 'poll/questions', component: PollquestiontblComponent},
 {path: 'poll/questions/:id', component: PollquestionComponent},
 {path: 'poll/questions/add', component: PollquestionComponent},
@@ -69,8 +74,25 @@ export const appRoutes: Routes = [
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
 {path: 'reference/ethnicity/add', component: EthnicityComponent},
 {path: 'faq', component: FaqComponent},
-{path: 'editor', component: EditorComponent}
+{path: 'editor', component: EditorComponent},
+{path: 'faq', component: FaqtblComponent},
+{path: 'faq/:id', component: FaqComponent},
+{path: 'faq/add', component: FaqComponent},
+{path: 'editor', component: EditorComponent},
+{path: 'announcement', component: AnnouncementtblComponent},
+{path: 'announcement/:id', component: AnnouncementComponent},
+{path: 'announcement/add', component: AnnouncementComponent},
+// Article and Announcement Category
 
+{path: 'announcement/category', component: CategorytblComponent},
+{path: 'article/category', component: CategorytblComponent},
+{path: 'announcement/category/add', component: CategoryComponent},
+{path: 'article/category/add', component: CategoryComponent},
+{path: 'announcement/category/:id', component: CategoryComponent},
+{path: 'article/category/:id', component: CategoryComponent},
+{path: 'address/type', component: AddresstypetblComponent},
+{path: 'address/type/:id', component: AddresstypeComponent},
+{path: 'address/type/add', component: AddresstypeComponent},
 
 
 

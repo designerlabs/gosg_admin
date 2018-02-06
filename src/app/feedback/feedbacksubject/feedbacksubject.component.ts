@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
-import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
+import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-feedbacksubject',
@@ -27,7 +28,7 @@ export class FeedbacksubjectComponent implements OnInit {
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -157,6 +158,10 @@ export class FeedbacksubjectComponent implements OnInit {
     } else {
         txt = "You pressed Cancel!";
     }
+  }
+
+  back(){
+    this.router.navigate(['feedback/subject']);
   }
 
 }

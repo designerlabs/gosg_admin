@@ -117,8 +117,8 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getModuleList(){
-    return this.http.get(this.appConfig.urlModuleList)
+  getModuleList(id){
+    return this.http.get(this.appConfig.urlModuleList+'/'+id)
     .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }
@@ -140,6 +140,20 @@ export class CommonService {
     console.log(this.appConfig.urlFaq);
     return this.http.get(this.appConfig.urlFaq)
     .map((response: Response) => response.json().faqCodeList)
+    .catch(this.handleError);
+  }
+
+  getAnnounceData() {
+    console.log(this.appConfig.urlAnnounceList);
+    return this.http.get(this.appConfig.urlAnnounceList)
+    .map((response: Response) => response.json().announceCodeList)
+    .catch(this.handleError);
+  }
+
+  getCategoryData() {
+    console.log(this.appConfig.urlCategoryList);
+    return this.http.get(this.appConfig.urlCategoryList)
+    .map((response: Response) => response.json().categoryCodeList)
     .catch(this.handleError);
   }
 
@@ -170,8 +184,8 @@ export class CommonService {
 
   addSlider(slider) {
 
-    console.log(this.appConfig.urlSlides)
-    console.log(slider)
+    // console.log(this.appConfig.urlSlides)
+    // console.log(slider)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
     return this.http.post(this.appConfig.urlSlides, slider)
@@ -225,8 +239,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+<<<<<<< HEAD
   addRace(record) {
     let fullUrl = this.appConfig.urlRace;
+=======
+  addRecordAddType(record) {
+    let fullUrl = this.appConfig.urlAddressType;
+>>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
     console.log(fullUrl)
     console.log(record)
 
@@ -235,18 +254,32 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+<<<<<<< HEAD
   updateRace(record) {
     let fullUrl = this.appConfig.urlRace ;
 
     return this.http.put(fullUrl, record)
+=======
+  delRecordAddType(enId, bmId) {
+    let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.delete(fullUrl + "/delete/selected?id=" + enId + "," +bmId, null)
+>>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
+<<<<<<< HEAD
   delRace(refCode) {
     let fullUrl = this.appConfig.urlRaceDelete;
 
     return this.http.delete(fullUrl + refCode)
+=======
+  updateRecordAddType(record) {
+    let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.put(fullUrl, record)
+>>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

@@ -30,6 +30,7 @@ import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ethnicity',
@@ -58,7 +59,7 @@ export class EthnicityComponent implements OnInit {
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
   
@@ -155,6 +156,10 @@ export class EthnicityComponent implements OnInit {
           console.log(JSON.stringify(body))
           console.log(body)
           // alert('Record added successfully!')
+
+          let txt = "Record added successfully!";
+          this.toastr.success(txt, '');  
+
           this.router.navigate(['reference/ethnicity']);
           // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         },
@@ -209,7 +214,11 @@ export class EthnicityComponent implements OnInit {
         data => {
           console.log(JSON.stringify(body))
           console.log(body)
-          alert('Record updated successfully!')
+          // alert('Record updated successfully!')
+
+          let txt = "Record updated successfully!";
+          this.toastr.success(txt, ''); 
+
           this.router.navigate(['reference/ethnicity']);
           // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         },
@@ -246,9 +255,11 @@ export class EthnicityComponent implements OnInit {
     var r = confirm("Are you sure to reset the form?");
     if (r == true) {
         txt = "You pressed OK!";
+        this.toastr.success(txt, ''); 
         this.updateForm.reset();
     } else {
         txt = "You pressed Cancel!";
+        this.toastr.success(txt, '');
     }
   }
 

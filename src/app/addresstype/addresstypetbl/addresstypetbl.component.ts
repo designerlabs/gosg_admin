@@ -1,22 +1,22 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
-import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
+import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-feedbacksubjecttbl',
-  templateUrl: './feedbacksubjecttbl.component.html',
-  styleUrls: ['./feedbacksubjecttbl.component.css']
+  selector: 'app-addresstypetbl',
+  templateUrl: './addresstypetbl.component.html',
+  styleUrls: ['./addresstypetbl.component.css']
 })
-
-export class FeedbacksubjecttblComponent implements OnInit {
+export class AddresstypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num', 'feedbackEng', 'feedbackMalay', 'status', 'action'];
+  displayedColumns = ['addEng', 'addMalay', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -37,9 +37,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
   }
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) { 
-
-  }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -48,9 +46,8 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + 'feedback/subject';
+    this.dataUrl = this.appConfig.urlAddressType + '/?page=' + count + '&size=' + size;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -58,7 +55,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.feedbackSubjectList;
+      this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
@@ -79,13 +76,13 @@ export class FeedbacksubjecttblComponent implements OnInit {
   }
 
   add() {
-    this.router.navigate(['feedback/subject/add']);
+    this.router.navigate(['address/type/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['feedback/subject/', row]);
+    this.router.navigate(['address/type/', row]);
     this.commonservice.pageModeChange(true);
   }
 
@@ -95,7 +92,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
     this.commonservice.delRecord(enId, bmId).subscribe(
       data => {
         alert('Record deleted successfully!')
-        this.router.navigate(['feedback/subject']);
+        this.router.navigate(['address/type']);
       },
       error => {
         console.log("No Data")

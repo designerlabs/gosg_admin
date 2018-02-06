@@ -40,8 +40,14 @@ export class AppConfig {
     urlFeedback: string;
     urlFaq: string;
     urlRaceList: string;
+<<<<<<< HEAD
     urlRace: string;
     urlRaceDelete: string;
+=======
+    urlAnnounceList: string;
+    urlCategoryList: string;
+    urlAddressType: string;
+>>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
 
 }
 
@@ -56,10 +62,12 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',
-    urlModuleList: mockApiURL + 'moduleList',
+    urlModuleList: commonURL + 'authorization/module/moduleList',
+    
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
+    
 
 
     urlCountryList: serviceURL + 'country',
@@ -73,6 +81,9 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedback: serviceURL,
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
+    urlAnnounceList: './app/apidata/announce.json',
+    urlCategoryList: './app/apidata/category.json',
+    urlAddressType: commonURL + 'addresstype'
 };
 
 @NgModule({

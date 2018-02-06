@@ -54,3 +54,16 @@ mat-header-cell{
 .right-content {
     width: 100% !important;
 }
+
+
+.actionColumn{
+    display:flex;
+    justify-content:center;
+    flex: 0 0 20% !important;
+}
+
+.statusColumn{
+    flex: 0 0 10%  !important;
+    display:flex;
+    justify-content:center;
+}

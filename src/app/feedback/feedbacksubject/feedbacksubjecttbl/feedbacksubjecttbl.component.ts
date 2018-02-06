@@ -1,20 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-ethnicitytbl',
-//   templateUrl: './ethnicitytbl.component.html',
-//   styleUrls: ['./ethnicitytbl.component.css']
-// })
-// export class EthnicitytblComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -26,18 +9,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-ethnicitytbl',
-  templateUrl: './ethnicitytbl.component.html',
-  styleUrls: ['./ethnicitytbl.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-feedbacksubjecttbl',
+  templateUrl: './feedbacksubjecttbl.component.html',
+  styleUrls: ['./feedbacksubjecttbl.component.css']
 })
 
-export class EthnicitytblComponent implements OnInit {
-
-  updateForm: FormGroup
+export class FeedbacksubjecttblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['raceEng', 'raceMy', 'status', 'action'];
+  displayedColumns = ['feedbackEng', 'feedbackMalay', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -45,45 +25,33 @@ export class EthnicitytblComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
-
-  public getRaceIdEng: any;
-  public getRaceIdMy: any;
-  public getRaceMy: any;
-  public getRaceEng: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
-  selection = new SelectionModel<Element>(true, []);
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
-  //   return numSelected === numRows;
-  // }
-
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  
+
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
-    this.getRecordList(this.pageCount, this.pageSize);
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
+
   }
 
   ngOnInit() {
+
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedback + 'feedback/subject';
 
+    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -91,15 +59,9 @@ export class EthnicitytblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.list;
+      this.dataSource.data = this.recordList.feedbackSubjectList;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-      //
-      // this.getRaceIdMy = this.recordList.raceList[0].raceId;
-      // this.getRaceIdEng = this.recordList.raceList[1].raceId;
-      // this.getRaceMy = this.recordList.raceList[0].refCode;
-      // this.getRaceEng = this.recordList.raceList[1].refCode;
     });
   }
 
@@ -118,33 +80,26 @@ export class EthnicitytblComponent implements OnInit {
   }
 
   add() {
-
-    this.router.navigate(['reference/ethnicity/add']);
+    this.router.navigate(['feedback/subject/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
-    
     console.log(row);
-    this.router.navigate(['reference/ethnicity', row]);
+    this.router.navigate(['feedback/subject/', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(refCode) {
-    let txt;
+  deleteRow(enId, bmId) {
 
-    console.log(refCode);
-    this.commonservice.delRace(refCode).subscribe(
+    console.log(enId + bmId);
+    this.commonservice.delRecord(enId, bmId).subscribe(
       data => {
-        // alert('Record deleted successfully!')
-        txt = "Record deleted successfully!";
-
-          this.toastr.success(txt, '');   
-        this.router.navigate(['reference/ethnicity']);
-        this.getRecordList(this.pageCount, this.pageSize);
+        alert('Record deleted successfully!')
+        this.router.navigate(['feedback/subject']);
       },
       error => {
-        txt = "Delete Cancelled!";
+        console.log("No Data")
     });
   }
 
@@ -160,11 +115,3 @@ export class EthnicitytblComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-
-
