@@ -26,8 +26,8 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
-import { EthnicityComponent } from './referencecode/ethnic/ethnicity/ethnicity.component';
-import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -61,7 +61,8 @@ export const appRoutes: Routes = [
 {path: 'reference/religion', component: ReligionComponent},
 {path: 'reference/postcode', component: PostcodeComponent},
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
-// {path: 'reference/ethnicitytbl', component: EthnicitytblComponent},
+{path: 'reference/ethnicity/:id', component: EthnicityComponent},
+{path: 'reference/ethnicity/add', component: EthnicityComponent},
 
 
 
