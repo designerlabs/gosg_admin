@@ -18,14 +18,6 @@ border-bottom: 1px solid #ccc;
 width: 100%;
 }
 
-.activeFontColor {
-color: green;
-}
-
-.inactiveFontColor {
-color:red;
-}
-
 .backTitle {
 margin-left: -2%;
 cursor: pointer;

@@ -26,12 +26,12 @@ import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
-import { GroupsviewComponent } from './authentication/groups/groupsview.component';
+import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
 import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
 import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { GroupseditComponent } from './authentication/groups/groupsedit.component';
+import { GroupsComponent } from './authentication/groups/groups.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { StateComponent } from './referencecode/state/state.component';
@@ -60,11 +60,11 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     UsertblComponent,
     RolesComponent,
     PollquestionComponent,
-    GroupsviewComponent,
+    GroupstblComponent,
     PollquestiondetailsComponent,
     PollresultComponent,
     SliderComponent,
-    GroupseditComponent,    
+    GroupsComponent,    
     FeedbacktblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
