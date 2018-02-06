@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-slidertbl',
@@ -41,14 +42,15 @@ export class SlidertblComponent implements OnInit {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { 
     this.getSlidersData(this.sliderPageCount, 
     this.sliderPageSize);
   }
 
   ngOnInit() {
-    this.displayedColumns = ['slideCode', 'slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns = ['slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
   }
 
   ngAfterViewInit() {
@@ -118,7 +120,8 @@ export class SlidertblComponent implements OnInit {
         data => {
           txt = "Slider deleted successfully!";
           // this.router.navigate(['slider']);
-          window.location.reload()
+          this.toastr.success(txt, '');   
+          window.location.reload();
         },
         error => {
           console.log("No Data")
@@ -127,7 +130,7 @@ export class SlidertblComponent implements OnInit {
       // this.sliderForm.reset();
     } else {
       txt = "Delete Cancelled!";
-      alert(txt)
+      // alert(txt)
     }
   }
 
@@ -141,6 +144,10 @@ export class SlidertblComponent implements OnInit {
 
   navigateBack() {
     this.isEdit = false;
+    this.router.navigate(['slider']);
+  }
+
+  back(){
     this.router.navigate(['slider']);
   }
 

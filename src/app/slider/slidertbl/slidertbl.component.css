@@ -37,26 +37,26 @@ color: #ff4081;
 cursor: pointer;
 }
 
-.editBtn{
-position: absolute;
-right: 10px;
-top: 65%;
+.addBtn{
+/* position: absolute; */
+/* right: 10px;
+top: 65%; */
 }
 
-.editBtn:hover {
-position: absolute;
+.addBtn:hover {
+/* position: absolute; */
 background-color: rgb(109, 185, 38);
 color: #FFF;
-right: 10px;
-top: 65%;
+/* right: 10px;
+top: 65%; */
 }
 
-.editBtn-active {
-position: absolute;
+.addBtn-active {
+/* position: absolute; */
 background-color: rgb(109, 185, 38);
 color: #FFF;
-right: 10px;
-top: 65%;
+/* right: 10px;
+top: 65%; */
 }
 
 .backBtn a {

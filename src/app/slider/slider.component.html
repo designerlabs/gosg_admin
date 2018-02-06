@@ -1,16 +1,26 @@
 <!-- VIEW: ADD/EDIT SLIDER -->
-<div class="container right-content">
-  <div class="col-md-12">
-    <h2 class="staticLabel">{{ pageMode }} Slider</h2>
+ <div class="container right-content">
+<!--  <div class="col-md-12">
+    <h2 class="staticLabel"></h2>
     <span class="pull-right backBtn">
       <a class="font-size-s" (click)="navigateBack()">
         <i class="fa fa-chevron-left font-size-m"></i> BACK
       </a>
-      <!-- <button type="button" mat-raised-button class="form-control btn btn-md btn-info font-size-s" (click)="navigateBack()">
-        <i class="fa fa-chevron-left font-size-m"></i> BACK
-      </button> -->
       <br />
     </span>
+  </div> -->
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>{{ pageMode }} Slider</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i class="fa fa-arrow-left font-size-l"></i></button>
+          </span>
+      </div> 
   </div>
 
   <form [formGroup]="sliderForm" autocomplete="off" role="form" novalidate>
