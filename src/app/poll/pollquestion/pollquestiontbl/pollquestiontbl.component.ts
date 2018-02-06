@@ -19,7 +19,7 @@ export class PollquestiontblComponent implements OnInit {
   updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['num', 'pq_en', 'pq_bm', 'status', 'action'];
+  displayedColumns = ['pq_en', 'pq_bm', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;

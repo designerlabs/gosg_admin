@@ -22,7 +22,7 @@
             </mat-form-field>
         </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">
+        <mat-table #table [dataSource]="dataSource">
 
             <!-- Checkbox Column -->
             <!-- <ng-container matColumnDef="select">
@@ -41,12 +41,12 @@
             </ng-container> -->
 
             <!-- num Column -->
-            <ng-container matColumnDef="num">
+            <!-- <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
                     {{element.pollRefNo}}
                 </mat-cell>
-            </ng-container>
+            </ng-container> -->
 
             <!-- question en Column -->
             <ng-container matColumnDef="pq_en">

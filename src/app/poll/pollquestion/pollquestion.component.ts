@@ -14,6 +14,7 @@ import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
 import { CommonService } from './../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-pollquestion',
@@ -53,7 +54,7 @@ export class PollquestionComponent implements OnInit {
   public complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
   
@@ -205,14 +206,13 @@ export class PollquestionComponent implements OnInit {
       this.commonservice.addRecord(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
-          console.log(body)
-          alert('Record added successfully!')
+        
+          let txt = "Record added successfully!";
+          this.toastr.success(txt, '');  
           this.router.navigate(['poll/questions']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         },
         error => {
           console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
 
@@ -283,14 +283,13 @@ export class PollquestionComponent implements OnInit {
       this.commonservice.updateRecord(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
-          console.log(body)
-          alert('Record updated successfully!')
+        
+          let txt = "Record updated successfully!";
+          this.toastr.success(txt, '');  
           this.router.navigate(['poll/questions']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         },
         error => {
           console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
   }
@@ -321,9 +320,11 @@ export class PollquestionComponent implements OnInit {
     var r = confirm("Are you sure to reset the form?");
     if (r == true) {
         txt = "You pressed OK!";
+        this.toastr.success(txt, '');  
         this.updateForm.reset();
     } else {
         txt = "You pressed Cancel!";
+        this.toastr.success(txt, '');  
     }
   }
 
