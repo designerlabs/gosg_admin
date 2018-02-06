@@ -26,8 +26,8 @@ import { EthnicityComponent } from './referencecode/ethnic/ethnicity/ethnicity.c
 // import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
-import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
-import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
+import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FaqComponent } from './faq/faq.component';
 import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
@@ -52,7 +52,6 @@ export const appRoutes: Routes = [
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
-{path: 'poll/questions', component: PollquestionComponent},
 {path: 'poll/questions', component: PollquestiontblComponent},
 {path: 'poll/questions/:id', component: PollquestionComponent},
 {path: 'poll/questions/add', component: PollquestionComponent},
