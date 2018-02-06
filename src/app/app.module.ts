@@ -27,9 +27,9 @@ import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.co
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupsviewComponent } from './authentication/groups/groupsview.component';
-import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
-import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
+import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
+import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
+import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { GroupseditComponent } from './authentication/groups/groupsedit.component';
 import { CountryComponent } from './referencecode/country/country.component';
@@ -40,6 +40,9 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { FaqComponent } from './faq/faq.component';
+import { NgxEditorModule } from 'ngx-editor';
+import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 
@@ -56,10 +59,10 @@ import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
     FeedbackComponent,
     UserComponent,
     UsertblComponent,
-    RolesComponent,
-    PollquestionComponent,
+    RolesComponent,    
     GroupsviewComponent,
-    PollquestiondetailsComponent,
+    PollquestiontblComponent,
+    PollquestionComponent,
     PollresultComponent,
     SliderComponent,
     GroupseditComponent,    
@@ -74,6 +77,8 @@ import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
     PostcodeComponent,
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
+    FaqComponent,
+    EditorComponent,
     EthnicitytblComponent,
     SlidertblComponent,
   ],
@@ -86,7 +91,8 @@ import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgxEditorModule
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],

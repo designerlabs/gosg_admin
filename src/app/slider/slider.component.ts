@@ -314,6 +314,8 @@ export class SliderComponent implements OnInit {
     body[1].slideActiveFlag = formValues.active;
     body[1].language.languageId = 2;
 
+    console.log(body);
+
     // Update Slider Service
     this.commonservice.updateSlider(body).subscribe(
       data => {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service/common.service';
 import { SharedModule } from '../../shared/shared.module';
 
+
 @Component({
   selector: 'app-postcode',
   templateUrl: './postcode.component.html',
@@ -17,9 +18,9 @@ export class PostcodeComponent implements OnInit {
   constructor(private commonservice: CommonService) { }
 
   ngOnInit() {
-    this.getState('152');
+    this.getState('152');    
   }
-  
+    
   getState(id?){
     return this.commonservice.getStateData()
      .subscribe(resStateData => {

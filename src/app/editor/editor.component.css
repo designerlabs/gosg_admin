@@ -1,0 +1,15 @@
+
+
+.block {
+	margin-bottom: 1rem;
+}
+
+
+.htmlblock {
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	padding: 0.5rem;
+	background-color: #f1f1f1;
+	max-height: 10rem;
+	overflow: auto;
+}
