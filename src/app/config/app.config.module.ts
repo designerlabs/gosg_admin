@@ -56,7 +56,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlModuleList: mockApiURL + 'moduleList',
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
-    urlGroupList: mockApiURL + 'groupListView',
+    urlGroupList: commonURL + 'authorization/module/groupListView',
 
 
     urlCountryList: serviceURL + 'country',

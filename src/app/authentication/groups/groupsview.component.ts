@@ -18,7 +18,7 @@ export class GroupsviewComponent implements OnInit {
   groupList = null;
   noPrevData = true;
   noNextData = false;
-  displayedColumns = ['moduleGroupName', 'isActive', 'moduleName', 'action'];
+  displayedColumns = ['moduleGroupName', 'moduleName', 'isActive', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.groupList);
   @ViewChild(MatSort) sort: MatSort;
