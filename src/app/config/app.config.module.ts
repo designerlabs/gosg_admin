@@ -40,6 +40,8 @@ export class AppConfig {
     urlFeedback: string;
     urlFaq: string;
     urlRaceList: string;
+    urlAnnounceList: string;
+    urlCategoryList: string;
 
 }
 
@@ -54,10 +56,12 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',
-    urlModuleList: mockApiURL + 'moduleList',
+    urlModuleList: commonURL + 'authorization/module/moduleList',
+    
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
+    
 
 
     urlCountryList: serviceURL + 'country',
@@ -69,6 +73,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedback: serviceURL,
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
+    urlAnnounceList: './app/apidata/announce.json',
+    urlCategoryList: './app/apidata/category.json'
 };
 
 @NgModule({

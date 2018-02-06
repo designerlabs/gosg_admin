@@ -117,8 +117,8 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getModuleList(){
-    return this.http.get(this.appConfig.urlModuleList)
+  getModuleList(id){
+    return this.http.get(this.appConfig.urlModuleList+'/'+id)
     .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }
@@ -140,6 +140,20 @@ export class CommonService {
     console.log(this.appConfig.urlFaq);
     return this.http.get(this.appConfig.urlFaq)
     .map((response: Response) => response.json().faqCodeList)
+    .catch(this.handleError);
+  }
+
+  getAnnounceData() {
+    console.log(this.appConfig.urlAnnounceList);
+    return this.http.get(this.appConfig.urlAnnounceList)
+    .map((response: Response) => response.json().announceCodeList)
+    .catch(this.handleError);
+  }
+
+  getCategoryData() {
+    console.log(this.appConfig.urlCategoryList);
+    return this.http.get(this.appConfig.urlCategoryList)
+    .map((response: Response) => response.json().categoryCodeList)
     .catch(this.handleError);
   }
 

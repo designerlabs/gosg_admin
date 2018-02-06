@@ -44,8 +44,14 @@ import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
+import { AnnouncementComponent } from './announcement/announcement.component';
+import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { ToastrModule } from 'ngx-toastr';
+import { CategoryComponent } from './category/category.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +86,12 @@ import { ToastrModule } from 'ngx-toastr';
     FaqComponent,
     EditorComponent,
     EthnicitytblComponent,
+    FaqtblComponent,
+    AnnouncementComponent,
+    AnnouncementtblComponent,
+    CategorytblComponent,
     SlidertblComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
