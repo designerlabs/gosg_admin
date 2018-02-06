@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <h1>Example of Editor </h1>
+  <div class="editor block">
+      <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="htmlContent"></app-ngx-editor>
+  </div>
+  
+  <h1>Out Put Here</h1>
+  <div *ngIf="htmlContent" class="htmlblock block" style="padding-bottom: 20px;">
+    <h6>HTML Output</h6>
+    <div class="html">
+      {{ htmlContent }}
+    </div>
+  </div>
+  <button mat-raised-button type="button" color="primary">View</button>
+</div>
+

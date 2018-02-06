@@ -38,6 +38,7 @@ export class AppConfig {
     urlPostcode:string;
     urlPoll: string;
     urlFeedback: string;
+    urlFaq: string;
     urlRaceList: string;
 
 }
@@ -56,7 +57,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlModuleList: mockApiURL + 'moduleList',
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
-    urlGroupList: mockApiURL + 'groupListView',
+    urlGroupList: commonURL + 'authorization/module/groupListView',
 
 
     urlCountryList: serviceURL + 'country',
@@ -66,7 +67,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRaceList: serviceURL + 'race',
     urlPoll: commonURL + 'polls', 
     urlFeedback: serviceURL,
-    urlPostcode: serviceURL + 'postcode/city/'
+    urlPostcode: serviceURL + 'postcode/city/',
+    urlFaq: './app/apidata/faq.json',
 };
 
 @NgModule({

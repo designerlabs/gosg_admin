@@ -9,16 +9,16 @@ import { ArticletblComponent } from './articletbl/articletbl.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
-import { GroupsviewComponent } from './authentication/groups/groupsview.component';
+import { GroupsComponent } from './authentication/groups/groups.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
-import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
-import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
+import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
+import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
+import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
-import { GroupseditComponent } from './authentication/groups/groupsedit.component';
+import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
@@ -28,6 +28,9 @@ import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjectt
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
+import { FaqComponent } from './faq/faq.component';
+import { EditorComponent } from './editor/editor.component';
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -46,14 +49,16 @@ export const appRoutes: Routes = [
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
-{path: 'groupmodule' , component: GroupsviewComponent},
-{path: 'groupmodule/add' , component: GroupseditComponent},
-{path: 'groups/:id', component: GroupseditComponent},
+{path: 'groupmodule' , component: GroupstblComponent},
+{path: 'groups/add' , component: GroupsComponent},
+{path: 'groups/:id', component: GroupsComponent},
 {path: 'poll/questions', component: PollquestionComponent},
-{path: 'poll/questions/:id', component: PollquestiondetailsComponent},
-{path: 'poll/questions/add', component: PollquestiondetailsComponent},
+{path: 'poll/questions', component: PollquestiontblComponent},
+{path: 'poll/questions/:id', component: PollquestionComponent},
+{path: 'poll/questions/add', component: PollquestionComponent},
 {path: 'poll/results', component: PollresultComponent},
-{path: 'slider', component: SliderComponent},
+{path: 'slider', component: SlidertblComponent},
+{path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
@@ -63,6 +68,8 @@ export const appRoutes: Routes = [
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
 {path: 'reference/ethnicity/add', component: EthnicityComponent},
+{path: 'faq', component: FaqComponent},
+{path: 'editor', component: EditorComponent}
 
 
 
