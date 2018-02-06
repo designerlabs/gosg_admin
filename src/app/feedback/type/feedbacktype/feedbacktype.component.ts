@@ -22,7 +22,6 @@ export class FeedbacktypeComponent implements OnInit {
 
   public dataUrl: any;  
   public recordList: any;
-
   public typeDesc: any;
 
   complete: boolean;
@@ -40,10 +39,18 @@ export class FeedbacktypeComponent implements OnInit {
 
       typeEn: this.typeEn,
       typeBm: this.typeBm,
-
       active: this.active
       
     }); 
+
+    let urlEdit = this.router.url.split('/')[3];
+    
+    if (urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);
+    }
+    else{
+      this.commonservice.pageModeChange(true);
+    }
 
     this.getData();
   }
@@ -121,7 +128,6 @@ export class FeedbacktypeComponent implements OnInit {
     });
   }
   
-
   checkReqValues() {
 
     let reqVal:any = ["typeEn", "typeBm"];

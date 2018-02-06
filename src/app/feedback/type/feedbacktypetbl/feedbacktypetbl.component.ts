@@ -25,7 +25,6 @@ export class FeedbacktypetblComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
-  isEdit: boolean;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

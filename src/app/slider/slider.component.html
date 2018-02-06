@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <h2 class="staticLabel">Slider Management</h2>
     <span class="pull-right editBtn">
-      <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
+      <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">
         <i class="fa fa-plus font-size-l"></i>
       </button>
     </span>
@@ -20,26 +20,26 @@
       <!-- slideId Column -->
       <ng-container matColumnDef="slideCode">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;">Code</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.slideCode}} </mat-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.refCode}} </mat-cell>
       </ng-container>
 
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitleEn">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Title (EN)</mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.slideList[0].slideTitle}} </mat-cell>
+        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.list[0].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideDescription Column -->
       <ng-container matColumnDef="slideTitleBm">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.slideList[1].slideTitle}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->
       <ng-container matColumnDef="slideActiveFlag">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%; text-align: center"> Status </mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 10%; text-align: center; vertical-align: top;">
-          <i [ngClass]="{'fa fa-check font-size-xxl activeFontColor':element.slideList[0].slideActiveFlag,'fa fa-times font-size-xxl inactiveFontColor':!element.slideList[0].slideActiveFlag}"></i>
+          <i [ngClass]="{'fa fa-check font-size-xxl activeFontColor':element.status,'fa fa-times font-size-xxl inactiveFontColor':!element.status}"></i>
         </mat-cell>
       </ng-container>
       
@@ -47,9 +47,13 @@
       <ng-container matColumnDef="slideAction">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%; text-align: center"> Action </mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 20%; text-align: center">
-            <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.slideCode)" title="Update {{ element.slideCode }}"></i>
+            <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
+              <i class="fa fa-edit" ></i>
+            </button>
             &nbsp;
-            <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.slideList[0].slideId,element.slideList[1].slideId)" title="Delete {{ element.slideList[0].slideId }},{{ element.slideList[1].slideId }}"></i>
+            <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].slideId,element.list[1].slideId)" title="Delete {{ element.list[0].slideId }},{{ element.list[1].slideId }}">
+              <i class="fa fa-trash"  title="Delete {{ element.list[0].slideId }}, {{ element.list[1].slideId }}"></i>
+            </button>
         </mat-cell>
       </ng-container>
 
@@ -208,7 +212,7 @@
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <mat-checkbox formControlName="active" (change)="checkReqValues()"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
           </div>
         </div>
         <div class="col-md-12">&nbsp;</div>

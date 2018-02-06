@@ -40,7 +40,6 @@ export class PollresultComponent implements OnInit {
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router) { 
 
-    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
@@ -50,19 +49,16 @@ export class PollresultComponent implements OnInit {
 
   getRecordList(count, size) {
     
-    //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
-    this.dataUrl = this.appConfig.urlUserList;
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-    //this.http.get(this.dataUrl) 
+    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size;
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
 
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.userList;
+      this.dataSource.data = this.recordList.pollQuestionFormatList;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });

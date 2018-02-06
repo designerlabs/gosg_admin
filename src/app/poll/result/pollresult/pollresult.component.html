@@ -25,7 +25,7 @@
             <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element">
-                    {{element.userId}} 
+                    {{element.pollRefNo}} 
                 </mat-cell>
             </ng-container>
 
@@ -33,7 +33,7 @@
             <ng-container matColumnDef="question">
                 <mat-header-cell class="text-align-Left" style="flex: 0 0 21%;" *matHeaderCellDef> Question </mat-header-cell>
                 <mat-cell class="text-align-Left padding5" style="flex: 0 0 21%;" *matCellDef="let element">
-                    {{element.fullName}} 
+                    {{element.en[0].pollquestion}} 
                 </mat-cell>
             </ng-container>
         
@@ -42,10 +42,10 @@
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 1 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div class="col-md-12">
-                        {{element.isMyIdentityValid}} 
+                        {{element.en[0].options[0].option}} 
                     </div>
                     <div class="col-md-12">
-                        {{element.userId}}/{{element.userId}}
+                        {{element.results[0].result}}/{{element.results[0].totalResult}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -55,10 +55,10 @@
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 2 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div class="col-md-12">
-                        {{element.isMyIdentityValid}} 
+                        {{element.en[0].options[1].option}} 
                     </div>
                     <div class="col-md-12">
-                        {{element.userId}}/{{element.userId}}
+                        {{element.results[1].result}}/{{element.results[1].totalResult}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -68,10 +68,10 @@
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 3 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div class="col-md-12">
-                        {{element.isMyIdentityValid}} 
+                        {{element.en[0].options[2].option}} 
                     </div>
                     <div class="col-md-12">
-                        {{element.userId}}/{{element.userId}}
+                        {{element.results[2].result}}/{{element.results[2].totalResult}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -81,10 +81,10 @@
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 4 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div class="col-md-12">
-                        {{element.isMyIdentityValid}} 
+                        {{element.en[0].options[3].option}} 
                     </div>
                     <div class="col-md-12">
-                        {{element.userId}}/{{element.userId}}
+                        {{element.results[3].result}}/{{element.results[3].totalResult}}
                     </div>
                 </mat-cell>
             </ng-container>
@@ -94,10 +94,10 @@
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 5 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div class="col-md-12">
-                        {{element.isMyIdentityValid}} 
+                        {{element.en[0].options[4].option}} 
                     </div>
                     <div class="col-md-12">
-                        {{element.userId}}/{{element.userId}}
+                        {{element.results[4].result}}/{{element.results[4].totalResult}}
                     </div>
                 </mat-cell>
             </ng-container>

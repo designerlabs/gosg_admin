@@ -1,25 +1,50 @@
+// import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+// import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+// import { HttpClient } from '@angular/common/http';
+// import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+// import { CommonService } from '../../../service/common.service';
+// import { Router } from '@angular/router';
+// import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+// @Component({
+//   selector: 'app-slider',
+//   templateUrl: './ethnicity.component.html',
+//   styleUrls: ['./ethnicity.component.css'],
+//   encapsulation: ViewEncapsulation.None
+// })
+// export class EthnicityComponent implements OnInit {
+
+//     constructor() { }
+  
+//     ngOnInit() {
+//     }
+  
+//   }
+
+
+
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../config/app.config.module';
-import { CommonService } from '../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.css'],
+  templateUrl: './ethnicity.component.html',
+  styleUrls: ['./ethnicity.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SliderComponent implements OnInit {
+export class EthnicityComponent implements OnInit {
 
   sliderData: Object;
-  sliderList = null;
+  raceList = null;
   displayedColumns: any;
   displayedColumns2: any;
-  sliderPageSize = 10;
-  sliderPageCount = 1;
+  pageSize = 10;
+  pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -37,17 +62,17 @@ export class SliderComponent implements OnInit {
 
   titleEn: FormControl
   titleBm: FormControl
-  descEn: FormControl
-  descBm: FormControl
-  imgEn: FormControl
-  imgBm: FormControl
+  // descEn: FormControl
+  // descBm: FormControl
+  // imgEn: FormControl
+  // imgBm: FormControl
   active: FormControl
-  copyImg: FormControl
+  // copyImg: FormControl
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.sliderList);
+  dataSource = new MatTableDataSource<object>(this.raceList);
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
@@ -55,7 +80,7 @@ export class SliderComponent implements OnInit {
   }
   // tslint:disable-next-line:max-line-length
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+    this.getSlidersData(this.pageCount, this.pageSize);
   }
   resetMsg = this.resetMsg;
 
@@ -63,7 +88,7 @@ export class SliderComponent implements OnInit {
     this.viewSeq = 1;
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.displayedColumns = ['slideCode', 'slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns = ['raceEng', 'raceMy', 'slideActiveFlag', 'slideAction'];
     // this.displayedColumns2 = ['sliderId', 'fullName', 'pid', 'sliderTypeId', 'isStaff', 'accountStatusId'];
     // this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
 
@@ -71,23 +96,23 @@ export class SliderComponent implements OnInit {
 
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
-    this.descEn = new FormControl()
-    this.descBm = new FormControl()
-    this.imgEn = new FormControl()
-    this.imgBm = new FormControl()
+    // this.descEn = new FormControl()
+    // this.descBm = new FormControl()
+    // this.imgEn = new FormControl()
+    // this.imgBm = new FormControl()
     this.active = new FormControl()
-    this.copyImg = new FormControl()
+    // this.copyImg = new FormControl()
     // this.email = new FormControl('', Validators.pattern(EMAIL_REGEX))
 
     this.sliderForm = new FormGroup({
       titleEn: this.titleEn,
-      descEn: this.descEn,
-      imgEn: this.imgEn,
+      // descEn: this.descEn,
+      // imgEn: this.imgEn,
       titleBm: this.titleBm,
-      descBm: this.descBm,
-      imgBm: this.imgBm,
+      // descBm: this.descBm,
+      // imgBm: this.imgBm,
       active: this.active,
-      copyImg: this.copyImg
+      // copyImg: this.copyImg
     });
 
   }
@@ -100,21 +125,21 @@ export class SliderComponent implements OnInit {
   // get Slider Data 
   getSlidersData(count, size) {
     // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
-    this.dataUrl = this.appConfig.urlSlides;
+    this.dataUrl = this.appConfig.urlRaceList;
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-      // this.http.get(this.dataUrl).subscribe(
+    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+      this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
       data => {
-        this.sliderList = data;
-        console.log(this.sliderList)
-        this.dataSource.data = this.sliderList.list;
-        this.commonservice.sliderTable = this.sliderList;
-        this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+        this.raceList = data;
+        console.log(this.raceList)
+        this.dataSource.data = this.raceList.raceCodeList;
+        this.commonservice.sliderTable = this.raceList;
+        this.noNextData = this.raceList.pageNumber === this.raceList.totalPages;
       });
   }
 
   paginatorL(page) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+    this.getSlidersData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -124,12 +149,12 @@ export class SliderComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSlidersData(page + 1, this.sliderPageSize);
+    this.getSlidersData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
-    this.sliderPageSize = event.value;
+    this.getSlidersData(this.pageCount, this.pageSize);
+    this.pageSize = event.value;
     this.noPrevData = true;
   }
 
@@ -141,24 +166,6 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  isSameImg(enImg,bmImg) {
-
-    console.log(enImg)
-    if(enImg != null && enImg == bmImg) {
-      this.sliderForm.get('copyImg').setValue(true);
-    } else {
-      this.sliderForm.get('copyImg').setValue(false);
-    }
-  }
-
-  // isSameImgAsEn(enImg,bmImg) {
-  //   if(enImg !== "" && enImg === bmImg) {
-  //     this.sliderForm.get('copyImg').setValue(true);
-  //   } else {
-  //     this.sliderForm.get('copyImg').setValue(false);
-  //   }
-  // }
-
   onPaginateChange(event) {
     // alert(JSON.stringify(event));
     //  const startIndex = event.pageIndex * event.pageSize;
@@ -167,82 +174,90 @@ export class SliderComponent implements OnInit {
   }
 
   addBtn() {
-    this.isEdit = false;
-    this.changePageMode(this.isEdit);
     this.viewSeq = 2;
-    this.sliderForm.reset();
-    this.sliderForm.get('active').setValue(true)
     // console.log(this.viewSeq);
     // this.router.navigate(['slider', "add"]);
   }
 
   navigateBack() {
     this.viewSeq = 1;
-    this.isEdit = false;
-    this.router.navigate(['slider']);
+    this.router.navigate(['ethnicity']);
   }
 
   // add, update, delete
   updateRow(row) {
 
-    // this.router.navigate(['slider', row]);
+    this.router.navigate(['ethnicity', row]);
     this.viewSeq = 2;
     // alert("Update Slider id: " + row);
     this.isEdit = true;
     this.changePageMode(this.isEdit);
 
     // Update Slider Service
-    return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/' + row + '/').subscribe(
       Rdata => {
 
         this.sliderData = Rdata;
-        console.log(this.sliderData)
-        console.log(this.appConfig.urlSlides + "/" + row)
-        let dataEn = this.sliderData['list'][0];
-        let dataBm = this.sliderData['list'][1];
+        let dataEn = this.sliderData['slideList'][0];
+        let dataBm = this.sliderData['slideList'][1];
+
+      // console.log(this.sliderData['slideList'])
 
       // populate data
       this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
-      this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
-      this.sliderForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
+      // this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
+      // this.sliderForm.get('imgEn').setValue(dataEn.slideImage);
       this.sliderForm.get('titleBm').setValue(dataBm.slideTitle);
-      this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
-      this.sliderForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
+      // this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
+      // this.sliderForm.get('imgBm').setValue(dataBm.slideImage);
       this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
-      this.slideCode = dataEn.slideCode;
+      this.slideCode = this.sliderData['slideCode'];
       this.slideIdEn = dataEn.slideId;
       this.slideIdBm = dataBm.slideId;
-      
-      this.isSameImg(dataEn.slideImage,dataBm.slideImage);
-
-      this.checkReqValues();
+      // this.copyImg
     });
     
   }
 
-  isChecked(e) {
+  deleteRow(enId,bmId) {
+    // console.log(enId);
+    alert("Delete Slider id: " + enId + " & " +bmId);
+    // this.commonservice.GetUser(row.userId);
 
-    if (e.checked) {
-      this.sliderForm.get("imgBm").setValue(this.imgEn.value);
-    } else {
-      this.sliderForm.get("imgBm").setValue("");
-    }
-    this.copyImg = e.checked;
-    this.checkReqValues();
+    // this.deletePopup(enId,bmId)
+
+    this.commonservice.delSlider(enId,bmId).subscribe(
+      data => {
+        alert('Slider deleted successfully!')
+        this.router.navigate(['slider']);
+      },
+      error => {
+        console.log("No Data")
+      });
   }
 
+  // isChecked(e) {
+
+  //   if (e.checked) {
+  //     this.sliderForm.get("imgBm").setValue(this.sliderForm.get("imgEn").value);
+  //     // console.log(e.checked)
+  //   } else {
+  //     this.sliderForm.get("imgBm").setValue("");
+  //   }
+  //   this.copyImg = e.checked;
+  // }
+
   checkReqValues() {
-
     let titleEn = "titleEn";
-    let descEn = "descEn";
-    let imgEn = "imgEn";
+    // let descEn = "descEn";
+    // let imgEn = "imgEn";
     let titleBm = "titleBm";
-    let descBm = "descBm";
-    let imgBm = "imgBm";
-    // let active = "active";
+    // let descBm = "descBm";
+    // let imgBm = "imgBm";
+    let active = "active";
 
-    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm];
+    // let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, active];
+    let reqVal: any = [titleEn, titleBm, active];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -254,14 +269,11 @@ export class SliderComponent implements OnInit {
       }
     }
 
-    this.isSameImg(this.sliderForm.get(imgEn).value,this.sliderForm.get(imgBm).value);
-
-      // console.log(nullPointers)
-
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
       this.complete = true;
+      // this.toastr.error(this.translate.instant('Country error!'), '');
     }
 
   }
@@ -277,40 +289,27 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  deleteRow(enId,bmId) {
+  deletePopup(enId,bmId) {
     let txt;
     let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
     if (r == true) {
-
-      this.commonservice.delSlider(enId,bmId).subscribe(
-        data => {
-          txt = "Slider deleted successfully!";
-          // this.router.navigate(['slider']);
-          window.location.reload()
-        },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.sliderForm.reset();
+      txt = "Delete successful!";
+      this.sliderForm.reset();
     } else {
       txt = "Delete Cancelled!";
-      alert(txt)
     }
   }
-  
+
   updateSlider(formValues: any) {
     // console.log(this.viewSeq);
-    let sliderCode = Math.floor((Math.random() * 100) + 1);
-    
-    if(!this.isEdit) {
 
     let body = [
       {
+        "slideId": null,
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": sliderCode,
+        "slideCode": null,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -318,10 +317,11 @@ export class SliderComponent implements OnInit {
         }
       }, 
       {
+        "slideId": null,
         "slideTitle": null,
         "slideDescription": null,
         "slideImage": null,
-        "slideCode": sliderCode,
+        "slideCode": null,
         "slideSort": null,
         "slideActiveFlag": false,
         "language": {
@@ -333,15 +333,17 @@ export class SliderComponent implements OnInit {
     // console.log(formValues)
 
     body[0].slideTitle = formValues.titleEn;
-    body[0].slideDescription = formValues.descEn;
-    body[0].slideImage = formValues.imgEn;
+    // body[0].slideDescription = formValues.descEn;
+    body[0].slideImage = "enImg.png";
+    body[0].slideCode = null;
     body[0].slideSort = null;
     body[0].slideActiveFlag = formValues.active;
     body[0].language.languageId = 1;
 
     body[1].slideTitle = formValues.titleBm;
-    body[1].slideDescription = formValues.descBm;
-    body[1].slideImage = formValues.imgBm;
+    // body[1].slideDescription = formValues.descBm;
+    body[1].slideImage = "bmImg.jpg";
+    body[1].slideCode = null;
     body[1].slideSort = null;
     body[1].slideActiveFlag = formValues.active;
     body[1].language.languageId = 2;
@@ -349,11 +351,12 @@ export class SliderComponent implements OnInit {
     console.log(body)
     // console.log(JSON.stringify(body))
 
+    if(!this.isEdit) {
+
     // Add Slider Service
     this.commonservice.addSlider(body).subscribe(
       data => {
         alert('Slider added successfully!')
-        window.location.reload()
       },
       error => {
         console.log("No Data")
@@ -361,62 +364,22 @@ export class SliderComponent implements OnInit {
 
     } else {
       
-    let body = [
-      {
-        "slideId": null,
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": sliderCode,
-        "slideSort": null,
-        "slideActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      }, 
-      {
-        "slideId": null,
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": sliderCode,
-        "slideSort": null,
-        "slideActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      }
-    ];
-      
-    body[0].slideCode = this.slideCode;
-    body[0].slideId = this.slideIdEn;
-    body[0].slideTitle = formValues.titleEn;
-    body[0].slideDescription = formValues.descEn;
-    body[0].slideImage = formValues.imgEn;
-    body[0].slideSort = null;
-    body[0].slideActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
-    
-    body[1].slideCode = this.slideCode;
-    body[1].slideId = this.slideIdBm;
-    body[1].slideTitle = formValues.titleBm;
-    body[1].slideDescription = formValues.descBm;
-    body[1].slideImage = formValues.imgBm;
-    body[1].slideSort = null;
-    body[1].slideActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+      body[0].slideId = this.slideIdEn;
+      body[1].slideId = this.slideIdBm;
+      body[0].slideCode = this.slideCode;
+      body[1].slideCode = this.slideCode;
 
     // Update Slider Service
-    this.commonservice.updateSlider(body).subscribe(
-      data => {
-        alert('Slider update successful!')
-        window.location.reload()
-      },
-      error => {
-        console.log("No Data")
-      });
+      this.commonservice.updateSlider(body).subscribe(
+        data => {
+          alert('Slider update successful!')
+        },
+        error => {
+          console.log("No Data")
+        });
     }
     
+    this.router.navigate(['slider']);
 
   }
 

@@ -28,7 +28,7 @@
             <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
-                    {{element.announcementCategoryId}} 
+                    {{element.feedbackSubjectId}} 
                 </mat-cell>
             </ng-container>
       
@@ -36,7 +36,7 @@
             <ng-container matColumnDef="feedbackEng">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Subject (EN) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
-                    {{element.announcementCategoryName}} 
+                    {{element.feedbackSubjectDescription}} 
                 </mat-cell>
             </ng-container>
 
@@ -44,7 +44,7 @@
             <ng-container matColumnDef="feedbackMalay">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Subject (BM) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.announcementCategoryDescription}}
+                    {{element.feedbackSubjectDescription}}
                 </mat-cell>
             </ng-container>
       
@@ -60,10 +60,10 @@
             <ng-container matColumnDef="action">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
                 <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
-                    <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.announcementCategoryId)"></i>
+                    <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.feedbackSubjectId)"></i>
                     &nbsp;
-                    <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.announcementCategoryId)" 
-                    title="Delete {{ element.announcementCategoryId }}"></i>
+                    <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.feedbackSubjectId)" 
+                    title="Delete {{ element.feedbackSubjectId }}"></i>
                 </mat-cell>
             </ng-container>
         
@@ -86,7 +86,7 @@
           <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
               <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
               <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-              <strong>{{commonservice.recordTable?.totalElements}}</strong> polls questions
+              <strong>{{commonservice.recordTable?.totalElements}}</strong> feedback subject
           </span>
           <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
           <i class="fa fa-angle-left" aria-hidden="true"></i>

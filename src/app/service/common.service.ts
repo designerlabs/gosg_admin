@@ -175,10 +175,10 @@ export class CommonService {
   updateSlider(slider) {
 
     // console.log(this.appConfig.urlUsers + user.userId)
-    console.log(slider)
+    // console.log(slider)
     // debugger;
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    return this.http.put(this.appConfig.urlSlides + '/' + slider[0].slideCode, slider)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlSlides+ "/multiple/update", slider)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -196,15 +196,24 @@ export class CommonService {
     let fullUrl = this.appConfig.urlPoll + "/question";
     console.log(fullUrl)
     console.log(record)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   delRecord(enId, bmId) {
-    
-    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=", enId + "," +bmId)
+    let fullUrl = this.appConfig.urlPoll + "/question";
+
+    return this.http.delete(fullUrl + "/delete/selected?id=" + enId + "," +bmId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecord(record) {
+    let fullUrl = this.appConfig.urlPoll + "/question/multiple/update";
+
+    return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -240,9 +249,6 @@ export class CommonService {
       .retry(5)
       .catch(this.handleError);
   }
-
-
-
 }
 
 
