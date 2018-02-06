@@ -1,8 +1,3 @@
-<!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
-    <h4 class="paddingTop-15 staticLabel">
-        <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
-</div> -->
-
 <div class="container right-content">
     <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
         <h2 class="staticLabel">View Polls Results</h2>
@@ -13,11 +8,11 @@
             <label class="staticLabel font-size-s boldText">View Polls Results</label>
         </div> -->
       
-        <div class="col-md-12 paddingTop-25 example-header">
+        <!-- <div class="col-md-12 paddingTop-25 example-header">
             <mat-form-field class="font-size-s" >
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
             </mat-form-field>
-        </div>
+        </div> -->
 
         <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">     
 
@@ -41,12 +36,11 @@
             <ng-container matColumnDef="opt1">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 1 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                    <div class="col-md-12">
-                        {{element.en[0].options[0].option}} 
-                    </div>
-                    <div class="col-md-12">
+                    <div *ngIf="element.en[0].options[0].option != null" class="col-md-12">
+                        {{element.en[0].options[0].option}} <br>
                         {{element.results[0].result}}/{{element.results[0].totalResult}}
                     </div>
+                    <div *ngIf="element.en[0].options[0].option == null" class="col-md-12"> - </div>
                 </mat-cell>
             </ng-container>
 
@@ -54,12 +48,11 @@
             <ng-container matColumnDef="opt2">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 2 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                    <div class="col-md-12">
-                        {{element.en[0].options[1].option}} 
-                    </div>
-                    <div class="col-md-12">
+                    <div *ngIf="element.en[0].options[1].option != null" class="col-md-12">
+                        {{element.en[0].options[1].option}} <br>
                         {{element.results[1].result}}/{{element.results[1].totalResult}}
                     </div>
+                    <div *ngIf="element.en[0].options[1].option == null" class="col-md-12"> - </div>
                 </mat-cell>
             </ng-container>
         
@@ -67,12 +60,11 @@
             <ng-container matColumnDef="opt3">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 3 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                    <div class="col-md-12">
-                        {{element.en[0].options[2].option}} 
-                    </div>
-                    <div class="col-md-12">
+                    <div *ngIf="element.en[0].options[2].option != null" class="col-md-12">
+                        {{element.en[0].options[2].option}} <br>
                         {{element.results[2].result}}/{{element.results[2].totalResult}}
                     </div>
+                    <div *ngIf="element.en[0].options[2].option == null" class="col-md-12"> - </div>
                 </mat-cell>
             </ng-container>
 
@@ -80,12 +72,11 @@
             <ng-container matColumnDef="opt4">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 4 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                    <div class="col-md-12">
-                        {{element.en[0].options[3].option}} 
-                    </div>
-                    <div class="col-md-12">
+                    <div *ngIf="element.en[0].options[3].option != null" class="col-md-12">
+                        {{element.en[0].options[3].option}} <br>
                         {{element.results[3].result}}/{{element.results[3].totalResult}}
                     </div>
+                    <div *ngIf="element.en[0].options[3].option == null" class="col-md-12"> - </div>
                 </mat-cell>
             </ng-container>
 
@@ -93,12 +84,11 @@
             <ng-container matColumnDef="opt5">
                 <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 5 </mat-header-cell>
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                    <div class="col-md-12">
-                        {{element.en[0].options[4].option}} 
-                    </div>
-                    <div class="col-md-12">
+                    <div *ngIf="element.en[0].options[4].option != null" class="col-md-12">
+                        {{element.en[0].options[4].option}} <br>
                         {{element.results[4].result}}/{{element.results[4].totalResult}}
                     </div>
+                    <div *ngIf="element.en[0].options[4].option == null" class="col-md-12"> - </div>
                 </mat-cell>
             </ng-container>
         

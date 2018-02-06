@@ -27,9 +27,9 @@ import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.co
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupsviewComponent } from './authentication/groups/groupsview.component';
-import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
-import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
+import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
+import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
+import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { GroupseditComponent } from './authentication/groups/groupsedit.component';
 import { CountryComponent } from './referencecode/country/country.component';
@@ -55,10 +55,10 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     FeedbackComponent,
     UserComponent,
     UsertblComponent,
-    RolesComponent,
-    PollquestionComponent,
+    RolesComponent,    
     GroupsviewComponent,
-    PollquestiondetailsComponent,
+    PollquestiontblComponent,
+    PollquestionComponent,
     PollresultComponent,
     SliderComponent,
     GroupseditComponent,    

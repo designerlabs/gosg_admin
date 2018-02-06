@@ -11,9 +11,9 @@ import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { GroupsviewComponent } from './authentication/groups/groupsview.component';
 import { UsertblComponent } from './authentication/usertbl/usertbl.component';
-import { PollquestionComponent } from './poll/question/pollquestion/pollquestion.component';
-import { PollquestiondetailsComponent } from './poll/question/pollquestiondetails/pollquestiondetails.component';
-import { PollresultComponent } from './poll/result/pollresult/pollresult.component';
+import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
+import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
+import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
 import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
@@ -48,9 +48,9 @@ export const appRoutes: Routes = [
 {path: 'userlist', component: UsertblComponent},
 {path: 'groupmodule' , component: GroupsviewComponent},
 {path: 'groups/:id', component: GroupseditComponent},
-{path: 'poll/questions', component: PollquestionComponent},
-{path: 'poll/questions/:id', component: PollquestiondetailsComponent},
-{path: 'poll/questions/add', component: PollquestiondetailsComponent},
+{path: 'poll/questions', component: PollquestiontblComponent},
+{path: 'poll/questions/:id', component: PollquestionComponent},
+{path: 'poll/questions/add', component: PollquestionComponent},
 {path: 'poll/results', component: PollresultComponent},
 {path: 'slider', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
