@@ -40,6 +40,7 @@ export class AppConfig {
     urlFeedback: string;
     urlFaq: string;
     urlRaceList: string;
+    urlAnnounceList: string;
 
 }
 
@@ -69,6 +70,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedback: serviceURL,
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
+    urlAnnounceList: './app/apidata/announce.json'
 };
 
 @NgModule({

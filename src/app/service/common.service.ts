@@ -143,6 +143,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getAnnounceData() {
+    console.log(this.appConfig.urlAnnounceList);
+    return this.http.get(this.appConfig.urlAnnounceList)
+    .map((response: Response) => response.json().announceCodeList)
+    .catch(this.handleError);
+  }
+
   getFeedbackType(){
     return this.http.get(this.appConfig.urlFbTypeList + 'type/?langId=1')
     .map((response: Response) => response.json())

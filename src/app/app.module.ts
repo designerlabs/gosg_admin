@@ -44,6 +44,10 @@ import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
+import { AnnouncementComponent } from './announcement/announcement.component';
+import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
 
 
 @NgModule({
@@ -79,6 +83,10 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     FaqComponent,
     EditorComponent,
     EthnicitytblComponent,
+    FaqtblComponent,
+    AnnouncementComponent,
+    AnnouncementtblComponent,
+    CategorytblComponent,
   ],
   imports: [
     BrowserModule,
