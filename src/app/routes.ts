@@ -36,6 +36,8 @@ import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
 import { CategoryComponent } from './category/category.component';
+import { AddresstypeComponent } from './addresstype/addresstype.component';
+import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -85,7 +87,10 @@ export const appRoutes: Routes = [
 {path: 'announcement/category/add', component: CategoryComponent},
 {path: 'article/category/add', component: CategoryComponent},
 {path: 'announcement/category/:id', component: CategoryComponent},
-{path: 'article/category/:id', component: CategoryComponent}
+{path: 'article/category/:id', component: CategoryComponent},
+{path: 'address/type', component: AddresstypetblComponent},
+{path: 'address/type/:id', component: AddresstypeComponent},
+{path: 'address/type/add', component: AddresstypeComponent},
 
 
 

@@ -42,6 +42,7 @@ export class AppConfig {
     urlRaceList: string;
     urlAnnounceList: string;
     urlCategoryList: string;
+    urlAddressType: string;
 
 }
 
@@ -74,7 +75,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
     urlAnnounceList: './app/apidata/announce.json',
-    urlCategoryList: './app/apidata/category.json'
+    urlCategoryList: './app/apidata/category.json',
+    urlAddressType: commonURL + 'addresstype'
 };
 
 @NgModule({

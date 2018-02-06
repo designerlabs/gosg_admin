@@ -52,6 +52,8 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CategoryComponent } from './category/category.component';
+import { AddresstypeComponent } from './addresstype/addresstype.component';
+import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +94,8 @@ import { CategoryComponent } from './category/category.component';
     CategorytblComponent,
     SlidertblComponent,
     CategoryComponent,
+    AddresstypeComponent,
+    AddresstypetblComponent,
   ],
   imports: [
     BrowserModule,

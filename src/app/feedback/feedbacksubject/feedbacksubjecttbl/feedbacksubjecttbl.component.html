@@ -49,20 +49,21 @@
       
             <!-- status Column -->
             <ng-container matColumnDef="status">
-                <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Active Status </mat-header-cell>
-                <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
+                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                     <i class="fa fa-check" style="color: green;"></i>
                 </mat-cell>
             </ng-container>
 
             <!-- action Column -->
             <ng-container matColumnDef="action">
-                <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
-                <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
-                    <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.feedbackSubjectId)"></i>
+                <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.feedbackSubjectId)">
+                    <i class="fa fa-edit" title="Update {{ element.feedbackSubjectId }}"></i></button>
                     &nbsp;
-                    <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.feedbackSubjectId)" 
-                    title="Delete {{ element.feedbackSubjectId }}"></i>
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.feedbackSubjectId)">
+                    <i class="fa fa-trash"title="Delete {{ element.feedbackSubjectId }}"></i></button>
                 </mat-cell>
             </ng-container>
         
