@@ -39,8 +39,8 @@
         </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action" >
-        <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 20%'"> Action </mat-header-cell>
-        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 20%'">
+        <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 30%'"> Action </mat-header-cell>
+        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 30%'">
             <button mat-mini-fab style="background: orange" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
             <i class="fa fa-edit" ></i></button>&nbsp;
             <button mat-mini-fab style="background: red" (click)="deleteRow(element.moduleGroupId)">

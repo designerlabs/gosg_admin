@@ -40,6 +40,9 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { FaqComponent } from './faq/faq.component';
+import { NgxEditorModule } from 'ngx-editor';
+import { EditorComponent } from './editor/editor.component';
 import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
 
 
@@ -73,6 +76,8 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     PostcodeComponent,
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
+    FaqComponent,
+    EditorComponent,
     EthnicitytblComponent,
   ],
   imports: [
@@ -84,7 +89,8 @@ import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethni
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgxEditorModule
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],

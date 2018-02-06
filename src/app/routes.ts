@@ -28,6 +28,8 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
+import { FaqComponent } from './faq/faq.component';
+import { EditorComponent } from './editor/editor.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -47,6 +49,7 @@ export const appRoutes: Routes = [
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
 {path: 'groupmodule' , component: GroupsviewComponent},
+{path: 'groupmodule/add' , component: GroupseditComponent},
 {path: 'groups/:id', component: GroupseditComponent},
 {path: 'poll/questions', component: PollquestiontblComponent},
 {path: 'poll/questions/:id', component: PollquestionComponent},
@@ -60,7 +63,9 @@ export const appRoutes: Routes = [
 {path: 'reference/ethnicity', component: EthnicityComponent},
 // {path: 'reference/ethnic/ethnicitytbl', component: EthnicitytblComponent},
 {path: 'reference/religion', component: ReligionComponent},
-{path: 'reference/postcode', component: PostcodeComponent}
+{path: 'reference/postcode', component: PostcodeComponent},
+{path: 'faq', component: FaqComponent},
+{path: 'editor', component: EditorComponent}
 
 
 
