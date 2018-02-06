@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonService } from '../../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 // multiSelect()
 // import * as multiSelect from 'multiSelect';
 // compMultiSelect.multiSelect()
@@ -25,7 +26,8 @@ export class GroupsComponent implements OnInit {
     @Inject(ElementRef) elementRef: ElementRef,
     private commonservice:CommonService,
     private http:HttpClient,
-    private router:Router
+    private router:Router,
+    private toastr: ToastrService
   ) {
     this.elementRef = elementRef;
     
@@ -75,10 +77,11 @@ export class GroupsComponent implements OnInit {
 
 
   submit(){
-    debugger;
+      
   }
 
   back(){
     this.router.navigate(['groupmodule']);
+    this.toastr.success('successfully backed', '');   
   }
 }
