@@ -11,15 +11,18 @@
 
 .dragdrop_container > li{
     color: #333;
-    padding: 2px 5px;
-    border-bottom: 1px solid #d0d0d0;
-    background: #f5f5f5;
-    margin: 2px 5px;
+    padding: 8px 5px;
+    /* border-bottom: 1px solid #d0d0d0; */
+    background: #e2e2e2;
+    margin: 2px 0px;
+    font-size: 14px;
 }
 
 
 .dragdrop_container > li:hover{
     cursor: pointer;
+    color: #fff;
+    background: #666;
 }
 
 .middle_icon{
@@ -30,4 +33,7 @@
     position: relative;
 }
 
-
+.ng-valid{
+    
+}
+    

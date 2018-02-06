@@ -39,6 +39,7 @@ export class AppConfig {
     urlPoll: string;
     urlFeedback: string;
     urlFaq: string;
+    urlRaceList: string;
 
 }
 
@@ -51,7 +52,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
-    // urlSlides: baseURL + 'slide',
+    // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',
     urlModuleList: mockApiURL + 'moduleList',
     urlGroupModuleList: mockApiURL + 'groupList',
@@ -63,7 +64,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
     urlReligionList: serviceURL + 'religion',
-    //urlCityList: serviceURL + 'city/state/',
+    urlRaceList: serviceURL + 'race',
     urlPoll: commonURL + 'polls', 
     urlFeedback: serviceURL,
     urlPostcode: serviceURL + 'postcode/city/',

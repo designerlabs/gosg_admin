@@ -35,7 +35,7 @@ import { GroupseditComponent } from './authentication/groups/groupsedit.componen
 import { CountryComponent } from './referencecode/country/country.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { StateComponent } from './referencecode/state/state.component';
-import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { EthnicityComponent } from './referencecode/ethnic/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { FeedbacksubjectComponent } from './feedback/subject/feedbacksubject/feedbacksubject.component';
@@ -43,6 +43,8 @@ import { FeedbacksubjecttblComponent } from './feedback/subject/feedbacksubjectt
 import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
+import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+
 
 @NgModule({
   declarations: [
@@ -76,6 +78,7 @@ import { EditorComponent } from './editor/editor.component';
     FeedbacksubjecttblComponent,
     FaqComponent,
     EditorComponent,
+    EthnicitytblComponent,
   ],
   imports: [
     BrowserModule,

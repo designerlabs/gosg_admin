@@ -1,0 +1,71 @@
+{
+"type": "RESPONSE",
+"statusCode": "S001",
+"statusDesc": "Race All",
+"raceList": [
+        {
+            "raceListID": 1,
+            "ActiveFlag": true,
+            "En":{         
+                    "raceId": 1,
+	                "raceCode": "01",
+	                "race": "MALAY"
+			},
+            "Bm":{
+                    "raceId": 11,
+	                "raceCode": "01",
+	                "race": "MELAYU"
+                } 
+        },
+        {
+            "raceListID": 2,
+            "ActiveFlag": true,
+            "En":{
+                    "raceId": 2,
+                    "raceCode": "02",
+                    "race": "CHINESE"
+                }
+            ,
+            "Bm":{
+                  "raceId": 22,
+                  "raceCode": "02",
+                  "race": "CINA"
+                }   
+        },
+        {
+            "raceListID": 3,
+            "ActiveFlag": true,
+            "En":{
+                    "raceId": 3,
+                    "raceCode": "03",
+                    "race": "INDIAN"
+				},
+            "Bm":{
+                  "raceId": 33,
+                  "raceCode": "03",
+                  "race": "INDIA"
+                }  
+        },
+        {
+            "raceListID": 4,
+            "ActiveFlag": true,
+            "En":{
+                    "raceId": 4,
+                    "raceCode": "04",
+                    "race": "OTHERS"
+				},
+            "Bm":{
+                  "raceId": 44,
+                  "raceCode": "04",
+                  "race": "LAIN-LAIN"
+                }  
+        }
+],
+        
+    "pageNumber": 1,
+    "pageSize": 1,
+    "numberOfElements": 4,
+    "totalElements": 4,
+    "totalPages": 1
+
+}

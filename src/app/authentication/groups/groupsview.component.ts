@@ -70,4 +70,8 @@ export class GroupsviewComponent implements OnInit {
     this.groupPageSize = event.value;
     this.noPrevData = true;
   }
+
+  add(){
+    this.router.navigate(['groups/add']);
+  }
 }

@@ -19,4 +19,26 @@
 .padding5 {
     padding:5px;
 }
+
+.editBtn{
+  position: absolute;
+  right: 10px;
+  top: 65%;
+}
+
+.editBtn:hover {
+  position: absolute;
+  background-color: rgb(109, 185, 38);
+  color: #FFF;
+  right: 10px;
+  top: 65%;
+}
+
+.editBtn-active {
+  position: absolute;
+  background-color: rgb(109, 185, 38);
+  color: #FFF;
+  right: 10px;
+  top: 65%;
+}
   
