@@ -5,7 +5,7 @@
                 <h2 class="staticLabel pull-left">{{commonservice.pageMode}} Race/Ethnic</h2>
                 <br><br>
                 <span class="pull-right">            
-                  <a routerLink='/poll/questions'>
+                  <a routerLink='/reference/ethnicity'>
                     <i class="fa fa-chevron-left font-size-m"></i> BACK
                   </a>
                 </span>
@@ -27,7 +27,7 @@
                 <div class="example-header">
                     <div class="col-md-6">
                         <mat-form-field class="example-full-width font-size-s" >
-                            <textarea matInput placeholder="Poll Question" formControlName="raceEng" #raceEng maxlength="200" 
+                            <textarea matInput placeholder="Race" formControlName="raceEng" #raceEng maxlength="200" 
                             (change)="checkReqValues()" required></textarea>
                             <mat-error *ngIf="updateForm.controls.raceEng.hasError('required')">
                                 Race is required
@@ -38,7 +38,7 @@
     
                     <div class="col-md-6">
                         <mat-form-field class="example-full-width font-size-s" >
-                            <textarea matInput placeholder="Poll Question" formControlName="raceMy" #raceMy maxlength="200" 
+                            <textarea matInput placeholder="Bangsa" formControlName="raceMy" #raceMy maxlength="200" 
                             (change)="checkReqValues()" required></textarea>
                             <mat-error *ngIf="updateForm.controls.raceMy.hasError('required')">
                                 Race is required

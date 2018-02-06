@@ -40,6 +40,8 @@ export class AppConfig {
     urlFeedback: string;
     urlFaq: string;
     urlRaceList: string;
+    urlRace: string;
+    urlRaceDelete: string;
 
 }
 
@@ -65,6 +67,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCityList: serviceURL + 'city',
     urlReligionList: serviceURL + 'religion',
     urlRaceList: serviceURL + 'race',
+    urlRace: commonURL + 'race',
+    urlRaceDelete: commonURL + 'race/',
     urlPoll: commonURL + 'polls', 
     urlFeedback: serviceURL,
     urlPostcode: serviceURL + 'postcode/city/',

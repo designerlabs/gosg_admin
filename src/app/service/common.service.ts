@@ -225,6 +225,32 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRace(record) {
+    let fullUrl = this.appConfig.urlRace;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRace(record) {
+    let fullUrl = this.appConfig.urlRace ;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRace(refCode) {
+    let fullUrl = this.appConfig.urlRaceDelete;
+
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);

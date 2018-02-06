@@ -44,6 +44,11 @@ export class EthnicitytblComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
+
+  public getRaceIdEng: any;
+  public getRaceIdMy: any;
+  public getRaceMy: any;
+  public getRaceEng: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -85,9 +90,15 @@ export class EthnicitytblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.raceList;
+      this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+      //
+      // this.getRaceIdMy = this.recordList.raceList[0].raceId;
+      // this.getRaceIdEng = this.recordList.raceList[1].raceId;
+      // this.getRaceMy = this.recordList.raceList[0].refCode;
+      // this.getRaceEng = this.recordList.raceList[1].refCode;
     });
   }
 
@@ -118,10 +129,10 @@ export class EthnicitytblComponent implements OnInit {
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(enId, bmId) {
+  deleteRow(refCode) {
 
-    console.log(enId + bmId);
-    this.commonservice.delRecord(enId, bmId).subscribe(
+    console.log(refCode);
+    this.commonservice.delRace(refCode).subscribe(
       data => {
         alert('Record deleted successfully!')
         this.router.navigate(['reference/ethnicity']);
