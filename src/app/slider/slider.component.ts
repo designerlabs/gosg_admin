@@ -5,6 +5,7 @@ import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-slider',
@@ -40,7 +41,8 @@ export class SliderComponent implements OnInit {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -72,6 +74,7 @@ export class SliderComponent implements OnInit {
     if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
+      this.sliderForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
@@ -94,6 +97,10 @@ export class SliderComponent implements OnInit {
 
   navigateBack() {
     this.isEdit = false;
+    this.router.navigate(['slider']);
+  }
+
+  back(){
     this.router.navigate(['slider']);
   }
 
@@ -260,7 +267,7 @@ export class SliderComponent implements OnInit {
     // Add Slider Service
     this.commonservice.addSlider(body).subscribe(
       data => {
-        alert('Slider added successfully!')
+        this.toastr.success('Slider added successfully!', ''); 
         this.router.navigate(['slider']);
       },
       error => {
@@ -319,7 +326,7 @@ export class SliderComponent implements OnInit {
     // Update Slider Service
     this.commonservice.updateSlider(body).subscribe(
       data => {
-        alert('Slider update successful!')
+        this.toastr.success('Slider update successful!', '');   
         this.router.navigate(['slider']);
       },
       error => {
