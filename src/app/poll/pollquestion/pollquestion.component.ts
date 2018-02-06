@@ -327,5 +327,9 @@ export class PollquestionComponent implements OnInit {
     }
   }
 
+  back(){
+    this.router.navigate(['poll/questions']);
+  }
+
 }
 

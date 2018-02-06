@@ -52,7 +52,6 @@ export const appRoutes: Routes = [
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
-{path: 'poll/questions', component: PollquestionComponent},
 {path: 'poll/questions', component: PollquestiontblComponent},
 {path: 'poll/questions/:id', component: PollquestionComponent},
 {path: 'poll/questions/add', component: PollquestionComponent},
