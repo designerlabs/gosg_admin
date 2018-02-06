@@ -239,13 +239,8 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-<<<<<<< HEAD
   addRace(record) {
     let fullUrl = this.appConfig.urlRace;
-=======
-  addRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType;
->>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
     console.log(fullUrl)
     console.log(record)
 
@@ -254,35 +249,23 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-<<<<<<< HEAD
   updateRace(record) {
     let fullUrl = this.appConfig.urlRace ;
-
+    
     return this.http.put(fullUrl, record)
-=======
-  delRecordAddType(enId, bmId) {
-    let fullUrl = this.appConfig.urlAddressType;
-
-    return this.http.delete(fullUrl + "/delete/selected?id=" + enId + "," +bmId, null)
->>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
-    .map((response: Response) => response.json())
+        .map((response: Response) => response.json())
     .catch(this.handleError);
   }
-
-<<<<<<< HEAD
+    
   delRace(refCode) {
     let fullUrl = this.appConfig.urlRaceDelete;
-
+    
     return this.http.delete(fullUrl + refCode)
-=======
-  updateRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType;
-
-    return this.http.put(fullUrl, record)
->>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+
+
 
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
