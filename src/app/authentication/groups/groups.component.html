@@ -17,9 +17,15 @@
 
     <form [formGroup]="groupModule" autocomplete="off" (ngSubmit)="updateGroup(groupModule.value)" role="form" novalidate>
         <div class="row">
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-12 col-lg-12 col-sm-12">
                 <mat-form-field class="example-full-width font-size-s">
                     <input matInput formControlName="groupmodulename" type="text" maxlength="30" placeholder="Grouping Name"/>
+                </mat-form-field>
+            </div>
+
+            <div class="form-group col-md-12 col-lg-12 col-sm-12">
+                <mat-form-field class="example-full-width font-size-s">
+                    <input matInput formControlName="groupmoduledesc" type="text" maxlength="100" placeholder="Grouping Description"/>
                 </mat-form-field>
             </div>
         </div>
@@ -38,6 +44,11 @@
             </li>
         </ul>
 
+        <div class="row">
+        <div class="col-md-12">
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+        </div>
+        </div>
         <div class="row"></div>
         
         <div class="form-group" style="float: right;">
