@@ -1,6 +1,11 @@
-<div class="container right-content">
+<div *ngIf="viewSeq == 1"  class="container right-content">
   <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
     <h2 class="staticLabel">View State</h2>
+    <span class="pull-right editBtn">
+      <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;
+        <i class="fa fa-plus font-size-l"></i>
+      </button>
+    </span>
   </div>
 
   <div class="example-container mat-elevation-z8">
@@ -57,4 +62,83 @@
             </button>
         </span>
   </div>
+
+</div>
+
+
+<!-- VIEW: ADD/EDIT SLIDER -->
+<div *ngIf="viewSeq == 2" class="container right-content">
+  <div class="col-md-12">
+    <h2>{{ pageMode }} State</h2>
+    <span class="pull-right backBtn">
+      <a class="font-size-s" (click)="navigateBack()">
+        <i class="fa fa-chevron-left font-size-m"></i> BACK
+      </a>
+      <!-- <button type="button" mat-raised-button class="form-control btn btn-md btn-info font-size-s" (click)="navigateBack()">
+        <i class="fa fa-chevron-left font-size-m"></i> BACK
+      </button> -->
+      <br />
+    </span>
+  </div>
+
+  <form [formGroup]="sliderForm" autocomplete="off" role="form" novalidate>
+    <div class="row">
+  
+      <!-- EN -->
+      <div class="mat-elevation-z8 col-md-12 right-content">
+        <div class="row">
+          <div class="slider-form-header col-md-6">
+            <label class="staticLabel font-size-s boldText">State Name</label>
+          </div>
+          <div class="slider-form-header col-md-6">
+            <label class="staticLabel font-size-s boldText">State ...</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+              <input matInput placeholder="State Name" formControlName="titleEn" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="sliderForm.controls.titleEn.hasError('required')">
+                State Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+              <input matInput placeholder="State ..." formControlName="titleBm" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="sliderForm.controls.titleBm.hasError('required')">
+                State ... is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <mat-checkbox formControlName="active" (change)="checkReqValues()"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+          </div>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+  
+      <!-- <div class="container"> -->
+      <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-12 form-group">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="updateSlider(sliderForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i> Update</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            style="width: 100px; font-family: Roboto" (click)="myFunction()">
+            <i class="fa fa-refresh"></i>Reset</button>
+        </div>
+      <div class="col-md-12">&nbsp;</div>
+    <!-- </div> -->
+  </div>
+  </form>
 </div>
