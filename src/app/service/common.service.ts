@@ -265,6 +265,32 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecordAddType(record) {
+    let fullUrl = this.appConfig.urlAddressType;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordAddType(refCode) {
+    let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordAddType(record) {
+    let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
 
 
   private handleError(error: Response) {
