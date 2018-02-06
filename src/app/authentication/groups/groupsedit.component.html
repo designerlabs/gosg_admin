@@ -15,14 +15,14 @@
   
         <ul  class="dragdrop_container">
             <li *ngFor='let group of moduleList?.items' (click)="moveItem(group)">
-                 {{group.subModuleGroupName}}
+                 {{group.moduleName}}
             </li>
         </ul>
         
         <div class="middle_icon"><img src="./assets/images/switch.png" alt=""></div>
         <ul class="dragdrop_container">
             <li *ngFor='let group of selectedItems?.items' (click)="moveItemR(group)">
-                {{group.subModuleGroupName }}
+                {{group.moduleName }}
             </li>
         </ul>
 
