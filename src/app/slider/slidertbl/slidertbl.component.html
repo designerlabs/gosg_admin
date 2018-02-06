@@ -37,22 +37,21 @@
 
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitleEn">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Title (EN)</mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.list[0].slideTitle}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (EN)</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 35%;"> {{element.list[0].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideDescription Column -->
       <ng-container matColumnDef="slideTitleBm">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[1].slideTitle}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->
       <ng-container matColumnDef="slideActiveFlag">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%; text-align: center"> Status</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%; text-align: center;"> Status</mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 10%; text-align: center; vertical-align: top;">
-          <i *ngIf="element.active" class="fa fa-check font-size-xxl activeFontColor"></i>
-          <i *ngIf="!element.active" class="fa fa-times font-size-xxl inactiveFontColor"></i>
+          <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
         </mat-cell>
       </ng-container>
       
