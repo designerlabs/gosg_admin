@@ -166,7 +166,7 @@ export class AccountstatusComponent implements OnInit {
         
           let txt = "Record updated successfully!";
           this.toastr.success(txt, '');  
-          this.router.navigate(['address/type']);
+          this.router.navigate(['account']);
         },
         error => {
           console.log("No Data")
