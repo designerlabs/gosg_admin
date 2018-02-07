@@ -48,6 +48,7 @@ export class AppConfig {
     urlCategoryList: string;
     urlAddressType: string;
     urlAccountStatus: string;
+    urlLanguage: string;
 
 }
 
@@ -61,7 +62,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
-    urlSlides: commonURL + 'slide',
+    urlSlides: commonURL + 'slide',  
+    urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
     

@@ -60,6 +60,8 @@ import { AgencyComponent } from './agency/agency.component';
 import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { LanguageComponent } from './language/language.component';
+import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +110,8 @@ import { AccountstatustblComponent } from './accountstatus/accountstatustbl/acco
     AgencytblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
+    LanguageComponent,
+    LanguagetblComponent,
   ],
   imports: [
     BrowserModule,

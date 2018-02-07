@@ -42,6 +42,8 @@ import { ErrormessageComponent } from './errormessage/errormessage.component';
 import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
+import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
+import { LanguageComponent } from './language/language.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -60,6 +62,9 @@ export const appRoutes: Routes = [
 {path: 'errormessage/add', component: ErrormessageComponent},
 {path: 'errormessage/:id', component: ErrormessageComponent},
 {path: 'errormessage', component: ErrormessagetblComponent},
+{path: 'language/add', component: LanguageComponent},
+{path: 'language/:id', component: LanguageComponent},
+{path: 'language', component: LanguagetblComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
