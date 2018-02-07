@@ -4,18 +4,35 @@
 
 
 <div class="container right-content">
-  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+  <!-- <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
     <h2 class="staticLabel">View City</h2>
+  </div> -->
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>City</h3>
+      </div>
   </div>
 
   <div class="example-container mat-elevation-z8">
-    <div class="example-header">
-      <mat-form-field class="font-size-s" >
+    <!-- <div class="example-header">
+      <mat-form-field class="font-size-s" style="margin: 5px 0 0 10px;">
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
-    </div>
+    </div> -->
 
-    <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">
+    <mat-table #table [dataSource]="dataSource">
+<<<<<<< HEAD
+=======
+
+      <!-- No Column -->
+      <ng-container matColumnDef="no">
+          <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+          <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+          </mat-cell>
+        </ng-container>
+>>>>>>> 028e1b43dff58828e9294a3f674cf05beaaf9aea
 
       <!-- City Name Column -->
       <ng-container matColumnDef="cityName">
@@ -51,8 +68,8 @@
 
       <!-- State Id 1 Column -->
       <ng-container matColumnDef="stateId">
-        <mat-header-cell class="text-align-Left" style="flex: 0 0 10%;" *matHeaderCellDef> State Id </mat-header-cell>
-        <mat-cell class="text-align-Left" style="flex: 0 0 10%;" *matCellDef="let element">
+        <mat-header-cell class="text-align-Left" style="flex: 0 0 5%;" *matHeaderCellDef> State Id </mat-header-cell>
+        <mat-cell class="text-align-Left" style="flex: 0 0 5%;" *matCellDef="let element">
           {{element.state.stateId}}
         </mat-cell>
       </ng-container>

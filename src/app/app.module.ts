@@ -20,7 +20,7 @@ import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
-import { UsertblComponent } from './authentication/usertbl/usertbl.component';
+import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
 import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
@@ -54,6 +54,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
+import { ErrormessageComponent } from './errormessage/errormessage.component';
+import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
+import { AgencyComponent } from './agency/agency.component';
+import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 
@@ -98,6 +103,11 @@ import { AccountstatustblComponent } from './accountstatus/accountstatustbl/acco
     CategoryComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
+    ReligiontblComponent,
+    ErrormessageComponent,
+    ErrormessagetblComponent,
+    AgencyComponent,
+    AgencytblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
   ],

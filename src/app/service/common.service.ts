@@ -31,6 +31,7 @@ export class CommonService {
   constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
 
   private usersUrl: string = this.appConfig.urlUsers;
+  private errMsgUrl: string = this.appConfig.urlErrorMsg;
   private slidersUrl: string = this.appConfig.urlSlides;
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
@@ -212,6 +213,91 @@ export class CommonService {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // SLIDER END
+
+  // ERROR MESSAGE
+  getErrorMsg(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlErrorMsg + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addErrorMsg(errormsg) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(errormsg)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlErrorMsg, errormsg)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateErrorMsg(errormsg) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(errormsg)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlErrorMsg+ "/multiple/update", errormsg)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delErrorMsg(enId, bmId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/selected?id=" + enId + "," +bmId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // ERROR MESSAGE END
+
+  // AGENCY TYPE
+  getAgencyType(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlAgencyType + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addAgencyType(agencytype) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(agencytype)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlAgencyType, agencytype)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateAgencyType(agencytype) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(agencytype)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlAgencyType+ "/multiple/update", agencytype)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delAgencyType(enId, bmId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlAgencyType + "/delete/selected?id=" + enId + "," +bmId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // AGENCY END
 
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
