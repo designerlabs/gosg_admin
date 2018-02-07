@@ -10,7 +10,7 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
-import { UsertblComponent } from './authentication/usertbl/usertbl.component';
+import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
@@ -84,6 +84,7 @@ export const appRoutes: Routes = [
 {path: 'announcement/add', component: AnnouncementComponent},
 // Article and Announcement Category
 
+{path: 'admin', component: UsertblComponent},
 {path: 'announcement/category', component: CategorytblComponent},
 {path: 'article/category', component: CategorytblComponent},
 {path: 'announcement/category/add', component: CategoryComponent},
@@ -93,7 +94,7 @@ export const appRoutes: Routes = [
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
-
+{path: '**', component: ErrorComponent}
 
 
 // {path: '**', component: ErrorComponent},
