@@ -47,6 +47,7 @@ export class AppConfig {
     urlAnnounceList: string;
     urlCategoryList: string;
     urlAddressType: string;
+    urlAccountStatus: string;
 
 }
 
@@ -84,7 +85,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFaq: './app/apidata/faq.json',
     urlAnnounceList: './app/apidata/announce.json',
     urlCategoryList: './app/apidata/category.json',
-    urlAddressType: commonURL + 'addresstype'
+    urlAddressType: commonURL + 'addresstype',
+    urlAccountStatus: commonURL + 'accountstatus',
 };
 
 @NgModule({

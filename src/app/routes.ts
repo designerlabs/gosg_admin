@@ -10,7 +10,7 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
-import { UsertblComponent } from './authentication/usertbl/usertbl.component';
+import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
@@ -23,7 +23,8 @@ import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
-import { PostcodeComponent } from './referencecode/postcode/postcode.component';import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
@@ -37,8 +38,13 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+<<<<<<< HEAD
 import { ErrormessageComponent } from './errormessage/errormessage.component';
 import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
+=======
+import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { AccountstatusComponent } from './accountstatus/accountstatus.component';
+>>>>>>> be3bfc8150d9592fae3d4c54ce7c47f93b8c629f
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -84,20 +90,27 @@ export const appRoutes: Routes = [
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
-{path: 'announcement', component: AnnouncementtblComponent},
-{path: 'announcement/:id', component: AnnouncementComponent},
-{path: 'announcement/add', component: AnnouncementComponent},
+
+
 // Article and Announcement Category
 
+{path: 'admin', component: UsertblComponent},
 {path: 'announcement/category', component: CategorytblComponent},
 {path: 'article/category', component: CategorytblComponent},
 {path: 'announcement/category/add', component: CategoryComponent},
 {path: 'article/category/add', component: CategoryComponent},
 {path: 'announcement/category/:id', component: CategoryComponent},
 {path: 'article/category/:id', component: CategoryComponent},
+{path: 'announcement', component: AnnouncementtblComponent},
+{path: 'announcement/:id', component: AnnouncementComponent},
+{path: 'announcement/add', component: AnnouncementComponent},
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
+{path: '**', component: ErrorComponent},
+{path: 'account', component: AccountstatustblComponent},
+{path: 'account/:id', component: AccountstatusComponent},
+{path: 'account/add', component: AccountstatusComponent},
 
 
 
