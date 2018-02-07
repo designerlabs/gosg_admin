@@ -48,6 +48,7 @@ export class CityComponent implements OnInit {
   ngOnInit() {
     this.getRecordList(this.pageCount, this.pageSize);
     // debugger;
+    //debugger;
   }
 
   getRecordList(count, size) {

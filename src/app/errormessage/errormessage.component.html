@@ -16,7 +16,6 @@
 
   <form [formGroup]="errorMsgForm" autocomplete="off" role="form" novalidate>
   
-      <!-- EN -->
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
           <div class="bg-form-header col-md-6">
@@ -28,8 +27,9 @@
         </div>
   
         <div class="row">
+          <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <mat-form-field class="example-full-width font-size-s">
               <input matInput placeholder="Message Code" formControlName="msgCodeEn" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="errorMsgForm.controls.msgCodeEn.hasError('required')">
@@ -39,7 +39,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <mat-form-field class="example-full-width font-size-s">
               <input matInput placeholder="Message Code" formControlName="msgCodeBm" value="" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="errorMsgForm.controls.msgCodeBm.hasError('required')">
@@ -52,7 +52,7 @@
   
         <div class="row">
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <mat-form-field class="example-full-width font-size-s">
               <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="errorMsgForm.controls.descEn.hasError('required')">
@@ -62,7 +62,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <mat-form-field class="example-full-width font-size-s">
               <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="errorMsgForm.controls.descBm.hasError('required')">
@@ -84,10 +84,10 @@
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
             (click)="updateErrorMsg(errorMsgForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
-            <i *ngIf="!complete" class="fa fa-times"></i>{{ pageMode }}</button>
+            <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
-            <i class="fa fa-refresh"></i>Reset</button>
+            <i class="fa fa-refresh"></i>&nbsp;Reset</button>
         </div>
       <div class="col-md-12">&nbsp;</div>
     <!-- </div> -->

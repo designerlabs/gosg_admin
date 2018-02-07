@@ -48,6 +48,12 @@ export class AppConfig {
     urlCategoryList: string;
     urlAddressType: string;
     urlAccountStatus: string;
+    urlLanguage: string;
+    urlAdminUserList:string;
+    urlFeedbackType: string;
+    urlFeedbackSubject: string;
+    urlSubCategoryList: string;
+    urlMainCategoryList: string;
 
 }
 
@@ -61,7 +67,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
-    urlSlides: commonURL + 'slide',
+    urlSlides: commonURL + 'slide',  
+    urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
     
@@ -71,7 +78,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAgencyType: commonURL + 'authorization/agency/type',
     
 
-
+    urlAdminUserList: mockApiURL+'userList',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
@@ -86,7 +93,11 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAnnounceList: './app/apidata/announce.json',
     urlCategoryList: './app/apidata/category.json',
     urlAddressType: commonURL + 'addresstype',
-    urlAccountStatus: commonURL + 'accountstatus',
+    urlAccountStatus: commonURL + 'AccountStatusEntity',
+    urlFeedbackType: commonURL + 'feedbacktype',
+    urlFeedbackSubject: commonURL + 'feedbacksubject',
+    urlSubCategoryList: './app/apidata/subcategory.json',
+    urlMainCategoryList: './app/apidata/maincategory.json',
 };
 
 @NgModule({

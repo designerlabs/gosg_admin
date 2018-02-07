@@ -1,54 +1,76 @@
 <div class="container right-content">
-  <!-- <div class="col-md-12">
-    <h2 class="staticLabel"></h2>
-    <span class="pull-right editBtn">
-      <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">
-        <i class="fa fa-plus font-size-l"></i>
-      </button>
-    </span>
-  </div> -->
-
   <div class="curdHeader">
-    <div class="col-md-10 curdHeadingLeft">
+    <div class="col-md-6 curdHeadingLeft">
         <h3>User Admin Management</h3>
     </div>
-    
+    <div class="col-md-4 curdHeadingRight">
+        <form [ngClass]="animateClass" [formGroup]="addUserForm" autocomplete="off" role="form" novalidate *ngIf="showUserInput" >
+            <table class="example-full-width" cellspacing="0"><tr>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="userType" placeholder="Add User By" (change)="checkReqValues()" required>
+                    <mat-option [value]="1">by Email</mat-option>
+                    <mat-option [value]="2">by IC No.</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="addUserForm.controls.userType.hasError('required')">
+                    Please select a file
+                  </mat-error>
+                </mat-form-field>
+              </td>
+              <td style="padding-left:10px;">
+                <mat-form-field class="example-full-width" *ngIf="showEmail">
+                  <input matInput placeholder="Email" formControlName="emailFld" required>
+                  <mat-error *ngIf="addUserForm.controls.emailFld.hasError('required')">
+                    Email is required
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width"  *ngIf="showIC">
+                  <input matInput placeholder="IC No." formControlName="icFld" required>
+                  <mat-error *ngIf="addUserForm.controls.icFld.hasError('required')">
+                    IC No. is required
+                  </mat-error>
+                </mat-form-field>
+              </td>
+              <td style="padding-left:10px;">
+                <div class="example-full-width"> <button [disabled]="'true'" mat-raised-button color="primary">Add User</button> </div>
+              </td>
+            </tr>
+          </table>
+        </form>
+    </div>
     <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
-            <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+            <button *ngIf="addUserBtn" type="button" mat-fab color="warn" (click)="addUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
             <i class="fa fa-plus font-size-l"></i></button>
+
+            <button *ngIf="closeUserBtn" type="button" mat-fab color="default" (click)="closeUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
+                <i class="fa fa-times font-size-l"></i></button>
         </span>
     </div> 
 </div>
 
   <div class="example-container mat-elevation-z8">
-    <!-- <div class="example-header">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-    </div> -->
-
+  
     <mat-table #table [dataSource]="dataSource">
-      <!-- slideId Column -->
-      <!-- <ng-container matColumnDef="slideCode">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;">Code</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.refCode}} </mat-cell>
-      </ng-container> -->
-
       <!-- slideTitle Column -->
-      <ng-container matColumnDef="slideTitleEn">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (EN)</mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 35%;"> {{element.list[0].slideTitle}} </mat-cell>
+      <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> Username</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;"> {{element.username}} </mat-cell>
       </ng-container>
 
       <!-- slideDescription Column -->
-      <ng-container matColumnDef="slideTitleBm">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].slideTitle}} </mat-cell>
+      <ng-container matColumnDef="moduleGroupName">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 45%;"> Modules Group List </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 45%;" > 
+            <mat-chip-list >
+                <mat-chip color="primary" selected="true" *ngFor="let ele of (element.items.length > 3 ? element.items.slice(0,3):  element.items)">{{ele.moduleGroupName}}</mat-chip> 
+                <mat-chip color="default" *ngIf="element.items.length > 3">+{{element.items.length - 3}}</mat-chip> 
+            </mat-chip-list> 
+        </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->
-      <ng-container matColumnDef="slideActiveFlag">
+      <ng-container matColumnDef="isActive">
         <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
           <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
@@ -56,15 +78,15 @@
       </ng-container>
       
       <!-- Action Column -->
-      <ng-container matColumnDef="slideAction">
+      <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
+            <button mat-mini-fab style="background: orange" (click)="updateRow()" title="Update">
               <i class="fa fa-edit" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].slideId,element.list[1].slideId)" title="Delete {{ element.list[0].slideId }},{{ element.list[1].slideId }}">
-              <i class="fa fa-trash"  title="Delete {{ element.list[0].slideId }}, {{ element.list[1].slideId }}"></i>
+            <button mat-mini-fab style="background: red" (click)="deleteRow()" title="Delete">
+              <i class="fa fa-trash"  title="Delete"></i>
             </button>
         </mat-cell>
       </ng-container>

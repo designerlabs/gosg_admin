@@ -11,34 +11,45 @@
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource">
 
-      <!-- groupName Column -->
-      <ng-container matColumnDef="announceSort">
+     <!-- No Column -->
+     <ng-container matColumnDef="no">
         <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> No </mat-header-cell>
-        <mat-cell *matCellDef="let element" [style.flex]="'0 0 5%'"> {{element.announceSort}} </mat-cell>
-      </ng-container>
-      <!-- Title (BM) Column -->
-      <ng-container matColumnDef="announceTitle_bm">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">
-          {{element.announceList[0].announceTitle}}
+        <mat-cell *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">  
+          {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }} 
         </mat-cell>
       </ng-container>
-      <!-- Title (EN) Column -->
-      <ng-container matColumnDef="announceTitle_en">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (EN) </mat-header-cell>
-        <mat-cell *matCellDef="let element" [style.flex]="'0 0 40%'"> {{element.announceList[1].announceTitle}}
-
+      <!-- Title Column -->
+      <ng-container matColumnDef="announcementTitle">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 35%'"> Title </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 35%'">
+          {{element.list[0].announcementTitle.length > 35? element.list[0].announcementTitle.slice(0,35) :  element.list[0].announcementTitle }}
+          <span *ngIf="element.list[0].announcementTitle.length > 35">...</span>
         </mat-cell>
       </ng-container>
+      <!-- Description Column -->
+      <ng-container matColumnDef="announcementDescription">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element" [style.flex]="'0 0 40%'"> 
+          {{element.list[0].announcementDescription.length > 45? element.list[0].announcementDescription.slice(0,45) :  element.list[0].announcementDescription }}
+          <span *ngIf="element.list[0].announcementDescription.length > 45">...</span>
+        </mat-cell>
+      </ng-container>
+      <!-- isActive Column -->
+      <ng-container matColumnDef="isActive" >
+          <mat-header-cell *matHeaderCellDef class="statusColumn" [style.flex]="'0 0 5%'"> Status </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="statusColumn" [style.flex]="'0 0 5%'">
+            <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+          </mat-cell>
+        </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action">
         <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 15%'"> Action </mat-header-cell>
         <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 15%'">
-          <button mat-mini-fab style="background: orange" (click)="editGroup(element.announceList.announceCode)" title="Update {{ element.announceList.announceCode }}">
+          <button mat-mini-fab style="background: orange" (click)="editGroup(element.refCode)" title="Update">
             <i class="fa fa-edit"></i>
           </button>&nbsp;
-          <button mat-mini-fab style="background: red" (click)="deleteRow(element.announceList.announceCode)">
-            <i class="fa fa-trash" title="Delete {{ element.announceList.announceCode }}"></i>
+          <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
+            <i class="fa fa-trash" title="Delete"></i>
           </button>
         </mat-cell>
       </ng-container>

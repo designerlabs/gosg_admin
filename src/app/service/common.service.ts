@@ -22,6 +22,8 @@ export class CommonService {
   userInfo: object;
   userTable: object;
   sliderTable: object;
+  errorMsgTable: object;
+  languageTable: object;
   recordTable: object;
   temp = null;
 
@@ -36,6 +38,7 @@ export class CommonService {
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
+  
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
   //   debugger;
@@ -147,14 +150,28 @@ export class CommonService {
   getAnnounceData() {
     console.log(this.appConfig.urlAnnounceList);
     return this.http.get(this.appConfig.urlAnnounceList)
-    .map((response: Response) => response.json().announceCodeList)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   getCategoryData() {
     console.log(this.appConfig.urlCategoryList);
     return this.http.get(this.appConfig.urlCategoryList)
-    .map((response: Response) => response.json().categoryCodeList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getSubCategoryData() {
+    console.log(this.appConfig.urlSubCategoryList);
+    return this.http.get(this.appConfig.urlSubCategoryList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getMainCategoryData() {
+    console.log(this.appConfig.urlMainCategoryList);
+    return this.http.get(this.appConfig.urlMainCategoryList)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
@@ -216,9 +233,9 @@ export class CommonService {
   // SLIDER END
 
   // ERROR MESSAGE
-  getErrorMsg(code) {
+  getErrorMsg(errMsgId) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlErrorMsg + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlErrorMsg + '/' + errMsgId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -226,32 +243,24 @@ export class CommonService {
   }
 
   addErrorMsg(errormsg) {
-
-    // console.log(this.appConfig.urlSlides)
-    // console.log(errormsg)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlErrorMsg, errormsg)
+    return this.http.post(this.appConfig.urlErrorMsg + '/add', errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateErrorMsg(errormsg) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(errormsg)
-    // debugger;
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlErrorMsg+ "/multiple/update", errormsg)
+    return this.http.put(this.appConfig.urlErrorMsg+ "/update", errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delErrorMsg(enId, bmId) {
+  delErrorMsg(errorMsgId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + errorMsgId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -298,6 +307,48 @@ export class CommonService {
     .catch(this.handleError);
   }
   // AGENCY END
+
+  // LANGUAGE
+  getAllLanguage() {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlLanguage + '/all').subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addLanguage(language) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(agencytype)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlLanguage, language)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateLanguage(language) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(agencytype)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlLanguage, language)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delLanguage(languageId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlLanguage + "/" + languageId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // LANGUAGE END
 
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
@@ -423,8 +474,56 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecordFeedbackType(record) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedbackType(refCode) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedbackType(record) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addRecordFeedbackSubject(record) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedbackSubject(refCode) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedbackSubject(record) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
 
+  
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
@@ -453,6 +552,13 @@ export class CommonService {
     //  console.log(this.countryUrl);
     return this.http.get(this.postcodeUrl+ code)
       .map((response: Response) => response.json().postcodeList)
+      .retry(5)
+      .catch(this.handleError);
+  }
+
+  getAdminUser(): Observable<any[]> {
+    return this.http.get(this.appConfig.urlAdminUserList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
   }

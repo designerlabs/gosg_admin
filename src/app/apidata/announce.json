@@ -1,408 +1,102 @@
 {
 	"type": "RESPONSE",
-	"statusCode": "S001",
-	"statusDesc": "Announce All",
-	"announceCodeList": [
+	"list": [
 		{
-			"announceCode": "11",
-			"announceSort": 1,
-			"announceList": [
+			"refCode": 1,
+			"active": true,
+			"list": [
 				{
-					"announceId": 108,
-					"announceTitle": "qqqqqqWishing a Very Happy Eid Mubarak",
-					"announceDescription": "May Shawal this time give a thousand meanings and blessings from the Almighty",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,					
-					"announceCode": "11",
+					"announcementID": 1,
+					"announcementName": "English - 1",
+					"announcementDescription": "Tender Offer Statement of Attorney General's Chambers of Malaysia",
+					"announcementText": "<p><span>Content only available in Bahasa Malaysia</span></p>",
+					"announcementTitle": "Tender Offer Statement of Attorney General's Chambers of Malaysia",
+					"announcementActiveFlag": true,
+					"announcementDatePublish": 1515459639881,
+					"announcementDateEnd": 1515460239902,
+					"announcementYear": 2018,
+					"announcementUrl": "http://www.agc.gov.my/agcportal/index.php?r=portal2/article&menu_id=Z0RvUzVCbGZCNVVYY0VKMklJa08xQT09&artikel_id=Ym41WXRpT1JZNnhOVzhzNVFtSGFldz09",
+					"announcementCategoryCode": "TN",
 					"language": {
 						"languageId": 1,
 						"languageCode": "en",
 						"languageName": "ENGLISH",
 						"languageDescription": "English Language"
-					}
+					},
+					"announcementCodeRunningNo": 1
 				},
 				{
-					"announceId": 109,
-					"announceTitle": "qqqqqqqSalam Aidilfitri",
-					"announceDescription": "Semoga Syawal kali ini memberi seribu makna dan berkat dariNya",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "11",
+					"announcementID": 2,
+					"announcementName": "BM - 1",
+					"announcementDescription": "Terma Penggunaan Data Terbuka Kerajaan 1.0",
+					"announcementText": "<p><span>Terma Penggunaan Data Terbuka Kerajaan 1.0. </span></p>\r\n<p><span>Sila layari <a href=\"http://www.data.gov.my/page/termsofuse\" target=\"_blank\">http://www.data.gov.my/page/termsofuse</a>&nbsp;bagi terma penggunaan Data Terbuka Kerajaan.</span></p>",
+					"announcementTitle": "Terma Penggunaan Data Terbuka Kerajaan 1.0",
+					"announcementActiveFlag": true,
+					"announcementDatePublish": 1515467139881,
+					"announcementDateEnd": 1515467919902,
+					"announcementYear": 2018,
+					"announcementUrl": "http://www.data.gov.my/",
+					"announcementCategoryCode": "TN",
 					"language": {
 						"languageId": 2,
 						"languageCode": "my",
 						"languageName": "BAHASA MALAYSIA",
 						"languageDescription": "Bahasa Malaysia"
-					}
+					},
+					"announcementCodeRunningNo": 1
 				}
 			]
 		},
 		{
-			"announceCode": "99",
-			"announceSort": 1,
-			"announceList": [
+			"refCode": 2,
+			"active": true,
+			"list": [
 				{
-					"announceId": 826,
-					"announceTitle": "HAPPY HOLIDAYS",
-					"announceDescription": "12345",
-					"announceImage": "",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "99",
+					"announcementID": 4,
+					"announcementName": "BM - 2",
+					"announcementDescription": "BM",
+					"announcementText": "<p>Sila Layari Galeri Aplikasi Mudah Alih Kerajaan Malaysia di:</p>",
+					"announcementTitle": "GAMMA - Pusat Bagi Platform M-Goverment Untuk Semua perkhidmatan Aplikasi Mobile. Sila Layari Galeri",
+					"announcementActiveFlag": true,
+					"announcementDatePublish": 1515466839881,
+					"announcementDateEnd": 1515467019902,
+					"announcementYear": 2018,
+					"announcementUrl": "http://gamma.malaysia.gov.my/",
+					"announcementCategoryCode": "PE",
 					"language": {
 						"languageId": 1,
 						"languageCode": "en",
 						"languageName": "ENGLISH",
 						"languageDescription": "English Language"
-					}
+					},
+					"announcementCodeRunningNo": 2
 				},
 				{
-					"announceId": 827,
-					"announceTitle": "SELAMAT BERCUTI",
-					"announceDescription": "ZAQWSX",
-					"announceImage": "",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "99",
+					"announcementID": 3,
+					"announcementName": "English - 2",
+					"announcementDescription": "ENG",
+					"announcementText": "ENG",
+					"announcementTitle": "ENG",
+					"announcementActiveFlag": true,
+					"announcementDatePublish": 1515466839881,
+					"announcementDateEnd": 1515467019902,
+					"announcementYear": 2018,
+					"announcementUrl": "http://gamma.malaysia.gov.my/",
+					"announcementCategoryCode": "PE",
 					"language": {
 						"languageId": 2,
 						"languageCode": "my",
 						"languageName": "BAHASA MALAYSIA",
 						"languageDescription": "Bahasa Malaysia"
-					}
+					},
+					"announcementCodeRunningNo": 2
 				}
 			]
-		},
-		{
-			"announceCode": "13",
-			"announceSort": 1,
-			"announceList": [
-				{
-					"announceId": 110,
-					"announceTitle": "Wishing a Very Happy Eid Mubarak",
-					"announceDescription": "May Shawal this time give a thousand meanings and blessings from the Almighty",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "13",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 111,
-					"announceTitle": "Salam Aidilfitri",
-					"announceDescription": "Semoga Syawal kali ini memberi seribu makna dan berkat dariNya",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "13",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "14",
-			"announceSort": 1,
-			"announceList": [
-				{
-					"announceId": 822,
-					"announceTitle": "Happy Federal Day",
-					"announceDescription": "Enjoy your holiday",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "14",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 823,
-					"announceTitle": "Hari Wilayah Peseketuan",
-					"announceDescription": "Selamat bercuti",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "14",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "15",
-			"announceSort": 1,
-			"announceList": [
-				{
-					"announceId": 824,
-					"announceTitle": "HAPPY THAIPUSAM",
-					"announceDescription": "ASDF",
-					"announceImage": "",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "15",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 825,
-					"announceTitle": "SELAMAT MENYAMBUT HARI THAIPUSAM",
-					"announceDescription": "qwerty",
-					"announceImage": "",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "15",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "1",
-			"announceSort": 1,
-			"announceList": [
-				{
-					"announceId": 815,
-					"announceTitle": "Selamat Hari Thaipusam",
-					"announceDescription": "Selamat Menyambut Hari Thaipusam",
-					"announceImage": "Thaipusam.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "1",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 816,
-					"announceTitle": "Selamat Hari Thaipusam",
-					"announceDescription": "Selamat Menyambut Hari Thaipusam",
-					"announceImage": "Thaipusam.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "1",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "2",
-			"announceSort": 1,
-			"announceList": [
-				{
-					"announceId": 4,
-					"announceTitle": "Happy Malaysia Day",
-					"announceDescription": "Celebrating Malaysia Day 16 September 2017",
-					"announceImage": "1_Banner-Hari-Malaysia.jpg",
-					"announceUrl": "https://",
-					"announceActiveFlag": false,
-					"announceCode": "2",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 3,
-					"announceTitle": "Selamat Hari Malaysia",
-					"announceDescription": "Selamat Menyambut Hari Malaysia 16 September 2017",
-					"announceImage": "1_Banner-Hari-Malaysia.jpg",
-					"announceUrl": "https://",
-					"announceActiveFlag": false,
-					"announceCode": "2",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "3",
-			"announceSort": 2,
-			"announceList": [
-				{
-					"announceId": 6,
-					"announceTitle": "Kuala Lumpur 2017 - 29th SEA Games & 9th ASEAN Para Games",
-					"announceDescription": "The Southeast Asian Games will take place between 19th and 30th August 2017. The ASEAN Para Games will be held from September 17th to 23rd, 2017. Rising Together!",
-					"announceImage": "Banner-Sukan-Sea_1.jpg",
-					"announceUrl": "http://kualalumpur2017.com.my",
-					"announceActiveFlag": false,
-					"announceCode": "3",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 5,
-					"announceTitle": "Kuala Lumpur 2017 - Sukan SEA ke 29 & Sukan Para ASEAN ke 9",
-					"announceDescription": "Sukan SEA akan berlangsung dari 19 hingga 30 Ogos 2017 sementara Sukan Para ASEAN pula akan diadakan dari 17 hingga 23 September 2017.  Bangkit Bersama!",
-					"announceImage": "Banner-Sukan-Sea_1.jpg",
-					"announceUrl": "http://kualalumpur2017.com.my",
-					"announceActiveFlag": false,
-					"announceCode": "3",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "5",
-			"announceSort": 3,
-			"announceList": [
-				{
-					"announceId": 10,
-					"announceTitle": "EPF Kiosk Service",
-					"announceDescription": "Kiosk is able to offer more interactive and responsive information to users",
-					"announceImage": "KWSP-684-x-280-.jpg",
-					"announceUrl": "https://gosgstg.malaysia.gov.my/public/cms/article/page/783/",
-					"announceActiveFlag": false,
-					"announceCode": "5",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 9,
-					"announceTitle": "Perkhidmatan Kios KWSP",
-					"announceDescription": "Kiosk mampu menawarkan informasi yang lebih interaktif dan responsif kepada pengguna",
-					"announceImage": "KWSP-684-x-280-.jpg",
-					"announceUrl": "https://gosgstg.malaysia.gov.my/public/cms/article/page/783/",
-					"announceActiveFlag": false,
-					"announceCode": "5",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "6",
-			"announceSort": 1,
-			"announceList": [
-				{
-					"announceId": 88,
-					"announceTitle": "Wishing a Very Happy Eid Mubarak",
-					"announceDescription": "May Shawal this time give a thousand meanings and blessings from the Almighty",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "6",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 89,
-					"announceTitle": "Salam Aidilfitri",
-					"announceDescription": "Semoga Syawal kali ini memberi seribu makna dan berkat dariNya",
-					"announceImage": "GOSG_Banner_Raya-BM.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "6",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		},
-		{
-			"announceCode": "8",
-			"announceSort": 1,
-			"announceList": [
-				{
-					"announceId": 96,
-					"announceTitle": "Federal Teritory",
-					"announceDescription": "Happy Holiday",
-					"announceImage": "Federal_Territory.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "8",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"announceId": 97,
-					"announceTitle": "Salam Hari Wilayah",
-					"announceDescription": "Selamat Menyambut Hari Wilayah",
-					"announceImage": "HariWilayah.jpg",
-					"announceUrl": null,
-					"announceActiveFlag": false,
-					"announceCode": "8",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		}		
+		}
 	],
-	"pageNumber": 0,
-	"pageSize": 20,
-	"numberOfElements": 13,
-	"totalElements": 13,
+	"pageNumber": 1,
+	"pageSize": 10,
+	"numberOfElements": 2,
+	"totalElements": 2,
 	"totalPages": 1
 }

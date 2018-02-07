@@ -16,12 +16,16 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class PollresultComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+  displayedColumns = ['num','question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
+
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
 
   dataUrl: any;  
 
@@ -60,6 +64,8 @@ export class PollresultComponent implements OnInit {
       console.log(data);
       
       this.dataSource.data = this.recordList.pollQuestionFormatList;
+      this.seqPageNum = this.recordList.pageNumber;
+      this.seqPageSize = this.recordList.pageSize;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
