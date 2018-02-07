@@ -75,9 +75,8 @@ export const appRoutes: Routes = [
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
-{path: 'announcement', component: AnnouncementtblComponent},
-{path: 'announcement/:id', component: AnnouncementComponent},
-{path: 'announcement/add', component: AnnouncementComponent},
+
+
 // Article and Announcement Category
 
 {path: 'announcement/category', component: CategorytblComponent},
@@ -85,8 +84,10 @@ export const appRoutes: Routes = [
 {path: 'announcement/category/add', component: CategoryComponent},
 {path: 'article/category/add', component: CategoryComponent},
 {path: 'announcement/category/:id', component: CategoryComponent},
-{path: 'article/category/:id', component: CategoryComponent}
-
+{path: 'article/category/:id', component: CategoryComponent},
+{path: 'announcement', component: AnnouncementtblComponent},
+{path: 'announcement/:id', component: AnnouncementComponent},
+{path: 'announcement/add', component: AnnouncementComponent},
 
 
 // {path: '**', component: ErrorComponent},
