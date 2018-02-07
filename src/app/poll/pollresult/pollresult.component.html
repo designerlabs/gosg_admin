@@ -19,12 +19,12 @@
         <mat-table #table [dataSource]="dataSource">     
 
             <!-- num Column -->
-            <!-- <ng-container matColumnDef="num">
+            <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element">
-                    {{element.pollRefNo}} 
+                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
+                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
-            </ng-container> -->
+            </ng-container>
 
             <!-- Question 1 Column -->
             <ng-container matColumnDef="question">
@@ -40,7 +40,7 @@
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div *ngIf="element.en[0].options[0].option != null" class="col-md-12">
                         {{element.en[0].options[0].option}} <br>
-                        {{element.results[0].result}}/{{element.results[0].totalResult}}
+                        ({{element.results[0].result}}/{{element.results[0].totalResult}})
                     </div>
                     <div *ngIf="element.en[0].options[0].option == null" class="col-md-12"> - </div>
                 </mat-cell>
@@ -52,7 +52,7 @@
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div *ngIf="element.en[0].options[1].option != null" class="col-md-12">
                         {{element.en[0].options[1].option}} <br>
-                        {{element.results[1].result}}/{{element.results[1].totalResult}}
+                        ({{element.results[1].result}}/{{element.results[1].totalResult}})
                     </div>
                     <div *ngIf="element.en[0].options[1].option == null" class="col-md-12"> - </div>
                 </mat-cell>
@@ -64,7 +64,7 @@
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div *ngIf="element.en[0].options[2].option != null" class="col-md-12">
                         {{element.en[0].options[2].option}} <br>
-                        {{element.results[2].result}}/{{element.results[2].totalResult}}
+                        ({{element.results[2].result}}/{{element.results[2].totalResult}})
                     </div>
                     <div *ngIf="element.en[0].options[2].option == null" class="col-md-12"> - </div>
                 </mat-cell>
@@ -76,7 +76,7 @@
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div *ngIf="element.en[0].options[3].option != null" class="col-md-12">
                         {{element.en[0].options[3].option}} <br>
-                        {{element.results[3].result}}/{{element.results[3].totalResult}}
+                        ({{element.results[3].result}}/{{element.results[3].totalResult}})
                     </div>
                     <div *ngIf="element.en[0].options[3].option == null" class="col-md-12"> - </div>
                 </mat-cell>
@@ -88,7 +88,7 @@
                 <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                     <div *ngIf="element.en[0].options[4].option != null" class="col-md-12">
                         {{element.en[0].options[4].option}} <br>
-                        {{element.results[4].result}}/{{element.results[4].totalResult}}
+                        ({{element.results[4].result}}/{{element.results[4].totalResult}})
                     </div>
                     <div *ngIf="element.en[0].options[4].option == null" class="col-md-12"> - </div>
                 </mat-cell>

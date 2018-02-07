@@ -362,46 +362,10 @@
 					}
 				}
 			]
-		},
-		{
-			"categoryCode": "8",
-			"categorySort": 1,
-			"categoryList": [
-				{
-					"categoryId": 96,
-					"categoryTitle": "Federal Teritory",
-					"categoryDescription": "Happy Holiday",
-					"categoryImage": "Federal_Territory.jpg",
-					"categoryUrl": null,
-					"categoryActiveFlag": false,
-					"categoryCode": "8",
-					"language": {
-						"languageId": 1,
-						"languageCode": "en",
-						"languageName": "ENGLISH",
-						"languageDescription": "English Language"
-					}
-				},
-				{
-					"categoryId": 97,
-					"categoryTitle": "Salam Hari Wilayah",
-					"categoryDescription": "Selamat Menyambut Hari Wilayah",
-					"categoryImage": "HariWilayah.jpg",
-					"categoryUrl": null,
-					"categoryActiveFlag": false,
-					"categoryCode": "8",
-					"language": {
-						"languageId": 2,
-						"languageCode": "my",
-						"languageName": "BAHASA MALAYSIA",
-						"languageDescription": "Bahasa Malaysia"
-					}
-				}
-			]
-		}		
+		}	
 	],
-	"pageNumber": 0,
-	"pageSize": 20,
+	"pageNumber": 1,
+	"pageSize": 10,
 	"numberOfElements": 13,
 	"totalElements": 13,
 	"totalPages": 1

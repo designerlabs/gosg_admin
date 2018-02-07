@@ -124,28 +124,35 @@ export class EthnicitytblComponent implements OnInit {
   }
 
   updateRow(row) {
-    
     console.log(row);
     this.router.navigate(['reference/ethnicity', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(refCode) {
+  
+  deleteRow(refCode, raceMy, raceEng) {
     let txt;
+    let r = confirm("Are you sure to delete " + raceMy + "/" + raceEng + "?");
 
-    console.log(refCode);
-    this.commonservice.delRace(refCode).subscribe(
-      data => {
-        // alert('Record deleted successfully!')
-        txt = "Record deleted successfully!";
 
-          this.toastr.success(txt, '');   
-        this.router.navigate(['reference/ethnicity']);
-        this.getRecordList(this.pageCount, this.pageSize);
-      },
-      error => {
-        txt = "Delete Cancelled!";
-    });
+    if (r == true) {
+      console.log(refCode);
+      this.commonservice.delRace(refCode).subscribe(
+        data => {
+          // alert('Record deleted successfully!')
+          txt = raceMy + "/" + raceEng + " record deleted successfully!";
+
+            this.toastr.success(txt, '');   
+          this.router.navigate(['reference/ethnicity']);
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          txt = "Delete Cancelled!";
+      });
+    }
+    else{
+      txt = "Delete Cancelled!";
+    }
   }
 
   ngAfterViewInit() {

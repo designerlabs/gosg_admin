@@ -38,6 +38,7 @@ export class CommonService {
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
+  
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
   //   debugger;
@@ -149,14 +150,28 @@ export class CommonService {
   getAnnounceData() {
     console.log(this.appConfig.urlAnnounceList);
     return this.http.get(this.appConfig.urlAnnounceList)
-    .map((response: Response) => response.json().announceCodeList)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   getCategoryData() {
     console.log(this.appConfig.urlCategoryList);
     return this.http.get(this.appConfig.urlCategoryList)
-    .map((response: Response) => response.json().categoryCodeList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getSubCategoryData() {
+    console.log(this.appConfig.urlSubCategoryList);
+    return this.http.get(this.appConfig.urlSubCategoryList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getMainCategoryData() {
+    console.log(this.appConfig.urlMainCategoryList);
+    return this.http.get(this.appConfig.urlMainCategoryList)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
@@ -433,8 +448,56 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecordFeedbackType(record) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedbackType(refCode) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedbackType(record) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addRecordFeedbackSubject(record) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedbackSubject(refCode) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedbackSubject(record) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
 
+  
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
@@ -463,6 +526,13 @@ export class CommonService {
     //  console.log(this.countryUrl);
     return this.http.get(this.postcodeUrl+ code)
       .map((response: Response) => response.json().postcodeList)
+      .retry(5)
+      .catch(this.handleError);
+  }
+
+  getAdminUser(): Observable<any[]> {
+    return this.http.get(this.appConfig.urlAdminUserList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
   }

@@ -23,6 +23,7 @@ import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
+import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
@@ -34,8 +35,6 @@ import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksub
 import { FaqComponent } from './faq/faq.component';
 import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
-import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
-import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
 import { ErrormessageComponent } from './errormessage/errormessage.component';
@@ -44,6 +43,13 @@ import { AccountstatustblComponent } from './accountstatus/accountstatustbl/acco
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
 import { LanguageComponent } from './language/language.component';
+import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
+import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
+import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
+import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
+import { CategoryComponent } from './categories/category/category.component';
+import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
+import { UserpermissionComponent } from './authentication/user/userpermission.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -81,11 +87,22 @@ export const appRoutes: Routes = [
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},
-{path: 'reference/religion', component: ReligionComponent},
+{path: 'reference/religion', component: ReligiontblComponent},
+{path: 'reference/religion/:id', component: ReligionComponent},
+{path: 'reference/religion/add', component: ReligionComponent},
 {path: 'reference/postcode', component: PostcodeComponent},
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
 {path: 'reference/ethnicity/add', component: EthnicityComponent},
+{path: 'maincategory', component: MaincategorytblComponent},
+{path: 'subcategory', component: SubcategorytblComponent},
+{path: 'category', component: CategorytblComponent},
+{path: 'maincategory/add', component: MaincategoryComponent},
+{path: 'subcategory/add', component: SubcategoryComponent},
+{path: 'category/add', component: CategoryComponent},
+{path: 'maincategory/:id', component: MaincategoryComponent},
+{path: 'subcategory/:id', component: SubcategoryComponent},
+{path: 'category/:id', component: CategoryComponent},
 {path: 'faq', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'faq', component: FaqtblComponent},
@@ -93,28 +110,20 @@ export const appRoutes: Routes = [
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
 
-
 // Article and Announcement Category
-
 {path: 'admin', component: UsertblComponent},
-{path: 'announcement/category', component: CategorytblComponent},
-{path: 'article/category', component: CategorytblComponent},
-{path: 'announcement/category/add', component: CategoryComponent},
-{path: 'article/category/add', component: CategoryComponent},
-{path: 'announcement/category/:id', component: CategoryComponent},
-{path: 'article/category/:id', component: CategoryComponent},
+{path: 'admin/permission', component: UserpermissionComponent},
 {path: 'announcement', component: AnnouncementtblComponent},
 {path: 'announcement/:id', component: AnnouncementComponent},
 {path: 'announcement/add', component: AnnouncementComponent},
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
-{path: '**', component: ErrorComponent},
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
-
-
+{path: '**', component: ErrorComponent}, // put at the last row
+// All Category
 
 // {path: '**', component: ErrorComponent},
 ];

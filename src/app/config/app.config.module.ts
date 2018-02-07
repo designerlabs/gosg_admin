@@ -49,6 +49,11 @@ export class AppConfig {
     urlAddressType: string;
     urlAccountStatus: string;
     urlLanguage: string;
+    urlAdminUserList:string;
+    urlFeedbackType: string;
+    urlFeedbackSubject: string;
+    urlSubCategoryList: string;
+    urlMainCategoryList: string;
 
 }
 
@@ -73,7 +78,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAgencyType: commonURL + 'authorization/agency/type',
     
 
-
+    urlAdminUserList: mockApiURL+'userList',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
@@ -88,7 +93,11 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAnnounceList: './app/apidata/announce.json',
     urlCategoryList: './app/apidata/category.json',
     urlAddressType: commonURL + 'addresstype',
-    urlAccountStatus: commonURL + 'accountstatus',
+    urlAccountStatus: commonURL + 'AccountStatusEntity',
+    urlFeedbackType: commonURL + 'feedbacktype',
+    urlFeedbackSubject: commonURL + 'feedbacksubject',
+    urlSubCategoryList: './app/apidata/subcategory.json',
+    urlMainCategoryList: './app/apidata/maincategory.json',
 };
 
 @NgModule({

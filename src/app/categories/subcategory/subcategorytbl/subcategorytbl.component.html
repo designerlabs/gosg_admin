@@ -1,0 +1,77 @@
+<div class="container-fluid"> <!--class="container right-content" -->
+  <h1 class="paddingTop-15 staticLabel">Sub Category</h1>
+  <div class="col-md-12">
+    <span class="pull-right" style="z-index: 1;">
+      <button type="button" mat-fab color="warn" (click)="add()">
+        <i class="fa fa-plus font-size-l"></i>
+      </button>
+    </span>
+  </div>
+
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource">
+
+      <!-- No Column -->
+      <ng-container matColumnDef="no">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> No </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">  
+          {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }} 
+        </mat-cell>
+      </ng-container>
+      <!-- Title (BM) Column -->
+      <ng-container matColumnDef="subcategoryTitle_bm">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">
+          {{element.subcategoryList[0].subcategoryTitle}}
+        </mat-cell>
+      </ng-container>
+      <!-- Title (EN) Column -->
+      <ng-container matColumnDef="subcategoryTitle_en">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (EN) </mat-header-cell>
+        <mat-cell *matCellDef="let element" [style.flex]="'0 0 40%'"> {{element.subcategoryList[1].subcategoryTitle}}
+
+        </mat-cell>
+      </ng-container>
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 15%'"> Action </mat-header-cell>
+        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 15%'">
+          <button mat-mini-fab style="background: orange" (click)="editGroup(element.subcategoryCode)" title="Update {{ element.subcategoryCode }}">
+            <i class="fa fa-edit"></i>
+          </button>&nbsp;
+          <button mat-mini-fab style="background: red" (click)="deleteRow(element.subcategoryCode)">
+            <i class="fa fa-trash" title="Delete {{ element.subcategoryCode }}"></i>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+
+  <div class="float-right paddingTop-15">
+    <mat-form-field style="width:50px;">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, categoryList?.totalPages)">
+        <mat-option value="5">5</mat-option>
+        <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+        <strong>{{subcategoryList?.pageNumber}}</strong> of
+        <strong>{{subcategoryList?.totalPages}}</strong> in
+        <strong>{{subcategoryList?.totalElements}}</strong> users</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(subcategoryList?.pageNumber)">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+      </button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(subcategoryList?.pageNumber, subcategoryList?.totalPages)">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div>
+
+</div>

@@ -5,6 +5,7 @@ import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
 import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-usertbl',
@@ -12,6 +13,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  closeUserBtn: boolean;
+  addUserBtn: boolean;
+  animateClass: string;
+  showUserInput: boolean;
+  showIC: boolean;
+  showEmail: boolean;
 
   userData: Object;
   userList = null;
@@ -26,6 +33,10 @@ export class UsertblComponent implements OnInit {
   date = new Date();
   pageMode: String;
   isEdit: boolean;
+  addUserForm: FormGroup;
+  emailFld: FormControl;
+  icFld:FormControl;
+  userType: FormControl;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,7 +61,17 @@ export class UsertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns = ['username', 'moduleGroupName', 'isActive', 'action'];
+    this.emailFld = new FormControl();
+    this.addUserBtn = true;
+    this.closeUserBtn = false;
+    this.icFld = new FormControl();
+    this.userType = new FormControl();
+    this.addUserForm = new FormGroup({
+      emailFld: this.emailFld,
+      icFld:this.icFld,
+      userType: this.userType
+    });
   }
 
   ngAfterViewInit() {
@@ -58,20 +79,39 @@ export class UsertblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  checkReqValues(){
+    if(this.userType.value == 1){
+      this.showEmail = true;
+      this.showIC = false;
+    }else{
+      this.showEmail = false;
+      this.showIC = true;
+
+    }
+  }
+
   // get Slider Data 
   getUsersData(count, size) {
-    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
-    this.dataUrl = this.appConfig.urlSlides;
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-      // this.http.get(this.dataUrl).subscribe(
-      data => {
-        this.userList = data;
-        console.log(this.userList)
-        this.dataSource.data = this.userList.list;
-        this.commonservice.sliderTable = this.userList;
-        this.noNextData = this.userList.pageNumber === this.userList.totalPages;
-      });
+    this.http.get(this.appConfig.urlAdminUserList).subscribe(data => {
+      this.userList = data;
+      this.dataSource.data = this.userList;
+      // this.commonservice.userTable = this.groupList;
+      // this.groupList = this.groupList.pageNumber === this.groupList.totalPages;
+      this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+    });
+    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
+    // this.dataUrl = this.appConfig.urlSlides;
+
+    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    //   // this.http.get(this.dataUrl).subscribe(
+    //   data => {
+    //     this.userList = data;
+    //     console.log(this.userList)
+    //     this.dataSource.data = this.userList.list;
+    //     this.commonservice.sliderTable = this.userList;
+    //     this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+    //   });
   }
 
   paginatorL(page) {
@@ -94,15 +134,17 @@ export class UsertblComponent implements OnInit {
     this.noPrevData = true;
   }
 
-  addBtn() {
-    this.isEdit = false;
-    this.changePageMode(this.isEdit);
-    this.router.navigate(['slider', "add"]);
-    // this.viewSeq = 2;
-    // this.sliderForm.reset();
-    // this.sliderForm.get('active').setValue(true)
-    // console.log(this.viewSeq);
-    // this.router.navigate(['slider', "add"]);
+  closeUser(){
+    this.addUserBtn = true;
+    this.closeUserBtn = false;
+    this.animateClass = "animated flipOutX";
+  }
+
+  addUser() {
+    this.addUserBtn = false;
+    this.closeUserBtn = true;
+    this.showUserInput = true;
+    this.animateClass = "animated flipInX";
   }
   
   updateRow(row) {
