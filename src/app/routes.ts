@@ -47,6 +47,7 @@ import { SubcategoryComponent } from './categories/subcategory/subcategory.compo
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
+import { UserpermissionComponent } from './authentication/user/userpermission.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -98,8 +99,10 @@ export const appRoutes: Routes = [
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
+
 // Article and Announcement Category
 {path: 'admin', component: UsertblComponent},
+{path: 'admin/permission', component: UserpermissionComponent},
 {path: 'announcement', component: AnnouncementtblComponent},
 {path: 'announcement/:id', component: AnnouncementComponent},
 {path: 'announcement/add', component: AnnouncementComponent},
