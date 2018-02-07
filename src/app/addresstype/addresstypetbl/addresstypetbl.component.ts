@@ -1,26 +1,22 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
-import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
+import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-pollquestiontbl',
-  templateUrl: './pollquestiontbl.component.html',
-  styleUrls: ['./pollquestiontbl.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-addresstypetbl',
+  templateUrl: './addresstypetbl.component.html',
+  styleUrls: ['./addresstypetbl.component.css']
 })
-
-export class PollquestiontblComponent implements OnInit {
-
-  updateForm: FormGroup
+export class AddresstypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['pq_en', 'pq_bm', 'status', 'action'];
+  displayedColumns = ['addEng', 'addMalay', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -33,41 +29,24 @@ export class PollquestiontblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
-  selection = new SelectionModel<Element>(true, []);
-
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  // masterToggle() {
-  //   this.isAllSelected() ?
-  //       this.selection.clear() :
-  //       this.dataSource.data.forEach(row => this.selection.select(row));
-  // }
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  
+
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+
+  ngOnInit() {
 
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
-  ngOnInit() {
-    // this.getRecordList(this.pageCount, this.pageSize);
-  }
-
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlAddressType + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -75,13 +54,11 @@ export class PollquestiontblComponent implements OnInit {
 
       console.log("data");
       console.log(data);
-
-      this.dataSource.data = this.recordList.pollQuestionFormatList;
+      
+      this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
     });
-
   }
 
   paginatorL(page) {
@@ -99,30 +76,28 @@ export class PollquestiontblComponent implements OnInit {
   }
 
   add() {
-
-    this.router.navigate(['poll/questions/add']);
+    this.router.navigate(['address/type/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
-    
     console.log(row);
-    this.router.navigate(['poll/questions', row]);
+    this.router.navigate(['address/type/', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(enId, bmId) {
-  
+  deleteRow(refcode) {
     let txt;
     let r = confirm("Are you sure to delete?");
     if (r == true) {
 
-      this.commonservice.delRecord(enId, bmId).subscribe(
-        data => {         
+      console.log(refcode);
+      this.commonservice.delRecordAddType(refcode).subscribe(
+        data => {
           
           txt = "Record deleted successfully!";
 
-          this.toastr.success(txt, '');   
+          this.toastr.success(txt, '');  
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {

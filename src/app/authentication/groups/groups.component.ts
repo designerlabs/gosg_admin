@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, Inject } from '@angular/c
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonService } from '../../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 // multiSelect()
 // import * as multiSelect from 'multiSelect';
@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./groups.component.css']  
 })
 export class GroupsComponent implements OnInit {
+  activeStatus: any;
+  groupName: any;
   moduleListSelected: any;
   selectedItems: any;
   target: any;
@@ -21,13 +23,16 @@ export class GroupsComponent implements OnInit {
   elementRef: ElementRef;
   groupModule: FormGroup;
   groupmodulename: FormControl;
+  active: FormControl;
+  groupmoduledesc: FormControl;
   
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
     private commonservice:CommonService,
     private http:HttpClient,
     private router:Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route:ActivatedRoute
   ) {
     this.elementRef = elementRef;
     
@@ -38,11 +43,16 @@ export class GroupsComponent implements OnInit {
 
   
   ngOnInit() {
-    
+    this.route.snapshot.params.id;
     this.groupmodulename = new FormControl()
+    this.active = new FormControl();
+    this.groupmoduledesc = new FormControl();
     this.groupModule = new FormGroup({
-      groupmodulename: this.groupmodulename
-    })
+      groupmodulename: this.groupmodulename,
+      active: this.active,
+      groupmoduledesc: this.groupmoduledesc
+    });
+
     this.getModuleData();
   }
 
@@ -52,11 +62,20 @@ export class GroupsComponent implements OnInit {
   }
 
   getModuleData() {
-    this.commonservice.getModuleList().subscribe(
+    if(this.route.snapshot.params.id){
+    
+    this.commonservice.getModuleList( this.route.snapshot.params.id).subscribe(
       data => {
+        this.groupName = data.moduleGroupName;
+        this.activeStatus = data.isActive;
         this.moduleList = data.data[0];
         this.selectedItems = data.data[1];
+        this.groupModule.get('groupmodulename').setValue(this.groupName);
+        this.groupModule.get('active').setValue(this.activeStatus);
+        this.groupModule.get('groupmoduledesc').setValue('a');
+        
       });
+    }
   }
 
 

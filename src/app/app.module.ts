@@ -24,8 +24,8 @@ import { UsertblComponent } from './authentication/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
 import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
-import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
+import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
@@ -35,15 +35,15 @@ import { GroupsComponent } from './authentication/groups/groups.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { StateComponent } from './referencecode/state/state.component';
-import { EthnicityComponent } from './referencecode/ethnic/ethnicity/ethnicity.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
-import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
-import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqComponent } from './faq/faq.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
-import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
+import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
+import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
@@ -52,6 +52,10 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { ToastrModule } from 'ngx-toastr';
 import { CategoryComponent } from './category/category.component';
+import { AddresstypeComponent } from './addresstype/addresstype.component';
+import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { AccountstatusComponent } from './accountstatus/accountstatus.component';
+import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +96,10 @@ import { CategoryComponent } from './category/category.component';
     CategorytblComponent,
     SlidertblComponent,
     CategoryComponent,
+    AddresstypeComponent,
+    AddresstypetblComponent,
+    AccountstatusComponent,
+    AccountstatustblComponent,
   ],
   imports: [
     BrowserModule,

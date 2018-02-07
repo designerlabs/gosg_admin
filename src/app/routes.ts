@@ -16,16 +16,15 @@ import { PollquestionComponent } from './poll/pollquestion/pollquestion.componen
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
-import { FeedbacktypeComponent } from './feedback/type/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedback/type/feedbacktypetbl/feedbacktypetbl.component';
+import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
-import { EthnicityComponent } from './referencecode/ethnic/ethnicity/ethnicity.component';
-// import { EthnicitytblComponent } from './referencecode/ethnic/ethnicitytbl/ethnicitytbl.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
-import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
@@ -36,6 +35,10 @@ import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
 import { CategoryComponent } from './category/category.component';
+import { AddresstypeComponent } from './addresstype/addresstype.component';
+import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -67,10 +70,13 @@ export const appRoutes: Routes = [
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},
-{path: 'reference/ethnicity', component: EthnicityComponent},
-// {path: 'reference/ethnic/ethnicitytbl', component: EthnicitytblComponent},
 {path: 'reference/religion', component: ReligionComponent},
 {path: 'reference/postcode', component: PostcodeComponent},
+{path: 'reference/ethnicity', component: EthnicitytblComponent},
+{path: 'reference/ethnicity/:id', component: EthnicityComponent},
+{path: 'reference/ethnicity/add', component: EthnicityComponent},
+{path: 'faq', component: FaqComponent},
+{path: 'editor', component: EditorComponent},
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
@@ -88,6 +94,13 @@ export const appRoutes: Routes = [
 {path: 'announcement', component: AnnouncementtblComponent},
 {path: 'announcement/:id', component: AnnouncementComponent},
 {path: 'announcement/add', component: AnnouncementComponent},
+{path: 'address/type', component: AddresstypetblComponent},
+{path: 'address/type/:id', component: AddresstypeComponent},
+{path: 'address/type/add', component: AddresstypeComponent},
+{path: 'account', component: AccountstatustblComponent},
+{path: 'account/:id', component: AccountstatusComponent},
+{path: 'account/add', component: AccountstatusComponent},
+
 
 
 // {path: '**', component: ErrorComponent},

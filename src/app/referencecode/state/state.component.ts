@@ -138,12 +138,12 @@ export class StateComponent implements OnInit {
 
   navigateBack() {
     this.viewSeq = 1;
-    this.router.navigate(['state']);
+    this.router.navigate(['reference/state']);
   }
 
   updateRow(row) {
 
-    this.router.navigate(['state', row]);
+    this.router.navigate(['reference/state', row]);
     this.viewSeq = 2;
     // alert("Update Slider id: " + row);
     this.isEdit = true;

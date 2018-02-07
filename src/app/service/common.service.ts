@@ -117,8 +117,8 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getModuleList(){
-    return this.http.get(this.appConfig.urlModuleList)
+  getModuleList(id){
+    return this.http.get(this.appConfig.urlModuleList+'/'+id)
     .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }
@@ -215,9 +215,7 @@ export class CommonService {
 
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
-    console.log(fullUrl)
-    console.log(record)
-
+  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
@@ -238,6 +236,82 @@ export class CommonService {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+
+  addRace(record) {
+    let fullUrl = this.appConfig.urlRace;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRace(record) {
+    let fullUrl = this.appConfig.urlRace ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delRace(refCode) {
+    let fullUrl = this.appConfig.urlRaceDelete;
+    
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addRecordAddType(record) {
+    let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordAddType(refCode) {
+    let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordAddType(record) {
+    let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addRecordAccStatus(record) {
+    let fullUrl = this.appConfig.urlAccountStatus;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordAccStatus(refCode) {
+    let fullUrl = this.appConfig.urlAccountStatus;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordAccStatus(record) {
+    let fullUrl = this.appConfig.urlAccountStatus;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+
 
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;

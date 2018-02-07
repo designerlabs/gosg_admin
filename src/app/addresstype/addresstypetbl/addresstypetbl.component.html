@@ -1,70 +1,70 @@
-<!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0px solid #000">
-    <h4 class="paddingTop-15 staticLabel">
-        <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
-</div> -->
-
-<div class="container right-content">
-    <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-        <h2 class="staticLabel pull-left">View Feedback Type</h2>
-        <span class="pull-right editBtn" style="z-index: 1;">
-            <button type="button" mat-fab color="warn" (click)="add()" 
-            [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">&nbsp;
-            <i class="fa fa-plus font-size-l"></i></button>
-        </span>
-    </div> 
+<div class="container-fluid">
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>Address Type List</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="warn" (click)="add()" >
+                <i class="fa fa-plus font-size-l"></i></button>
+            </span>
+        </div> 
+    </div>
 
     <div class="example-container mat-elevation-z8">
         <!-- <div class="form-header col-md-12" style="background-color:lightgrey;">
             <label class="staticLabel font-size-m boldText">View Polls Questions</label>
         </div> -->
-        <div class="col-md-12 paddingTop-25 example-header">
+        <!-- <div class="col-md-12 paddingTop-25 example-header">
             <mat-form-field class="font-size-s">
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
             </mat-form-field>
-        </div>
+        </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">           
+        <mat-table #table [dataSource]="dataSource">           
          
-            <ng-container matColumnDef="num">
+            <!-- <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
-                    {{element.feedbackTypeId}} 
+                    {{element.feedbackSubjectId}} 
                 </mat-cell>
-            </ng-container>
+            </ng-container> -->
       
-            <!-- question en Column -->
-            <ng-container matColumnDef="feedbackEng">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (EN) </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
-                    {{element.feedbackTypeDescription}} 
+            <!-- add en Column -->
+            <ng-container matColumnDef="addEng">
+                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Address Type (EN) </mat-header-cell>
+                <mat-cell class="text-align-Left" *matCellDef="let element">
+                    {{element.list[0].addressType}} 
                 </mat-cell>
             </ng-container>
 
-            <!-- question bm Column -->
-            <ng-container matColumnDef="feedbackMalay">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (BM) </mat-header-cell>
+            <!-- add bm Column -->
+            <ng-container matColumnDef="addMalay">
+                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Address Type (BM) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.feedbackTypeDescription}}
+                    {{element.list[1].addressType}}
                 </mat-cell>
             </ng-container>
       
             <!-- status Column -->
             <ng-container matColumnDef="status">
-                <mat-header-cell class="text-align-Center" style="flex: 0 0 16%;" *matHeaderCellDef> Active Status </mat-header-cell>
-                <mat-cell class="text-align-Center" style="flex: 0 0 16%;" *matCellDef="let element">
-                    <i class="fa fa-check" style="color: green;"></i>
+                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
+                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                    <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
+                    <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
                 </mat-cell>
             </ng-container>
 
             <!-- action Column -->
             <ng-container matColumnDef="action">
-                <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Action </mat-header-cell>
-                <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
-                    <i class="fa fa-edit font-size-xxl" style="color: orange" (click)="updateRow(element.feedbackTypeCode)"
-                    title="Update {{ element.feedbackTypeCode }}"></i>  
+                <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
+                    <i class="fa fa-edit" title="Update {{ element.refCode }}"></i></button>
                     &nbsp;
-                    <i class="fa fa-trash font-size-xxl" style="color: red" (click)="deleteRow(element.feedbackTypeId)" 
-                    title="Delete {{ element.feedbackTypeCode }}"></i>
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
+                    <i class="fa fa-trash"title="Delete {{ element.refCode}}"></i></button>
                 </mat-cell>
             </ng-container>
         
@@ -87,7 +87,7 @@
           <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
               <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
               <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-              <strong>{{commonservice.recordTable?.totalElements}}</strong> polls questions
+              <strong>{{commonservice.recordTable?.totalElements}}</strong> address type
           </span>
           <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
           <i class="fa fa-angle-left" aria-hidden="true"></i>

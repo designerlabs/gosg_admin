@@ -6,6 +6,7 @@ import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-feedbacksubject',
@@ -27,7 +28,7 @@ export class FeedbacksubjectComponent implements OnInit {
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -157,6 +158,10 @@ export class FeedbacksubjectComponent implements OnInit {
     } else {
         txt = "You pressed Cancel!";
     }
+  }
+
+  back(){
+    this.router.navigate(['feedback/subject']);
   }
 
 }

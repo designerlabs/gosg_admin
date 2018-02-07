@@ -1,3 +1,20 @@
+// import { Component, OnInit } from '@angular/core';
+
+// @Component({
+//   selector: 'app-ethnicitytbl',
+//   templateUrl: './ethnicitytbl.component.html',
+//   styleUrls: ['./ethnicitytbl.component.css']
+// })
+// export class EthnicitytblComponent implements OnInit {
+
+//   constructor() { }
+
+//   ngOnInit() {
+//   }
+
+// }
+
+
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -6,18 +23,21 @@ import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-feedbacktypetbl',
-  templateUrl: './feedbacktypetbl.component.html',
-  styleUrls: ['./feedbacktypetbl.component.css'],
+  selector: 'app-ethnicitytbl',
+  templateUrl: './ethnicitytbl.component.html',
+  styleUrls: ['./ethnicitytbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class FeedbacktypetblComponent implements OnInit {
+export class EthnicitytblComponent implements OnInit {
+
+  updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['num', 'feedbackEng', 'feedbackMalay', 'status', 'action'];
+  displayedColumns = ['raceEng', 'raceMy', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -25,11 +45,25 @@ export class FeedbacktypetblComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
+
+  public getRaceIdEng: any;
+  public getRaceIdMy: any;
+  public getRaceMy: any;
+  public getRaceEng: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  selection = new SelectionModel<Element>(true, []);
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  // isAllSelected() {
+  //   const numSelected = this.selection.selected.length;
+  //   const numRows = this.dataSource.data.length;
+  //   return numSelected === numRows;
+  // }
+
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -38,21 +72,18 @@ export class FeedbacktypetblComponent implements OnInit {
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) { 
-
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
-
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + 'feedback/type';
+    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -60,9 +91,15 @@ export class FeedbacktypetblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.feedbackTypeList;
+      this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+      //
+      // this.getRaceIdMy = this.recordList.raceList[0].raceId;
+      // this.getRaceIdEng = this.recordList.raceList[1].raceId;
+      // this.getRaceMy = this.recordList.raceList[0].refCode;
+      // this.getRaceEng = this.recordList.raceList[1].refCode;
     });
   }
 
@@ -82,26 +119,32 @@ export class FeedbacktypetblComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['feedback/type/add']);
+    this.router.navigate(['reference/ethnicity/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     
-    this.router.navigate(['feedback/type/', row]);
+    console.log(row);
+    this.router.navigate(['reference/ethnicity', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(enId, bmId) {
+  deleteRow(refCode) {
+    let txt;
 
-    console.log(enId + bmId);
-    this.commonservice.delRecord(enId, bmId).subscribe(
+    console.log(refCode);
+    this.commonservice.delRace(refCode).subscribe(
       data => {
-        alert('Record deleted successfully!')
-        this.router.navigate(['feedback/type']);
+        // alert('Record deleted successfully!')
+        txt = "Record deleted successfully!";
+
+          this.toastr.success(txt, '');   
+        this.router.navigate(['reference/ethnicity']);
+        this.getRecordList(this.pageCount, this.pageSize);
       },
       error => {
-        console.log("No Data")
+        txt = "Delete Cancelled!";
     });
   }
 
@@ -117,3 +160,11 @@ export class FeedbacktypetblComponent implements OnInit {
   }
 
 }
+
+
+
+
+
+
+
+
