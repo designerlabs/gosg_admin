@@ -24,6 +24,10 @@ export class CountryComponent implements OnInit {
   noNextData = false;
   rerender = false;
 
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
+
   dataUrl: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

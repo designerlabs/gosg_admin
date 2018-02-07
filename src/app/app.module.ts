@@ -60,6 +60,8 @@ import { AgencyComponent } from './agency/agency.component';
 import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { LanguageComponent } from './language/language.component';
+import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
 import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
 import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
 import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
@@ -114,6 +116,8 @@ import { UserpermissionComponent } from './authentication/user/userpermission.co
     AgencytblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
+    LanguageComponent,
+    LanguagetblComponent,
     MaincategoryComponent,
     MaincategorytblComponent,
     SubcategoryComponent,
