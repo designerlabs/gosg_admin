@@ -94,7 +94,10 @@ export class AddresstypetblComponent implements OnInit {
       console.log(refcode);
       this.commonservice.delRecordAddType(refcode).subscribe(
         data => {
-          alert('Record deleted successfully!')
+          
+          txt = "Record deleted successfully!";
+
+          this.toastr.success(txt, '');  
           this.router.navigate(['address/type']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
