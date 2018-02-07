@@ -24,17 +24,18 @@
 
         <mat-table #table [dataSource]="dataSource">           
          
+            <!-- num Column -->
             <ng-container matColumnDef="num">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element">
-                    {{element.feedbackTypeId}} 
+                <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
+                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
             </ng-container>
       
             <!-- question en Column -->
             <ng-container matColumnDef="feedbackEng">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (EN) </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
+                <mat-cell class="text-align-Left" *matCellDef="let element">
                     {{element.feedbackTypeDescription}} 
                 </mat-cell>
             </ng-container>

@@ -36,6 +36,7 @@ export class CommonService {
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
+  
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
   //   debugger;
@@ -489,6 +490,13 @@ export class CommonService {
     //  console.log(this.countryUrl);
     return this.http.get(this.postcodeUrl+ code)
       .map((response: Response) => response.json().postcodeList)
+      .retry(5)
+      .catch(this.handleError);
+  }
+
+  getAdminUser(): Observable<any[]> {
+    return this.http.get(this.appConfig.urlAdminUserList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
   }
