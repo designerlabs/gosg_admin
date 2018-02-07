@@ -38,13 +38,10 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
-<<<<<<< HEAD
 import { ErrormessageComponent } from './errormessage/errormessage.component';
 import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
-=======
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
->>>>>>> be3bfc8150d9592fae3d4c54ce7c47f93b8c629f
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
