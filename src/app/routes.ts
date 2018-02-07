@@ -10,7 +10,7 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
-import { UsertblComponent } from './authentication/usertbl/usertbl.component';
+import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
@@ -23,7 +23,8 @@ import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
-import { PostcodeComponent } from './referencecode/postcode/postcode.component';import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
@@ -85,6 +86,7 @@ export const appRoutes: Routes = [
 
 // Article and Announcement Category
 
+{path: 'admin', component: UsertblComponent},
 {path: 'announcement/category', component: CategorytblComponent},
 {path: 'article/category', component: CategorytblComponent},
 {path: 'announcement/category/add', component: CategoryComponent},
@@ -97,6 +99,7 @@ export const appRoutes: Routes = [
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
+{path: '**', component: ErrorComponent},
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},

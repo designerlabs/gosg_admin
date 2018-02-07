@@ -20,7 +20,7 @@ import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
-import { UsertblComponent } from './authentication/usertbl/usertbl.component';
+import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
 import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
 import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
