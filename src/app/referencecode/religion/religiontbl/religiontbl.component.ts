@@ -1,11 +1,11 @@
 // import { Component, OnInit } from '@angular/core';
 
 // @Component({
-//   selector: 'app-ethnicitytbl',
-//   templateUrl: './ethnicitytbl.component.html',
-//   styleUrls: ['./ethnicitytbl.component.css']
+//   selector: 'app-religiontbl',
+//   templateUrl: './religiontbl.component.html',
+//   styleUrls: ['./religiontbl.component.css']
 // })
-// export class EthnicitytblComponent implements OnInit {
+// export class ReligiontblComponent implements OnInit {
 
 //   constructor() { }
 
@@ -26,13 +26,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-ethnicitytbl',
-  templateUrl: './ethnicitytbl.component.html',
-  styleUrls: ['./ethnicitytbl.component.css'],
+  selector: 'app-religiontbl',
+  templateUrl: './religiontbl.component.html',
+  styleUrls: ['./religiontbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class EthnicitytblComponent implements OnInit {
+export class ReligiontblComponent implements OnInit {
 
   updateForm: FormGroup
 
@@ -57,13 +57,6 @@ export class EthnicitytblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
-  //   return numSelected === numRows;
-  // }
-
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -82,7 +75,7 @@ export class EthnicitytblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlReligionList + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -119,13 +112,14 @@ export class EthnicitytblComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['reference/ethnicity/add']);
+    this.router.navigate(['reference/religion/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
+    
     console.log(row);
-    this.router.navigate(['reference/ethnicity', row]);
+    this.router.navigate(['reference/religion', row]);
     this.commonservice.pageModeChange(true);
   }
 

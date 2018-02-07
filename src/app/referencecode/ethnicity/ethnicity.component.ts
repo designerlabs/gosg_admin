@@ -55,6 +55,7 @@ export class EthnicityComponent implements OnInit {
   public getRaceIdMy: any;
   public getRefCodeMy: any;
   public getRefCodeEng: any;
+  public getRaceActive: any;
 
   complete: boolean;
 
@@ -65,7 +66,6 @@ export class EthnicityComponent implements OnInit {
   
     this.raceEng = new FormControl();
     this.raceMy = new FormControl();
-
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
@@ -80,6 +80,7 @@ export class EthnicityComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      this.updateForm.get('active').setValue(true);
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -107,6 +108,7 @@ export class EthnicityComponent implements OnInit {
       this.getRaceIdEng = this.recordList.raceList[1].raceId;
       this.getRefCodeMy = this.recordList.raceList[0].refCode;
       this.getRefCodeEng = this.recordList.raceList[1].refCode;
+      this.getRaceActive = this.recordList.raceList[0].active;
 
     });
   }
@@ -131,12 +133,14 @@ export class EthnicityComponent implements OnInit {
       let body = [
         {
           "race": null,
+          "active": false,
           "language": {
               "languageId": null
           }
         },
         {
           "race": null,
+          "active": false,
           "language": {
               "languageId": null
           }
@@ -145,9 +149,11 @@ export class EthnicityComponent implements OnInit {
  
       body[0].race = formValues.raceMy;
       body[0].language.languageId = 2;
+      body[0].active = formValues.active;
 
       body[1].race = formValues.raceEng; 
       body[1].language.languageId = 1;
+      body[1].active = formValues.active;
 
       console.log(body);
 
@@ -177,6 +183,7 @@ export class EthnicityComponent implements OnInit {
           "race": null,
           "raceId": null,
           "refCode": null,
+          "active": false,
           "language": {
               "languageId": null
           }
@@ -185,28 +192,25 @@ export class EthnicityComponent implements OnInit {
           "race": null,
           "raceId": null,
           "refCode": null,
+          "active": false,
           "language": {
               "languageId": null
           }
         }
       ]    
 
-      
-      // body[0].race = formValues.raceMy;
-      // body[0].language.languageId = 2;
-      
-      // body[1].race = formValues.raceEng;
-      // body[1].language.languageId = 1;
 
       body[0].race = formValues.raceMy;
       body[0].raceId = this.getRaceIdMy;
       body[0].refCode = this.getRefCodeMy;
       body[0].language.languageId = 2;
+      body[0].active = formValues.active;
 
       body[1].race = formValues.raceEng; 
       body[1].raceId = this.getRaceIdEng; 
       body[1].refCode = this.getRefCodeEng; 
       body[1].language.languageId = 1;
+      body[1].active = formValues.active;
 
       console.log(body);
 

@@ -53,6 +53,11 @@ import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
+import { ErrormessageComponent } from './errormessage/errormessage.component';
+import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
+import { AgencyComponent } from './agency/agency.component';
+import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
@@ -101,6 +106,11 @@ import { CategoryComponent } from './categories/category/category.component';
     SlidertblComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
+    ReligiontblComponent,
+    ErrormessageComponent,
+    ErrormessagetblComponent,
+    AgencyComponent,
+    AgencytblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
     MaincategoryComponent,

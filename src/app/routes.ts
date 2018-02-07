@@ -23,6 +23,7 @@ import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
+import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
@@ -36,6 +37,8 @@ import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { ErrormessageComponent } from './errormessage/errormessage.component';
+import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
@@ -58,7 +61,10 @@ export const appRoutes: Routes = [
 {path: 'feedback/subject', component: FeedbacksubjecttblComponent},
 {path: 'feedback/subject/:id', component: FeedbacksubjectComponent},
 {path: 'feedback/subject/add', component: FeedbacksubjectComponent},
-
+{path: '404', component: ErrorComponent},
+{path: 'errormessage/add', component: ErrormessageComponent},
+{path: 'errormessage/:id', component: ErrormessageComponent},
+{path: 'errormessage', component: ErrormessagetblComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
@@ -75,7 +81,9 @@ export const appRoutes: Routes = [
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},
-{path: 'reference/religion', component: ReligionComponent},
+{path: 'reference/religion', component: ReligiontblComponent},
+{path: 'reference/religion/:id', component: ReligionComponent},
+{path: 'reference/religion/add', component: ReligionComponent},
 {path: 'reference/postcode', component: PostcodeComponent},
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
@@ -103,7 +111,6 @@ export const appRoutes: Routes = [
 {path: 'subcategory', component: SubcategorytblComponent},
 {path: 'category', component: CategorytblComponent},
 {path: 'maincategory/add', component: MaincategoryComponent},
-{path: '404', component: ErrorComponent},
 // {path: '**', component: ErrorComponent},
 ];
 

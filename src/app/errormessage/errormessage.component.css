@@ -18,14 +18,6 @@
     width: 100%;
     }
     
-    .activeFontColor {
-    color: green;
-    }
-    
-    .inactiveFontColor {
-    color:red;
-    }
-    
     .backTitle {
     margin-left: -2%;
     cursor: pointer;
@@ -37,26 +29,26 @@
     cursor: pointer;
     }
     
-    /* .addBtn{ */
-    /* position: absolute; */
-    /* right: 10px;
-    top: 65%; */
-    /* } */
-    
-    .addBtn:hover {
-    /* position: absolute; */
-    background-color: rgb(109, 185, 38);
-    color: #FFF;
-    /* right: 10px;
-    top: 65%; */
+    .editBtn{
+    position: absolute;
+    right: 10px;
+    top: 65%;
     }
     
-    .addBtn-active {
-    /* position: absolute; */
+    .editBtn:hover {
+    position: absolute;
     background-color: rgb(109, 185, 38);
     color: #FFF;
-    /* right: 10px;
-    top: 65%; */
+    right: 10px;
+    top: 65%;
+    }
+    
+    .editBtn-active {
+    position: absolute;
+    background-color: rgb(109, 185, 38);
+    color: #FFF;
+    right: 10px;
+    top: 65%;
     }
     
     .backBtn a {

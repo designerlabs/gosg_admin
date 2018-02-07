@@ -37,11 +37,11 @@
     cursor: pointer;
     }
     
-    /* .addBtn{ */
+    .addBtn{
     /* position: absolute; */
     /* right: 10px;
     top: 65%; */
-    /* } */
+    }
     
     .addBtn:hover {
     /* position: absolute; */
