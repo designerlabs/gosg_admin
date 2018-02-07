@@ -113,6 +113,10 @@ export class EthnicityComponent implements OnInit {
     });
   }
 
+  back(){
+    this.router.navigate(['reference/ethnicity']);
+  }
+
   submit(formValues: any) {
     
     let flag = false;

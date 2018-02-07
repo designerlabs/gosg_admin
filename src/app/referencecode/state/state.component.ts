@@ -15,7 +15,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class StateComponent implements OnInit {
 
   recordList = null;
-  // displayedColumns = ['stateName', 'stateId'];
+  // displayedColumns = ['no','stateName', 'stateId'];
   displayedColumns: any;
   pageSize = 10;
   pageCount = 1;
@@ -33,6 +33,9 @@ export class StateComponent implements OnInit {
   active: FormControl
   pageMode: String;
   
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
 
   dataUrl: any;
 
@@ -58,7 +61,7 @@ export class StateComponent implements OnInit {
     this.viewSeq = 1;
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.displayedColumns = ['stateName', 'stateId'];
+    this.displayedColumns = ['no', 'stateName', 'stateId'];
 
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
@@ -92,6 +95,9 @@ export class StateComponent implements OnInit {
 
         console.log("data");
         console.log(data);
+
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
 
         this.dataSource.data = this.recordList.stateList;
         this.commonservice.recordTable = this.recordList;

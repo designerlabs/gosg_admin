@@ -21,6 +21,7 @@ export class CityComponent implements OnInit {
   noPrevData = true;
   noNextData = false;
   rerender = false;
+  
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
@@ -46,7 +47,7 @@ export class CityComponent implements OnInit {
 
   ngOnInit() {
     this.getRecordList(this.pageCount, this.pageSize);
-    debugger;
+    // debugger;
   }
 
   getRecordList(count, size) {

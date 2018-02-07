@@ -37,12 +37,16 @@ export class ReligiontblComponent implements OnInit {
   updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['raceEng', 'raceMy', 'status', 'action'];
+  displayedColumns = ['no', 'religionEng', 'religionMy', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
+
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
 
   dataUrl: any;  
 
@@ -83,6 +87,9 @@ export class ReligiontblComponent implements OnInit {
 
       console.log("data");
       console.log(data);
+
+      this.seqPageNum = this.recordList.pageNumber;
+      this.seqPageSize = this.recordList.pageSize;
       
       this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;

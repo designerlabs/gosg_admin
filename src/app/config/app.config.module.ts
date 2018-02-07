@@ -75,7 +75,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
-    urlReligionList: serviceURL + 'religion',
+    urlReligionList: commonURL + 'religion',
     urlRaceList: serviceURL + 'race',
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',

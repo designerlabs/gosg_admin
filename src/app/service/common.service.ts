@@ -349,6 +349,32 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addReligion(record) {
+    let fullUrl = this.appConfig.urlReligionList;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateReligion(record) {
+    let fullUrl = this.appConfig.urlReligionList ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delReligion(refCode) {
+    let fullUrl = this.appConfig.urlRaceDelete;
+    
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   addRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
 

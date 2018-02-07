@@ -36,33 +36,40 @@
           </mat-form-field>
         </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">
+        <mat-table #table [dataSource]="dataSource">
 
-            <ng-container matColumnDef="raceEng">
+            <ng-container matColumnDef="no">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="religionEng">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> Religion (Malay) </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
-                    {{element.list[0].race}}
+                    {{element.list[0].religion}}
                 </mat-cell>
             </ng-container>
 
             <!-- question en Column -->
-            <ng-container matColumnDef="raceMy">
+            <ng-container matColumnDef="religionMy">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> Religion (English) </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
-                    {{element.list[1].race}}
+                    {{element.list[1].religion}}
                 </mat-cell>
             </ng-container>
 
             
 
             <!-- status Column -->
-            <ng-container matColumnDef="status">
+            <!-- <ng-container matColumnDef="status">
                 <mat-header-cell class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
                 <mat-cell class="statusColumn" *matCellDef="let element">
                     <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
                     <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
                 </mat-cell>
-            </ng-container>
+            </ng-container> -->
 
             <!-- action Column -->
             <ng-container matColumnDef="action">
