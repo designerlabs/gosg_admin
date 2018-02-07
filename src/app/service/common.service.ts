@@ -215,9 +215,7 @@ export class CommonService {
 
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
-    console.log(fullUrl)
-    console.log(record)
-
+  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
@@ -267,8 +265,6 @@ export class CommonService {
 
   addRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
-    console.log(fullUrl)
-    console.log(record)
 
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -285,6 +281,30 @@ export class CommonService {
 
   updateRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addRecordAccStatus(record) {
+    let fullUrl = this.appConfig.urlAccountStatus;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordAccStatus(refCode) {
+    let fullUrl = this.appConfig.urlAccountStatus;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordAccStatus(record) {
+    let fullUrl = this.appConfig.urlAccountStatus;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())

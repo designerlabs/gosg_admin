@@ -23,7 +23,8 @@ import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
-import { PostcodeComponent } from './referencecode/postcode/postcode.component';import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
@@ -37,6 +38,8 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -79,9 +82,8 @@ export const appRoutes: Routes = [
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
-{path: 'announcement', component: AnnouncementtblComponent},
-{path: 'announcement/:id', component: AnnouncementComponent},
-{path: 'announcement/add', component: AnnouncementComponent},
+
+
 // Article and Announcement Category
 
 {path: 'admin', component: UsertblComponent},
@@ -91,10 +93,17 @@ export const appRoutes: Routes = [
 {path: 'article/category/add', component: CategoryComponent},
 {path: 'announcement/category/:id', component: CategoryComponent},
 {path: 'article/category/:id', component: CategoryComponent},
+{path: 'announcement', component: AnnouncementtblComponent},
+{path: 'announcement/:id', component: AnnouncementComponent},
+{path: 'announcement/add', component: AnnouncementComponent},
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
-{path: '**', component: ErrorComponent}
+{path: '**', component: ErrorComponent},
+{path: 'account', component: AccountstatustblComponent},
+{path: 'account/:id', component: AccountstatusComponent},
+{path: 'account/add', component: AccountstatusComponent},
+
 
 
 // {path: '**', component: ErrorComponent},
