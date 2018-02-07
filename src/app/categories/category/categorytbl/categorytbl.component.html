@@ -11,11 +11,13 @@
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource">
 
-      <!-- groupName Column -->
-      <ng-container matColumnDef="categorySort">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> No </mat-header-cell>
-        <mat-cell *matCellDef="let element" [style.flex]="'0 0 5%'"> {{element.categoryList[0].categorySort}} </mat-cell>
-      </ng-container>
+      <!-- No Column -->
+      <ng-container matColumnDef="no">
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> No </mat-header-cell>
+          <mat-cell *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">  
+            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }} 
+          </mat-cell>
+        </ng-container>
       <!-- Title (BM) Column -->
       <ng-container matColumnDef="categoryTitle_bm">
         <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (BM) </mat-header-cell>
@@ -34,11 +36,11 @@
       <ng-container matColumnDef="action">
         <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 15%'"> Action </mat-header-cell>
         <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 15%'">
-          <button mat-mini-fab style="background: orange" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
+          <button mat-mini-fab style="background: orange" (click)="editGroup(element.categoryCode)" title="Update {{ element.categoryCode }}">
             <i class="fa fa-edit"></i>
           </button>&nbsp;
-          <button mat-mini-fab style="background: red" (click)="deleteRow(element.moduleGroupId)">
-            <i class="fa fa-trash" title="Delete {{ element.moduleGroupId }}"></i>
+          <button mat-mini-fab style="background: red" (click)="deleteRow(element.categoryCode)">
+            <i class="fa fa-trash" title="Delete {{ element.categoryCode }}"></i>
           </button>
         </mat-cell>
       </ng-container>

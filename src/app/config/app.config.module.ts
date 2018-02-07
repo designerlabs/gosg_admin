@@ -51,6 +51,8 @@ export class AppConfig {
     urlAdminUserList:string;
     urlFeedbackType: string;
     urlFeedbackSubject: string;
+    urlSubCategoryList: string;
+    urlMainCategoryList: string;
 
 }
 
@@ -92,6 +94,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAccountStatus: commonURL + 'AccountStatusEntity',
     urlFeedbackType: commonURL + 'feedbacktype',
     urlFeedbackSubject: commonURL + 'feedbacksubject',
+    urlSubCategoryList: './app/apidata/subcategory.json',
+    urlMainCategoryList: './app/apidata/maincategory.json',
 };
 
 @NgModule({

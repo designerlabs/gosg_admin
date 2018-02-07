@@ -14,7 +14,11 @@ export class CategorytblComponent implements OnInit {
   categoryList = null;
   noPrevData = true;
   noNextData = false;
-  displayedColumns = ['categorySort', 'categoryTitle_bm', 'categoryTitle_en', 'action'];
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0;
+
+  displayedColumns = ['no', 'categoryTitle_bm', 'categoryTitle_en', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.categoryList);
 
@@ -31,7 +35,9 @@ export class CategorytblComponent implements OnInit {
     // getFaqData
       return this.commonservice.getCategoryData()
        .subscribe(resStateData => {
-          this.categoryList = resStateData;  
+        this.seqPageNum = resStateData.pageNumber;
+        this.seqPageSize = resStateData.pageSize;
+          this.categoryList = resStateData.categoryCodeList;  
           this.dataSource.data = this.categoryList;      
         },
         Error => {
@@ -41,7 +47,7 @@ export class CategorytblComponent implements OnInit {
   }
 
   add(){    
-      this.router.navigate([this.router.url , 'add']);
+      this.router.navigate(['category' , 'add']);
   }
 
   editGroup(fId) {
