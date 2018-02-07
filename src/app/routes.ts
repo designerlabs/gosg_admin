@@ -106,10 +106,10 @@ export const appRoutes: Routes = [
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
-{path: '**', component: ErrorComponent},
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
+{path: '**', component: ErrorComponent}, // put at the last row
 // All Category
 
 // {path: '**', component: ErrorComponent},
