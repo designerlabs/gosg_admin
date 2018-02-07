@@ -88,7 +88,7 @@ export class AddresstypetblComponent implements OnInit {
 
   deleteRow(refcode) {
     let txt;
-    let r = confirm("Are you sure to delete " + refcode+"?");
+    let r = confirm("Are you sure to delete?");
     if (r == true) {
 
       console.log(refcode);
@@ -98,7 +98,6 @@ export class AddresstypetblComponent implements OnInit {
           txt = "Record deleted successfully!";
 
           this.toastr.success(txt, '');  
-          this.router.navigate(['address/type']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
