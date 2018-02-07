@@ -50,7 +50,7 @@ export class UsertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns = ['username', 'moduleGroupName', 'isActive', 'action'];
   }
 
   ngAfterViewInit() {
@@ -60,18 +60,26 @@ export class UsertblComponent implements OnInit {
 
   // get Slider Data 
   getUsersData(count, size) {
-    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
-    this.dataUrl = this.appConfig.urlSlides;
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-      // this.http.get(this.dataUrl).subscribe(
-      data => {
-        this.userList = data;
-        console.log(this.userList)
-        this.dataSource.data = this.userList.list;
-        this.commonservice.sliderTable = this.userList;
-        this.noNextData = this.userList.pageNumber === this.userList.totalPages;
-      });
+    this.http.get(this.appConfig.urlAdminUserList).subscribe(data => {
+      this.userList = data;
+      this.dataSource.data = this.userList;
+      // this.commonservice.userTable = this.groupList;
+      // this.groupList = this.groupList.pageNumber === this.groupList.totalPages;
+      this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+    });
+    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
+    // this.dataUrl = this.appConfig.urlSlides;
+
+    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    //   // this.http.get(this.dataUrl).subscribe(
+    //   data => {
+    //     this.userList = data;
+    //     console.log(this.userList)
+    //     this.dataSource.data = this.userList.list;
+    //     this.commonservice.sliderTable = this.userList;
+    //     this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+    //   });
   }
 
   paginatorL(page) {
