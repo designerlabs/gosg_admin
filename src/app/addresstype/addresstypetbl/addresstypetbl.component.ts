@@ -24,6 +24,8 @@ export class AddresstypetblComponent implements OnInit {
   rerender = false;
 
   dataUrl: any;  
+
+  filteredArray: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -31,6 +33,7 @@ export class AddresstypetblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(filterValue: string) {
+
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;

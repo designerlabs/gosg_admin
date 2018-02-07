@@ -48,6 +48,8 @@ export class AppConfig {
     urlCategoryList: string;
     urlAddressType: string;
     urlAccountStatus: string;
+    urlFeedbackType: string;
+    urlFeedbackSubject: string;
 
 }
 
@@ -87,6 +89,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCategoryList: './app/apidata/category.json',
     urlAddressType: commonURL + 'addresstype',
     urlAccountStatus: commonURL + 'accountstatus',
+    urlFeedbackType: commonURL + 'feedbacktype',
+    urlFeedbackSubject: commonURL + 'feedbacksubject',
 };
 
 @NgModule({
