@@ -20,12 +20,16 @@ export class PollquestiontblComponent implements OnInit {
   updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['pq_en', 'pq_bm', 'status', 'action'];
+  displayedColumns = ['num','pq_en', 'pq_bm', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
+
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
 
   dataUrl: any;  
   
@@ -77,6 +81,8 @@ export class PollquestiontblComponent implements OnInit {
       console.log(data);
 
       this.dataSource.data = this.recordList.pollQuestionFormatList;
+      this.seqPageNum = this.recordList.pageNumber;
+      this.seqPageSize = this.recordList.pageSize;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 

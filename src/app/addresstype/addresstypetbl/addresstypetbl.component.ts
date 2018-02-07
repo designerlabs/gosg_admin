@@ -16,12 +16,16 @@ import { ToastrService } from 'ngx-toastr';
 export class AddresstypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['addEng', 'addMalay', 'status', 'action'];
+  displayedColumns = ['num','addEng', 'addMalay', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
+
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
 
   dataUrl: any;  
 
@@ -59,6 +63,8 @@ export class AddresstypetblComponent implements OnInit {
       console.log(data);
       
       this.dataSource.data = this.recordList.list;
+      this.seqPageNum = this.recordList.pageNumber;
+      this.seqPageSize = this.recordList.pageSize;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     });
