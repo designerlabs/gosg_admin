@@ -1,0 +1,101 @@
+<div class="container right-content">
+  <!-- <div class="col-md-12">
+    <h2 class="staticLabel"></h2>
+    <span class="pull-right editBtn">
+      <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">
+        <i class="fa fa-plus font-size-l"></i>
+      </button>
+    </span>
+  </div> -->
+
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+        <h3>User Admin Management</h3>
+    </div>
+    
+    <div class="col-md-2 curdHeadingRight">
+        <span class="pull-right">
+            <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+            <i class="fa fa-plus font-size-l"></i></button>
+        </span>
+    </div> 
+</div>
+
+  <div class="example-container mat-elevation-z8">
+    <!-- <div class="example-header">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      </mat-form-field>
+    </div> -->
+
+    <mat-table #table [dataSource]="dataSource">
+      <!-- slideId Column -->
+      <!-- <ng-container matColumnDef="slideCode">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;">Code</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.refCode}} </mat-cell>
+      </ng-container> -->
+
+      <!-- slideTitle Column -->
+      <ng-container matColumnDef="slideTitleEn">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (EN)</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 35%;"> {{element.list[0].slideTitle}} </mat-cell>
+      </ng-container>
+
+      <!-- slideDescription Column -->
+      <ng-container matColumnDef="slideTitleBm">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].slideTitle}} </mat-cell>
+      </ng-container>
+
+      <!-- slideActiveFlag Column -->
+      <ng-container matColumnDef="slideActiveFlag">
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="statusColumn">
+          <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+        </mat-cell>
+      </ng-container>
+      
+      <!-- Action Column -->
+      <ng-container matColumnDef="slideAction">
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actionColumn">
+            <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
+              <i class="fa fa-edit" ></i>
+            </button>
+            &nbsp;
+            <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].slideId,element.list[1].slideId)" title="Delete {{ element.list[0].slideId }},{{ element.list[1].slideId }}">
+              <i class="fa fa-trash"  title="Delete {{ element.list[0].slideId }}, {{ element.list[1].slideId }}"></i>
+            </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+  </div>
+
+  <div class="float-right paddingTop-15">
+    <mat-form-field style="width:50px; margin-top: -10px">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.sliderTable?.totalPages)">
+        <mat-option value="5">5</mat-option>
+        <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+        <strong>{{commonservice.sliderTable?.pageNumber}}</strong> of
+        <strong>{{commonservice.sliderTable?.totalPages}}</strong> in
+        <strong>{{commonservice.sliderTable?.totalElements}}</strong> sliders</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.sliderTable?.pageNumber)">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+      </button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.sliderTable?.pageNumber, commonservice.sliderTable?.totalPages)">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div>
+
+</div>
