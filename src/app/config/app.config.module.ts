@@ -40,14 +40,11 @@ export class AppConfig {
     urlFeedback: string;
     urlFaq: string;
     urlRaceList: string;
-<<<<<<< HEAD
     urlRace: string;
     urlRaceDelete: string;
-=======
     urlAnnounceList: string;
     urlCategoryList: string;
     urlAddressType: string;
->>>>>>> 624036e25f99da2537e6c50b1c057a67e26a1e6a
 
 }
 
