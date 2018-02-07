@@ -18,9 +18,12 @@ export class CategorytblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.categoryList);
 
-  constructor(private commonservice: CommonService, private router: Router) { }
+  constructor(private commonservice: CommonService, private router: Router) { 
+    this.getCategoryList(this.categoryPageCount, this.categoryPageSize);
+  }
 
   ngOnInit() {
+    debugger;
     this.getCategoryList(this.categoryPageCount, this.categoryPageSize);
   }
 
@@ -37,8 +40,8 @@ export class CategorytblComponent implements OnInit {
        });
   }
 
-  add(){
-    this.router.navigate(['category', 'add']);
+  add(){    
+      this.router.navigate([this.router.url , 'add']);
   }
 
   editGroup(fId) {

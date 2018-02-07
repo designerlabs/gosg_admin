@@ -55,14 +55,16 @@ mat-header-cell{
     width: 100% !important;
 }
 
-
-.actionColumn{
+.mat-table {
+    min-height: 312px;
+}
+.actionColumn {
     display:flex;
     justify-content:center;
     flex: 0 0 20% !important;
 }
 
-.statusColumn{
+.statusColumn {
     flex: 0 0 10%  !important;
     display:flex;
     justify-content:center;
