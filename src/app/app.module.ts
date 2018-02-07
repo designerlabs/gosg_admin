@@ -47,15 +47,19 @@ import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedback
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
-import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { ToastrModule } from 'ngx-toastr';
-import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
+import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
+import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
+import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
+import { CategoryComponent } from './categories/category/category.component';
 
 @NgModule({
   declarations: [
@@ -95,11 +99,15 @@ import { AccountstatustblComponent } from './accountstatus/accountstatustbl/acco
     AnnouncementtblComponent,
     CategorytblComponent,
     SlidertblComponent,
-    CategoryComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
+    MaincategoryComponent,
+    MaincategorytblComponent,
+    SubcategoryComponent,
+    SubcategorytblComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserModule,
