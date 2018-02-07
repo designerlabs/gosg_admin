@@ -22,7 +22,7 @@
             </mat-form-field>
         </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">           
+        <mat-table #table [dataSource]="dataSource">           
          
             <!-- <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No. </mat-header-cell>
@@ -34,7 +34,7 @@
             <!-- add en Column -->
             <ng-container matColumnDef="addEng">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Address Type (EN) </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element" (click)="getRow(element)">
+                <mat-cell class="text-align-Left" *matCellDef="let element">
                     {{element.list[0].addressType}} 
                 </mat-cell>
             </ng-container>
