@@ -54,6 +54,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstyp
     CategoryComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
+    ReligiontblComponent,
   ],
   imports: [
     BrowserModule,

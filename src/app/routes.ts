@@ -23,6 +23,7 @@ import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
 import { CityComponent } from './referencecode/city/city.component';
 import { ReligionComponent } from './referencecode/religion/religion.component';
+import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
@@ -68,7 +69,9 @@ export const appRoutes: Routes = [
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},
-{path: 'reference/religion', component: ReligionComponent},
+{path: 'reference/religion', component: ReligiontblComponent},
+{path: 'reference/religion/:id', component: ReligionComponent},
+{path: 'reference/religion/add', component: ReligionComponent},
 {path: 'reference/postcode', component: PostcodeComponent},
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
