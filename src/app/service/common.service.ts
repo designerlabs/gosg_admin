@@ -311,8 +311,56 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecordFeedbackType(record) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedbackType(refCode) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedbackType(record) {
+    let fullUrl = this.appConfig.urlFeedbackType;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addRecordFeedbackSubject(record) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedbackSubject(refCode) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+
+    return this.http.delete(fullUrl + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedbackSubject(record) {
+    let fullUrl = this.appConfig.urlFeedbackSubject;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
 
+  
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
