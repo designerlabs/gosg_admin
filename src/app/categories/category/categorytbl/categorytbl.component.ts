@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-import { CommonService } from '../../service/common.service';
+import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -68,6 +68,5 @@ export class CategorytblComponent implements OnInit {
     this.categoryPageSize = event.value;
     this.noPrevData = true;
   }
-
 
 }
