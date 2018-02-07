@@ -93,6 +93,11 @@ export const appRoutes: Routes = [
 {path: 'subcategory', component: SubcategorytblComponent},
 {path: 'category', component: CategorytblComponent},
 {path: 'maincategory/add', component: MaincategoryComponent},
+{path: 'subcategory/add', component: SubcategoryComponent},
+{path: 'category/add', component: CategoryComponent},
+{path: 'maincategory/:id', component: MaincategoryComponent},
+{path: 'subcategory/:id', component: SubcategoryComponent},
+{path: 'category/:id', component: CategoryComponent},
 {path: 'faq', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'faq', component: FaqtblComponent},
@@ -109,10 +114,10 @@ export const appRoutes: Routes = [
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
-{path: '**', component: ErrorComponent},
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
+{path: '**', component: ErrorComponent}, // put at the last row
 // All Category
 
 // {path: '**', component: ErrorComponent},

@@ -148,14 +148,28 @@ export class CommonService {
   getAnnounceData() {
     console.log(this.appConfig.urlAnnounceList);
     return this.http.get(this.appConfig.urlAnnounceList)
-    .map((response: Response) => response.json().announceCodeList)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   getCategoryData() {
     console.log(this.appConfig.urlCategoryList);
     return this.http.get(this.appConfig.urlCategoryList)
-    .map((response: Response) => response.json().categoryCodeList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getSubCategoryData() {
+    console.log(this.appConfig.urlSubCategoryList);
+    return this.http.get(this.appConfig.urlSubCategoryList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getMainCategoryData() {
+    console.log(this.appConfig.urlMainCategoryList);
+    return this.http.get(this.appConfig.urlMainCategoryList)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 

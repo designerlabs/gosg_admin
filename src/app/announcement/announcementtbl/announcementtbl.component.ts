@@ -14,7 +14,11 @@ export class AnnouncementtblComponent implements OnInit {
   announceList = null;
   noPrevData = true;
   noNextData = false;
-  displayedColumns = ['announceSort', 'announceTitle_bm', 'announceTitle_en', 'action'];
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0;
+
+  displayedColumns = ['no', 'announcementTitle', 'announcementDescription', 'isActive', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.announceList);
 
@@ -28,12 +32,14 @@ export class AnnouncementtblComponent implements OnInit {
     // debugger;
       return this.commonservice.getAnnounceData()
        .subscribe(resStateData => {
-          this.announceList = resStateData;  
+          this.seqPageNum = resStateData.pageNumber;
+          this.seqPageSize = resStateData.pageSize;
+          this.announceList = resStateData.list;  
           this.dataSource.data = this.announceList;      
         },
         Error => {
         //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-        console.log('Error in State');
+        console.log('Error in Announcement');
        });
   }
 
