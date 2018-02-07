@@ -88,6 +88,10 @@ export const appRoutes: Routes = [
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
 {path: 'reference/ethnicity/add', component: EthnicityComponent},
+{path: 'maincategory', component: MaincategorytblComponent},
+{path: 'subcategory', component: SubcategorytblComponent},
+{path: 'category', component: CategorytblComponent},
+{path: 'maincategory/add', component: MaincategoryComponent},
 {path: 'faq', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'faq', component: FaqtblComponent},
@@ -107,10 +111,7 @@ export const appRoutes: Routes = [
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
 // All Category
-{path: 'article/maincategory', component: MaincategorytblComponent},
-{path: 'subcategory', component: SubcategorytblComponent},
-{path: 'category', component: CategorytblComponent},
-{path: 'maincategory/add', component: MaincategoryComponent},
+
 // {path: '**', component: ErrorComponent},
 ];
 
