@@ -19,17 +19,25 @@
               </td>
               <td style="padding-left:10px;">
                 <mat-form-field class="example-full-width" *ngIf="showEmail">
-                  <input matInput placeholder="Email" formControlName="emailFld" required>
+                  <input (keyup)="getSearchData('email_like', emailFld)" matInput placeholder="Email" #emailFld formControlName="emailFld" required>
                   <mat-error *ngIf="addUserForm.controls.emailFld.hasError('required')">
                     Email is required
                   </mat-error>
                 </mat-form-field>
                 <mat-form-field class="example-full-width"  *ngIf="showIC">
-                  <input matInput placeholder="IC No." formControlName="icFld" required>
+                  <input (keyup)="getSearchData('icno_like', icFld)" matInput placeholder="IC No." #icFld formControlName="icFld" required>
                   <mat-error *ngIf="addUserForm.controls.icFld.hasError('required')">
                     IC No. is required
                   </mat-error>
                 </mat-form-field>
+                <div style="position:absolute;">
+                  <ul>
+                    <li *ngFor="let data of searchUserResult">
+                      <span *ngIf="emailFld.dirty && emailFld.valid">{{data?.email}}</span>
+                      <span *ngIf="icFld.dirty && icFld.valid">{{data?.icno}}</span>
+                    </li>
+                  </ul>
+                </div>
               </td>
               <td style="padding-left:10px;">
                 <div class="example-full-width"> <button [disabled]="'true'" mat-raised-button color="primary">Add User</button> </div>

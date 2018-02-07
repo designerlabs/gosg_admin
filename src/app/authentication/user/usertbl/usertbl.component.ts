@@ -13,6 +13,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  searchUserResult: Object;
   closeUserBtn: boolean;
   addUserBtn: boolean;
   animateClass: string;
@@ -96,22 +97,14 @@ export class UsertblComponent implements OnInit {
     this.http.get(this.appConfig.urlAdminUserList).subscribe(data => {
       this.userList = data;
       this.dataSource.data = this.userList;
-      // this.commonservice.userTable = this.groupList;
-      // this.groupList = this.groupList.pageNumber === this.groupList.totalPages;
       this.noNextData = this.userList.pageNumber === this.userList.totalPages;
     });
-    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
-    // this.dataUrl = this.appConfig.urlSlides;
+  }
 
-    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-    //   // this.http.get(this.dataUrl).subscribe(
-    //   data => {
-    //     this.userList = data;
-    //     console.log(this.userList)
-    //     this.dataSource.data = this.userList.list;
-    //     this.commonservice.sliderTable = this.userList;
-    //     this.noNextData = this.userList.pageNumber === this.userList.totalPages;
-    //   });
+  getSearchData(type,keyword){
+    this.http.get(this.appConfig.urlSearchbyEmail+'?'+type+'='+keyword.value).subscribe(data => {
+      this.searchUserResult = data;
+    });
   }
 
   paginatorL(page) {
