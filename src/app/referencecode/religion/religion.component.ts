@@ -109,10 +109,10 @@ export class ReligionComponent implements OnInit {
       
 
       this.getReligionIdMy = this.recordList.religionList[0].religionId;
-      this.getReligionCodeMy = this.recordList.religionList[0].refCode;
+      this.getReligionCodeMy = this.recordList.religionList[0].religionCode;
 
       this.getReligionIdEng = this.recordList.religionList[1].religionId;
-      this.getReligionCodeEng = this.recordList.religionList[1].refCode;
+      this.getReligionCodeEng = this.recordList.religionList[1].religionCode;
       // this.getRaceActive = this.recordList.raceList[0].active;
 
     });
@@ -191,7 +191,7 @@ export class ReligionComponent implements OnInit {
         {
           "religion": null,
           "religionId": null,
-          "refCode": null,
+          "religionCode": null,
           // "active": false,
           "language": {
               "languageId": null
@@ -200,7 +200,7 @@ export class ReligionComponent implements OnInit {
         {
           "religion": null,
           "religionId": null,
-          "refCode": null,
+          "religionCode": null,
           // "active": false,
           "language": {
               "languageId": null
@@ -211,14 +211,14 @@ export class ReligionComponent implements OnInit {
 
       body[0].religion = formValues.religionMy;
       body[0].religionId = this.getReligionIdMy;
-      body[0].refCode = this.getReligionCodeMy;
+      body[0].religionCode = this.getReligionCodeMy;
       body[0].language.languageId = 2;
 
       // body[0].active = formValues.active;
 
       body[1].religion = formValues.religionEng; 
       body[1].religionId = this.getReligionIdMy; 
-      body[1].refCode = this.getReligionCodeMy; 
+      body[1].religionCode = this.getReligionCodeMy; 
       body[1].language.languageId = 1;
 
       // body[1].active = formValues.active;

@@ -131,9 +131,9 @@ export class ReligiontblComponent implements OnInit {
   }
 
   
-  deleteRow(refCode, raceMy, raceEng) {
+  deleteRow(refCode) {
     let txt;
-    let r = confirm("Are you sure to delete " + raceMy + "/" + raceEng + "?");
+    let r = confirm("Are you sure to delete ?");
 
 
     if (r == true) {
@@ -141,7 +141,7 @@ export class ReligiontblComponent implements OnInit {
       this.commonservice.delRace(refCode).subscribe(
         data => {
           // alert('Record deleted successfully!')
-          txt = raceMy + "/" + raceEng + " record deleted successfully!";
+          txt = " record deleted successfully!";
 
             this.toastr.success(txt, '');   
           this.router.navigate(['reference/ethnicity']);
