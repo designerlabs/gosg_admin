@@ -37,6 +37,8 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { ErrormessageComponent } from './errormessage/errormessage.component';
+import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -52,6 +54,9 @@ export const appRoutes: Routes = [
 {path: 'feedback/subject/:id', component: FeedbacksubjectComponent},
 {path: 'feedback/subject/add', component: FeedbacksubjectComponent},
 {path: '404', component: ErrorComponent},
+{path: 'errormessage/add', component: ErrormessageComponent},
+{path: 'errormessage/:id', component: ErrormessageComponent},
+{path: 'errormessage', component: ErrormessagetblComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},

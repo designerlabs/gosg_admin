@@ -20,11 +20,13 @@ const serviceURL = 'http://10.1.70.148:8080/service/';
 
 export class AppConfig {
     apiEndpoint: string;
+    urlAgencyType: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
     urlUsers: string;
     urlSlides: string;
+    urlErrorMsg: string;
     urlUserList: string;
     urlFbTypeList: string;
     urlGroup: string;
@@ -59,11 +61,13 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',
+    urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
     
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
+    urlAgencyType: commonURL + 'authorization/agency/type',
     
 
 

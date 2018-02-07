@@ -54,6 +54,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { ErrormessageComponent } from './errormessage/errormessage.component';
+import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
+import { AgencyComponent } from './agency/agency.component';
+import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +100,10 @@ import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstyp
     CategoryComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
+    ErrormessageComponent,
+    ErrormessagetblComponent,
+    AgencyComponent,
+    AgencytblComponent,
   ],
   imports: [
     BrowserModule,
