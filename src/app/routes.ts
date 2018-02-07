@@ -37,6 +37,8 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { CategoryComponent } from './category/category.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
 import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -93,6 +95,9 @@ export const appRoutes: Routes = [
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
+{path: 'account', component: AccountstatustblComponent},
+{path: 'account/:id', component: AccountstatusComponent},
+{path: 'account/add', component: AccountstatusComponent},
 
 
 

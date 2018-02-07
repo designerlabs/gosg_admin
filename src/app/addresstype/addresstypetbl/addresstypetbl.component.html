@@ -61,10 +61,10 @@
                 <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                 <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                     <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
-                    <i class="fa fa-edit" title="Update {{ element.feedbackSubjectId }}"></i></button>
+                    <i class="fa fa-edit" title="Update {{ element.refCode }}"></i></button>
                     &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].refCode)">
-                    <i class="fa fa-trash"title="Delete {{ element.list[0].refCode}}"></i></button>
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
+                    <i class="fa fa-trash"title="Delete {{ element.refCode}}"></i></button>
                 </mat-cell>
             </ng-container>
         
