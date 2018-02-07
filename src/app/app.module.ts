@@ -103,16 +103,13 @@ import { AccountstatustblComponent } from './accountstatus/accountstatustbl/acco
     CategoryComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
-<<<<<<< HEAD
     ReligiontblComponent,
-=======
     ErrormessageComponent,
     ErrormessagetblComponent,
     AgencyComponent,
     AgencytblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
->>>>>>> 028e1b43dff58828e9294a3f674cf05beaaf9aea
   ],
   imports: [
     BrowserModule,
