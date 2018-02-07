@@ -148,7 +148,7 @@ export class CommonService {
   getAnnounceData() {
     console.log(this.appConfig.urlAnnounceList);
     return this.http.get(this.appConfig.urlAnnounceList)
-    .map((response: Response) => response.json().announceCodeList)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
