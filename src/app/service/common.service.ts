@@ -145,13 +145,6 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getAnnounceData() {
-    console.log(this.appConfig.urlAnnounceList);
-    return this.http.get(this.appConfig.urlAnnounceList)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-
   getCategoryData() {
     console.log(this.appConfig.urlCategoryList);
     return this.http.get(this.appConfig.urlCategoryList)
@@ -229,6 +222,42 @@ export class CommonService {
     .catch(this.handleError);
   }
   // SLIDER END
+
+  //ANNOUNCEMENT STARTS
+
+  getAnnounceTblData() { //For view table
+    console.log(this.appConfig.urlAnnounceList);
+    return this.http.get(this.appConfig.urlAnnounceList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getAnnounce(code) {
+    return this.http.get(this.appConfig.urlAnnounceList + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+    });
+  }
+
+  addAnnounce(ValAnnounce) {
+    return this.http.post(this.appConfig.urlAnnounceList +'/add/all', ValAnnounce)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateAnnounce(ValAnnounce) {
+    return this.http.put(this.appConfig.urlAnnounceList + '/multiple/update', ValAnnounce)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delAnnounce(refCode) {
+    return this.http.delete(this.appConfig.urlAnnounceList + '/' + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  //ANNOUNCEMENT ENDS
 
   // ERROR MESSAGE
   getErrorMsg(code) {

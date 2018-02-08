@@ -1,3 +1,149 @@
-<p>
-  announcement works! here it goes.....
-</p>
+<!-- VIEW: ADD/EDIT Announcement -->
+<div class="container right-content">
+
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+      <h3>{{ pageMode }} Announcement</h3>
+    </div>
+
+    <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+        <button type="button" mat-fab color="accent" (click)="back()">
+          <i class="fa fa-arrow-left font-size-l"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <form [formGroup]="announceForm" autocomplete="off" role="form" novalidate>
+    <!-- EN -->
+    <div class="example-container mat-elevation-z8 col-md-12">
+      <div class="row">
+        <div class="bg-form-header col-md-6">
+          <label class="staticLabel font-size-s boldText">English</label>
+        </div>
+        <div class="bg-form-header col-md-6">
+          <label class="staticLabel font-size-s boldText">Bahasa Malaysia</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()" required>
+            <mat-error *ngIf="announceForm.controls.titleEn.hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <input matInput placeholder="Title" formControlName="titleBm" value="" (change)="checkReqValues()" required>
+            <mat-error *ngIf="announceForm.controls.titleBm.hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+              required></textarea>
+            <mat-error *ngIf="announceForm.controls.descEn.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+              required></textarea>
+            <mat-error *ngIf="announceForm.controls.descBm.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+            <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label class="font-size-s">Announcement Content</label>
+        </div>
+        <div class="col-md-5" style="border: 0px solid #000">
+          <!-- <mat-form-field class="example-full-width font-size-s">
+                    <div class="editor block">
+                        <app-ngx-editor formControlName="htmlContentEn" [config]="editorConfig" [placeholder]="'Enter text here...'" [spellcheck]="true" (change)="checkReqValues()" required></app-ngx-editor>
+                    </div>
+                  <mat-error *ngIf="announceForm.get('htmlContentEn').hasError('required')">
+                    Please type content
+                  </mat-error>
+              </mat-form-field> -->
+        </div>
+
+        <div class="col-md-5" style="border: 0px solid #000; text-align: left">
+          <!-- <mat-form-field class="example-full-width font-size-s">
+                  <div class="editor block">
+                      <app-ngx-editor formControlName="htmlContentBm" [config]="editorConfig" [placeholder]="'Enter text here...'" [spellcheck]="false" (change)="checkReqValues()" required></app-ngx-editor>
+                  </div>
+              <mat-error *ngIf="announceForm.get('htmlContentBm').hasError('required')">
+                  Please type content
+              </mat-error>
+              </mat-form-field> -->
+        </div>
+        <div class="col-md-1">
+          &nbsp;
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <input matInput placeholder="Announcement URL" formControlName="urlEn" #urlEn maxLength="100" (change)="checkReqValues()"
+              required>
+            <mat-error *ngIf="announceForm.controls.urlEn.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{urlEn.value?.length || 0}}/10000</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <input matInput placeholder="Announcement URL" formControlName="urlBm" #urlBm maxLength="100" (change)="checkReqValues()"
+              required>
+            <mat-error *ngIf="announceForm.controls.urlBm.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{urlBm.value?.length || 0}}/10000</mat-hint>
+            <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-12">
+          <mat-checkbox formControlName="active"></mat-checkbox>
+          <span class="font-size-s">&nbsp;Active</span>
+        </div>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;">
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+        (click)="updateAnnounce(announceForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        <i *ngIf="complete" class="fa fa-check"></i> 
+        <i *ngIf="!complete" class="fa fa-times"></i> {{ pageMode }}</button>
+      <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+        style="width: 100px; font-family: Roboto" (click)="myFunction()">
+        <i class="fa fa-refresh"> </i> Reset</button>
+    </div>
+  </form>
+</div>
