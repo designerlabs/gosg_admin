@@ -18,7 +18,7 @@ export class CategorytblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0;
 
-  displayedColumns = ['no', 'categoryTitle_bm', 'categoryTitle_en', 'action'];
+  displayedColumns = ['no', 'categoryName', 'categoryDes', 'status', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.categoryList);
 
@@ -27,7 +27,6 @@ export class CategorytblComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
     this.getCategoryList(this.categoryPageCount, this.categoryPageSize);
   }
 
@@ -37,7 +36,7 @@ export class CategorytblComponent implements OnInit {
        .subscribe(resStateData => {
         this.seqPageNum = resStateData.pageNumber;
         this.seqPageSize = resStateData.pageSize;
-          this.categoryList = resStateData.categoryCodeList;  
+          this.categoryList = resStateData.list;  
           this.dataSource.data = this.categoryList;      
         },
         Error => {
@@ -50,9 +49,9 @@ export class CategorytblComponent implements OnInit {
       this.router.navigate(['category' , 'add']);
   }
 
-  editGroup(fId) {
-    console.log(fId);
-    this.router.navigate(['category', fId]);
+  editGroup(refCode) {
+    console.log(refCode);
+    this.router.navigate(['category', refCode]);
   }
 
   paginatorL(page) {

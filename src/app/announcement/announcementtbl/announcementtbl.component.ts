@@ -30,7 +30,7 @@ export class AnnouncementtblComponent implements OnInit {
 
   getAnnounceList(count, size) {
     // debugger;
-      return this.commonservice.getAnnounceData()
+      return this.commonservice.getAnnounceTblData()
        .subscribe(resStateData => {
           this.seqPageNum = resStateData.pageNumber;
           this.seqPageSize = resStateData.pageSize;
