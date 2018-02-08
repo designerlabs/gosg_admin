@@ -67,4 +67,6 @@
     text-decoration: none
     }
     
-    
+    .mat-table {
+        min-height: auto;
+    }

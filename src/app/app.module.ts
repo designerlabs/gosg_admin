@@ -60,11 +60,14 @@ import { AgencyComponent } from './agency/agency.component';
 import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { LanguageComponent } from './language/language.component';
+import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
 import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
 import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
 import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
+import { UserpermissionComponent } from './authentication/user/userpermission.component';
 
 @NgModule({
   declarations: [
@@ -113,11 +116,14 @@ import { CategoryComponent } from './categories/category/category.component';
     AgencytblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
+    LanguageComponent,
+    LanguagetblComponent,
     MaincategoryComponent,
     MaincategorytblComponent,
     SubcategoryComponent,
     SubcategorytblComponent,
     CategoryComponent,
+    UserpermissionComponent,
   ],
   imports: [
     BrowserModule,

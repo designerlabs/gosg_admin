@@ -176,7 +176,7 @@ export class ErrormessageComponent implements OnInit {
     let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
     if (r == true) {
 
-      this.commonservice.delErrorMsg(enId,bmId).subscribe(
+      this.commonservice.delErrorMsg(enId).subscribe(
         data => {
           txt = "ErrorMsg deleted successfully!";
           // this.router.navigate(['ErrorMsg']);

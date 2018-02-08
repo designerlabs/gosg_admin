@@ -25,6 +25,9 @@ export class ErrormessagetblComponent implements OnInit {
   date = new Date();
   pageMode: String;
   isEdit: boolean;
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,6 +53,7 @@ export class ErrormessagetblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = [
+      'no', 
       'errMsgCodeEn', 
       'messagesDescriptionEn', 
       'messagesDescriptionBm', 
@@ -64,7 +68,7 @@ export class ErrormessagetblComponent implements OnInit {
   // get errMsg Data 
   getErrMsgsData(count, size) {
     // console.log(this.appConfig.urlerrMsgList + '/?page=' + count + '&size=' + size)
-    this.dataUrl = this.appConfig.urlSlides;
+    this.dataUrl = this.appConfig.urlErrorMsg;
 
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
@@ -72,7 +76,9 @@ export class ErrormessagetblComponent implements OnInit {
         this.errMsgList = data;
         console.log(this.errMsgList)
         this.dataSource.data = this.errMsgList.list;
-        this.commonservice.getErrorMsg = this.errMsgList;
+        this.seqPageNum = this.errMsgList.pageNumber;
+        this.seqPageSize = this.errMsgList.pageSize;
+        this.commonservice.errorMsgTable = this.errMsgList;
         this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
       });
   }
@@ -101,11 +107,6 @@ export class ErrormessagetblComponent implements OnInit {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
     this.router.navigate(['errormessage', "add"]);
-    // this.viewSeq = 2;
-    // this.errMsgForm.reset();
-    // this.errMsgForm.get('active').setValue(true)
-    // console.log(this.viewSeq);
-    // this.router.navigate(['errMsg', "add"]);
   }
   
   updateRow(row) {
@@ -114,12 +115,12 @@ export class ErrormessagetblComponent implements OnInit {
     this.router.navigate(['errormessage', row]);
   }
 
-  deleteRow(enId,bmId) {
+  deleteRow(errMsgId) {
     let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+    let r = confirm("Are you sure to delete " + errMsgId + "?");
     if (r == true) {
 
-      this.commonservice.delErrorMsg(enId,bmId).subscribe(
+      this.commonservice.delErrorMsg(errMsgId).subscribe(
         data => {
           txt = "errMsg deleted successfully!";
           // this.router.navigate(['errMsg']);

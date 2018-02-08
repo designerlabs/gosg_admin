@@ -1,13 +1,58 @@
 <div class="container right-content">
   <div class="curdHeader">
-    <div class="col-md-10 curdHeadingLeft">
+    <div class="col-md-6 curdHeadingLeft">
         <h3>User Admin Management</h3>
     </div>
-    
+    <div class="col-md-4 curdHeadingRight">
+        <form [ngClass]="animateClass" [formGroup]="addUserForm" autocomplete="off" role="form" novalidate *ngIf="showUserInput" >
+            <table class="example-full-width" cellspacing="0"><tr>
+              <td>
+                <mat-form-field>
+                  <mat-select formControlName="userType" placeholder="Add User By" (change)="checkReqValues()" required>
+                    <mat-option [value]="1">by Email</mat-option>
+                    <mat-option [value]="2">by IC No.</mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="addUserForm.controls.userType.hasError('required')">
+                    Please select a file
+                  </mat-error>
+                </mat-form-field>
+              </td>
+              <td style="padding-left:10px;">
+                <mat-form-field class="example-full-width" *ngIf="showEmail">
+                  <input (keyup)="getSearchData('email_like', emailFld)" matInput placeholder="Email" #emailFld formControlName="emailFld" required>
+                  <mat-error *ngIf="addUserForm.controls.emailFld.hasError('required')">
+                    Email is required
+                  </mat-error>
+                </mat-form-field>
+                <mat-form-field class="example-full-width"  *ngIf="showIC">
+                  <input (keyup)="getSearchData('icno_like', icFld)" matInput placeholder="IC No." #icFld formControlName="icFld" required>
+                  <mat-error *ngIf="addUserForm.controls.icFld.hasError('required')">
+                    IC No. is required
+                  </mat-error>
+                </mat-form-field>
+                <div style="position:absolute;">
+                  <ul>
+                    <li *ngFor="let data of searchUserResult">
+                      <span *ngIf="emailFld.dirty && emailFld.valid">{{data?.email}}</span>
+                      <span *ngIf="icFld.dirty && icFld.valid">{{data?.icno}}</span>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+              <td style="padding-left:10px;">
+                <div class="example-full-width"> <button [disabled]="'true'" mat-raised-button color="primary">Add User</button> </div>
+              </td>
+            </tr>
+          </table>
+        </form>
+    </div>
     <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
-            <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+            <button *ngIf="addUserBtn" type="button" mat-fab color="warn" (click)="addUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
             <i class="fa fa-plus font-size-l"></i></button>
+
+            <button *ngIf="closeUserBtn" type="button" mat-fab color="default" (click)="closeUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
+                <i class="fa fa-times font-size-l"></i></button>
         </span>
     </div> 
 </div>

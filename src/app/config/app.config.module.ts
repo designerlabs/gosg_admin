@@ -48,12 +48,13 @@ export class AppConfig {
     urlCategoryList: string;
     urlAddressType: string;
     urlAccountStatus: string;
+    urlLanguage: string;
     urlAdminUserList:string;
     urlFeedbackType: string;
     urlFeedbackSubject: string;
     urlSubCategoryList: string;
     urlMainCategoryList: string;
-
+    urlSearchbyEmail: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -66,7 +67,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUserList: commonURL + 'usermanagement',
     urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
-    urlSlides: commonURL + 'slide',
+    urlSlides: commonURL + 'slide',  
+    urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
     
@@ -77,10 +79,11 @@ export const APP_DI_CONFIG: AppConfig = {
     
 
     urlAdminUserList: mockApiURL+'userList',
+    urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
-    urlReligionList: serviceURL + 'religion',
+    urlReligionList: commonURL + 'religion',
     urlRaceList: serviceURL + 'race',
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',

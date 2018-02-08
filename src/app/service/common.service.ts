@@ -22,6 +22,8 @@ export class CommonService {
   userInfo: object;
   userTable: object;
   sliderTable: object;
+  errorMsgTable: object;
+  languageTable: object;
   recordTable: object;
   temp = null;
 
@@ -231,9 +233,9 @@ export class CommonService {
   // SLIDER END
 
   // ERROR MESSAGE
-  getErrorMsg(code) {
+  getErrorMsg(errMsgId) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlErrorMsg + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlErrorMsg + '/' + errMsgId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -241,32 +243,24 @@ export class CommonService {
   }
 
   addErrorMsg(errormsg) {
-
-    // console.log(this.appConfig.urlSlides)
-    // console.log(errormsg)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlErrorMsg, errormsg)
+    return this.http.post(this.appConfig.urlErrorMsg + '/add', errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateErrorMsg(errormsg) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(errormsg)
-    // debugger;
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlErrorMsg+ "/multiple/update", errormsg)
+    return this.http.put(this.appConfig.urlErrorMsg+ "/update", errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delErrorMsg(enId, bmId) {
+  delErrorMsg(errorMsgId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + errorMsgId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -314,6 +308,48 @@ export class CommonService {
   }
   // AGENCY END
 
+  // LANGUAGE
+  getAllLanguage() {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlLanguage + '/all').subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addLanguage(language) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(agencytype)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlLanguage, language)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateLanguage(language) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(agencytype)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlLanguage, language)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delLanguage(languageId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlLanguage + "/" + languageId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // LANGUAGE END
+
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
   
@@ -357,6 +393,32 @@ export class CommonService {
   }
     
   delRace(refCode) {
+    let fullUrl = this.appConfig.urlRaceDelete;
+    
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addReligion(record) {
+    let fullUrl = this.appConfig.urlReligionList;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateReligion(record) {
+    let fullUrl = this.appConfig.urlReligionList ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delReligion(refCode) {
     let fullUrl = this.appConfig.urlRaceDelete;
     
     return this.http.delete(fullUrl + refCode)

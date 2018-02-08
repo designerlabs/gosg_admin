@@ -1,15 +1,5 @@
 
-  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
-        <div class="container right-content">
-            <!-- <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-                <h2 class="staticLabel pull-left">{{commonservice.pageMode}} Race/Ethnic</h2>
-                <br><br>
-                <span class="pull-right">            
-                  <a routerLink='/reference/ethnicity'>
-                    <i class="fa fa-chevron-left font-size-m"></i> BACK
-                  </a>
-                </span>
-            </div>  -->
+    <div class="container-fluid">
 
             <div class="curdHeader">
                 <div class="col-md-10 curdHeadingLeft">
@@ -18,75 +8,68 @@
                 
                 <div class="col-md-2 curdHeadingRight">
                     <span class="pull-right">
-                        <button type="button" mat-fab color="accent"  routerLink='/reference/ethnicity' >
+                        <button type="button" mat-fab color="accent" (click)="back()" >
                         <i class="fa fa-arrow-left font-size-l"></i></button>
                     </span>
                 </div> 
-            </div>
-                       
-            <div class="example-container mat-elevation-z8 col-md-12">
-                <!-- <div class="bg-form-header col-md-12">
-                    <div class="row">
-                        <label class="col-md-6 staticLabel font-size-s boldText">Race/Ethnic (English)</label>
-                        <label class="col-md-6 staticLabel font-size-s boldText">Race/Ethnic (Malay)</label>
-                    </div>
-                </div><br> -->
-    
-                <div class="row" style="margin-top: 10px;">
-                        
-                    <div class="col-md-6 text-align-Center font-size-m"> 
-                        <label class="staticLabel font-size-s boldText">Race/Ethnic (English)</label>
-                    </div>
-                    <div class="col-md-6 text-align-Center font-size-m"> 
-                        <label class="staticLabel font-size-s boldText">Race/Ethnic (Malay)</label>
-                    </div>
-                </div>
-    
-                <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field class="example-full-width font-size-s" >
-                            <textarea matInput placeholder="Race" formControlName="raceEng" #raceEng maxlength="200" 
-                            (change)="checkReqValues()" required></textarea>
-                            <mat-error *ngIf="updateForm.controls.raceEng.hasError('required')">
-                                Race is required
-                            </mat-error>
-                            <mat-hint align="end">{{raceEng.value?.length || 0}}/200</mat-hint>
-                        </mat-form-field>
-                    </div>
-    
-                    <div class="col-md-6">
-                        <mat-form-field class="example-full-width font-size-s" >
-                            <textarea matInput placeholder="Bangsa" formControlName="raceMy" #raceMy maxlength="200" 
-                            (change)="checkReqValues()" required></textarea>
-                            <mat-error *ngIf="updateForm.controls.raceMy.hasError('required')">
-                                Race is required
-                            </mat-error>
-                            <mat-hint align="end">{{raceMy.value?.length || 0}}/200</mat-hint>
-                        </mat-form-field>
-                    </div>
-                </div>
-    
-                
-    
-                <div class="row">
-                    <div class="col-md-12">
-                        <mat-checkbox class="example-full-width font-size-s" formControlName="active">Active</mat-checkbox>
-                    </div>
-                </div>
-            
+
+                <!-- <div class="col-md-2 curdHeadingRight">
+                    <span class="pull-right">
+                        <button type="button" mat-fab color="accent"  routerLink='/reference/ethnicity' >
+                        <i class="fa fa-arrow-left font-size-l"></i></button>
+                    </span>
+                </div>  -->
             </div>
         
-            <div class="form-group" style="margin-top: 2%">
-                <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-                (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-                <i *ngIf="complete" class="fa fa-check"></i>
-                <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
-                <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
-                style="width: 100px; font-family: Roboto" (click)="myFunction()">
-                <i class="fa fa-refresh"></i>Reset</button>
-            </div>      
-    
+            <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
+                <div class="example-container mat-elevation-z8">
+                       
+                    <div class="example-header" style="margin-top: 10px;">
+                        <div class="col-md-6 text-align-Center font-size-m"> 
+                            <label class="staticLabel font-size-s boldText">Race/Ethnic (English)</label>
+                        </div>
+                        <div class="col-md-6 text-align-Center font-size-m"> 
+                            <label class="staticLabel font-size-s boldText">Race/Ethnic (Malay)</label>
+                        </div>
+                    </div>
+            
+                    <div class="example-header">
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <textarea matInput placeholder="Race" formControlName="raceEng" #raceEng maxlength="200" 
+                                (keypress)="checkReqValues()" required></textarea>
+                                <mat-error *ngIf="updateForm.controls.raceEng.hasError('required')">
+                                    Race is required
+                                </mat-error>
+                                <mat-hint align="end">{{raceEng.value?.length || 0}}/200</mat-hint>
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="col-md-6">
+                            <mat-form-field class="example-full-width font-size-s" >
+                                <textarea matInput placeholder="Bangsa" formControlName="raceMy" #raceMy maxlength="200" 
+                                (keypress)="checkReqValues()" required></textarea>
+                                <mat-error *ngIf="updateForm.controls.raceMy.hasError('required')">
+                                    Race is required
+                                </mat-error>
+                                <mat-hint align="end">{{raceMy.value?.length || 0}}/200</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                
+                </div>
+            
+                <div class="form-group" style="margin-top: 2%">
+                    <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+                    (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+                    <i *ngIf="complete" class="fa fa-check"></i>
+                    <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
+                    <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+                    style="width: 100px; font-family: Roboto" (click)="myFunction()">
+                    <i class="fa fa-refresh"></i> Reset</button>
+                </div>      
+        
+            </form>
         </div>
-    </form>
-      
-      
+          
+        
