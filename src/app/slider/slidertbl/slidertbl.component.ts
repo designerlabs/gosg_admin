@@ -48,8 +48,7 @@ export class SlidertblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getSlidersData(this.pageCount, 
-    this.sliderPageSize);
+    this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
 
   ngOnInit() {
@@ -74,7 +73,7 @@ export class SlidertblComponent implements OnInit {
         this.dataSource.data = this.sliderList.list;
         this.seqPageNum = this.sliderList.pageNumber;
         this.seqPageSize = this.sliderList.pageSize;
-        this.commonservice.sliderTable = this.sliderList;
+        this.commonservice.recordTable = this.sliderList;
         this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
       });
   }

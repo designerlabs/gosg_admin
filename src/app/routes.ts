@@ -51,18 +51,15 @@ import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl
 import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-<<<<<<< HEAD
 import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
 import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
 import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
 import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
-=======
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
->>>>>>> 24f84ba1c4f50164e91a278f9a1705ae2b013f89
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},

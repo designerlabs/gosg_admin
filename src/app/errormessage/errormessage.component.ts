@@ -22,7 +22,7 @@ export class ErrormessageComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-  refMessagesCode:any;
+  refMessageCode:any;
   msgIdEn:any;
   msgIdBm:any;
 
@@ -44,7 +44,7 @@ export class ErrormessageComponent implements OnInit {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
 
-    let refCode = this.router.url.split('/')[2];
+    let refMessageCode = this.router.url.split('/')[2];
 
     this.msgCodeEn = new FormControl()
     this.msgCodeBm = new FormControl()
@@ -58,27 +58,17 @@ export class ErrormessageComponent implements OnInit {
       descBm: this.descBm,
     });
 
-    if(refCode == "add") {
+    if(refMessageCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
-      this.getRow(refCode);
+      this.getRow(refMessageCode);
     }
   }
 
   ngAfterViewInit() {
-  }
-
-  isSameImg(enImg,bmImg) {
-
-    console.log(enImg)
-    if(enImg != null && enImg == bmImg) {
-      this.errorMsgForm.get('copyImg').setValue(true);
-    } else {
-      this.errorMsgForm.get('copyImg').setValue(false);
-    }
   }
 
   back(){
@@ -95,40 +85,24 @@ export class ErrormessageComponent implements OnInit {
       Rdata => {
 
         this.ErrorMsgData = Rdata;
+        // console.log(JSON.stringify(this.ErrorMsgData))
         console.log(this.ErrorMsgData)
-        console.log(this.appConfig.urlSlides + "/" + row)
-        let dataEn = this.ErrorMsgData['list'][0];
-        let dataBm = this.ErrorMsgData['list'][1];
+        let dataEn = this.ErrorMsgData['resourceList'][0];
+        let dataBm = this.ErrorMsgData['resourceList'][1];
 
       // populate data
-      this.errorMsgForm.get('msgCodeEn').setValue(dataEn.slideTitle);
-      this.errorMsgForm.get('descEn').setValue(dataEn.slideDescription);
-      this.errorMsgForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
-      this.errorMsgForm.get('msgCodeBm').setValue(dataBm.slideTitle);
-      this.errorMsgForm.get('descBm').setValue(dataBm.slideDescription);
-      this.errorMsgForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
-      this.errorMsgForm.get('active').setValue(dataEn.slideActiveFlag);
-      this.refMessagesCode = dataEn.refMessagesCode;
-      this.msgIdEn = dataEn.slideId;
-      this.msgIdBm = dataBm.slideId;
-      
-      this.isSameImg(dataEn.slideImage,dataBm.slideImage);
+      this.errorMsgForm.get('msgCodeEn').setValue(dataEn.messagesCode);
+      this.errorMsgForm.get('descEn').setValue(dataEn.messagesDescription);
+      this.errorMsgForm.get('msgCodeBm').setValue(dataBm.messagesCode);
+      this.errorMsgForm.get('descBm').setValue(dataBm.messagesDescription);
+      this.refMessageCode = dataEn.refMessageCode;
+      this.msgIdEn = dataEn.messagesId;
+      this.msgIdBm = dataBm.messagesId;
 
       this.checkReqValues();
     });
     
   }
-
-  // isChecked(e) {
-
-  //   if (e.checked) {
-  //     this.errorMsgForm.get("imgBm").setValue(this.imgEn.value);
-  //   } else {
-  //     this.errorMsgForm.get("imgBm").setValue("");
-  //   }
-  //   this.copyImg = e.checked;
-  //   this.checkReqValues();
-  // }
 
   checkReqValues() {
 
@@ -171,12 +145,12 @@ export class ErrormessageComponent implements OnInit {
     }
   }
 
-  deleteRow(enId,bmId) {
+  deleteRow(refCode) {
     let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+    let r = confirm("Are you sure to delete " + refCode + "?");
     if (r == true) {
 
-      this.commonservice.delErrorMsg(enId).subscribe(
+      this.commonservice.delErrorMsg(refCode).subscribe(
         data => {
           txt = "ErrorMsg deleted successfully!";
           // this.router.navigate(['ErrorMsg']);
@@ -199,19 +173,21 @@ export class ErrormessageComponent implements OnInit {
 
     let body = [
       {
+        "messagesId": null,
         "messagesCode": null,
         "messagesDescription": null,
-        "refMessagesCode": null,
+        "refMessageCode": null,
         "language": {
-          "languageId": null
+          "languageId": 1
         }
       }, 
       {
+        "messagesId": null,
         "messagesCode": null,
         "messagesDescription": null,
-        "refMessagesCode": null,
+        "refMessageCode": null,
         "language": {
-          "languageId": null
+          "languageId": 2
         }
       }
     ];
@@ -220,23 +196,21 @@ export class ErrormessageComponent implements OnInit {
 
     body[0].messagesCode = formValues.msgCodeEn;
     body[0].messagesDescription = formValues.descEn;
-    body[0].language.languageId = 1;
 
     body[1].messagesCode = formValues.msgCodeBm;
     body[1].messagesDescription = formValues.descBm;
-    body[1].language.languageId = 2;
 
     console.log(body)
 
     // Add ErrorMsg Service
-    // this.commonservice.addErrorMsg(body).subscribe(
-    //   data => {
-    //     this.toastr.success('ErrorMsg added successfully!', ''); 
-    //     this.router.navigate(['ErrorMsg']);
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //   });
+    this.commonservice.addErrorMsg(body).subscribe(
+      data => {
+        this.toastr.success('ErrorMsg added successfully!', ''); 
+        this.router.navigate(['errormessage']);
+      },
+      error => {
+        console.log("No Data")
+      });
 
     } else {
       
@@ -245,45 +219,43 @@ export class ErrormessageComponent implements OnInit {
         "messagesId": null,
         "messagesCode": null,
         "messagesDescription": null,
-        "refMessagesCode": null,
+        "refMessageCode": null,
         "language": {
-          "languageId": null
+          "languageId": 1
         }
       }, 
       {
         "messagesId": null,
         "messagesCode": null,
         "messagesDescription": null,
-        "refMessagesCode": null,
+        "refMessageCode": null,
         "language": {
-          "languageId": null
+          "languageId": 2
         }
       }
     ];
       
-    body[0].refMessagesCode = this.refMessagesCode;
+    body[0].refMessageCode = this.refMessageCode;
     body[0].messagesId = this.msgIdEn;
     body[0].messagesCode = formValues.msgCodeEn;
     body[0].messagesDescription = formValues.descEn;
-    body[0].language.languageId = 1;
     
-    body[1].refMessagesCode = this.refMessagesCode;
+    body[1].refMessageCode = this.refMessageCode;
     body[1].messagesId = this.msgIdBm;
     body[1].messagesCode = formValues.msgCodeBm;
     body[1].messagesDescription = formValues.descBm;
-    body[1].language.languageId = 2;
 
     console.log(body);
 
     // Update ErrorMsg Service
-    // this.commonservice.updateErrorMsg(body).subscribe(
-    //   data => {
-    //     this.toastr.success('ErrorMsg update successful!', '');   
-    //     this.router.navigate(['ErrorMsg']);
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //   });
+    this.commonservice.updateErrorMsg(body).subscribe(
+      data => {
+        this.toastr.success('ErrorMsg update successful!', '');   
+        this.router.navigate(['errormessage']);
+      },
+      error => {
+        console.log("No Data")
+      });
     }
     
 
