@@ -86,13 +86,13 @@ export class FeedbacktblComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['feedback/type/add']);
+    this.router.navigate(['feedback/admin/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     
-    this.router.navigate(['feedback/type/', row]);
+    this.router.navigate(['feedback/admin/', row]);
     this.commonservice.pageModeChange(true);
   }
 

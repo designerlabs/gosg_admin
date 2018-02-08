@@ -22,8 +22,8 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
-import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
-import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
+import { FeedbackComponent } from './feedback/feedback/feedback.component';
+import { FeedbacktblComponent } from './feedback/feedback/feedbacktbl/feedbacktbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';

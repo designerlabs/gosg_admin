@@ -15,9 +15,6 @@ import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/po
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
-import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
@@ -30,6 +27,9 @@ import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/et
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
+import { FeedbacktblComponent } from './feedback/feedback/feedbacktbl/feedbacktbl.component';
+import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FaqComponent } from './faq/faq.component';
