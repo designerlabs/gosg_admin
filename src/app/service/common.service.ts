@@ -328,7 +328,39 @@ export class CommonService {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlAgencyType + "/delete?code=" + refCode, null)
+    return this.http.delete(this.appConfig.urlAgencyType + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // AGENCY END
+
+  // AGENCY TYPE
+  getAgencyAppType(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlAgencyType + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addAgencyAppType(agencytype) {
+    return this.http.post(this.appConfig.urlAgencyType, agencytype)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateAgencyAppType(agencytype) {
+    return this.http.put(this.appConfig.urlAgencyType, agencytype)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delAgencyAppType(refCode) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlAgencyType + "/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

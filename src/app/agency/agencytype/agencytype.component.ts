@@ -243,14 +243,14 @@ export class AgencytypeComponent implements OnInit {
     console.log(body);
 
     // Update ErrorMsg Service
-    // this.commonservice.updateAgencyType(body).subscribe(
-    //   data => {
-    //     this.toastr.success('Agency Type update successful!', '');   
-    //     this.router.navigate(['agencytype']);
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //   });
+    this.commonservice.updateAgencyType(body).subscribe(
+      data => {
+        this.toastr.success('Agency Type update successful!', '');   
+        this.router.navigate(['agencytype']);
+      },
+      error => {
+        console.log("No Data")
+      });
     }
     
 
