@@ -69,6 +69,8 @@ import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl
 import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
+import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
+import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 
 @NgModule({
   declarations: [
@@ -126,6 +128,8 @@ import { GenderComponent } from './referencecode/gender/gender.component';
     CategoryComponent,
     UserpermissionComponent,
     GenderComponent,
+    CitizentypeComponent,
+    CitizentypetblComponent,
   ],
   imports: [
     BrowserModule,

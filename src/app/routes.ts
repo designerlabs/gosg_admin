@@ -51,6 +51,8 @@ import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
+import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
+import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -95,6 +97,9 @@ export const appRoutes: Routes = [
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
 {path: 'reference/ethnicity/add', component: EthnicityComponent},
+{path: 'reference/citizentype', component: CitizentypetblComponent},
+{path: 'reference/citizentype/:id', component: CitizentypeComponent},
+{path: 'reference/citizentype/add', component: CitizentypeComponent},
 {path: 'reference/gender', component: GenderComponent},
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},

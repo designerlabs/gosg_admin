@@ -1,11 +1,11 @@
 // import { Component, OnInit } from '@angular/core';
 
 // @Component({
-//   selector: 'app-religiontbl',
-//   templateUrl: './religiontbl.component.html',
-//   styleUrls: ['./religiontbl.component.css']
+//   selector: 'app-citizentypetbl',
+//   templateUrl: './citizentypetbl.component.html',
+//   styleUrls: ['./citizentypetbl.component.css']
 // })
-// export class ReligiontblComponent implements OnInit {
+// export class CitizentypetblComponent implements OnInit {
 
 //   constructor() { }
 
@@ -13,6 +13,7 @@
 //   }
 
 // }
+
 
 
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
@@ -26,18 +27,19 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-religiontbl',
-  templateUrl: './religiontbl.component.html',
-  styleUrls: ['./religiontbl.component.css'],
+  selector: 'app-citizentypetbl',
+  templateUrl: './citizentypetbl.component.html',
+  styleUrls: ['./citizentypetbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class ReligiontblComponent implements OnInit {
+export class CitizentypetblComponent implements OnInit {
 
   updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['no', 'religionEng', 'religionMy', 'action'];
+  // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
+  displayedColumns = ['no', 'raceEng', 'raceMy', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -61,7 +63,6 @@ export class ReligiontblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
-
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
@@ -79,7 +80,7 @@ export class ReligiontblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlReligionList + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -119,23 +120,22 @@ export class ReligiontblComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['reference/religion/add']);
+    this.router.navigate(['reference/ethnicity/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
-    
     console.log(row);
-    this.router.navigate(['reference/religion', row]);
+    this.router.navigate(['reference/ethnicity', row]);
     this.commonservice.pageModeChange(true);
   }
 
   
-  deleteRow(refCode) {
+  deleteRow(refCode, raceMy, raceEng) {
     let txt;
     let r = confirm("Are you sure to delete ?");
 
-
+    
     if (r == true) {
       console.log(refCode);
       this.commonservice.delRace(refCode).subscribe(
@@ -144,7 +144,7 @@ export class ReligiontblComponent implements OnInit {
           txt = " record deleted successfully!";
 
           this.toastr.success(txt, '');   
-          this.router.navigate(['reference/religion']);
+          this.router.navigate(['reference/ethnicity']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
@@ -168,6 +168,7 @@ export class ReligiontblComponent implements OnInit {
   }
 
 }
+
 
 
 
