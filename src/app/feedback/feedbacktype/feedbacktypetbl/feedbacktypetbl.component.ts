@@ -50,14 +50,13 @@ export class FeedbacktypetblComponent implements OnInit {
 
   ngOnInit() {
 
-    //this.getRecordList(this.pageCount, this.pageSize);
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + 'feedback/type';
+    this.dataUrl = this.appConfig.urlFeedbackType + '/?page=' + count + '&size=' + size;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -65,7 +64,7 @@ export class FeedbacktypetblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.feedbackTypeList;
+      this.dataSource.data = this.recordList.list;
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
       this.commonservice.recordTable = this.recordList;
@@ -88,28 +87,38 @@ export class FeedbacktypetblComponent implements OnInit {
   }
 
   add() {
-
     this.router.navigate(['feedback/type/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
-    
+    console.log(row);
     this.router.navigate(['feedback/type/', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(enId, bmId) {
+  deleteRow(refcode) {
+    let txt;
+    let r = confirm("Are you sure to delete?");
+    if (r == true) {
 
-    console.log(enId + bmId);
-    this.commonservice.delRecord(enId, bmId).subscribe(
-      data => {
-        alert('Record deleted successfully!')
-        this.router.navigate(['feedback/type']);
-      },
-      error => {
-        console.log("No Data")
-    });
+      console.log(refcode);
+      this.commonservice.delRecordFeedbackType(refcode).subscribe(
+        data => {
+          
+          txt = "Record deleted successfully!";
+
+          this.toastr.success(txt, '');  
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+
+    else{
+      txt = "Delete Cancelled!";
+    }
   }
 
   ngAfterViewInit() {

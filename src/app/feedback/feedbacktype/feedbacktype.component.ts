@@ -23,9 +23,12 @@ export class FeedbacktypeComponent implements OnInit {
 
   public dataUrl: any;  
   public recordList: any;
-  public typeDesc: any;
+ 
+  public getIdEn: any;
+  public getIdBm: any;
+  public getRefId: any;
 
-  complete: boolean;
+  public complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
@@ -48,68 +51,20 @@ export class FeedbacktypeComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
+      this.getData();
     }
 
-    this.getData();
-  }
-
-  update(formValues: any) {
-    let body = [
-      {
-        "typeId": null,
-        "type": null,
-        "typeReference": null,
-        "language": {
-            "languageId": null
-        }
-      },{
-        "typeId": null,
-        "type": null,
-        "typeReference": null,
-        "language": {
-            "languageId": null
-        }
-      }
-    ]    
-    
-    console.log(formValues)
-
-    body[0].typeId = 98;
-    body[0].type = formValues.typeBm;
-    body[0].typeReference = 22;
-    body[0].language.languageId = 2;
-
-    body[1].typeId = 99;
-    body[1].type = formValues.typeEn;
-    body[1].typeReference = 22;
-    body[1].language.languageId = 1;
-
-
-    console.log("TEST")
-    console.log(body)
-
-    // this.commonservice.addRecord(body).subscribe(
-    //   data => {
-    //     console.log(JSON.stringify(body))
-    //     console.log(body)
-    //     alert('Record added successfully!')
-    //     this.router.navigate(['feedback/type/add']);
-    //     // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //     // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
-    // });
   }
 
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
   
-    this.dataUrl = this.appConfig.urlFeedback + 'feedback/type/'+_getRefID;
+    this.dataUrl = this.appConfig.urlAddressType + '/code/'+_getRefID;
 
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
@@ -119,16 +74,109 @@ export class FeedbacktypeComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      if(this.recordList.feedbackType.feedbackTypeDescription){
-        this.updateForm.get('typeEn').setValue(this.recordList.feedbackType.feedbackTypeDescription);
-        this.updateForm.get('typeBm').setValue(this.recordList.feedbackType.feedbackTypeDescription);
-      }
+      this.updateForm.get('typeEn').setValue(this.recordList[0].addressType);
+      this.updateForm.get('typeBm').setValue(this.recordList[1].addressType);      
+      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
 
-      console.log(this.recordList.feedbackType.feedbackTypeDescription)
+      this.getIdEn = this.recordList[0].addressTypeId;
+      this.getIdBm = this.recordList[1].addressTypeId;
+      this.getRefId = this.recordList[0].refCode;
+
+      this.checkReqValues();
       
     });
   }
-  
+
+  submit(formValues: any) {
+    let urlEdit = this.router.url.split('/')[3];
+
+    // add form
+    if(urlEdit === 'add'){
+
+      let body = [
+        {
+        
+          "feedbackTypeDescription": null,
+          "active":false,
+          "language": {
+              "languageId": 2
+          }
+        },{
+          "feedbackTypeDescription": null,
+          "active":false,
+          "language": {
+              "languageId": 1
+          }
+        }
+      ]    
+
+
+      body[0].feedbackTypeDescription = formValues.typeBm;
+      body[0].active = formValues.active;
+      body[1].feedbackTypeDescription = formValues.typeEn;
+      body[1].active = formValues.active;
+
+      console.log(body)
+
+      this.commonservice.addRecordFeedbackType(body).subscribe(
+        data => {
+          console.log(JSON.stringify(body))
+          let txt = "Record added successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/type']);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+
+    // update form
+    else{
+      let body = [
+        {
+          "feedbackTypeId":this.getIdBm,
+          "feedbackTypeDescription": null,
+          "active":false,
+          "refCode": this.getRefId,
+          "language": {
+              "languageId": 2
+          }
+        },{
+          "feedbackTypeId":this.getIdEn,
+          "feedbackTypeDescription": null,
+          "active":false,
+          "refCode": this.getRefId,
+          "language": {
+              "languageId": 1
+          }
+        }
+      ]        
+
+
+      body[0].feedbackTypeDescription = formValues.typeBm;
+      body[0].active = formValues.active;
+      body[1].feedbackTypeDescription = formValues.typeEn;
+      body[1].active = formValues.active;
+      
+
+      console.log("UPDATE: ");
+      console.log(body);
+
+      this.commonservice.updateRecordFeedbackType(body).subscribe(
+        data => {
+          console.log(JSON.stringify(body))
+        
+          let txt = "Record updated successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/type']);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+    
+  }
+
   checkReqValues() {
 
     let reqVal:any = ["typeEn", "typeBm"];
