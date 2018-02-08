@@ -18,9 +18,9 @@ export class FeedbackadminComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  public accEn: FormControl;  
-  public accBm: FormControl;
-  public active: FormControl
+  public title: FormControl;  
+  public message: FormControl;
+  public reply: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
@@ -36,18 +36,18 @@ export class FeedbackadminComponent implements OnInit {
 
   ngOnInit() {
 
-    this.accEn = new FormControl();
-    this.accBm = new FormControl();
-    this.active = new FormControl();
+    this.title = new FormControl();
+    this.message = new FormControl();
+    this.reply = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      accEn: this.accEn,
-      accBm: this.accBm,
-      active: this.active      
+      title: this.title,
+      message: this.message,   
+      reply: this.reply, 
     });
 
-    let urlEdit = this.router.url.split('/')[2];
+    let urlEdit = this.router.url.split('/')[3];
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
@@ -73,9 +73,8 @@ export class FeedbackadminComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('accEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('accBm').setValue(this.recordList[1].accountStatusDescription);      
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('title').setValue(this.recordList[0].accountStatusDescription);
+      this.updateForm.get('message').setValue(this.recordList[1].accountStatusDescription);      
 
       this.getIdEn = this.recordList[0].accountStatusId;
       this.getIdBm = this.recordList[1].accountStatusId;
@@ -177,7 +176,7 @@ export class FeedbackadminComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["accEn", "accBm"];
+    let reqVal:any = ["title", "message", "reply"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
