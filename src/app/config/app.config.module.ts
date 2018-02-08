@@ -54,7 +54,7 @@ export class AppConfig {
     urlFeedbackSubject: string;
     urlSubCategoryList: string;
     urlMainCategoryList: string;
-
+    urlSearchbyEmail: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -79,6 +79,7 @@ export const APP_DI_CONFIG: AppConfig = {
     
 
     urlAdminUserList: mockApiURL+'userList',
+    urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
@@ -87,7 +88,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
     urlPoll: commonURL + 'polls', 
-    urlFeedback: serviceURL,
+    urlFeedback: commonURL,
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
     urlAnnounceList: './app/apidata/announce.json',
