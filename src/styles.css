@@ -35,6 +35,10 @@ mat-header-cell{
     float: right;
 }
 
+.paddingBottom-10 {
+    padding-bottom: 10px;
+}
+
 .paddingTop-10 {
     padding-top: 10px;
 }
@@ -71,4 +75,13 @@ mat-header-cell{
 }
 .padding5 {
     padding:5px;
+}
+
+.centerColumn {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 }
