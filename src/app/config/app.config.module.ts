@@ -85,7 +85,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
     urlPoll: commonURL + 'polls', 
-    urlFeedback: serviceURL,
+    urlFeedback: commonURL,
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
     urlAnnounceList: './app/apidata/announce.json',
