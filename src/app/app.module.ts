@@ -22,8 +22,8 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
-import { FeedbackComponent } from './feedback/feedback/feedback.component';
-import { FeedbacktblComponent } from './feedback/feedback/feedbacktbl/feedbacktbl.component';
+import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
+import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
@@ -71,6 +71,8 @@ import { UserpermissionComponent } from './authentication/user/userpermission.co
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
+import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
+import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +83,6 @@ import { CitizentypetblComponent } from './referencecode/citizentype/citizentype
     ErrorComponent,
     AddtemplateComponent,
     ArticletblComponent,
-    FeedbackComponent,
     UserComponent,
     UsertblComponent,
     GroupstblComponent,
@@ -91,7 +92,8 @@ import { CitizentypetblComponent } from './referencecode/citizentype/citizentype
     PollresultComponent,
     SliderComponent,
     GroupsComponent,    
-    FeedbacktblComponent,
+    FeedbackadminComponent,
+    FeedbackadmintblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
     CountryComponent,
@@ -130,6 +132,8 @@ import { CitizentypetblComponent } from './referencecode/citizentype/citizentype
     GenderComponent,
     CitizentypeComponent,
     CitizentypetblComponent,
+    FeedbackvisitorComponent,
+    FeedbackvisitortblComponent,
   ],
   imports: [
     BrowserModule,

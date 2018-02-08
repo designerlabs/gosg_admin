@@ -9,13 +9,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-feedbacktbl',
-  templateUrl: './feedbacktbl.component.html',
-  styleUrls: ['./feedbacktbl.component.css'],
+  selector: 'app-feedbackvisitortbl',
+  templateUrl: './feedbackvisitortbl.component.html',
+  styleUrls: ['./feedbackvisitortbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class FeedbacktblComponent implements OnInit {
-  
+export class FeedbackvisitortblComponent implements OnInit {
+
   recordList = null;
   displayedColumns = ['num','feedbackEng', 'feedbackMalay','email', 'status', 'action'];
   pageSize = 10;
@@ -40,7 +40,7 @@ export class FeedbacktblComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  
+
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
@@ -51,10 +51,8 @@ export class FeedbacktblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + 'feedback/';
-    console.log("TEST");
+    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -62,7 +60,7 @@ export class FeedbacktblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.feedbackList;
+      this.dataSource.data = this.recordList.list;
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
       this.commonservice.recordTable = this.recordList;
@@ -85,28 +83,38 @@ export class FeedbacktblComponent implements OnInit {
   }
 
   add() {
-
-    this.router.navigate(['feedback/admin/add']);
+    this.router.navigate(['feedback/message/visitor/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
-    
-    this.router.navigate(['feedback/admin/', row]);
+    console.log(row);
+    this.router.navigate(['feedback/message/visitor/', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(enId, bmId) {
+  deleteRow(refcode) {
+    let txt;
+    let r = confirm("Are you sure to delete?");
+    if (r == true) {
 
-    console.log(enId + bmId);
-    this.commonservice.delRecord(enId, bmId).subscribe(
-      data => {
-        alert('Record deleted successfully!')
-        this.router.navigate(['feedback/type']);
-      },
-      error => {
-        console.log("No Data")
-    });
+      console.log(refcode);
+      this.commonservice.delRecordAccStatus(refcode).subscribe(
+        data => {
+          
+          txt = "Record deleted successfully!";
+
+          this.toastr.success(txt, '');  
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+
+    else{
+      txt = "Delete Cancelled!";
+    }
   }
 
   ngAfterViewInit() {
@@ -119,4 +127,5 @@ export class FeedbacktblComponent implements OnInit {
     this.pageSize = event.value;
     this.noPrevData = true;
   }
+
 }

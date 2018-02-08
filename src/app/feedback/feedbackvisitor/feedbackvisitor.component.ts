@@ -1,19 +1,20 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../config/app.config.module';
-import { CommonService } from '../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
+import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-accountstatus',
-  templateUrl: './accountstatus.component.html',
-  styleUrls: ['./accountstatus.component.css']
+  selector: 'app-feedbackvisitor',
+  templateUrl: './feedbackvisitor.component.html',
+  styleUrls: ['./feedbackvisitor.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-export class AccountstatusComponent implements OnInit {
+export class FeedbackvisitorComponent implements OnInit {
 
   updateForm: FormGroup;
   
@@ -207,7 +208,7 @@ export class AccountstatusComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['account']);
+    this.router.navigate(['feedback/message/visitor']);
   }
 
 }

@@ -27,7 +27,8 @@ import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/et
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
-import { FeedbacktblComponent } from './feedback/feedback/feedbacktbl/feedbacktbl.component';
+import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
+import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
@@ -53,14 +54,18 @@ import { UserpermissionComponent } from './authentication/user/userpermission.co
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
+import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
+import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
 {path: 'addtemplate', component: AddtemplateComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
-{path: 'feedback/message/visitor', component: FeedbacktblComponent},
-{path: 'feedback/message/admin', component: FeedbacktblComponent},
+{path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
+{path: 'feedback/message/visitor/add', component: FeedbackvisitorComponent},
+{path: 'feedback/message/admin', component: FeedbackadmintblComponent},
+{path: 'feedback/message/admin/add', component: FeedbackadminComponent},
 {path: 'feedback/type', component: FeedbacktypetblComponent},
 {path: 'feedback/type/:id', component: FeedbacktypeComponent},
 {path: 'feedback/type/add', component: FeedbacktypeComponent},
