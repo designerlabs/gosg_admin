@@ -68,6 +68,7 @@ import { SubcategoryComponent } from './categories/subcategory/subcategory.compo
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
+import { GenderComponent } from './referencecode/gender/gender.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { UserpermissionComponent } from './authentication/user/userpermission.co
     SubcategorytblComponent,
     CategoryComponent,
     UserpermissionComponent,
+    GenderComponent,
   ],
   imports: [
     BrowserModule,
