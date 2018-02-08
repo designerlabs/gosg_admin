@@ -1,6 +1,8 @@
 
     <div class="container-fluid">
 
+            
+
             <div class="curdHeader">
                 <div class="col-md-10 curdHeadingLeft">
                     <h3>{{ commonservice.pageMode }} Race/Ethnic</h3>
@@ -22,7 +24,7 @@
             </div>
         
             <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
-                <div class="example-container mat-elevation-z8">
+                <div class="example-container mat-elevation-z8 paddingBottom-10">
                        
                     <div class="example-header" style="margin-top: 10px;">
                         <div class="col-md-6 text-align-Center font-size-m"> 
@@ -36,30 +38,32 @@
                     <div class="example-header">
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width font-size-s" >
-                                <textarea matInput placeholder="Race" formControlName="raceEng" #raceEng maxlength="200" 
-                                (keypress)="checkReqValues()" required></textarea>
+                                <input matInput placeholder="Race" formControlName="raceEng" #raceEng maxlength="100" 
+                                (keypress)="checkReqValues()" required>
                                 <mat-error *ngIf="updateForm.controls.raceEng.hasError('required')">
                                     Race is required
                                 </mat-error>
-                                <mat-hint align="end">{{raceEng.value?.length || 0}}/200</mat-hint>
+                                <mat-hint align="end">{{raceEng.value?.length || 0}}/100</mat-hint>
                             </mat-form-field>
                         </div>
         
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width font-size-s" >
-                                <textarea matInput placeholder="Bangsa" formControlName="raceMy" #raceMy maxlength="200" 
-                                (keypress)="checkReqValues()" required></textarea>
+                                <input matInput placeholder="Bangsa" formControlName="raceMy" #raceMy maxlength="100" 
+                                (keypress)="checkReqValues()" required>
                                 <mat-error *ngIf="updateForm.controls.raceMy.hasError('required')">
                                     Race is required
                                 </mat-error>
-                                <mat-hint align="end">{{raceMy.value?.length || 0}}/200</mat-hint>
+                                <mat-hint align="end">{{raceMy.value?.length || 0}}/100</mat-hint>
                             </mat-form-field>
                         </div>
                     </div>
+
+                    
                 
                 </div>
             
-                <div class="form-group" style="margin-top: 2%">
+                <div class="form-group paddingTop-10">
                     <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
                     (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
                     <i *ngIf="complete" class="fa fa-check"></i>

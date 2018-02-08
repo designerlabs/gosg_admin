@@ -22,7 +22,7 @@
             </div>
         
             <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
-                <div class="example-container mat-elevation-z8">
+                <div class="example-container mat-elevation-z8 paddingBottom-10">
                        
                     <div class="example-header" style="margin-top: 10px;">
                         <div class="col-md-6 text-align-Center font-size-m"> 
@@ -36,30 +36,32 @@
                     <div class="example-header">
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width font-size-s" >
-                                <textarea matInput placeholder="Religion" formControlName="religionEng" #religionEng maxlength="200" 
-                                (keypress)="checkReqValues()" required></textarea>
+                                <input matInput placeholder="Religion" formControlName="religionEng" #religionEng maxlength="100" 
+                                (keypress)="checkReqValues()" required>
                                 <mat-error *ngIf="updateForm.controls.religionEng.hasError('required')">
                                     Religion is required
                                 </mat-error>
-                                <mat-hint align="end">{{religionEng.value?.length || 0}}/200</mat-hint>
+                                <mat-hint align="end">{{religionEng.value?.length || 0}}/100</mat-hint>
                             </mat-form-field>
                         </div>
         
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width font-size-s" >
-                                <textarea matInput placeholder="Agama" formControlName="religionMy" #religionMy maxlength="200" 
-                                (keypress)="checkReqValues()" required></textarea>
+                                <input matInput placeholder="Agama" formControlName="religionMy" #religionMy maxlength="100" 
+                                (keypress)="checkReqValues()" required>
                                 <mat-error *ngIf="updateForm.controls.religionMy.hasError('required')">
                                     Agama is required
                                 </mat-error>
-                                <mat-hint align="end">{{religionMy.value?.length || 0}}/200</mat-hint>
+                                <mat-hint align="end">{{religionMy.value?.length || 0}}/100</mat-hint>
                             </mat-form-field>
                         </div>
                     </div>
+
+                    
                 
                 </div>
             
-                <div class="form-group" style="margin-top: 2%">
+                <div class="form-group paddingTop-10">
                     <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
                     (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
                     <i *ngIf="complete" class="fa fa-check"></i>
