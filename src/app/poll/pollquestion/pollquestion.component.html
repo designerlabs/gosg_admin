@@ -13,9 +13,10 @@
         </div> 
     </div>
 
-    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
-        <div class="example-container mat-elevation-z8">
-            <div class="bg-form-header col-md-12">
+    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>    
+
+        <div class="example-container mat-elevation-z8" style="margin-bottom: 10px;">
+            <div class="bg-form-header col-md-12 paddingBottom-10">
                 <div class="row">
                     <label class="col-md-6 staticLabel font-size-s boldText">English</label>
                     <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
@@ -31,7 +32,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <textarea matInput placeholder="Poll Question" formControlName="pollEng" #pollEng maxlength="200" 
-                        (keypress)="checkReqValues()" required></textarea>
+                        (keypress)="checkReqValues()" required tabindex="1"></textarea>
                         <mat-error *ngIf="updateForm.controls.pollEng.hasError('required')">
                             Poll Question is required
                         </mat-error>
@@ -42,7 +43,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <textarea matInput placeholder="Poll Question" formControlName="pollMalay" #pollMalay maxlength="200" 
-                        (keypress)="checkReqValues()" required></textarea>
+                        (keypress)="checkReqValues()" required tabindex="2"></textarea>
                         <mat-error *ngIf="updateForm.controls.pollMalay.hasError('required')">
                             Poll Question is required
                         </mat-error>
@@ -60,7 +61,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 1" formControlName="opt1En" (keypress)="checkReqValues()"
-                        value="" required>
+                        required tabindex="3">
                         <mat-error *ngIf="updateForm.controls.opt1En.hasError('required')">
                             Option 1 is required
                         </mat-error>
@@ -69,7 +70,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 1" formControlName="opt1Bm" (keypress)="checkReqValues()"
-                        value="" required>
+                        required tabindex="4">
                         <mat-error *ngIf="updateForm.controls.opt1Bm.hasError('required')">
                             Option 1 is required
                         </mat-error>
@@ -81,7 +82,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 2" formControlName="opt2En" (keypress)="checkReqValues()"
-                        value="" required>
+                        required tabindex="5">
                         <mat-error *ngIf="updateForm.controls.opt2En.hasError('required')">
                             Option 2 is required
                         </mat-error>
@@ -90,7 +91,7 @@
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Option 2" formControlName="opt2Bm" (keypress)="checkReqValues()" 
-                        value="" required>
+                        required tabindex="6">
                         <mat-error *ngIf="updateForm.controls.opt2Bm.hasError('required')">
                             Option 2 is required
                         </mat-error>
@@ -100,16 +101,16 @@
 
             <div class="example-header">
                 <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Option 3" formControlName="opt3En">
-                    <mat-error *ngIf="updateForm.controls.opt3En.hasError('required')">
-                        Option 3 is required
-                    </mat-error>
-                </mat-form-field>
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Option 3" formControlName="opt3En" tabindex="7">
+                        <mat-error *ngIf="updateForm.controls.opt3En.hasError('required')">
+                            Option 3 is required
+                        </mat-error>
+                    </mat-form-field>
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Option 3" formControlName="opt3Bm">
+                        <input matInput placeholder="Option 3" formControlName="opt3Bm" tabindex="8">
                         <mat-error *ngIf="updateForm.controls.opt3Bm.hasError('required')">
                             Option 3 is required
                         </mat-error>
@@ -120,7 +121,7 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Option 4" formControlName="opt4En">
+                        <input matInput placeholder="Option 4" formControlName="opt4En" tabindex="9">
                         <mat-error *ngIf="updateForm.controls.opt4En.hasError('required')">
                             Option 4 is required
                         </mat-error>
@@ -128,7 +129,7 @@
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Option 4" formControlName="opt4Bm">
+                        <input matInput placeholder="Option 4" formControlName="opt4Bm" tabindex="10">
                         <mat-error *ngIf="updateForm.controls.opt4Bm.hasError('required')">
                             Option 4 is required
                         </mat-error>
@@ -139,7 +140,7 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Option 5" formControlName="opt5En">
+                        <input matInput placeholder="Option 5" formControlName="opt5En" tabindex="11">
                         <mat-error *ngIf="updateForm.controls.opt5En.hasError('required')">
                             Option 5 is required
                         </mat-error>
@@ -147,7 +148,7 @@
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Option 5" formControlName="opt5Bm">
+                        <input matInput placeholder="Option 5" formControlName="opt5Bm" tabindex="12">
                         <mat-error *ngIf="updateForm.controls.opt5Bm.hasError('required')">
                             Option 5 is required
                         </mat-error>
@@ -157,13 +158,13 @@
 
             <div class="example-header">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width font-size-s" formControlName="active">Active</mat-checkbox>
+                    <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="3">Active</mat-checkbox>
                 </div>
             </div>
-        
+
         </div>
     
-        <div class="form-group" style="margin-top: 2%">
+        <div class="form-group paddingTop-10">
             <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
             (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
