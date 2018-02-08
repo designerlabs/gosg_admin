@@ -485,7 +485,7 @@ export class CommonService {
   delRecordFeedbackType(refCode) {
     let fullUrl = this.appConfig.urlFeedbackType;
 
-    return this.http.delete(fullUrl + "/" + refCode, null)
+    return this.http.delete(fullUrl + "/code/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -509,7 +509,7 @@ export class CommonService {
   delRecordFeedbackSubject(refCode) {
     let fullUrl = this.appConfig.urlFeedbackSubject;
 
-    return this.http.delete(fullUrl + "/" + refCode, null)
+    return this.http.delete(fullUrl + "/code/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
