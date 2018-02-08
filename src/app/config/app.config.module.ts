@@ -1,18 +1,22 @@
 import { NgModule, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { environment } from '../../environments/environment';
 export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
-const baseURL = 'http://localhost/locale-api/';
-const mockApiURL = 'http://10.1.22.34:3000/';
+const baseURL = environment.baseURL;
+const mockApiURL = environment.mockApiURL;
 
 // const baseURL = 'http://10.1.17.12:3000/';
 
 // // common service
 // let portalBaseURL = 'http://localhost:8020/portal/';
 // let protectedBaseURL = 'http://localhost:8021/portal-protected/';
-const commonURL = 'http://10.1.70.148:8080/service-admin-protected/';
-const serviceURL = 'http://10.1.70.148:8080/service/';
+
+const devURL = environment.uapURL;
+const commonURL = devURL + 'service-admin-protected/';
+const serviceURL = devURL + 'service/';
+
+
 // let publicURL = 'http://10.1.70.148:8080/gosg-service-public/';
 
 // let baseLocalURL = './app/apidata/';

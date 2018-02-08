@@ -33,16 +33,16 @@
             </ng-container>
 
             <ng-container matColumnDef="religionEng">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> Religion (Malay) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-left" *matHeaderCellDef> Religion (Malay) </mat-header-cell>
+                <mat-cell class="text-align-left" *matCellDef="let element">
                     {{element.list[0].religion}}
                 </mat-cell>
             </ng-container>
 
             <!-- question en Column -->
             <ng-container matColumnDef="religionMy">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> Religion (English) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-left" *matHeaderCellDef> Religion (English) </mat-header-cell>
+                <mat-cell class="text-align-left" *matCellDef="let element">
                     {{element.list[1].religion}}
                 </mat-cell>
             </ng-container>
