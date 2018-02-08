@@ -1,88 +1,96 @@
 <div class="container-fluid">
 
-  <div class="curdHeader">
-      <div class="col-md-10 curdHeadingLeft">
-          <h3>{{commonservice.pageMode}} Detail Message</h3>
-      </div>
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>{{commonservice.pageMode}} Detail Message</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="accent" (click)="back()" >
+                <i class="fa fa-arrow-left font-size-l"></i></button>
+            </span>
+        </div> 
+    </div>
       
-      <div class="col-md-2 curdHeadingRight">
-          <span class="pull-right">
-              <button type="button" mat-fab color="accent" (click)="back()" >
-              <i class="fa fa-arrow-left font-size-l"></i></button>
-          </span>
-      </div> 
-  </div>
-
-  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
-                   
-      <div class="example-container mat-elevation-z8 paddingBottom-10">
-
-          <div class="bg-form-header col-md-12">
-              <div class="row">
-                  <label class="col-md-6 staticLabel font-size-s boldText">English</label>
-                  <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
-              </div>
-          </div><br>
-
-          <div class="example-header">
-              <div class="col-md-6 text-align-Center font-size-m"> Account Status </div>
-              <div class="col-md-6 text-align-Center font-size-m"> Account Status </div>
-          </div>
-
-          <div class="example-header">
-              <div class="col-md-6">
-                  <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Account Status" formControlName="accEn" (keypress)="checkReqValues()"
-                      required tabindex="1">
-                      <mat-error *ngIf="updateForm.controls.accEn.hasError('required')">
-                        Account Status is required
-                      </mat-error>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                  <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Account Status" formControlName="accBm" (keypress)="checkReqValues()"
-                      required tabindex="2">
-                      <mat-error *ngIf="updateForm.controls.accBm.hasError('required')">
-                        Account Status is required
-                      </mat-error>
-                  </mat-form-field>
-              </div>
-          </div> 
-
-          <div class="example-header">
-              <div class="col-md-12">
-                  <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="3">Active</mat-checkbox>
-              </div>
-          </div>
-      
-      </div>
-  
-      <div class="form-group paddingTop-20">
-          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-          (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-          <i *ngIf="complete" class="fa fa-check"></i>
-          <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
-          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
-          style="width: 100px; font-family: Roboto" (click)="myFunction()">
-          <i class="fa fa-refresh"></i> Reset</button>
-      </div>      
-  </form>
+    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+                        
+            <div class="example-container mat-elevation-z8 paddingBottom-10">
+    
+                <div class="bg-form-header col-md-12">
+                    <div class="row">
+                        <label class="col-md-12 staticLabel font-size-s boldText">Detail Info</label>
+                    </div>
+                </div><br>
+    
+                <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-md-1"><span class="label-name">Name</span></div>
+                    <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;Noraini</span></div>
+                </div>
+    
+                <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-md-1"><span class="label-name">Title</span></div>
+                    <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;Test Feedback</span></div>
+                </div>
+    
+                <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-md-1"><span class="label-name">Message</span></div>
+                    <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
+                </div>
+    
+                <div class="row" style="padding-bottom: 10px;">
+                    <div class="col-md-1"><span class="label-name">&nbsp;</span></div>
+                    <div class="col-md-10"><span style="font-size: 17px; text-align:justify;">This document contains proprietary and confidential information of Constant Contact, Inc. Use, disclosure, or reproduction
+                            is prohibited without the prior express written consent of Constant Contact, Inc. For inquiries regarding
+                            reproduction or distribution of any Constant Contact material, please contact legal@constantcontact.com.</span></div>
+                </div><br><br>
+    
+                <div class="bg-form-header col-md-12">
+                    <div class="row">
+                        <label class="col-md-12 staticLabel font-size-s boldText">Reply Section</label>
+                    </div>
+                </div><br>
+    
+                <div class="example-header">
+                    <div class="col-md-12">
+                        <mat-form-field class="example-full-width font-size-s" >
+                            <textarea matInput placeholder="Reply" formControlName="reply" #message maxlength="200" 
+                            (keypress)="checkReqValues()" required tabindex="1"></textarea>
+                            <mat-error *ngIf="updateForm.controls.reply.hasError('required')">
+                                Reply is required
+                            </mat-error>
+                            <mat-hint align="end">{{reply.value?.length || 0}}/200</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            
+            </div>
+        
+            <div class="form-group paddingTop-20">
+                <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+                (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+                <i *ngIf="complete" class="fa fa-check"></i>
+                <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
+                <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+                style="width: 100px; font-family: Roboto" (click)="myFunction()">
+                <i class="fa fa-refresh"></i> Reset</button>
+            </div>      
+    </form>
 </div>
-
-<!-- <app-confirm-dialog  #resetModal 
-[title]="'common.icon.warn'" 
-[content]="'common.msg.reset'"
-[state]="'common.state.warn'" 
-[isReset]="'true'"
-(resetMethod)="resetMethod($event)">
-</app-confirm-dialog>
-
-<app-confirm-dialog  #infoModal 
-[title]="'common.icon.success'" 
-[content]="'register.popupmsg.success_content1'"
-[email] = "getEmail"
-[content2] = "'register.popupmsg.success_content2'" 
-[state]="'common.state.success'" 
-[isRegister]="'index'">
-</app-confirm-dialog> -->
+      
+      <!-- <app-confirm-dialog  #resetModal 
+      [title]="'common.icon.warn'" 
+      [content]="'common.msg.reset'"
+      [state]="'common.state.warn'" 
+      [isReset]="'true'"
+      (resetMethod)="resetMethod($event)">
+      </app-confirm-dialog>
+      
+      <app-confirm-dialog  #infoModal 
+      [title]="'common.icon.success'" 
+      [content]="'register.popupmsg.success_content1'"
+      [email] = "getEmail"
+      [content2] = "'register.popupmsg.success_content2'" 
+      [state]="'common.state.success'" 
+      [isRegister]="'index'">
+      </app-confirm-dialog> -->
