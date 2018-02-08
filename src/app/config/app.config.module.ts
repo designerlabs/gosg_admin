@@ -56,6 +56,8 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+    urlUserTypeList: string;
+    urlUserTypeDelete: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -89,6 +91,10 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
     urlGenderList : serviceURL + 'gender/all',
+
+    urlUserTypeList: commonURL + 'usertype',
+    urlUserTypeDelete: commonURL + 'usertype/',
+    
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL,
     urlPostcode: serviceURL + 'postcode/city/',
@@ -101,6 +107,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
+    
 };
 
 @NgModule({

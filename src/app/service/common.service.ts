@@ -426,6 +426,32 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addUserType(record) {
+    let fullUrl = this.appConfig.urlUserTypeList;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateUserType(record) {
+    let fullUrl = this.appConfig.urlUserTypeList ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delUserType(refCode) {
+    let fullUrl = this.appConfig.urlUserTypeDelete;
+    
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   addRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
 

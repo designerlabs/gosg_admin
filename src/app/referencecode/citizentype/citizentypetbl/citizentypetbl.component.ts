@@ -39,7 +39,7 @@ export class CitizentypetblComponent implements OnInit {
 
   recordList = null;
   // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
-  displayedColumns = ['no', 'raceEng', 'raceMy', 'action'];
+  displayedColumns = ['no', 'userMy', 'userEng', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -52,10 +52,10 @@ export class CitizentypetblComponent implements OnInit {
 
   dataUrl: any;  
 
-  public getRaceIdEng: any;
-  public getRaceIdMy: any;
-  public getRaceMy: any;
-  public getRaceEng: any;
+  public getUserTypeIdEng: any;
+  public getUserTypeIdMy: any;
+  public getUserTypeMy: any;
+  public getUserTypeEng: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -80,7 +80,7 @@ export class CitizentypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlUserTypeList + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -120,31 +120,31 @@ export class CitizentypetblComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['reference/ethnicity/add']);
+    this.router.navigate(['reference/citizentype/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['reference/ethnicity', row]);
+    this.router.navigate(['reference/citizentype', row]);
     this.commonservice.pageModeChange(true);
   }
 
   
-  deleteRow(refCode, raceMy, raceEng) {
+  deleteRow(refCode, userTypeMy, userTypeEng) {
     let txt;
     let r = confirm("Are you sure to delete ?");
 
     
     if (r == true) {
       console.log(refCode);
-      this.commonservice.delRace(refCode).subscribe(
+      this.commonservice.delUserType(refCode).subscribe(
         data => {
           // alert('Record deleted successfully!')
           txt = " record deleted successfully!";
 
           this.toastr.success(txt, '');   
-          this.router.navigate(['reference/ethnicity']);
+          this.router.navigate(['reference/citizentype']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
