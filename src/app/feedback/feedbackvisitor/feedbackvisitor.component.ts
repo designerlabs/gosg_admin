@@ -18,9 +18,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  public accEn: FormControl;  
-  public accBm: FormControl;
-  public active: FormControl
+  public reply: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
@@ -36,15 +34,12 @@ export class FeedbackvisitorComponent implements OnInit {
 
   ngOnInit() {
 
-    this.accEn = new FormControl();
-    this.accBm = new FormControl();
-    this.active = new FormControl();
+    this.reply = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      accEn: this.accEn,
-      accBm: this.accBm,
-      active: this.active      
+      reply: this.reply,
+
     });
 
     let urlEdit = this.router.url.split('/')[2];
@@ -73,9 +68,7 @@ export class FeedbackvisitorComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('accEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('accBm').setValue(this.recordList[1].accountStatusDescription);      
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('reply').setValue(this.recordList[0].accountStatusDescription);     
 
       this.getIdEn = this.recordList[0].accountStatusId;
       this.getIdBm = this.recordList[1].accountStatusId;
@@ -177,7 +170,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["accEn", "accBm"];
+    let reqVal:any = ["reply"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
