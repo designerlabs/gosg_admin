@@ -51,7 +51,6 @@ export class FeedbacksubjectComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -61,11 +60,9 @@ export class FeedbacksubjectComponent implements OnInit {
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[3];
-  
-    this.dataUrl = this.appConfig.urlAddressType + '/code/'+_getRefID;
+    let _getRefID = this.router.url.split('/')[3];  
+    this.dataUrl = this.appConfig.urlFeedbackSubject+ '/'+_getRefID;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -73,13 +70,14 @@ export class FeedbacksubjectComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('subjectBm').setValue(this.recordList[0].addressType);
-      this.updateForm.get('subjectEn').setValue(this.recordList[1].addressType);      
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('subjectBm').setValue(this.recordList.feedbackSubjectEntityList[0].feedbackSubjectDescription);
+      this.updateForm.get('subjectEn').setValue(this.recordList.feedbackSubjectEntityList[1].feedbackSubjectDescription);      
 
-      this.getIdEn = this.recordList[1].feedbackSubjectId;
-      this.getIdBm = this.recordList[0].feedbackSubjectId;
-      this.getRefId = this.recordList[0].refCode;
+      this.getIdBm = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectId;
+      this.getIdEn = this.recordList.feedbackSubjectEntityList[1].feedbackSubjectId;      
+      this.getRefId = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectCode;
+
+      console.log("EN: "+this.getIdEn+" BM: "+this.getIdBm)
 
       this.checkReqValues();
       
@@ -93,28 +91,23 @@ export class FeedbacksubjectComponent implements OnInit {
     if(urlEdit === 'add'){
 
       let body = [
-        {
-        
+        {        
           "feedbackSubjectDescription": null,
-          "active":false,
           "language": {
               "languageId": 2
           }
         },{
           "feedbackSubjectDescription": null,
-          "active":false,
           "language": {
               "languageId": 1
           }
         }
       ]    
 
-
       body[0].feedbackSubjectDescription = formValues.subjectBm;
-      body[0].active = formValues.active;
       body[1].feedbackSubjectDescription = formValues.subjectEn;
-      body[1].active = formValues.active;
 
+      console.log("ADD: ");
       console.log(body)
 
       this.commonservice.addRecordFeedbackSubject(body).subscribe(
@@ -135,28 +128,22 @@ export class FeedbacksubjectComponent implements OnInit {
         {
           "feedbackSubjectId":this.getIdBm,
           "feedbackSubjectDescription": null,
-          "active":false,
-          "refCode": this.getRefId,
+          "feedbackSubjectCode": this.getRefId,
           "language": {
               "languageId": 2
           }
         },{
           "feedbackSubjectId":this.getIdEn,
           "feedbackSubjectDescription": null,
-          "active":false,
-          "refCode": this.getRefId,
+          "feedbackSubjectCode": this.getRefId,
           "language": {
               "languageId": 1
           }
         }
       ]        
 
-
-      body[0].feedbackSubjectDescription = formValues.subjectBm;
-      body[0].active = formValues.active;
-      body[1].feedbackSubjectDescription = formValues.subjectEn;
-      body[1].active = formValues.active;
-      
+      body[1].feedbackSubjectDescription = formValues.subjectEn; 
+      body[0].feedbackSubjectDescription = formValues.subjectBm;           
 
       console.log("UPDATE: ");
       console.log(body);

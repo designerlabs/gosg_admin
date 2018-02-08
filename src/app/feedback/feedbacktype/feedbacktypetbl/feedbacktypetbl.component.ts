@@ -18,7 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 export class FeedbacktypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','feedbackEng', 'feedbackMalay', 'status', 'action'];
+  displayedColumns = ['num','feedbackEng', 'feedbackMalay', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;

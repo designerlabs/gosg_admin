@@ -51,7 +51,6 @@ export class FeedbacktypeComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -62,11 +61,9 @@ export class FeedbacktypeComponent implements OnInit {
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[3];
-  
-    this.dataUrl = this.appConfig.urlAddressType + '/code/'+_getRefID;
+    let _getRefID = this.router.url.split('/')[3];  
+    this.dataUrl = this.appConfig.urlFeedbackType + '/'+_getRefID;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -74,13 +71,12 @@ export class FeedbacktypeComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('typeEn').setValue(this.recordList[0].addressType);
-      this.updateForm.get('typeBm').setValue(this.recordList[1].addressType);      
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('typeEn').setValue(this.recordList.feedbackTypeEntityList[1].feedbackTypeDescription);
+      this.updateForm.get('typeBm').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);        
 
-      this.getIdEn = this.recordList[0].addressTypeId;
-      this.getIdBm = this.recordList[1].addressTypeId;
-      this.getRefId = this.recordList[0].refCode;
+      this.getIdEn = this.recordList.feedbackTypeEntityList[1].feedbackTypeId;
+      this.getIdBm = this.recordList.feedbackTypeEntityList[0].feedbackTypeId;
+      this.getRefId = this.recordList.feedbackTypeEntityList[0].feedbackTypeCode;
 
       this.checkReqValues();
       
@@ -94,28 +90,23 @@ export class FeedbacktypeComponent implements OnInit {
     if(urlEdit === 'add'){
 
       let body = [
-        {
-        
+        {        
           "feedbackTypeDescription": null,
-          "active":false,
           "language": {
               "languageId": 2
           }
         },{
           "feedbackTypeDescription": null,
-          "active":false,
           "language": {
               "languageId": 1
           }
         }
       ]    
 
-
       body[0].feedbackTypeDescription = formValues.typeBm;
-      body[0].active = formValues.active;
       body[1].feedbackTypeDescription = formValues.typeEn;
-      body[1].active = formValues.active;
 
+      console.log("ADD: ")
       console.log(body)
 
       this.commonservice.addRecordFeedbackType(body).subscribe(
@@ -136,28 +127,22 @@ export class FeedbacktypeComponent implements OnInit {
         {
           "feedbackTypeId":this.getIdBm,
           "feedbackTypeDescription": null,
-          "active":false,
-          "refCode": this.getRefId,
+          "feedbackTypeCode": this.getRefId,
           "language": {
               "languageId": 2
           }
         },{
           "feedbackTypeId":this.getIdEn,
           "feedbackTypeDescription": null,
-          "active":false,
-          "refCode": this.getRefId,
+          "feedbackTypeCode": this.getRefId,
           "language": {
               "languageId": 1
           }
         }
       ]        
 
-
       body[0].feedbackTypeDescription = formValues.typeBm;
-      body[0].active = formValues.active;
-      body[1].feedbackTypeDescription = formValues.typeEn;
-      body[1].active = formValues.active;
-      
+      body[1].feedbackTypeDescription = formValues.typeEn;      
 
       console.log("UPDATE: ");
       console.log(body);

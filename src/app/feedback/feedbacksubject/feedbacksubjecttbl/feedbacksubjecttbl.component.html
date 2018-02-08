@@ -36,7 +36,7 @@
             <ng-container matColumnDef="feedbackEng">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Subject (EN) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[0].feedbackSubjectDescription}} 
+                    {{element.list[1].feedbackSubjectDescription}} 
                 </mat-cell>
             </ng-container>
 
@@ -44,18 +44,10 @@
             <ng-container matColumnDef="feedbackMalay">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Subject (BM) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[1].feedbackSubjectDescription}}
+                    {{element.list[0].feedbackSubjectDescription}}
                 </mat-cell>
             </ng-container>
       
-            <!-- status Column -->
-            <ng-container matColumnDef="status">
-                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
-                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                    <i class="fa fa-check" style="color: green;"></i>
-                </mat-cell>
-            </ng-container>
-
             <!-- action Column -->
             <ng-container matColumnDef="action">
                 <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
