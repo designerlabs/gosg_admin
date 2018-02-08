@@ -1,68 +1,62 @@
 
 <div class="container right-content">
-    <!-- <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-        <h2 class="staticLabel pull-left">View Race/Ethnic</h2>
-        <span class="pull-right editBtn" style="z-index: 1;">
-            <button type="button" mat-fab color="warn" (click)="add()"
-            [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">&nbsp;
-            <i class="fa fa-plus font-size-l"></i></button>
-        </span>
-    </div> -->
-
+    
     <div class="curdHeader">
-        <div class="col-md-10 curdHeadingLeft">
-            <h3>Religion</h3>
+            <div class="col-md-10 curdHeadingLeft">
+                <h3>Religion</h3>
+            </div>
+            
+            <div class="col-md-2 curdHeadingRight">
+                <span class="pull-right">
+                    <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+                    <i class="fa fa-plus font-size-l"></i></button>
+                </span>
+            </div> 
         </div>
-        
-        <div class="col-md-2 curdHeadingRight">
-            <span class="pull-right">
-                <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive}">
-                <i class="fa fa-plus font-size-l"></i></button>
-            </span>
-        </div> 
-    </div>
+
 
     <div class="example-container mat-elevation-z8">
         
-        <!-- <div class="col-md-12 paddingTop-25 example-header">
-            <mat-form-field class="font-size-s" >
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-            </mat-form-field>
-        </div> -->
-
         <!-- <div class="example-header">
           <mat-form-field class="font-size-s" style="margin: 5px 0 0 10px;">
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
           </mat-form-field>
         </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">
+        <mat-table #table [dataSource]="dataSource">
 
-            <ng-container matColumnDef="raceEng">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> Religion (Malay) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
-                    {{element.list[0].race}}
+            <ng-container matColumnDef="no">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="religionEng">
+                <mat-header-cell class="text-align-left" *matHeaderCellDef> Religion (Malay) </mat-header-cell>
+                <mat-cell class="text-align-left" *matCellDef="let element">
+                    {{element.list[0].religion}}
                 </mat-cell>
             </ng-container>
 
             <!-- question en Column -->
-            <ng-container matColumnDef="raceMy">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> Religion (English) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
-                    {{element.list[1].race}}
+            <ng-container matColumnDef="religionMy">
+                <mat-header-cell class="text-align-left" *matHeaderCellDef> Religion (English) </mat-header-cell>
+                <mat-cell class="text-align-left" *matCellDef="let element">
+                    {{element.list[1].religion}}
                 </mat-cell>
             </ng-container>
 
             
 
             <!-- status Column -->
-            <ng-container matColumnDef="status">
+            <!-- <ng-container matColumnDef="status">
                 <mat-header-cell class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
                 <mat-cell class="statusColumn" *matCellDef="let element">
                     <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
                     <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
                 </mat-cell>
-            </ng-container>
+            </ng-container> -->
 
             <!-- action Column -->
             <ng-container matColumnDef="action">

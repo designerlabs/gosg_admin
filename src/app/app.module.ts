@@ -22,8 +22,8 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
-import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
-import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
+import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
+import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
@@ -60,11 +60,19 @@ import { AgencyComponent } from './agency/agency.component';
 import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+import { LanguageComponent } from './language/language.component';
+import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
 import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
 import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
 import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
+import { UserpermissionComponent } from './authentication/user/userpermission.component';
+import { GenderComponent } from './referencecode/gender/gender.component';
+import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
+import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
+import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
+import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +83,6 @@ import { CategoryComponent } from './categories/category/category.component';
     ErrorComponent,
     AddtemplateComponent,
     ArticletblComponent,
-    FeedbackComponent,
     UserComponent,
     UsertblComponent,
     GroupstblComponent,
@@ -85,7 +92,8 @@ import { CategoryComponent } from './categories/category/category.component';
     PollresultComponent,
     SliderComponent,
     GroupsComponent,    
-    FeedbacktblComponent,
+    FeedbackadminComponent,
+    FeedbackadmintblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
     CountryComponent,
@@ -113,11 +121,19 @@ import { CategoryComponent } from './categories/category/category.component';
     AgencytblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
+    LanguageComponent,
+    LanguagetblComponent,
     MaincategoryComponent,
     MaincategorytblComponent,
     SubcategoryComponent,
     SubcategorytblComponent,
     CategoryComponent,
+    UserpermissionComponent,
+    GenderComponent,
+    CitizentypeComponent,
+    CitizentypetblComponent,
+    FeedbackvisitorComponent,
+    FeedbackvisitortblComponent,
   ],
   imports: [
     BrowserModule,

@@ -18,7 +18,7 @@ export class SlidertblComponent implements OnInit {
   displayedColumns: any;
   displayedColumns2: any;
   sliderPageSize = 10;
-  sliderPageCount = 1;
+  pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -26,6 +26,9 @@ export class SlidertblComponent implements OnInit {
   date = new Date();
   pageMode: String;
   isEdit: boolean;
+  seqNo = 0;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,12 +48,12 @@ export class SlidertblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getSlidersData(this.sliderPageCount, 
+    this.getSlidersData(this.pageCount, 
     this.sliderPageSize);
   }
 
   ngOnInit() {
-    this.displayedColumns = ['slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns = ['no','slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
   }
 
   ngAfterViewInit() {
@@ -69,13 +72,15 @@ export class SlidertblComponent implements OnInit {
         this.sliderList = data;
         console.log(this.sliderList)
         this.dataSource.data = this.sliderList.list;
+        this.seqPageNum = this.sliderList.pageNumber;
+        this.seqPageSize = this.sliderList.pageSize;
         this.commonservice.sliderTable = this.sliderList;
         this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
       });
   }
 
   paginatorL(page) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+    this.getSlidersData(this.pageCount, this.sliderPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -89,7 +94,7 @@ export class SlidertblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getSlidersData(this.sliderPageCount, this.sliderPageSize);
+    this.getSlidersData(this.pageCount, event.value);
     this.sliderPageSize = event.value;
     this.noPrevData = true;
   }

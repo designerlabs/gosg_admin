@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedbacktblComponent } from './feedbacktbl.component';
+import { CitizentypeComponent } from './citizentype.component';
 
-describe('FeedbacktblComponent', () => {
-  let component: FeedbacktblComponent;
-  let fixture: ComponentFixture<FeedbacktblComponent>;
+describe('CitizentypeComponent', () => {
+  let component: CitizentypeComponent;
+  let fixture: ComponentFixture<CitizentypeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FeedbacktblComponent ]
+      declarations: [ CitizentypeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FeedbacktblComponent);
+    fixture = TestBed.createComponent(CitizentypeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

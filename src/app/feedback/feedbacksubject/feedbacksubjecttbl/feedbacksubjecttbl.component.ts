@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 export class FeedbacksubjecttblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','feedbackEng', 'feedbackMalay', 'status', 'action'];
+  displayedColumns = ['num','feedbackEng', 'feedbackMalay', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -53,17 +53,14 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + 'feedback/subject';
+    this.dataUrl = this.appConfig.urlFeedbackSubject + '/?page=' + count + '&size=' + size;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
-      
-      this.dataSource.data = this.recordList.feedbackSubjectList;
+      console.log("GET RECORD: ")
+      this.recordList = data;      
+      this.dataSource.data = this.recordList.list;
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
       this.commonservice.recordTable = this.recordList;
@@ -96,17 +93,28 @@ export class FeedbacksubjecttblComponent implements OnInit {
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(enId, bmId) {
+  deleteRow(refcode) {
+    let txt;
+    let r = confirm("Are you sure to delete?");
+    if (r == true) {
 
-    console.log(enId + bmId);
-    this.commonservice.delRecord(enId, bmId).subscribe(
-      data => {
-        alert('Record deleted successfully!')
-        this.router.navigate(['feedback/subject']);
-      },
-      error => {
-        console.log("No Data")
-    });
+      console.log(refcode);
+      this.commonservice.delRecordFeedbackSubject(refcode).subscribe(
+        data => {
+          
+          txt = "Record deleted successfully!";
+
+          this.toastr.success(txt, '');  
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+
+    else{
+      txt = "Delete Cancelled!";
+    }
   }
 
   ngAfterViewInit() {
@@ -119,5 +127,4 @@ export class FeedbacksubjecttblComponent implements OnInit {
     this.pageSize = event.value;
     this.noPrevData = true;
   }
-
 }

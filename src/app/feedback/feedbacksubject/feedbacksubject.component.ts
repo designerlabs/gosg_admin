@@ -25,7 +25,11 @@ export class FeedbacksubjectComponent implements OnInit {
   public dataUrl: any;  
   public recordList: any;
 
-  complete: boolean;
+  public getIdEn: any;
+  public getIdBm: any;
+  public getRefId: any;
+
+  public complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
@@ -50,67 +54,15 @@ export class FeedbacksubjectComponent implements OnInit {
     }
     else{
       this.commonservice.pageModeChange(true);
+      this.getData();
     }
-
-    this.getData();
-  }
-
-  update(formValues: any) {
-    let body = [
-      {
-        "subjectId": null,
-        "subject": null,
-        "subjectReference": null,
-        "language": {
-            "languageId": null
-        }
-      },{
-        "subjectId": null,
-        "subject": null,
-        "subjectReference": null,
-        "language": {
-            "languageId": null
-        }
-      }
-    ]    
-    
-    console.log(formValues)
-
-    body[0].subjectId = 98;
-    body[0].subject = formValues.typeBm;
-    body[0].subjectReference = 22;
-    body[0].language.languageId = 2;
-
-    body[1].subjectId = 99;
-    body[1].subject = formValues.typeEn;
-    body[1].subjectReference = 22;
-    body[1].language.languageId = 1;
-
-
-    console.log("TEST")
-    console.log(body)
-
-    // this.commonservice.addRecord(body).subscribe(
-    //   data => {
-    //     console.log(JSON.stringify(body))
-    //     console.log(body)
-    //     alert('Record added successfully!')
-    //     this.router.navigate(['feedback/type/add']);
-    //     // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //     // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
-    // });
   }
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[3];
-  
-    this.dataUrl = this.appConfig.urlFeedback + 'feedback/type/'+_getRefID;
+    let _getRefID = this.router.url.split('/')[3];  
+    this.dataUrl = this.appConfig.urlFeedbackSubject+ '/'+_getRefID;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -118,14 +70,97 @@ export class FeedbacksubjectComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      if(this.recordList.feedbackType.feedbackTypeDescription){
-        this.updateForm.get('typeEn').setValue(this.recordList.feedbackType.feedbackTypeDescription);
-        this.updateForm.get('typeBm').setValue(this.recordList.feedbackType.feedbackTypeDescription);
-      }
+      this.updateForm.get('subjectBm').setValue(this.recordList.feedbackSubjectEntityList[0].feedbackSubjectDescription);
+      this.updateForm.get('subjectEn').setValue(this.recordList.feedbackSubjectEntityList[1].feedbackSubjectDescription);      
 
-      console.log(this.recordList.feedbackType.feedbackTypeDescription)
+      this.getIdBm = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectId;
+      this.getIdEn = this.recordList.feedbackSubjectEntityList[1].feedbackSubjectId;      
+      this.getRefId = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectCode;
+
+      console.log("EN: "+this.getIdEn+" BM: "+this.getIdBm)
+
+      this.checkReqValues();
       
     });
+  }
+
+  submit(formValues: any) {
+    let urlEdit = this.router.url.split('/')[3];
+
+    // add form
+    if(urlEdit === 'add'){
+
+      let body = [
+        {        
+          "feedbackSubjectDescription": null,
+          "language": {
+              "languageId": 2
+          }
+        },{
+          "feedbackSubjectDescription": null,
+          "language": {
+              "languageId": 1
+          }
+        }
+      ]    
+
+      body[0].feedbackSubjectDescription = formValues.subjectBm;
+      body[1].feedbackSubjectDescription = formValues.subjectEn;
+
+      console.log("ADD: ");
+      console.log(body)
+
+      this.commonservice.addRecordFeedbackSubject(body).subscribe(
+        data => {
+          console.log(JSON.stringify(body))
+          let txt = "Record added successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/subject']);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+
+    // update form
+    else{
+      let body = [
+        {
+          "feedbackSubjectId":this.getIdBm,
+          "feedbackSubjectDescription": null,
+          "feedbackSubjectCode": this.getRefId,
+          "language": {
+              "languageId": 2
+          }
+        },{
+          "feedbackSubjectId":this.getIdEn,
+          "feedbackSubjectDescription": null,
+          "feedbackSubjectCode": this.getRefId,
+          "language": {
+              "languageId": 1
+          }
+        }
+      ]        
+
+      body[1].feedbackSubjectDescription = formValues.subjectEn; 
+      body[0].feedbackSubjectDescription = formValues.subjectBm;           
+
+      console.log("UPDATE: ");
+      console.log(body);
+
+      this.commonservice.updateRecordFeedbackSubject(body).subscribe(
+        data => {
+          console.log(JSON.stringify(body))
+        
+          let txt = "Record updated successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/subject']);
+        },
+        error => {
+          console.log("No Data")
+      });
+    }
+    
   }
 
   checkReqValues() {

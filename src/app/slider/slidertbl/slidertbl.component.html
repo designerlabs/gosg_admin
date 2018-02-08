@@ -35,16 +35,24 @@
         <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.refCode}} </mat-cell>
       </ng-container> -->
 
+      <!-- No Column -->
+      <ng-container matColumnDef="no">
+        <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+        <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+          {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+        </mat-cell>
+      </ng-container>
+
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitleEn">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (EN)</mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 35%;"> {{element.list[0].slideTitle}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Title (EN)</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[0].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideDescription Column -->
       <ng-container matColumnDef="slideTitleBm">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].slideTitle}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> Title (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1].slideTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->

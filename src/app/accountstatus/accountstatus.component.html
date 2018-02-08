@@ -14,13 +14,9 @@
   </div>
 
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
- 
-      <!-- <div class="col-md-12" style="padding: 0px 10px 10px 5px; border: 0formpx solid #000">
-          <h4 class="paddingTop-15 staticLabel">
-              <i class="fa fa-chevron-left font-size-xl paddingTop-15 backTitle" style="cursor: pointer;" (click)="navigateBack()" title="Go Back"></i>Polls Questions</h4>
-      </div> -->
                    
-      <div class="example-container mat-elevation-z8">
+      <div class="example-container mat-elevation-z8 paddingBottom-10">
+
           <div class="bg-form-header col-md-12">
               <div class="row">
                   <label class="col-md-6 staticLabel font-size-s boldText">English</label>
@@ -37,7 +33,7 @@
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
                       <input matInput placeholder="Account Status" formControlName="accEn" (keypress)="checkReqValues()"
-                      value="" required>
+                      required tabindex="1">
                       <mat-error *ngIf="updateForm.controls.accEn.hasError('required')">
                         Account Status is required
                       </mat-error>
@@ -46,7 +42,7 @@
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
                       <input matInput placeholder="Account Status" formControlName="accBm" (keypress)="checkReqValues()"
-                      value="" required>
+                      required tabindex="2">
                       <mat-error *ngIf="updateForm.controls.accBm.hasError('required')">
                         Account Status is required
                       </mat-error>
@@ -56,13 +52,13 @@
 
           <div class="example-header">
               <div class="col-md-12">
-                  <mat-checkbox class="example-full-width font-size-s" formControlName="active">Active</mat-checkbox>
+                  <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="3">Active</mat-checkbox>
               </div>
           </div>
       
       </div>
   
-      <div class="form-group" style="margin-top: 2%">
+      <div class="form-group paddingTop-20">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
           (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
           <i *ngIf="complete" class="fa fa-check"></i>

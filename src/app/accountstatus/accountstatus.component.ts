@@ -8,7 +8,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-accountstatus',
   templateUrl: './accountstatus.component.html',
@@ -166,7 +165,7 @@ export class AccountstatusComponent implements OnInit {
         
           let txt = "Record updated successfully!";
           this.toastr.success(txt, '');  
-          this.router.navigate(['address/type']);
+          this.router.navigate(['account']);
         },
         error => {
           console.log("No Data")

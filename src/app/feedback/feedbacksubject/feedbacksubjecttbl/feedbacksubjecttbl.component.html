@@ -22,7 +22,7 @@
             </mat-form-field>
         </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">           
+        <mat-table #table [dataSource]="dataSource">           
          
             <!-- num Column -->
             <ng-container matColumnDef="num">
@@ -36,7 +36,7 @@
             <ng-container matColumnDef="feedbackEng">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Subject (EN) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.feedbackSubjectDescription}} 
+                    {{element.list[1].feedbackSubjectDescription}} 
                 </mat-cell>
             </ng-container>
 
@@ -44,27 +44,19 @@
             <ng-container matColumnDef="feedbackMalay">
                 <mat-header-cell class="text-align-Left" *matHeaderCellDef> Subject (BM) </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.feedbackSubjectDescription}}
+                    {{element.list[0].feedbackSubjectDescription}}
                 </mat-cell>
             </ng-container>
       
-            <!-- status Column -->
-            <ng-container matColumnDef="status">
-                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
-                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                    <i class="fa fa-check" style="color: green;"></i>
-                </mat-cell>
-            </ng-container>
-
             <!-- action Column -->
             <ng-container matColumnDef="action">
                 <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                 <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.feedbackSubjectId)">
-                    <i class="fa fa-edit" title="Update {{ element.feedbackSubjectId }}"></i></button>
+                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
+                    <i class="fa fa-edit" title="Update {{ element.refCode }}"></i></button>
                     &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.feedbackSubjectId)">
-                    <i class="fa fa-trash"title="Delete {{ element.feedbackSubjectId }}"></i></button>
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
+                    <i class="fa fa-trash"title="Delete {{ element.refCode }}"></i></button>
                 </mat-cell>
             </ng-container>
         
