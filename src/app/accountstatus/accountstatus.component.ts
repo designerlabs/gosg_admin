@@ -8,7 +8,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
   selector: 'app-accountstatus',
   templateUrl: './accountstatus.component.html',

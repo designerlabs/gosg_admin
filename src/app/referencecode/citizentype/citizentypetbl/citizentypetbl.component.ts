@@ -1,3 +1,21 @@
+// import { Component, OnInit } from '@angular/core';
+
+// @Component({
+//   selector: 'app-citizentypetbl',
+//   templateUrl: './citizentypetbl.component.html',
+//   styleUrls: ['./citizentypetbl.component.css']
+// })
+// export class CitizentypetblComponent implements OnInit {
+
+//   constructor() { }
+
+//   ngOnInit() {
+//   }
+
+// }
+
+
+
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -9,15 +27,19 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-feedbacksubjecttbl',
-  templateUrl: './feedbacksubjecttbl.component.html',
-  styleUrls: ['./feedbacksubjecttbl.component.css']
+  selector: 'app-citizentypetbl',
+  templateUrl: './citizentypetbl.component.html',
+  styleUrls: ['./citizentypetbl.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 
-export class FeedbacksubjecttblComponent implements OnInit {
+export class CitizentypetblComponent implements OnInit {
+
+  updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['num','feedbackEng', 'feedbackMalay', 'action'];
+  // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
+  displayedColumns = ['no', 'raceEng', 'raceMy', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -29,42 +51,56 @@ export class FeedbacksubjecttblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+
+  public getRaceIdEng: any;
+  public getRaceIdMy: any;
+  public getRaceMy: any;
+  public getRaceEng: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  selection = new SelectionModel<Element>(true, []);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-
+  
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
-
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   ngOnInit() {
-
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedbackSubject + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      this.recordList = data;
 
-      console.log("GET RECORD: ")
-      this.recordList = data;      
-      this.dataSource.data = this.recordList.list;
+      console.log("data");
+      console.log(data);
+
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
+      
+      this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+      //
+      // this.getRaceIdMy = this.recordList.raceList[0].raceId;
+      // this.getRaceIdEng = this.recordList.raceList[1].raceId;
+      // this.getRaceMy = this.recordList.raceList[0].refCode;
+      // this.getRaceEng = this.recordList.raceList[1].refCode;
     });
   }
 
@@ -83,35 +119,38 @@ export class FeedbacksubjecttblComponent implements OnInit {
   }
 
   add() {
-    this.router.navigate(['feedback/subject/add']);
+
+    this.router.navigate(['reference/ethnicity/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['feedback/subject/', row]);
+    this.router.navigate(['reference/ethnicity', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(refcode) {
+  
+  deleteRow(refCode, raceMy, raceEng) {
     let txt;
-    let r = confirm("Are you sure to delete?");
+    let r = confirm("Are you sure to delete ?");
+
+    
     if (r == true) {
-
-      console.log(refcode);
-      this.commonservice.delRecordFeedbackSubject(refcode).subscribe(
+      console.log(refCode);
+      this.commonservice.delRace(refCode).subscribe(
         data => {
-          
-          txt = "Record deleted successfully!";
+          // alert('Record deleted successfully!')
+          txt = " record deleted successfully!";
 
-          this.toastr.success(txt, '');  
+          this.toastr.success(txt, '');   
+          this.router.navigate(['reference/ethnicity']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
-          console.log("No Data")
+          txt = "Delete Cancelled!";
       });
     }
-
     else{
       txt = "Delete Cancelled!";
     }
@@ -127,4 +166,14 @@ export class FeedbacksubjecttblComponent implements OnInit {
     this.pageSize = event.value;
     this.noPrevData = true;
   }
+
 }
+
+
+
+
+
+
+
+
+

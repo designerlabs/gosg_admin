@@ -48,6 +48,7 @@ export class AppConfig {
     urlRaceList: string;
     urlRace: string;
     urlRaceDelete: string;
+    urlGenderList: string;
     urlAnnounceList: string;
     urlCategoryList: string;
     urlAddressType: string;
@@ -91,6 +92,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRaceList: serviceURL + 'race',
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
+    urlGenderList : serviceURL + 'gender/all',
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL,
     urlPostcode: serviceURL + 'postcode/city/',
@@ -98,9 +100,9 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAnnounceList: './app/apidata/announce.json',
     urlCategoryList: './app/apidata/category.json',
     urlAddressType: commonURL + 'addresstype',
-    urlAccountStatus: commonURL + 'AccountStatusEntity',
-    urlFeedbackType: commonURL + 'feedbacktype',
-    urlFeedbackSubject: commonURL + 'feedbacksubject',
+    urlAccountStatus: commonURL + 'accountstatus',
+    urlFeedbackType: commonURL + 'feedback/type',
+    urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
 };

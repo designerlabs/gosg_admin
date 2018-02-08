@@ -1,25 +1,25 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
-import { CommonService } from './../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
+import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-feedbacksubject',
-  templateUrl: './feedbacksubject.component.html',
-  styleUrls: ['./feedbacksubject.component.css']
+  selector: 'app-feedbackvisitor',
+  templateUrl: './feedbackvisitor.component.html',
+  styleUrls: ['./feedbackvisitor.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-
-export class FeedbacksubjectComponent implements OnInit {
+export class FeedbackvisitorComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  public subjectEn: FormControl;  
-  public subjectBm: FormControl;
+  public accEn: FormControl;  
+  public accBm: FormControl;
   public active: FormControl
 
   public dataUrl: any;  
@@ -36,21 +36,22 @@ export class FeedbacksubjectComponent implements OnInit {
 
   ngOnInit() {
 
-    this.subjectEn = new FormControl();
-    this.subjectBm = new FormControl();
+    this.accEn = new FormControl();
+    this.accBm = new FormControl();
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      subjectEn: this.subjectEn,
-      subjectBm: this.subjectBm,
+      accEn: this.accEn,
+      accBm: this.accBm,
       active: this.active      
     });
 
-    let urlEdit = this.router.url.split('/')[3];
+    let urlEdit = this.router.url.split('/')[2];
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -60,9 +61,11 @@ export class FeedbacksubjectComponent implements OnInit {
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[3];  
-    this.dataUrl = this.appConfig.urlFeedbackSubject+ '/'+_getRefID;
+    let _getRefID = this.router.url.split('/')[2];
+  
+    this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID;
 
+    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -70,14 +73,13 @@ export class FeedbacksubjectComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('subjectBm').setValue(this.recordList.feedbackSubjectEntityList[0].feedbackSubjectDescription);
-      this.updateForm.get('subjectEn').setValue(this.recordList.feedbackSubjectEntityList[1].feedbackSubjectDescription);      
+      this.updateForm.get('accEn').setValue(this.recordList[0].accountStatusDescription);
+      this.updateForm.get('accBm').setValue(this.recordList[1].accountStatusDescription);      
+      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
 
-      this.getIdBm = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectId;
-      this.getIdEn = this.recordList.feedbackSubjectEntityList[1].feedbackSubjectId;      
-      this.getRefId = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectCode;
-
-      console.log("EN: "+this.getIdEn+" BM: "+this.getIdBm)
+      this.getIdEn = this.recordList[0].accountStatusId;
+      this.getIdBm = this.recordList[1].accountStatusId;
+      this.getRefId = this.recordList[0].accountStatusCode;
 
       this.checkReqValues();
       
@@ -85,37 +87,42 @@ export class FeedbacksubjectComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    let urlEdit = this.router.url.split('/')[3];
+    let urlEdit = this.router.url.split('/')[2];
 
     // add form
     if(urlEdit === 'add'){
 
       let body = [
-        {        
-          "feedbackSubjectDescription": null,
-          "language": {
-              "languageId": 2
-          }
-        },{
-          "feedbackSubjectDescription": null,
+        {
+        
+          "accountStatusDescription": null,
+          "enabled":false,
           "language": {
               "languageId": 1
+          }
+        },{
+          "accountStatusDescription": null,
+          "enabled":false,
+          "language": {
+              "languageId": 2
           }
         }
       ]    
 
-      body[0].feedbackSubjectDescription = formValues.subjectBm;
-      body[1].feedbackSubjectDescription = formValues.subjectEn;
+      body[0].accountStatusDescription = formValues.accEn;
+      body[0].enabled = formValues.active;
+      body[1].accountStatusDescription = formValues.accBm;
+      body[1].enabled = formValues.active;
 
-      console.log("ADD: ");
+      console.log("TEST")
       console.log(body)
 
-      this.commonservice.addRecordFeedbackSubject(body).subscribe(
+      this.commonservice.addRecordAccStatus(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           let txt = "Record added successfully!";
           this.toastr.success(txt, '');  
-          this.router.navigate(['feedback/subject']);
+          this.router.navigate(['account']);
         },
         error => {
           console.log("No Data")
@@ -126,35 +133,40 @@ export class FeedbacksubjectComponent implements OnInit {
     else{
       let body = [
         {
-          "feedbackSubjectId":this.getIdBm,
-          "feedbackSubjectDescription": null,
-          "feedbackSubjectCode": this.getRefId,
-          "language": {
-              "languageId": 2
-          }
-        },{
-          "feedbackSubjectId":this.getIdEn,
-          "feedbackSubjectDescription": null,
-          "feedbackSubjectCode": this.getRefId,
+          "accountStatusId":this.getIdEn,
+          "accountStatusDescription": null,
+          "enabled":false,
+          "accountStatusCode": this.getRefId,
           "language": {
               "languageId": 1
+          }
+        },{
+          "accountStatusId":this.getIdBm,
+          "accountStatusDescription": null,
+          "enabled":false,
+          "accountStatusCode": this.getRefId,
+          "language": {
+              "languageId": 2
           }
         }
       ]        
 
-      body[1].feedbackSubjectDescription = formValues.subjectEn; 
-      body[0].feedbackSubjectDescription = formValues.subjectBm;           
+      body[0].accountStatusDescription = formValues.accEn;
+      body[0].enabled = formValues.active;
+      body[1].accountStatusDescription = formValues.accBm;
+      body[1].enabled = formValues.active;
+      
 
       console.log("UPDATE: ");
       console.log(body);
 
-      this.commonservice.updateRecordFeedbackSubject(body).subscribe(
+      this.commonservice.updateRecordAccStatus(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
         
           let txt = "Record updated successfully!";
           this.toastr.success(txt, '');  
-          this.router.navigate(['feedback/subject']);
+          this.router.navigate(['account']);
         },
         error => {
           console.log("No Data")
@@ -165,7 +177,7 @@ export class FeedbacksubjectComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["subjectEn", "subjectBm"];
+    let reqVal:any = ["accEn", "accBm"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
@@ -196,7 +208,7 @@ export class FeedbacksubjectComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['feedback/subject']);
+    this.router.navigate(['feedback/message/visitor']);
   }
 
 }
