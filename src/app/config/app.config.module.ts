@@ -21,6 +21,7 @@ const serviceURL = 'http://10.1.70.148:8080/service/';
 export class AppConfig {
     apiEndpoint: string;
     urlAgencyType: string;
+    urlAgencyAppType: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
@@ -75,7 +76,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
-    urlAgencyType: commonURL + 'authorization/agency/type',
+    urlAgencyType: commonURL + 'agency/type',
+    urlAgencyAppType: commonURL + 'agency/application/type',
     
 
     urlAdminUserList: mockApiURL+'userList',

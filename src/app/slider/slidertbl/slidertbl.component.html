@@ -85,7 +85,7 @@
 
   <div class="float-right paddingTop-15">
     <mat-form-field style="width:50px; margin-top: -10px">
-      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.sliderTable?.totalPages)">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
         <mat-option value="5">5</mat-option>
         <mat-option value="10">10</mat-option>
         <mat-option value="25">25</mat-option>
@@ -94,13 +94,13 @@
     </mat-form-field>
     <span class="float-right">
       <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-        <strong>{{commonservice.sliderTable?.pageNumber}}</strong> of
-        <strong>{{commonservice.sliderTable?.totalPages}}</strong> in
-        <strong>{{commonservice.sliderTable?.totalElements}}</strong> sliders</span>
-      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.sliderTable?.pageNumber)">
+        <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
+        <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+        <strong>{{commonservice.recordTable?.totalElements}}</strong> sliders</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
       </button>
-      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.sliderTable?.pageNumber, commonservice.sliderTable?.totalPages)">
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </button>
     </span>
