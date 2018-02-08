@@ -21,9 +21,6 @@ export class CommonService {
   uid;
   userInfo: object;
   userTable: object;
-  sliderTable: object;
-  errorMsgTable: object;
-  languageTable: object;
   recordTable: object;
   temp = null;
 
@@ -147,13 +144,6 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getAnnounceData() {
-    console.log(this.appConfig.urlAnnounceList);
-    return this.http.get(this.appConfig.urlAnnounceList)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-
   getCategoryData() {
     console.log(this.appConfig.urlCategoryList);
     return this.http.get(this.appConfig.urlCategoryList)
@@ -232,6 +222,42 @@ export class CommonService {
   }
   // SLIDER END
 
+  //ANNOUNCEMENT STARTS
+
+  getAnnounceTblData() { //For view table
+    console.log(this.appConfig.urlAnnounceList);
+    return this.http.get(this.appConfig.urlAnnounceList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getAnnounce(code) {
+    return this.http.get(this.appConfig.urlAnnounceList + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+    });
+  }
+
+  addAnnounce(ValAnnounce) {
+    return this.http.post(this.appConfig.urlAnnounceList +'/add/all', ValAnnounce)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateAnnounce(ValAnnounce) {
+    return this.http.put(this.appConfig.urlAnnounceList + '/multiple/update', ValAnnounce)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delAnnounce(refCode) {
+    return this.http.delete(this.appConfig.urlAnnounceList + '/' + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  //ANNOUNCEMENT ENDS
+
   // ERROR MESSAGE
   getErrorMsg(errMsgId) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
@@ -244,23 +270,23 @@ export class CommonService {
 
   addErrorMsg(errormsg) {
     
-    return this.http.post(this.appConfig.urlErrorMsg + '/add', errormsg)
+    return this.http.post(this.appConfig.urlErrorMsg, errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateErrorMsg(errormsg) {
 
-    return this.http.put(this.appConfig.urlErrorMsg+ "/update", errormsg)
+    return this.http.put(this.appConfig.urlErrorMsg+ "/multiple/update", errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delErrorMsg(errorMsgId) {
+  delErrorMsg(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + errorMsgId, null)
+    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -293,16 +319,16 @@ export class CommonService {
     // console.log(agencytype)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlAgencyType+ "/multiple/update", agencytype)
+    return this.http.put(this.appConfig.urlAgencyType, agencytype)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delAgencyType(enId, bmId) {
+  delAgencyType(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlAgencyType + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(this.appConfig.urlAgencyType + "/delete?code=" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -420,6 +446,32 @@ export class CommonService {
     
   delReligion(refCode) {
     let fullUrl = this.appConfig.urlRaceDelete;
+    
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addUserType(record) {
+    let fullUrl = this.appConfig.urlUserTypeList;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateUserType(record) {
+    let fullUrl = this.appConfig.urlUserTypeList ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delUserType(refCode) {
+    let fullUrl = this.appConfig.urlUserTypeDelete;
     
     return this.http.delete(fullUrl + refCode)
     .map((response: Response) => response.json())

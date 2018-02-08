@@ -1,13 +1,17 @@
-<div class="container-fluid"> <!--class="container right-content" -->
-  <h1 class="paddingTop-15 staticLabel">Main Category</h1>
-  <div class="col-md-12">
-    <span class="pull-right" style="z-index: 1;">
-      <button type="button" mat-fab color="warn" (click)="add()">
-        <i class="fa fa-plus font-size-l"></i>
-      </button>
-    </span>
+<div class="container right-content">
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>Main Category Management</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+              <i class="fa fa-plus font-size-l"></i></button>
+          </span>
+      </div> 
   </div>
-
+  
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource">
 
@@ -34,8 +38,8 @@
       </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 15%'"> Action </mat-header-cell>
-        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 15%'">
+        <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell class="actionColumn" *matCellDef="let element">
           <button mat-mini-fab style="background: orange" (click)="editGroup(element.maincategoryCode)" title="Update {{ element.maincategoryCode }}">
             <i class="fa fa-edit"></i>
           </button>&nbsp;

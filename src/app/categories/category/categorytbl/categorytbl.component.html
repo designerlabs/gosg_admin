@@ -1,11 +1,15 @@
-<div class="container-fluid"> <!--class="container right-content" -->
-  <h1 class="paddingTop-15 staticLabel">Category</h1>
-  <div class="col-md-12">
-    <span class="pull-right" style="z-index: 1;">
-      <button type="button" mat-fab color="warn" (click)="add()">
-        <i class="fa fa-plus font-size-l"></i>
-      </button>
-    </span>
+<div class="container right-content">
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>Category Management</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+              <i class="fa fa-plus font-size-l"></i></button>
+          </span>
+      </div> 
   </div>
 
   <div class="example-container mat-elevation-z8">
@@ -19,28 +23,35 @@
           </mat-cell>
         </ng-container>
       <!-- Title (BM) Column -->
-      <ng-container matColumnDef="categoryTitle_bm">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">
-          {{element.categoryList[0].categoryTitle}}
+      <ng-container matColumnDef="categoryName">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 30%'"> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 30%'">
+          {{element.list[1].announcementCategoryName}}
         </mat-cell>
       </ng-container>
       <!-- Title (EN) Column -->
-      <ng-container matColumnDef="categoryTitle_en">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Title (EN) </mat-header-cell>
-        <mat-cell *matCellDef="let element" [style.flex]="'0 0 40%'"> {{element.categoryList[1].categoryTitle}}
+      <ng-container matColumnDef="categoryDes">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> Description </mat-header-cell>
+        <mat-cell *matCellDef="let element" [style.flex]="'0 0 40%'"> {{element.list[1].announcementCategoryDescription}}
 
         </mat-cell>
       </ng-container>
+      <!-- ActiveFlag Column -->
+      <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="statusColumn">
+            <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+          </mat-cell>
+        </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <mat-header-cell class="text-align-Center" *matHeaderCellDef [style.flex]="'0 0 15%'"> Action </mat-header-cell>
-        <mat-cell class="text-align-Center padding5" *matCellDef="let element" [style.flex]="'0 0 15%'">
-          <button mat-mini-fab style="background: orange" (click)="editGroup(element.categoryCode)" title="Update {{ element.categoryCode }}">
+        <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+        <mat-cell class="actionColumn padding5" *matCellDef="let element" >
+          <button mat-mini-fab style="background: orange" (click)="editGroup(element.refCode)" title="Update {{ element.refCode }}">
             <i class="fa fa-edit"></i>
           </button>&nbsp;
-          <button mat-mini-fab style="background: red" (click)="deleteRow(element.categoryCode)">
-            <i class="fa fa-trash" title="Delete {{ element.categoryCode }}"></i>
+          <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
+            <i class="fa fa-trash" title="Delete {{ element.refCode }}"></i>
           </button>
         </mat-cell>
       </ng-container>

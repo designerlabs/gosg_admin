@@ -1,22 +1,22 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-import { CommonService } from '../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-errormessagetbl',
-  templateUrl: './errormessagetbl.component.html',
-  styleUrls: ['./errormessagetbl.component.css']
+  selector: 'app-agencytypetbl',
+  templateUrl: './agencytypetbl.component.html',
+  styleUrls: ['./agencytypetbl.component.css']
 })
-export class ErrormessagetblComponent implements OnInit {
+export class AgencytypetblComponent implements OnInit {
 
-  errMsgData: Object;
-  errMsgList = null;
+  agencyTypeData: Object;
+  agencyTypeList = null;
   displayedColumns: any;
-  errMsgPageSize = 10;
+  agencyTypePageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -32,7 +32,7 @@ export class ErrormessagetblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.errMsgList);
+  dataSource = new MatTableDataSource<object>(this.agencyTypeList);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -47,16 +47,11 @@ export class ErrormessagetblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+    this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
   }
 
   ngOnInit() {
-    this.displayedColumns = [
-      'no', 
-      'errMsgCodeEn', 
-      'messagesDescriptionEn', 
-      'messagesDescriptionBm', 
-      'errMsgAction'];
+    this.displayedColumns = ['no','agencyTypeNameEn', 'agencyTypeNameBm', 'agencyTypeAction'];
   }
 
   ngAfterViewInit() {
@@ -64,27 +59,26 @@ export class ErrormessagetblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get errMsg Data 
-  getErrMsgsData(count, size) {
-    // console.log(this.appConfig.urlerrMsgList + '/?page=' + count + '&size=' + size)
-    this.dataUrl = this.appConfig.urlErrorMsg;
-    
+  // get agencyType Data 
+  getAgencyTypesData(count, size) {
+    // console.log(this.appConfig.urlagencyTypeList + '/?page=' + count + '&size=' + size)
+    this.dataUrl = this.appConfig.urlAgencyType;
+
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
-        data => {
-          console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
-        this.errMsgList = data;
-        console.log(this.errMsgList)
-        this.dataSource.data = this.errMsgList.list;
-        this.seqPageNum = this.errMsgList.pageNumber;
-        this.seqPageSize = this.errMsgList.pageSize;
-        this.commonservice.recordTable = this.errMsgList;
-        this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+      data => {
+        this.agencyTypeList = data;
+        console.log(this.agencyTypeList)
+        this.dataSource.data = this.agencyTypeList.list;
+        this.seqPageNum = this.agencyTypeList.pageNumber;
+        this.seqPageSize = this.agencyTypeList.pageSize;
+        this.commonservice.recordTable = this.agencyTypeList;
+        this.noNextData = this.agencyTypeList.pageNumber === this.agencyTypeList.totalPages;
       });
   }
 
   paginatorL(page) {
-    this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+    this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -94,25 +88,30 @@ export class ErrormessagetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getErrMsgsData(page + 1, this.errMsgPageSize);
+    this.getAgencyTypesData(page + 1, this.agencyTypePageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getErrMsgsData(this.pageCount, event.value);
-    this.errMsgPageSize = event.value;
+    this.getAgencyTypesData(this.pageCount, event.value);
+    this.agencyTypePageSize = event.value;
     this.noPrevData = true;
   }
 
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.router.navigate(['errormessage', "add"]);
+    this.router.navigate(['agencytype', "add"]);
+    // this.viewSeq = 2;
+    // this.agencyTypeForm.reset();
+    // this.agencyTypeForm.get('active').setValue(true)
+    // console.log(this.viewSeq);
+    // this.router.navigate(['agencyType', "add"]);
   }
   
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['errormessage', row]);
+    this.router.navigate(['agencytype', row]);
   }
 
   deleteRow(refCode) {
@@ -120,18 +119,18 @@ export class ErrormessagetblComponent implements OnInit {
     let r = confirm("Are you sure to delete " + refCode + "?");
     if (r == true) {
 
-      this.commonservice.delErrorMsg(refCode).subscribe(
+      this.commonservice.delAgencyType(refCode).subscribe(
         data => {
-          txt = "Error Message deleted successfully!";
-          // this.router.navigate(['errMsg']);
+          txt = "agencyType deleted successfully!";
+          // this.router.navigate(['agencyType']);
           this.toastr.success(txt, '');   
-          this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+          window.location.reload();
         },
         error => {
           console.log("No Data")
         });
 
-      // this.errMsgForm.reset();
+      // this.agencyTypeForm.reset();
     } else {
       txt = "Delete Cancelled!";
       // alert(txt)
@@ -146,8 +145,13 @@ export class ErrormessagetblComponent implements OnInit {
     }
   }
 
+  navigateBack() {
+    this.isEdit = false;
+    this.router.navigate(['agencytype']);
+  }
+
   back(){
-    this.router.navigate(['errormessage']);
+    this.router.navigate(['agencytype']);
   }
 
 }

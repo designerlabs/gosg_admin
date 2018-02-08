@@ -25,6 +25,7 @@ const serviceURL = devURL + 'service/';
 export class AppConfig {
     apiEndpoint: string;
     urlAgencyType: string;
+    urlAgencyAppType: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
@@ -60,6 +61,8 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+    urlUserTypeList: string;
+    urlUserTypeDelete: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -80,7 +83,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
-    urlAgencyType: commonURL + 'authorization/agency/type',
+    urlAgencyType: commonURL + 'agency/type',
+    urlAgencyAppType: commonURL + 'agency/application/type',
     
 
     urlAdminUserList: mockApiURL+'userList',
@@ -93,18 +97,25 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
     urlGenderList : serviceURL + 'gender/all',
+
+    urlUserTypeList: commonURL + 'usertype',
+    urlUserTypeDelete: commonURL + 'usertype/',
+    
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL,
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
-    urlAnnounceList: './app/apidata/announce.json',
-    urlCategoryList: './app/apidata/category.json',
+    // urlAnnounceList: './app/apidata/announce.json',
+    urlAnnounceList: commonURL + 'announcement/code',
+    // urlCategoryList: './app/apidata/category.json',
+    urlCategoryList: commonURL + 'announcement/category',
     urlAddressType: commonURL + 'addresstype',
     urlAccountStatus: commonURL + 'accountstatus',
     urlFeedbackType: commonURL + 'feedback/type',
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
+    
 };
 
 @NgModule({
