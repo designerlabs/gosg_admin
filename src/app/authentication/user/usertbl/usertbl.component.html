@@ -4,9 +4,9 @@
         <h3>User Admin Management</h3>
     </div>
     <div class="col-md-6 curdHeadingRight">
-        <form [ngClass]="animateClass" [formGroup]="addUserForm" autocomplete="off" role="form" novalidate *ngIf="showUserInput" >
+        <form [ngClass]="animateClass" style="display: inline-table;" [formGroup]="addUserForm" autocomplete="off" role="form" novalidate *ngIf="showUserInput" >
             <table class="example-full-width" cellspacing="0"><tr>
-              <td>
+              <td style="width:25%">
                 <mat-form-field>
                   <mat-select formControlName="userType" placeholder="Add User By" (change)="checkReqValues()" required>
                     <mat-option [value]="1">by Email</mat-option>
@@ -17,31 +17,36 @@
                   </mat-error>
                 </mat-form-field>
               </td>
-              <td style="padding-left:10px;">
-                <mat-form-field class="example-full-width" *ngIf="showEmail">
+              <td style="width:25%; padding-left:10px;" *ngIf="showEmail">
+                <mat-form-field class="example-full-width">
                   <input (keyup)="getSearchData('email_like', emailFld)" matInput placeholder="Email" #emailFld formControlName="emailFld" required>
                   <mat-error *ngIf="addUserForm.controls.emailFld.hasError('required')">
                     Email is required
                   </mat-error>
                 </mat-form-field>
-                <mat-form-field class="example-full-width"  *ngIf="showIC">
+                </td>
+                <td style="width:25%; padding-left:10px;" *ngIf="showIC">
+                <mat-form-field class="example-full-width">
                   <input (keyup)="getSearchData('icno_like', icFld)" matInput placeholder="IC No." #icFld formControlName="icFld" required>
                   <mat-error *ngIf="addUserForm.controls.icFld.hasError('required')">
                     IC No. is required
                   </mat-error>
                 </mat-form-field>
-                <div style="position:absolute;">
-                  <ul>
-                    <li *ngFor="let data of searchUserResult">
-                      <span *ngIf="emailFld.dirty && emailFld.valid">{{data?.email}}</span>
-                      <span *ngIf="icFld.dirty && icFld.valid">{{data?.icno}}</span>
-                    </li>
-                  </ul>
-                </div>
+  
               </td>
-              <td style="padding-left:10px;">
-                <div class="example-full-width"> <button [disabled]="'true'" mat-raised-button color="primary">Add User</button> </div>
+              <td style="width:25%; padding-left:10px;">
+                <div> <button [disabled]="'true'" mat-raised-button color="primary">Add User</button> </div>
               </td>
+
+              <div style="position:absolute; left:40%; top:100%;">
+                <ul class="user_list_container">
+                  <li *ngFor="let data of searchUserResult">
+                    <span *ngIf="emailFld.dirty && emailFld.valid">{{data?.email}}</span>
+                    <span *ngIf="icFld.dirty && icFld.valid">{{data?.icno}}</span>
+                  </li>
+                </ul>
+
+              </div>
             </tr>
           </table>
         </form>
