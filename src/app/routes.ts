@@ -15,9 +15,6 @@ import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/po
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
 import { SliderComponent } from './slider/slider.component';
-import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
-import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
-import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
 import { CountryComponent } from './referencecode/country/country.component';
 import { StateComponent } from './referencecode/state/state.component';
@@ -30,6 +27,10 @@ import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/et
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
+import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
+import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
+import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
+import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FaqComponent } from './faq/faq.component';
@@ -50,18 +51,28 @@ import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl
 import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
+<<<<<<< HEAD
 import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
 import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
 import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
 import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
+=======
+import { GenderComponent } from './referencecode/gender/gender.component';
+import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
+import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
+import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
+import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+>>>>>>> 24f84ba1c4f50164e91a278f9a1705ae2b013f89
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
 {path: 'addtemplate', component: AddtemplateComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
-{path: 'feedback/message/visitor', component: FeedbacktblComponent},
-{path: 'feedback/message/admin', component: FeedbacktblComponent},
+{path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
+{path: 'feedback/message/visitor/add', component: FeedbackvisitorComponent},
+{path: 'feedback/message/admin', component: FeedbackadmintblComponent},
+{path: 'feedback/message/admin/add', component: FeedbackadminComponent},
 {path: 'feedback/type', component: FeedbacktypetblComponent},
 {path: 'feedback/type/:id', component: FeedbacktypeComponent},
 {path: 'feedback/type/add', component: FeedbacktypeComponent},
@@ -104,6 +115,10 @@ export const appRoutes: Routes = [
 {path: 'reference/ethnicity', component: EthnicitytblComponent},
 {path: 'reference/ethnicity/:id', component: EthnicityComponent},
 {path: 'reference/ethnicity/add', component: EthnicityComponent},
+{path: 'reference/citizentype', component: CitizentypetblComponent},
+{path: 'reference/citizentype/:id', component: CitizentypeComponent},
+{path: 'reference/citizentype/add', component: CitizentypeComponent},
+{path: 'reference/gender', component: GenderComponent},
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
 {path: 'category', component: CategorytblComponent},

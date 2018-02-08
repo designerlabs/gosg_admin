@@ -75,4 +75,29 @@
     text-decoration: none
     }
     
+    .user_list_container{
+        background:#eee;
+        height:500px; 
+        width:20%;
+        float:left;
+        padding: 0px;
+        overflow: auto;
+    }
     
+    
+    
+    .user_list_container > li{
+        color: #333;
+        padding: 8px 5px;
+        /* border-bottom: 1px solid #d0d0d0; */
+        background: #e2e2e2;
+        margin: 2px 0px;
+        font-size: 14px;
+    }
+    
+    
+    .user_list_container > li:hover{
+        cursor: pointer;
+        color: #fff;
+        background: #666;
+    }

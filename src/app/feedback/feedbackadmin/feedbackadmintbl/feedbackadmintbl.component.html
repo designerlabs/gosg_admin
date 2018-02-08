@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Feedback Type List</h3>
+            <h3>Feedback Admin List</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -23,7 +23,7 @@
         </div> -->
 
         <mat-table #table [dataSource]="dataSource">           
-         
+        
             <!-- num Column -->
             <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
@@ -31,41 +31,57 @@
                     {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
             </ng-container>
-      
-            <!-- type en Column -->
+        
+            <!-- question en Column -->
             <ng-container matColumnDef="feedbackEng">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (EN) </mat-header-cell>
+                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Feedback Type </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[1].feedbackTypeDescription}} 
+                    {{element.feedbackType.feedbackTypeDescription}} 
                 </mat-cell>
             </ng-container>
 
-            <!-- type bm Column -->
+            <!-- question bm Column -->
             <ng-container matColumnDef="feedbackMalay">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (BM) </mat-header-cell>
+                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Name </mat-header-cell>
                 <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[0].feedbackTypeDescription}}
+                    {{element.feedbackName}}
                 </mat-cell>
             </ng-container>
-      
+
+            <!-- Email bm Column -->
+            <ng-container matColumnDef="email">
+                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Email </mat-header-cell>
+                <mat-cell class="text-align-Left" *matCellDef="let element">
+                    {{element.feedbackEmail}}
+                </mat-cell>
+            </ng-container>
+        
+            <!-- status Column -->
+            <ng-container matColumnDef="status">
+                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
+                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                    <i class="fa fa-check" style="color: green;"></i>
+                </mat-cell>
+            </ng-container>
+
             <!-- action Column -->
             <ng-container matColumnDef="action">
                 <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                 <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
-                    <i class="fa fa-edit" title="Update {{ element.refCode }}"></i></button>
+                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.feedbackTypeCode)">
+                    <i class="fa fa-edit" title="Update {{ element.feedbackTypeCode }}"></i></button>
                     &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)"> 
-                    <i class="fa fa-trash" title="Delete {{ element.refCode }}"></i></button>
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.feedbackTypeId)"> 
+                    <i class="fa fa-trash" title="Delete {{ element.feedbackTypeCode }}"></i></button>
                 </mat-cell>
             </ng-container>
         
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-      
+        
     </div>
-  
+
     <div class="float-right paddingTop-15">
         <mat-form-field style="width:50px; margin-top: -10px">
             <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
@@ -90,7 +106,7 @@
         </span>
     </div>
 </div>
- 
+
 <!-- <app-confirm-dialog  #resetModal 
 [title]="'common.icon.warn'" 
 [content]="'common.msg.reset'"

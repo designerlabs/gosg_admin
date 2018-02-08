@@ -143,7 +143,7 @@ export class ReligiontblComponent implements OnInit {
           // alert('Record deleted successfully!')
           txt = " record deleted successfully!";
 
-            this.toastr.success(txt, '');   
+          this.toastr.success(txt, '');   
           this.router.navigate(['reference/religion']);
           this.getRecordList(this.pageCount, this.pageSize);
         },

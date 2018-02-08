@@ -9,15 +9,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-feedbacksubjecttbl',
-  templateUrl: './feedbacksubjecttbl.component.html',
-  styleUrls: ['./feedbacksubjecttbl.component.css']
+  selector: 'app-feedbackadmintbl',
+  templateUrl: './feedbackadmintbl.component.html',
+  styleUrls: ['./feedbackadmintbl.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
-
-export class FeedbacksubjecttblComponent implements OnInit {
-
+export class FeedbackadmintblComponent implements OnInit {
+  
   recordList = null;
-  displayedColumns = ['num','feedbackEng', 'feedbackMalay', 'action'];
+  displayedColumns = ['num','feedbackEng', 'feedbackMalay','email', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -40,11 +40,9 @@ export class FeedbacksubjecttblComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-
+  
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
-
-  }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -53,13 +51,15 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedbackSubject + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      this.recordList = data;
 
-      console.log("GET RECORD: ")
-      this.recordList = data;      
+      console.log("data");
+      console.log(data);
+      
       this.dataSource.data = this.recordList.list;
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
@@ -83,13 +83,13 @@ export class FeedbacksubjecttblComponent implements OnInit {
   }
 
   add() {
-    this.router.navigate(['feedback/subject/add']);
+    this.router.navigate(['feedback/message/admin/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['feedback/subject/', row]);
+    this.router.navigate(['feedback/message/admin/', row]);
     this.commonservice.pageModeChange(true);
   }
 
@@ -99,7 +99,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
     if (r == true) {
 
       console.log(refcode);
-      this.commonservice.delRecordFeedbackSubject(refcode).subscribe(
+      this.commonservice.delRecordAccStatus(refcode).subscribe(
         data => {
           
           txt = "Record deleted successfully!";

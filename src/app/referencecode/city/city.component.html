@@ -25,48 +25,48 @@
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
-          <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
-          <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+          <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
+          <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
         </ng-container>
 
       <!-- City Name Column -->
       <ng-container matColumnDef="cityName">
-        <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> City Name </mat-header-cell>
-        <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
+        <mat-header-cell class="text-align-left" style="flex: 0 0 18%;" *matHeaderCellDef> City Name </mat-header-cell>
+        <mat-cell class="text-align-left" style="flex: 0 0 18%;" *matCellDef="let element">
           {{element.cityName}}
         </mat-cell>
       </ng-container>
 
       <!-- City Id 1 Column -->
       <ng-container matColumnDef="cityId">
-        <mat-header-cell class="text-align-Left" style="flex: 0 0 10%;" *matHeaderCellDef> City Id </mat-header-cell>
-        <mat-cell class="text-align-Left" style="flex: 0 0 10%;" *matCellDef="let element">
+        <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> City Id </mat-header-cell>
+        <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
           {{element.cityId}}
         </mat-cell>
       </ng-container>
 
       <!-- City Code 1 Column -->
       <ng-container matColumnDef="cityCode">
-        <mat-header-cell class="text-align-Left" style="flex: 0 0 10%;" *matHeaderCellDef> City Code </mat-header-cell>
-        <mat-cell class="text-align-Left" style="flex: 0 0 10%;" *matCellDef="let element">
+        <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> City Code </mat-header-cell>
+        <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
           {{element.cityCode}}
         </mat-cell>
       </ng-container>
 
       <!-- State Name 1 Column -->
       <ng-container matColumnDef="stateName">
-        <mat-header-cell class="text-align-Left" style="flex: 0 0 35%;" *matHeaderCellDef> State Name </mat-header-cell>
-        <mat-cell class="text-align-Left" style="flex: 0 0 35%;" *matCellDef="let element">
+        <mat-header-cell class="text-align-Left" style="flex: 0 0 18%;" *matHeaderCellDef> State Name </mat-header-cell>
+        <mat-cell class="text-align-Left" style="flex: 0 0 18%;" *matCellDef="let element">
           {{element.state.stateName}}
         </mat-cell>
       </ng-container>
 
       <!-- State Id 1 Column -->
       <ng-container matColumnDef="stateId">
-        <mat-header-cell class="text-align-Left" style="flex: 0 0 5%;" *matHeaderCellDef> State Id </mat-header-cell>
-        <mat-cell class="text-align-Left" style="flex: 0 0 5%;" *matCellDef="let element">
+        <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> State Id </mat-header-cell>
+        <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
           {{element.state.stateId}}
         </mat-cell>
       </ng-container>

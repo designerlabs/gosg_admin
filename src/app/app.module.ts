@@ -22,8 +22,8 @@ import { NavRouterActivatorService } from './service/nav-router-activator.servic
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { RolesComponent } from './roles/roles.component';
-import { FeedbackComponent } from './feedback/view/feedback/feedback.component';
-import { FeedbacktblComponent } from './feedback/view/feedbacktbl/feedbacktbl.component';
+import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
+import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
@@ -72,6 +72,11 @@ import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
 import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
 import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
 import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
+import { GenderComponent } from './referencecode/gender/gender.component';
+import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
+import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
+import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
+import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +87,6 @@ import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypet
     ErrorComponent,
     AddtemplateComponent,
     ArticletblComponent,
-    FeedbackComponent,
     UserComponent,
     UsertblComponent,
     GroupstblComponent,
@@ -92,7 +96,8 @@ import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypet
     PollresultComponent,
     SliderComponent,
     GroupsComponent,    
-    FeedbacktblComponent,
+    FeedbackadminComponent,
+    FeedbackadmintblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
     CountryComponent,
@@ -132,6 +137,11 @@ import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypet
     AgencytypetblComponent,
     AgencyapptypeComponent,
     AgencyapptypetblComponent,
+    GenderComponent,
+    CitizentypeComponent,
+    CitizentypetblComponent,
+    FeedbackvisitorComponent,
+    FeedbackvisitortblComponent,
   ],
   imports: [
     BrowserModule,

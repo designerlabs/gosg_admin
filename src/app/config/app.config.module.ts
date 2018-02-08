@@ -1,18 +1,22 @@
 import { NgModule, InjectionToken } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { environment } from '../../environments/environment';
 export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
-const baseURL = 'http://localhost/locale-api/';
-const mockApiURL = 'http://10.1.22.34:3000/';
+const baseURL = environment.baseURL;
+const mockApiURL = environment.mockApiURL;
 
 // const baseURL = 'http://10.1.17.12:3000/';
 
 // // common service
 // let portalBaseURL = 'http://localhost:8020/portal/';
 // let protectedBaseURL = 'http://localhost:8021/portal-protected/';
-const commonURL = 'http://10.1.70.148:8080/service-admin-protected/';
-const serviceURL = 'http://10.1.70.148:8080/service/';
+
+const devURL = environment.uapURL;
+const commonURL = devURL + 'service-admin-protected/';
+const serviceURL = devURL + 'service/';
+
+
 // let publicURL = 'http://10.1.70.148:8080/gosg-service-public/';
 
 // let baseLocalURL = './app/apidata/';
@@ -45,6 +49,7 @@ export class AppConfig {
     urlRaceList: string;
     urlRace: string;
     urlRaceDelete: string;
+    urlGenderList: string;
     urlAnnounceList: string;
     urlCategoryList: string;
     urlAddressType: string;
@@ -56,6 +61,8 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+    urlUserTypeList: string;
+    urlUserTypeDelete: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -89,6 +96,11 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRaceList: serviceURL + 'race',
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
+    urlGenderList : serviceURL + 'gender/all',
+
+    urlUserTypeList: commonURL + 'usertype',
+    urlUserTypeDelete: commonURL + 'usertype/',
+    
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL,
     urlPostcode: serviceURL + 'postcode/city/',
@@ -96,11 +108,12 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAnnounceList: './app/apidata/announce.json',
     urlCategoryList: './app/apidata/category.json',
     urlAddressType: commonURL + 'addresstype',
-    urlAccountStatus: commonURL + 'AccountStatusEntity',
-    urlFeedbackType: commonURL + 'feedbacktype',
-    urlFeedbackSubject: commonURL + 'feedbacksubject',
+    urlAccountStatus: commonURL + 'accountstatus',
+    urlFeedbackType: commonURL + 'feedback/type',
+    urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
+    
 };
 
 @NgModule({
