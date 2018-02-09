@@ -612,6 +612,45 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecordSysSettings(record) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordSysSettings(key) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+
+    return this.http.delete(fullUrl + "/" + key, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordSysSettings(key) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+
+    return this.http.put(fullUrl +"/" + key, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedback(refCode) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.delete(fullUrl + "/code/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedback(record) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
   
   private handleError(error: Response) {

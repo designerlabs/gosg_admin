@@ -1,24 +1,45 @@
+// import { Component, OnInit } from '@angular/core';
+
+// @Component({
+//   selector: 'app-identificationtypetbl',
+//   templateUrl: './identificationtypetbl.component.html',
+//   styleUrls: ['./identificationtypetbl.component.css']
+// })
+// export class IdentificationtypetblComponent implements OnInit {
+
+//   constructor() { }
+
+//   ngOnInit() {
+//   }
+
+// }
+
+
+
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
-import { CommonService } from './../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
-
 @Component({
-  selector: 'app-accountstatustbl',
-  templateUrl: './accountstatustbl.component.html',
-  styleUrls: ['./accountstatustbl.component.css'],
+  selector: 'app-identificationtypetbl',
+  templateUrl: './identificationtypetbl.component.html',
+  styleUrls: ['./identificationtypetbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AccountstatustblComponent implements OnInit {
+
+export class IdentificationtypetblComponent implements OnInit {
+
+  updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];
+  // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
+  displayedColumns = ['no', 'identification', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -30,29 +51,36 @@ export class AccountstatustblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+
+  public getIdentificationTypeIdEng: any;
+  public getIdentificationTypeIdMy: any;
+  public getIdentificationTypeMy: any;
+  public getIdentificationTypeEng: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  selection = new SelectionModel<Element>(true, []);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-
+  
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
+    this.getRecordList(this.pageCount, this.pageSize);
+  }
 
   ngOnInit() {
-
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlIdentificationTypeList + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -60,12 +88,14 @@ export class AccountstatustblComponent implements OnInit {
 
       console.log("data");
       console.log(data);
-      
-      this.dataSource.data = this.recordList.list;
+
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
+      
+      this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
     });
   }
 
@@ -84,35 +114,38 @@ export class AccountstatustblComponent implements OnInit {
   }
 
   add() {
-    this.router.navigate(['account/add']);
+
+    this.router.navigate(['reference/identificationtype/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['account/', row]);
+    this.router.navigate(['reference/identificationtype', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(refcode) {
+  
+  deleteRow(refCode, identificationType) {
     let txt;
-    let r = confirm("Are you sure to delete?");
+    let r = confirm("Are you sure to delete ?");
+
+    
     if (r == true) {
-
-      console.log(refcode);
-      this.commonservice.delRecordAccStatus(refcode).subscribe(
+      console.log(refCode);
+      this.commonservice.delUserType(refCode).subscribe(
         data => {
-          
-          txt = "Record deleted successfully!";
+          // alert('Record deleted successfully!')
+          txt = " record deleted successfully!";
 
-          this.toastr.success(txt, '');  
+          this.toastr.success(txt, '');   
+          this.router.navigate(['reference/identificationtype']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
-          console.log("No Data")
+          txt = "Delete Cancelled!";
       });
     }
-
     else{
       txt = "Delete Cancelled!";
     }

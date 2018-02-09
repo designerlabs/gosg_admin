@@ -10,15 +10,15 @@ import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
-  selector: 'app-accountstatustbl',
-  templateUrl: './accountstatustbl.component.html',
-  styleUrls: ['./accountstatustbl.component.css'],
+  selector: 'app-systemsettingstbl',
+  templateUrl: './systemsettingstbl.component.html',
+  styleUrls: ['./systemsettingstbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AccountstatustblComponent implements OnInit {
+export class SystemsettingstblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];
+  displayedColumns = ['num','entities', 'key', 'value', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -52,7 +52,7 @@ export class AccountstatustblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlSystemSettings + '/?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -84,13 +84,13 @@ export class AccountstatustblComponent implements OnInit {
   }
 
   add() {
-    this.router.navigate(['account/add']);
+    this.router.navigate(['systemsettings/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['account/', row]);
+    this.router.navigate(['systemsettings/', row]);
     this.commonservice.pageModeChange(true);
   }
 
