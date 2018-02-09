@@ -17,17 +17,20 @@ import { ToastrService } from 'ngx-toastr';
 export class FeedbackadminComponent implements OnInit {
 
   updateForm: FormGroup;
-  
-  public title: FormControl;  
-  public message: FormControl;
+
   public reply: FormControl;
+  
+  public name: any;
+  public type: any;
+  public subject: any;
+  public message: any;
+  public email: any;
+  public replyMessage: any;
 
   public dataUrl: any;  
   public recordList: any;
 
-  public getIdEn: any;
-  public getIdBm: any;
-  public getRefId: any;
+  public getId: any;
 
   public complete: boolean;
 
@@ -36,173 +39,62 @@ export class FeedbackadminComponent implements OnInit {
 
   ngOnInit() {
 
-    this.title = new FormControl();
-    this.message = new FormControl();
+
     this.reply = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      title: this.title,
-      message: this.message,   
       reply: this.reply, 
     });
-
-    let urlEdit = this.router.url.split('/')[3];
+  
+    this.getData();
     
-    if (urlEdit === 'add'){
-      this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
-    }
-    else{
-      this.commonservice.pageModeChange(true);
-      this.getData();
-    }
   }
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[2];
-  
-    this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID;
+    let _getRefID = this.router.url.split('/')[4];  
+    this.dataUrl = this.appConfig.urlFeedbackType + '/'+_getRefID;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
 
       console.log("data");
-      console.log(data);
+      console.log(data);    
 
-      this.updateForm.get('title').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('message').setValue(this.recordList[1].accountStatusDescription);      
-
-      this.getIdEn = this.recordList[0].accountStatusId;
-      this.getIdBm = this.recordList[1].accountStatusId;
-      this.getRefId = this.recordList[0].accountStatusCode;
-
-      this.checkReqValues();
+      this.getId = this.recordList.feedbackTypeEntityList[0].feedbackTypeId;
+      this.name = "Noraini";
+      this.type = "This Type";
+      this.subject = "This Subject";
+      this.message = "This message";
+      this.email = "noraini.ghani@mimos.my";
+      this.replyMessage = this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription;
       
     });
   }
 
-  submit(formValues: any) {
-    let urlEdit = this.router.url.split('/')[2];
-
-    // add form
-    if(urlEdit === 'add'){
-
-      let body = [
-        {
-        
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
-              "languageId": 1
-          }
-        },{
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
-              "languageId": 2
-          }
-        }
-      ]    
-
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
-
-      console.log("TEST")
-      console.log(body)
-
-      this.commonservice.addRecordAccStatus(body).subscribe(
-        data => {
-          console.log(JSON.stringify(body))
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['account']);
-        },
-        error => {
-          console.log("No Data")
-      });
-    }
-
-    // update form
-    else{
-      let body = [
-        {
-          "accountStatusId":this.getIdEn,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefId,
-          "language": {
-              "languageId": 1
-          }
-        },{
-          "accountStatusId":this.getIdBm,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefId,
-          "language": {
-              "languageId": 2
-          }
-        }
-      ]        
-
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
-      
-
-      console.log("UPDATE: ");
-      console.log(body);
-
-      this.commonservice.updateRecordAccStatus(body).subscribe(
-        data => {
-          console.log(JSON.stringify(body))
-        
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['account']);
-        },
-        error => {
-          console.log("No Data")
-      });
-    }
-    
-  }
-
-  checkReqValues() {
-
-    let reqVal:any = ["title", "message", "reply"];
-    let nullPointers:any = [];
-
-    for (var reqData of reqVal) {
-      let elem = this.updateForm.get(reqData);
-
-      if (elem.value == "" || elem.value == null) {
-        elem.setValue(null)
-        nullPointers.push(null)
-      }
-    }
-      
-    if(nullPointers.length > 0) {
-      this.complete = false;
-    } else {
-      this.complete = true;
-    }
-  }
-
-  myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
+  delete(getId) {
+    let txt;
+    let r = confirm("Are you sure to delete?");
     if (r == true) {
-        txt = "You pressed OK!";
-        this.updateForm.reset();
-    } else {
-        txt = "You pressed Cancel!";
+
+      console.log(getId);
+      // this.commonservice.delRecordAccStatus(getId).subscribe(
+      //   data => {
+          
+      //     txt = "Record deleted successfully!";
+
+      //     this.toastr.success(txt, '');  
+      //     this.router.navigate(['feedback/message/admin']);
+      //   },
+      //   error => {
+      //     console.log("No Data")
+      // });
+    }
+
+    else{
+      txt = "Delete Cancelled!";
     }
   }
 

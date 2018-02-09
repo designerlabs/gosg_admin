@@ -30,18 +30,18 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s">
-              <input matInput tabindex="1" placeholder="Agency Application Name" formControlName="agencyAppTypeNameEn" (change)="checkReqValues()"
+              <input matInput tabindex="1" placeholder="Agency Application Name" formControlName="agencyAppNameEn" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyAppTypeForm.controls.agencyAppTypeNameEn.hasError('required')">
+              <mat-error *ngIf="agencyAppTypeForm.controls.agencyAppNameEn.hasError('required')">
                 Agency Application Name is required
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s">
-              <input matInput tabindex="2" placeholder="Agency Application Name" formControlName="agencyAppTypeNameBm" value="" (change)="checkReqValues()"
+              <input matInput tabindex="2" placeholder="Agency Application Name" formControlName="agencyAppNameBm" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyAppTypeForm.controls.agencyAppTypeNameBm.hasError('required')">
+              <mat-error *ngIf="agencyAppTypeForm.controls.agencyAppNameBm.hasError('required')">
                 Agency Application Name is required
               </mat-error>
             </mat-form-field>
@@ -77,11 +77,11 @@
         <div class="row">
           <div class="col-md-6" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width font-size-s">
-              <mat-select formControlName="agencyTypeId" placeholder="Select Agency Type" (change)="checkReqValues()" required>
-                <mat-option *ngFor="let agencyType of AgencyTypeData" [value]="agencyType?.list[0].agencyTypeCode">{{  agencyType?.list[0].agencyTypeName}}</mat-option>
+              <mat-select tabindex="5" formControlName="agencyId" placeholder="Select Agency" (change)="checkReqValues()" required>
+                <mat-option *ngFor="let agency of AgencyData" [value]="agency.list[0].agencyCode">{{ agency.list[0].agencyName}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="agencyAppTypeForm.get('agencyTypeId').hasError('required')">
-                Please select Agency Type
+              <mat-error *ngIf="agencyAppTypeForm.get('agencyId').hasError('required')">
+                Please select Agency
               </mat-error>
             </mat-form-field>
           </div>

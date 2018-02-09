@@ -15,7 +15,7 @@
       </div>
     </div>
   
-    <form [formGroup]="announceCategoryForm" autocomplete="off" role="form" novalidate>
+    <form [formGroup]="CategoryForm" autocomplete="off" role="form" novalidate>
       <!-- EN -->
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
@@ -32,16 +32,16 @@
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <input matInput placeholder="Name" formControlName="nameEn" (change)="checkReqValues()" required>
-              <mat-error *ngIf="announceCategoryForm.controls.nameEn.hasError('required')">
-                Title is required
+              <mat-error *ngIf="CategoryForm.controls.nameEn.hasError('required')">
+                  Name is required
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <input matInput placeholder="Title" formControlName="nameBm" value="" (change)="checkReqValues()" required>
-              <mat-error *ngIf="announceCategoryForm.controls.nameBm.hasError('required')">
-                Title is required
+              <input matInput placeholder="Name" formControlName="nameBm" value="" (change)="checkReqValues()" required>
+              <mat-error *ngIf="CategoryForm.controls.nameBm.hasError('required')">
+                  Name is required
               </mat-error>
             </mat-form-field>
           </div>
@@ -52,7 +52,7 @@
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="announceCategoryForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="CategoryForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
@@ -62,7 +62,7 @@
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="announceCategoryForm.controls.descBm.hasError('required')">
+              <mat-error *ngIf="CategoryForm.controls.descBm.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
@@ -84,7 +84,7 @@
   
       <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;">
         <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-          (click)="updateAnnounce(announceCategoryForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          (click)="updateAnnounce(CategoryForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
           <i *ngIf="complete" class="fa fa-check"></i> 
           <i *ngIf="!complete" class="fa fa-times"></i> {{ pageMode }}</button>
         <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"

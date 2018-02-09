@@ -60,6 +60,8 @@ import { CitizentypeComponent } from './referencecode/citizentype/citizentype.co
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypetbl.component';
+import { MediatypeComponent } from './media/mediatype/mediatype.component';
 import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
 import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
 import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
@@ -72,9 +74,9 @@ export const appRoutes: Routes = [
 {path: 'addtemplate', component: AddtemplateComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 {path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
-{path: 'feedback/message/visitor/add', component: FeedbackvisitorComponent},
+{path: 'feedback/message/visitor/:id', component: FeedbackvisitorComponent},
 {path: 'feedback/message/admin', component: FeedbackadmintblComponent},
-{path: 'feedback/message/admin/add', component: FeedbackadminComponent},
+{path: 'feedback/message/admin/:id', component: FeedbackadminComponent},
 {path: 'feedback/type', component: FeedbacktypetblComponent},
 {path: 'feedback/type/:id', component: FeedbacktypeComponent},
 {path: 'feedback/type/add', component: FeedbacktypeComponent},
@@ -135,6 +137,9 @@ export const appRoutes: Routes = [
 {path: 'maincategory/:id', component: MaincategoryComponent},
 {path: 'subcategory/:id', component: SubcategoryComponent},
 {path: 'category/:id', component: CategoryComponent},
+{path: 'mediatype', component: MediatypetblComponent},
+{path: 'mediatype/add', component: MediatypeComponent},
+{path: 'mediatype/:id', component: MediatypeComponent},
 {path: 'faq', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'faq', component: FaqtblComponent},
@@ -147,7 +152,7 @@ export const appRoutes: Routes = [
 
 // Article and Announcement Category
 {path: 'admin', component: UsertblComponent},
-{path: 'admin/permission', component: UserpermissionComponent},
+{path: 'admin/permission/:id', component: UserpermissionComponent},
 {path: 'announcement', component: AnnouncementtblComponent},
 {path: 'announcement/:id', component: AnnouncementComponent},
 {path: 'announcement/add', component: AnnouncementComponent},
