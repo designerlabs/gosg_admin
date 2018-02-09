@@ -84,7 +84,7 @@ export class CitizentypeComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlUserTypeList + '/' +  _getRefID;
+    this.dataUrl = this.appConfig.urlUserTypeList + '/code/' +  _getRefID;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -92,8 +92,8 @@ export class CitizentypeComponent implements OnInit {
 
       console.log(data);
 
-      this.updateForm.get('userTypeMy').setValue(this.recordList.userTypeList[0].race);
-      this.updateForm.get('userTypeEng').setValue(this.recordList.userTypeList[1].race); 
+      this.updateForm.get('userTypeMy').setValue(this.recordList.userTypeList[0].userType);
+      this.updateForm.get('userTypeEng').setValue(this.recordList.userTypeList[1].userType); 
       
 
       this.getUserTypeIdMy = this.recordList.userTypeList[0].UserTypeId;

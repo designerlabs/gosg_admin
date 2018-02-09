@@ -124,6 +124,12 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getUserList(id){
+    return this.http.get(this.appConfig.urlModuleList+'/'+id)
+    .map((response: Response) => response.json()[0])
+    .catch(this.handleError);
+  }
+
   getGroupList(){
     return this.http.get(this.appConfig.urlGroupModuleList)
     .map((response: Response) => response.json())
@@ -179,6 +185,14 @@ export class CommonService {
 
     return this.pageMode;
   }
+  // Media Starts 
+  getMediaList() {
+    console.log(this.appConfig.urlMediaType);
+    return this.http.get(this.appConfig.urlMediaType)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // Media Ends
 
   // SLIDER
   getSlider(code) {
@@ -626,6 +640,22 @@ export class CommonService {
     let fullUrl = this.appConfig.urlSystemSettings;
 
     return this.http.put(fullUrl +"/" + key, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedback(refCode) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.delete(fullUrl + "/code/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedback(record) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

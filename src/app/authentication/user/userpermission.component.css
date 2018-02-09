@@ -1,0 +1,36 @@
+.dragdrop_container{
+    background:#eee;
+    height:500px; 
+    width:20%;
+    float:left;
+    padding: 0px;
+    overflow: auto;
+}
+
+
+
+.dragdrop_container > li{
+    color: #333;
+    padding: 8px 5px;
+    /* border-bottom: 1px solid #d0d0d0; */
+    background: #e2e2e2;
+    margin: 2px 0px;
+    font-size: 14px;
+}
+
+
+.dragdrop_container > li:hover{
+    cursor: pointer;
+    color: #fff;
+    background: #666;
+}
+
+.middle_icon{
+    float: left;
+    height: 200px;
+    top: 80px;
+    padding: 10px;
+    position: relative;
+}
+
+    

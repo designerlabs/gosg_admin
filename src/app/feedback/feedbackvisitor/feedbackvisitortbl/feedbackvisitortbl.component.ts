@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 export class FeedbackvisitortblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','feedbackEng', 'feedbackMalay','email', 'status', 'action'];
+  displayedColumns = ['num','type', 'name','email', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -51,7 +51,7 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedbackType + '?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -82,10 +82,10 @@ export class FeedbackvisitortblComponent implements OnInit {
     this.getRecordList(page + 1, this.pageSize);
   }
 
-  add() {
-    this.router.navigate(['feedback/message/visitor/add']);
-    this.commonservice.pageModeChange(false);
-  }
+  // add() {
+  //   this.router.navigate(['feedback/message/visitor/add']);
+  //   this.commonservice.pageModeChange(false);
+  // }
 
   updateRow(row) {
     console.log(row);
@@ -93,29 +93,29 @@ export class FeedbackvisitortblComponent implements OnInit {
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(refcode) {
-    let txt;
-    let r = confirm("Are you sure to delete?");
-    if (r == true) {
+  // deleteRow(refcode) {
+  //   let txt;
+  //   let r = confirm("Are you sure to delete?");
+  //   if (r == true) {
 
-      console.log(refcode);
-      this.commonservice.delRecordAccStatus(refcode).subscribe(
-        data => {
+  //     console.log(refcode);
+  //     this.commonservice.delRecordAccStatus(refcode).subscribe(
+  //       data => {
           
-          txt = "Record deleted successfully!";
+  //         txt = "Record deleted successfully!";
 
-          this.toastr.success(txt, '');  
-          this.getRecordList(this.pageCount, this.pageSize);
-        },
-        error => {
-          console.log("No Data")
-      });
-    }
+  //         this.toastr.success(txt, '');  
+  //         this.getRecordList(this.pageCount, this.pageSize);
+  //       },
+  //       error => {
+  //         console.log("No Data")
+  //     });
+  //   }
 
-    else{
-      txt = "Delete Cancelled!";
-    }
-  }
+  //   else{
+  //     txt = "Delete Cancelled!";
+  //   }
+  // }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

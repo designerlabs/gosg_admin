@@ -39,7 +39,7 @@
       <ng-container matColumnDef="isActive" >
           <mat-header-cell mat-sort-header *matHeaderCellDef class="statusColumn"> Status </mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
-            <i [ngClass]="[element.isActive ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+            <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
           </mat-cell>
         </ng-container>
       <!-- action Column -->

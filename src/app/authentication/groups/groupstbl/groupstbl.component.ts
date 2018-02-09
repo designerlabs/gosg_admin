@@ -12,9 +12,11 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
   encapsulation: ViewEncapsulation.None
 })
 export class GroupstblComponent implements OnInit {
-
+  dataUrl: any;
   groupPageCount = 1;
   groupPageSize = 10;
+  seqPageNum = 0;
+  seqPageSize = 0 ;
   groupList = null;
   noPrevData = true;
   noNextData = false;
@@ -41,12 +43,14 @@ export class GroupstblComponent implements OnInit {
   }
 
   getGroupList(count, size) {
-    // debugger;
-    this.http.get(this.appConfig.urlGroupList).subscribe(data => {
+    
+    this.dataUrl = this.appConfig.urlGroupList;
+    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size).subscribe(data => {
       this.groupList = data;
-      this.dataSource.data = this.groupList;
-      // this.commonservice.userTable = this.groupList;
-      // this.groupList = this.groupList.pageNumber === this.groupList.totalPages;
+      this.dataSource.data = this.groupList.moduleGroupListViewList;
+      this.seqPageNum = this.groupList.pageNumber;
+      this.seqPageSize = this.groupList.pageSize;
+      this.commonservice.recordTable = this.groupList;
       this.noNextData = this.groupList.pageNumber === this.groupList.totalPages;
     });
   }
