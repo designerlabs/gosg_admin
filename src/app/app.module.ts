@@ -79,6 +79,8 @@ import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvis
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
 import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
 import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
+import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
+import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 
 @NgModule({
   declarations: [
@@ -146,6 +148,8 @@ import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/s
     FeedbackvisitortblComponent,
     SystemsettingsComponent,
     SystemsettingstblComponent,
+    IdentificationtypeComponent,
+    IdentificationtypetblComponent,
   ],
   imports: [
     BrowserModule,
