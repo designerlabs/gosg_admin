@@ -334,10 +334,10 @@ export class CommonService {
   }
   // AGENCY END
 
-  // AGENCY TYPE
+  // AGENCY APP TYPE
   getAgencyAppType(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlAgencyType + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlAgencyApp + '/' + code).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -345,13 +345,13 @@ export class CommonService {
   }
 
   addAgencyAppType(agencytype) {
-    return this.http.post(this.appConfig.urlAgencyType, agencytype)
+    return this.http.post(this.appConfig.urlAgencyApp, agencytype)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateAgencyAppType(agencytype) {
-    return this.http.put(this.appConfig.urlAgencyType, agencytype)
+    return this.http.put(this.appConfig.urlAgencyApp, agencytype)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -360,11 +360,11 @@ export class CommonService {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlAgencyType + "/" + refCode, null)
+    return this.http.delete(this.appConfig.urlAgencyApp + "/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
-  // AGENCY END
+  // AGENCY APP END
 
   // LANGUAGE
   getAllLanguage() {

@@ -61,8 +61,8 @@ export class AgencytypetblComponent implements OnInit {
 
   // get agencyType Data 
   getAgencyTypesData(count, size) {
-    // console.log(this.appConfig.urlagencyTypeList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlAgencyType;
+    console.log(this.dataUrl + '/code/?page=' + count + '&size=' + size)
 
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
@@ -124,7 +124,7 @@ export class AgencytypetblComponent implements OnInit {
           txt = "agencyType deleted successfully!";
           // this.router.navigate(['agencyType']);
           this.toastr.success(txt, '');   
-          window.location.reload();
+          this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
         },
         error => {
           console.log("No Data")

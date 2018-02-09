@@ -25,7 +25,7 @@ const serviceURL = devURL + 'service/';
 export class AppConfig {
     apiEndpoint: string;
     urlAgencyType: string;
-    urlAgencyAppType: string;
+    urlAgencyApp: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
@@ -85,7 +85,7 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
     urlAgencyType: commonURL + 'agency/type',
-    urlAgencyAppType: commonURL + 'agency/application/type',
+    urlAgencyApp: commonURL + 'agency/application',
     
 
     urlAdminUserList: mockApiURL+'userList',
