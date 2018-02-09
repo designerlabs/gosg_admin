@@ -2,7 +2,7 @@
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{commonservice.pageMode}} Detail Message</h3>
+          <h3>Feedback Message</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -19,18 +19,23 @@
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-12 staticLabel font-size-s boldText">Detail Info</label>
+                    <label class="col-md-12 staticLabel font-size-s boldText">Feedback Information</label>
                 </div>
             </div><br>
 
             <div class="row" style="padding-bottom: 10px;">
                 <div class="col-md-1"><span class="label-name">Name</span></div>
-                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;Noraini</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{name}} ({{email}})</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">Title</span></div>
-                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;Test Feedback</span></div>
+                <div class="col-md-1"><span class="label-name">Type</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{type}}</span></div>
+            </div>
+
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">Subject</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{subject}}</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
@@ -43,7 +48,7 @@
                 <div class="col-md-10"><span style="font-size: 17px; text-align:justify;">This document contains proprietary and confidential information of Constant Contact, Inc. Use, disclosure, or reproduction
                         is prohibited without the prior express written consent of Constant Contact, Inc. For inquiries regarding
                         reproduction or distribution of any Constant Contact material, please contact legal@constantcontact.com.</span></div>
-            </div><br><br>
+            </div>
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
@@ -52,7 +57,7 @@
             </div><br>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">Message</span></div>
+                <div class="col-md-1"><span class="label-name">Reply</span></div>
                 <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
             </div>
     
@@ -61,18 +66,18 @@
                 <div class="col-md-10"><span style="font-size: 17px; text-align:justify;">This document contains proprietary and confidential information of Constant Contact, Inc. Use, disclosure, or reproduction
                         is prohibited without the prior express written consent of Constant Contact, Inc. For inquiries regarding
                         reproduction or distribution of any Constant Contact material, please contact legal@constantcontact.com.</span></div>
-            </div><br><br>
+            </div>
         
         </div>
     
         <div class="form-group paddingTop-20">
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-            <i *ngIf="complete" class="fa fa-check"></i>
-            <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
-            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            <button mat-raised-button type="button" color="primary" id="btnsubmit"
+            class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="delete(getId)" style="width: 100px; font-family: Roboto; margin-left: 5px;">
+            <i class="fa fa-times"></i> Delete </button>
+            <!-- <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
-            <i class="fa fa-refresh"></i> Reset</button>
+            <i class="fa fa-refresh"></i> Reset</button> -->
         </div>      
   </form>
 </div>

@@ -103,7 +103,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUserTypeDelete: commonURL + 'usertype/',
     
     urlPoll: commonURL + 'polls', 
-    urlFeedback: commonURL,
+    urlFeedback: commonURL + 'feedback/reply/',
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
     // urlAnnounceList: './app/apidata/announce.json',

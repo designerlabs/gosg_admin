@@ -51,7 +51,7 @@ export class FeedbackadmintblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedbackType + '?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -82,15 +82,14 @@ export class FeedbackadmintblComponent implements OnInit {
     this.getRecordList(page + 1, this.pageSize);
   }
 
-  add() {
-    this.router.navigate(['feedback/message/admin/add']);
-    this.commonservice.pageModeChange(false);
-  }
+  // add() {
+  //   this.router.navigate(['feedback/message/admin/add']);
+  //   this.commonservice.pageModeChange(false);
+  // }
 
   updateRow(row) {
     console.log(row);
     this.router.navigate(['feedback/message/admin/', row]);
-    this.commonservice.pageModeChange(true);
   }
 
   deleteRow(refcode) {
@@ -99,17 +98,17 @@ export class FeedbackadmintblComponent implements OnInit {
     if (r == true) {
 
       console.log(refcode);
-      this.commonservice.delRecordAccStatus(refcode).subscribe(
-        data => {
+      // this.commonservice.delRecordAccStatus(refcode).subscribe(
+      //   data => {
           
-          txt = "Record deleted successfully!";
+      //     txt = "Record deleted successfully!";
 
-          this.toastr.success(txt, '');  
-          this.getRecordList(this.pageCount, this.pageSize);
-        },
-        error => {
-          console.log("No Data")
-      });
+      //     this.toastr.success(txt, '');  
+      //     this.getRecordList(this.pageCount, this.pageSize);
+      //   },
+      //   error => {
+      //     console.log("No Data")
+      // });
     }
 
     else{

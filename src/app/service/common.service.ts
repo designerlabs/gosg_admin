@@ -630,6 +630,22 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  delRecordFeedback(refCode) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.delete(fullUrl + "/code/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedback(record) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
