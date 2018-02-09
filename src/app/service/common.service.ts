@@ -477,9 +477,9 @@ export class CommonService {
   }
     
   delReligion(refCode) {
-    let fullUrl = this.appConfig.urlRaceDelete;
+    let fullUrl = this.appConfig.urlReligionList;
     
-    return this.http.delete(fullUrl + refCode)
+    return this.http.delete(fullUrl + '/' + refCode)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

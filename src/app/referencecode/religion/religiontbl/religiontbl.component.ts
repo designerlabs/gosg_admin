@@ -138,7 +138,7 @@ export class ReligiontblComponent implements OnInit {
 
     if (r == true) {
       console.log(refCode);
-      this.commonservice.delRace(refCode).subscribe(
+      this.commonservice.delReligion(refCode).subscribe(
         data => {
           // alert('Record deleted successfully!')
           txt = " record deleted successfully!";
