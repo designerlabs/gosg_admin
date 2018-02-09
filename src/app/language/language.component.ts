@@ -141,7 +141,7 @@ export class LanguageComponent implements OnInit {
     if (r == true) {
       txt = "You pressed OK!";
       this.languageForm.reset();
-      this.languageForm.get('active').setValue(true);
+      this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";
     }

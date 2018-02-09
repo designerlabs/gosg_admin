@@ -30,7 +30,7 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s">
-              <input matInput placeholder="Message Code" formControlName="msgCodeEn" (change)="checkReqValues()"
+              <input matInput placeholder="Message Code" formControlName="msgCodeEn" #msgCodeEn (keyup)="copyValue(1)" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="errorMsgForm.controls.msgCodeEn.hasError('required')">
                 Message code required
@@ -40,7 +40,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s">
-              <input matInput placeholder="Message Code" formControlName="msgCodeBm" value="" (change)="checkReqValues()"
+              <input matInput placeholder="Message Code" formControlName="msgCodeBm" #msgCodeBm (keyup)="copyValue(2)" value="" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="errorMsgForm.controls.msgCodeBm.hasError('required')">
                 Message code required

@@ -31,20 +31,22 @@
                 </mat-cell>
             </ng-container>
 
+            <!-- question en Column -->
             <ng-container matColumnDef="raceEng">
+                <mat-header-cell class="text-align-left" *matHeaderCellDef> Race/Ethnic (English) </mat-header-cell>
+                <mat-cell class="text-align-left" *matCellDef="let element">
+                    {{element.list[1].race}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="raceMy">
                 <mat-header-cell class="text-align-left" *matHeaderCellDef> Race/Ethnic (Malay) </mat-header-cell>
                 <mat-cell class="text-align-left" *matCellDef="let element">
                     {{element.list[0].race}}
                 </mat-cell>
             </ng-container>
 
-            <!-- question en Column -->
-            <ng-container matColumnDef="raceMy">
-                <mat-header-cell class="text-align-left" *matHeaderCellDef> Race/Ethnic (English) </mat-header-cell>
-                <mat-cell class="text-align-left" *matCellDef="let element">
-                    {{element.list[1].race}}
-                </mat-cell>
-            </ng-container>
+            
 
             
 

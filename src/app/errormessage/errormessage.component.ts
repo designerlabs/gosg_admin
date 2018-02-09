@@ -133,13 +133,26 @@ export class ErrormessageComponent implements OnInit {
 
   }
 
+  copyValue(type) {
+    let elemOne = this.errorMsgForm.get('msgCodeEn');
+    let elemTwo = this.errorMsgForm.get('msgCodeBm');
+
+    if(type == 1)
+      elemTwo.setValue(elemOne.value)
+    else
+      elemOne.setValue(elemTwo.value)
+
+  }
+
+
+
   myFunction() {
     let txt;
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
       this.errorMsgForm.reset();
-      this.errorMsgForm.get('active').setValue(true);
+      this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";
     }
