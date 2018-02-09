@@ -606,6 +606,29 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecordSysSettings(record) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordSysSettings(key) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+
+    return this.http.delete(fullUrl + "/" + key, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordSysSettings(key) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+
+    return this.http.put(fullUrl +"/" + key, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
   
   private handleError(error: Response) {
