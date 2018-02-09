@@ -265,6 +265,7 @@ export class EthnicityComponent implements OnInit {
         txt = "You pressed OK!";
         this.toastr.success(txt, ''); 
         this.updateForm.reset();
+        this.checkReqValues();
     } else {
         txt = "You pressed Cancel!";
         this.toastr.success(txt, '');

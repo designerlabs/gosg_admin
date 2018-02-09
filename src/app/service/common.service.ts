@@ -510,6 +510,32 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addIdentificationType(record) {
+    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateIdentificationType(record) {
+    let fullUrl = this.appConfig.urlIdentificationTypeList ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delIdentificationType(refCode) {
+    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   addRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
 
