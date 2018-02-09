@@ -39,7 +39,7 @@
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width font-size-s" >
                                 <input matInput placeholder="Race" formControlName="raceEng" #raceEng maxlength="100" 
-                                (keypress)="checkReqValues()" required>
+                                (keyup)="checkReqValues()" required>
                                 <mat-error *ngIf="updateForm.controls.raceEng.hasError('required')">
                                     Race is required
                                 </mat-error>
@@ -50,7 +50,7 @@
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width font-size-s" >
                                 <input matInput placeholder="Bangsa" formControlName="raceMy" #raceMy maxlength="100" 
-                                (keypress)="checkReqValues()" required>
+                                (keyup)="checkReqValues()" required>
                                 <mat-error *ngIf="updateForm.controls.raceMy.hasError('required')">
                                     Race is required
                                 </mat-error>
