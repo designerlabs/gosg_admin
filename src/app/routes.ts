@@ -134,7 +134,7 @@ export const appRoutes: Routes = [
 
 // Article and Announcement Category
 {path: 'admin', component: UsertblComponent},
-{path: 'admin/permission', component: UserpermissionComponent},
+{path: 'admin/permission/:id', component: UserpermissionComponent},
 {path: 'announcement', component: AnnouncementtblComponent},
 {path: 'announcement/:id', component: AnnouncementComponent},
 {path: 'announcement/add', component: AnnouncementComponent},

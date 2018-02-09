@@ -124,6 +124,12 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getUserList(id){
+    return this.http.get(this.appConfig.urlModuleList+'/'+id)
+    .map((response: Response) => response.json()[0])
+    .catch(this.handleError);
+  }
+
   getGroupList(){
     return this.http.get(this.appConfig.urlGroupModuleList)
     .map((response: Response) => response.json())

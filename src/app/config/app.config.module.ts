@@ -63,6 +63,7 @@ export class AppConfig {
     urlSearchbyEmail: string;
     urlUserTypeList: string;
     urlUserTypeDelete: string;
+    urlAdminUserListUpdate: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -87,7 +88,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAgencyAppType: commonURL + 'agency/application/type',
     
 
-    urlAdminUserList: mockApiURL+'userList',
+    urlAdminUserList: commonURL+'adminuser/userList',
+    urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
