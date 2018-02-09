@@ -30,18 +30,18 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s">
-              <input matInput tabindex="1" placeholder="Agency Name" formControlName="agencyTypeNameEn" (change)="checkReqValues()"
+              <input matInput tabindex="1" placeholder="Agency Name" formControlName="agencyNameEn" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyTypeForm.controls.agencyTypeNameEn.hasError('required')">
+              <mat-error *ngIf="agencyTypeForm.controls.agencyNameEn.hasError('required')">
                 Agency Name is required
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s">
-              <input matInput tabindex="2" placeholder="Agency Name" formControlName="agencyTypeNameBm" value="" (change)="checkReqValues()"
+              <input matInput tabindex="2" placeholder="Agency Name" formControlName="agencyNameBm" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyTypeForm.controls.agencyTypeNameBm.hasError('required')">
+              <mat-error *ngIf="agencyTypeForm.controls.agencyNameBm.hasError('required')">
                 Agency Name is required
               </mat-error>
             </mat-form-field>

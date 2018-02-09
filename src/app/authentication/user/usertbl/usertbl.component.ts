@@ -13,6 +13,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  isActiveList: boolean;
   searchUserResult: Object;
   closeUserBtn: boolean;
   addUserBtn: boolean;
@@ -21,12 +22,13 @@ export class UsertblComponent implements OnInit {
   showIC: boolean;
   showEmail: boolean;
 
+  seqPageNum = 0;
+  seqPageSize = 0 ;
   userData: Object;
   userList = null;
   displayedColumns: any;
-  displayedColumns2: any;
-  userPageSize = 10;
-  userPageCount = 1;
+  pageSize = 10;
+  pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -34,6 +36,7 @@ export class UsertblComponent implements OnInit {
   date = new Date();
   pageMode: String;
   isEdit: boolean;
+  seqNo = 0;
   addUserForm: FormGroup;
   emailFld: FormControl;
   icFld:FormControl;
@@ -57,12 +60,12 @@ export class UsertblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getUsersData(this.userPageCount, 
-    this.userPageSize);
+    this.getUsersData(this.pageCount, 
+    this.pageSize);
   }
 
   ngOnInit() {
-    this.displayedColumns = ['username', 'moduleGroupName', 'isActive', 'action'];
+    this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'activeFlag', 'action'];
     this.emailFld = new FormControl();
     this.addUserBtn = true;
     this.closeUserBtn = false;
@@ -91,13 +94,20 @@ export class UsertblComponent implements OnInit {
     }
   }
 
-  // get Slider Data 
+  // get User Data 
   getUsersData(count, size) {
+    this.dataUrl = this.appConfig.urlAdminUserList;
+    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size).subscribe(data => {
+      
 
-    this.http.get(this.appConfig.urlAdminUserList).subscribe(data => {
       this.userList = data;
-      this.dataSource.data = this.userList;
-      this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+        console.log(this.userList)
+        this.dataSource.data = this.userList.adminUserListResource;
+        this.seqPageNum = this.userList.pageNumber;
+        this.seqPageSize = this.userList.pageSize;
+        this.commonservice.recordTable = this.userList;
+        this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+
     });
   }
 
@@ -108,7 +118,7 @@ export class UsertblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getUsersData(this.userPageCount, this.userPageSize);
+    this.getUsersData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -118,12 +128,13 @@ export class UsertblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getUsersData(page + 1, this.userPageSize);
+    this.getUsersData(page + 1, this.pageSize);
   }
 
+
   pageChange(event, totalPages) {
-    this.getUsersData(this.userPageCount, this.userPageSize);
-    this.userPageSize = event.value;
+    this.getUsersData(this.pageCount, event.value);
+    this.pageSize = event.value;
     this.noPrevData = true;
   }
 
@@ -143,7 +154,7 @@ export class UsertblComponent implements OnInit {
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['slider', row]);
+    this.router.navigate(['admin/permission', row]);
   }
 
   deleteRow(enId,bmId) {
@@ -180,6 +191,14 @@ export class UsertblComponent implements OnInit {
   navigateBack() {
     this.isEdit = false;
     this.router.navigate(['slider']);
+  }
+  
+  getValue(type, val){
+    if(type == 'email'){
+      this.addUserForm.get('emailFld').setValue(val);
+    }else{
+      this.addUserForm.get('icFld').setValue(val);
+    }
   }
 
   back(){

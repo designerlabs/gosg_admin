@@ -25,7 +25,7 @@ const serviceURL = devURL + 'service/';
 export class AppConfig {
     apiEndpoint: string;
     urlAgencyType: string;
-    urlAgencyAppType: string;
+    urlAgencyApp: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
@@ -64,6 +64,8 @@ export class AppConfig {
 
     urlUserTypeList: string;
     urlUserTypeDelete: string;
+    urlAdminUserListUpdate: string;
+    urlMediaType: string;
 
     urlIdentificationTypeList: string;
     urlSystemSettings: string;
@@ -87,8 +89,11 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
     urlAgencyType: commonURL + 'agency/type',
-    urlAgencyAppType: commonURL + 'agency/application/type',
-    urlAdminUserList: mockApiURL+'userList',
+    urlAgencyApp: commonURL + 'agency/application',
+    
+
+    urlAdminUserList: commonURL+'adminuser/userList',
+    urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
@@ -118,6 +123,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
+    urlMediaType: './app/apidata/race.json',
     urlSystemSettings: commonURL + 'systemsettings',
     
 };

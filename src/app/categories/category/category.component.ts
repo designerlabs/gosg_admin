@@ -16,7 +16,7 @@ export class CategoryComponent implements OnInit {
   announceCateData: Object;
   dataUrl: any;
   date = new Date();
-  announceCategoryForm: FormGroup
+  CategoryForm: FormGroup
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
@@ -55,7 +55,7 @@ export class CategoryComponent implements OnInit {
     this.descBm = new FormControl()
     this.active = new FormControl()
 
-    this.announceCategoryForm = new FormGroup({
+    this.CategoryForm = new FormGroup({
       nameEn: this.nameEn,
       descEn: this.descEn,
       nameBm: this.nameBm,
@@ -66,7 +66,7 @@ export class CategoryComponent implements OnInit {
     if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add"; this.pageMode = "Add";
-      this.announceCategoryForm.get('active').setValue(true);
+      this.CategoryForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
@@ -96,11 +96,11 @@ export class CategoryComponent implements OnInit {
         let dataBm = this.announceCateData['announcementList'][0];
 
       // populate data
-      this.announceCategoryForm.get('nameEn').setValue(dataEn.announcementCategoryName);
-      this.announceCategoryForm.get('descEn').setValue(dataEn.announcementCategoryDescription);
-      this.announceCategoryForm.get('nameBm').setValue(dataBm.announcementCategoryName);
-      this.announceCategoryForm.get('descBm').setValue(dataBm.announcementCategoryDescription);
-      this.announceCategoryForm.get('active').setValue(dataEn.announcementCategoryActiveFlag);
+      this.CategoryForm.get('nameEn').setValue(dataEn.announcementCategoryName);
+      this.CategoryForm.get('descEn').setValue(dataEn.announcementCategoryDescription);
+      this.CategoryForm.get('nameBm').setValue(dataBm.announcementCategoryName);
+      this.CategoryForm.get('descBm').setValue(dataBm.announcementCategoryDescription);
+      this.CategoryForm.get('active').setValue(dataEn.announcementCategoryActiveFlag);
       this.announceCategorymentIDEn = dataEn.announcementID;
       this.announceCategorymentIDBm = dataBm.announcementID;
 
@@ -120,7 +120,7 @@ export class CategoryComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.announceCategoryForm.get(reqData);
+      let elem = this.CategoryForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -140,8 +140,8 @@ export class CategoryComponent implements OnInit {
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
-      this.announceCategoryForm.reset();
-      this.announceCategoryForm.get('active').setValue(true);
+      this.CategoryForm.reset();
+      this.CategoryForm.get('active').setValue(true);
     } else {
       txt = "You pressed Cancel!";
     }

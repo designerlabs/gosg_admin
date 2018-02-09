@@ -139,7 +139,7 @@ export class ErrormessageComponent implements OnInit {
     if (r == true) {
       txt = "You pressed OK!";
       this.errorMsgForm.reset();
-      this.errorMsgForm.get('active').setValue(true);
+      this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";
     }
