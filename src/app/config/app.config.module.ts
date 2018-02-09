@@ -62,6 +62,7 @@ export class AppConfig {
     urlSearchbyEmail: string;
     urlUserTypeList: string;
     urlUserTypeDelete: string;
+    urlMediaType: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -113,6 +114,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
+    urlMediaType: './app/apidata/race.json'
     
 };
 

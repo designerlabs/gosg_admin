@@ -73,6 +73,9 @@ import { CitizentypeComponent } from './referencecode/citizentype/citizentype.co
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+import { MediatypeComponent } from './media/mediatype/mediatype.component';
+import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
+import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypetbl.component';
 
 @NgModule({
   declarations: [
@@ -134,6 +137,9 @@ import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedback
     CitizentypetblComponent,
     FeedbackvisitorComponent,
     FeedbackvisitortblComponent,
+    MediatypeComponent,
+    MediafileuploadComponent,
+    MediatypetblComponent,
   ],
   imports: [
     BrowserModule,

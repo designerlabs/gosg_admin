@@ -56,6 +56,8 @@ import { CitizentypeComponent } from './referencecode/citizentype/citizentype.co
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypetbl.component';
+import { MediatypeComponent } from './media/mediatype/mediatype.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -115,6 +117,9 @@ export const appRoutes: Routes = [
 {path: 'maincategory/:id', component: MaincategoryComponent},
 {path: 'subcategory/:id', component: SubcategoryComponent},
 {path: 'category/:id', component: CategoryComponent},
+{path: 'mediatype', component: MediatypetblComponent},
+{path: 'mediatype/add', component: MediatypeComponent},
+{path: 'mediatype/:id', component: MediatypeComponent},
 {path: 'faq', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'faq', component: FaqtblComponent},

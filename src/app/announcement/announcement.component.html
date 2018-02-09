@@ -77,14 +77,21 @@
           <label class="font-size-s">Announcement Content</label>
         </div>
         <div class="col-md-5" style="border: 0px solid #000">
-          <!-- <mat-form-field class="example-full-width font-size-s">
-                    <div class="editor block">
-                        <app-ngx-editor formControlName="htmlContentEn" [config]="editorConfig" [placeholder]="'Enter text here...'" [spellcheck]="true" (change)="checkReqValues()" required></app-ngx-editor>
-                    </div>
-                  <mat-error *ngIf="announceForm.get('htmlContentEn').hasError('required')">
-                    Please type content
-                  </mat-error>
-              </mat-form-field> -->
+          <!-- <mat-form-field class="example-full-width font-size-s"> -->
+              <!-- <div class="editor block"> -->
+                  <app-ngx-editor formControlName="htmlContentEn" [(ngModel)]="htmlContent" [config]="editorConfig" [placeholder]="'Enter text here...'" [spellcheck]="true" (change)="checkReqValues()" required></app-ngx-editor>
+              <!-- </div> -->
+            <mat-error *ngIf="announceForm.get('htmlContentEn').hasError('required')">
+              Please type content
+            </mat-error>
+
+            <div *ngIf="htmlContent" class="htmlblock block" style="padding-bottom: 20px;">
+                <h6>HTML Output</h6>
+                <div class="html">
+                  {{ htmlContent }}
+                </div>
+              </div>
+          <!-- </mat-form-field> -->
         </div>
 
         <div class="col-md-5" style="border: 0px solid #000; text-align: left">
@@ -145,5 +152,9 @@
         style="width: 100px; font-family: Roboto" (click)="myFunction()">
         <i class="fa fa-refresh"> </i> Reset</button>
     </div>
+
+
+
+
   </form>
 </div>
