@@ -77,6 +77,8 @@ import { CitizentypeComponent } from './referencecode/citizentype/citizentype.co
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
+import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
 import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 
@@ -144,6 +146,8 @@ import { IdentificationtypetblComponent } from './referencecode/identificationty
     CitizentypetblComponent,
     FeedbackvisitorComponent,
     FeedbackvisitortblComponent,
+    SystemsettingsComponent,
+    SystemsettingstblComponent,
     IdentificationtypeComponent,
     IdentificationtypetblComponent,
   ],
