@@ -80,7 +80,7 @@ export class FeedbackadminComponent implements OnInit {
     if (r == true) {
 
       console.log(getId);
-      // this.commonservice.delRecordAccStatus(getId).subscribe(
+      // this.commonservice.delRecordFeedback(getId).subscribe(
       //   data => {
           
       //     txt = "Record deleted successfully!";

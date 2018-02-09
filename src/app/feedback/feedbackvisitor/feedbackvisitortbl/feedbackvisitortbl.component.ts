@@ -51,7 +51,7 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedbackType + '?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedback + '0?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -60,7 +60,7 @@ export class FeedbackvisitortblComponent implements OnInit {
       console.log("data");
       console.log(data);
       
-      this.dataSource.data = this.recordList.list;
+      this.dataSource.data = this.recordList.feedbackList;
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
       this.commonservice.recordTable = this.recordList;
