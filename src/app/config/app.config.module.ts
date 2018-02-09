@@ -25,6 +25,7 @@ const serviceURL = devURL + 'service/';
 export class AppConfig {
     apiEndpoint: string;
     urlAgencyType: string;
+    urlAgencyAppType: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
@@ -60,9 +61,13 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+
     urlUserTypeList: string;
     urlUserTypeDelete: string;
     urlMediaType: string;
+
+    urlIdentificationTypeList: string;
+    urlSystemSettings: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -79,13 +84,11 @@ export const APP_DI_CONFIG: AppConfig = {
     urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
-    
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
-    urlAgencyType: commonURL + 'authorization/agency/type',
-    
-
+    urlAgencyType: commonURL + 'agency/type',
+    urlAgencyAppType: commonURL + 'agency/application/type',
     urlAdminUserList: mockApiURL+'userList',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlCountryList: serviceURL + 'country',
@@ -99,9 +102,11 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlUserTypeList: commonURL + 'usertype',
     urlUserTypeDelete: commonURL + 'usertype/',
+
+    urlIdentificationTypeList: commonURL + 'identificationtype',
     
     urlPoll: commonURL + 'polls', 
-    urlFeedback: commonURL,
+    urlFeedback: commonURL + 'feedback/reply/',
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
     // urlAnnounceList: './app/apidata/announce.json',
@@ -114,7 +119,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
-    urlMediaType: './app/apidata/race.json'
+    urlMediaType: './app/apidata/race.json',
+    urlSystemSettings: commonURL + 'systemsettings',
     
 };
 

@@ -18,17 +18,17 @@ export class FeedbackvisitorComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  public accEn: FormControl;  
-  public accBm: FormControl;
-  public active: FormControl
+  public reply: FormControl;
+
+  public name: any;
+  public title: any;
+  public message: any;
+  public email: any;
 
   public dataUrl: any;  
   public recordList: any;
 
-  public getIdEn: any;
-  public getIdBm: any;
-  public getRefId: any;
-
+  public getId: any;
   public complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -36,36 +36,23 @@ export class FeedbackvisitorComponent implements OnInit {
 
   ngOnInit() {
 
-    this.accEn = new FormControl();
-    this.accBm = new FormControl();
-    this.active = new FormControl();
+    this.reply = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      accEn: this.accEn,
-      accBm: this.accBm,
-      active: this.active      
+      reply: this.reply,
+
     });
 
-    let urlEdit = this.router.url.split('/')[2];
+    this.getData();
     
-    if (urlEdit === 'add'){
-      this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
-    }
-    else{
-      this.commonservice.pageModeChange(true);
-      this.getData();
-    }
   }
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[2];
-  
-    this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID;
+    let _getRefID = this.router.url.split('/')[4];
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    this.dataUrl = this.appConfig.urlFeedbackType + '/'+_getRefID;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -73,13 +60,12 @@ export class FeedbackvisitorComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('accEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('accBm').setValue(this.recordList[1].accountStatusDescription);      
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('reply').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);     
 
-      this.getIdEn = this.recordList[0].accountStatusId;
-      this.getIdBm = this.recordList[1].accountStatusId;
-      this.getRefId = this.recordList[0].accountStatusCode;
+      this.name = "Noraini";
+      // this.title = this.recordList[1].accountStatusId;
+      // this.message = this.recordList[0].accountStatusCode;
+      this.email = "noraini.aghani@mimos.my";
 
       this.checkReqValues();
       
@@ -92,70 +78,27 @@ export class FeedbackvisitorComponent implements OnInit {
     // add form
     if(urlEdit === 'add'){
 
-      let body = [
-        {
-        
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
-              "languageId": 1
-          }
-        },{
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
-              "languageId": 2
-          }
-        }
-      ]    
-
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
-
-      console.log("TEST")
-      console.log(body)
-
-      this.commonservice.addRecordAccStatus(body).subscribe(
-        data => {
-          console.log(JSON.stringify(body))
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['account']);
-        },
-        error => {
-          console.log("No Data")
-      });
+    // do nothing
     }
 
     // update form
     else{
       let body = [
         {
-          "accountStatusId":this.getIdEn,
+          "accountStatusId":this.getId,
           "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefId,
-          "language": {
-              "languageId": 1
-          }
+          "enabled":false
         },{
-          "accountStatusId":this.getIdBm,
+          "accountStatusId":this.getId,
           "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefId,
-          "language": {
-              "languageId": 2
-          }
+          "enabled":false
         }
       ]        
 
       body[0].accountStatusDescription = formValues.accEn;
       body[0].enabled = formValues.active;
       body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
-      
+      body[1].enabled = formValues.active;      
 
       console.log("UPDATE: ");
       console.log(body);
@@ -177,7 +120,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["accEn", "accBm"];
+    let reqVal:any = ["reply"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

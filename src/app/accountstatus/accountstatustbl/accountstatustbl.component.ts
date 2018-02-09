@@ -12,7 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-accountstatustbl',
   templateUrl: './accountstatustbl.component.html',
-  styleUrls: ['./accountstatustbl.component.css']
+  styleUrls: ['./accountstatustbl.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AccountstatustblComponent implements OnInit {
 

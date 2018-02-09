@@ -17,7 +17,7 @@ export class ErrormessagetblComponent implements OnInit {
   errMsgList = null;
   displayedColumns: any;
   errMsgPageSize = 10;
-  errMsgPageCount = 1;
+  pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -47,8 +47,7 @@ export class ErrormessagetblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getErrMsgsData(this.errMsgPageCount, 
-    this.errMsgPageSize);
+    this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
   }
 
   ngOnInit() {
@@ -69,22 +68,23 @@ export class ErrormessagetblComponent implements OnInit {
   getErrMsgsData(count, size) {
     // console.log(this.appConfig.urlerrMsgList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlErrorMsg;
-
+    
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
-      data => {
+        data => {
+          console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
         this.errMsgList = data;
         console.log(this.errMsgList)
         this.dataSource.data = this.errMsgList.list;
         this.seqPageNum = this.errMsgList.pageNumber;
         this.seqPageSize = this.errMsgList.pageSize;
-        this.commonservice.errorMsgTable = this.errMsgList;
+        this.commonservice.recordTable = this.errMsgList;
         this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
       });
   }
 
   paginatorL(page) {
-    this.getErrMsgsData(this.errMsgPageCount, this.errMsgPageSize);
+    this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -98,7 +98,7 @@ export class ErrormessagetblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getErrMsgsData(this.errMsgPageCount, this.errMsgPageSize);
+    this.getErrMsgsData(this.pageCount, event.value);
     this.errMsgPageSize = event.value;
     this.noPrevData = true;
   }
@@ -115,17 +115,17 @@ export class ErrormessagetblComponent implements OnInit {
     this.router.navigate(['errormessage', row]);
   }
 
-  deleteRow(errMsgId) {
+  deleteRow(refCode) {
     let txt;
-    let r = confirm("Are you sure to delete " + errMsgId + "?");
+    let r = confirm("Are you sure to delete " + refCode + "?");
     if (r == true) {
 
-      this.commonservice.delErrorMsg(errMsgId).subscribe(
+      this.commonservice.delErrorMsg(refCode).subscribe(
         data => {
-          txt = "errMsg deleted successfully!";
+          txt = "Error Message deleted successfully!";
           // this.router.navigate(['errMsg']);
           this.toastr.success(txt, '');   
-          window.location.reload();
+          this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
         },
         error => {
           console.log("No Data")
@@ -147,7 +147,7 @@ export class ErrormessagetblComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['errormessagetbl']);
+    this.router.navigate(['errormessage']);
   }
 
 }

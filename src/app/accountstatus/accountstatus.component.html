@@ -32,7 +32,7 @@
           <div class="example-header">
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Account Status" formControlName="accEn" (keypress)="checkReqValues()"
+                      <input matInput placeholder="Account Status" formControlName="accEn" (keyup)="checkReqValues()"
                       required tabindex="1">
                       <mat-error *ngIf="updateForm.controls.accEn.hasError('required')">
                         Account Status is required
@@ -41,7 +41,7 @@
               </div>
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Account Status" formControlName="accBm" (keypress)="checkReqValues()"
+                      <input matInput placeholder="Account Status" formControlName="accBm" (keyup)="checkReqValues()"
                       required tabindex="2">
                       <mat-error *ngIf="updateForm.controls.accBm.hasError('required')">
                         Account Status is required

@@ -1,0 +1,93 @@
+<!-- VIEW: ADD/EDIT ERROR -->
+<div class="container right-content">
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>{{ pageMode }} Agency Type</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i class="fa fa-arrow-left font-size-l"></i></button>
+          </span>
+      </div> 
+  </div>
+
+  <form [formGroup]="agencyTypeForm" autocomplete="off" role="form" novalidate>
+  
+      <div class="example-container mat-elevation-z8 col-md-12">
+        <div class="row">
+          <div class="bg-form-header col-md-6">
+            <label class="staticLabel font-size-s boldText">English</label>
+          </div>
+          <div class="bg-form-header col-md-6">
+            <label class="staticLabel font-size-s boldText">Bahasa Malaysia</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s">
+              <input matInput tabindex="1" placeholder="Agency Name" formControlName="agencyTypeNameEn" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="agencyTypeForm.controls.agencyTypeNameEn.hasError('required')">
+                Agency Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s">
+              <input matInput tabindex="2" placeholder="Agency Name" formControlName="agencyTypeNameBm" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="agencyTypeForm.controls.agencyTypeNameBm.hasError('required')">
+                Agency Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s">
+              <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="agencyTypeForm.controls.descEn.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s">
+              <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="agencyTypeForm.controls.descBm.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+              <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+
+        <!-- <div class="col-md-12">&nbsp;</div> -->
+      </div>
+  
+      <!-- <div class="container"> -->
+      <div class="col-md-12">&nbsp;</div>
+        <div class="form-group">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="updateActionType(agencyTypeForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            style="width: 100px; font-family: Roboto" (click)="myFunction()">
+            <i class="fa fa-refresh"></i>&nbsp;Reset</button>
+        </div>
+      <div class="col-md-12">&nbsp;</div>
+    <!-- </div> -->
+  </form>
+</div>

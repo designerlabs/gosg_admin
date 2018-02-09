@@ -2,7 +2,7 @@
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{commonservice.pageMode}} Detail Message</h3>
+          <h3>Feedback Message</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -19,58 +19,65 @@
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-12 staticLabel font-size-s boldText">Message</label>
+                    <label class="col-md-12 staticLabel font-size-s boldText">Feedback Information</label>
                 </div>
             </div><br>
 
-            <div class="example-header">
-                <div class="col-md-12">
-                    <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Title Message" formControlName="title" (keypress)="checkReqValues()"
-                        required tabindex="1">
-                        <mat-error *ngIf="updateForm.controls.title.hasError('required')">
-                            Title Message is required
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div> 
-
-            <div class="example-header">
-                <div class="col-md-12">
-                    <mat-form-field class="example-full-width font-size-s" >
-                        <textarea matInput placeholder="Message" formControlName="message" #message maxlength="200" 
-                        (keypress)="checkReqValues()" required tabindex="1"></textarea>
-                        <mat-error *ngIf="updateForm.controls.message.hasError('required')">
-                            Message is required
-                        </mat-error>
-                        <mat-hint align="end">{{message.value?.length || 0}}/200</mat-hint>
-                    </mat-form-field>
-                </div>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">Name</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{name}} ({{email}})</span></div>
             </div>
 
-            <div class="example-header">
-                <div class="col-md-12">
-                    <mat-form-field class="example-full-width font-size-s" >
-                        <textarea matInput placeholder="Reply" formControlName="reply" #message maxlength="200" 
-                        (keypress)="checkReqValues()" required tabindex="1"></textarea>
-                        <mat-error *ngIf="updateForm.controls.reply.hasError('required')">
-                            Reply is required
-                        </mat-error>
-                        <mat-hint align="end">{{reply.value?.length || 0}}/200</mat-hint>
-                    </mat-form-field>
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">Type</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{type}}</span></div>
+            </div>
+
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">Subject</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{subject}}</span></div>
+            </div>
+
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">Message</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
+            </div>
+
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">&nbsp;</span></div>
+                <div class="col-md-10"><span style="font-size: 17px; text-align:justify;">This document contains proprietary and confidential information of Constant Contact, Inc. Use, disclosure, or reproduction
+                        is prohibited without the prior express written consent of Constant Contact, Inc. For inquiries regarding
+                        reproduction or distribution of any Constant Contact material, please contact legal@constantcontact.com.</span></div>
+            </div>
+
+            <div class="bg-form-header col-md-12">
+                <div class="row">
+                    <label class="col-md-12 staticLabel font-size-s boldText">Reply Section</label>
                 </div>
+            </div><br>
+
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">Reply</span></div>
+                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
+            </div>
+    
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-1"><span class="label-name">&nbsp;</span></div>
+                <div class="col-md-10"><span style="font-size: 17px; text-align:justify;">This document contains proprietary and confidential information of Constant Contact, Inc. Use, disclosure, or reproduction
+                        is prohibited without the prior express written consent of Constant Contact, Inc. For inquiries regarding
+                        reproduction or distribution of any Constant Contact material, please contact legal@constantcontact.com.</span></div>
             </div>
         
         </div>
     
         <div class="form-group paddingTop-20">
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-            <i *ngIf="complete" class="fa fa-check"></i>
-            <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
-            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            <button mat-raised-button type="button" color="primary" id="btnsubmit"
+            class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="delete(getId)" style="width: 100px; font-family: Roboto; margin-left: 5px;">
+            <i class="fa fa-times"></i> Delete </button>
+            <!-- <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
-            <i class="fa fa-refresh"></i> Reset</button>
+            <i class="fa fa-refresh"></i> Reset</button> -->
         </div>      
   </form>
 </div>

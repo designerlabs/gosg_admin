@@ -17,3 +17,8 @@
 .example-full-width {
     width: 100%;
 }
+
+.label-name {
+    padding: 15px;
+    font-size: 17px;
+}

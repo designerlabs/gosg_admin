@@ -72,7 +72,7 @@ export class LanguagetblComponent implements OnInit {
         this.dataSource.data = this.languageList.list;
         this.seqPageNum = 1;
         this.seqPageSize = 10;
-        this.commonservice.languageTable = this.languageList;
+        this.commonservice.recordTable = this.languageList;
         this.noNextData = this.languageList.pageNumber === this.languageList.totalPages;
       });
   }

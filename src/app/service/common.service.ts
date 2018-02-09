@@ -21,9 +21,6 @@ export class CommonService {
   uid;
   userInfo: object;
   userTable: object;
-  sliderTable: object;
-  errorMsgTable: object;
-  languageTable: object;
   recordTable: object;
   temp = null;
 
@@ -281,23 +278,23 @@ export class CommonService {
 
   addErrorMsg(errormsg) {
     
-    return this.http.post(this.appConfig.urlErrorMsg + '/add', errormsg)
+    return this.http.post(this.appConfig.urlErrorMsg, errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateErrorMsg(errormsg) {
 
-    return this.http.put(this.appConfig.urlErrorMsg+ "/update", errormsg)
+    return this.http.put(this.appConfig.urlErrorMsg+ "/multiple/update", errormsg)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delErrorMsg(errorMsgId) {
+  delErrorMsg(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + errorMsgId, null)
+    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -330,16 +327,48 @@ export class CommonService {
     // console.log(agencytype)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlAgencyType+ "/multiple/update", agencytype)
+    return this.http.put(this.appConfig.urlAgencyType, agencytype)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delAgencyType(enId, bmId) {
+  delAgencyType(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlAgencyType + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(this.appConfig.urlAgencyType + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // AGENCY END
+
+  // AGENCY TYPE
+  getAgencyAppType(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlAgencyType + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addAgencyAppType(agencytype) {
+    return this.http.post(this.appConfig.urlAgencyType, agencytype)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateAgencyAppType(agencytype) {
+    return this.http.put(this.appConfig.urlAgencyType, agencytype)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delAgencyAppType(refCode) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlAgencyType + "/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -456,9 +485,9 @@ export class CommonService {
   }
     
   delReligion(refCode) {
-    let fullUrl = this.appConfig.urlRaceDelete;
+    let fullUrl = this.appConfig.urlReligionList;
     
-    return this.http.delete(fullUrl + refCode)
+    return this.http.delete(fullUrl + '/' + refCode)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -585,6 +614,45 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addRecordSysSettings(record) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordSysSettings(key) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+
+    return this.http.delete(fullUrl + "/" + key, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordSysSettings(key) {
+    let fullUrl = this.appConfig.urlSystemSettings;
+
+    return this.http.put(fullUrl +"/" + key, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delRecordFeedback(refCode) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.delete(fullUrl + "/code/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedback(record) {
+    let fullUrl = this.appConfig.urlFeedback;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
   
   private handleError(error: Response) {

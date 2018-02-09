@@ -68,6 +68,10 @@ import { SubcategoryComponent } from './categories/subcategory/subcategory.compo
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
+import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
+import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
+import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
+import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
@@ -76,6 +80,10 @@ import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedback
 import { MediatypeComponent } from './media/mediatype/mediatype.component';
 import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
 import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypetbl.component';
+import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
+import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
+import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
+import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +140,10 @@ import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypet
     SubcategorytblComponent,
     CategoryComponent,
     UserpermissionComponent,
+    AgencytypeComponent,
+    AgencytypetblComponent,
+    AgencyapptypeComponent,
+    AgencyapptypetblComponent,
     GenderComponent,
     CitizentypeComponent,
     CitizentypetblComponent,
@@ -140,6 +152,10 @@ import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypet
     MediatypeComponent,
     MediafileuploadComponent,
     MediatypetblComponent,
+    SystemsettingsComponent,
+    SystemsettingstblComponent,
+    IdentificationtypeComponent,
+    IdentificationtypetblComponent,
   ],
   imports: [
     BrowserModule,

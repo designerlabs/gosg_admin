@@ -51,6 +51,10 @@ import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl
 import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
+import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
+import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
+import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
+import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
@@ -58,6 +62,11 @@ import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvis
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
 import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypetbl.component';
 import { MediatypeComponent } from './media/mediatype/mediatype.component';
+import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
+import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
+import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
+import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
+
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -65,9 +74,9 @@ export const appRoutes: Routes = [
 {path: 'addtemplate', component: AddtemplateComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 {path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
-{path: 'feedback/message/visitor/add', component: FeedbackvisitorComponent},
+{path: 'feedback/message/visitor/:id', component: FeedbackvisitorComponent},
 {path: 'feedback/message/admin', component: FeedbackadmintblComponent},
-{path: 'feedback/message/admin/add', component: FeedbackadminComponent},
+{path: 'feedback/message/admin/:id', component: FeedbackadminComponent},
 {path: 'feedback/type', component: FeedbacktypetblComponent},
 {path: 'feedback/type/:id', component: FeedbacktypeComponent},
 {path: 'feedback/type/add', component: FeedbacktypeComponent},
@@ -81,6 +90,12 @@ export const appRoutes: Routes = [
 {path: 'language/add', component: LanguageComponent},
 {path: 'language/:id', component: LanguageComponent},
 {path: 'language', component: LanguagetblComponent},
+{path: 'agencytype/add', component: AgencytypeComponent},
+{path: 'agencytype/:id', component: AgencytypeComponent},
+{path: 'agencytype', component: AgencytypetblComponent},
+{path: 'agencyapptype/add', component: AgencyapptypeComponent},
+{path: 'agencyapptype/:id', component: AgencyapptypeComponent},
+{path: 'agencyapptype', component: AgencyapptypetblComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
@@ -108,6 +123,11 @@ export const appRoutes: Routes = [
 {path: 'reference/citizentype/:id', component: CitizentypeComponent},
 {path: 'reference/citizentype/add', component: CitizentypeComponent},
 {path: 'reference/gender', component: GenderComponent},
+
+{path: 'reference/identificationtype', component: IdentificationtypetblComponent},
+{path: 'reference/identificationtype/:id', component: IdentificationtypeComponent},
+{path: 'reference/identificationtype/add', component: IdentificationtypeComponent},
+
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
 {path: 'category', component: CategorytblComponent},
@@ -126,6 +146,9 @@ export const appRoutes: Routes = [
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
+{path: 'systemsettings',component: SystemsettingstblComponent},
+{path: 'systemsettings/:id',component: SystemsettingsComponent},
+{path: 'systemsettings/add',component: SystemsettingsComponent},
 
 // Article and Announcement Category
 {path: 'admin', component: UsertblComponent},
