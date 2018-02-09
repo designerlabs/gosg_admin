@@ -32,26 +32,26 @@
                
             <div class="example-header" style="margin-top: 10px;">
                 <div class="col-md-6 text-align-Center font-size-m"> 
-                    <label class="staticLabel font-size-s boldText">User Type (English)</label>
+                    <label class="staticLabel font-size-s boldText">Identification Type</label>
                 </div>
-                <div class="col-md-6 text-align-Center font-size-m"> 
+                <!-- <div class="col-md-6 text-align-Center font-size-m"> 
                     <label class="staticLabel font-size-s boldText">User Type (Malay)</label>
-                </div>
+                </div> -->
             </div>
     
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="User Type" formControlName="userTypeEng" #userTypeEng maxlength="100" 
+                        <input matInput placeholder="User Type" formControlName="identificationType" #identificationType maxlength="100" 
                         (keyup)="checkReqValues()" required>
-                        <mat-error *ngIf="updateForm.controls.userTypeEng.hasError('required')">
-                            User Type is required
+                        <mat-error *ngIf="updateForm.controls.identificationType.hasError('required')">
+                            Identification Type is required
                         </mat-error>
-                        <mat-hint align="end">{{userTypeEng.value?.length || 0}}/100</mat-hint>
+                        <mat-hint align="end">{{identificationType.value?.length || 0}}/100</mat-hint>
                     </mat-form-field>
                 </div>
 
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="User Type" formControlName="userTypeMy" #userTypeMy maxlength="100" 
                         (keyup)="checkReqValues()" required>
@@ -60,7 +60,7 @@
                         </mat-error>
                         <mat-hint align="end">{{userTypeMy.value?.length || 0}}/100</mat-hint>
                     </mat-form-field>
-                </div>
+                </div> -->
             </div>
 
             <div class="example-header">
