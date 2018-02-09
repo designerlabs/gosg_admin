@@ -61,8 +61,11 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+
     urlUserTypeList: string;
     urlUserTypeDelete: string;
+
+    urlIdentificationTypeList: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -79,14 +82,11 @@ export const APP_DI_CONFIG: AppConfig = {
     urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
-    
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
     urlAgencyType: commonURL + 'agency/type',
     urlAgencyAppType: commonURL + 'agency/application/type',
-    
-
     urlAdminUserList: mockApiURL+'userList',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlCountryList: serviceURL + 'country',
@@ -100,6 +100,8 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlUserTypeList: commonURL + 'usertype',
     urlUserTypeDelete: commonURL + 'usertype/',
+
+    urlIdentificationTypeList: commonURL + 'identificationtype',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL,
