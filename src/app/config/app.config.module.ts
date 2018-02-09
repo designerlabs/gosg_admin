@@ -65,6 +65,7 @@ export class AppConfig {
     urlUserTypeList: string;
     urlUserTypeDelete: string;
     urlAdminUserListUpdate: string;
+    urlMediaType: string;
 
     urlIdentificationTypeList: string;
     urlSystemSettings: string;
@@ -122,6 +123,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
+    urlMediaType: './app/apidata/race.json',
     urlSystemSettings: commonURL + 'systemsettings',
     
 };

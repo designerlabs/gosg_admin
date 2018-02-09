@@ -185,6 +185,14 @@ export class CommonService {
 
     return this.pageMode;
   }
+  // Media Starts 
+  getMediaList() {
+    console.log(this.appConfig.urlMediaType);
+    return this.http.get(this.appConfig.urlMediaType)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // Media Ends
 
   // SLIDER
   getSlider(code) {
