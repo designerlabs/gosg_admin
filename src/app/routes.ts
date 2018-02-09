@@ -60,6 +60,9 @@ import { CitizentypeComponent } from './referencecode/citizentype/citizentype.co
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
+import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
+
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -116,6 +119,11 @@ export const appRoutes: Routes = [
 {path: 'reference/citizentype/:id', component: CitizentypeComponent},
 {path: 'reference/citizentype/add', component: CitizentypeComponent},
 {path: 'reference/gender', component: GenderComponent},
+
+{path: 'reference/identificationtype', component: IdentificationtypetblComponent},
+{path: 'reference/identificationtype/:id', component: IdentificationtypeComponent},
+{path: 'reference/identificationtype/add', component: IdentificationtypeComponent},
+
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
 {path: 'category', component: CategorytblComponent},

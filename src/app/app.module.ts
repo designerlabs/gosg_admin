@@ -77,6 +77,8 @@ import { CitizentypeComponent } from './referencecode/citizentype/citizentype.co
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
 import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
 import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
+import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +144,8 @@ import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedback
     CitizentypetblComponent,
     FeedbackvisitorComponent,
     FeedbackvisitortblComponent,
+    IdentificationtypeComponent,
+    IdentificationtypetblComponent,
   ],
   imports: [
     BrowserModule,
