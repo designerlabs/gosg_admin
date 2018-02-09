@@ -14,6 +14,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class UsertblComponent implements OnInit {
   isActiveList: boolean;
+  isActive: boolean;
   searchUserResult: Object;
   closeUserBtn: boolean;
   addUserBtn: boolean;
@@ -65,6 +66,8 @@ export class UsertblComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isActiveList = false;
+    this.isActive = true;
     this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'activeFlag', 'action'];
     this.emailFld = new FormControl();
     this.addUserBtn = true;
@@ -84,6 +87,10 @@ export class UsertblComponent implements OnInit {
   }
 
   checkReqValues(){
+    this.addUserForm.get('emailFld').setValue('');
+    this.addUserForm.get('icFld').setValue('');
+    this.isActive = true;
+    this.isActiveList = false;
     if(this.userType.value == 1){
       this.showEmail = true;
       this.showIC = false;
@@ -112,6 +119,12 @@ export class UsertblComponent implements OnInit {
   }
 
   getSearchData(type,keyword){
+    this.isActive = true;
+    this.isActiveList = true;
+    debugger;
+    if(!keyword.value){
+      keyword == '-';
+    }
     this.http.get(this.appConfig.urlSearchbyEmail+'?'+type+'='+keyword.value).subscribe(data => {
       this.searchUserResult = data;
     });
@@ -194,6 +207,9 @@ export class UsertblComponent implements OnInit {
   }
   
   getValue(type, val){
+    this.isActive = false;
+    this.isActiveList = false;
+    this.searchUserResult = [''];
     if(type == 'email'){
       this.addUserForm.get('emailFld').setValue(val);
     }else{

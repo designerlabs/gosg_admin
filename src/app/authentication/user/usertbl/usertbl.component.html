@@ -9,12 +9,12 @@
           <table class="example-full-width" cellspacing="0"><tr>
             <td style="width:25%">
               <mat-form-field>
-                <mat-select formControlName="userType" placeholder="Add User By" (change)="checkReqValues()" required>
+                <mat-select formControlName="userType" #userType placeholder="Add User By" (change)="checkReqValues()" required>
                   <mat-option [value]="1">by Email</mat-option>
                   <mat-option [value]="2">by IC No.</mat-option>
                 </mat-select>
                 <mat-error *ngIf="addUserForm.controls.userType.hasError('required')">
-                  Please select a file
+                  Please select the type
                 </mat-error>
               </mat-form-field>
             </td>
@@ -36,15 +36,17 @@
 
             </td>
             <td style="width:25%; padding-left:10px;">
-              <div> <button [disabled]="'true'" mat-raised-button color="primary">Add User</button> </div>
+              <div> <button [disabled]="isActive" mat-raised-button color="primary">Add User</button> </div>
             </td>
           </tr>
         </table>
-        <div *ngIf="emailFld.dirty && emailFld.valid || icFld.dirty && icFld.valid" style="position:absolute; left:40%; top:100%;">
+
+        <div *ngIf="isActiveList" style="position:absolute; left:40%; top:100%;">
           <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
             <li *ngFor="let data of searchUserResult">
-              <button *ngIf="emailFld.dirty && emailFld.valid" (click)="getValue('email', data?.email)">{{data?.email}}</button>
-              <button *ngIf="icFld.dirty && icFld.valid"  (click)="getValue('icno', data?.icno)">{{data?.icno}}</button>
+              <button *ngIf="userType.value == 1" (click)="getValue('email', data?.email)">{{data?.email}}</button>
+              <button *ngIf="userType.value == 2"  (click)="getValue('icno', data?.icno)">{{data?.icno}}</button>
+              
             </li>
           </ul>
         </div>

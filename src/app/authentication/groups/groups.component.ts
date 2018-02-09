@@ -67,7 +67,7 @@ export class GroupsComponent implements OnInit {
     this.commonservice.getModuleList( this.route.snapshot.params.id).subscribe(
       data => {
         this.groupName = data.moduleGroupName;
-        this.activeStatus = data.isActive;
+        this.activeStatus = data.active;
         this.moduleList = data.data[0];
         this.selectedItems = data.data[1];
         this.groupModule.get('groupmodulename').setValue(this.groupName);
