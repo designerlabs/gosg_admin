@@ -74,6 +74,23 @@
         </div>
 
         <!-- <div class="col-md-12">&nbsp;</div> -->
+        <div class="row">
+          <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+            <mat-form-field class="example-full-width font-size-s">
+              <mat-select tabindex="5" formControlName="ministryId" placeholder="Select Agency" (change)="checkReqValues()" required>
+                <!-- <mat-option *ngFor="let ministry of MinistryData" [value]="ministry.list[0].ministryCode">{{ ministry.list[0].ministryName}}</mat-option> -->
+                <mat-option [value]="1">MOF</mat-option>
+                <mat-option [value]="2">MOSTI</mat-option>
+                <mat-option [value]="3">MOHR</mat-option>
+                <mat-option [value]="4">MOH</mat-option>
+              </mat-select>
+              <mat-error *ngIf="agencyAppTypeForm.get('ministryId').hasError('required')">
+                Please select Agency
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
       </div>
   
       <!-- <div class="container"> -->

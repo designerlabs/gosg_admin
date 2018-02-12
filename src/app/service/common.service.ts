@@ -307,43 +307,85 @@ export class CommonService {
   }
   // ERROR MESSAGE END
 
-  // AGENCY TYPE
-  getAgencyType(code) {
+  // MINISTRY TYPE
+  getMinistry(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlAgencyType + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlAgency + '/' + code).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
     });
   }
 
-  addAgencyType(agencytype) {
+  addMinistry(ministry) {
 
     // console.log(this.appConfig.urlSlides)
-    // console.log(agencytype)
+    // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlAgencyType, agencytype)
+    return this.http.post(this.appConfig.urlMinistry, ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  updateAgencyType(agencytype) {
+  updateMinistry(ministry) {
 
     // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(agencytype)
+    // console.log(Agency)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlAgencyType, agencytype)
+    return this.http.put(this.appConfig.urlMinistry, ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delAgencyType(refCode) {
+  delMinistry(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlAgencyType + "/" + refCode, null)
+    return this.http.delete(this.appConfig.urlMinistry + "/" + refCode, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // MINISTRY END
+
+  // AGENCY TYPE
+  getAgency(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlAgency + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addAgency(agency) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(Agency)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlAgency, agency)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateAgency(agency) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(Agency)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlAgency, agency)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delAgency(refCode) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlAgency + "/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -359,14 +401,14 @@ export class CommonService {
     });
   }
 
-  addAgencyAppType(agencytype) {
-    return this.http.post(this.appConfig.urlAgencyApp, agencytype)
+  addAgencyAppType(Agency) {
+    return this.http.post(this.appConfig.urlAgencyApp, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  updateAgencyAppType(agencytype) {
-    return this.http.put(this.appConfig.urlAgencyApp, agencytype)
+  updateAgencyAppType(Agency) {
+    return this.http.put(this.appConfig.urlAgencyApp, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -394,7 +436,7 @@ export class CommonService {
   addLanguage(language) {
 
     // console.log(this.appConfig.urlSlides)
-    // console.log(agencytype)
+    // console.log(Agency)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
     return this.http.post(this.appConfig.urlLanguage, language)
@@ -405,7 +447,7 @@ export class CommonService {
   updateLanguage(language) {
 
     // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(agencytype)
+    // console.log(Agency)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
     return this.http.put(this.appConfig.urlLanguage, language)

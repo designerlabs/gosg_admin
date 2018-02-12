@@ -1,23 +1,23 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-import { CommonService } from '../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../config/app.config.module';
+import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-agencytype',
-  templateUrl: './agencytype.component.html',
-  styleUrls: ['./agencytype.component.css']
+  selector: 'app-ministry',
+  templateUrl: './ministry.component.html',
+  styleUrls: ['./ministry.component.css']
 })
-export class AgencytypeComponent implements OnInit {
+export class MinistryComponent implements OnInit {
   
-  AgencyTypeData: Object;
+  AgencyData: Object;
   dataUrl: any;
   date = new Date();
-  agencyTypeForm: FormGroup
+  ministryForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -30,6 +30,24 @@ export class AgencytypeComponent implements OnInit {
   agencyNameBm: FormControl
   descEn: FormControl
   descBm: FormControl
+  active: FormControl
+  address: FormControl
+  email: FormControl
+  faxno: FormControl
+  phoneno: FormControl
+  agclat: FormControl
+  agclong: FormControl
+  contactperson: FormControl
+  websiteUrl: FormControl
+  rssUrl: FormControl
+  blogUrl: FormControl
+  fbUrl: FormControl
+  flickrUrl: FormControl
+  instagramUrl: FormControl
+  twitterUrl: FormControl
+  youtubeUrl: FormControl
+  // mdecStatus: FormControl
+
   resetMsg = this.resetMsg;
 
   constructor(
@@ -50,12 +68,44 @@ export class AgencytypeComponent implements OnInit {
     this.agencyNameBm = new FormControl()
     this.descEn = new FormControl()
     this.descBm = new FormControl()
+    this.active = new FormControl()
+    this.address = new FormControl()
+    this.agclat = new FormControl()
+    this.agclong = new FormControl()
+    this.phoneno = new FormControl()
+    this.faxno = new FormControl()
+    this.email = new FormControl()
+    this.contactperson = new FormControl()
+    this.websiteUrl = new FormControl()
+    this.rssUrl = new FormControl()
+    this.blogUrl = new FormControl()
+    this.fbUrl = new FormControl()
+    this.youtubeUrl = new FormControl()
+    this.instagramUrl = new FormControl()
+    this.twitterUrl = new FormControl()
+    this.flickrUrl = new FormControl()
 
-    this.agencyTypeForm = new FormGroup({
+    this.ministryForm = new FormGroup({
       agencyNameEn: this.agencyNameEn,
       descEn: this.descEn,
       agencyNameBm: this.agencyNameBm,
       descBm: this.descBm,
+      address: this.address,
+      agclat: this.agclat,
+      agclong: this.agclong,
+      phoneno: this.phoneno,
+      faxno: this.faxno,
+      email: this.email,
+      contactperson: this.contactperson,
+      websiteUrl: this.websiteUrl,
+      rssUrl: this.rssUrl,
+      blogUrl: this.blogUrl,
+      fbUrl: this.fbUrl,
+      youtubeUrl: this.youtubeUrl,
+      instagramUrl: this.instagramUrl,
+      twitterUrl: this.twitterUrl,
+      flickrUrl: this.flickrUrl,
+      active: this.active
     });
 
     if(refCode == "add") {
@@ -72,7 +122,7 @@ export class AgencytypeComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['agencytype']);
+    this.router.navigate(['agency']);
   }
 
   // get, add, update, delete
@@ -80,21 +130,21 @@ export class AgencytypeComponent implements OnInit {
 
     // Update ErrorMsg Service
     return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlAgencyType + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlAgencyType + row + "/").subscribe(
+    // return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
+    // return this.http.get(this.appConfig.urlAgency + row + "/").subscribe(
       Rdata => {
 
-        this.AgencyTypeData = Rdata;
-        // console.log(JSON.stringify(this.AgencyTypeData))
-        console.log(this.AgencyTypeData)
-        let dataEn = this.AgencyTypeData['agencyList'][0];
-        let dataBm = this.AgencyTypeData['agencyList'][1];
+        this.AgencyData = Rdata;
+        // console.log(JSON.stringify(this.AgencyData))
+        console.log(this.AgencyData)
+        let dataEn = this.AgencyData['agencyList'][0];
+        let dataBm = this.AgencyData['agencyList'][1];
 
       // populate data
-      this.agencyTypeForm.get('agencyNameEn').setValue(dataEn.agencyName);
-      this.agencyTypeForm.get('descEn').setValue(dataEn.agencyDescription);
-      this.agencyTypeForm.get('agencyNameBm').setValue(dataBm.agencyName);
-      this.agencyTypeForm.get('descBm').setValue(dataBm.agencyDescription);
+      this.ministryForm.get('agencyNameEn').setValue(dataEn.agencyName);
+      this.ministryForm.get('descEn').setValue(dataEn.agencyDescription);
+      this.ministryForm.get('agencyNameBm').setValue(dataBm.agencyName);
+      this.ministryForm.get('descBm').setValue(dataBm.agencyDescription);
       this.refCode = dataEn.agencyCode;
       this.agencyIdEn = dataEn.agencyId;
       this.agencyIdBm = dataBm.agencyId;
@@ -115,7 +165,7 @@ export class AgencytypeComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.agencyTypeForm.get(reqData);
+      let elem = this.ministryForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -138,7 +188,7 @@ export class AgencytypeComponent implements OnInit {
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
-      this.agencyTypeForm.reset();
+      this.ministryForm.reset();
       this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";
@@ -159,14 +209,14 @@ export class AgencytypeComponent implements OnInit {
           console.log("No Data")
         });
 
-      // this.agencyTypeForm.reset();
+      // this.ministryForm.reset();
     } else {
       txt = "Delete Cancelled!";
       alert(txt)
     }
   }
   
-  updateActionType(formValues: any) {
+  updateAction(formValues: any) {
     
     if(!this.isEdit) {
 
@@ -187,7 +237,7 @@ export class AgencytypeComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues)
+    console.log(formValues)
 
     body[0].agencyName = formValues.agencyNameEn;
     body[0].agencyDescription = formValues.descEn;
@@ -198,14 +248,14 @@ export class AgencytypeComponent implements OnInit {
     console.log(body)
 
     // Add ErrorMsg Service
-    this.commonservice.addAgency(body).subscribe(
-      data => {
-        this.toastr.success('Agency added successfully!', ''); 
-        this.router.navigate(['agencytype']);
-      },
-      error => {
-        console.log("No Data")
-      });
+    // this.commonservice.addAgency(body).subscribe(
+    //   data => {
+    //     this.toastr.success('Agency added successfully!', ''); 
+    //     this.router.navigate(['agency']);
+    //   },
+    //   error => {
+    //     console.log("No Data")
+    //   });
 
     } else {
       
@@ -243,14 +293,14 @@ export class AgencytypeComponent implements OnInit {
     console.log(body);
 
     // Update ErrorMsg Service
-    this.commonservice.updateAgency(body).subscribe(
-      data => {
-        this.toastr.success('Agency update successful!', '');   
-        this.router.navigate(['agencytype']);
-      },
-      error => {
-        console.log("No Data")
-      });
+    // this.commonservice.updateAgency(body).subscribe(
+    //   data => {
+    //     this.toastr.success('Agency update successful!', '');   
+    //     this.router.navigate(['agency']);
+    //   },
+    //   error => {
+    //     console.log("No Data")
+    //   });
     }
     
 

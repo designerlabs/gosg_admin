@@ -1,22 +1,22 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
-import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
+import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-agencytypetbl',
-  templateUrl: './agencytypetbl.component.html',
-  styleUrls: ['./agencytypetbl.component.css']
+  selector: 'app-ministrytbl',
+  templateUrl: './ministrytbl.component.html',
+  styleUrls: ['./ministrytbl.component.css']
 })
-export class AgencytypetblComponent implements OnInit {
+export class MinistrytblComponent implements OnInit {
 
-  agencyTypeData: Object;
-  agencyTypeList = null;
+  agencyData: Object;
+  agencyList = null;
   displayedColumns: any;
-  agencyTypePageSize = 10;
+  agencyPageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -32,7 +32,7 @@ export class AgencytypetblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.agencyTypeList);
+  dataSource = new MatTableDataSource<object>(this.agencyList);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -47,7 +47,7 @@ export class AgencytypetblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+    this.getAgencyData(this.pageCount, this.agencyPageSize);
   }
 
   ngOnInit() {
@@ -60,25 +60,25 @@ export class AgencytypetblComponent implements OnInit {
   }
 
   // get agencyType Data 
-  getAgencyTypesData(count, size) {
+  getAgencyData(count, size) {
     this.dataUrl = this.appConfig.urlAgency;
     console.log(this.dataUrl + '/code/?page=' + count + '&size=' + size)
 
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
-        this.agencyTypeList = data;
-        console.log(this.agencyTypeList)
-        this.dataSource.data = this.agencyTypeList.list;
-        this.seqPageNum = this.agencyTypeList.pageNumber;
-        this.seqPageSize = this.agencyTypeList.pageSize;
-        this.commonservice.recordTable = this.agencyTypeList;
-        this.noNextData = this.agencyTypeList.pageNumber === this.agencyTypeList.totalPages;
+        this.agencyList = data;
+        console.log(this.agencyList)
+        this.dataSource.data = this.agencyList.list;
+        this.seqPageNum = this.agencyList.pageNumber;
+        this.seqPageSize = this.agencyList.pageSize;
+        this.commonservice.recordTable = this.agencyList;
+        this.noNextData = this.agencyList.pageNumber === this.agencyList.totalPages;
       });
   }
 
   paginatorL(page) {
-    this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+    this.getAgencyData(this.pageCount, this.agencyPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -88,24 +88,19 @@ export class AgencytypetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getAgencyTypesData(page + 1, this.agencyTypePageSize);
+    this.getAgencyData(page + 1, this.agencyPageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getAgencyTypesData(this.pageCount, event.value);
-    this.agencyTypePageSize = event.value;
+    this.getAgencyData(this.pageCount, event.value);
+    this.agencyPageSize = event.value;
     this.noPrevData = true;
   }
 
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.router.navigate(['agencytype', "add"]);
-    // this.viewSeq = 2;
-    // this.agencyTypeForm.reset();
-    // this.agencyTypeForm.get('active').setValue(true)
-    // console.log(this.viewSeq);
-    // this.router.navigate(['agencyType', "add"]);
+    this.router.navigate(['ministry', "add"]);
   }
   
   updateRow(row) {
@@ -124,7 +119,7 @@ export class AgencytypetblComponent implements OnInit {
           txt = "agencyType deleted successfully!";
           // this.router.navigate(['agencyType']);
           this.toastr.success(txt, '');   
-          this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+          this.getAgencyData(this.pageCount, this.agencyPageSize);
         },
         error => {
           console.log("No Data")
@@ -147,11 +142,11 @@ export class AgencytypetblComponent implements OnInit {
 
   navigateBack() {
     this.isEdit = false;
-    this.router.navigate(['agencytype']);
+    this.router.navigate(['ministry']);
   }
 
   back(){
-    this.router.navigate(['agencytype']);
+    this.router.navigate(['ministry']);
   }
 
 }

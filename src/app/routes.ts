@@ -66,6 +66,8 @@ import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/s
 import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
 import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
+import { MinistryComponent } from './ministry/ministry.component';
+import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
 
 
 export const appRoutes: Routes = [
@@ -90,6 +92,9 @@ export const appRoutes: Routes = [
 {path: 'language/add', component: LanguageComponent},
 {path: 'language/:id', component: LanguageComponent},
 {path: 'language', component: LanguagetblComponent},
+{path: 'ministry/add', component: MinistryComponent},
+{path: 'ministry/:id', component: MinistryComponent},
+{path: 'ministry', component: MinistrytblComponent},
 {path: 'agencytype/add', component: AgencytypeComponent},
 {path: 'agencytype/:id', component: AgencytypeComponent},
 {path: 'agencytype', component: AgencytypetblComponent},
