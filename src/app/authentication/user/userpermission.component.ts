@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./userpermission.component.css']
 })
 export class UserpermissionComponent implements OnInit {
+  icno: any;
+  username: any;
   activeStatus: any;
   groupName: any;
   moduleListSelected: any;
@@ -56,9 +58,10 @@ export class UserpermissionComponent implements OnInit {
   getModuleData() {
     if(this.route.snapshot.params.id){
     
-    this.commonservice.getUserList( this.route.snapshot.params.id).subscribe(
+    this.commonservice.getUserList('').subscribe(
       data => {
-        this.groupName = data.moduleGroupName;
+        this.username = data.username;
+        this.icno =data.icNo;
         this.activeStatus = data.isActive;
         this.moduleList = data.data[0];
         this.selectedItems = data.data[1];
@@ -81,7 +84,8 @@ export class UserpermissionComponent implements OnInit {
     this.remove(this.moduleList.items, e);
   }
 
-  moveItemR(e){
+  moveItemR(e, event){
+    event.stopPropagation();
     this.moduleList.items.push(e);
     this.remove(this.selectedItems.items, e);
   }

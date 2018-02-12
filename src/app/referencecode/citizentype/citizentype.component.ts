@@ -92,18 +92,18 @@ export class CitizentypeComponent implements OnInit {
 
       console.log(data);
 
-      this.updateForm.get('userTypeMy').setValue(this.recordList.userTypeList[0].userType);
-      this.updateForm.get('userTypeEng').setValue(this.recordList.userTypeList[1].userType); 
-      this.updateForm.get('active').setValue(this.recordList.userTypeList[0].userTypeActiveFlag);
+      this.updateForm.get('userTypeMy').setValue(this.recordList.userTypeList[1].userType);
+      this.updateForm.get('userTypeEng').setValue(this.recordList.userTypeList[0].userType); 
+      this.updateForm.get('active').setValue(this.recordList.userTypeList[1].userTypeActiveFlag);
       
 
-      this.getUserTypeIdMy = this.recordList.userTypeList[0].userTypeId;
-      this.getUserTypeIdEng = this.recordList.userTypeList[1].userTypeId;
+      this.getUserTypeIdMy = this.recordList.userTypeList[1].userTypeId;
+      this.getUserTypeIdEng = this.recordList.userTypeList[0].userTypeId;
 
-      this.getRefCodeMy = this.recordList.userTypeList[0].userTypeCode;
-      this.getRefCodeEng = this.recordList.userTypeList[1].userTypeCode;
+      this.getRefCodeMy = this.recordList.userTypeList[1].userTypeCode;
+      this.getRefCodeEng = this.recordList.userTypeList[0].userTypeCode;
 
-      this.getUserTypeActive = this.recordList.userTypeList[0].userTypeActiveFlag;
+      this.getUserTypeActive = this.recordList.userTypeList[1].userTypeActiveFlag;
 
     });
   }
@@ -146,13 +146,13 @@ export class CitizentypeComponent implements OnInit {
         }
       ]   
  
-      body[0].userType = formValues.userTypeMy;
-      body[0].language.languageId = 2;
-      body[0].userTypeActiveFlag = formValues.active;
-
-      body[1].userType = formValues.userTypeEng; 
-      body[1].language.languageId = 1;
+      body[1].userType = formValues.userTypeMy;
+      body[1].language.languageId = 2;
       body[1].userTypeActiveFlag = formValues.active;
+
+      body[0].userType = formValues.userTypeEng; 
+      body[0].language.languageId = 1;
+      body[0].userTypeActiveFlag = formValues.active;
 
       console.log(body);
 
@@ -199,17 +199,17 @@ export class CitizentypeComponent implements OnInit {
       ]    
 
 
-      body[0].userType = formValues.userTypeMy;
-      body[0].userTypeId = this.getUserTypeIdMy;
-      body[0].userTypeCode = this.getRefCodeMy;
-      body[0].language.languageId = 2;
-      body[0].userTypeActiveFlag = formValues.active;
-
-      body[1].userType = formValues.userTypeEng; 
-      body[1].userTypeId = this.getUserTypeIdEng; 
-      body[1].userTypeCode = this.getRefCodeEng; 
-      body[1].language.languageId = 1;
+      body[1].userType = formValues.userTypeMy;
+      body[1].userTypeId = this.getUserTypeIdMy;
+      body[1].userTypeCode = this.getRefCodeMy;
+      body[1].language.languageId = 2;
       body[1].userTypeActiveFlag = formValues.active;
+
+      body[0].userType = formValues.userTypeEng; 
+      body[0].userTypeId = this.getUserTypeIdEng; 
+      body[0].userTypeCode = this.getRefCodeEng; 
+      body[0].language.languageId = 1;
+      body[0].userTypeActiveFlag = formValues.active;
 
       console.log(body);
 
