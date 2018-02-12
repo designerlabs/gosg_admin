@@ -23,15 +23,22 @@
         
             <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
                 <div class="example-container mat-elevation-z8 paddingBottom-10">
+
+                    <div class="bg-form-header col-md-12">
+                        <div class="row">
+                            <label class="col-md-6 staticLabel font-size-s boldText">English</label>
+                            <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                        </div>
+                    </div><br>
                        
-                    <div class="example-header" style="margin-top: 10px;">
+                    <!-- <div class="example-header" style="margin-top: 10px;">
                         <div class="col-md-6 text-align-Center font-size-m"> 
                             <label class="staticLabel font-size-s boldText">Religion (English)</label>
                         </div>
                         <div class="col-md-6 text-align-Center font-size-m"> 
                             <label class="staticLabel font-size-s boldText">Religion (Malay)</label>
                         </div>
-                    </div>
+                    </div> -->
             
                     <div class="example-header">
                         <div class="col-md-6">
@@ -47,7 +54,7 @@
         
                         <div class="col-md-6">
                             <mat-form-field class="example-full-width font-size-s" >
-                                <input matInput placeholder="Agama" formControlName="religionMy" #religionMy maxlength="100" 
+                                <input matInput placeholder="Religion" formControlName="religionMy" #religionMy maxlength="100" 
                                 (keyup)="checkReqValues()" required>
                                 <mat-error *ngIf="updateForm.controls.religionMy.hasError('required')">
                                     Agama is required

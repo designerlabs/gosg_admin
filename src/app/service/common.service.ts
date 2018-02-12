@@ -551,6 +551,32 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  addFaq(record) {
+    let fullUrl = this.appConfig.urlFaqList ;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFaq(record) {
+    let fullUrl = this.appConfig.urlFaqList  ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delFaq(refCode) {
+    let fullUrl = this.appConfig.urlFaqList ;
+    
+    return this.http.delete(fullUrl + '/' + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   addRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
 

@@ -40,11 +40,11 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqComponent } from './faq/faq.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
-import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
@@ -116,9 +116,9 @@ import { IdentificationtypetblComponent } from './referencecode/identificationty
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
     FaqComponent,
+    FaqtblComponent,
     EditorComponent,
     EthnicitytblComponent,
-    FaqtblComponent,
     AnnouncementComponent,
     AnnouncementtblComponent,
     CategorytblComponent,
