@@ -39,7 +39,7 @@ export class CitizentypetblComponent implements OnInit {
 
   recordList = null;
   // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
-  displayedColumns = ['no', 'userMy', 'userEng', 'action'];
+  displayedColumns = ['no', 'userMy', 'userEng', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;

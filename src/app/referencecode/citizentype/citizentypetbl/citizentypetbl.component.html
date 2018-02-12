@@ -37,30 +37,28 @@
             </ng-container>
 
             <ng-container matColumnDef="userMy">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> User Type  (English) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> User Type  (English) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
                     {{element.list[0].userType}}
                 </mat-cell>
             </ng-container>
 
             <!-- question en Column -->
             <ng-container matColumnDef="userEng">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> User Type (Malay) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> User Type (Malay) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
                     {{element.list[1].userType}}
                 </mat-cell>
             </ng-container>
 
-            
-
             <!-- status Column -->
-            <!-- <ng-container matColumnDef="status">
+            <ng-container matColumnDef="status">
                 <mat-header-cell class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
                 <mat-cell class="statusColumn" *matCellDef="let element">
                     <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
                     <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
                 </mat-cell>
-            </ng-container> -->
+            </ng-container>
 
             <!-- action Column -->
             <ng-container matColumnDef="action">
