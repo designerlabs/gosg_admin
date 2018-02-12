@@ -187,13 +187,41 @@ export class CommonService {
   }
   // Media Starts 
   getMediaList() {
-    console.log(this.appConfig.urlMediaType);
-    return this.http.get(this.appConfig.urlMediaType)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
+    // console.log(this.appConfig.urlMediaType);
+    // return this.http.get(this.appConfig.urlMediaType)
+    // .map((response: Response) => response.json())
+    // .catch(this.handleError);
   }
-  // Media Ends
 
+
+  // Media Ends
+// Media Types starts
+getMediaType() {
+  console.log(this.appConfig.urlMediaType);
+  return this.http.get(this.appConfig.urlMediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+addMediaType(mediaType) {
+  return this.http.post(this.appConfig.urlMediaType, mediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+updateMediaType(mediaType) {
+  return this.http.put(this.appConfig.urlMediaType, mediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+delMediaType(mediaTypeId) {
+  return this.http.delete(this.appConfig.urlMediaType + "/id/" + mediaTypeId)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+// Media Types ends
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
@@ -525,7 +553,7 @@ export class CommonService {
   }
 
   addIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    let fullUrl = this.appConfig.urlIdentificationType + '/add/multiple';
     console.log(fullUrl)
     console.log(record)
 
@@ -535,7 +563,7 @@ export class CommonService {
   }
 
   updateIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList ;
+    let fullUrl = this.appConfig.urlIdentificationType + '/update/multiple' ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -543,7 +571,7 @@ export class CommonService {
   }
     
   delIdentificationType(refCode) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    let fullUrl = this.appConfig.urlIdentificationType + '/delete/multiple/';
     
     return this.http.delete(fullUrl + refCode)
     .map((response: Response) => response.json())

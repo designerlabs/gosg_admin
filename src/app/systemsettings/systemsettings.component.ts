@@ -126,7 +126,7 @@ export class SystemsettingsComponent implements OnInit {
 
       console.log("UPDATE: ");     
 
-      this.commonservice.updateRecordSysSettings(this.getId ).subscribe(
+      this.commonservice.updateRecordSysSettings(this.getId).subscribe(
         data => {
                   
           let txt = "Record updated successfully!";
@@ -167,6 +167,7 @@ export class SystemsettingsComponent implements OnInit {
     if (r == true) {
         txt = "You pressed OK!";
         this.updateForm.reset();
+        this.checkReqValues();
     } else {
         txt = "You pressed Cancel!";
     }

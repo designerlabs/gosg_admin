@@ -39,7 +39,7 @@ export class IdentificationtypetblComponent implements OnInit {
 
   recordList = null;
   // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
-  displayedColumns = ['no', 'identification', 'action'];
+  displayedColumns = ['no', 'identificationEng', 'identificationMy', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -80,7 +80,7 @@ export class IdentificationtypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlIdentificationTypeList + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -126,14 +126,14 @@ export class IdentificationtypetblComponent implements OnInit {
   }
 
   
-  deleteRow(refCode, identificationType) {
+  deleteRow(refCode) {
     let txt;
     let r = confirm("Are you sure to delete ?");
 
     
     if (r == true) {
       console.log(refCode);
-      this.commonservice.delUserType(refCode).subscribe(
+      this.commonservice.delIdentificationType(refCode).subscribe(
         data => {
           // alert('Record deleted successfully!')
           txt = " record deleted successfully!";
