@@ -21,9 +21,11 @@ export class FeedbackvisitorComponent implements OnInit {
   public reply: FormControl;
 
   public name: any;
-  public title: any;
-  public message: any;
+  public type: any;
+  public subject: any;
+  public messages: any;
   public email: any;
+  public replyMessage: any;
 
   public dataUrl: any;  
   public recordList: any;
@@ -52,7 +54,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[4];
 
-    this.dataUrl = this.appConfig.urlFeedbackType + '/'+_getRefID;
+    this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -60,13 +62,15 @@ export class FeedbackvisitorComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('reply').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);     
+      this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackMessage);     
 
-      this.name = "Noraini";
-      // this.title = this.recordList[1].accountStatusId;
-      // this.message = this.recordList[0].accountStatusCode;
-      this.email = "noraini.aghani@mimos.my";
-
+      this.name = this.recordList.feedback.feedbackName;
+      this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
+      this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
+      this.messages = this.recordList.feedback.feedbackMessage;
+      this.email = this.recordList.feedback.feedbackEmail;
+      this.replyMessage = this.recordList.feedback.feedbackMessage;
+      console.log(this.messages);
       this.checkReqValues();
       
     });
