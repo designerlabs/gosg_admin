@@ -70,6 +70,8 @@ export class AppConfig {
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
     urlSystemSettings: string;
+
+    urlFaqList:string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -110,6 +112,8 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlIdentificationTypeList: commonURL + 'identificationtype/code',
     urlIdentificationType: commonURL + 'identificationtype',
+
+    urlFaqList: commonURL + 'faq',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
