@@ -14,11 +14,15 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./groups.component.css']  
 })
 export class GroupsComponent implements OnInit {
+  addData: { "moduleGroupName": any; "moduleGroupDescription": any; "active": any; "modules": any; };
+  groupDescription: any;
+  updateData: {"moduleGroupId":any; "moduleGroupName": any; "moduleGroupDescription": any; "active": any; "modules": any; };
   activeStatus: any;
   groupName: any;
   moduleListSelected: any;
   selectedItems: any;
   target: any;
+  isUpdate: any;
   moduleList: any;
   elementRef: ElementRef;
   groupModule: FormGroup;
@@ -43,6 +47,7 @@ export class GroupsComponent implements OnInit {
 
   
   ngOnInit() {
+    this.isUpdate = false;
     this.route.snapshot.params.id;
     this.groupmodulename = new FormControl()
     this.active = new FormControl();
@@ -63,21 +68,62 @@ export class GroupsComponent implements OnInit {
 
   getModuleData() {
     if(this.route.snapshot.params.id){
-    
+    this.isUpdate = true;
     this.commonservice.getModuleList( this.route.snapshot.params.id).subscribe(
       data => {
         this.groupName = data.moduleGroupName;
+        this.groupDescription = data.moduleGroupDescription;
         this.activeStatus = data.active;
         this.moduleList = data.data[0];
         this.selectedItems = data.data[1];
         this.groupModule.get('groupmodulename').setValue(this.groupName);
         this.groupModule.get('active').setValue(this.activeStatus);
-        this.groupModule.get('groupmoduledesc').setValue('a');
+        this.groupModule.get('groupmoduledesc').setValue(this.groupDescription);
         
       });
+    }else{
+      this.isUpdate = false;
+      this.commonservice.getModuleListAll().subscribe(
+        data => {
+          this.moduleList = data.data[0];
+          this.selectedItems = data.data[1];
+        }
+      )
     }
   }
 
+  updateModuleData(){
+    this.updateData = {
+      "moduleGroupId": this.route.snapshot.params.id,
+      "moduleGroupName": this.groupModule.get('groupmodulename').value,
+      "moduleGroupDescription":this.groupModule.get('groupmoduledesc').value,
+      "active": this.groupModule.get('active').value ? true : false,
+      "modules": this.selectedItems.items
+    };
+
+    this.commonservice.updateModuleList(this.updateData).subscribe(
+      data => {
+        this.toastr.success('success');
+      }
+    );
+  }
+
+  addModuleData(){
+
+    this.addData = {
+      "moduleGroupName": this.groupModule.get('groupmodulename').value,
+      "moduleGroupDescription":this.groupModule.get('groupmoduledesc').value,
+      "active": this.groupModule.get('active').value ? true : false,
+      "modules": this.selectedItems.items
+    };
+
+    this.commonservice.addModuleGroup(this.addData).subscribe(
+      data => {
+        this.toastr.success('success');
+      }
+    );
+    
+  }
 
   remove(array, element) {
       const index = array.indexOf(element);

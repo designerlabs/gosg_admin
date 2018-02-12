@@ -124,6 +124,25 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getModuleListAll(){
+    return this.http.get(this.appConfig.urlModuleList+'/all')
+    .map((response: Response) => response.json()[0])
+    .catch(this.handleError);
+  }
+
+  updateModuleList(data){
+    return this.http.put(this.appConfig.urlModuleList+'/update', data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+
+  addModuleGroup(data){
+    return this.http.post(this.appConfig.urlModuleGroupList, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getUserList(id){
     return this.http.get(this.appConfig.urlCommon+'adminuser/'+id)
     .map((response: Response) => response.json().adminUserDetails)

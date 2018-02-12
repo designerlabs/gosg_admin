@@ -70,6 +70,7 @@ export class AppConfig {
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
     urlSystemSettings: string;
+    urlModuleGroupList:string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -86,6 +87,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
+    urlModuleGroupList: commonURL + 'authorization/module/group',
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
