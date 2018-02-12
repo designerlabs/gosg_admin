@@ -125,9 +125,8 @@ export class CommonService {
   }
 
   getUserList(id){
-    let url = 'http://localhost:3000/adminUserEdit';
-    return this.http.get(url)
-    .map((response: Response) => response.json()[0])
+    return this.http.get(this.appConfig.urlCommon+'adminuser/'+id)
+    .map((response: Response) => response.json().adminUserDetails)
     .catch(this.handleError);
   }
 
@@ -188,13 +187,41 @@ export class CommonService {
   }
   // Media Starts 
   getMediaList() {
-    console.log(this.appConfig.urlMediaType);
-    return this.http.get(this.appConfig.urlMediaType)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
+    // console.log(this.appConfig.urlMediaType);
+    // return this.http.get(this.appConfig.urlMediaType)
+    // .map((response: Response) => response.json())
+    // .catch(this.handleError);
   }
-  // Media Ends
 
+
+  // Media Ends
+// Media Types starts
+getMediaType() {
+  console.log(this.appConfig.urlMediaType);
+  return this.http.get(this.appConfig.urlMediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+addMediaType(mediaType) {
+  return this.http.post(this.appConfig.urlMediaType, mediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+updateMediaType(mediaType) {
+  return this.http.put(this.appConfig.urlMediaType, mediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+delMediaType(mediaTypeId) {
+  return this.http.delete(this.appConfig.urlMediaType + "/id/" + mediaTypeId)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+// Media Types ends
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
@@ -568,7 +595,7 @@ export class CommonService {
   }
 
   addIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    let fullUrl = this.appConfig.urlIdentificationType + '/add/multiple';
     console.log(fullUrl)
     console.log(record)
 
@@ -578,7 +605,7 @@ export class CommonService {
   }
 
   updateIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList ;
+    let fullUrl = this.appConfig.urlIdentificationType + '/update/multiple' ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -586,9 +613,35 @@ export class CommonService {
   }
     
   delIdentificationType(refCode) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    let fullUrl = this.appConfig.urlIdentificationType + '/delete/multiple/';
     
     return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addFaq(record) {
+    let fullUrl = this.appConfig.urlFaqList ;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFaq(record) {
+    let fullUrl = this.appConfig.urlFaqList  ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delFaq(refCode) {
+    let fullUrl = this.appConfig.urlFaqList ;
+    
+    return this.http.delete(fullUrl + '/' + refCode)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -705,10 +758,10 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  updateRecordSysSettings(key) {
+  updateRecordSysSettings(record) {
     let fullUrl = this.appConfig.urlSystemSettings;
 
-    return this.http.put(fullUrl +"/" + key, null)
+    return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

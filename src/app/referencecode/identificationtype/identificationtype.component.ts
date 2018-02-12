@@ -36,21 +36,21 @@ export class IdentificationtypeComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  public identificationType: FormControl;
-
-  public userTypeEng: FormControl;  
-  public userTypeMy: FormControl;
+  public identificationTypeEng: FormControl;
+  public identificationTypeMy: FormControl;
   public active: FormControl;
+
+  
 
   public dataUrl: any;  
   public recordList: any;
 
-  public getIdentificationType: any;
+  // public getIdentificationType: any;
 
-  public getUserTypeIdEng: any;
-  public getUserTypeIdMy: any;
-  public getRefCodeMy: any;
-  public getRefCodeEng: any;
+  public getIdentificationTypeIdEng: any;
+  public getIdentificationTypeIdMy: any;
+  public getIdentificationCodeEng: any;
+  public getIdentificationCodeMy: any;
   public getUserTypeActive: any;
 
   complete: boolean;
@@ -60,18 +60,14 @@ export class IdentificationtypeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.identificationType = new FormControl();
-  
-    this.userTypeEng = new FormControl();
-    this.userTypeMy = new FormControl();
+    this.identificationTypeEng = new FormControl();
+    this.identificationTypeMy = new FormControl();
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      identificationType: this.identificationType,
-
-      userTypeEng: this.userTypeEng,
-      userTypeMy: this.userTypeMy,
+      identificationTypeEng: this.identificationTypeEng,
+      identificationTypeMy: this.identificationTypeMy,
       active: this.active,
 
       
@@ -93,7 +89,7 @@ export class IdentificationtypeComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlIdentificationTypeList + '/code/' +  _getRefID;
+    this.dataUrl = this.appConfig.urlIdentificationTypeList + '/' +  _getRefID;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -101,18 +97,15 @@ export class IdentificationtypeComponent implements OnInit {
 
       console.log(data);
 
-      this.updateForm.get('identificationType').setValue(this.recordList.userTypeList[0].identificationType)
-
-      this.updateForm.get('userTypeMy').setValue(this.recordList.userTypeList[0].userType);
-      this.updateForm.get('userTypeEng').setValue(this.recordList.userTypeList[1].userType); 
-      this.updateForm.get('active').setValue(this.recordList.userTypeList[0].userTypeActiveFlag);
+      this.updateForm.get('identificationTypeEng').setValue(this.recordList.identificationType[1].identificationType);
+      this.updateForm.get('identificationTypeMy').setValue(this.recordList.identificationType[0].identificationType)
+      this.updateForm.get('active').setValue(this.recordList.identificationType[0].active);
       
-
-      this.getUserTypeIdMy = this.recordList.userTypeList[0].UserTypeId;
-      this.getUserTypeIdEng = this.recordList.userTypeList[1].UserTypeeId;
-      this.getRefCodeMy = this.recordList.userTypeList[0].userTypeCode;
-      this.getRefCodeEng = this.recordList.userTypeList[1].userTypeCode;
-      this.getUserTypeActive = this.recordList.userTypeList[0].userTypeActiveFlag;
+      this.getIdentificationTypeIdEng = this.recordList.identificationType[1].identificationTypeId;
+      this.getIdentificationCodeEng = this.recordList.identificationType[1].identificationCode;
+      
+      this.getIdentificationTypeIdMy = this.recordList.identificationType[0].identificationTypeId;
+      this.getIdentificationCodeMy = this.recordList.identificationType[0].identificationCode;
 
     });
   }
@@ -141,27 +134,27 @@ export class IdentificationtypeComponent implements OnInit {
       let body = [
         {
           "identificationType": null,
-          "identificationTypeActiveFlag": false,
+          // "active": false,
           "language": {
               "languageId": null
           }
         },
         {
           "identificationType": null,
-          "identificationTypeActiveFlag": false,
+          // "active": false,
           "language": {
               "languageId": null
           }
         }
       ]   
  
-      body[0].identificationType = formValues.userTypeMy;
+      body[0].identificationType = formValues.identificationTypeMy;
       body[0].language.languageId = 2;
-      body[0].identificationTypeActiveFlag = formValues.active;
+      // body[0].active = formValues.active;
 
-      body[1].identificationType = formValues.userTypeEng; 
+      body[1].identificationType = formValues.identificationTypeEng; 
       body[1].language.languageId = 1;
-      body[1].identificationTypeActiveFlag = formValues.active;
+      // body[1].active = formValues.active;
 
       console.log(body);
 
@@ -174,7 +167,7 @@ export class IdentificationtypeComponent implements OnInit {
           let txt = "Record added successfully!";
           this.toastr.success(txt, '');  
 
-          this.router.navigate(['reference/citizentype']);
+          this.router.navigate(['reference/identificationtype']);
           // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         },
         error => {
@@ -190,8 +183,8 @@ export class IdentificationtypeComponent implements OnInit {
         {
           "identificationType": null,
           "identificationTypeId": null,
-          "identificationTypeCode": null,
-          "identificationTypeActiveFlag": false,
+          "identificationCode": null,
+          // "active": false,
           "language": {
               "languageId": null
           }
@@ -199,8 +192,8 @@ export class IdentificationtypeComponent implements OnInit {
         {
           "identificationType": null,
           "identificationTypeId": null,
-          "identificationTypeCode": null,
-          "identificationTypeActiveFlag": false,
+          "identificationCode": null,
+          // "active": false,
           "language": {
               "languageId": null
           }
@@ -208,21 +201,21 @@ export class IdentificationtypeComponent implements OnInit {
       ]    
 
 
-      body[0].identificationType = formValues.identificationType;
-      body[0].identificationTypeId = this.getUserTypeIdMy;
-      body[0].identificationTypeCode = this.getRefCodeMy;
+      body[0].identificationTypeId = this.getIdentificationTypeIdMy;
+      body[0].identificationType = formValues.identificationTypeMy;
+      body[0].identificationCode = this.getIdentificationCodeMy;
       body[0].language.languageId = 2;
-      body[0].identificationTypeActiveFlag = formValues.active;
+      // body[0].active = formValues.active;
 
-      body[1].identificationType = formValues.userTypeEng; 
-      body[1].identificationTypeId = this.getUserTypeIdEng; 
-      body[1].identificationTypeCode = this.getRefCodeEng; 
+      body[1].identificationTypeId = this.getIdentificationTypeIdEng; 
+      body[1].identificationType = formValues.identificationTypeEng; 
+      body[1].identificationCode = this.getIdentificationCodeEng; 
       body[1].language.languageId = 1;
-      body[1].identificationTypeActiveFlag = formValues.active;
+      // body[1].active = formValues.active;
 
       console.log(body);
 
-      this.commonservice.updateUserType(body).subscribe(
+      this.commonservice.updateIdentificationType(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           console.log(body)
@@ -231,7 +224,7 @@ export class IdentificationtypeComponent implements OnInit {
           let txt = "Record updated successfully!";
           this.toastr.success(txt, ''); 
 
-          this.router.navigate(['reference/citizentype']);
+          this.router.navigate(['reference/identificationtype']);
           // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         },
         error => {
@@ -243,7 +236,7 @@ export class IdentificationtypeComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["userTypeEng", "userTypeMy"];
+    let reqVal:any = ["identificationTypeEng", "identificationTypeMy"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

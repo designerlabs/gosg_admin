@@ -58,16 +58,14 @@ export class UserpermissionComponent implements OnInit {
   getModuleData() {
     if(this.route.snapshot.params.id){
     
-    this.commonservice.getUserList('').subscribe(
+    this.commonservice.getUserList(this.route.snapshot.params.id).subscribe(
       data => {
         this.username = data.username;
         this.icno =data.icNo;
         this.activeStatus = data.isActive;
         this.moduleList = data.data[0];
         this.selectedItems = data.data[1];
-        this.groupModule.get('groupmodulename').setValue(this.groupName);
-        this.groupModule.get('active').setValue(this.activeStatus);
-        this.groupModule.get('groupmoduledesc').setValue('a');
+        this.groupModule.get('active').setValue(this.active);
         
       });
     }

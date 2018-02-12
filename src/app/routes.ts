@@ -24,6 +24,7 @@ import { ReligiontblComponent } from './referencecode/religion/religiontbl/relig
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
+import { FaqComponent } from './faq/faq.component';
 import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
@@ -33,7 +34,6 @@ import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.comp
 import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
-import { FaqComponent } from './faq/faq.component';
 import { EditorComponent } from './editor/editor.component';
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { AddresstypeComponent } from './addresstype/addresstype.component';
@@ -145,11 +145,10 @@ export const appRoutes: Routes = [
 {path: 'mediatype', component: MediatypetblComponent},
 {path: 'mediatype/add', component: MediatypeComponent},
 {path: 'mediatype/:id', component: MediatypeComponent},
-{path: 'faq', component: FaqComponent},
-{path: 'editor', component: EditorComponent},
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
+{path: 'editor', component: EditorComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'systemsettings',component: SystemsettingstblComponent},
 {path: 'systemsettings/:id',component: SystemsettingsComponent},

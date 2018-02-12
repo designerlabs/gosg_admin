@@ -14,8 +14,6 @@ import { Subject } from 'rxjs/Subject';
 })
 export class CategoryComponent implements OnInit {
   announceCateData: Object;
-  dataUrl: any;
-  date = new Date();
   CategoryForm: FormGroup
   isEdit: boolean;
   complete: boolean;

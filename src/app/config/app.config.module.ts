@@ -69,7 +69,10 @@ export class AppConfig {
     urlMediaType: string;
 
     urlIdentificationTypeList: string;
+    urlIdentificationType: string;
     urlSystemSettings: string;
+
+    urlFaqList:string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -109,10 +112,13 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUserTypeList: commonURL + 'usertype',
     urlUserTypeDelete: commonURL + 'usertype/',
 
-    urlIdentificationTypeList: commonURL + 'identificationtype',
+    urlIdentificationTypeList: commonURL + 'identificationtype/code',
+    urlIdentificationType: commonURL + 'identificationtype',
+
+    urlFaqList: commonURL + 'faq',
     
     urlPoll: commonURL + 'polls', 
-    urlFeedback: commonURL + 'feedback/reply/',
+    urlFeedback: commonURL + 'feedback',
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
     // urlAnnounceList: './app/apidata/announce.json',
@@ -125,7 +131,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
-    urlMediaType: './app/apidata/race.json',
+    urlMediaType: commonURL + 'mediatype',
     urlSystemSettings: commonURL + 'systemsettings',
     
 };

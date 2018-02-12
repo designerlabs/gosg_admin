@@ -19,18 +19,92 @@
 }
 
 
-.dragdrop_container > li:hover{
+.dragdrop_container > li:not(:first-child):hover{
     cursor: pointer;
     color: #fff;
     background: #666;
 }
 
+.drop_container{
+    background:#eee;
+    height:500px; 
+    width:40%;
+    float:left;
+    padding: 0px;
+    overflow: auto;
+}
+
+.drop_container > li{
+    color: #333;
+    /* border-bottom: 1px solid #d0d0d0; */
+    background: #e2e2e2;
+    margin: 2px 0px;
+    font-size: 14px;
+}
+
+.drop_container > li:first-child{
+    color: #333;
+    padding: 8px 5px;
+    /* border-bottom: 1px solid #d0d0d0; */
+    background: #e2e2e2;
+    margin: 2px 0px;
+    font-size: 14px;
+}
+
+.drop_container > li > ul:first-child:hover{
+    cursor: pointer;
+    color: #fff;
+    background: #666;
+}
+
+.drop_container > li > ul:first-child{
+    width:50%;
+}
+
+.drop_container > li > ul:first-child > li{
+    padding-left:10px;
+}
+
+.drop_container > li > ul{
+    display: inline-block;
+    list-style: none;
+    padding: 5px;
+}
+
+.drop_container > li > ul:nth-child(2){
+    width: 45%;
+    text-align: right;
+}
+
 .middle_icon{
-    float: left;
-    height: 200px;
-    top: 80px;
-    padding: 10px;
-    position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  float: left;
+  height: 500px;
+}
+
+.middle_icon img{
+    margin: 0;
+    padding: 20px;
 }
 
     
+.permission_container{
+    text-align: right;
+    display: inline-block;
+    width: 50%;
+    padding-right: 20px;
+}
+
+.grouping_container{
+    width:50%;
+    font-weight:bold;
+    display: inline-block;
+}
+
+.permission_container span{
+    padding: 0px 7px;
+    font-weight: bold;
+}
