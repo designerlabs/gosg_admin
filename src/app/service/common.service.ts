@@ -125,9 +125,8 @@ export class CommonService {
   }
 
   getUserList(id){
-    let url = 'http://localhost:3000/adminUserEdit';
-    return this.http.get(url)
-    .map((response: Response) => response.json()[0])
+    return this.http.get(this.appConfig.urlCommon+'adminuser/'+id)
+    .map((response: Response) => response.json().adminUserDetails)
     .catch(this.handleError);
   }
 
@@ -188,13 +187,41 @@ export class CommonService {
   }
   // Media Starts 
   getMediaList() {
-    console.log(this.appConfig.urlMediaType);
-    return this.http.get(this.appConfig.urlMediaType)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
+    // console.log(this.appConfig.urlMediaType);
+    // return this.http.get(this.appConfig.urlMediaType)
+    // .map((response: Response) => response.json())
+    // .catch(this.handleError);
   }
-  // Media Ends
 
+
+  // Media Ends
+// Media Types starts
+getMediaType() {
+  console.log(this.appConfig.urlMediaType);
+  return this.http.get(this.appConfig.urlMediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+addMediaType(mediaType) {
+  return this.http.post(this.appConfig.urlMediaType, mediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+updateMediaType(mediaType) {
+  return this.http.put(this.appConfig.urlMediaType, mediaType)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+delMediaType(mediaTypeId) {
+  return this.http.delete(this.appConfig.urlMediaType + "/id/" + mediaTypeId)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+// Media Types ends
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(

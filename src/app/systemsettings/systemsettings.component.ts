@@ -92,19 +92,18 @@ export class SystemsettingsComponent implements OnInit {
     // add form
     if(urlEdit === 'add'){
 
-      let body = [
-        {        
-          "settingsEntities": null,
-          "settingsKey": null,
-          "settingsValue": null,
-          "isActive":false,  
-        }
-      ]    
+      let body = 
+      {        
+        "settingsEntities": null,
+        "settingsKey": null,
+        "settingsValue": null,
+        "isActive":false
+      }      
 
-      body[0].settingsEntities = formValues.entity;
-      body[0].settingsKey = formValues.key;
-      body[0].settingsValue = formValues.value;
-      body[0].isActive = formValues.active;
+      body.settingsEntities = formValues.entity;
+      body.settingsKey = formValues.key;
+      body.settingsValue = formValues.value;
+      body.isActive = formValues.active;
 
       console.log("TEST")
       console.log(body)
@@ -124,9 +123,22 @@ export class SystemsettingsComponent implements OnInit {
     // update form
     else{      
 
+      let body = 
+      {        
+        "settingsEntities": null,
+        "settingsKey": null,
+        "settingsValue": null,
+        "isActive":false
+      }      
+
+      body.settingsEntities = formValues.entity;
+      body.settingsKey = formValues.key;
+      body.settingsValue = formValues.value;
+      body.isActive = formValues.active;
+
       console.log("UPDATE: ");     
 
-      this.commonservice.updateRecordSysSettings(this.getId ).subscribe(
+      this.commonservice.updateRecordSysSettings(body).subscribe(
         data => {
                   
           let txt = "Record updated successfully!";
@@ -167,6 +179,7 @@ export class SystemsettingsComponent implements OnInit {
     if (r == true) {
         txt = "You pressed OK!";
         this.updateForm.reset();
+        this.checkReqValues();
     } else {
         txt = "You pressed Cancel!";
     }

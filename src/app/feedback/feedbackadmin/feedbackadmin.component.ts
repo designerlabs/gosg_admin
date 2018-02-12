@@ -23,7 +23,7 @@ export class FeedbackadminComponent implements OnInit {
   public name: any;
   public type: any;
   public subject: any;
-  public message: any;
+  public messages: any;
   public email: any;
   public replyMessage: any;
 
@@ -54,7 +54,7 @@ export class FeedbackadminComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[4];  
-    this.dataUrl = this.appConfig.urlFeedbackType + '/'+_getRefID;
+    this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -63,13 +63,13 @@ export class FeedbackadminComponent implements OnInit {
       console.log("data");
       console.log(data);    
 
-      this.getId = this.recordList.feedbackTypeEntityList[0].feedbackTypeId;
-      this.name = "Noraini";
-      this.type = "This Type";
-      this.subject = "This Subject";
-      this.message = "This message";
-      this.email = "noraini.ghani@mimos.my";
-      this.replyMessage = this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription;
+      this.name = this.recordList.feedback.feedbackName;
+      this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
+      this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
+      this.messages = this.recordList.feedback.feedbackMessage;
+      this.email = this.recordList.feedback.feedbackEmail;
+      this.replyMessage = this.recordList.feedback.feedbackMessage;
+      console.log(this.messages);    
       
     });
   }
@@ -80,7 +80,7 @@ export class FeedbackadminComponent implements OnInit {
     if (r == true) {
 
       console.log(getId);
-      // this.commonservice.delRecordAccStatus(getId).subscribe(
+      // this.commonservice.delRecordFeedback(getId).subscribe(
       //   data => {
           
       //     txt = "Record deleted successfully!";

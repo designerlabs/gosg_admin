@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-mediatypetbl',
@@ -21,7 +22,7 @@ export class MediatypetblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
-  constructor(private commonservice: CommonService, private router: Router) { 
+  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
     this.getMediaList();
   }
 
@@ -30,12 +31,11 @@ export class MediatypetblComponent implements OnInit {
   }
 
   getMediaList() {
-    debugger;
-    return this.commonservice.getMediaList()
+    return this.commonservice.getMediaType()
        .subscribe(resStateData => {
-        this.seqPageNum = resStateData.pageNumber;
-        this.seqPageSize = resStateData.pageSize;
-          this.mediaList = resStateData.mediaList;  
+        this.seqPageNum = 1;
+        this.seqPageSize = 10;
+          this.mediaList = resStateData.mediaTypes;  
           this.dataSource.data = this.mediaList;      
         },
         Error => {
@@ -51,6 +51,28 @@ export class MediatypetblComponent implements OnInit {
   editGroup(mtId) {
     console.log(mtId);
     this.router.navigate(['mediatype', mtId]);
+  }
+
+  deleteRow(id) {
+    let txt;
+    let r = confirm("Are you sure to delete " + id + "?");
+    if (r == true) {
+      this.commonservice.delMediaType(id).subscribe(
+        data => {
+          txt = "Media Type deleted successfully!";
+          // this.router.navigate(['slider']);
+          this.toastr.success(txt, '');   
+          this.getMediaList();
+        },
+        error => {
+          console.log("No Data")
+        });
+
+      // this.sliderForm.reset();
+    } else {
+      txt = "Delete Cancelled!";
+      // alert(txt)
+    }
   }
 
 }

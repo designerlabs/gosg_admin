@@ -116,7 +116,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFaqList: commonURL + 'faq',
     
     urlPoll: commonURL + 'polls', 
-    urlFeedback: commonURL + 'feedback/reply/',
+    urlFeedback: commonURL + 'feedback',
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
     // urlAnnounceList: './app/apidata/announce.json',
@@ -129,7 +129,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
-    urlMediaType: './app/apidata/race.json',
+    urlMediaType: commonURL + 'mediatype',
     urlSystemSettings: commonURL + 'systemsettings',
     
 };
