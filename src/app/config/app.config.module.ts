@@ -24,7 +24,8 @@ const serviceURL = devURL + 'service/';
 
 export class AppConfig {
     apiEndpoint: string;
-    urlAgencyType: string;
+    urlMinistry: string;
+    urlAgency: string;
     urlAgencyApp: string;
     urlMenu: string;
     urlCommon: string;
@@ -71,6 +72,8 @@ export class AppConfig {
     urlIdentificationType: string;
     urlSystemSettings: string;
     urlModuleGroupList:string;
+
+    urlFaqList:string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -91,7 +94,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
-    urlAgencyType: commonURL + 'agency/type',
+    urlMinistry: commonURL + 'ministry',
+    urlAgency: commonURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
     
 
@@ -112,6 +116,8 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlIdentificationTypeList: commonURL + 'identificationtype/code',
     urlIdentificationType: commonURL + 'identificationtype',
+
+    urlFaqList: commonURL + 'faq',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',

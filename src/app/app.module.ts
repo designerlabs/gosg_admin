@@ -40,11 +40,11 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqComponent } from './faq/faq.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
-import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
@@ -84,6 +84,10 @@ import { SystemsettingsComponent } from './systemsettings/systemsettings.compone
 import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
 import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
+import { ExtlinksComponent } from './extlinks/extlinks.component';
+import { ExtlinkstblComponent } from './extlinks/extlinkstbl/extlinkstbl.component';
+import { MinistryComponent } from './ministry/ministry.component';
+import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
 
 @NgModule({
   declarations: [
@@ -116,9 +120,9 @@ import { IdentificationtypetblComponent } from './referencecode/identificationty
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
     FaqComponent,
+    FaqtblComponent,
     EditorComponent,
     EthnicitytblComponent,
-    FaqtblComponent,
     AnnouncementComponent,
     AnnouncementtblComponent,
     CategorytblComponent,
@@ -156,6 +160,10 @@ import { IdentificationtypetblComponent } from './referencecode/identificationty
     SystemsettingstblComponent,
     IdentificationtypeComponent,
     IdentificationtypetblComponent,
+    ExtlinksComponent,
+    ExtlinkstblComponent,
+    MinistryComponent,
+    MinistrytblComponent,
   ],
   imports: [
     BrowserModule,

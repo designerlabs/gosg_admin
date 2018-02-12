@@ -26,6 +26,11 @@ export class FeedbackvisitorComponent implements OnInit {
   public messages: any;
   public email: any;
   public replyMessage: any;
+  public lang: any;
+  public feedbackTicketNo: any;
+  public feedbackUserIpAddress: any;
+  public feedbackTypeId: any;
+  public feedbackSubjectId: any;
 
   public dataUrl: any;  
   public recordList: any;
@@ -62,14 +67,21 @@ export class FeedbackvisitorComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackMessage);     
+      this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks);     
 
       this.name = this.recordList.feedback.feedbackName;
       this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
       this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
       this.messages = this.recordList.feedback.feedbackMessage;
       this.email = this.recordList.feedback.feedbackEmail;
-      this.replyMessage = this.recordList.feedback.feedbackMessage;
+      this.replyMessage = this.recordList.feedback.feedbackRemarks;
+      this.lang = this.recordList.feedback.language.languageId;
+      this.feedbackTicketNo = this.recordList.feedback.feedbackTicketNo;
+      this.feedbackUserIpAddress = this.recordList.feedback.feedbackUserIpAddress;
+      this.feedbackTypeId = this.recordList.feedback.feedbackType.feedbackTypeId;
+      this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
+
+      this.getId = this.recordList.feedback.feedbackId;
       console.log(this.messages);
       this.checkReqValues();
       
@@ -87,33 +99,39 @@ export class FeedbackvisitorComponent implements OnInit {
 
     // update form
     else{
-      let body = [
-        {
-          "accountStatusId":this.getId,
-          "accountStatusDescription": null,
-          "enabled":false
-        },{
-          "accountStatusId":this.getId,
-          "accountStatusDescription": null,
-          "enabled":false
-        }
-      ]        
+      let body = {
+        "feedbackId": this.getId,
+        "feedbackName": this.name,
+        "feedbackRemarks":null,
+        "feedbackEmail": this.email,
+        "feedbackType": {
+          "feedbackTypeId": this.feedbackTypeId,
+        },
+        "feedbackSubject": {
+          "feedbackSubjectId": this.feedbackSubjectId,
+        },
+        "feedbackMessage": this.messages,
+        "feedbackUserIpAddress": this.feedbackUserIpAddress,
+        "feedbackReplyFlag": false,
+        "feedbackTicketNo": this.feedbackTicketNo,
+        "language": {
+          "languageId": this.lang
+        },
+        "isDraft":true
+      }
 
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;      
+      body.feedbackRemarks = formValues.reply;     
 
       console.log("UPDATE: ");
       console.log(body);
 
-      this.commonservice.updateRecordAccStatus(body).subscribe(
+      this.commonservice.updateRecordFeedback(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
         
           let txt = "Record updated successfully!";
           this.toastr.success(txt, '');  
-          this.router.navigate(['account']);
+          this.router.navigate(['feedback/message/visitor']);
         },
         error => {
           console.log("No Data")
