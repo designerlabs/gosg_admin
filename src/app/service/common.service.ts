@@ -526,7 +526,7 @@ export class CommonService {
   }
 
   addIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    let fullUrl = this.appConfig.urlIdentificationType + '/add/multiple';
     console.log(fullUrl)
     console.log(record)
 
@@ -536,7 +536,7 @@ export class CommonService {
   }
 
   updateIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList ;
+    let fullUrl = this.appConfig.urlIdentificationType + '/update/multiple' ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -544,7 +544,7 @@ export class CommonService {
   }
     
   delIdentificationType(refCode) {
-    let fullUrl = this.appConfig.urlIdentificationTypeList;
+    let fullUrl = this.appConfig.urlIdentificationType + '/delete/multiple/';
     
     return this.http.delete(fullUrl + refCode)
     .map((response: Response) => response.json())
