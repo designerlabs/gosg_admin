@@ -104,15 +104,15 @@ export class ReligionComponent implements OnInit {
 
       console.log(data);
 
-      this.updateForm.get('religionMy').setValue(this.recordList.religionList[0].religion);
-      this.updateForm.get('religionEng').setValue(this.recordList.religionList[1].religion); 
+      this.updateForm.get('religionMy').setValue(this.recordList.religionList[1].religion);
+      this.updateForm.get('religionEng').setValue(this.recordList.religionList[0].religion); 
       
 
-      this.getReligionIdMy = this.recordList.religionList[0].religionId;
-      this.getReligionCodeMy = this.recordList.religionList[0].religionCode;
+      this.getReligionIdMy = this.recordList.religionList[1].religionId;
+      this.getReligionCodeMy = this.recordList.religionList[1].religionCode;
 
-      this.getReligionIdEng = this.recordList.religionList[1].religionId;
-      this.getReligionCodeEng = this.recordList.religionList[1].religionCode;
+      this.getReligionIdEng = this.recordList.religionList[0].religionId;
+      this.getReligionCodeEng = this.recordList.religionList[0].religionCode;
       // this.getRaceActive = this.recordList.raceList[0].active;
 
     });
@@ -156,12 +156,12 @@ export class ReligionComponent implements OnInit {
         }
       ]   
  
-      body[0].religion = formValues.religionMy;
-      body[0].language.languageId = 2;
+      body[1].religion = formValues.religionMy;
+      body[1].language.languageId = 2;
       // body[0].active = formValues.active;
 
-      body[1].religion = formValues.religionEng; 
-      body[1].language.languageId = 1;
+      body[0].religion = formValues.religionEng; 
+      body[0].language.languageId = 1;
       // body[1].active = formValues.active;
 
       console.log(body);
@@ -209,17 +209,17 @@ export class ReligionComponent implements OnInit {
       ]    
 
 
-      body[0].religion = formValues.religionMy;
-      body[0].religionId = this.getReligionIdMy;
-      body[0].religionCode = this.getReligionCodeMy;
-      body[0].language.languageId = 2;
+      body[1].religion = formValues.religionMy;
+      body[1].religionId = this.getReligionIdMy;
+      body[1].religionCode = this.getReligionCodeMy;
+      body[1].language.languageId = 2;
 
       // body[0].active = formValues.active;
 
-      body[1].religion = formValues.religionEng; 
-      body[1].religionId = this.getReligionIdMy; 
-      body[1].religionCode = this.getReligionCodeMy; 
-      body[1].language.languageId = 1;
+      body[0].religion = formValues.religionEng; 
+      body[0].religionId = this.getReligionIdEng; 
+      body[0].religionCode = this.getReligionCodeEng; 
+      body[0].language.languageId = 1;
 
       // body[1].active = formValues.active;
 
@@ -272,6 +272,7 @@ export class ReligionComponent implements OnInit {
         txt = "You pressed OK!";
         this.toastr.success(txt, ''); 
         this.updateForm.reset();
+        this.checkReqValues();
     } else {
         txt = "You pressed Cancel!";
         this.toastr.success(txt, '');

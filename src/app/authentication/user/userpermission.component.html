@@ -33,15 +33,31 @@
   
         <ul  class="dragdrop_container">
             <li *ngFor='let group of moduleList?.items' (click)="moveItem(group)">
-                 {{group.moduleName}}
+                 {{group.moduleGroupName}}
+                <ul>
+                    <li *ngFor='let modules of group?.modules'>
+                        {{modules.moduleName}}
+                       </li>
+                </ul>
             </li>
         </ul>
         
         <div class="middle_icon"><img src="assets/images/switch.png" alt=""></div>
         <ul class="dragdrop_container">
-            <li *ngFor='let group of selectedItems?.items' (click)="moveItemR(group)">
-                {{group.moduleName }}
+            <li *ngFor='let group of selectedItems?.items' (click)="moveItemR(group, $event)">
+                {{group.moduleGroupName }}
+                <ul>
+                <li *ngFor='let modules of group?.modules'>
+                    {{modules.moduleName}}
+                   </li>
+                  </ul>
+                  <ul style="position:absolute; z-index:999;">
+                      <div>
+                          <input type="checkbox"><input type="checkbox"> <input type="checkbox"> <input type="checkbox">
+                      </div>
+                  </ul>
             </li>
+            
         </ul>
 
         <div class="row">

@@ -62,7 +62,8 @@ mat-header-cell{
 }
 
 .mat-table {
-    min-height: 312px;
+    /* min-height: 312px; */
+    min-height: auto;
 }
 .actionColumn {
     display:flex;

@@ -124,7 +124,7 @@ export class LanguagetblComponent implements OnInit {
           txt = "Language deleted successfully!";
           // this.router.navigate(['language']);
           this.toastr.success(txt, '');   
-          window.location.reload();
+          this.getlanguagesData();
         },
         error => {
           console.log("No Data")

@@ -125,7 +125,7 @@ export class SlidertblComponent implements OnInit {
           txt = "Slider deleted successfully!";
           // this.router.navigate(['slider']);
           this.toastr.success(txt, '');   
-          window.location.reload();
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
         },
         error => {
           console.log("No Data")

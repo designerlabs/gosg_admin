@@ -125,7 +125,8 @@ export class CommonService {
   }
 
   getUserList(id){
-    return this.http.get(this.appConfig.urlModuleList+'/'+id)
+    let url = 'http://localhost:3000/adminUserEdit';
+    return this.http.get(url)
     .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }
@@ -546,6 +547,32 @@ delMediaType(mediaTypeId) {
     
   delUserType(refCode) {
     let fullUrl = this.appConfig.urlUserTypeDelete;
+    
+    return this.http.delete(fullUrl + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  addIdentificationType(record) {
+    let fullUrl = this.appConfig.urlIdentificationType + '/add/multiple';
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateIdentificationType(record) {
+    let fullUrl = this.appConfig.urlIdentificationType + '/update/multiple' ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delIdentificationType(refCode) {
+    let fullUrl = this.appConfig.urlIdentificationType + '/delete/multiple/';
     
     return this.http.delete(fullUrl + refCode)
     .map((response: Response) => response.json())
