@@ -690,10 +690,10 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
 
-  updateRecordSysSettings(key) {
+  updateRecordSysSettings(record) {
     let fullUrl = this.appConfig.urlSystemSettings;
 
-    return this.http.put(fullUrl +"/" + key, null)
+    return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

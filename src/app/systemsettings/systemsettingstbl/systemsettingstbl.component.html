@@ -69,11 +69,11 @@
           <ng-container matColumnDef="action">
               <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
               <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                  <button mat-mini-fab style="background: orange" (click)="updateRow(element.settingsKey)">
-                  <i class="fa fa-edit" title="Update {{ element.settingsKey }}"></i></button>
+                  <button mat-mini-fab style="background: orange" (click)="updateRow(element.settings_id)">
+                  <i class="fa fa-edit" title="Update {{ element.settings_id }}"></i></button>
                   &nbsp;
-                  <button mat-mini-fab style="background: red" (click)="deleteRow(element.settingsKey)">
-                  <i class="fa fa-trash"title="Delete {{ element.settingsKey}}"></i></button>
+                  <button mat-mini-fab style="background: red" (click)="deleteRow(element.settings_id)">
+                  <i class="fa fa-trash"title="Delete {{ element.settings_id}}"></i></button>
               </mat-cell>
           </ng-container>
       

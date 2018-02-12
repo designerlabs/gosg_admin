@@ -62,11 +62,9 @@ export class SystemsettingsComponent implements OnInit {
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[2];
-  
+    let _getRefID = this.router.url.split('/')[2];  
     this.dataUrl = this.appConfig.urlSystemSettings + '/'+_getRefID;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -74,12 +72,12 @@ export class SystemsettingsComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('entity').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('key').setValue(this.recordList[1].accountStatusDescription); 
-      this.updateForm.get('value').setValue(this.recordList[1].accountStatusDescription);       
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('entity').setValue(this.recordList.settingsEntities);
+      this.updateForm.get('key').setValue(this.recordList.settingsKey); 
+      this.updateForm.get('value').setValue(this.recordList.settingsValue);       
+      this.updateForm.get('active').setValue(this.recordList.isActive);      
 
-      this.getId = this.recordList[0].accountStatusId;
+      this.getId = this.recordList.settings_id;
 
       this.checkReqValues();
       
@@ -128,7 +126,8 @@ export class SystemsettingsComponent implements OnInit {
         "settingsEntities": null,
         "settingsKey": null,
         "settingsValue": null,
-        "isActive":false
+        "isActive":false,
+        "settings_id": this.getId
       }      
 
       body.settingsEntities = formValues.entity;

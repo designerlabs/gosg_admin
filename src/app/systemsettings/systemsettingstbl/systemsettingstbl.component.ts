@@ -94,13 +94,13 @@ export class SystemsettingstblComponent implements OnInit {
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(key) {
+  deleteRow(id) {
     let txt;
     let r = confirm("Are you sure to delete?");
     if (r == true) {
 
-      console.log(key);
-      this.commonservice.delRecordSysSettings(key).subscribe(
+      console.log(id);
+      this.commonservice.delRecordSysSettings(id).subscribe(
         data => {
           
           txt = "Record deleted successfully!";
