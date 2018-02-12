@@ -125,9 +125,8 @@ export class CommonService {
   }
 
   getUserList(id){
-    let url = 'http://localhost:3000/adminUserEdit';
-    return this.http.get(url)
-    .map((response: Response) => response.json()[0])
+    return this.http.get(this.appConfig.urlCommon+'adminuser/'+id)
+    .map((response: Response) => response.json().adminUserDetails)
     .catch(this.handleError);
   }
 
