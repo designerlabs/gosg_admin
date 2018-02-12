@@ -41,23 +41,21 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="identification">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 70%;" *matHeaderCellDef> Identification Type </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 70%;" *matCellDef="let element">
-                    {{element.list.identificationType}}
+            <ng-container matColumnDef="identificationEng">
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Identification Type (English) </mat-header-cell>
+                    <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
+                        {{element.list[1].identificationType}}
+                    </mat-cell>
+                </ng-container>
+
+            <ng-container matColumnDef="identificationMy">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Identification Type (Malay) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
+                    {{element.list[0].identificationType}}
                 </mat-cell>
             </ng-container>
 
-            <!-- question en Column -->
-            <!-- <ng-container matColumnDef="userEng">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 35%;" *matHeaderCellDef> User Type (Malay) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 35%;" *matCellDef="let element">
-                    {{element.list[1].userType}}
-                </mat-cell>
-            </ng-container> -->
-
             
-
             <!-- status Column -->
             <!-- <ng-container matColumnDef="status">
                 <mat-header-cell class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
@@ -74,7 +72,7 @@
                     <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
                     <i class="fa fa-edit" ></i></button>
                     &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode, element.list.identificationType)">
+                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
                     <i class="fa fa-trash"></i></button>
                 </mat-cell>
             </ng-container>

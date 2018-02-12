@@ -68,6 +68,7 @@ export class AppConfig {
     urlMediaType: string;
 
     urlIdentificationTypeList: string;
+    urlIdentificationType: string;
     urlSystemSettings: string;
 }
 
@@ -107,7 +108,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUserTypeList: commonURL + 'usertype',
     urlUserTypeDelete: commonURL + 'usertype/',
 
-    urlIdentificationTypeList: commonURL + 'identificationtype',
+    urlIdentificationTypeList: commonURL + 'identificationtype/code',
+    urlIdentificationType: commonURL + 'identificationtype',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback/reply/',
