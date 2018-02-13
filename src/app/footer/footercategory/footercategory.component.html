@@ -1,0 +1,116 @@
+<!-- <p>
+  footercategory works!
+</p> -->
+
+
+<!-- <p>Faq Component page</p> -->
+
+<!-- <p>
+  identificationtype works!
+</p> -->
+
+
+
+<div class="container-fluid">
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>{{ commonservice.pageMode }} Footer Category</h3>
+          <!-- <h3>FAQ</h3> -->
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i class="fa fa-arrow-left font-size-l"></i></button>
+          </span>
+      </div> 
+
+  </div>
+
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
+      <div class="example-container mat-elevation-z8 paddingBottom-10">
+          <div class="bg-form-header col-md-12">
+              <div class="row">
+                  <label class="col-md-6 staticLabel font-size-s boldText">English</label>
+                  <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+              </div>
+          </div><br>
+             
+          <!-- <div class="example-header" style="margin-top: 10px;">
+              <div class="col-md-6 text-align-Center font-size-m"> 
+                  <label class="staticLabel font-size-s boldText">Question (English)</label>
+              </div>
+              <div class="col-md-6 text-align-Center font-size-m"> 
+                  <label class="staticLabel font-size-s boldText">Question (Malay)</label>
+              </div>
+          </div> -->
+  
+          <div class="example-header">
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <input matInput placeholder="Category Title" formControlName="catEng" #catEng maxlength="100" 
+                      (keyup)="checkReqValues()" required>
+                      <mat-error *ngIf="updateForm.controls.catEng.hasError('required')">
+                              Category Title is required
+                      </mat-error>
+                      <mat-hint align="end">{{catEng.value?.length || 0}}/100</mat-hint>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <input matInput placeholder="Category Title" formControlName="catMy" #catMy maxlength="100" 
+                      (keyup)="checkReqValues()" required>
+                      <mat-error *ngIf="updateForm.controls.catMy.hasError('required')">
+                        Category Title is required
+                      </mat-error>
+                      <mat-hint align="end">{{catMy.value?.length || 0}}/100</mat-hint>
+                  </mat-form-field>
+              </div>
+          </div>
+
+
+          <div class="example-header">
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <textarea matInput placeholder="Description" formControlName="descEng" #descEng maxlength="500" 
+                      (keyup)="checkReqValues()" required></textarea>
+                      <mat-error *ngIf="updateForm.controls.descEng.hasError('required')">
+                        Description is required
+                      </mat-error>
+                      <mat-hint align="end">{{descEng.value?.length || 0}}/500</mat-hint>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <textarea matInput placeholder="Description" formControlName="descMy" #descMy maxlength="500" 
+                      (keyup)="checkReqValues()" required></textarea>
+                      <mat-error *ngIf="updateForm.controls.descMy.hasError('required')">
+                        Description is required
+                      </mat-error>
+                      <mat-hint align="end">{{descMy.value?.length || 0}}/500</mat-hint>
+                  </mat-form-field>
+              </div>
+          </div>
+
+          <div class="example-header">
+              <div class="col-md-12">
+                  <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="13">Active</mat-checkbox>
+              </div>
+          </div>
+      
+      </div>
+  
+      <div class="form-group paddingTop-10">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+          (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          <i *ngIf="complete" class="fa fa-check"></i>
+          <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
+          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+          style="width: 100px; font-family: Roboto" (click)="myFunction()">
+          <i class="fa fa-refresh"></i> Reset</button>
+      </div>      
+
+  </form>
+</div>
+

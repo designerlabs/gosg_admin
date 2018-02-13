@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Role and Permission Management</h3>
+            <h3>{{statusTitle}} Role and Permission Management</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -45,10 +45,10 @@
                 </ul>
                 <ul>
                     <li *ngFor='let modules of group?.modules'>
-                        <mat-checkbox [checked]= "modules.permission.isRead" class = "example-margin"></mat-checkbox>
-                        <mat-checkbox [checked]= "modules.permission.isWrite" class = "example-margin"></mat-checkbox>
-                        <mat-checkbox [checked]= "modules.permission.isUpdate" class = "example-margin"></mat-checkbox>
-                        <mat-checkbox [checked]= "modules.permission.isDelete" class = "example-margin"></mat-checkbox>
+                        <mat-checkbox #isRead name="isRead" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isRead" class = "example-margin"></mat-checkbox>
+                        <mat-checkbox #isWrite name="isWrite" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isWrite" class = "example-margin"></mat-checkbox>
+                        <mat-checkbox #isUpdate name="isUpdate" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isUpdate" class = "example-margin"></mat-checkbox>
+                        <mat-checkbox #isDelete name="isDelete" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isDelete" class = "example-margin"></mat-checkbox>
                     </li>
                 </ul>
                 

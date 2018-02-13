@@ -69,6 +69,9 @@ import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.compone
 import { AgencyComponent } from './agency/agency.component';
 import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 
+import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
+import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
+
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -132,6 +135,10 @@ export const appRoutes: Routes = [
 {path: 'reference/identificationtype', component: IdentificationtypetblComponent},
 {path: 'reference/identificationtype/:id', component: IdentificationtypeComponent},
 {path: 'reference/identificationtype/add', component: IdentificationtypeComponent},
+
+{path: 'footer/footercategory', component: FootercategorytblComponent},
+{path: 'footer/footercategory/:id', component: FootercategoryComponent},
+{path: 'footer/footercategory/add', component: FootercategoryComponent},
 
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},

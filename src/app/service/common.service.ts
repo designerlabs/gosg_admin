@@ -149,6 +149,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+
+  updateUserPermission(id, data){
+    return this.http.put(this.appConfig.urlAdminUserPermission+'/'+id, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getGroupList(){
     return this.http.get(this.appConfig.urlGroupModuleList)
     .map((response: Response) => response.json())
@@ -762,7 +769,7 @@ delMediaType(mediaTypeId) {
   }
 
   addRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings;
+    let fullUrl = this.appConfig.urlSystemSettings+"?language=1";
  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -772,13 +779,13 @@ delMediaType(mediaTypeId) {
   delRecordSysSettings(key) {
     let fullUrl = this.appConfig.urlSystemSettings;
 
-    return this.http.delete(fullUrl + "/" + key, null)
+    return this.http.delete(fullUrl + "/" + key +"?language=1", null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings;
+    let fullUrl = this.appConfig.urlSystemSettings+"?language=1";
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())

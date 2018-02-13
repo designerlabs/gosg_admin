@@ -28,6 +28,8 @@ export class SystemsettingsComponent implements OnInit {
   public getId: any;
 
   public complete: boolean;
+  public urlEdit: any;
+  public keyVal: any;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
@@ -48,14 +50,14 @@ export class SystemsettingsComponent implements OnInit {
 
     });
 
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
+      this.updateForm.get('active').setValue(true);
     }
     else{
-      this.commonservice.pageModeChange(true);
+      this.commonservice.pageModeChange(true);      
       this.getData();
     }
   }
@@ -85,10 +87,10 @@ export class SystemsettingsComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
       let body = 
       {        
@@ -109,9 +111,18 @@ export class SystemsettingsComponent implements OnInit {
       this.commonservice.addRecordSysSettings(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['systemsettings']);
+          console.log(data);
+
+          let txt = "";
+          if(data.statusCode == "ERROR"){
+            txt = data.statusDesc;
+            this.toastr.error(txt, ''); 
+          }
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }               
         },
         error => {
           console.log("No Data")
@@ -140,9 +151,17 @@ export class SystemsettingsComponent implements OnInit {
       this.commonservice.updateRecordSysSettings(body).subscribe(
         data => {
                   
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['systemsettings']);
+          console.log(data);
+          let txt = "";
+          if(data.statusCode == "ERROR"){
+            txt = data.statusDesc;
+            this.toastr.error(txt, ''); 
+          }
+          else{
+            txt = "Record updated successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }    
         },
         error => {
           console.log("No Data")
@@ -170,6 +189,21 @@ export class SystemsettingsComponent implements OnInit {
     } else {
       this.complete = true;
     }
+
+    // start get new key without space
+    this.keyVal = this.key.value;
+    let currKeyValue :any;
+
+    if(this.keyVal){
+      currKeyValue = this.stripspaces(this.keyVal);
+      this.updateForm.get('key').setValue(currKeyValue); 
+    }
+    // end get new key without space
+  }
+
+  stripspaces(input){
+    input = input.replace(/\s+/g, '');
+    return input;
   }
 
   myFunction() {

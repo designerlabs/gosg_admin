@@ -76,6 +76,7 @@ export class AppConfig {
     urlModuleGroupList:string;
 
     urlFaqList:string;
+    urlAdminUserPermission:string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -103,6 +104,7 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
+    urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlSearchbyAgency: commonURL+'agency/type/search/',
     urlSearchbyMinistry: commonURL+'ministry/search/',
