@@ -51,8 +51,6 @@ import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl
 import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
-import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
 import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
 import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
@@ -68,6 +66,8 @@ import { IdentificationtypeComponent } from './referencecode/identificationtype/
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
+import { AgencyComponent } from './agency/agency.component';
+import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 
 
 export const appRoutes: Routes = [
@@ -95,12 +95,12 @@ export const appRoutes: Routes = [
 {path: 'ministry/add', component: MinistryComponent},
 {path: 'ministry/:id', component: MinistryComponent},
 {path: 'ministry', component: MinistrytblComponent},
-{path: 'agencytype/add', component: AgencytypeComponent},
-{path: 'agencytype/:id', component: AgencytypeComponent},
-{path: 'agencytype', component: AgencytypetblComponent},
-{path: 'agencyapptype/add', component: AgencyapptypeComponent},
-{path: 'agencyapptype/:id', component: AgencyapptypeComponent},
-{path: 'agencyapptype', component: AgencyapptypetblComponent},
+{path: 'agency/add', component: AgencyComponent},
+{path: 'agency/:id', component: AgencyComponent},
+{path: 'agency', component: AgencytblComponent},
+{path: 'agencyapp/add', component: AgencyapptypeComponent},
+{path: 'agencyapp/:id', component: AgencyapptypeComponent},
+{path: 'agencyapp', component: AgencyapptypetblComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},

@@ -62,6 +62,8 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+    urlSearchbyAgency: string;
+    urlSearchbyMinistry: string;
 
     urlUserTypeList: string;
     urlUserTypeDelete: string;
@@ -102,6 +104,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
+    urlSearchbyAgency: commonURL+'agency/type/search/',
+    urlSearchbyMinistry: commonURL+'ministry/search/',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',

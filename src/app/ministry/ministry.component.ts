@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class MinistryComponent implements OnInit {
   
-  AgencyData: Object;
+  MinistryData: Object;
   dataUrl: any;
   date = new Date();
   ministryForm: FormGroup
@@ -23,11 +23,11 @@ export class MinistryComponent implements OnInit {
   complete: boolean;
   pageMode: String;
   refCode:any;
-  agencyIdEn:any;
-  agencyIdBm:any;
+  ministryIdEn:any;
+  ministryIdBm:any;
 
-  agencyNameEn: FormControl
-  agencyNameBm: FormControl
+  ministryNameEn: FormControl
+  ministryNameBm: FormControl
   descEn: FormControl
   descBm: FormControl
   active: FormControl
@@ -46,7 +46,7 @@ export class MinistryComponent implements OnInit {
   instagramUrl: FormControl
   twitterUrl: FormControl
   youtubeUrl: FormControl
-  // mdecStatus: FormControl
+  mdecStatus: FormControl
 
   resetMsg = this.resetMsg;
 
@@ -64,8 +64,8 @@ export class MinistryComponent implements OnInit {
 
     let refCode = this.router.url.split('/')[2];
 
-    this.agencyNameEn = new FormControl()
-    this.agencyNameBm = new FormControl()
+    this.ministryNameEn = new FormControl()
+    this.ministryNameBm = new FormControl()
     this.descEn = new FormControl()
     this.descBm = new FormControl()
     this.active = new FormControl()
@@ -84,11 +84,12 @@ export class MinistryComponent implements OnInit {
     this.instagramUrl = new FormControl()
     this.twitterUrl = new FormControl()
     this.flickrUrl = new FormControl()
+    this.mdecStatus = new FormControl()
 
     this.ministryForm = new FormGroup({
-      agencyNameEn: this.agencyNameEn,
+      ministryNameEn: this.ministryNameEn,
       descEn: this.descEn,
-      agencyNameBm: this.agencyNameBm,
+      ministryNameBm: this.ministryNameBm,
       descBm: this.descBm,
       address: this.address,
       agclat: this.agclat,
@@ -105,7 +106,8 @@ export class MinistryComponent implements OnInit {
       instagramUrl: this.instagramUrl,
       twitterUrl: this.twitterUrl,
       flickrUrl: this.flickrUrl,
-      active: this.active
+      active: this.active,
+      mdecStatus: this.mdecStatus
     });
 
     if(refCode == "add") {
@@ -122,46 +124,69 @@ export class MinistryComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['agency']);
+    this.router.navigate(['ministry']);
   }
 
   // get, add, update, delete
   getRow(row) {
 
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
+    return this.http.get(this.appConfig.urlMinistry + "/" + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + row + "/").subscribe(
       Rdata => {
 
-        this.AgencyData = Rdata;
-        // console.log(JSON.stringify(this.AgencyData))
-        console.log(this.AgencyData)
-        let dataEn = this.AgencyData['agencyList'][0];
-        let dataBm = this.AgencyData['agencyList'][1];
+        this.MinistryData = Rdata;
+        // console.log(JSON.stringify(this.MinistryData))
+        console.log(this.MinistryData)
+        let dataEn = this.MinistryData['ministryEntityList'][0];
+        let dataBm = this.MinistryData['ministryEntityList'][1];
 
       // populate data
-      this.ministryForm.get('agencyNameEn').setValue(dataEn.agencyName);
-      this.ministryForm.get('descEn').setValue(dataEn.agencyDescription);
-      this.ministryForm.get('agencyNameBm').setValue(dataBm.agencyName);
-      this.ministryForm.get('descBm').setValue(dataBm.agencyDescription);
-      this.refCode = dataEn.agencyCode;
-      this.agencyIdEn = dataEn.agencyId;
-      this.agencyIdBm = dataBm.agencyId;
+      this.ministryForm.get('ministryNameEn').setValue(dataEn.ministryName);
+      this.ministryForm.get('descEn').setValue(dataEn.ministryDescription);
+      this.ministryForm.get('ministryNameBm').setValue(dataBm.ministryName);
+      this.ministryForm.get('descBm').setValue(dataBm.ministryDescription);
+      this.ministryForm.get('active').setValue(dataBm.ministryStatus);
+      this.ministryForm.get('address').setValue(dataBm.ministryAddress);
+      this.ministryForm.get('contactperson').setValue(dataBm.ministryContactPerson);
+      this.ministryForm.get('agclat').setValue(dataBm.ministryLatitude);
+      this.ministryForm.get('agclong').setValue(dataBm.ministryLongitude);
+      this.ministryForm.get('phoneno').setValue(dataBm.ministryPhone);
+      this.ministryForm.get('faxno').setValue(dataBm.ministryFax);
+      this.ministryForm.get('email').setValue(dataBm.ministryEmail);
+      this.ministryForm.get('websiteUrl').setValue(dataBm.ministryWebsiteUrl);
+      this.ministryForm.get('rssUrl').setValue(dataBm.ministryRss);
+      this.ministryForm.get('youtubeUrl').setValue(dataBm.ministryYoutube);
+      this.ministryForm.get('twitterUrl').setValue(dataBm.ministryTwitter);
+      this.ministryForm.get('flickrUrl').setValue(dataBm.ministryFlickr);
+      this.ministryForm.get('blogUrl').setValue(dataBm.ministryBlog);
+      this.ministryForm.get('instagramUrl').setValue(dataBm.ministryInstagram);
+      this.ministryForm.get('fbUrl').setValue(dataBm.ministryFacebook);
+      this.ministryForm.get('mdecStatus').setValue(dataBm.ministryMdecstatus);
+      this.refCode = dataEn.ministryCode;
+      this.ministryIdEn = dataEn.ministryId;
+      this.ministryIdBm = dataBm.ministryId;
 
       this.checkReqValues();
+    },
+    error => {
+        this.toastr.error('Sorry, Server is down');
+        // this.toastr.error(this.translate.instant('common.err.servicedown'), '');
+        //this.alertService.error(error);
+        //this.loading = false;
     });
     
   }
 
   checkReqValues() {
 
-    let agencyNameEn = "agencyNameEn";
+    let ministryNameEn = "ministryNameEn";
     let descEn = "descEn";
-    let agencyNameBm = "agencyNameBm";
+    let ministryNameBm = "ministryNameBm";
     let descBm = "descBm";
 
-    let reqVal: any = [agencyNameEn, descEn, agencyNameBm, descBm];
+    let reqVal: any = [ministryNameEn, descEn, ministryNameBm, descBm];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -222,15 +247,49 @@ export class MinistryComponent implements OnInit {
 
     let body = [
       {
-        "agencyName": null,
-        "agencyDescription": null,
+        "ministryName": null,
+        "ministryDescription": null,
+        "ministryAddress": null,
+        "ministryLatitude": null,
+        "ministryLongitude": null,
+        "ministryPhoneNo": null,
+        "ministryFax": null,
+        "ministryEmail": null,
+        "ministryStatus": null,
+        "ministryBlog": null,
+        "ministryContactPerson": null,
+        "ministryFacebook": null,
+        "ministryFlickr": null,
+        "ministryInstagram": null,
+        "ministryMdecStatus": null,
+        "ministryRss": null,
+        "ministryTwitter": null,
+        "ministryWebsiteUrl": null,
+        "ministryYoutube": null,
         "language": {
           "languageId": 1
         }
       }, 
       {
-        "agencyName": null,
-        "agencyDescription": null,
+        "ministryName": null,
+        "ministryDescription": null,
+        "ministryAddress": null,
+        "ministryLatitude": null,
+        "ministryLongitude": null,
+        "ministryPhoneNo": null,
+        "ministryFax": null,
+        "ministryEmail": null,
+        "ministryStatus": null,
+        "ministryBlog": null,
+        "ministryContactPerson": null,
+        "ministryFacebook": null,
+        "ministryFlickr": null,
+        "ministryInstagram": null,
+        "ministryMdecStatus": null,
+        "ministryRss": null,
+        "ministryTwitter": null,
+        "ministryWebsiteUrl": null,
+        "ministryYoutube": null,
         "language": {
           "languageId": 2
         }
@@ -239,19 +298,53 @@ export class MinistryComponent implements OnInit {
     
     console.log(formValues)
 
-    body[0].agencyName = formValues.agencyNameEn;
-    body[0].agencyDescription = formValues.descEn;
+    body[0].ministryName = formValues.ministryNameEn;
+    body[0].ministryDescription = formValues.descEn;
+    body[0].ministryAddress = formValues.address;
+    body[0].ministryLatitude = formValues.agclat;
+    body[0].ministryLongitude = formValues.agclong;
+    body[0].ministryPhoneNo = formValues.phoneno;
+    body[0].ministryFax = formValues.faxno;
+    body[0].ministryEmail = formValues.email;
+    body[0].ministryStatus = formValues.active;
+    body[0].ministryBlog = formValues.blogUrl;
+    body[0].ministryContactPerson = formValues.contactperson;
+    body[0].ministryFacebook = formValues.fbUrl;
+    body[0].ministryFlickr = formValues.flickrUrl;
+    body[0].ministryInstagram = formValues.instagramUrl;
+    body[0].ministryMdecStatus = formValues.mdecStatus;
+    body[0].ministryRss = formValues.rssUrl;
+    body[0].ministryTwitter = formValues.twitterUrl;
+    body[0].ministryWebsiteUrl = formValues.websiteUrl;
+    body[0].ministryYoutube = formValues.youtubeUrl;
 
-    body[1].agencyName = formValues.agencyNameBm;
-    body[1].agencyDescription = formValues.descBm;
+    body[1].ministryName = formValues.ministryNameBm;
+    body[1].ministryDescription = formValues.descBm;
+    body[1].ministryAddress = formValues.address;
+    body[1].ministryLatitude = formValues.agclat;
+    body[1].ministryLongitude = formValues.agclong;
+    body[1].ministryPhoneNo = formValues.phoneno;
+    body[1].ministryFax = formValues.faxno;
+    body[1].ministryEmail = formValues.email;
+    body[1].ministryStatus = formValues.active;
+    body[1].ministryBlog = formValues.blogUrl;
+    body[1].ministryContactPerson = formValues.contactperson;
+    body[1].ministryFacebook = formValues.fbUrl;
+    body[1].ministryFlickr = formValues.flickrUrl;
+    body[1].ministryInstagram = formValues.instagramUrl;
+    body[1].ministryMdecStatus = formValues.mdecStatus;
+    body[1].ministryRss = formValues.rssUrl;
+    body[1].ministryTwitter = formValues.twitterUrl;
+    body[1].ministryWebsiteUrl = formValues.websiteUrl;
+    body[1].ministryYoutube = formValues.youtubeUrl;
 
     console.log(body)
 
     // Add ErrorMsg Service
-    // this.commonservice.addAgency(body).subscribe(
+    // this.commonservice.addMinistry(body).subscribe(
     //   data => {
-    //     this.toastr.success('Agency added successfully!', ''); 
-    //     this.router.navigate(['agency']);
+    //     this.toastr.success('Ministry added successfully!', ''); 
+    //     this.router.navigate(['ministry']);
     //   },
     //   error => {
     //     console.log("No Data")
@@ -261,46 +354,114 @@ export class MinistryComponent implements OnInit {
       
     let body = [
       {
-        "agencyId": null,
-        "agencyName": null,
-        "agencyCode": null,
-        "agencyDescription": null,
+        "ministryId": null,
+        "ministryCode": null,
+        "ministryName": null,
+        "ministryDescription": null,
+        "ministryAddress": null,
+        "ministryLatitude": null,
+        "ministryLongitude": null,
+        "ministryPhoneNo": null,
+        "ministryFax": null,
+        "ministryEmail": null,
+        "ministryStatus": null,
+        "ministryBlog": null,
+        "ministryContactPerson": null,
+        "ministryFacebook": null,
+        "ministryFlickr": null,
+        "ministryInstagram": null,
+        "ministryMdecStatus": null,
+        "ministryRss": null,
+        "ministryTwitter": null,
+        "ministryWebsiteUrl": null,
+        "ministryYoutube": null,
         "language": {
           "languageId": 1
         }
       }, 
       {
-        "agencyId": null,
-        "agencyName": null,
-        "agencyCode": null,
-        "agencyDescription": null,
+        "ministryId": null,
+        "ministryCode": null,
+        "ministryName": null,
+        "ministryDescription": null,
+        "ministryAddress": null,
+        "ministryLatitude": null,
+        "ministryLongitude": null,
+        "ministryPhoneNo": null,
+        "ministryFax": null,
+        "ministryEmail": null,
+        "ministryStatus": null,
+        "ministryBlog": null,
+        "ministryContactPerson": null,
+        "ministryFacebook": null,
+        "ministryFlickr": null,
+        "ministryInstagram": null,
+        "ministryMdecStatus": null,
+        "ministryRss": null,
+        "ministryTwitter": null,
+        "ministryWebsiteUrl": null,
+        "ministryYoutube": null,
         "language": {
           "languageId": 2
         }
       }
     ];
-      
-    body[0].agencyCode = this.refCode;
-    body[0].agencyId = this.agencyIdEn;
-    body[0].agencyName = formValues.agencyNameEn;
-    body[0].agencyDescription = formValues.descEn;
-    
-    body[1].agencyCode = this.refCode;
-    body[1].agencyId = this.agencyIdBm;
-    body[1].agencyName = formValues.agencyNameBm;
-    body[1].agencyDescription = formValues.descBm;
+  
+    body[0].ministryId = this.ministryIdEn;
+    body[0].ministryCode = this.refCode;
+    body[0].ministryName = formValues.ministryNameEn;
+    body[0].ministryDescription = formValues.descEn;
+    body[0].ministryAddress = formValues.address;
+    body[0].ministryLatitude = formValues.agclat;
+    body[0].ministryLongitude = formValues.agclong;
+    body[0].ministryPhoneNo = formValues.phoneno;
+    body[0].ministryFax = formValues.faxno;
+    body[0].ministryEmail = formValues.email;
+    body[0].ministryStatus = formValues.active;
+    body[0].ministryBlog = formValues.blogUrl;
+    body[0].ministryContactPerson = formValues.contactperson;
+    body[0].ministryFacebook = formValues.fbUrl;
+    body[0].ministryFlickr = formValues.flickrUrl;
+    body[0].ministryInstagram = formValues.instagramUrl;
+    body[0].ministryMdecStatus = formValues.mdecStatus;
+    body[0].ministryRss = formValues.rssUrl;
+    body[0].ministryTwitter = formValues.twitterUrl;
+    body[0].ministryWebsiteUrl = formValues.websiteUrl;
+    body[0].ministryYoutube = formValues.youtubeUrl;
+  
+    body[1].ministryId = this.ministryIdBm;
+    body[1].ministryCode = this.refCode;
+    body[1].ministryName = formValues.ministryNameBm;
+    body[1].ministryDescription = formValues.descBm;
+    body[1].ministryAddress = formValues.address;
+    body[1].ministryLatitude = formValues.agclat;
+    body[1].ministryLongitude = formValues.agclong;
+    body[1].ministryPhoneNo = formValues.phoneno;
+    body[1].ministryFax = formValues.faxno;
+    body[1].ministryEmail = formValues.email;
+    body[1].ministryStatus = formValues.active;
+    body[1].ministryBlog = formValues.blogUrl;
+    body[1].ministryContactPerson = formValues.contactperson;
+    body[1].ministryFacebook = formValues.fbUrl;
+    body[1].ministryFlickr = formValues.flickrUrl;
+    body[1].ministryInstagram = formValues.instagramUrl;
+    body[1].ministryMdecStatus = formValues.mdecStatus;
+    body[1].ministryRss = formValues.rssUrl;
+    body[1].ministryTwitter = formValues.twitterUrl;
+    body[1].ministryWebsiteUrl = formValues.websiteUrl;
+    body[1].ministryYoutube = formValues.youtubeUrl;
 
     console.log(body);
 
     // Update ErrorMsg Service
-    // this.commonservice.updateAgency(body).subscribe(
-    //   data => {
-    //     this.toastr.success('Agency update successful!', '');   
-    //     this.router.navigate(['agency']);
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //   });
+    this.commonservice.updateMinistry(body).subscribe(
+      data => {
+        this.toastr.success('Ministry update successful!', '');   
+        this.router.navigate(['ministry']);
+      },
+      error => {
+        console.log("No Data")
+      });
     }
     
 

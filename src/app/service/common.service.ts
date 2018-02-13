@@ -369,7 +369,7 @@ delMediaType(mediaTypeId) {
     // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlMinistry, ministry)
+    return this.http.post(this.appConfig.urlMinistry + "/add/multiple", ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -380,7 +380,7 @@ delMediaType(mediaTypeId) {
     // console.log(Agency)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlMinistry, ministry)
+    return this.http.put(this.appConfig.urlMinistry + "/update/multiple", ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -389,7 +389,7 @@ delMediaType(mediaTypeId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlMinistry + "/" + refCode, null)
+    return this.http.delete(this.appConfig.urlMinistry + "/delete/code/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

@@ -57,6 +57,10 @@ mat-header-cell{
     padding-top: 25px;
 }
 
+.padding-10 {
+    padding:  10px;
+}
+
 .right-content {
     width: 100% !important;
 }

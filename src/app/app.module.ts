@@ -68,8 +68,6 @@ import { SubcategoryComponent } from './categories/subcategory/subcategory.compo
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
-import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
 import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
 import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
@@ -144,8 +142,6 @@ import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.compone
     SubcategorytblComponent,
     CategoryComponent,
     UserpermissionComponent,
-    AgencytypeComponent,
-    AgencytypetblComponent,
     AgencyapptypeComponent,
     AgencyapptypetblComponent,
     GenderComponent,

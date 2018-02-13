@@ -43,20 +43,20 @@
         </mat-cell>
       </ng-container>
 
-      <!-- agencyTypeNameEn Column -->
-      <ng-container matColumnDef="agencyTypeNameEn">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Agency Type Name (EN)</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[0].agencyName}} </mat-cell>
+      <!-- ministryNameEn Column -->
+      <ng-container matColumnDef="ministryNameEn">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Ministry Name (EN)</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[0].ministryName}} </mat-cell>
       </ng-container>
 
-      <!-- agencyTypeNameBm Column -->
-      <ng-container matColumnDef="agencyTypeNameBm">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Agency Type Name (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].agencyName}} </mat-cell>
+      <!-- ministryNameBm Column -->
+      <ng-container matColumnDef="ministryNameBm">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Ministry Name (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].ministryName}} </mat-cell>
       </ng-container>
 
       <!-- Action Column -->
-      <ng-container matColumnDef="agencyTypeAction">
+      <ng-container matColumnDef="ministryAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
