@@ -88,9 +88,33 @@ export class UserpermissionComponent implements OnInit {
     this.remove(this.selectedItems.items, e);
   }
 
+  isChecked(event, moduleGroup, modules) {
+
+    this.selectedItems.items.filter(function(val){
+      if(val.moduleGroupId == moduleGroup.moduleGroupId){
+        val.modules.filter(function(val1){
+          if(val1.moduleId == modules.moduleId){
+            let getVal = event.source.name;
+            val1.permission[getVal] = event.checked
+          }
+        });
+      }
+    });
+
+
+    if(event.checked){
+      
+      //this.mailboxId.push(event.source.value);
+    }else{
+      
+      // let index = this.mailboxId.indexOf(event.source.value);
+      // this.mailboxId.splice(index, 1);
+    }
+    return false;
+  }
 
   submit(){
-      
+      console.log(this.selectedItems)
   }
 
   back(){
