@@ -28,6 +28,8 @@ export class SystemsettingsComponent implements OnInit {
   public getId: any;
 
   public complete: boolean;
+  public urlEdit: any;
+  public keyVal: any;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
@@ -48,14 +50,14 @@ export class SystemsettingsComponent implements OnInit {
 
     });
 
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
+      this.updateForm.get('active').setValue(true);
     }
     else{
-      this.commonservice.pageModeChange(true);
+      this.commonservice.pageModeChange(true);      
       this.getData();
     }
   }
@@ -85,10 +87,10 @@ export class SystemsettingsComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
       let body = 
       {        
@@ -170,6 +172,19 @@ export class SystemsettingsComponent implements OnInit {
     } else {
       this.complete = true;
     }
+
+    this.keyVal = this.key.value;
+
+    if(this.keyVal){
+      this.stripspaces(this.keyVal);
+      console.log("currValue: "+this.keyVal);
+    }
+
+  }
+
+  stripspaces(input){
+    input = input.replace(/\s+/g, '');
+    return true;
   }
 
   myFunction() {
