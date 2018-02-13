@@ -68,7 +68,9 @@ import { IdentificationtypeComponent } from './referencecode/identificationtype/
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
-import { ContactusComponent } from './footer/contactus/contactus.component';
+
+import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
+import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
 
 
 export const appRoutes: Routes = [
@@ -133,7 +135,10 @@ export const appRoutes: Routes = [
 {path: 'reference/identificationtype', component: IdentificationtypetblComponent},
 {path: 'reference/identificationtype/:id', component: IdentificationtypeComponent},
 {path: 'reference/identificationtype/add', component: IdentificationtypeComponent},
-{path: 'footer/contactus', component: ContactusComponent},
+
+{path: 'footer/footercategory', component: FootercategorytblComponent},
+{path: 'footer/footercategory/:id', component: FootercategoryComponent},
+{path: 'footer/footercategory/add', component: FootercategoryComponent},
 
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
