@@ -68,6 +68,7 @@ import { IdentificationtypeComponent } from './referencecode/identificationtype/
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
+import { ContactusComponent } from './footer/contactus/contactus.component';
 
 
 export const appRoutes: Routes = [
@@ -132,6 +133,7 @@ export const appRoutes: Routes = [
 {path: 'reference/identificationtype', component: IdentificationtypetblComponent},
 {path: 'reference/identificationtype/:id', component: IdentificationtypeComponent},
 {path: 'reference/identificationtype/add', component: IdentificationtypeComponent},
+{path: 'footer/contactus', component: ContactusComponent},
 
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
