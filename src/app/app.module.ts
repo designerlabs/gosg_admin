@@ -88,7 +88,6 @@ import { ExtlinksComponent } from './extlinks/extlinks.component';
 import { ExtlinkstblComponent } from './extlinks/extlinkstbl/extlinkstbl.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
-import { ContactusComponent } from './footer/contactus/contactus.component';
 
 @NgModule({
   declarations: [
@@ -164,8 +163,7 @@ import { ContactusComponent } from './footer/contactus/contactus.component';
     ExtlinksComponent,
     ExtlinkstblComponent,
     MinistryComponent,
-    MinistrytblComponent,
-    ContactusComponent,
+    MinistrytblComponent
   ],
   imports: [
     BrowserModule,
