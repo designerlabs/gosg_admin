@@ -102,7 +102,7 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
-    urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission/',
+    urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',

@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./groups.component.css']  
 })
 export class GroupsComponent implements OnInit {
+  statusTitle: string;
   addData: { "moduleGroupName": any; "moduleGroupDescription": any; "active": any; "modules": any; };
   groupDescription: any;
   updateData: {"moduleGroupId":any; "moduleGroupName": any; "moduleGroupDescription": any; "active": any; "modules": any; };
@@ -68,6 +69,7 @@ export class GroupsComponent implements OnInit {
 
   getModuleData() {
     if(this.route.snapshot.params.id){
+    this.statusTitle = "Update";
     this.isUpdate = true;
     this.commonservice.getModuleList( this.route.snapshot.params.id).subscribe(
       data => {
@@ -82,6 +84,7 @@ export class GroupsComponent implements OnInit {
         
       });
     }else{
+      this.statusTitle = "Add";
       this.isUpdate = false;
       this.commonservice.getModuleListAll().subscribe(
         data => {

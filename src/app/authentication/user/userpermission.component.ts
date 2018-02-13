@@ -24,7 +24,8 @@ export class UserpermissionComponent implements OnInit {
   groupmodulename: FormControl;
   active: FormControl;
   groupmoduledesc: FormControl;
-
+  statusTitle: any;
+  
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
     private commonservice:CommonService,
@@ -57,7 +58,7 @@ export class UserpermissionComponent implements OnInit {
 
   getModuleData() {
     if(this.route.snapshot.params.id){
-    
+    this.statusTitle = "Update";
     this.commonservice.getUserList(this.route.snapshot.params.id).subscribe(
       data => {
         this.username = data.username;
@@ -68,6 +69,8 @@ export class UserpermissionComponent implements OnInit {
         this.groupModule.get('active').setValue(this.active);
         
       });
+    }else{
+      this.statusTitle = "Add";
     }
   }
 
@@ -87,6 +90,18 @@ export class UserpermissionComponent implements OnInit {
   moveItemR(e, event){
     event.stopPropagation();
     this.moduleList.items.push(e);
+    this.moduleList.items.filter(function(val){
+      if(val.moduleGroupId == e.moduleGroupId){
+        val.modules.filter(function(val1){
+          val1.permission['isRead'] = false;
+          val1.permission['isWrite'] = false;
+          val1.permission['isUpdate'] = false;
+          val1.permission['isDelete'] = false;
+        });
+      }
+    });
+
+
     this.remove(this.selectedItems.items, e);
   }
 
@@ -97,6 +112,13 @@ export class UserpermissionComponent implements OnInit {
         val.modules.filter(function(val1){
           if(val1.moduleId == modules.moduleId){
             let getVal = event.source.name;
+            if(event.source.name != 'isRead'){
+              val1.permission['isRead'] = true;
+            }else{
+              val1.permission['isWrite'] = false;
+              val1.permission['isUpdate'] = false;
+              val1.permission['isDelete'] = false;
+            }
             val1.permission[getVal] = event.checked
           }
         });
@@ -105,7 +127,7 @@ export class UserpermissionComponent implements OnInit {
 
 
     if(event.checked){
-      
+
       //this.mailboxId.push(event.source.value);
     }else{
       
@@ -119,7 +141,6 @@ export class UserpermissionComponent implements OnInit {
 
     this.commonservice.updateUserPermission(this.route.snapshot.params.id, this.selectedItems.items).subscribe(
       data => {
-        debugger;
         this.toastr.success('updated successfully', '');   
       });
   }
