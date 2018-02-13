@@ -149,6 +149,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+
+  updateUserPermission(id, data){
+    return this.http.put(this.appConfig.urlAdminUserPermission+'/'+id, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getGroupList(){
     return this.http.get(this.appConfig.urlGroupModuleList)
     .map((response: Response) => response.json())

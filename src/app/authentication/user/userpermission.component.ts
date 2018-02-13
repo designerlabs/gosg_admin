@@ -72,6 +72,8 @@ export class UserpermissionComponent implements OnInit {
   }
 
 
+
+
   remove(array, element) {
       const index = array.indexOf(element);
       array.splice(index, 1);
@@ -114,7 +116,12 @@ export class UserpermissionComponent implements OnInit {
   }
 
   submit(){
-      console.log(this.selectedItems)
+
+    this.commonservice.updateUserPermission(this.route.snapshot.params.id, this.selectedItems.items).subscribe(
+      data => {
+        debugger;
+        this.toastr.success('updated successfully', '');   
+      });
   }
 
   back(){

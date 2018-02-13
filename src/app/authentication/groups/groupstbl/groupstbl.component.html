@@ -31,8 +31,10 @@
         <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">          
               <mat-chip-list >
                   <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules.length > 3 ? element.modules.slice(0,3):  element.modules)">{{ele.moduleName}}</mat-chip> 
+                  <mat-chip color="default" *ngIf="element.modules.length > 3">+{{element.modules.length - 3}}</mat-chip>
               </mat-chip-list>  
-            <p style="text-align: right;" *ngIf="element.modules.length > 3">{{element.modules.length - 3}}</p>   
+               
+            
         </mat-cell>
       </ng-container> 
       <!-- isActive Column -->
