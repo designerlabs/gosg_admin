@@ -111,9 +111,18 @@ export class SystemsettingsComponent implements OnInit {
       this.commonservice.addRecordSysSettings(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['systemsettings']);
+          console.log(data);
+
+          let txt = "";
+          if(data.statusCode == "ERROR"){
+            txt = data.statusDesc;
+            this.toastr.error(txt, ''); 
+          }
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }               
         },
         error => {
           console.log("No Data")
@@ -142,9 +151,17 @@ export class SystemsettingsComponent implements OnInit {
       this.commonservice.updateRecordSysSettings(body).subscribe(
         data => {
                   
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['systemsettings']);
+          console.log(data);
+          let txt = "";
+          if(data.statusCode == "ERROR"){
+            txt = data.statusDesc;
+            this.toastr.error(txt, ''); 
+          }
+          else{
+            txt = "Record updated successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }    
         },
         error => {
           console.log("No Data")
@@ -173,18 +190,20 @@ export class SystemsettingsComponent implements OnInit {
       this.complete = true;
     }
 
+    // start get new key without space
     this.keyVal = this.key.value;
+    let currKeyValue :any;
 
     if(this.keyVal){
-      this.stripspaces(this.keyVal);
-      console.log("currValue: "+this.keyVal);
+      currKeyValue = this.stripspaces(this.keyVal);
+      this.updateForm.get('key').setValue(currKeyValue); 
     }
-
+    // end get new key without space
   }
 
   stripspaces(input){
     input = input.replace(/\s+/g, '');
-    return true;
+    return input;
   }
 
   myFunction() {
