@@ -7,6 +7,8 @@ import { RouterModule, ActivatedRouteSnapshot } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { appRoutes } from './routes';
+import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { AppConfig } from './config/app.config.modules';
 import { AppConfigModule } from './config/app.config.module';
 import { NavComponent } from './nav/nav.component';
@@ -40,11 +42,11 @@ import { ReligionComponent } from './referencecode/religion/religion.component';
 import { PostcodeComponent } from './referencecode/postcode/postcode.component';
 import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
 import { FaqComponent } from './faq/faq.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { EditorComponent } from './editor/editor.component';
 import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
-import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
@@ -68,8 +70,6 @@ import { SubcategoryComponent } from './categories/subcategory/subcategory.compo
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
-import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
 import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
 import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
@@ -84,7 +84,19 @@ import { SystemsettingsComponent } from './systemsettings/systemsettings.compone
 import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
 import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
+import { ExtlinksComponent } from './extlinks/extlinks.component';
+import { ExtlinkstblComponent } from './extlinks/extlinkstbl/extlinkstbl.component';
+import { MinistryComponent } from './ministry/ministry.component';
+import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
+import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
+import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
+import { FootercontentComponent } from './footer/footercontent/footercontent.component';
+import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 
+import { HttpClient } from '@angular/common/http/src/client';
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -116,9 +128,9 @@ import { IdentificationtypetblComponent } from './referencecode/identificationty
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
     FaqComponent,
+    FaqtblComponent,
     EditorComponent,
     EthnicitytblComponent,
-    FaqtblComponent,
     AnnouncementComponent,
     AnnouncementtblComponent,
     CategorytblComponent,
@@ -140,8 +152,6 @@ import { IdentificationtypetblComponent } from './referencecode/identificationty
     SubcategorytblComponent,
     CategoryComponent,
     UserpermissionComponent,
-    AgencytypeComponent,
-    AgencytypetblComponent,
     AgencyapptypeComponent,
     AgencyapptypetblComponent,
     GenderComponent,
@@ -156,12 +166,29 @@ import { IdentificationtypetblComponent } from './referencecode/identificationty
     SystemsettingstblComponent,
     IdentificationtypeComponent,
     IdentificationtypetblComponent,
+    ExtlinksComponent,
+    ExtlinkstblComponent,
+    MinistryComponent,
+    MinistrytblComponent,
+    FootercategoryComponent,
+    FootercategorytblComponent,
+    FootercontentComponent,
+    FootercontenttblComponent,
   ],
   imports: [
     BrowserModule,
     ToastrModule.forRoot({
       preventDuplicates: true
     }),
+
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (HttpLoaderFactory),
+        deps: [Http]
+      }
+    }),
+
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,

@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Grouping Management</h3>
+            <h3>{{statusTitle}} Role and Permission Management</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -18,45 +18,42 @@
     <form [formGroup]="groupModule" autocomplete="off" (ngSubmit)="updateGroup(groupModule.value)" role="form" novalidate>
         <div class="row">
             <div class="form-group col-md-12 col-lg-12 col-sm-12">
-                <mat-form-field class="example-full-width font-size-s">
-                    <input matInput formControlName="groupmodulename" type="text" maxlength="30" placeholder="Grouping Name"/>
-                </mat-form-field>
+                <h3>{{username}}</h3>
             </div>
 
             <div class="form-group col-md-12 col-lg-12 col-sm-12">
-                <mat-form-field class="example-full-width font-size-s">
-                    <input matInput formControlName="groupmoduledesc" type="text" maxlength="100" placeholder="Grouping Description"/>
-                </mat-form-field>
+                <h4>{{icno}}</h4>
             </div>
         </div>
 
   
         <ul  class="dragdrop_container">
+            <li><b>Group Module Name</b></li>
             <li *ngFor='let group of moduleList?.items' (click)="moveItem(group)">
                  {{group.moduleGroupName}}
-                <ul>
-                    <li *ngFor='let modules of group?.modules'>
-                        {{modules.moduleName}}
-                       </li>
-                </ul>
             </li>
         </ul>
         
         <div class="middle_icon"><img src="assets/images/switch.png" alt=""></div>
-        <ul class="dragdrop_container">
-            <li *ngFor='let group of selectedItems?.items' (click)="moveItemR(group, $event)">
-                {{group.moduleGroupName }}
+        <ul class="drop_container" style="width:500px;">
+            <li><div class="grouping_container">Group Modules and Permission</div><div class="permission_container"><span>R</span><span>W</span><span>U</span><span>D</span></div></li>
+            <li *ngFor='let group of selectedItems?.items' >
+                
+                <ul (click)="moveItemR(group, $event)">
+                    <b>{{group.moduleGroupName }}</b>
+                    <li *ngFor='let modules of group?.modules'>{{modules.moduleName}}</li>
+                </ul>
                 <ul>
-                <li *ngFor='let modules of group?.modules'>
-                    {{modules.moduleName}}
-                   </li>
-                  </ul>
-                  <ul style="position:absolute; z-index:999;">
-                      <div>
-                          <input type="checkbox"><input type="checkbox"> <input type="checkbox"> <input type="checkbox">
-                      </div>
-                  </ul>
+                    <li *ngFor='let modules of group?.modules'>
+                        <mat-checkbox #isRead name="isRead" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isRead" class = "example-margin"></mat-checkbox>
+                        <mat-checkbox #isWrite name="isWrite" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isWrite" class = "example-margin"></mat-checkbox>
+                        <mat-checkbox #isUpdate name="isUpdate" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isUpdate" class = "example-margin"></mat-checkbox>
+                        <mat-checkbox #isDelete name="isDelete" (change)="isChecked($event, group, modules);" [checked]= "modules.permission.isDelete" class = "example-margin"></mat-checkbox>
+                    </li>
+                </ul>
+                
             </li>
+            
             
         </ul>
 

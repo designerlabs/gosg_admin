@@ -28,6 +28,8 @@ export class SystemsettingsComponent implements OnInit {
   public getId: any;
 
   public complete: boolean;
+  public urlEdit: any;
+  public keyVal: any;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
@@ -48,25 +50,23 @@ export class SystemsettingsComponent implements OnInit {
 
     });
 
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
+      this.updateForm.get('active').setValue(true);
     }
     else{
-      this.commonservice.pageModeChange(true);
+      this.commonservice.pageModeChange(true);      
       this.getData();
     }
   }
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[2];
-  
+    let _getRefID = this.router.url.split('/')[2];  
     this.dataUrl = this.appConfig.urlSystemSettings + '/'+_getRefID;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -74,12 +74,12 @@ export class SystemsettingsComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('entity').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('key').setValue(this.recordList[1].accountStatusDescription); 
-      this.updateForm.get('value').setValue(this.recordList[1].accountStatusDescription);       
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('entity').setValue(this.recordList.settingsEntities);
+      this.updateForm.get('key').setValue(this.recordList.settingsKey); 
+      this.updateForm.get('value').setValue(this.recordList.settingsValue);       
+      this.updateForm.get('active').setValue(this.recordList.isActive);      
 
-      this.getId = this.recordList[0].accountStatusId;
+      this.getId = this.recordList.settings_id;
 
       this.checkReqValues();
       
@@ -87,54 +87,91 @@ export class SystemsettingsComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
+    let txt = "";
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
-      let body = [
-        {        
-          "settingsEntities": null,
-          "settingsKey": null,
-          "settingsValue": null,
-          "isActive":false,  
-        }
-      ]    
+      let body = 
+      {        
+        "settingsEntities": null,
+        "settingsKey": null,
+        "settingsValue": null,
+        "isActive":false
+      }      
 
-      body[0].settingsEntities = formValues.entity;
-      body[0].settingsKey = formValues.key;
-      body[0].settingsValue = formValues.value;
-      body[0].isActive = formValues.active;
+      body.settingsEntities = formValues.entity;
+      body.settingsKey = formValues.key;
+      body.settingsValue = formValues.value;
+      body.isActive = formValues.active;
 
       console.log("TEST")
       console.log(body)
 
       this.commonservice.addRecordSysSettings(body).subscribe(
         data => {
+
           console.log(JSON.stringify(body))
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['systemsettings']);
+          console.log(data);
+          
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }               
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 
     // update form
     else{      
 
+      let body = 
+      {        
+        "settingsEntities": null,
+        "settingsKey": null,
+        "settingsValue": null,
+        "isActive":false,
+        "settings_id": this.getId
+      }      
+
+      body.settingsEntities = formValues.entity;
+      body.settingsKey = formValues.key;
+      body.settingsValue = formValues.value;
+      body.isActive = formValues.active;
+
       console.log("UPDATE: ");     
 
-      this.commonservice.updateRecordSysSettings(this.getId).subscribe(
+      this.commonservice.updateRecordSysSettings(body).subscribe(
         data => {
                   
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['systemsettings']);
+          console.log(data);     
+    
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+
+          else{
+            txt = "Record updated successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }    
         },
         error => {
-          console.log("No Data")
+          
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
     
@@ -159,6 +196,21 @@ export class SystemsettingsComponent implements OnInit {
     } else {
       this.complete = true;
     }
+
+    // start get new key without space
+    this.keyVal = this.key.value;
+    let currKeyValue :any;
+
+    if(this.keyVal){
+      currKeyValue = this.stripspaces(this.keyVal);
+      this.updateForm.get('key').setValue(currKeyValue); 
+    }
+    // end get new key without space
+  }
+
+  stripspaces(input){
+    input = input.replace(/\s+/g, '');
+    return input;
   }
 
   myFunction() {

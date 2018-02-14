@@ -1,0 +1,281 @@
+{
+  "home": {
+    "logo": "logo_en",
+    "menu": {
+      "home": "Home",
+      "register": "Register",
+      "setting": "Settings",
+      "contact": "Contact",
+      "faq": "FAQ",
+      "manual": "User Manual",
+      "aboutus": "About Us",
+      "onlineservice": "Digital Services",
+      "logout":"Logout"
+    },
+    "search": {
+      "label": "How Can We Help You?"
+    },
+    "breadcrumb": {
+      "register": "Register",
+      "feedback": "Complaints and Queries",
+      "profile": "My Profile",
+      "dashboard": "Dashboard",
+      "appmgmt": "Application Management",
+      "mailbox": "Mail Box"
+    },
+    "expandButton": {
+      "less": "Show Less",
+      "more": "Show More"
+    },
+    "check": "Review",
+    "readmore": "Read More",
+    "applicationNum": "Application Number",
+    "send": "SUBMIT",
+    "highlights": "Highlights",
+    "currentHighlights": "Highlights",
+    "calendarTitle": "Activities for this month"
+  },
+  "register": {
+    "label": {
+      "citistatus": "Citizenship Status",
+      "ic": "Identification card number",
+      "icplh": "IE:888888888888",
+      "name": "Full Name (same as in the identity card)",
+      "nameplh": "Full name",
+      "email": "Email",
+      "emailplh": "IE: aaaa@bbb.com",
+      "tel": "Telephone",
+      "codetel": "Country code",
+      "telplh": "IE:018xxxxxxx / +60-x-xxxx-xxxx",
+      "codeplh": "Verification code",
+      "btnsubmit": "Submit",
+      "btnreset": "Reset",
+      "citi": "Citizen",
+      "nonciti": "Non Citizen",
+      "country": "Country",
+      "passport": "Passport Number",
+      "fullname": "Full name"
+    },
+    "err": {
+      "ic": "IC Number is required",
+      "name": "Full name is required",
+      "email": "Email is required. IE: aaaa@bbb.com",
+      "tel": "Telephone No. is required. IE: 018xxxxxxx / +60-x-xxxx-xxxx",
+      "codetel": "Country code is required",
+      "country": "Country is required",
+      "passport": "Passport number is required. IE: AA12345678",
+      "fullname": "Full name is required",
+      "vercode": "Verification code is required"
+    },
+    "pattern":{
+      "ic":"IC Number takes 12 digit only",
+      "email":"Please enter a valid email",
+      "dob":"Please enter a valid date format. IE: XX-XX-XXXX",
+      "tel":"Telephone No must be valid",
+      "telr":"Telephone No must be valid",
+      "telb":"Telephone No must be valid",
+      "passport":"Passport number must be valid. IE: AA12345678",
+      "fullname":"Full name must be valid",
+      "name":"Full name must be valid",
+      "captcha":"Verification code must be valid"
+    },
+    "popupmsg":{
+      "success_content1":"Thank you for your registration. Check your ",
+      "success_content2":"for your account activation",
+      "isexist":"User Email Already Exist"
+    }
+  },
+  "profile":{
+    "msg":{
+      "updateSuccess": "Profile updated.",
+      "updateFail": "Profile not updated.",
+      "editbtnE" : "Edit activated.",
+      "editbtnD" : "Edit deactivated."
+    },
+    "label":{
+      "name":"Name",
+      "nationality":"Nationality",
+      "icnumber":"IC Number",
+      "passport":"Passport Number",
+      "dateofbirth":"Date Of Birth",
+      "gender":"Gender",
+      "email":"Email",
+      "tel": "Telephone",
+      "race":"Race",
+      "religion":"Religion",
+      "regisdate":"Registration Date",
+      "peraddr":"Permanent Address",
+      "corrsaddr":"Corresponding Address",
+      "copyperaddr":"Copy Permanent Address",
+      "country":"Country",
+      "state":"State",
+      "city":"City",
+      "postcode":"Postcode",
+      "mailaddr":"Mailing Address",
+      "homeph":"Home Phone",
+      "mobile":"Mobile Phone",
+      "codetel": "Code",
+      "submit":"Update"
+    },
+    "err": {
+      "updateFail": "Profile update failed!",
+      "ic": "IC Number is required",
+      "name": "Full name is required",
+      "dob": "Date of Birth is required",
+      "gender": "Gender is required",
+      "race": "Race is required",
+      "perAddress1": "Permanent Address 1 is required",
+      "state": "State is required",
+      "city": "City is required",
+      "email": "Email is required. IE: aaaa@bbb.com",
+      "tel": "Telephone No. is required. IE: 018xxxxxxx / +60-x-xxxx-xxxx",
+      "country": "Country is required",
+      "passport": "Passport number is required. IE: AA12345678",
+      "fullname": "Full name is required",
+      "postcode": "Postcode is required",
+      "vercode": "Verification code is required"
+    },
+    "pattern":{
+      "ic":"IC Number takes 12 digit only",
+      "dob":"Tarikh mestilah sah. Contoh: XX-XX-XXXX",
+      "email":"Please enter a valid email",
+      "tel":"Telephone No must be valid",
+      "telr":"No. Telefon mestilah sah",
+      "telb":"No. Telefon mestilah sah",
+      "passport":"Passport number must be valid. IE: AA12345678",
+      "fullname":"Full name must be valid",
+      "name":"Full name must be valid",
+      "postcode": "Postcode must be valid",
+      "captcha":"Verification code must be valid"
+    }
+  },
+
+  "dashboard": {
+
+  },
+
+  "errorlabel": {
+
+  },
+  "feedback": {
+    "title": "COMPLAINTS AND QUERIES",
+    "desc": "Please limit your response to 10000 characters and include your email address and we will respond to you within three (3) working days. We can respond in two languages, English and Bahasa Melayu.",
+    "label": {
+      "type": "Type of feedback",
+      "subjek": "Subject",
+      "name": "Name",
+      "nameplh": "Full name",
+      "emel": "Email",
+      "content": "Content",
+      "reset": "Reset",
+      "submit": "Send",
+      "words": " characters left.",
+      "choose": "--Please Select--"
+    },
+    "reset":"Reset this form?",      
+    "msgsubmit": "Thank you. Your complaints/queries has been successfully sent. Responds will be received in 3 working days",
+    "err":{
+      "drop": "This field is required",
+      "submit": "Sorry, server down.",        
+      "type":"Sorry, type of feedback is unavailable.",
+      "subject":"Sorry, subjects is unavailable."
+      
+    }
+  },
+  "mailbox":{
+    "header":{
+      "from":"From",
+      "subject":"Subject",
+      "date":"Date",
+      "action":"Action"
+    },
+    
+    "pagination":{
+      "pages":"Pages",
+      "of":"of",
+      "in":"in",
+      "mails":"mails"
+    },
+    "err":{
+      "deleteconfirm":"Are you sure to delete this mail?",
+      "deleteconfirm_multi":"Are you sure to delete the selected mails?",
+      "failtoload":"Sorry, Mail is not loading properly, Try again!",
+      "failtodelete":"Sorry, Mail is not deleted properly, Try again!",
+      "failtoview":"Sorry, Mail is not viewed properly, Try again!"
+    },
+    "success":{
+      "deletesuccess":"Mail has been deleted successfully!",
+      "deletesuccess_multi":"Selected mails has been deleted successfully!"
+    }
+  },
+  "common":{
+    "buttons":{
+      "delete":"Delete",
+      "update":"Update",
+      "submit":"Submit",
+      "reset":"Reset",
+      "yes":"Yes",
+      "no":"No",
+      "ok":"Ok",
+      "cancel":"Cancel",
+      "home":"Home"
+    },
+    "err":{
+      "servicedown": "Sorry, Server is down"
+    },
+    "icon":{
+      "success":"fa fa-check",
+      "error":"fa fa-frown-o",
+      "warn":"fa fa-exclamation-triangle",
+      "info":"fa fa-info-circle"
+    },
+    "msg":{
+      "reset":"Reset this form?",
+      "delete":"Are you sure to delete the record?"   
+    },
+    "state":{
+      "success":"bg_header bg_success_header",
+      "error":"bg_header bg_error_header",
+      "warn":"bg_header bg_warn_header",
+      "info":"bg_header bg_info_header"
+    }
+  },
+  "appmngt":{
+    "setSearch":{
+      "moreOpt": "More Search Options",
+      "appNumber": "Application Number",
+      "agency": "Agency",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "appStatus": "Application Status",
+      "search": "Search"
+    },
+    "tableHeader":{
+      "num": "No.",
+      "appNo": "Application No.",
+      "appName": "Application Name",
+      "submit" : "Submit Date",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Page",
+      "of": "of",
+      "in": "in",
+      "app": "applications"
+    }
+  },
+  "poll": {
+    "title" : "SHARE YOUR THOUGHT WITH US",
+    "resultTitle" : "POLLS RESULT",
+    "recommend" : "Your recommendation for improvement",
+    "youranswer" : "Your answer is",
+    "seeAnswer" : "WOULD YOU LIKE TO KNOW THE RESULTS OF THE LATEST SURVEY ON THE NEW MYGOV WEB SITE?",
+    "displayAnswer" : " YES, DISPLAY THE LATEST RESULTS "
+  },
+  "announcement":{
+    "title":"Highlights",
+    "description":"All Highlight",
+    "message":"No latest information."
+  }
+}

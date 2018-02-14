@@ -111,7 +111,7 @@ export class AgencyapptypeComponent implements OnInit {
   }
 
   getAgencyType() {
-    return this.http.get(this.appConfig.urlAgencyType + '/code').subscribe(
+    return this.http.get(this.appConfig.urlAgency + '/code').subscribe(
       // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
       // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
         Rdata => {
@@ -165,27 +165,6 @@ export class AgencyapptypeComponent implements OnInit {
     }
   }
 
-  deleteRow(refCode) {
-    let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
-    if (r == true) {
-
-      this.commonservice.delAgencyType(refCode).subscribe(
-        data => {
-          txt = "ErrorMsg deleted successfully!";
-          // this.router.navigate(['ErrorMsg']);
-        },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.agencyAppTypeForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      alert(txt)
-    }
-  }
-  
   updateAgencyAppType(formValues: any) {
     
     if(!this.isEdit) {

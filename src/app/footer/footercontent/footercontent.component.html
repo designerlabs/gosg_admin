@@ -1,0 +1,202 @@
+<!-- <p>
+  footercontent works!
+</p> -->
+
+
+<!-- <p>
+  footercategory works!
+</p> -->
+
+
+<!-- <p>Faq Component page</p> -->
+
+<!-- <p>
+  identificationtype works!
+</p> -->
+
+
+
+<div class="container-fluid">
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>{{ commonservice.pageMode }} Footer Content</h3>
+          <!-- <h3>FAQ</h3> -->
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i class="fa fa-arrow-left font-size-l"></i></button>
+          </span>
+      </div> 
+
+  </div>
+
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
+      <div class="example-container mat-elevation-z8 paddingBottom-10">
+
+            <!-- <div class="bg-form-header col-md-12">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="font-size-s" style="width:100%;">
+                        <mat-select formControlName="catEng" placeholder="Select Category">
+                            <mat-option *ngFor="let category of getCategory" [value]="category">{{ category?.catName }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div> -->
+
+            <br>
+            
+            <div class="bg-form-header col-md-12">
+                <div class="row">
+                    <label class="col-md-6 staticLabel font-size-s boldText">English</label>
+                    <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                </div>
+            </div><br>
+             
+          <!-- <div class="example-header" style="margin-top: 10px;">
+              <div class="col-md-6 text-align-Center font-size-m"> 
+                  <label class="staticLabel font-size-s boldText">Question (English)</label>
+              </div>
+              <div class="col-md-6 text-align-Center font-size-m"> 
+                  <label class="staticLabel font-size-s boldText">Question (Malay)</label>
+              </div>
+          </div> -->
+  
+          <div class="example-header">
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <input matInput placeholder="Name" formControlName="nameEng" #nameEng maxlength="100" 
+                      (keyup)="checkReqValues()" required>
+                      <mat-error *ngIf="updateForm.controls.nameEng.hasError('required')">
+                              Name is required
+                      </mat-error>
+                      <mat-hint align="end">{{nameEng.value?.length || 0}}/100</mat-hint>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <input matInput placeholder="Name" formControlName="nameMy" #nameMy maxlength="100" 
+                      (keyup)="checkReqValues()" required>
+                      <mat-error *ngIf="updateForm.controls.nameMy.hasError('required')">
+                        Name is required
+                      </mat-error>
+                      <mat-hint align="end">{{nameMy.value?.length || 0}}/100</mat-hint>
+                  </mat-form-field>
+              </div>
+          </div>
+
+
+          <div class="example-header">
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <textarea matInput placeholder="Description" formControlName="descEng" #descEng maxlength="500"></textarea>
+                      <mat-hint align="end">{{descEng.value?.length || 0}}/500</mat-hint>
+                  </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                  <mat-form-field class="example-full-width font-size-s" >
+                      <textarea matInput placeholder="Description" formControlName="descMy" #descMy maxlength="500"></textarea>
+                      <mat-hint align="end">{{descMy.value?.length || 0}}/500</mat-hint>
+                  </mat-form-field>
+              </div>
+          </div>
+
+          <div class="example-header">
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput placeholder="Icon" formControlName="iconEng" #iconEng maxlength="100">
+                    <mat-hint align="end">{{iconEng.value?.length || 0}}/100</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput placeholder="Icon" formControlName="iconMy" #iconMy maxlength="100">
+                    <mat-hint align="end">{{iconMy.value?.length || 0}}/100</mat-hint>
+                </mat-form-field>
+            </div>
+          </div>
+
+          <div class="example-header">
+            <div class="col-md-5" style="border: 0px solid #000">
+              <mat-form-field class="example-full-width font-size-s">
+                    <mat-select formControlName="imgEng" placeholder="Select Image">
+                        <mat-option [value]="1">image1.png</mat-option>
+                        <mat-option [value]="2">image2.jpg</mat-option>
+                        <mat-option [value]="3">image3.png</mat-option>
+                    </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2" style="text-align: center; padding-top: 15px;">
+                <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="font-size-s">&nbsp;Copy</span>
+            </div>
+            <div class="col-md-5" style="border: 0px solid #000; text-align: left">
+              <mat-form-field class="example-full-width font-size-s">
+                <mat-select formControlName="imgMy" placeholder="Select Image">
+                    <mat-option [value]="1">image1.png</mat-option>
+                    <mat-option [value]="2">image2.jpg</mat-option>
+                    <mat-option [value]="3">image3.png</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-1">
+              &nbsp;
+            </div>
+          </div>
+
+          <div class="example-header">
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput placeholder="URL" formControlName="urlEng" #urlEng maxlength="100">
+                    <mat-hint align="end">{{urlEng.value?.length || 0}}/100</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput placeholder="URL" formControlName="urlMy" #urlMy maxlength="100">
+                    <mat-hint align="end">{{urlMy.value?.length || 0}}/100</mat-hint>
+                </mat-form-field>
+            </div>
+          </div>
+
+          <div class="example-header">
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput placeholder="Seq #" formControlName="seqEng" #seqEng maxlength="100">
+                    <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="example-full-width font-size-s" >
+                    <input matInput placeholder="Seq #" formControlName="seqMy" #seqMy maxlength="100">
+                    <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint>
+                </mat-form-field>
+            </div>
+          </div>
+
+          <div class="example-header">
+              <div class="col-md-12">
+                  <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="13">Active</mat-checkbox>
+              </div>
+          </div>
+      
+      </div>
+  
+      <div class="form-group paddingTop-10">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+          (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          <i *ngIf="complete" class="fa fa-check"></i>
+          <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
+          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+          style="width: 100px; font-family: Roboto" (click)="myFunction()">
+          <i class="fa fa-refresh"></i> Reset</button>
+      </div>      
+
+  </form>
+</div>
+

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgencytypetblComponent } from './agencytypetbl.component';
+import { MinistryComponent } from './ministry.component';
 
-describe('AgencytypetblComponent', () => {
-  let component: AgencytypetblComponent;
-  let fixture: ComponentFixture<AgencytypetblComponent>;
+describe('MinistryComponent', () => {
+  let component: MinistryComponent;
+  let fixture: ComponentFixture<MinistryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgencytypetblComponent ]
+      declarations: [ MinistryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgencytypetblComponent);
+    fixture = TestBed.createComponent(MinistryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

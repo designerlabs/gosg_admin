@@ -28,6 +28,10 @@ mat-header-cell{
     padding-right: 0px !important;
 }
 
+.align_right{
+    text-align: right;
+}
+
 .curdHeader{
     padding-bottom:10px;
     display: flex;
@@ -55,6 +59,10 @@ mat-header-cell{
 
 .paddingTop-25 {
     padding-top: 25px;
+}
+
+.padding-10 {
+    padding:  10px;
 }
 
 .right-content {
@@ -88,3 +96,23 @@ mat-header-cell{
     -ms-flex-pack: center;
     justify-content: center;
 }
+
+
+/* below style added by sri */
+.font-size-l, .font-size-m, .font-size-s, .font-size-xl, .font-size-xxl {
+    font-weight: 500; }
+  
+  .font-size-s {
+    font-size: 14px; }
+  
+  .font-size-m {
+    font-size: 18px; }
+  
+  .font-size-l {
+    font-size: 24px; }
+  
+  .font-size-xl {
+    font-size: 38px; }
+  
+  .font-size-xxl {
+    font-size: 52px; }

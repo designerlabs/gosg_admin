@@ -26,11 +26,16 @@
 }
 
 .middle_icon{
-    float: left;
-    height: 200px;
-    top: 80px;
-    padding: 10px;
-    position: relative;
-}
 
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    float: left;
+    height: 500px;
+  }
+  
+  .middle_icon img{
+      margin: 0;
+      padding: 20px;
+  }
+  

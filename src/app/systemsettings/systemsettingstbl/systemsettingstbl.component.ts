@@ -94,22 +94,32 @@ export class SystemsettingstblComponent implements OnInit {
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(refcode) {
+  deleteRow(id) {
     let txt;
     let r = confirm("Are you sure to delete?");
     if (r == true) {
 
-      console.log(refcode);
-      this.commonservice.delRecordAccStatus(refcode).subscribe(
+      console.log(id);
+      this.commonservice.delRecordSysSettings(id).subscribe(
         data => {
-          
-          txt = "Record deleted successfully!";
 
-          this.toastr.success(txt, '');  
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+
+            txt = "Record deleted successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          } 
+
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 

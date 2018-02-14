@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Grouping Management</h3>
+            <h3>{{statusTitle}} Grouping Management</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -45,16 +45,18 @@
         </ul>
 
         <div class="row">
-        <div class="col-md-12">
-            <mat-checkbox formControlName="active"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
-        </div>
+            <div class="col-md-12">
+                <mat-checkbox formControlName="active"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+            </div>
         </div>
         <div class="row"></div>
         
         <div class="form-group" style="float: right;">
-            <button mat-raised-button type="button" color="primary" #updateBtn id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
-            (click)="submit();false" style="width: 100px; font-family: Roboto; margin-left: 5px;">
+            <button *ngIf="!isUpdate" mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
+            (click)="addModuleData();false">
             <i class="fa fa-check"></i> Submit</button>
+
+            <button *ngIf="isUpdate" mat-raised-button type="button" color="primary" id="btnupdate" class="form-control btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i class="fa fa-check"></i> Update</button>
         </div>
        
     </form>

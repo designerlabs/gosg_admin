@@ -24,7 +24,8 @@ const serviceURL = devURL + 'service/';
 
 export class AppConfig {
     apiEndpoint: string;
-    urlAgencyType: string;
+    urlMinistry: string;
+    urlAgency: string;
     urlAgencyApp: string;
     urlMenu: string;
     urlCommon: string;
@@ -61,6 +62,8 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+    urlSearchbyAgency: string;
+    urlSearchbyMinistry: string;
 
     urlUserTypeList: string;
     urlUserTypeDelete: string;
@@ -70,6 +73,13 @@ export class AppConfig {
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
     urlSystemSettings: string;
+    urlModuleGroupList:string;
+
+    urlFaqList:string;
+    urlAdminUserPermission:string;
+
+    urlFooterCategory: string;
+    lang: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -86,16 +96,21 @@ export const APP_DI_CONFIG: AppConfig = {
     urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModuleList: commonURL + 'authorization/module/moduleList',
+    urlModuleGroupList: commonURL + 'authorization/module/group',
     urlGroupModuleList: mockApiURL + 'groupList',
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
-    urlAgencyType: commonURL + 'agency/type',
+    urlMinistry: commonURL + 'ministry',
+    urlAgency: commonURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
     
 
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
+    urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
+    urlSearchbyAgency: commonURL+'agency/type/search/',
+    urlSearchbyMinistry: commonURL+'ministry/search/',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
@@ -110,6 +125,9 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlIdentificationTypeList: commonURL + 'identificationtype/code',
     urlIdentificationType: commonURL + 'identificationtype',
+
+    urlFaqList: commonURL + 'faq',
+    urlFooterCategory: commonURL + 'footer',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
@@ -127,7 +145,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',
     urlSystemSettings: commonURL + 'systemsettings',
-    
+    lang: 'language='+localStorage.getItem('langID')
 };
 
 @NgModule({
