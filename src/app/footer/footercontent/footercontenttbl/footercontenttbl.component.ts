@@ -80,7 +80,7 @@ export class FootercontenttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFooterContent + '?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {

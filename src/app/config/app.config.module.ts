@@ -79,6 +79,7 @@ export class AppConfig {
     urlAdminUserPermission:string;
 
     urlFooterCategory: string;
+    urlFooterContent: string;
     lang: string;
 }
 
@@ -128,6 +129,7 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlFaqList: commonURL + 'faq',
     urlFooterCategory: commonURL + 'footer',
+    urlFooterContent: commonURL + 'footercontent',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
