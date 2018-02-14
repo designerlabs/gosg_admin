@@ -77,7 +77,7 @@ export class AppConfig {
 
     urlFaqList:string;
     urlAdminUserPermission:string;
-    lang:string;
+    lang: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {

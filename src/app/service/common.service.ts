@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/retry';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class CommonService {
@@ -27,7 +28,8 @@ export class CommonService {
   pageMode: String;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
+  constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
 
   private usersUrl: string = this.appConfig.urlUsers;
   private errMsgUrl: string = this.appConfig.urlErrorMsg;
@@ -35,6 +37,7 @@ export class CommonService {
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
+  private lang: string = this.appConfig.lang;
   
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
@@ -518,6 +521,7 @@ delMediaType(mediaTypeId) {
   }
   // LANGUAGE END
 
+  // Start Poll Question - N
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
   
@@ -541,6 +545,7 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Poll Question - N
 
   addRace(record) {
     let fullUrl = this.appConfig.urlRace;
@@ -672,6 +677,7 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
 
+  // Start Address Type - N
   addRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
 
@@ -695,7 +701,9 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Address Type - N
 
+  // Start Account Status - N
   addRecordAccStatus(record) {
     let fullUrl = this.appConfig.urlAccountStatus;
  
@@ -719,7 +727,9 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Account Status - N
 
+  // Start Feedback Type - N
   addRecordFeedbackType(record) {
     let fullUrl = this.appConfig.urlFeedbackType;
  
@@ -743,7 +753,9 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Feedback Type - N
 
+  // Start Feedback Subject - N
   addRecordFeedbackSubject(record) {
     let fullUrl = this.appConfig.urlFeedbackSubject;
  
@@ -767,9 +779,11 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Feedback Subject - N
 
+  // Start System Settings - N
   addRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings+"?language=1";
+    let fullUrl = this.appConfig.urlSystemSettings + "?language=1";
  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -777,21 +791,23 @@ delMediaType(mediaTypeId) {
   }
 
   delRecordSysSettings(key) {
-    let fullUrl = this.appConfig.urlSystemSettings;
+    let fullUrl = this.appConfig.urlSystemSettings + "/" + key + "?language=1";
 
-    return this.http.delete(fullUrl + "/" + key +"?language=1", null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings+"?language=1";
+    let fullUrl = this.appConfig.urlSystemSettings + "?language=1";
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End System Settings - N
 
+  // Start Feedback Visitor/Admin - N
   delRecordFeedback(refCode) {
     let fullUrl = this.appConfig.urlFeedback;
 
@@ -807,6 +823,7 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Feedback Visitor/Admin - N
 
   
   private handleError(error: Response) {
@@ -846,6 +863,10 @@ delMediaType(mediaTypeId) {
       .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
+  }
+
+  errorResponse(data){
+      this.toastr.error(data.statusDesc, ''); 
   }
 }
 
