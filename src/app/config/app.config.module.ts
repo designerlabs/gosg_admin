@@ -77,6 +77,7 @@ export class AppConfig {
 
     urlFaqList:string;
     urlAdminUserPermission:string;
+    lang:string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -141,7 +142,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',
     urlSystemSettings: commonURL + 'systemsettings',
-    
+    lang: 'language='+localStorage.getItem('langId')
 };
 
 @NgModule({
