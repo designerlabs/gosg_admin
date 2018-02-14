@@ -107,11 +107,14 @@
               <mat-error *ngIf="ministryForm.controls.email.hasError('required')">
                 Email is required
               </mat-error>
+              <mat-error *ngIf="!validateCtrlChk(email) &&  ministryForm.controls.email.errors.pattern">
+                Email Pattern not valid
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput tabindex="10" placeholder="Phone Number" formControlName="phoneno" (change)="checkReqValues()" required>
+              <input matInput tabindex="10" placeholder="Phone Number" formControlName="phoneno" #phoneno [textMask]="{mask: maskPhoneNo}" (change)="checkReqValues()" required>
               <mat-error *ngIf="ministryForm.controls.phoneno.hasError('required')">
                 Phone Number is required
               </mat-error>
@@ -119,7 +122,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput tabindex="11" placeholder="Fax Number" formControlName="faxno" (change)="checkReqValues()">
+              <input matInput tabindex="11" placeholder="Fax Number" formControlName="faxno" #faxno [textMask]="{mask: maskFaxNo}" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.faxno.hasError('required')">
                 Fax Number is required
               </mat-error>
