@@ -56,6 +56,10 @@ export class FootercategoryComponent implements OnInit {
   public getFaqIdMy: any;
   public getFaqCodeMy: any;
 
+  public getRefCode: any;
+
+
+
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -100,7 +104,7 @@ export class FootercategoryComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlFaqList + '/code/' +  _getRefID;
+    this.dataUrl = this.appConfig.urlFooterCategory + '/code/' +  _getRefID;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -120,6 +124,8 @@ export class FootercategoryComponent implements OnInit {
       
       this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
       this.getFaqIdMy = this.recordList.faqList[1].faqId;
+
+      this.getRefCode = this. recordList.refCode;
 
     });
   }
@@ -147,37 +153,36 @@ export class FootercategoryComponent implements OnInit {
 
       let body = [
         {
-          "title": null,
+          "name": null,
           "description": null,
-          "active": false,
+          "enabled": false,
           "language": {
               "languageId": null
           }
         },
         {
-          "title": null,
+          "name": null,
           "description": null,
-          "active": false,
-          "facCode": null,
+          "enabled": false,
           "language": {
               "languageId": null
           }
         }
       ]   
  
-      body[0].title = formValues.catEng;
+      body[0].name = formValues.catEng;
       body[0].description = formValues.descEng;
-      body[0].active = formValues.active;
+      body[0].enabled = formValues.active;
       body[0].language.languageId = 1;
 
-      body[1].title = formValues.catMy;
+      body[1].name = formValues.catMy;
       body[1].description = formValues.descMy;
-      body[1].active = formValues.active;
+      body[1].enabled = formValues.active;
       body[1].language.languageId = 2;
 
       console.log(body);
 
-      this.commonservice.addFaq(body).subscribe(
+      this.commonservice.addFooterCategory(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           console.log(body)
@@ -200,37 +205,40 @@ export class FootercategoryComponent implements OnInit {
 
       let body = [
         {
-          "title": null,
+          "name": null,
           "description": null,
           "active": false,
+          "refCode": null,
           "language": {
               "languageId": null
           }
         },
         {
-          "title": null,
+          "name": null,
           "description": null,
           "active": false,
-          "facCode": null,
+          "refCode": null,
           "language": {
               "languageId": null
           }
         }
       ]   
  
-      body[0].title = formValues.catEng;
+      body[0].name = formValues.catEng;
       body[0].description = formValues.descEng;
       body[0].active = formValues.active;
+      body[0].refCode = 1;
       body[0].language.languageId = 1;
 
-      body[1].title = formValues.catMy;
+      body[1].name = formValues.catMy;
       body[1].description = formValues.descMy;
       body[1].active = formValues.active;
+      body[1].refCode = 1;
       body[1].language.languageId = 2;
 
       console.log(body);
 
-      this.commonservice.updateFaq(body).subscribe(
+      this.commonservice.updateFooterCategory(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           console.log(body)

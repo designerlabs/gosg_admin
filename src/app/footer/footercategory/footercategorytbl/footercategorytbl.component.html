@@ -32,14 +32,14 @@
           <ng-container matColumnDef="catEng">
                   <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Footer Category (English) </mat-header-cell>
                   <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
-                      {{element.list[0].facQuestion}}
+                      {{element.list[0].name}}
                   </mat-cell>
               </ng-container>
 
           <ng-container matColumnDef="catMy">
               <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Footer Category (Malay) </mat-header-cell>
               <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
-                  {{element.list[1].facQuestion}}
+                  {{element.list[1].name}}
               </mat-cell>
           </ng-container>
 

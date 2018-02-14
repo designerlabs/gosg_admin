@@ -77,6 +77,8 @@ export class AppConfig {
 
     urlFaqList:string;
     urlAdminUserPermission:string;
+
+    urlFooterCategory: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -124,6 +126,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlIdentificationType: commonURL + 'identificationtype',
 
     urlFaqList: commonURL + 'faq',
+    urlFooterCategory: commonURL + 'footer',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',

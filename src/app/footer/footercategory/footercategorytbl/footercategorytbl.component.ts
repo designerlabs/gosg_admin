@@ -79,7 +79,7 @@ export class FootercategorytblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFaqList + '/code?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -132,7 +132,7 @@ export class FootercategorytblComponent implements OnInit {
     
     if (r == true) {
       console.log(refCode);
-      this.commonservice.delFaq(refCode).subscribe(
+      this.commonservice.delFooterCategory(refCode).subscribe(
         data => {
           // alert('Record deleted successfully!')
           txt = " record deleted successfully!";
