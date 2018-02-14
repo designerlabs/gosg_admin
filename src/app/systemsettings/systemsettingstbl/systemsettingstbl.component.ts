@@ -103,22 +103,15 @@ export class SystemsettingstblComponent implements OnInit {
       this.commonservice.delRecordSysSettings(id).subscribe(
         data => {
 
-          let route = "";
-          txt = "Record deleted successfully!";
-          
-          //this.commonservice.errorResponse(data, txt, route);
-          
-          // if(data.statusCode == "ERROR"){
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
 
-          //   txt = data.statusDesc;
-          //   this.toastr.error(txt, ''); 
-          // }
-          // else{
-
-          //   txt = "Record deleted successfully!"
-          //   this.toastr.success(txt, '');  
-          //   this.router.navigate(['systemsettings']);
-          // } 
+            txt = "Record deleted successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          } 
 
           this.getRecordList(this.pageCount, this.pageSize);
         },

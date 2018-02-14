@@ -118,6 +118,7 @@ export class SystemsettingsComponent implements OnInit {
           if(data.statusCode == "ERROR"){
             this.commonservice.errorResponse(data);
           }
+          
           else{
             txt = "Record added successfully!"
             this.toastr.success(txt, '');  
@@ -154,21 +155,17 @@ export class SystemsettingsComponent implements OnInit {
       this.commonservice.updateRecordSysSettings(body).subscribe(
         data => {
                   
-          console.log(data);
-          let route = this.router.navigate(['systemsettings']);
-          txt = "Record updated successfully!";
-
-          //this.commonservice.errorResponse(data, txt, route);
+          console.log(data);     
     
-          // if(data.statusCode == "ERROR"){
-          //   txt = data.statusDesc;
-          //   this.toastr.error(txt, ''); 
-          // }
-          // else{
-          //   txt = "Record updated successfully!"
-          //   this.toastr.success(txt, '');  
-          //   this.router.navigate(['systemsettings']);
-          // }    
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+
+          else{
+            txt = "Record updated successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }    
         },
         error => {
           
