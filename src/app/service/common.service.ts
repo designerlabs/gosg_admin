@@ -87,6 +87,7 @@ export class CommonService {
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
+
   
   getSlidersData(): Observable<any[]> {
     return this.http.get(this.slidersUrl)
