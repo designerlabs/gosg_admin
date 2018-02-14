@@ -6,6 +6,7 @@ import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ValidateService } from '../common/validate.service';
 
 @Component({
   selector: 'app-agency',
@@ -13,6 +14,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./agency.component.css']
 })
 export class AgencyComponent implements OnInit {
+  patternEmail: string;
+  maskPhoneNo: (string | RegExp)[];
+  maskFaxNo: (string | RegExp)[];
+  
   searchMinistryResult: Object;
   isActiveList: boolean;
   isActive: boolean;
@@ -66,6 +71,7 @@ export class AgencyComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
+    private validateService: ValidateService,
     private toastr: ToastrService
   ) { }
 
@@ -74,6 +80,8 @@ export class AgencyComponent implements OnInit {
     // this.changePageMode(this.isEdit); 
 
     let refCode = this.router.url.split('/')[2];
+    this.maskPhoneNo = this.validateService.getMask().telephone;
+    this.maskFaxNo = this.validateService.getMask().fax;
 
     this.agencyNameEn = new FormControl()
     this.agencyNameBm = new FormControl()
@@ -85,7 +93,7 @@ export class AgencyComponent implements OnInit {
     this.agclong = new FormControl()
     this.phoneno = new FormControl()
     this.faxno = new FormControl()
-    this.email = new FormControl()
+    this.email = new FormControl('', [Validators.pattern(this.validateService.getPattern().email)])
     this.contactperson = new FormControl()
     this.websiteUrl = new FormControl()
     this.rssUrl = new FormControl()
@@ -134,6 +142,8 @@ export class AgencyComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.maskPhoneNo = this.validateService.getMask().telephone;
+    this.maskFaxNo = this.validateService.getMask().fax;
   }
 
   back(){
@@ -188,18 +198,19 @@ export class AgencyComponent implements OnInit {
     
   }
 
-  getSearchData(type,keyword){
+  getSearchData(keyword){
     this.isActive = true;
     this.isActiveList = true;
     // debugger;
-    if(!keyword.value){
-      keyword == '-';
+    if(!keyword){
+      keyword = '-';
     }
 
     if(keyword != "") {
       this.http.get(
-        this.appConfig.urlSearchbyMinistry+keyword.value).subscribe(
+        this.appConfig.urlSearchbyMinistry+keyword.value+'?language=1').subscribe(
         data => {
+          // debugger;
         this.searchMinistryResult = data['ministryList'];
         console.log(this.searchMinistryResult)
       });
@@ -257,25 +268,9 @@ export class AgencyComponent implements OnInit {
     }
   }
 
-  deleteRow(refCode) {
-    let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
-    if (r == true) {
-
-      this.commonservice.delAgency(refCode).subscribe(
-        data => {
-          txt = "ErrorMsg deleted successfully!";
-          // this.router.navigate(['ErrorMsg']);
-        },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.agencyForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      alert(txt)
-    }
+  validateCtrlChk(ctrl: FormControl) {
+      // return ctrl.valid || ctrl.untouched
+      return this.validateService.validateCtrl(ctrl);
   }
   
   updateAction(formValues: any) {

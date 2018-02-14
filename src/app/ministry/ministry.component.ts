@@ -6,6 +6,8 @@ import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { ValidateService } from '../common/validate.service';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @Component({
   selector: 'app-ministry',
@@ -13,6 +15,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./ministry.component.css']
 })
 export class MinistryComponent implements OnInit {
+  patternEmail: string;
+  maskPhoneNo: (string | RegExp)[];
+  maskFaxNo: (string | RegExp)[];
   
   MinistryData: Object;
   dataUrl: any;
@@ -55,6 +60,8 @@ export class MinistryComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
+    private validateService: ValidateService,
+    textMask:TextMaskModule,
     private toastr: ToastrService
   ) { }
 
@@ -63,6 +70,8 @@ export class MinistryComponent implements OnInit {
     // this.changePageMode(this.isEdit); 
 
     let refCode = this.router.url.split('/')[2];
+    this.maskPhoneNo = this.validateService.getMask().telephone;
+    this.maskFaxNo = this.validateService.getMask().fax;
 
     this.ministryNameEn = new FormControl()
     this.ministryNameBm = new FormControl()
@@ -74,7 +83,7 @@ export class MinistryComponent implements OnInit {
     this.agclong = new FormControl()
     this.phoneno = new FormControl()
     this.faxno = new FormControl()
-    this.email = new FormControl()
+    this.email = new FormControl('', [Validators.pattern(this.validateService.getPattern().email)])
     this.contactperson = new FormControl()
     this.websiteUrl = new FormControl()
     this.rssUrl = new FormControl()
@@ -121,6 +130,8 @@ export class MinistryComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.maskPhoneNo = this.validateService.getMask().telephone;
+    this.maskFaxNo = this.validateService.getMask().fax;
   }
 
   back(){
@@ -220,25 +231,9 @@ export class MinistryComponent implements OnInit {
     }
   }
 
-  deleteRow(refCode) {
-    let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
-    if (r == true) {
-
-      this.commonservice.delAgency(refCode).subscribe(
-        data => {
-          txt = "ErrorMsg deleted successfully!";
-          // this.router.navigate(['ErrorMsg']);
-        },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.ministryForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      alert(txt)
-    }
+  validateCtrlChk(ctrl: FormControl) {
+      // return ctrl.valid || ctrl.untouched
+      return this.validateService.validateCtrl(ctrl);
   }
   
   updateAction(formValues: any) {
@@ -341,14 +336,14 @@ export class MinistryComponent implements OnInit {
     console.log(body)
 
     // Add ErrorMsg Service
-    // this.commonservice.addMinistry(body).subscribe(
-    //   data => {
-    //     this.toastr.success('Ministry added successfully!', ''); 
-    //     this.router.navigate(['ministry']);
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //   });
+    this.commonservice.addMinistry(body).subscribe(
+      data => {
+        this.toastr.success('Ministry added successfully!', ''); 
+        this.router.navigate(['ministry']);
+      },
+      error => {
+        console.log("No Data")
+      });
 
     } else {
       

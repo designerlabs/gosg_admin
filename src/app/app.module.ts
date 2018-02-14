@@ -68,8 +68,8 @@ import { SubcategoryComponent } from './categories/subcategory/subcategory.compo
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
-import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
+import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
+import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
@@ -88,6 +88,8 @@ import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
 import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
 import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
+import { TextMaskModule } from 'angular2-text-mask';
+import { ValidateService } from './common/validate.service';
 
 @NgModule({
   declarations: [
@@ -144,8 +146,8 @@ import { FootercategorytblComponent } from './footer/footercategory/footercatego
     SubcategorytblComponent,
     CategoryComponent,
     UserpermissionComponent,
-    AgencyapptypeComponent,
-    AgencyapptypetblComponent,
+    AgencyappComponent,
+    AgencyapptblComponent,
     GenderComponent,
     CitizentypeComponent,
     CitizentypetblComponent,
@@ -176,13 +178,14 @@ import { FootercategorytblComponent } from './footer/footercategory/footercatego
     AppConfigModule,
     SharedModule,
     FormsModule,
+    TextMaskModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     NgxEditorModule
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

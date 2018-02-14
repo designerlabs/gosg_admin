@@ -445,7 +445,7 @@ delMediaType(mediaTypeId) {
   // AGENCY END
 
   // AGENCY APP TYPE
-  getAgencyAppType(code) {
+  getAgencyApp(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
     return this.http.get(this.appConfig.urlAgencyApp + '/' + code).subscribe(
       Rdata => {
@@ -454,19 +454,19 @@ delMediaType(mediaTypeId) {
     });
   }
 
-  addAgencyAppType(Agency) {
+  addAgencyApp(Agency) {
     return this.http.post(this.appConfig.urlAgencyApp, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  updateAgencyAppType(Agency) {
+  updateAgencyApp(Agency) {
     return this.http.put(this.appConfig.urlAgencyApp, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delAgencyAppType(refCode) {
+  delAgencyApp(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
