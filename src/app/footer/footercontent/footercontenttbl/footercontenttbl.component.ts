@@ -1,3 +1,21 @@
+// import { Component, OnInit } from '@angular/core';
+
+// @Component({
+//   selector: 'app-footercontenttbl',
+//   templateUrl: './footercontenttbl.component.html',
+//   styleUrls: ['./footercontenttbl.component.css']
+// })
+// export class FootercontenttblComponent implements OnInit {
+
+//   constructor() { }
+
+//   ngOnInit() {
+//   }
+
+// }
+
+
+
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -9,15 +27,19 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-feedbackvisitortbl',
-  templateUrl: './feedbackvisitortbl.component.html',
-  styleUrls: ['./feedbackvisitortbl.component.css'],
+  selector: 'app-footercontenttbl',
+  templateUrl: './footercontenttbl.component.html',
+  styleUrls: ['./footercontenttbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class FeedbackvisitortblComponent implements OnInit {
+
+export class FootercontenttblComponent implements OnInit {
+
+  updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['num','type', 'name','email', 'status', 'action'];
+  // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
+  displayedColumns = ['no', 'catEng', 'nameEng', 'nameMy', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -29,33 +51,36 @@ export class FeedbackvisitortblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+
+  public getIdentificationTypeIdEng: any;
+  public getIdentificationTypeIdMy: any;
+  public getIdentificationTypeMy: any;
+  public getIdentificationTypeEng: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  selection = new SelectionModel<Element>(true, []);
 
-  applyFilter(val) {
-    console.log(val)
-    if(val){
-      this.getFilterList(this.pageCount, this.pageSize, val);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize);
-    }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
+  
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
-
   ngOnInit() {
-
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -63,31 +88,14 @@ export class FeedbackvisitortblComponent implements OnInit {
 
       console.log("data");
       console.log(data);
-      
-      this.dataSource.data = this.recordList.feedbackList;
+
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-    });
-  }
-
-  getFilterList(count, size, val) {
-  
-    this.dataUrl = this.appConfig.urlFeedback + '/search/'+ val +'?page=' + count + '&size=' + size + "&language=1";
-
-    this.http.get(this.dataUrl)
-    .subscribe(data => {
-      this.recordList = data;
-
-      console.log("data");
-      console.log(data);
       
-      this.dataSource.data = this.recordList.feedbackList;
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
+      this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
     });
   }
 
@@ -105,40 +113,43 @@ export class FeedbackvisitortblComponent implements OnInit {
     this.getRecordList(page + 1, this.pageSize);
   }
 
-  // add() {
-  //   this.router.navigate(['feedback/message/visitor/add']);
-  //   this.commonservice.pageModeChange(false);
-  // }
+  add() {
+
+    this.router.navigate(['footer/footercontent/add']);
+    this.commonservice.pageModeChange(false);
+  }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['feedback/message/visitor/', row]);
+    this.router.navigate(['footer/footercontent', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  // deleteRow(refcode) {
-  //   let txt;
-  //   let r = confirm("Are you sure to delete?");
-  //   if (r == true) {
+  
+  deleteRow(refCode) {
+    let txt;
+    let r = confirm("Are you sure to delete ?");
 
-  //     console.log(refcode);
-  //     this.commonservice.delRecordAccStatus(refcode).subscribe(
-  //       data => {
-          
-  //         txt = "Record deleted successfully!";
+    
+    if (r == true) {
+      console.log(refCode);
+      this.commonservice.delFooterCategory(refCode).subscribe(
+        data => {
+          // alert('Record deleted successfully!')
+          txt = " record deleted successfully!";
 
-  //         this.toastr.success(txt, '');  
-  //         this.getRecordList(this.pageCount, this.pageSize);
-  //       },
-  //       error => {
-  //         console.log("No Data")
-  //     });
-  //   }
-
-  //   else{
-  //     txt = "Delete Cancelled!";
-  //   }
-  // }
+          this.toastr.success(txt, '');   
+          this.router.navigate(['footer/footercontent']);
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          txt = "Delete Cancelled!";
+      });
+    }
+    else{
+      txt = "Delete Cancelled!";
+    }
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -152,3 +163,4 @@ export class FeedbackvisitortblComponent implements OnInit {
   }
 
 }
+

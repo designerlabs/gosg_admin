@@ -92,6 +92,8 @@ import { FootercategoryComponent } from './footer/footercategory/footercategory.
 import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ValidateService } from './common/validate.service';
+import { FootercontentComponent } from './footer/footercontent/footercontent.component';
+import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 
 import { HttpClient } from '@angular/common/http/src/client';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -172,6 +174,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MinistrytblComponent,
     FootercategoryComponent,
     FootercategorytblComponent,
+    FootercontentComponent,
+    FootercontenttblComponent,
   ],
   imports: [
     BrowserModule,

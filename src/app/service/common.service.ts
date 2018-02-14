@@ -87,6 +87,7 @@ export class CommonService {
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
+
   
   getSlidersData(): Observable<any[]> {
     return this.http.get(this.slidersUrl)
@@ -695,6 +696,42 @@ delMediaType(mediaTypeId) {
     return this.http.delete(fullUrl + '/' + refCode)
     .map((response: Response) => response.json())
     .catch(this.handleError);
+  }
+
+  addFooterCategory(record) {
+    let fullUrl = this.appConfig.urlFooterCategory + "?language=1" ;
+    // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFooterCategory(record) {
+    let fullUrl = this.appConfig.urlFooterCategory  + "?language=1" ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delFooterCategory(refCode) {
+    let fullUrl = this.appConfig.urlFooterCategory ;
+    
+    return this.http.delete(fullUrl + '/' + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getFooterCategoryList(): Observable<any[]> {
+    //  console.log(this.countryUrl);
+    return this.http.get(this.stateUrl)
+      .map((response: Response) => response.json().stateList)
+      .retry(5)
+      .catch(this.handleError);
+
   }
 
   // Start Address Type - N

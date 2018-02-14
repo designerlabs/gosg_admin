@@ -72,6 +72,9 @@ import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
 import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
 import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
 
+import { FootercontentComponent } from './footer/footercontent/footercontent.component';
+import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
+
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -139,6 +142,10 @@ export const appRoutes: Routes = [
 {path: 'footer/footercategory', component: FootercategorytblComponent},
 {path: 'footer/footercategory/:id', component: FootercategoryComponent},
 {path: 'footer/footercategory/add', component: FootercategoryComponent},
+
+{path: 'footer/footercontent', component: FootercontenttblComponent},
+{path: 'footer/footercontent/:id', component: FootercontentComponent},
+{path: 'footer/footercontent/add', component: FootercontentComponent},
 
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},

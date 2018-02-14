@@ -21,7 +21,7 @@
             </td>
             <td style="width:25%; padding-left:10px;" *ngIf="showEmail">
               <mat-form-field class="example-full-width">
-                <input (keyup)="getSearchData('email_like', emailFld)" matInput placeholder="Email" #emailFld formControlName="emailFld" required>
+                <input (keyup)="getSearchData('findByEmail','email', emailFld)" matInput placeholder="Email" #emailFld formControlName="emailFld" required>
                 <mat-error *ngIf="addUserForm.controls.emailFld.hasError('required')">
                   Email is required
                 </mat-error>
@@ -29,7 +29,7 @@
               </td>
               <td style="width:25%; padding-left:10px;" *ngIf="showIC">
               <mat-form-field class="example-full-width">
-                <input (keyup)="getSearchData('icno_like', icFld)" matInput placeholder="IC No." #icFld formControlName="icFld" required>
+                <input (keyup)="getSearchData('findByIcNo','icno', icFld)" matInput placeholder="IC No." #icFld formControlName="icFld" required>
                 <mat-error *ngIf="addUserForm.controls.icFld.hasError('required')">
                   IC No. is required
                 </mat-error>
@@ -43,13 +43,41 @@
         </table>
 
         <div *ngIf="isActiveList" style="position:absolute; left:40%; top:100%;">
-          <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
+
+          <table class="table user_list_container">
+            <tr *ngFor="let data of searchUserResult">
+              <tbody *ngIf="userType.value == 1" >
+                <td>
+                    {{data?.fullName}}
+                </td>
+                <td>
+                    {{data?.email}}
+                </td>
+                <td>
+                    <button (click)="getValue('email', data?.email)">Select</button>
+                </td>
+              </tbody>
+
+              <tbody *ngIf="userType.value == 2" >
+                <td>
+                    {{data?.fullName}}
+                </td>
+                <td>
+                    {{data?.identificationNo}}
+                </td>
+                <td>
+                    <button (click)="getValue('identificationNo', data?.identificationNo)">Select</button>
+                </td>
+              </tbody>
+            </tr>
+          </table>
+          <!-- <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
             <li *ngFor="let data of searchUserResult">
-              <button *ngIf="userType.value == 1" (click)="getValue('email', data?.email)">{{data?.email}}</button>
-              <button *ngIf="userType.value == 2"  (click)="getValue('icno', data?.icno)">{{data?.icno}}</button>
+              <button *ngIf="userType.value == 1" (click)="getValue('email', data?.email)">{{data?.email}} {{data?.identificationNo}} {{data?.fullName}}</button>
+              <button *ngIf="userType.value == 2"  (click)="getValue('identificationNo', data?.identificationNo)">{{data?.identificationNo}}</button>
               
             </li>
-          </ul>
+          </ul> -->
         </div>
       </form>
   </div>

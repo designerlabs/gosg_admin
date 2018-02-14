@@ -117,6 +117,8 @@ export class FaqComponent implements OnInit {
       this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
       this.getFaqIdMy = this.recordList.faqList[1].faqId;
 
+      this.checkReqValues();
+
     });
   }
 
