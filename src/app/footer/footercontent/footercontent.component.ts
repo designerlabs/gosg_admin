@@ -61,14 +61,11 @@ export class FootercontentComponent implements OnInit {
 
   // public getIdentificationType: any;
 
-  public getFaqIdEng: any;
-  public getFaqCodeEng: any;
+  public getIdEng: any;
 
-  public getFaqIdMy: any;
-  public getFaqCodeMy: any;
+  public getIdMy: any;
 
   public getRefCode: any;
-
   public getCat: any;
 
 
@@ -107,14 +104,14 @@ export class FootercontentComponent implements OnInit {
       descEng: this.descEng,
       iconEng: this.iconEng,
       imgEng: this.imgEng,
-      urlEng: this.iconEng,
+      urlEng: this.urlEng,
       seqEng: this.imgEng,
 
       nameMy: this.nameMy,
       descMy: this.descMy,
       iconMy: this.iconMy,
       imgMy: this.imgMy,
-      urlMy: this.iconMy,
+      urlMy: this.urlMy,
       seqMy: this.imgMy,
 
       active: this.active,
@@ -139,7 +136,7 @@ export class FootercontentComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlFooterCategory + '/code/' +  _getRefID;
+    this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -147,33 +144,32 @@ export class FootercontentComponent implements OnInit {
 
       console.log(data);
 
-      this.updateForm.get('catEng').setValue(this.recordList.faqList[0].facQuestion);
+      this.updateForm.get('catEng').setValue(this.recordList.list[0].footer.name);
 
-      this.updateForm.get('nameEng').setValue(this.recordList.faqList[0].facQuestion);
-      this.updateForm.get('descEng').setValue(this.recordList.faqList[0].facAnswer);
-      this.updateForm.get('iconEng').setValue(this.recordList.faqList[0].facAnswer);
-      this.updateForm.get('imgEng').setValue(this.recordList.faqList[0].facAnswer);
-      this.updateForm.get('urlEng').setValue(this.recordList.faqList[0].facAnswer);
-      this.updateForm.get('seqEng').setValue(this.recordList.faqList[0].facAnswer);
+      this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
+      this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
+      this.updateForm.get('iconEng').setValue(this.recordList.list[0].icon);
+      this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
+      this.updateForm.get('urlEng').setValue(this.recordList.list[0].url);
+      this.updateForm.get('seqEng').setValue(this.recordList.list[0].sortingOrder);
 
-      this.updateForm.get('active').setValue(this.recordList.faqList[0].faqActiveFlag);
-      this.updateForm.get('copyImg').setValue(this.recordList.faqList[0].faqActiveFlag);
-      this.updateForm.get('isSameImg').setValue(this.recordList.faqList[0].faqActiveFlag);
+      this.updateForm.get('active').setValue(this.recordList.list[0].enabled);
+      // this.updateForm.get('copyImg').setValue(this.recordList.list[0].faqActiveFlag);
+      // this.updateForm.get('isSameImg').setValue(this.recordList.list[0].faqActiveFlag);
 
-      this.updateForm.get('nameMy').setValue(this.recordList.faqList[1].facQuestion);
-      this.updateForm.get('descMy').setValue(this.recordList.faqList[1].facAnswer);
-      this.updateForm.get('iconMy').setValue(this.recordList.faqList[1].facAnswer);
-      this.updateForm.get('imgMy').setValue(this.recordList.faqList[1].facAnswer);
-      this.updateForm.get('urlMy').setValue(this.recordList.faqList[1].facAnswer);
-      this.updateForm.get('seqMy').setValue(this.recordList.faqList[1].facAnswer);
+      this.updateForm.get('nameMy').setValue(this.recordList.list[1].name);
+      this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
+      this.updateForm.get('iconMy').setValue(this.recordList.list[1].icon);
+      this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
+      this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
+      this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
       
-      this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
-      this.getFaqIdEng = this.recordList.faqList[0].faqId;
-      
-      this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
-      this.getFaqIdMy = this.recordList.faqList[1].faqId;
+      this.getIdEng = this.recordList.list[0].id;
+      this.getIdMy = this.recordList.list[1].id;
 
       this.getRefCode = this. recordList.refCode;
+
+      this.checkReqValues();
 
     });
   }

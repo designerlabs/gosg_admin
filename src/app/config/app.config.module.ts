@@ -79,6 +79,8 @@ export class AppConfig {
     urlAdminUserPermission:string;
 
     urlFooterCategory: string;
+    urlFooterContent: string;
+    lang: string;
     urlAdminUserFind: string;
 }
 
@@ -128,6 +130,7 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlFaqList: commonURL + 'faq',
     urlFooterCategory: commonURL + 'footer',
+    urlFooterContent: commonURL + 'footercontent',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
@@ -144,7 +147,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',
-    urlSystemSettings: commonURL + 'systemsettings'
+    urlSystemSettings: commonURL + 'systemsettings',
+    lang: 'language='+localStorage.getItem('langID')
 };
 
 @NgModule({

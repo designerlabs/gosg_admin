@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-agencyapptypetbl',
-  templateUrl: './agencyapptypetbl.component.html',
-  styleUrls: ['./agencyapptypetbl.component.css']
+  selector: 'app-agencyapptbl',
+  templateUrl: './agencyapptbl.component.html',
+  styleUrls: ['./agencyapptbl.component.css']
 })
-export class AgencyapptypetblComponent implements OnInit {
+export class AgencyapptblComponent implements OnInit {
 
   agencyAppData: Object;
   agencyAppList = null;
@@ -59,7 +59,7 @@ export class AgencyapptypetblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get agencyapptype Data 
+  // get agencyapp Data 
   getAgencyAppData(count, size) {
     this.dataUrl = this.appConfig.urlAgencyApp;
     console.log(this.dataUrl + '/code/?page=' + count + '&size=' + size)
@@ -100,13 +100,13 @@ export class AgencyapptypetblComponent implements OnInit {
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.router.navigate(['agencyapptype', "add"]);
+    this.router.navigate(['agencyapp', "add"]);
   }
   
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['agencyapptype', row]);
+    this.router.navigate(['agencyapp', row]);
   }
 
   deleteRow(refCode) {
@@ -114,10 +114,10 @@ export class AgencyapptypetblComponent implements OnInit {
     let r = confirm("Are you sure to delete " + refCode + "?");
     if (r == true) {
 
-      this.commonservice.delAgencyAppType(refCode).subscribe(
+      this.commonservice.delAgencyApp(refCode).subscribe(
         data => {
-          txt = "agencyapptype deleted successfully!";
-          // this.router.navigate(['agencyapptype']);
+          txt = "agencyapp deleted successfully!";
+          // this.router.navigate(['agencyapp']);
           this.toastr.success(txt, '');   
           this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
         },
@@ -125,7 +125,7 @@ export class AgencyapptypetblComponent implements OnInit {
           console.log("No Data")
         });
 
-      // this.agencyapptypeForm.reset();
+      // this.agencyappForm.reset();
     } else {
       txt = "Delete Cancelled!";
       // alert(txt)
@@ -142,11 +142,11 @@ export class AgencyapptypetblComponent implements OnInit {
 
   navigateBack() {
     this.isEdit = false;
-    this.router.navigate(['agencyapptype']);
+    this.router.navigate(['agencyapp']);
   }
 
   back(){
-    this.router.navigate(['agencyapptype']);
+    this.router.navigate(['agencyapp']);
   }
 
 }

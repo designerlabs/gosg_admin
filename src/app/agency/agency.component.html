@@ -56,13 +56,13 @@
           </div>
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministry" #ministryId (keyup)="getSearchData('email_like', ministryId)" (change)="checkReqValues()" required>
+                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministry" #ministryId (keyup)="getSearchData(ministryId)" (change)="checkReqValues()" required>
                 <mat-error *ngIf="agencyForm.controls.ministry.hasError('required')">
-                  Agency Name is required
+                  Ministry is required
                 </mat-error>
               </mat-form-field>
 
-              <div *ngIf="isActiveList" style="position:absolute; left: 60%; top:70%;">
+              <div *ngIf="isActiveList" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
                 <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
                   <li *ngFor="let data of searchMinistryResult">
                     <button (click)="getValue(data?.ministryId,data?.ministryName)">{{data?.ministryName}}</button>
@@ -123,11 +123,14 @@
                 <mat-error *ngIf="agencyForm.controls.email.hasError('required')">
                   Email is required
                 </mat-error>
+                <mat-error *ngIf="!validateCtrlChk(email) &&  agencyForm.controls.email.errors.pattern">
+                  Email Pattern not valid
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="11" placeholder="Phone Number" formControlName="phoneno" (change)="checkReqValues()" required>
+                <input matInput tabindex="11" placeholder="Phone Number" formControlName="phoneno" #phoneno [textMask]="{mask: maskPhoneNo}" (change)="checkReqValues()" required>
                 <mat-error *ngIf="agencyForm.controls.phoneno.hasError('required')">
                   Phone Number is required
                 </mat-error>
@@ -135,7 +138,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="12" placeholder="Fax Number" formControlName="faxno" (change)="checkReqValues()">
+                <input matInput tabindex="12" placeholder="Fax Number" formControlName="faxno" #faxno [textMask]="{mask: maskFaxNo}" (change)="checkReqValues()">
                 <mat-error *ngIf="agencyForm.controls.faxno.hasError('required')">
                   Fax Number is required
                 </mat-error>
