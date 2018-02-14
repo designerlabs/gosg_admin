@@ -1,4 +1,9 @@
 <!-- <p>
+  footercontenttbl works!
+</p> -->
+
+
+<!-- <p>
   footercategorytbl works!
 </p> -->
 
@@ -7,7 +12,7 @@
     
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>Footer Category</h3>
+          <h3>Footer Content</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -22,36 +27,43 @@
       
       <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
 
-          <ng-container matColumnDef="no">
-              <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
-              <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
-                  {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-              </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="no">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
+                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                </mat-cell>
+            </ng-container>
 
-          <ng-container matColumnDef="catEng">
-                  <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Footer Category (English) </mat-header-cell>
-                  <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
-                      {{element.list[0].name}}
-                  </mat-cell>
-              </ng-container>
+            <ng-container matColumnDef="catEng">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Footer Category (English) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
+                    {{element.list[0].name}}
+                </mat-cell>
+            </ng-container>
 
-          <ng-container matColumnDef="catMy">
-              <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Footer Category (Malay) </mat-header-cell>
-              <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
-                  {{element.list[1].name}}
-              </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="nameEng">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> Name (English) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element">
+                    {{element.list[1].name}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nameMy">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> Name (Malay) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element">
+                    {{element.list[1].name}}
+                </mat-cell>
+            </ng-container>
 
           
           <!-- status Column -->
-          <ng-container matColumnDef="status">
+          <!-- <ng-container matColumnDef="status">
               <mat-header-cell class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
               <mat-cell class="statusColumn" *matCellDef="let element">
                   <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
                   <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
               </mat-cell>
-          </ng-container>
+          </ng-container> -->
 
           <!-- action Column -->
           <ng-container matColumnDef="action">

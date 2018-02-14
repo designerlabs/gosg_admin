@@ -50,11 +50,12 @@ export class FootercategoryComponent implements OnInit {
 
   // public getIdentificationType: any;
 
-  public getFaqIdEng: any;
-  public getFaqCodeEng: any;
+  public getFooterIdEng: any;
+  public getFooterIdMy: any;
 
-  public getFaqIdMy: any;
-  public getFaqCodeMy: any;
+  public getRefCode: any;
+
+
 
   complete: boolean;
 
@@ -100,7 +101,7 @@ export class FootercategoryComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlFaqList + '/code/' +  _getRefID;
+    this.dataUrl = this.appConfig.urlFooterCategory + "/" + _getRefID;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -108,18 +109,24 @@ export class FootercategoryComponent implements OnInit {
 
       console.log(data);
 
-      this.updateForm.get('catEng').setValue(this.recordList.faqList[0].facQuestion);
-      this.updateForm.get('descEng').setValue(this.recordList.faqList[0].facAnswer);
-      this.updateForm.get('active').setValue(this.recordList.faqList[0].faqActiveFlag);
+      this.updateForm.get('catEng').setValue(this.recordList.list[0].name);
+      this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
+      this.updateForm.get('active').setValue(this.recordList.active);
 
-      this.updateForm.get('catMy').setValue(this.recordList.faqList[1].facQuestion);
-      this.updateForm.get('descMy').setValue(this.recordList.faqList[1].facAnswer);
+      this.updateForm.get('catMy').setValue(this.recordList.list[1].name);
+      this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
+
+      this.getRefCode = this.recordList.refCode;
+      this.getFooterIdEng = this.recordList.list[0].id;
+      this.getFooterIdMy = this.recordList.list[1].id;
       
-      this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
-      this.getFaqIdEng = this.recordList.faqList[0].faqId;
+      // this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
+      // this.getFaqIdEng = this.recordList.faqList[0].faqId;
       
-      this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
-      this.getFaqIdMy = this.recordList.faqList[1].faqId;
+      // this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
+      // this.getFaqIdMy = this.recordList.faqList[1].faqId;
+
+      
 
     });
   }
@@ -131,6 +138,7 @@ export class FootercategoryComponent implements OnInit {
   submit(formValues: any) {
     
     let flag = false;
+    let txt = "";
 
     if(formValues.active == null){
       flag = false;
@@ -147,51 +155,56 @@ export class FootercategoryComponent implements OnInit {
 
       let body = [
         {
-          "title": null,
+          "name": null,
           "description": null,
-          "active": false,
+          "enabled": false,
           "language": {
               "languageId": null
           }
         },
         {
-          "title": null,
+          "name": null,
           "description": null,
-          "active": false,
-          "facCode": null,
+          "enabled": false,
           "language": {
               "languageId": null
           }
         }
       ]   
  
-      body[0].title = formValues.catEng;
+      body[0].name = formValues.catEng;
       body[0].description = formValues.descEng;
-      body[0].active = formValues.active;
+      body[0].enabled = formValues.active;
       body[0].language.languageId = 1;
 
-      body[1].title = formValues.catMy;
+      body[1].name = formValues.catMy;
       body[1].description = formValues.descMy;
-      body[1].active = formValues.active;
+      body[1].enabled = formValues.active;
       body[1].language.languageId = 2;
 
       console.log(body);
 
-      this.commonservice.addFaq(body).subscribe(
+      this.commonservice.addFooterCategory(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           console.log(body)
           // alert('Record added successfully!')
 
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-
-          this.router.navigate(['footer/footercategory']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['footer/footercategory']);
+          }               
         },
         error => {
-          console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 
@@ -200,51 +213,64 @@ export class FootercategoryComponent implements OnInit {
 
       let body = [
         {
-          "title": null,
+          "id": null,
+          "name": null,
           "description": null,
-          "active": false,
+          "enabled": false,
+          "footerCode": null,
           "language": {
               "languageId": null
           }
         },
         {
-          "title": null,
+          "id": null,
+          "name": null,
           "description": null,
-          "active": false,
-          "facCode": null,
+          "enabled": false,
+          "footerCode": null,
           "language": {
               "languageId": null
           }
         }
       ]   
  
-      body[0].title = formValues.catEng;
+      body[0].id = this.getFooterIdEng;
+      body[0].name = formValues.catEng;
       body[0].description = formValues.descEng;
-      body[0].active = formValues.active;
+      body[0].enabled = formValues.active;
+      body[0].footerCode = this.getRefCode;
       body[0].language.languageId = 1;
 
-      body[1].title = formValues.catMy;
+      body[1].id = this.getFooterIdMy;
+      body[1].name = formValues.catMy;
       body[1].description = formValues.descMy;
-      body[1].active = formValues.active;
+      body[1].enabled = formValues.active;
+      body[1].footerCode = this.getRefCode;
       body[1].language.languageId = 2;
 
       console.log(body);
 
-      this.commonservice.updateFaq(body).subscribe(
+      this.commonservice.updateFooterCategory(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           console.log(body)
           // alert('Record updated successfully!')
 
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, ''); 
-
-          this.router.navigate(['footer/footercategory']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record updated successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['footer/footercategory']);
+          }               
         },
         error => {
-          console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
   }

@@ -90,6 +90,9 @@ import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
 import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
 import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
+import { FootercontentComponent } from './footer/footercontent/footercontent.component';
+import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
+
 import { HttpClient } from '@angular/common/http/src/client';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -169,6 +172,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MinistrytblComponent,
     FootercategoryComponent,
     FootercategorytblComponent,
+    FootercontentComponent,
+    FootercontenttblComponent,
   ],
   imports: [
     BrowserModule,

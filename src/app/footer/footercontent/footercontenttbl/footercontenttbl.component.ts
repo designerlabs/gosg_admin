@@ -1,11 +1,11 @@
 // import { Component, OnInit } from '@angular/core';
 
 // @Component({
-//   selector: 'app-footercategorytbl',
-//   templateUrl: './footercategorytbl.component.html',
-//   styleUrls: ['./footercategorytbl.component.css']
+//   selector: 'app-footercontenttbl',
+//   templateUrl: './footercontenttbl.component.html',
+//   styleUrls: ['./footercontenttbl.component.css']
 // })
-// export class FootercategorytblComponent implements OnInit {
+// export class FootercontenttblComponent implements OnInit {
 
 //   constructor() { }
 
@@ -13,6 +13,7 @@
 //   }
 
 // }
+
 
 
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
@@ -26,19 +27,19 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-footercategorytbl',
-  templateUrl: './footercategorytbl.component.html',
-  styleUrls: ['./footercategorytbl.component.css'],
+  selector: 'app-footercontenttbl',
+  templateUrl: './footercontenttbl.component.html',
+  styleUrls: ['./footercontenttbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class FootercategorytblComponent implements OnInit {
+export class FootercontenttblComponent implements OnInit {
 
   updateForm: FormGroup
 
   recordList = null;
   // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
-  displayedColumns = ['no', 'catEng', 'catMy', 'status', 'action'];
+  displayedColumns = ['no', 'catEng', 'nameEng', 'nameMy', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -114,13 +115,13 @@ export class FootercategorytblComponent implements OnInit {
 
   add() {
 
-    this.router.navigate(['footer/footercategory/add']);
+    this.router.navigate(['footer/footercontent/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['footer/footercategory', row]);
+    this.router.navigate(['footer/footercontent', row]);
     this.commonservice.pageModeChange(true);
   }
 
@@ -138,7 +139,7 @@ export class FootercategorytblComponent implements OnInit {
           txt = " record deleted successfully!";
 
           this.toastr.success(txt, '');   
-          this.router.navigate(['footer/footercategory']);
+          this.router.navigate(['footer/footercontent']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
