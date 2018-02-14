@@ -88,6 +88,7 @@ export class SystemsettingsComponent implements OnInit {
 
   submit(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
+    let txt = "";
 
     // add form
     if(this.urlEdit === 'add'){
@@ -110,22 +111,30 @@ export class SystemsettingsComponent implements OnInit {
 
       this.commonservice.addRecordSysSettings(body).subscribe(
         data => {
+
           console.log(JSON.stringify(body))
           console.log(data);
 
-          let txt = "";
-          if(data.statusCode == "ERROR"){
-            txt = data.statusDesc;
-            this.toastr.error(txt, ''); 
-          }
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
-            this.router.navigate(['systemsettings']);
-          }               
+          let route = this.router.navigate(['systemsettings']);
+          txt = "Record added successfully!";
+          
+          this.commonservice.errorResponse(data, txt, route);
+          
+          // if(data.statusCode == "ERROR"){
+          //   txt = data.statusDesc;
+          //   this.toastr.error(txt, ''); 
+          // }
+          // else{
+          //   txt = "Record added successfully!"
+          //   this.toastr.success(txt, '');  
+          //   this.router.navigate(['systemsettings']);
+          // }               
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 
@@ -152,19 +161,26 @@ export class SystemsettingsComponent implements OnInit {
         data => {
                   
           console.log(data);
-          let txt = "";
-          if(data.statusCode == "ERROR"){
-            txt = data.statusDesc;
-            this.toastr.error(txt, ''); 
-          }
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
-            this.router.navigate(['systemsettings']);
-          }    
+          let route = this.router.navigate(['systemsettings']);
+          txt = "Record updated successfully!";
+
+          this.commonservice.errorResponse(data, txt, route);
+    
+          // if(data.statusCode == "ERROR"){
+          //   txt = data.statusDesc;
+          //   this.toastr.error(txt, ''); 
+          // }
+          // else{
+          //   txt = "Record updated successfully!"
+          //   this.toastr.success(txt, '');  
+          //   this.router.navigate(['systemsettings']);
+          // }    
         },
         error => {
-          console.log("No Data")
+          
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
     
