@@ -18,19 +18,14 @@
         <div class="example-container mat-elevation-z8 paddingBottom-10">
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-6 staticLabel font-size-s boldText">English</label>
-                    <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                    <label class="col-md-6">English</label>
+                    <label class="col-md-6">Bahasa Malaysia</label>
                 </div>
             </div><br>
 
             <div class="example-header">
-                <div class="col-md-6 text-align-Center font-size-m"> Address Type </div>
-                <div class="col-md-6 text-align-Center font-size-m"> Address Type </div>
-            </div>
-
-            <div class="example-header">
                 <div class="col-md-6">
-                    <mat-form-field class="example-full-width font-size-s" >
+                    <mat-form-field class="example-full-width" >
                         <input matInput placeholder="Address Type" formControlName="addTypeEn" (keyup)="checkReqValues()"
                         required tabindex="1">
                         <mat-error *ngIf="updateForm.controls.addTypeEn.hasError('required')">
@@ -39,11 +34,11 @@
                     </mat-form-field>
                 </div>
                 <div class="col-md-6">
-                    <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Address Type" formControlName="addTypeBm" (keyup)="checkReqValues()"
+                    <mat-form-field class="example-full-width" >
+                        <input matInput placeholder="Jenis Alamat" formControlName="addTypeBm" (keyup)="checkReqValues()"
                         required tabindex="2">
                         <mat-error *ngIf="updateForm.controls.addTypeBm.hasError('required')">
-                            Address Type is required
+                            Jenis Alamat diperlukan
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -51,18 +46,18 @@
 
             <div class="example-header">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="3">Active</mat-checkbox>
+                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="3">Active</mat-checkbox>
                 </div>
             </div>
         
         </div>
     
         <div class="form-group paddingTop-20">
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
             (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
-            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i> Reset</button>
         </div>      

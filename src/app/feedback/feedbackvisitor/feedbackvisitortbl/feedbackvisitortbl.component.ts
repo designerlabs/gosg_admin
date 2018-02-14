@@ -35,10 +35,14 @@ export class FeedbackvisitortblComponent implements OnInit {
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(val) {
+    console.log(val)
+    if(val){
+      this.getFilterList(this.pageCount, this.pageSize, val);
+    }
+    else{
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
   }
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -52,6 +56,25 @@ export class FeedbackvisitortblComponent implements OnInit {
   getRecordList(count, size) {
   
     this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size;
+
+    this.http.get(this.dataUrl)
+    .subscribe(data => {
+      this.recordList = data;
+
+      console.log("data");
+      console.log(data);
+      
+      this.dataSource.data = this.recordList.feedbackList;
+      this.seqPageNum = this.recordList.pageNumber;
+      this.seqPageSize = this.recordList.pageSize;
+      this.commonservice.recordTable = this.recordList;
+      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+    });
+  }
+
+  getFilterList(count, size, val) {
+  
+    this.dataUrl = this.appConfig.urlFeedback + '/search/'+ val +'?page=' + count + '&size=' + size + "&language=1";
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
