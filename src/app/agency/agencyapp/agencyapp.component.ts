@@ -119,7 +119,7 @@ export class AgencyappComponent implements OnInit {
       // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
         Rdata => {
   
-          this.AgencyData = Rdata['list'];
+          this.AgencyData = Rdata['agencyList'];
           // console.log(JSON.stringify(this.AgencyAppData))
           console.log(this.AgencyData)
           console.log(this.AgencyData[0].list[0].agencyName)

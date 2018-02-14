@@ -208,7 +208,7 @@ export class AgencyComponent implements OnInit {
 
     if(keyword != "") {
       this.http.get(
-        this.appConfig.urlSearchbyMinistry+keyword.value+'?language=1').subscribe(
+        this.appConfig.urlSearchbyMinistry+keyword.value+'?language='+localStorage.getItem('langID')).subscribe(
         data => {
           // debugger;
         this.searchMinistryResult = data['ministryList'];
