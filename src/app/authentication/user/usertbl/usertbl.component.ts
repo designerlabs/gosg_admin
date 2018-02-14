@@ -15,7 +15,6 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 })
 export class UsertblComponent implements OnInit {
   languageId: any;
-  language: string;
   isActiveList: boolean;
   isActive: boolean;
   searchUserResult: Object;
@@ -85,6 +84,10 @@ export class UsertblComponent implements OnInit {
       this.getUsersData(this.pageCount, this.pageSize);
 
     });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getUsersData(this.pageCount, this.pageSize);
+    }
     
   }
 

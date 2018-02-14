@@ -11,9 +11,11 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/retry';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
 export class CommonService {
+  languageId: any;
   ObjMenuid: object;
   dataTbl: object;
   data: object;
@@ -24,20 +26,44 @@ export class CommonService {
   userTable: object;
   recordTable: object;
   temp = null;
-  lang:string = 'language='+localStorage.getItem('langID');
+  
   pageMode: String;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private route: ActivatedRoute, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {
 
+      translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        const myLang = translate.currentLang;
+        if (myLang == 'en') {
+          translate.get('HOME').subscribe((res: any) => {
+              this.lang = 'en';
+              this.languageId = 1;
+          });
+    
+        }
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+              this.lang = 'ms';
+              this.languageId = 2;
+          });
+        }
+  
+      });
+     }
+  lang = this.lang;
   private usersUrl: string = this.appConfig.urlUsers;
   private errMsgUrl: string = this.appConfig.urlErrorMsg;
   private slidersUrl: string = this.appConfig.urlSlides;
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
-  private lang: string = this.appConfig.lang;
+
   
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
@@ -60,21 +86,18 @@ export class CommonService {
     return this.http.get(this.usersUrl)
       .map((response: Response) => response.json())
       .catch(this.handleError);
-
   }
   
   getSlidersData(): Observable<any[]> {
     return this.http.get(this.slidersUrl)
       .map((response: Response) => response.json())
       .catch(this.handleError);
-
   }
 
   getUsersDataByID(uid): Observable<any[]> {
     return this.http.get(this.usersUrl + uid)
       .map((response: Response) => response.json())
       .catch(this.handleError);
-
   }
 
   getMenuID(data) {
@@ -85,14 +108,14 @@ export class CommonService {
 
   GetList(topicID) {
     if (this.mainid === 1 && topicID === 3) {
-      return this.http.get(this.appConfig.urlCommon + 'article/category/1')
+      return this.http.get(this.appConfig.urlCommon + 'article/category/1?language='+this.languageId)
       .subscribe(Rdata => {
         this.dataTbl = Rdata;
         // console.log(this.dataTbl);
         this.router.navigate(['articletbl', topicID]);
       });
     }else if (this.mainid === 1 && topicID === 4) {
-      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10')
+      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10&language='+this.languageId)
       .subscribe(Rdata => {
         this.dataTbl = Rdata;
         this.router.navigate(['userlist']);
@@ -104,7 +127,7 @@ export class CommonService {
   }
 
   GetUser(userId) {
-    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?language='+this.languageId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       this.router.navigate(['user', userId]);
@@ -116,7 +139,7 @@ export class CommonService {
     // console.log(this.appConfig.urlUsers + user.userId)
     // console.log(user)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    return this.http.put(this.appConfig.urlUserList + '/' + user.userId + '?langId=1', user)
+    return this.http.put(this.appConfig.urlUserList + '/' + user.userId + '?language='+this.languageId, user)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -128,13 +151,13 @@ export class CommonService {
   }
 
   getModuleListAll(){
-    return this.http.get(this.appConfig.urlModuleList+'/all')
+    return this.http.get(this.appConfig.urlModuleList+'/all?language='+this.languageId)
     .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }
 
   updateModuleList(data){
-    return this.http.put(this.appConfig.urlModuleList+'/update', data)
+    return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -201,7 +224,7 @@ export class CommonService {
   }
 
   getFeedbackType(){
-    return this.http.get(this.appConfig.urlFbTypeList + 'type/?langId=1')
+    return this.http.get(this.appConfig.urlFbTypeList + 'type/?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -783,7 +806,7 @@ delMediaType(mediaTypeId) {
 
   // Start System Settings - N
   addRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings + "?language=1";
+    let fullUrl = this.appConfig.urlSystemSettings + '?language='+this.languageId;
  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -791,7 +814,7 @@ delMediaType(mediaTypeId) {
   }
 
   delRecordSysSettings(key) {
-    let fullUrl = this.appConfig.urlSystemSettings + "/" + key + "?language=1";
+    let fullUrl = this.appConfig.urlSystemSettings + "/" + key + '?language='+this.languageId;
 
     return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
@@ -799,7 +822,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings + "?language=1";
+    let fullUrl = this.appConfig.urlSystemSettings + '?language='+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
