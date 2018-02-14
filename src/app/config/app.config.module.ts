@@ -147,7 +147,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',
-    urlSystemSettings: commonURL + 'systemsettings'
+    urlSystemSettings: commonURL + 'systemsettings',
+    lang: 'language='+localStorage.getItem('langID')
 };
 
 @NgModule({
