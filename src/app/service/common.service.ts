@@ -865,15 +865,8 @@ delMediaType(mediaTypeId) {
       .catch(this.handleError);
   }
 
-  errorResponse(data,txt,route){
-    if(data.statusCode == "ERROR"){
-      txt = data.statusDesc;
-      this.toastr.error(txt, ''); 
-    }
-    else{
-      this.toastr.success(txt, '');  
-      route;
-    }  
+  errorResponse(data){
+      this.toastr.error(data.statusDesc, ''); 
   }
 }
 

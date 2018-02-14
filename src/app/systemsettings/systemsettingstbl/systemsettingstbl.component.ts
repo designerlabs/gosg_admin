@@ -106,7 +106,7 @@ export class SystemsettingstblComponent implements OnInit {
           let route = "";
           txt = "Record deleted successfully!";
           
-          this.commonservice.errorResponse(data, txt, route);
+          //this.commonservice.errorResponse(data, txt, route);
           
           // if(data.statusCode == "ERROR"){
 

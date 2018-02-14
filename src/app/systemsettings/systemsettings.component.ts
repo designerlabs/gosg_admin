@@ -114,21 +114,15 @@ export class SystemsettingsComponent implements OnInit {
 
           console.log(JSON.stringify(body))
           console.log(data);
-
-          let route = this.router.navigate(['systemsettings']);
-          txt = "Record added successfully!";
           
-          this.commonservice.errorResponse(data, txt, route);
-          
-          // if(data.statusCode == "ERROR"){
-          //   txt = data.statusDesc;
-          //   this.toastr.error(txt, ''); 
-          // }
-          // else{
-          //   txt = "Record added successfully!"
-          //   this.toastr.success(txt, '');  
-          //   this.router.navigate(['systemsettings']);
-          // }               
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['systemsettings']);
+          }               
         },
         error => {
 
@@ -164,7 +158,7 @@ export class SystemsettingsComponent implements OnInit {
           let route = this.router.navigate(['systemsettings']);
           txt = "Record updated successfully!";
 
-          this.commonservice.errorResponse(data, txt, route);
+          //this.commonservice.errorResponse(data, txt, route);
     
           // if(data.statusCode == "ERROR"){
           //   txt = data.statusDesc;
