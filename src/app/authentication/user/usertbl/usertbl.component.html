@@ -42,42 +42,33 @@
           </tr>
         </table>
 
-        <div *ngIf="isActiveList" style="position:absolute; left:40%; top:100%;">
+        <div *ngIf="isActiveList" style="position:absolute; top:100%;">
+            <mat-list class="userListContainer" *ngIf="userType.value == 1">
+                <h3 matSubheader>Select Admin user by Email</h3>
+                <mat-list-item  *ngFor="let data of (searchUserResult?.length > 5 ? searchUserResult.slice(0,5):  searchUserResult)" >
+                      <mat-icon matListIcon><i class="fa fa-user"></i></mat-icon>
+                      <h4 matLine>{{data?.fullName}}</h4>
+                      <p matLine class="demo-2"> {{data?.email}} </p>
+                      <button mat-icon-button (click)="getValue('email', data?.email)">
+                          <mat-icon matListIcon><i class="fa fa-plus-circle text-success"></i></mat-icon>
+                       </button>
+                </mat-list-item>
+                ...
+             </mat-list>
 
-          <table class="table user_list_container">
-            <tr *ngFor="let data of searchUserResult">
-              <tbody *ngIf="userType.value == 1" >
-                <td>
-                    {{data?.fullName}}
-                </td>
-                <td>
-                    {{data?.email}}
-                </td>
-                <td>
-                    <button (click)="getValue('email', data?.email)">Select</button>
-                </td>
-              </tbody>
-
-              <tbody *ngIf="userType.value == 2" >
-                <td>
-                    {{data?.fullName}}
-                </td>
-                <td>
-                    {{data?.identificationNo}}
-                </td>
-                <td>
-                    <button (click)="getValue('identificationNo', data?.identificationNo)">Select</button>
-                </td>
-              </tbody>
-            </tr>
-          </table>
-          <!-- <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
-            <li *ngFor="let data of searchUserResult">
-              <button *ngIf="userType.value == 1" (click)="getValue('email', data?.email)">{{data?.email}} {{data?.identificationNo}} {{data?.fullName}}</button>
-              <button *ngIf="userType.value == 2"  (click)="getValue('identificationNo', data?.identificationNo)">{{data?.identificationNo}}</button>
-              
-            </li>
-          </ul> -->
+             <mat-list class="userListContainer" *ngIf="userType.value == 2">
+                <h3 matSubheader>Select Admin user by IC No.</h3>
+                <mat-list-item  *ngFor="let data of (searchUserResult?.length > 5 ? searchUserResult.slice(0,5):  searchUserResult)">
+                      <mat-icon matListIcon><i class="fa fa-user"></i></mat-icon>
+                      <h4 matLine>{{data?.fullName}}</h4>
+                      <p matLine class="demo-2"> {{data?.identificationNo}} </p>
+                      <button mat-icon-button (click)="getValue('identificationNo', data?.identificationNo)">
+                          <mat-icon matListIcon><i class="fa fa-plus-circle text-success"></i></mat-icon>
+                       </button>
+                </mat-list-item>
+                ...
+             </mat-list>
+             
         </div>
       </form>
   </div>
