@@ -7,6 +7,8 @@ import { RouterModule, ActivatedRouteSnapshot } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { appRoutes } from './routes';
+import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { AppConfig } from './config/app.config.modules';
 import { AppConfigModule } from './config/app.config.module';
 import { NavComponent } from './nav/nav.component';
@@ -88,7 +90,10 @@ import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
 import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
 import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
-
+import { HttpClient } from '@angular/common/http/src/client';
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -170,6 +175,15 @@ import { FootercategorytblComponent } from './footer/footercategory/footercatego
     ToastrModule.forRoot({
       preventDuplicates: true
     }),
+
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (HttpLoaderFactory),
+        deps: [Http]
+      }
+    }),
+
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,

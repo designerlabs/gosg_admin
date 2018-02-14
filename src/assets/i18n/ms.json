@@ -1,0 +1,284 @@
+{
+  "home": {
+    "logo": "logo_ms",
+    "menu": {
+      "home": "Laman Utama",
+      "register": "Daftar",
+      "setting": "Tetapan",
+      "contact": "Hubungi Kami",
+      "faq": "Soalan Lazim",
+      "manual": "Manual",
+      "aboutus": "Mengenai Kami",
+      "onlineservice": "Perkhidmatan Digital",
+      "logout":"Log keluar"
+    },
+    "search": {
+      "label": "Bagaimana Kami Boleh Membantu Anda?"
+    },
+    "breadcrumb":{
+      "register":"Pendaftaran",
+      "feedback":"Aduan dan Pertanyaan",
+      "profile": "Profil Saya",
+      "dashboard": "Dashboard",
+      "appmgmt": "Pengurusan Permohonan",
+      "mailbox": "Peti Pesanan"
+    },
+    "expandButton": {
+      "less": "Lihat Ringkasan",
+      "more": "Lihat Selanjutnya"
+    },
+    "check": "Semak",
+    "readmore": "Seterusnya",
+    "applicationNum": "No Permohonan",
+    "send": "HANTAR",
+    "highlights": "Sorotan",
+    "currentHighlights": "Sorotan Terkini",
+    "calendarTitle": "Aktiviti Bulan Ini"
+  },
+  "register": {
+    "label": {
+      "citistatus": "Status Kewarganegaraan",
+      "ic": "Nombor Kad Pengenalan",
+      "icplh": "Contoh:888888888888",
+      "name": "Nama penuh (sama seperti di dalam kad pengenalan) ",
+      "nameplh": "Nama penuh",
+      "email": "Emel",
+      "emailplh": "Contoh: aaaa@bbb.com",
+      "tel": "Telefon",
+      "codetel": "Kod Negara",
+      "telplh": "Contoh:018xxxxxxx / +60-x-xxxx-xxxx",
+      "codeplh": "Kod Verifikasi",
+      "btnsubmit": "Hantar",
+      "btnreset": "Semula",
+      "citi": "Warganegara",
+      "nonciti": "Bukan Warganegara",
+      "country": "Negara",
+      "passport": "No. Pasport",
+      "fullname": "Nama penuh"
+    },
+    "err": {
+      "ic": "Nombor Kad Pengenalan wajib diisi",
+      "name": "Nama penuh wajib diisi",
+      "email": "Emel wajib diisi.",
+      "tel": "No. Telefon wajib diisi.",
+      "codetel": "Kod negara wajib diisi.",
+      "country": "Negara wajib diisi",
+      "passport": "Nombor Pasport wajib diisi.",
+      "fullname": "Nama penuh wajib diisi",
+      "vercode": "Kod Verifikasi wajib diisi"
+    },
+    "pattern":{
+      "ic":"Nombor Kad Pengenalan memerlukan 12 digit",
+      "email":"Sila Masukkan emel yang sah. Contoh: aaaa@bbb.com",
+      "dob":"Please enter a valid date format. IE: XX-XX-XXXX",
+      "tel":"No. Telefon mestilah sah. Contoh: 018xxxxxxx / +60-x-xxxx-xxxx",
+      "telr":"Telephone No must be valid",
+      "telb":"Telephone No must be valid",
+      "passport":"Nombor Pasport mestilah sah. Contoh: AA12345678",
+      "fullname":"Nama penuh mestilah sah",
+      "name":"Nama penuh mestilah sah",
+      "captcha":"Kod Verifikasi mestilah sah"
+    },
+    "popupmsg":{
+      "success_content1":"Thank you for your registration. Check your ",
+      "success_content2":"for your account activation",
+      "isexist":"Email penuh Sudah Wujud"
+    }
+    
+  },
+  "profile":{
+    "msg":{
+      "updateSuccess": "Kemaskini berjaya.",
+      "updateFail": "Kemaskini gagal.",
+      "editbtnE" : "Kemaskini diaktifkan.",
+      "editbtnD" : "Kemaskini tidak aktif."
+    },
+    "label":{
+      "name":"Nama",
+      "nationality":"Warganegara",
+      "icnumber":"No Kad Pengenalan",
+      "passport":"Nombor Pasport",
+      "dateofbirth":"Tarikh Lahir",
+      "gender":"Jantina",
+      "email":"Emel",
+      "tel": "Telefon",
+      "race":"Bangsa",
+      "religion":"Agama",
+      "regisdate":"Tarikh Daftar",
+      "peraddr":"Alamat Tetap",
+      "corrsaddr":"Alamat Surat Menyurat",
+      "copyperaddr":"Ikut Alamat Tetap",
+      "country":"Negara",
+      "state":"Negeri",
+      "city":"Bandar",
+      "postcode":"Poskod",
+      "mailaddr":"Alamat Surat Menyurat",
+      "homeph":"No Telefon Rumah",
+      "mobile":"No Telefon Bimbit",
+      "codetel": "Kod",
+      "submit":"Kemaskini"
+    },
+    "err": {
+      "updateSuccess": "Kemaskini gagal!",
+      "ic": "Nombor Kad Pengenalan wajib diisi",
+      "name": "Nama penuh wajib diisi",
+      "dob": "Tarikh Lahir wajib diisi",
+      "gender": "Jantina wajib dipilih",
+      "race": "Race wajib dipilih",
+      "perAddress1": "Alamat Tetap 1 wajib diisi",
+      "state": "Negeri wajib dipilih",
+      "city": "Bandar wajib dipilih",
+      "email": "Emel wajib diisi. Contoh: aaaa@bbb.com",
+      "tel": "No. Telefon wajib diisi. Contoh: 018xxxxxxx / +60-x-xxxx-xxxx ",
+      "country": "Negara wajib diisi",
+      "passport": "Nombor Pasport wajib diisi. Contoh: AA12345678",
+      "fullname": "Nama penuh wajib diisi",
+      "postcode": "Poskod wajib diisi",
+      "vercode": "Kod Verifikasi wajib diisi"
+    },
+     "pattern":{
+      "ic":"Nombor Kad Pengenalan memerlukan 12 digit",
+      "dob":"Tarikh mestilah sah. Contoh: XX-XX-XXXX",
+      "email":"Sila Masukkan emel yang sah",
+      "tel":"No. Telefon mestilah sah",
+      "telr":"No. Telefon mestilah sah",
+      "telb":"No. Telefon mestilah sah",
+      "passport":"Nombor Pasport mestilah sah. Contoh: AA12345678",
+      "fullname":"Nama penuh mestilah sah",
+      "name":"Nama penuh mestilah sah",
+      "postcode": "Poskod mestilah sah",
+      "captcha":"Kod Verifikasi mestilah sah"
+    }
+  },
+  
+  "dashboard":{
+
+  },
+  
+  "errorlabel":{
+    
+  },
+  "feedback":{
+    "title":"ADUAN DAN PERTANYAAN",
+    "desc":"Sila hadkan maklum balas anda kepada 10000 aksara dan sertakan bersama alamat emel dan kami akan memberikan maklum balas kepada anda dalam tempoh Tiga (3) hari bekerja. Maklum balas kami terdapat dalam dua bahasa iaitu Bahasa Inggeris dan Bahasa Melayu.",
+    "label":{
+      "type":"Jenis maklum balas",
+      "subjek":"Subjek",
+      "name": "Nama",
+      "nameplh": "Nama penuh",
+      "emel":"Emel",
+      "content":"Kandungan Pertanyaan",
+      "reset":"Set Semula",
+      "submit":"Hantar",
+      "words":" aksara yang tinggal.",
+      "choose":"--Sila Pilih--"
+    },
+    "reset":"Set semula borang ini?",
+    "msgsubmit": "Terima kasih. Aduan dan Pertanyaan anda telah dihantar. Maklum balas akan di terima dalam 3 hari masa bekerja.",
+    "err":{
+      "drop": "Ruang ini wajib diisi.",
+      "submit": "Harap maaf. Pelayan tergendala.",
+      "type":"Harap maaf, jenis maklum balas tidak dapat dipaparkan.",
+      "subject":"Harap maaf, pilihan subjek tidak dapat dipaparkan."
+    }
+
+  },
+  "mailbox":{
+    "header":{
+      "from":"",
+      "subject":"",
+      "date":"",
+      "action":""
+    },
+    
+    "pagination":{
+      "pages":"",
+      "of":"",
+      "in":"",
+      "mails":""
+    },
+    "err":{
+      "deleteconfirm":"Are you sure to delete this mail?",
+      "deleteconfirm_multi":"Are you sure to delete the selected mails?",
+      "failtoload":"Sorry, Mail is not loading properly, Try again!",
+      "failtodelete":"Sorry, Mail is not deleted properly, Try again!",
+      "failtoview":"Sorry, Mail is not viewed properly, Try again!"
+    },
+    "success":{
+      "deletesuccess":"Mail has been deleted successfully!",
+      "deletesuccess_multi":"Selected mails has been deleted successfully!"
+    }
+  },
+  "common":{
+    "buttons":{
+      "delete":"Padam",
+      "update":"Kemaskini",
+      "submit":"Hantar",
+      "reset":"Set Semula",
+      "yes":"Ya",
+      "no":"Tidak",
+      "ok":"OK",
+      "cancel":"Batal",
+      "home":"Laman Utama"
+    },
+    "err":{
+      "servicedown": "Harap maaf, Pelayan tidak aktif "
+    },
+    "icon":{
+      "success":"fa fa-check",
+      "error":"fa fa-frown-o",
+      "warn":"fa fa-exclamation-triangle",
+      "info":"fa fa-info-circle"
+    },
+    "msg":{
+      "reset":"Set semula borang ini?",
+      "delete":"Padam mesej ini?"
+    },
+    "state":{
+      "success":"bg_header bg_success_header",
+      "error":"bg_header bg_error_header",
+      "warn":"bg_header bg_warn_header",
+      "info":"bg_header bg_info_header"
+    }
+  },
+  "appmngt":{
+    "setSearch":{
+      "moreOpt": "Carian Terperinci",
+      "appNumber": "Nombor Permohonan",
+      "agency": "Agensi",
+      "chooseAgency": "Pilih Agensi",
+      "startDate": "Tarikh Mula",
+      "endDate": "Tarikh Akhir",
+      "appStatus": "Status Permohonan",
+      "search": "Carian",
+      "chooseStatus": "Pilih Status"
+    },
+    "tableHeader":{
+      "num": "Bil.",
+      "appNo": "No. Permohonan",
+      "appName": "Nama Permohonan",
+      "submit" : "Tarikh Hantar",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Mukasurat",
+      "of": "daripada",
+      "in": "dalam",
+      "app": "permohonan"
+    }
+  },
+  "poll": {
+    "title" : "KONGSIKAN PANDANGAN ANDA BERSAMA KAMI",
+    "resultTitle" : "KEPUTUSAN",
+    "recommend" : "Cadangan Penambahbaikan Anda",
+    "youranswer" : "Jawapan anda adalah",
+    "seeAnswer" : "INGIN MENGETAHUI KEPUTUSAN TERKINI SURVEY MENGENAI LAMAN WEB MYGOV YANG BARU?",
+    "displayAnswer" : " YA, PAPARKAN KEPUTUSAN TERKINI "
+  },
+  "announcement":{
+    "title":"Sorotan Terkini",
+    "description":"Semua Sorotan Terkini",
+    "message":"Tiada maklumat terkini."
+  }
+}
