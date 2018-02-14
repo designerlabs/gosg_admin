@@ -678,7 +678,8 @@ delMediaType(mediaTypeId) {
   }
 
   addFooterCategory(record) {
-    let fullUrl = this.appConfig.urlFooterCategory ;
+    let fullUrl = this.appConfig.urlFooterCategory + "?language=1" ;
+    // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
     console.log(fullUrl)
     console.log(record)
 
@@ -688,7 +689,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateFooterCategory(record) {
-    let fullUrl = this.appConfig.urlFooterCategory  ;
+    let fullUrl = this.appConfig.urlFooterCategory  + "?language=1" ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -701,6 +702,15 @@ delMediaType(mediaTypeId) {
     return this.http.delete(fullUrl + '/' + refCode)
     .map((response: Response) => response.json())
     .catch(this.handleError);
+  }
+
+  getFooterCategoryList(): Observable<any[]> {
+    //  console.log(this.countryUrl);
+    return this.http.get(this.stateUrl)
+      .map((response: Response) => response.json().stateList)
+      .retry(5)
+      .catch(this.handleError);
+
   }
 
   // Start Address Type - N

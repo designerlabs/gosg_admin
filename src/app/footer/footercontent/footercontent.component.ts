@@ -36,6 +36,8 @@ import { ToastrService } from 'ngx-toastr';
 export class FootercontentComponent implements OnInit {
 
   updateForm: FormGroup;
+
+  public catEng: FormControl;
   
   public nameEng: FormControl;
   public descEng: FormControl;
@@ -67,6 +69,8 @@ export class FootercontentComponent implements OnInit {
 
   public getRefCode: any;
 
+  public getCat: any;
+
 
 
   complete: boolean;
@@ -75,6 +79,8 @@ export class FootercontentComponent implements OnInit {
   private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
 
   ngOnInit() {
+
+    this.catEng = new FormControl();
 
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
@@ -94,6 +100,8 @@ export class FootercontentComponent implements OnInit {
     this.copyImg = new FormControl();
 
     this.updateForm = new FormGroup({   
+
+      catEng: this.catEng,
 
       nameEng: this.nameEng,
       descEng: this.descEng,
@@ -138,6 +146,8 @@ export class FootercontentComponent implements OnInit {
       this.recordList = data;
 
       console.log(data);
+
+      this.updateForm.get('catEng').setValue(this.recordList.faqList[0].facQuestion);
 
       this.updateForm.get('nameEng').setValue(this.recordList.faqList[0].facQuestion);
       this.updateForm.get('descEng').setValue(this.recordList.faqList[0].facAnswer);
@@ -191,6 +201,7 @@ export class FootercontentComponent implements OnInit {
 
       let body = [
         {
+          "category": null,
           "name": null,
           "desc": null,
           "enabled": false,
@@ -203,6 +214,7 @@ export class FootercontentComponent implements OnInit {
           }
         },
         {
+          "category": null,
           "name": null,
           "desc": null,
           "enabled": false,
@@ -215,8 +227,9 @@ export class FootercontentComponent implements OnInit {
           }
         }
       ]   
- 
-      body[0].name = formValues.catEng;
+
+      body[0].category = formValues.catEng;
+      body[0].name = formValues.nameEng;
       body[0].desc = formValues.descEng;
       body[0].icon = formValues.iconEng;
       body[0].image = formValues.imgEng;
@@ -225,7 +238,8 @@ export class FootercontentComponent implements OnInit {
       body[0].enabled = formValues.active;
       body[0].language.languageId = 1;
 
-      body[1].name = formValues.catMy;
+      body[1].category = formValues.catEng;
+      body[1].name = formValues.nameMy;
       body[1].desc = formValues.descMy;
       body[1].icon = formValues.iconMy;
       body[1].image = formValues.imgMy;
@@ -259,6 +273,7 @@ export class FootercontentComponent implements OnInit {
 
       let body = [
         {
+          "category": null,
           "name": null,
           "desc": null,
           "icon": null,
@@ -272,6 +287,7 @@ export class FootercontentComponent implements OnInit {
           }
         },
         {
+          "category": null,
           "name": null,
           "desc": null,
           "icon": null,
@@ -286,7 +302,8 @@ export class FootercontentComponent implements OnInit {
         }
       ]   
  
-      body[0].name = formValues.catEng;
+      body[0].category = formValues.catEng;
+      body[0].name = formValues.nameEng;
       body[0].desc = formValues.descEng;
       body[0].icon = formValues.iconEng;
       body[0].image = formValues.imgEng;
@@ -296,7 +313,8 @@ export class FootercontentComponent implements OnInit {
       body[0].refCode = 1;
       body[0].language.languageId = 1;
 
-      body[1].name = formValues.catMy;
+      body[0].category = formValues.catEng;
+      body[1].name = formValues.nameMy;
       body[1].desc = formValues.descMy;
       body[1].icon = formValues.iconMy;
       body[1].image = formValues.imgMy;
@@ -381,6 +399,32 @@ export class FootercontentComponent implements OnInit {
         this.toastr.success(txt, '');
     }
   }
+
+  getCategory(id?){
+    return this.commonservice.getFooterCategoryList()
+     .subscribe(resCatData => {
+        this.getCat = resCatData;        
+      },
+      Error => {
+      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
+      console.log('Error in State');
+     });
+  }
+
+  // selectedCat(e){
+  //   // this.getPostData = '';
+  //   // this.selStateInfo = e;
+  //   if(e){
+  //     return this.commonservice.getCitiesbyState(e.value.stateId)
+  //     .subscribe(resCityData => {
+  //       this.getCityData = resCityData;          
+  //     },
+  //     Error => {
+  //   //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');      
+  //   console.log('Error in City');      
+  //    });
+  //   }
+  // }
 
 }
 

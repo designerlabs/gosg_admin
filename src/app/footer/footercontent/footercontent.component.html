@@ -35,12 +35,29 @@
 
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
       <div class="example-container mat-elevation-z8 paddingBottom-10">
-          <div class="bg-form-header col-md-12">
-              <div class="row">
-                  <label class="col-md-6 staticLabel font-size-s boldText">English</label>
-                  <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
-              </div>
-          </div><br>
+
+            <!-- <div class="bg-form-header col-md-12">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="font-size-s" style="width:100%;">
+                        <mat-select formControlName="catEng" placeholder="Select Category">
+                            <mat-option *ngFor="let category of getCategory" [value]="category">{{ category?.catName }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div> -->
+
+            <br>
+            
+            <div class="bg-form-header col-md-12">
+                <div class="row">
+                    <label class="col-md-6 staticLabel font-size-s boldText">English</label>
+                    <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                </div>
+            </div><br>
              
           <!-- <div class="example-header" style="margin-top: 10px;">
               <div class="col-md-6 text-align-Center font-size-m"> 

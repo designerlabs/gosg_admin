@@ -39,7 +39,7 @@ export class FootercontenttblComponent implements OnInit {
 
   recordList = null;
   // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
-  displayedColumns = ['no', 'catEng', 'catMy', 'status', 'action'];
+  displayedColumns = ['no', 'catEng', 'nameEng', 'nameMy', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
