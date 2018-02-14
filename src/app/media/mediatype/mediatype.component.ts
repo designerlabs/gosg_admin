@@ -18,6 +18,7 @@ export class MediatypeComponent implements OnInit {
   objVideo = ["AVI","FLV","WMV","MOV","MP4"];
   objDoc = ["doc","docx","pdf","xls","xlsx","txt"];
   objUnit = ["MB","KB"];
+  objCategory = ["Slider","Gallery","Highlights"];
   objFileExtn = [];
   mediaTypeData: Object;
   mediaTypeForm: FormGroup;
@@ -26,13 +27,54 @@ export class MediatypeComponent implements OnInit {
   pageMode: String;
 
   mediaTypeId: any;
-  mediatype: FormControl;
-  filesize: FormControl;
-  filetype: FormControl; 
-  fileunit: FormControl;
+  imgfilesize: FormControl;
+  imgfiletype: FormControl; 
+  imgfileunit: FormControl;
   active: FormControl;
+  catType: FormControl;
+  imgmediatype: FormControl;
+  imgminwidth: FormControl;
+  imgmaxwidth: FormControl;
+  imgminheigth: FormControl;
+  imgmaxheigth: FormControl;
+  imgchkactive: FormControl;
+  
+  docfilesize: FormControl;
+  docfiletype: FormControl; 
+  docfileunit: FormControl;
+  docmediatype: FormControl;
+  docminwidth: FormControl;
+  docmaxwidth: FormControl;
+  docminheigth: FormControl;
+  docmaxheigth: FormControl;
+  docchkactive: FormControl;
+  
+  audiofilesize: FormControl;
+  audiofiletype: FormControl; 
+  audiofileunit: FormControl;
+  audiominwidth: FormControl;
+  audiomaxwidth: FormControl;
+  audiominheigth: FormControl;
+  audiomaxheigth: FormControl;
+  audiochkactive: FormControl;
  
+  videofilesize: FormControl;
+  videofiletype: FormControl; 
+  videofileunit: FormControl;
+  videominwidth: FormControl;
+  videomaxwidth: FormControl;
+  videominheigth: FormControl;
+  videomaxheigth: FormControl;
+  videochkactive: FormControl;
+
   resetMsg = this.resetMsg;
+  imgchk = false;
+
+  reqVal=[];
+  imgreqVal=[];
+  docreqVal=[];
+  audioreqVal=[];
+  videoreqVal=[];
 
   constructor(
     private http: HttpClient, 
@@ -43,29 +85,93 @@ export class MediatypeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
-
-    let refCode = this.router.url.split('/')[2];
-
-    this.mediatype = new FormControl();
-    this.filesize = new FormControl();
-    this.filetype = new FormControl();
-    this.fileunit = new FormControl();
+    let refCode = this.router.url.split('/')[3];
+    this.imgfilesize = new FormControl();
+    this.imgfiletype = new FormControl();
+    this.imgfileunit = new FormControl();
     this.active = new FormControl();
+    this.catType = new FormControl();
+    this.imgminwidth = new FormControl();
+    this.imgmaxwidth = new FormControl();
+    this.imgminheigth = new FormControl();
+    this.imgmaxheigth = new FormControl();
+    this.imgchkactive = new FormControl();
+
+    this.docfilesize = new FormControl();
+    this.docfiletype = new FormControl();
+    this.docfileunit = new FormControl();
+    this.docminwidth = new FormControl();
+    this.docmaxwidth = new FormControl();
+    this.docminheigth = new FormControl();
+    this.docmaxheigth = new FormControl();
+    this.docchkactive = new FormControl();
+
+    this.audiofilesize = new FormControl();
+    this.audiofiletype = new FormControl();
+    this.audiofileunit = new FormControl();
+    this.audiominwidth = new FormControl();
+    this.audiomaxwidth = new FormControl();
+    this.audiominheigth = new FormControl();
+    this.audiomaxheigth = new FormControl();
+    this.audiochkactive = new FormControl();
+
+    this.videofilesize = new FormControl();
+    this.videofiletype = new FormControl();
+    this.videofileunit = new FormControl();
+    this.videominwidth = new FormControl();
+    this.videomaxwidth = new FormControl();
+    this.videominheigth = new FormControl();
+    this.videomaxheigth = new FormControl();
+    this.videochkactive = new FormControl();
 
     this.mediaTypeForm = new FormGroup({
-      mediatype: this.mediatype,
-      filetype: this.filetype,
-      filesize: this.filesize,
-      fileunit: this.fileunit,
-      active: this.active
+      // mediatype: this.mediatype,
+      imgfiletype: this.imgfiletype,
+      imgfilesize: this.imgfilesize,
+      imgfileunit: this.imgfileunit,
+      active: this.active,
+      catType: this.catType,
+      imgminwidth: this.imgminwidth,
+      imgmaxwidth: this.imgmaxwidth,
+      imgminheigth: this.imgminheigth,
+      imgmaxheigth: this.imgmaxheigth,
+      imgchkactive: this.imgchkactive,
+
+      docfiletype: this.docfiletype,
+      docfilesize: this.docfilesize,
+      docfileunit: this.docfileunit,
+      docminwidth: this.docminwidth,
+      docmaxwidth: this.docmaxwidth,
+      docminheigth: this.docminheigth,
+      docmaxheigth: this.docmaxheigth,
+      docchkactive: this.docchkactive,
+
+      audiofiletype: this.audiofiletype,
+      audiofilesize: this.audiofilesize,
+      audiofileunit: this.audiofileunit,      
+      audiominwidth: this.audiominwidth,
+      audiomaxwidth: this.audiomaxwidth,
+      audiominheigth: this.audiominheigth,
+      audiomaxheigth: this.audiomaxheigth,
+      audiochkactive: this.audiochkactive,
+
+      videofiletype: this.videofiletype,
+      videofilesize: this.videofilesize,
+      videofileunit: this.videofileunit,
+      videominwidth: this.videominwidth,
+      videomaxwidth: this.videomaxwidth,
+      videominheigth: this.videominheigth,
+      videomaxheigth: this.videomaxheigth,
+      videochkactive: this.videochkactive,
     });
 
     if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
-      this.mediaTypeForm.get('active').setValue(true);
+      this.mediaTypeForm.get('imgchkactive').setValue(false);
+      this.mediaTypeForm.get('docchkactive').setValue(false);
+      this.mediaTypeForm.get('audiochkactive').setValue(false);
+      this.mediaTypeForm.get('videochkactive').setValue(false);
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
@@ -74,7 +180,7 @@ export class MediatypeComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['mediatype']);
+    this.router.navigate(['media/type']);
   }
 
   // get, add, update, delete
@@ -86,46 +192,133 @@ export class MediatypeComponent implements OnInit {
         console.log(this.mediaTypeData);
         let data = this.mediaTypeData['mediaType'];
 
-      // populate file extensions list
-      if(data.mediaType === "Image") {
-        this.objFileExtn = this.objImage;
-      } else if(data.mediaType === "Video"){
-        this.objFileExtn = this.objVideo;
-      } else if(data.mediaType === "Audio"){
-        this.objFileExtn = this.objAudio;
-      } else if(data.mediaType === "Document"){
-        this.objFileExtn = this.objDoc;
-      }
-
       // populate data
-      this.mediaTypeId = data.mediaTypeId;
-      this.mediaTypeForm.get('mediatype').setValue(data.mediaType);
-      this.mediaTypeForm.get('filetype').setValue(data.supportedFileExtensions.split(','));// supposed to loop
-      this.mediaTypeForm.get('filesize').setValue(data.maxFileSize);
-      this.mediaTypeForm.get('fileunit').setValue(data.maxFileSizeUnits);
-      this.mediaTypeForm.get('active').setValue(data.enabled);
-      this.checkReqValues();
+      if(data){
+        this.mediaTypeId = data.mediaTypeId;
+        this.mediaTypeForm.get('imgmediatype').setValue(data.mediaType);
+        this.mediaTypeForm.get('imgfiletype').setValue(data.supportedFileExtensions.split(','));// supposed to loop
+        this.mediaTypeForm.get('imgfilesize').setValue(data.maxFileSize);
+        this.mediaTypeForm.get('imgfileunit').setValue(data.maxFileSizeUnits);
+        this.mediaTypeForm.get('active').setValue(data.enabled);
+        this.checkReqValues();
+      }
     });    
   }
 
+  chkActive(from,event){
+    
+    let imgfiletype = "imgfiletype";
+    let imgfilesize = "imgfilesize";
+    let imgfileunit = "imgfileunit";
+    let imgminwidth = "imgminwidth";
+    let imgmaxwidth = "imgmaxwidth";
+    let imgminheigth = "imgminheigth";
+    let imgmaxheigth = "imgmaxheigth";
+
+    let docfiletype = "docfiletype";
+    let docfilesize = "docfilesize";
+    let docfileunit = "docfileunit";
+    let docminwidth = "docminwidth";
+    let docmaxwidth = "docmaxwidth";
+    let docminheigth = "docminheigth";
+    let docmaxheigth = "docmaxheigth";
+
+    let audiofiletype = "audiofiletype";
+    let audiofilesize = "audiofilesize";
+    let audiofileunit = "audiofileunit";
+    let audiominwidth = "audiominwidth";
+    let audiomaxwidth = "audiomaxwidth";
+    let audiominheigth = "audiominheigth";
+    let audiomaxheigth = "audiomaxheigth";
+
+    let videofiletype = "videofiletype";
+    let videofilesize = "videofilesize";
+    let videofileunit = "videofileunit";
+    let videominwidth = "videominwidth";
+    let videomaxwidth = "videomaxwidth";
+    let videominheigth = "videominheigth";
+    let videomaxheigth = "videomaxheigth";
+    
+    if(event.checked){
+      if(from === 'img'){
+        this.imgreqVal = [imgfiletype, imgfilesize, imgfileunit, imgminwidth, imgmaxwidth, imgminheigth, imgmaxheigth];
+      }
+      if(from === 'doc'){
+        this.docreqVal = [docfiletype, docfilesize, docfileunit, docminwidth, docmaxwidth, docminheigth, docmaxheigth];
+      }
+      if(from === 'aud'){
+        this.audioreqVal = [audiofiletype, audiofilesize, audiofileunit, audiominwidth, audiomaxwidth, audiominheigth, audiomaxheigth];
+      }
+      if(from === 'vid'){
+        this.videoreqVal = [videofiletype, videofilesize, videofileunit, videominwidth, videomaxwidth, videominheigth, videomaxheigth];
+      }
+    } else{
+      if(from === 'img'){
+        this.mediaTypeForm.controls.imgfiletype.reset();
+        this.mediaTypeForm.controls.imgfilesize.reset();
+        this.mediaTypeForm.controls.imgfileunit.reset();
+        this.mediaTypeForm.controls.imgminwidth.reset();
+        this.mediaTypeForm.controls.imgmaxwidth.reset();
+        this.mediaTypeForm.controls.imgminheigth.reset();
+        this.mediaTypeForm.controls.imgmaxheigth.reset();
+        this.imgreqVal = [];
+      }
+      if(from === 'doc'){
+        this.mediaTypeForm.controls.docfiletype.reset();
+        this.mediaTypeForm.controls.docfilesize.reset();
+        this.mediaTypeForm.controls.docfileunit.reset();
+        this.mediaTypeForm.controls.docminwidth.reset();
+        this.mediaTypeForm.controls.docmaxwidth.reset();
+        this.mediaTypeForm.controls.docminheigth.reset();
+        this.mediaTypeForm.controls.docmaxheigth.reset();
+        this.docreqVal = [];
+      }
+      if(from === 'aud'){
+        this.mediaTypeForm.controls.audiofiletype.reset();
+        this.mediaTypeForm.controls.audiofilesize.reset();
+        this.mediaTypeForm.controls.audiofileunit.reset();
+        this.mediaTypeForm.controls.audiominwidth.reset();
+        this.mediaTypeForm.controls.audiomaxwidth.reset();
+        this.mediaTypeForm.controls.audiominheigth.reset();
+        this.mediaTypeForm.controls.audiomaxheigth.reset();
+        this.audioreqVal = [];
+      }
+      if(from === 'vid'){
+        this.mediaTypeForm.controls.videofiletype.reset();
+        this.mediaTypeForm.controls.videofilesize.reset();
+        this.mediaTypeForm.controls.videofileunit.reset();
+        this.mediaTypeForm.controls.videominwidth.reset();
+        this.mediaTypeForm.controls.videomaxwidth.reset();
+        this.mediaTypeForm.controls.videominheigth.reset();
+        this.mediaTypeForm.controls.videomaxheigth.reset();
+        this.videoreqVal = [];
+      }
+    }   
+    this.checkReqValues();
+  }  
+
 
   checkReqValues() {
-    let mediatype = "mediatype";
-    let filetype = "filetype";
-    let filesize = "filesize";
-    let fileunit = "fileunit";
-    // let active = "active";
-
-    let reqVal: any = [mediatype, filetype, filesize, fileunit];
+    debugger;
+    let catType = "catType";
     let nullPointers: any = [];
+    
+    if(this.imgreqVal.length>0 || this.docreqVal.length>0 || this.audioreqVal.length>0 || this.videoreqVal.length>0){
+      this.reqVal = [catType];
+      this.reqVal = [...this.reqVal,...this.imgreqVal,...this.docreqVal,...this.audioreqVal,...this.videoreqVal];
 
-    for (var reqData of reqVal) {
-      let elem = this.mediaTypeForm.get(reqData);
-
-      if (elem.value == "" || elem.value == null) {
-        elem.setValue(null)
-        nullPointers.push(null)
+      for (var reqData of this.reqVal) {
+        if(reqData){
+          let elem = this.mediaTypeForm.get(reqData);  
+          if (elem.value == "" || elem.value == null) {
+            elem.setValue(null);
+            nullPointers.push(null);
+          }
+        }        
       }
+
+    }else{
+      nullPointers.push(null);
     }
 
     if (nullPointers.length > 0) {
@@ -133,6 +326,7 @@ export class MediatypeComponent implements OnInit {
     } else {
       this.complete = true;
     }
+
   }
 
   myFunction() {
@@ -146,6 +340,43 @@ export class MediatypeComponent implements OnInit {
       txt = "You pressed Cancel!";
     }
   }
+
+//   addSeperator(nStr) {
+//     nStr += '';
+//     let x = nStr.split('.');
+//     let x1 = x[0];
+//     let x2 = x.length > 1 ? '.' + x[1] : '';
+//     let rgx = /(\d+)(\d{3})/;
+//     while (rgx.test(x1)) {
+//         x1 = x1.replace(rgx, '$1' + '.' + '$2');
+//     }
+//     return x1 + x2;
+// }
+
+// rangeInputChangeEventHandler(e){
+//   var rangeGroup = $(this).attr('name'),
+//       minBtn = $(this).parent().children('.min'),
+//       maxBtn = $(this).parent().children('.max'),
+//       range_min = $(this).parent().children('.range_min'),
+//       range_max = $(this).parent().children('.range_max'),
+//       minVal = parseInt($(minBtn).val()),
+//       maxVal = parseInt($(maxBtn).val()),
+//       origin = $(this).context.className;
+
+//   if(origin === 'min' && minVal > maxVal-5){
+//       $(minBtn).val(maxVal-5);
+//   }
+//   var minVal = parseInt($(minBtn).val());
+//   $(range_min).html(addSeperator(minVal*1000) + ' €');
+
+
+//   if(origin === 'max' && maxVal-5 < minVal){
+//       $(maxBtn).val(5+ minVal);
+//   }
+//   var maxVal = parseInt($(maxBtn).val());
+//   $(range_max).html(addSeperator(maxVal*1000) + ' €');
+// }
+
   // updateMediaType
   updateMediaType(formValues: any) {
     if(this.isEdit) {
@@ -161,10 +392,10 @@ export class MediatypeComponent implements OnInit {
     ];
 
     body[0].mediaTypeId = this.mediaTypeId;
-    body[0].mediaType = formValues.mediatype;
-    body[0].supportedFileExtensions = formValues.filetype.toString();
-    body[0].maxFileSize = formValues.filesize;
-    body[0].maxFileSizeUnits = formValues.fileunit;
+    body[0].mediaType = formValues.imgmediatype;
+    body[0].supportedFileExtensions = formValues.imgfiletype.toString();
+    body[0].maxFileSize = formValues.imgfilesize;
+    body[0].maxFileSizeUnits = formValues.imgfileunit;
     body[0].enabled = formValues.active;
     console.log(body);
 
@@ -189,10 +420,10 @@ export class MediatypeComponent implements OnInit {
         }
       ];
   
-      body[0].mediaType = formValues.mediatype;
-      body[0].supportedFileExtensions = formValues.filetype.toString();
-      body[0].maxFileSize = formValues.filesize;
-      body[0].maxFileSizeUnits = formValues.fileunit;
+      body[0].mediaType = formValues.imgmediatype;
+      body[0].supportedFileExtensions = formValues.imgfiletype.toString();
+      body[0].maxFileSize = formValues.imgfilesize;
+      body[0].maxFileSizeUnits = formValues.imgfileunit;
       body[0].enabled = formValues.active;
       console.log(body);
   

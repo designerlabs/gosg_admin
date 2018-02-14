@@ -4,12 +4,12 @@
             <h3>Media Management</h3>
         </div>
         <!-- Add option not required for Media Type -->
-        <!-- <div class="col-md-2 curdHeadingRight">
+        <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
                 <i class="fa fa-plus font-size-l"></i></button>
             </span>
-        </div>  -->
+        </div> 
     </div>
     <div class="example-container mat-elevation-z8">
       <mat-table #table [dataSource]="dataSource">
@@ -50,9 +50,9 @@
               <i class="fa fa-edit"></i>
             </button>&nbsp;
             <!-- Delete option not required for Media Type -->
-            <!-- <button mat-mini-fab style="background: red" (click)="deleteRow(element.mediaTypeId)">
+            <button mat-mini-fab style="background: red" (click)="deleteRow(element.mediaTypeId)">
               <i class="fa fa-trash" title="Delete {{ element.mediaTypeId }}"></i>
-            </button> -->
+            </button>
           </mat-cell>
         </ng-container>
   
