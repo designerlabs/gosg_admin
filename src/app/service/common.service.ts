@@ -23,7 +23,7 @@ export class CommonService {
   userTable: object;
   recordTable: object;
   temp = null;
-
+  lang:string = 'language='+localStorage.getItem('langID');
   pageMode: String;
 
   // tslint:disable-next-line:max-line-length

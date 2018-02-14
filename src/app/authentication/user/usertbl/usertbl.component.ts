@@ -6,6 +6,7 @@ import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl } from '@angular/forms';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-usertbl',
@@ -13,6 +14,8 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  languageId: any;
+  language: string;
   isActiveList: boolean;
   isActive: boolean;
   searchUserResult: Object;
@@ -59,13 +62,37 @@ export class UsertblComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
-    private toastr: ToastrService
-  ) { 
-    this.getUsersData(this.pageCount, 
-    this.pageSize);
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {
+    
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+        });
+  
+      }
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+      }
+      
+      this.getUsersData(this.pageCount, this.pageSize);
+
+    });
+    
   }
 
+  lang = this.lang;
+  
+  
   ngOnInit() {
+ 
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'activeFlag', 'action'];
@@ -104,7 +131,7 @@ export class UsertblComponent implements OnInit {
   // get User Data 
   getUsersData(count, size) {
     this.dataUrl = this.appConfig.urlAdminUserList;
-    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size).subscribe(data => {
+    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
       
 
       this.userList = data;
