@@ -148,15 +148,14 @@ export class UsertblComponent implements OnInit {
     });
   }
 
-  getSearchData(type,keyword){
+  getSearchData(findby,type,keyword){
     this.isActive = true;
     this.isActiveList = true;
-    debugger;
     if(!keyword.value){
       keyword == '-';
     }
-    this.http.get(this.appConfig.urlSearchbyEmail+'?'+type+'='+keyword.value).subscribe(data => {
-      this.searchUserResult = data;
+    this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
+      this.searchUserResult = data['userList'];
     });
   }
 

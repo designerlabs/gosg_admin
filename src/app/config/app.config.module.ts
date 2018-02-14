@@ -79,7 +79,7 @@ export class AppConfig {
     urlAdminUserPermission:string;
 
     urlFooterCategory: string;
-    lang: string;
+    urlAdminUserFind: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -104,7 +104,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAgency: commonURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
     
-
+    urlAdminUserFind: commonURL+'adminuser',
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
@@ -144,8 +144,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',
-    urlSystemSettings: commonURL + 'systemsettings',
-    lang: 'language='+localStorage.getItem('langID')
+    urlSystemSettings: commonURL + 'systemsettings'
 };
 
 @NgModule({
