@@ -24,13 +24,22 @@
   <div style="width: 100%; height: 50px; background-color: #1ebebc;"></div>
   <div style="width: 100%; height: 40px; background-color: #a9a3a3; margin-top:1px;"></div>
   <div class="mdcontainer">
-    <div style="font-size: larger; font-weight: bold; padding: 3px;">
-      <span class="logoContainer"><img src="assets/images/logo_ms.jpg" alt=""></span>
-      <span class="userContainer">Goms | 
-          <button mat-button>View Site</button> 
-      </span>
+    <div class="row" style="font-size: larger; font-weight: bold; padding: 3px;">
+      <div class="col-md-6"><img src="assets/images/{{imgSrc }}.jpg" alt=""></div>
+      <div class="col-md-6 align_right">
+        <div style="margin-top:12px; padding-right:8px;">
+            <ul class="list-inline font-size-s">
+              <li>
+                <button (click)="toggle()" class="btn btn-xs btn-default font-size-s hidden-xs visible-sm  visible-md visible-lg"><i class="fa fa-language"></i> {{ currlang }}</button>
+                <button (click)="toggle()" class="btn btn-xs btn-default font-size-s visible-xs hidden-sm hidden-md hidden-lg"><i class="fa fa-language"></i> {{ currlangMOB }}</button>
+              </li>
+            </ul>
+            | <span class="font-size-s"><i class="fa fa-user"></i> Username</span> | <button class="btn btn-xs font-size-s btn-default"><span><i class="fa fa-globe"></i> View Site</span></button>
+        </div>
+      </div>
     </div>    
   </div>
+
 </div>
 
 
