@@ -53,8 +53,8 @@
             <ng-container matColumnDef="status">
                 <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Draft Status </mat-header-cell>
                 <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                    <i *ngIf="element.feedbackReplyFlag == true" class="fa fa-check" style="color: green;"></i>
-                    <i *ngIf="element.feedbackReplyFlag == false" class="fa fa-times" style="color: red;"></i>
+                    <i *ngIf="element.feedbackDraftFlag == true" class="fa fa-check" style="color: green;"></i>
+                    <i *ngIf="element.feedbackDraftFlag == false" class="fa fa-times" style="color: red;"></i>
                 </mat-cell>
             </ng-container>
 
