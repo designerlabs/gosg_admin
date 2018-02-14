@@ -27,8 +27,8 @@
 
                 <div class="bg-form-header col-md-12">
                     <div class="row">
-                        <label class="col-md-6 staticLabel font-size-s boldText">English</label>
-                        <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                        <label class="col-md-6">English</label>
+                        <label class="col-md-6">Bahasa Malaysia</label>
                     </div>
                 </div><br>
                    
@@ -54,10 +54,10 @@
                     </div>
                     <div class="col-md-6">
                         <mat-form-field class="example-full-width font-size-s" >
-                            <input matInput placeholder="User Type" formControlName="userTypeMy" #userTypeMy maxlength="100" 
+                            <input matInput placeholder="Jenis Pengguna" formControlName="userTypeMy" #userTypeMy maxlength="100" 
                             (keyup)="checkReqValues()" required>
                             <mat-error *ngIf="updateForm.controls.userTypeMy.hasError('required')">
-                                User Type is required
+                                Jenis Pengguna diperlukan
                             </mat-error>
                             <mat-hint align="end">{{userTypeMy.value?.length || 0}}/100</mat-hint>
                         </mat-form-field>

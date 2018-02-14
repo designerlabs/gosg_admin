@@ -32,8 +32,8 @@
       <div class="example-container mat-elevation-z8 paddingBottom-10">
           <div class="bg-form-header col-md-12">
               <div class="row">
-                  <label class="col-md-6 staticLabel font-size-s boldText">English</label>
-                  <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                  <label class="col-md-6">English</label>
+                  <label class="col-md-6">Bahasa Malaysia</label>
               </div>
           </div><br>
              
@@ -49,20 +49,20 @@
           <div class="example-header">
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Category Title" formControlName="catEng" #catEng maxlength="100" 
+                      <input matInput placeholder="Category " formControlName="catEng" #catEng maxlength="100" 
                       (keyup)="checkReqValues()" required>
                       <mat-error *ngIf="updateForm.controls.catEng.hasError('required')">
-                              Category Title is required
+                              Category is required
                       </mat-error>
                       <mat-hint align="end">{{catEng.value?.length || 0}}/100</mat-hint>
                   </mat-form-field>
               </div>
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Category Title" formControlName="catMy" #catMy maxlength="100" 
+                      <input matInput placeholder="Kategori" formControlName="catMy" #catMy maxlength="100" 
                       (keyup)="checkReqValues()" required>
                       <mat-error *ngIf="updateForm.controls.catMy.hasError('required')">
-                        Category Title is required
+                        Kategori diperlukan
                       </mat-error>
                       <mat-hint align="end">{{catMy.value?.length || 0}}/100</mat-hint>
                   </mat-form-field>
@@ -83,10 +83,10 @@
               </div>
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <textarea matInput placeholder="Description" formControlName="descMy" #descMy maxlength="500" 
+                      <textarea matInput placeholder="Penerangan" formControlName="descMy" #descMy maxlength="500" 
                       (keyup)="checkReqValues()" required></textarea>
                       <mat-error *ngIf="updateForm.controls.descMy.hasError('required')">
-                        Description is required
+                            Penerangan diperlukan
                       </mat-error>
                       <mat-hint align="end">{{descMy.value?.length || 0}}/500</mat-hint>
                   </mat-form-field>

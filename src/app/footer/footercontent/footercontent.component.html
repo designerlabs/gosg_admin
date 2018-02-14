@@ -54,8 +54,8 @@
             
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-6 staticLabel font-size-s boldText">English</label>
-                    <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                    <label class="col-md-6">English</label>
+                    <label class="col-md-6">Bahasa Malaysia</label>
                 </div>
             </div><br>
              
@@ -81,10 +81,10 @@
               </div>
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Name" formControlName="nameMy" #nameMy maxlength="100" 
+                      <input matInput placeholder="Nama" formControlName="nameMy" #nameMy maxlength="100" 
                       (keyup)="checkReqValues()" required>
                       <mat-error *ngIf="updateForm.controls.nameMy.hasError('required')">
-                        Name is required
+                        Nama diperlukan
                       </mat-error>
                       <mat-hint align="end">{{nameMy.value?.length || 0}}/100</mat-hint>
                   </mat-form-field>
@@ -101,7 +101,7 @@
               </div>
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <textarea matInput placeholder="Description" formControlName="descMy" #descMy maxlength="500"></textarea>
+                      <textarea matInput placeholder="Penerangan" formControlName="descMy" #descMy maxlength="500"></textarea>
                       <mat-hint align="end">{{descMy.value?.length || 0}}/500</mat-hint>
                   </mat-form-field>
               </div>
@@ -116,7 +116,7 @@
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Icon" formControlName="iconMy" #iconMy maxlength="100">
+                    <input matInput placeholder="Ikon" formControlName="iconMy" #iconMy maxlength="100">
                     <mat-hint align="end">{{iconMy.value?.length || 0}}/100</mat-hint>
                 </mat-form-field>
             </div>
@@ -137,7 +137,7 @@
             </div>
             <div class="col-md-5" style="border: 0px solid #000; text-align: left">
               <mat-form-field class="example-full-width font-size-s">
-                <mat-select formControlName="imgMy" placeholder="Select Image">
+                <mat-select formControlName="imgMy" placeholder="Pilih Gambar">
                     <mat-option [value]="1">image1.png</mat-option>
                     <mat-option [value]="2">image2.jpg</mat-option>
                     <mat-option [value]="3">image3.png</mat-option>
@@ -167,13 +167,13 @@
           <div class="example-header">
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Seq #" formControlName="seqEng" #seqEng maxlength="100">
+                    <input matInput placeholder="Sequence Number" formControlName="seqEng" #seqEng maxlength="100">
                     <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint>
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Seq #" formControlName="seqMy" #seqMy maxlength="100">
+                    <input matInput placeholder="Nombor Urutan" formControlName="seqMy" #seqMy maxlength="100">
                     <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint>
                 </mat-form-field>
             </div>
