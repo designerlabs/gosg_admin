@@ -29,6 +29,8 @@ export class AgencyappComponent implements OnInit {
   refCode:any;
   agencyAppIdEn:any;
   agencyAppIdBm:any;
+  agencyId:any;
+  ministryName:any;
 
   agencyAppNameEn: FormControl
   agencyAppNameBm: FormControl
@@ -119,39 +121,49 @@ export class AgencyappComponent implements OnInit {
       // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
         Rdata => {
   
-          this.AgencyData = Rdata['agencyList'];
+          this.AgencyData = Rdata['list'];
+          // 
           // console.log(JSON.stringify(this.AgencyAppData))
           console.log(this.AgencyData)
-          console.log(this.AgencyData[0].list[0].agencyName)
+          // console.log(this.AgencyData[0]['list'][0].agencyName)
       });
   }
 
   getSearchData(keyword){
     this.isActive = true;
     this.isActiveList = true;
-    // debugger;
-    if(!keyword.value){
-      keyword == '-';
-    }
 
     if(keyword != "") {
       this.http.get(
-        this.appConfig.urlSearchbyMinistry+keyword.value).subscribe(
+        this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID')).subscribe(
         data => {
-        this.searchAgencyResult = data['ministryList'];
-        console.log(this.searchAgencyResult)
+          console.log(this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID'))
+          this.searchAgencyResult = data['agencyList'];
+          console.log(this.searchAgencyResult)
+          // this.searchAgencyResult.
       });
     }
   }
   
-  getValue(mId,mName){
-    // console.log(val)
+  getValue(aId,aName,mName){
+    console.log(aId)
+    console.log(aName)
+    console.log(mName)
     this.agency = this.agencyAppForm.get('agency').value;
     this.isActive = false;
     this.isActiveList = false;
     this.searchAgencyResult = [''];
-    this.agencyAppForm.get('agency').setValue(mName);
-    this.agency = mId;
+    this.agencyAppForm.get('agency').setValue(aName);
+    this.agency = aId;
+    this.agencyId = aId;
+    console.log(this.agencyId)
+
+    console.log(mName)
+
+    if(mName != "")
+      this.ministryName = mName;
+      else
+      this.ministryName = "-";
   }
 
   checkReqValues() {
@@ -160,9 +172,9 @@ export class AgencyappComponent implements OnInit {
     let descEn = "descEn";
     let agencyAppNameBm = "agencyAppNameBm";
     let descBm = "descBm";
-    let agencyId = "agencyId";
+    let agency = "agency";
 
-    let reqVal: any = [agencyAppNameEn, descEn, agencyAppNameBm, descBm, agencyId];
+    let reqVal: any = [agencyAppNameEn, descEn, agencyAppNameBm, descBm, agency];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -208,10 +220,7 @@ export class AgencyappComponent implements OnInit {
           "languageId": 1
         },
         "agency": {
-          "agencyId": null,
-          "language": {
-            "languageId": 1
-          }
+          "agencyId": null
         }
       }, 
       {
@@ -221,10 +230,7 @@ export class AgencyappComponent implements OnInit {
           "languageId": 2
         },
         "agency": {
-          "agencyId": null,
-          "language": {
-            "languageId": 2
-          }
+          "agencyId": null
         }
       }
     ];
@@ -233,11 +239,11 @@ export class AgencyappComponent implements OnInit {
 
     body[0].agencyApplicationName = formValues.agencyAppNameEn;
     body[0].agencyApplicationDescription = formValues.descEn;
-    body[0].agency.agencyId = formValues.agencyId;
+    body[0].agency.agencyId = this.agencyId;
 
     body[1].agencyApplicationName = formValues.agencyAppNameBm;
     body[1].agencyApplicationDescription = formValues.descBm;
-    body[1].agency.agencyId = formValues.agencyId;
+    body[1].agency.agencyId = this.agencyId;
 
     console.log(body)
 

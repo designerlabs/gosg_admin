@@ -410,8 +410,6 @@ delMediaType(mediaTypeId) {
   updateMinistry(ministry) {
 
     // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(Agency)
-    // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
     return this.http.put(this.appConfig.urlMinistry + "/update/multiple", ministry)
     .map((response: Response) => response.json())
@@ -440,9 +438,8 @@ delMediaType(mediaTypeId) {
 
   addAgency(agency) {
 
-    // console.log(this.appConfig.urlSlides)
-    // console.log(Agency)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    console.log(this.appConfig.urlAgency)
+    console.log(agency)
     
     return this.http.post(this.appConfig.urlAgency, agency)
     .map((response: Response) => response.json())
@@ -451,9 +448,9 @@ delMediaType(mediaTypeId) {
 
   updateAgency(agency) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(Agency)
-    // debugger;
+    console.log(this.appConfig.urlAgency)
+    console.log(agency)
+    
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
     return this.http.put(this.appConfig.urlAgency, agency)
     .map((response: Response) => response.json())

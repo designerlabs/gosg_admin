@@ -201,10 +201,6 @@ export class AgencyComponent implements OnInit {
   getSearchData(keyword){
     this.isActive = true;
     this.isActiveList = true;
-    // debugger;
-    if(!keyword){
-      keyword = '-';
-    }
 
     if(keyword != "") {
       this.http.get(
@@ -357,8 +353,8 @@ export class AgencyComponent implements OnInit {
       body[0].agencyYoutube = formValues.youtubeUrl;
       body[0].agencyMinistry.ministryId = this.ministryId;
   
-      body[1].agencyName = formValues.agencyNameEn;
-      body[1].agencyDescription = formValues.descEn;
+      body[1].agencyName = formValues.agencyNameBm;
+      body[1].agencyDescription = formValues.descBm;
       body[1].agencyAddress = formValues.address;
       body[1].agencyLatitude = formValues.agclat;
       body[1].agencyLongitude = formValues.agclong;
@@ -396,25 +392,25 @@ export class AgencyComponent implements OnInit {
       {
         "agencyId": null,
         "agencyCode": null,
-        "agencyName": null,
-        "agencyDescription": null,
-        "agencyAddress": null,
-        "agencyLatitude": null,
-        "agencyLongitude": null,
-        "agencyPhoneNo": null,
-        "agencyFax": null,
-        "agencyEmail": null,
-        "agencyStatus": null,
-        "agencyBlog": null,
-        "agencyContactPerson": null,
-        "agencyFacebook": null,
-        "agencyFlickr": null,
-        "agencyInstagram": null,
-        "agencyMdecStatus": null,
-        "agencyRss": null,
-        "agencyTwitter": null,
-        "agencyWebsiteUrl": null,
-        "agencyYoutube": null,
+        "agencyName": "",
+        "agencyDescription": "",
+        "agencyAddress": "",
+        "agencyLatitude": "",
+        "agencyLongitude": "",
+        "agencyPhoneNo": "",
+        "agencyFax": "",
+        "agencyEmail": "",
+        "agencyStatus": "",
+        "agencyBlog": "",
+        "agencyContactPerson": "",
+        "agencyFacebook": "",
+        "agencyFlickr": "",
+        "agencyInstagram": "",
+        "agencyMdecStatus": false,
+        "agencyRss": "",
+        "agencyTwitter": "",
+        "agencyWebsiteUrl": "",
+        "agencyYoutube": "",
         "language": {
           "languageId": 1
         },
@@ -425,25 +421,25 @@ export class AgencyComponent implements OnInit {
       {
         "agencyId": null,
         "agencyCode": null,
-        "agencyName": null,
-        "agencyDescription": null,
-        "agencyAddress": null,
-        "agencyLatitude": null,
-        "agencyLongitude": null,
-        "agencyPhoneNo": null,
-        "agencyFax": null,
-        "agencyEmail": null,
-        "agencyStatus": null,
-        "agencyBlog": null,
-        "agencyContactPerson": null,
-        "agencyFacebook": null,
-        "agencyFlickr": null,
-        "agencyInstagram": null,
-        "agencyMdecStatus": null,
-        "agencyRss": null,
-        "agencyTwitter": null,
-        "agencyWebsiteUrl": null,
-        "agencyYoutube": null,
+        "agencyName": "",
+        "agencyDescription": "",
+        "agencyAddress": "",
+        "agencyLatitude": "",
+        "agencyLongitude": "",
+        "agencyPhoneNo": "",
+        "agencyFax": "",
+        "agencyEmail": "",
+        "agencyStatus": "",
+        "agencyBlog": "",
+        "agencyContactPerson": "",
+        "agencyFacebook": "",
+        "agencyFlickr": "",
+        "agencyInstagram": "",
+        "agencyMdecStatus": false,
+        "agencyRss": "",
+        "agencyTwitter": "",
+        "agencyWebsiteUrl": "",
+        "agencyYoutube": "",
         "language": {
           "languageId": 2
         },
@@ -477,6 +473,8 @@ export class AgencyComponent implements OnInit {
     body[0].agencyMinistry.ministryId = this.ministryId;
 
     body[1].agencyId = this.agencyIdBm;
+    body[1].agencyName = formValues.agencyNameBm;
+    body[1].agencyDescription = formValues.descBm;
     body[1].agencyCode = this.refCode;
     body[1].agencyAddress = formValues.address;
     body[1].agencyLatitude = formValues.agclat;
@@ -498,6 +496,7 @@ export class AgencyComponent implements OnInit {
     body[1].agencyMinistry.ministryId = this.ministryId;
 
     console.log(body);
+    console.log(JSON.stringify(body));
 
     // // Update ErrorMsg Service
     this.commonservice.updateAgency(body).subscribe(
