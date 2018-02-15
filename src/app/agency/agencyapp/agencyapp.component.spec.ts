@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgencyapptypeComponent } from './agencyapptype.component';
+import { AgencyappComponent } from './agencyapp.component';
 
-describe('AgencyapptypeComponent', () => {
-  let component: AgencyapptypeComponent;
-  let fixture: ComponentFixture<AgencyapptypeComponent>;
+describe('AgencyappComponent', () => {
+  let component: AgencyappComponent;
+  let fixture: ComponentFixture<AgencyappComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgencyapptypeComponent ]
+      declarations: [ AgencyappComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgencyapptypeComponent);
+    fixture = TestBed.createComponent(AgencyappComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

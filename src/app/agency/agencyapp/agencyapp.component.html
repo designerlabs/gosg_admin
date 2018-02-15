@@ -1,9 +1,9 @@
-<!-- VIEW: ADD/EDIT AGENCY APP TYPE -->
+<!-- VIEW: ADD/EDIT AGENCY APP  -->
 <div class="container right-content">
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ pageMode }} Agency Application Type</h3>
+          <h3>{{ pageMode }} Agency Application </h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -14,34 +14,34 @@
       </div> 
   </div>
 
-  <form [formGroup]="agencyAppTypeForm" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="agencyAppForm" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
           <div class="bg-form-header col-md-6">
-            <label class="staticLabel font-size-s boldText">English</label>
+            <label>English</label>
           </div>
           <div class="bg-form-header col-md-6">
-            <label class="staticLabel font-size-s boldText">Bahasa Malaysia</label>
+            <label>Bahasa Malaysia</label>
           </div>
         </div>
   
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width ">
               <input matInput tabindex="1" placeholder="Agency Application Name" formControlName="agencyAppNameEn" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyAppTypeForm.controls.agencyAppNameEn.hasError('required')">
+              <mat-error *ngIf="agencyAppForm.controls.agencyAppNameEn.hasError('required')">
                 Agency Application Name is required
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width ">
               <input matInput tabindex="2" placeholder="Agency Application Name" formControlName="agencyAppNameBm" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyAppTypeForm.controls.agencyAppNameBm.hasError('required')">
+              <mat-error *ngIf="agencyAppForm.controls.agencyAppNameBm.hasError('required')">
                 Agency Application Name is required
               </mat-error>
             </mat-form-field>
@@ -50,20 +50,20 @@
   
         <div class="row">
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width ">
               <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="agencyAppTypeForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="agencyAppForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
             </mat-form-field>
           </div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width ">
               <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="agencyAppTypeForm.controls.descBm.hasError('required')">
+              <mat-error *ngIf="agencyAppForm.controls.descBm.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
@@ -76,15 +76,28 @@
         <!-- <div class="col-md-12">&nbsp;</div> -->
         <div class="row">
           <div class="col-md-6" style="border: 0px solid #000; text-align: left">
-            <mat-form-field class="example-full-width font-size-s">
-              <mat-select tabindex="5" formControlName="agencyId" placeholder="Select Agency" (change)="checkReqValues()" required>
-                <mat-option *ngFor="let agency of AgencyData" [value]="agency.list[0].agencyCode">{{ agency.list[0].agencyName}}</mat-option>
-              </mat-select>
-              <mat-error *ngIf="agencyAppTypeForm.get('agencyId').hasError('required')">
-                Please select Agency
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="5" placeholder="Agency" formControlName="agency" #agencyId (keyup)="getSearchData(agency.value)" (change)="checkReqValues()" required>
+              <mat-error *ngIf="agencyAppForm.controls.agency.hasError('required')">
+                Agency is required
               </mat-error>
             </mat-form-field>
+
+            <div *ngIf="isActiveList" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
+              <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
+                <li *ngFor="let data of searchAgencyResult">
+                  <button (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName)">{{data?.agencyName}}</button>
+                </li>
+              </ul>
+            </div>
           </div>
+
+          <div class="col-md-6" style="margin-top: -0.5%">
+            <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Ministry</label>
+            <br />
+            <span>{{ ministryName }}</span>
+          </div>
+
           <div class="col-md-12">&nbsp;</div>
         </div>
       </div>
@@ -92,11 +105,11 @@
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group">
-          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="updateAgencyAppType(agencyAppTypeForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success  pull-right"
+            (click)="updateAgencyApp(agencyAppForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
-          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning  pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i>&nbsp;Reset</button>
         </div>

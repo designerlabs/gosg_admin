@@ -79,7 +79,9 @@ export class AppConfig {
     urlAdminUserPermission:string;
 
     urlFooterCategory: string;
+    urlFooterContent: string;
     lang: string;
+    urlAdminUserFind: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -104,7 +106,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAgency: commonURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
     
-
+    urlAdminUserFind: commonURL+'adminuser',
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
@@ -128,6 +130,7 @@ export const APP_DI_CONFIG: AppConfig = {
 
     urlFaqList: commonURL + 'faq',
     urlFooterCategory: commonURL + 'footer',
+    urlFooterContent: commonURL + 'footercontent',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
