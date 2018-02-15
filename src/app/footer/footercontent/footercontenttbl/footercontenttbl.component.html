@@ -28,29 +28,29 @@
       <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
 
             <ng-container matColumnDef="no">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
                     {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="catEng">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Footer Category (English) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 21%;" *matHeaderCellDef> Footer Category (English) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 21%;" *matCellDef="let element">
                     {{element.list[0].footer.name}}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="nameEng">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> Name (English) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 27%;" *matHeaderCellDef> Name (English) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 27%;" *matCellDef="let element">
                     {{element.list[1].name}}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="nameMy">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> Name (Malay) </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element">
+                <mat-header-cell class="text-align-left" style="flex: 0 0 27%;" *matHeaderCellDef> Name (Malay) </mat-header-cell>
+                <mat-cell class="text-align-left" style="flex: 0 0 27%;" *matCellDef="let element">
                     {{element.list[1].name}}
                 </mat-cell>
             </ng-container>
