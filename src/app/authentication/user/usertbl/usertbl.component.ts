@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl } from '@angular/forms';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-usertbl',
@@ -14,6 +15,7 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  userId: any;
   lang:any;
   languageId: any;
   isActiveList: boolean;
@@ -45,6 +47,7 @@ export class UsertblComponent implements OnInit {
   emailFld: FormControl;
   icFld:FormControl;
   userType: FormControl;
+  isMailContainerShow = 'block';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -63,7 +66,8 @@ export class UsertblComponent implements OnInit {
     private commonservice: CommonService, 
     private router: Router,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private dialogsService: DialogsService,
   ) {
     
     /* LANGUAGE FUNC */
@@ -75,7 +79,7 @@ export class UsertblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getUsersData(this.pageCount, this.pageSize);
+              this.getUsersData(this.pageCount, this.pageSize); //internal function
             }
           }.bind(this));
         })
@@ -146,6 +150,8 @@ export class UsertblComponent implements OnInit {
     });
   }
 
+
+
   getSearchData(findby,type,keyword){
     this.isActive = true;
     this.isActiveList = true;
@@ -178,6 +184,28 @@ export class UsertblComponent implements OnInit {
     this.noPrevData = true;
   }
 
+  resetMethod(event, msgId) {
+    debugger;
+    this.isMailContainerShow = 'none';
+    this.deleteMail(msgId);
+  }
+
+  
+  deleteMail(msgId){
+    
+    this.commonservice.addUserList(msgId).
+    subscribe(
+      success => {
+    //    this.getMails(this.mailPageCount, this.mailPageSize);
+        this.toastr.error(this.translate.instant('mailbox.success.deletesuccess'), '');     
+      },
+      Error => {
+
+       this.toastr.error(this.translate.instant('mailbox.err.failtodelete'), '');            
+     });
+  }
+
+
   closeUser(){
     this.addUserBtn = true;
     this.closeUserBtn = false;
@@ -190,24 +218,42 @@ export class UsertblComponent implements OnInit {
     this.showUserInput = true;
     this.animateClass = "animated flipInX";
   }
+
+  addUserDetails(){
+
+    this.commonservice.addUserList(this.userId).subscribe(
+      data => {
+          let statusCode = data.statusCode.toLowerCase();
+          if(statusCode == 'error'){
+            this.toastr.error(data.statusDesc, 'Error');
+          }else{
+            this.toastr.success('User successfully Add!', 'success');
+          }
+          
+          this.checkReqValues();
+          this.closeUser();
+          this.getUsersData(this.pageCount, this.pageSize);
+      }
+    )
   
+  }
+
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
     this.router.navigate(['admin/permission', row]);
   }
 
-  deleteRow(enId,bmId) {
+  deleteRow(enId) {
     let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+    let r = confirm("Are you sure to delete " + enId  + "?");
     if (r == true) {
 
-      this.commonservice.delSlider(enId,bmId).subscribe(
+      this.commonservice.deleteUserList(enId).subscribe(
         data => {
           txt = "Slider deleted successfully!";
-          // this.router.navigate(['slider']);
           this.toastr.success(txt, '');   
-          window.location.reload();
+          this.getUsersData(this.pageCount, this.pageSize);
         },
         error => {
           console.log("No Data")
@@ -233,7 +279,8 @@ export class UsertblComponent implements OnInit {
     this.router.navigate(['slider']);
   }
   
-  getValue(type, val){
+  getValue(type, val, usrId){
+    this.userId = usrId;
     this.isActive = false;
     this.isActiveList = false;
     this.searchUserResult = [''];

@@ -174,14 +174,26 @@ export class CommonService {
   }
 
   getUserList(id){
-    return this.http.get(this.appConfig.urlCommon+'adminuser/'+id)
+    return this.http.get(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json().adminUserDetails)
+    .catch(this.handleError);
+  }
+
+  addUserList(id){
+    return this.http.post(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId,'')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  deleteUserList(id){
+    return this.http.delete(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId,'')
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
 
   updateUserPermission(id, data){
-    return this.http.put(this.appConfig.urlAdminUserPermission+'/'+id, data)
+    return this.http.put(this.appConfig.urlAdminUserPermission+'/'+id+'?language='+this.languageId, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
