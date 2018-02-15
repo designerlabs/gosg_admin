@@ -45,6 +45,11 @@ export class FootercontentComponent implements OnInit {
   public imgEng: FormControl;
   public urlEng: FormControl;
   public seqEng: FormControl;
+  public getIdEng: any;
+  public getContentCodeEng: any; 
+  public getFooterNameEng: any; 
+  public getFooterIdEng: any;
+
 
   public nameMy: FormControl;
   public descMy: FormControl;
@@ -52,22 +57,18 @@ export class FootercontentComponent implements OnInit {
   public imgMy: FormControl;
   public urlMy: FormControl;
   public seqMy: FormControl;
+  public getIdMy: any;
+  public getContentCodeMy: any; 
+  public getFooterNameMy: any; 
+  public getFooterIdMy: any;
 
   public active: FormControl;
-  public copyImg: FormControl;
-
-  public dataUrl: any;  
-  public recordList: any;
-
-  // public getIdentificationType: any;
-
-  public getIdEng: any;
-
-  public getIdMy: any;
-
+  public copyImg: FormControl;  
   public getRefCode: any;
   public getCat: any;
 
+  public dataUrl: any;  
+  public recordList: any;
 
 
   complete: boolean;
@@ -164,10 +165,20 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
       this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
       
-      this.getIdEng = this.recordList.list[0].id;
-      this.getIdMy = this.recordList.list[1].id;
-
       this.getRefCode = this. recordList.refCode;
+
+      this.getIdEng = this.recordList.list[0].id;
+      this.getContentCodeEng = this.recordList.list[0].contentCode;
+      this.getFooterNameEng = this.recordList.list[0].footer.name;
+      this.getFooterIdEng = this.recordList.list[0].footer.id;
+
+
+      this.getIdMy = this.recordList.list[1].id;
+      this.getContentCodeMy = this.recordList.list[0].contentCode;
+      this.getFooterNameMy = this.recordList.list[0].footer.name;
+      this.getFooterIdMy = this.recordList.list[0].footer.id;
+
+      
 
       this.checkReqValues();
 
@@ -197,13 +208,14 @@ export class FootercontentComponent implements OnInit {
 
       let body = [
         {
-          "category": null,
+          "id": null,
           "name": null,
-          "desc": null,
-          "enabled": false,
-          "icon": null,
-          "image": null,
+          "description": null,
           "url": null,
+          "icon": null,
+          "contentCode": null,
+          "enabled": false,
+          "image": null,
           "seq": null,
           "language": {
               "languageId": null
