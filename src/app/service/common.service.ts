@@ -503,11 +503,9 @@ delMediaType(mediaTypeId) {
   // LANGUAGE
   getAllLanguage() {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlLanguage + '/all').subscribe(
-      Rdata => {
-      this.dataTbl = Rdata;
-      // this.router.navigate(['user', code]);
-    });
+    return this.http.get(this.appConfig.urlLanguage + '/all')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
   }
 
   addLanguage(language) {
