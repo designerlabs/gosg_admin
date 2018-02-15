@@ -588,7 +588,7 @@ delMediaType(mediaTypeId) {
 
   // Start Poll Question - N
   addRecord(record) {
-    let fullUrl = this.appConfig.urlPoll + "/question";
+    let fullUrl = this.appConfig.urlPoll + "/question?language=" +this.languageId;
   
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -596,15 +596,15 @@ delMediaType(mediaTypeId) {
   }
 
   delRecord(enId, bmId) {
-    let fullUrl = this.appConfig.urlPoll + "/question";
+    let fullUrl = this.appConfig.urlPoll + "/question/delete/selected?id=" + enId + "," +bmId + "&language=" +this.languageId;
 
-    return this.http.delete(fullUrl + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecord(record) {
-    let fullUrl = this.appConfig.urlPoll + "/question/multiple/update";
+    let fullUrl = this.appConfig.urlPoll + "/question/multiple/update?language=" +this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())

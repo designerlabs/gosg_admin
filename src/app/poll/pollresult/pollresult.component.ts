@@ -6,6 +6,7 @@ import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pollresult',
@@ -28,6 +29,7 @@ export class PollresultComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  languageId: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -41,8 +43,33 @@ export class PollresultComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) { 
+  constructor(
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService, 
+    private router: Router,
+    private translate: TranslateService) { 
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              //this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getData();
+    }
+    /* LANGUAGE FUNC */
     
     this.getRecordList(this.pageCount, this.pageSize);
   }
@@ -54,7 +81,7 @@ export class PollresultComponent implements OnInit {
 
   getRecordList(count, size) {
     
-    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size + '&language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
