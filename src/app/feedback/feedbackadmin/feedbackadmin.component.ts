@@ -26,7 +26,11 @@ export class FeedbackadminComponent implements OnInit {
   public messages: any;
   public email: any;
   public replyMessage: any;
-
+  public lang: any;
+  public feedbackTicketNo: any;
+  public feedbackUserIpAddress: any;
+  public feedbackTypeId: any;
+  public feedbackSubjectId: any;
   public dataUrl: any;  
   public recordList: any;
 
@@ -63,13 +67,22 @@ export class FeedbackadminComponent implements OnInit {
       console.log("data");
       console.log(data);    
 
+      this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks); 
+
       this.name = this.recordList.feedback.feedbackName;
       this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
       this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
       this.messages = this.recordList.feedback.feedbackMessage;
       this.email = this.recordList.feedback.feedbackEmail;
-      this.replyMessage = this.recordList.feedback.feedbackMessage;
-      console.log(this.messages);    
+      this.replyMessage = this.recordList.feedback.feedbackRemarks;
+      this.lang = this.recordList.feedback.language.languageId;
+      this.feedbackTicketNo = this.recordList.feedback.feedbackTicketNo;
+      this.feedbackUserIpAddress = this.recordList.feedback.feedbackUserIpAddress;
+      this.feedbackTypeId = this.recordList.feedback.feedbackType.feedbackTypeId;
+      this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
+
+      this.getId = this.recordList.feedback.feedbackId;
+      console.log(this.messages);       
       
     });
   }

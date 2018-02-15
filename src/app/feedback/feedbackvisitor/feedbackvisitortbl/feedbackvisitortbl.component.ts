@@ -36,6 +36,7 @@ export class FeedbackvisitortblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(val) {
+    
     console.log(val)
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val);
@@ -55,7 +56,7 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size + '&language=1';
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -105,40 +106,11 @@ export class FeedbackvisitortblComponent implements OnInit {
     this.getRecordList(page + 1, this.pageSize);
   }
 
-  // add() {
-  //   this.router.navigate(['feedback/message/visitor/add']);
-  //   this.commonservice.pageModeChange(false);
-  // }
-
   updateRow(row) {
     console.log(row);
     this.router.navigate(['feedback/message/visitor/', row]);
     this.commonservice.pageModeChange(true);
   }
-
-  // deleteRow(refcode) {
-  //   let txt;
-  //   let r = confirm("Are you sure to delete?");
-  //   if (r == true) {
-
-  //     console.log(refcode);
-  //     this.commonservice.delRecordAccStatus(refcode).subscribe(
-  //       data => {
-          
-  //         txt = "Record deleted successfully!";
-
-  //         this.toastr.success(txt, '');  
-  //         this.getRecordList(this.pageCount, this.pageSize);
-  //       },
-  //       error => {
-  //         console.log("No Data")
-  //     });
-  //   }
-
-  //   else{
-  //     txt = "Delete Cancelled!";
-  //   }
-  // }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
