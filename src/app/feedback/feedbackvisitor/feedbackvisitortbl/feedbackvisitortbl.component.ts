@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-feedbackvisitortbl',
@@ -29,6 +30,7 @@ export class FeedbackvisitortblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  languageId: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -36,7 +38,7 @@ export class FeedbackvisitortblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(val) {
-    
+
     console.log(val)
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val);
@@ -46,8 +48,37 @@ export class FeedbackvisitortblComponent implements OnInit {
     }
   }
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService) { 
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -56,7 +87,7 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size + '&language=1';
+    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size + '&language='+this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -75,7 +106,7 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   getFilterList(count, size, val) {
   
-    this.dataUrl = this.appConfig.urlFeedback + '/search/'+ val +'?page=' + count + '&size=' + size + "&language=1";
+    this.dataUrl = this.appConfig.urlFeedback + '/search/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
