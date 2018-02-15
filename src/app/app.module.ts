@@ -96,6 +96,8 @@ import { FootercontentComponent } from './footer/footercontent/footercontent.com
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 
 import { HttpClient } from '@angular/common/http/src/client';
+import { GalleryComponent } from './gallery/gallery.component';
+import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -176,6 +178,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FootercategorytblComponent,
     FootercontentComponent,
     FootercontenttblComponent,
+    GalleryComponent,
+    GallerytblComponent,
   ],
   imports: [
     BrowserModule,

@@ -14,6 +14,7 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  lang:any;
   languageId: any;
   isActiveList: boolean;
   isActive: boolean;
@@ -65,37 +66,34 @@ export class UsertblComponent implements OnInit {
     private translate: TranslateService
   ) {
     
+    /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      const myLang = translate.currentLang;
-      if (myLang == 'en') {
-        translate.get('HOME').subscribe((res: any) => {
-            this.lang = 'en';
-            this.languageId = 1;
-        });
-  
-      }
-      if (myLang == 'ms') {
-        translate.get('HOME').subscribe((res: any) => {
-            this.lang = 'ms';
-            this.languageId = 2;
-        });
-      }
-      
-      this.getUsersData(this.pageCount, this.pageSize);
-
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getUsersData(this.pageCount, this.pageSize);
     }
+
+    /* LANGUAGE FUNC */
     
   }
 
-  lang = this.lang;
   
   
   ngOnInit() {
- 
+    
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'activeFlag', 'action'];
