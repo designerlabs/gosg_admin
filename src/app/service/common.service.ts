@@ -38,23 +38,26 @@ export class CommonService {
     private translate: TranslateService
   ) {
 
-      translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        const myLang = translate.currentLang;
-        if (myLang == 'en') {
-          translate.get('HOME').subscribe((res: any) => {
-              this.lang = 'en';
-              this.languageId = 1;
-          });
-    
-        }
-        if (myLang == 'ms') {
-          translate.get('HOME').subscribe((res: any) => {
-              this.lang = 'ms';
-              this.languageId = 2;
-          });
-        }
-  
+       /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
       });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }
+
+    /* LANGUAGE FUNC */
      }
   lang = this.lang;
   private usersUrl: string = this.appConfig.urlUsers;
