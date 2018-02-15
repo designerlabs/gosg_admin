@@ -27,6 +27,7 @@ export class AppConfig {
     urlMinistry: string;
     urlAgency: string;
     urlAgencyApp: string;
+    urlGallery: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
@@ -105,6 +106,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlMinistry: commonURL + 'ministry',
     urlAgency: commonURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
+    urlGallery: commonURL+'gallery',
     
     urlAdminUserFind: commonURL+'adminuser',
     urlAdminUserList: commonURL+'adminuser/userList',

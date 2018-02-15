@@ -130,10 +130,11 @@ export class AgencyappComponent implements OnInit {
   }
 
   getSearchData(keyword){
-    this.isActive = true;
-    this.isActiveList = true;
 
-    if(keyword != "") {
+    if(keyword != "" && keyword.length >= 3) {
+      this.isActive = true;
+      this.isActiveList = true;
+
       this.http.get(
         this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID')).subscribe(
         data => {
@@ -142,13 +143,12 @@ export class AgencyappComponent implements OnInit {
           console.log(this.searchAgencyResult)
           // this.searchAgencyResult.
       });
+    } else {
+      this.isActiveList = false;
     }
   }
   
   getValue(aId,aName,mName){
-    console.log(aId)
-    console.log(aName)
-    console.log(mName)
     this.agency = this.agencyAppForm.get('agency').value;
     this.isActive = false;
     this.isActiveList = false;
@@ -156,7 +156,6 @@ export class AgencyappComponent implements OnInit {
     this.agencyAppForm.get('agency').setValue(aName);
     this.agency = aId;
     this.agencyId = aId;
-    console.log(this.agencyId)
 
     console.log(mName)
 

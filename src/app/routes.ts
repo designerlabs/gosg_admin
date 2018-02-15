@@ -74,6 +74,8 @@ import { FootercategorytblComponent } from './footer/footercategory/footercatego
 
 import { FootercontentComponent } from './footer/footercontent/footercontent.component';
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
+import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
+import { GalleryComponent } from './gallery/gallery.component';
 
 
 export const appRoutes: Routes = [
@@ -120,6 +122,9 @@ export const appRoutes: Routes = [
 {path: 'slider', component: SlidertblComponent},
 {path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
+{path: 'gallery', component: GallerytblComponent},
+{path: 'gallery/add', component: GalleryComponent},
+{path: 'gallery/:id', component: GalleryComponent},
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},
