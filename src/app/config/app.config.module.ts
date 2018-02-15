@@ -46,6 +46,7 @@ export class AppConfig {
     urlCategoryList: string;
     urlAddressType: string;
     urlAccountStatus: string;
+    urlAdminUserList:string;
 
 }
 
@@ -67,7 +68,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlGroupList: commonURL + 'authorization/module/groupListView',
     
 
-
+    urlAdminUserList: mockApiURL+'userList',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
