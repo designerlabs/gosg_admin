@@ -777,7 +777,7 @@ delMediaType(mediaTypeId) {
   }
 
   addFooterContent(record) {
-    let fullUrl = this.appConfig.urlFooterContent + "?language=1" ;
+    let fullUrl = this.appConfig.urlFooterContent + "?language=" + this.languageId;
     // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
     console.log(fullUrl)
     console.log(record)
@@ -788,7 +788,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateFooterContent(record) {
-    let fullUrl = this.appConfig.urlFooterContent  + "?language=1" ;
+    let fullUrl = this.appConfig.urlFooterContent  + "?language=" + this.languageId ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -798,7 +798,7 @@ delMediaType(mediaTypeId) {
   delFooterContent(refCode) {
     let fullUrl = this.appConfig.urlFooterContent ;
     
-    return this.http.delete(fullUrl + '/' + refCode)
+    return this.http.delete(fullUrl + '/' + refCode + "?language=" + this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

@@ -25,6 +25,7 @@ import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footercontent',
@@ -74,11 +75,36 @@ export class FootercontentComponent implements OnInit {
   // public category: any;
   public categoryData: any;
 
+  public getCatValueEng: any;
+  public getCatValueMy: any;
+  languageId: any;
+
 
   complete: boolean;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  private translate: TranslateService) {
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              // this.getData();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      // this.getData();
+    }
+   }
 
   ngOnInit() {
 
@@ -177,7 +203,7 @@ export class FootercontentComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID;
+    this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID + "?language=" + this.languageId ;
 
     this.getCategory();
 
@@ -209,6 +235,8 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
       
       this.getRefCode = this. recordList.refCode;
+      this.getCatValueEng = this.recordList.list[0].footer.name;
+      this.getCatValueMy = this.recordList.list[1].footer.name;
 
       this.getIdEng = this.recordList.list[0].id;
       this.getContentCodeEng = this.recordList.list[0].contentCode;
