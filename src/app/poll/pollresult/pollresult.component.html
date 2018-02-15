@@ -19,12 +19,12 @@
         <mat-table #table [dataSource]="dataSource">     
 
             <!-- num Column -->
-            <!-- <ng-container matColumnDef="num">
+            <ng-container matColumnDef="num">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element">
-                    {{element.pollRefNo}} 
+                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
+                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
-            </ng-container> -->
+            </ng-container>
 
             <!-- Question 1 Column -->
             <ng-container matColumnDef="question">

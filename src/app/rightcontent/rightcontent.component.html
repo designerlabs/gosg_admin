@@ -8,7 +8,7 @@
   <div class="example-container mat-elevation-z8">
     <!-- Search and Filter Section -->
     <mat-form-field class="example-form-field">
-        <input matInput type="text" placeholder="Clearable input" [(ngModel)]="value"/>
+        <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Clearable input" [(ngModel)]="value"/>
         <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
             <mat-icon>close</mat-icon>
         </button>

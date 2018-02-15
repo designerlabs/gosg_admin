@@ -1,7 +1,7 @@
 
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
         <div class="container right-content">
-            <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+            <!-- <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
                 <h2 class="staticLabel pull-left">{{commonservice.pageMode}} Race/Ethnic</h2>
                 <br><br>
                 <span class="pull-right">            
@@ -9,9 +9,22 @@
                     <i class="fa fa-chevron-left font-size-m"></i> BACK
                   </a>
                 </span>
-            </div> 
+            </div>  -->
+
+            <div class="curdHeader">
+                <div class="col-md-10 curdHeadingLeft">
+                    <h3>{{ commonservice.pageMode }} Race/Ethnic</h3>
+                </div>
+                
+                <div class="col-md-2 curdHeadingRight">
+                    <span class="pull-right">
+                        <button type="button" mat-fab color="accent"  routerLink='/reference/ethnicity' >
+                        <i class="fa fa-arrow-left font-size-l"></i></button>
+                    </span>
+                </div> 
+            </div>
                        
-            <div class="example-container mat-elevation-z8">
+            <div class="example-container mat-elevation-z8 col-md-12">
                 <!-- <div class="bg-form-header col-md-12">
                     <div class="row">
                         <label class="col-md-6 staticLabel font-size-s boldText">Race/Ethnic (English)</label>
@@ -19,12 +32,17 @@
                     </div>
                 </div><br> -->
     
-                <div class="example-header">
-                    <div class="col-md-6 text-align-Center font-size-m"> Race/Ethnic (English) </div>
-                    <div class="col-md-6 text-align-Center font-size-m"> Race/Ethnic (Malay) </div>
+                <div class="row" style="margin-top: 10px;">
+                        
+                    <div class="col-md-6 text-align-Center font-size-m"> 
+                        <label class="staticLabel font-size-s boldText">Race/Ethnic (English)</label>
+                    </div>
+                    <div class="col-md-6 text-align-Center font-size-m"> 
+                        <label class="staticLabel font-size-s boldText">Race/Ethnic (Malay)</label>
+                    </div>
                 </div>
     
-                <div class="example-header">
+                <div class="row">
                     <div class="col-md-6">
                         <mat-form-field class="example-full-width font-size-s" >
                             <textarea matInput placeholder="Race" formControlName="raceEng" #raceEng maxlength="200" 
@@ -50,7 +68,7 @@
     
                 
     
-                <div class="example-header">
+                <div class="row">
                     <div class="col-md-12">
                         <mat-checkbox class="example-full-width font-size-s" formControlName="active">Active</mat-checkbox>
                     </div>

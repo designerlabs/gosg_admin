@@ -1,16 +1,22 @@
 <div *ngIf="viewSeq == 1"  class="container right-content">
-  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
+  <!-- <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
     <h2 class="staticLabel">View State</h2>
+  </div> -->
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>State</h3>
+      </div>
   </div>
 
   <div class="example-container mat-elevation-z8">
-    <div class="example-header">
-      <mat-form-field class="font-size-s" >
+    <!-- <div class="example-header">
+      <mat-form-field class="font-size-s" style="margin: 5px 0 0 10px;" >
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
-    </div>
+    </div> -->
 
-    <mat-table #table [dataSource]="dataSource" style="max-height: 550px;">
+    <mat-table #table [dataSource]="dataSource">
 
       <!-- State Name Column -->
       <ng-container matColumnDef="stateName">
