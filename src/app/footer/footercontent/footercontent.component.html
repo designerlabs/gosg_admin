@@ -36,21 +36,21 @@
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
       <div class="example-container mat-elevation-z8 paddingBottom-10">
 
-            <!-- <div class="bg-form-header col-md-12">
+            
+
+            <div class="bg-form-header col-md-12" *ngIf = "commonservice.pageMode == 'Add'">
+                <div class="col-md-4"></div>
                 <div class="col-md-4">
-                </div>
-                <div class="col-md-4">
-                    <mat-form-field class="font-size-s" style="width:100%;">
-                        <mat-select formControlName="catEng" placeholder="Select Category">
-                            <mat-option *ngFor="let category of getCategory" [value]="category">{{ category?.catName }}</mat-option>
+                    <mat-form-field class="font-size-s" style="width:100%;" >
+                        <mat-select  placeholder="Select Category" (change)="selectedCat($event)">
+                            <mat-option *ngFor="let category of categoryData" [value]="category">{{ category?.list[0].name }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
-                <div class="col-md-4">
-                </div>
-            </div> -->
+                <div class="col-md-4"></div>
+            </div>
 
-            <br>
+            
             
             <div class="bg-form-header col-md-12">
                 <div class="row">
@@ -59,14 +59,16 @@
                 </div>
             </div><br>
              
-          <!-- <div class="example-header" style="margin-top: 10px;">
-              <div class="col-md-6 text-align-Center font-size-m"> 
-                  <label class="staticLabel font-size-s boldText">Question (English)</label>
-              </div>
-              <div class="col-md-6 text-align-Center font-size-m"> 
-                  <label class="staticLabel font-size-s boldText">Question (Malay)</label>
-              </div>
-          </div> -->
+            <div class="example-header"  *ngIf = "commonservice.pageMode == 'Update'">
+                <div class="col-md-6">
+                    <label>{{getCatValueEng}}</label>
+                </div>
+                <div class="col-md-6">
+                    <label>{{getCatValueMy}}</label>
+                </div>
+                <br>
+            </div>
+            
   
           <div class="example-header">
               <div class="col-md-6">
@@ -76,7 +78,7 @@
                       <mat-error *ngIf="updateForm.controls.nameEng.hasError('required')">
                               Name is required
                       </mat-error>
-                      <mat-hint align="end">{{nameEng.value?.length || 0}}/100</mat-hint>
+                      <!-- <mat-hint align="end">{{nameEng.value?.length || 0}}/100</mat-hint> -->
                   </mat-form-field>
               </div>
               <div class="col-md-6">
@@ -86,7 +88,7 @@
                       <mat-error *ngIf="updateForm.controls.nameMy.hasError('required')">
                         Nama diperlukan
                       </mat-error>
-                      <mat-hint align="end">{{nameMy.value?.length || 0}}/100</mat-hint>
+                      <!-- <mat-hint align="end">{{nameMy.value?.length || 0}}/100</mat-hint> -->
                   </mat-form-field>
               </div>
           </div>
@@ -111,13 +113,13 @@
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
                     <input matInput placeholder="Icon" formControlName="iconEng" #iconEng maxlength="100">
-                    <mat-hint align="end">{{iconEng.value?.length || 0}}/100</mat-hint>
+                    <!-- <mat-hint align="end">{{iconEng.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
                     <input matInput placeholder="Ikon" formControlName="iconMy" #iconMy maxlength="100">
-                    <mat-hint align="end">{{iconMy.value?.length || 0}}/100</mat-hint>
+                    <!-- <mat-hint align="end">{{iconMy.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
             </div>
           </div>
@@ -153,13 +155,13 @@
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
                     <input matInput placeholder="URL" formControlName="urlEng" #urlEng maxlength="100">
-                    <mat-hint align="end">{{urlEng.value?.length || 0}}/100</mat-hint>
+                    <!-- <mat-hint align="end">{{urlEng.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
                     <input matInput placeholder="URL" formControlName="urlMy" #urlMy maxlength="100">
-                    <mat-hint align="end">{{urlMy.value?.length || 0}}/100</mat-hint>
+                    <!-- <mat-hint align="end">{{urlMy.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
             </div>
           </div>
@@ -168,13 +170,13 @@
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
                     <input matInput placeholder="Sequence Number" formControlName="seqEng" #seqEng maxlength="100">
-                    <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint>
+                    <!-- <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
                     <input matInput placeholder="Nombor Urutan" formControlName="seqMy" #seqMy maxlength="100">
-                    <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint>
+                    <!-- <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
             </div>
           </div>

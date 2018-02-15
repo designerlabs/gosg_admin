@@ -769,13 +769,38 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
 
-  getFooterCategoryList(): Observable<any[]> {
-    //  console.log(this.countryUrl);
-    return this.http.get(this.stateUrl)
-      .map((response: Response) => response.json().stateList)
-      .retry(5)
-      .catch(this.handleError);
+  getFooterCategoryList(){
+    let fullUrl = this.appConfig.urlFooterCategory ;
+    return this.http.get(fullUrl + '?active=true')
+    .map((response: Response) => response.json().list)
+    .catch(this.handleError);
+  }
 
+  addFooterContent(record) {
+    let fullUrl = this.appConfig.urlFooterContent + "?language=" + this.languageId;
+    // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFooterContent(record) {
+    let fullUrl = this.appConfig.urlFooterContent  + "?language=" + this.languageId ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delFooterContent(refCode) {
+    let fullUrl = this.appConfig.urlFooterContent ;
+    
+    return this.http.delete(fullUrl + '/' + refCode + "?language=" + this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
   }
 
   // Start Address Type - N
