@@ -275,6 +275,7 @@ delMediaType(mediaTypeId) {
 }
 
 // Media Types ends
+
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
@@ -316,6 +317,48 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
   // SLIDER END
+
+  // GALLERY
+  getGallery(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addGallery(gallery) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(slider)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlSlides, gallery)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateGallery(gallery) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(slider)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlSlides+ "/multiple/update", gallery)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delGallery(enId, bmId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=" + enId + "," +bmId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // GALLERY END
 
   //ANNOUNCEMENT STARTS
 
@@ -503,11 +546,9 @@ delMediaType(mediaTypeId) {
   // LANGUAGE
   getAllLanguage() {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlLanguage + '/all').subscribe(
-      Rdata => {
-      this.dataTbl = Rdata;
-      // this.router.navigate(['user', code]);
-    });
+    return this.http.get(this.appConfig.urlLanguage + '/all')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
   }
 
   addLanguage(language) {

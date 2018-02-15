@@ -1,9 +1,9 @@
-<!-- VIEW: ADD/EDIT SLIDER -->
- <div class="container right-content">
+<!-- VIEW: ADD/EDIT gallery -->
+<div class="container right-content">
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ pageMode }} Slider</h3>
+          <h3>{{ pageMode }} Gallery</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -14,16 +14,16 @@
       </div> 
   </div>
 
-  <form [formGroup]="sliderForm" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="galleryForm" autocomplete="off" role="form" novalidate>
   
       <!-- EN -->
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
           <div class="bg-form-header col-md-6">
-            <label class="">English</label>
+            <label class="staticLabel">English</label>
           </div>
           <div class="bg-form-header col-md-6">
-            <label class="">Bahasa Malaysia</label>
+            <label class="staticLabel">Bahasa Malaysia</label>
           </div>
         </div>
   
@@ -33,7 +33,7 @@
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="sliderForm.controls.titleEn.hasError('required')">
+              <mat-error *ngIf="galleryForm.controls.titleEn.hasError('required')">
                 Title is required
               </mat-error>
             </mat-form-field>
@@ -42,7 +42,7 @@
             <mat-form-field class="example-full-width">
               <input matInput placeholder="Title" formControlName="titleBm" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="sliderForm.controls.titleBm.hasError('required')">
+              <mat-error *ngIf="galleryForm.controls.titleBm.hasError('required')">
                 Title is required
               </mat-error>
             </mat-form-field>
@@ -54,7 +54,7 @@
             <mat-form-field class="example-full-width">
               <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="sliderForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="galleryForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
@@ -64,7 +64,7 @@
             <mat-form-field class="example-full-width">
               <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="sliderForm.controls.descBm.hasError('required')">
+              <mat-error *ngIf="galleryForm.controls.descBm.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
@@ -76,7 +76,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <label class="">Slider Image</label>
+                <label class="">Gallery Image</label>
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
             <mat-form-field class="example-full-width">
@@ -86,12 +86,12 @@
                       <mat-option [value]="2">image2.jpg</mat-option>
                       <mat-option [value]="3">image3.png</mat-option>
                   </mat-select>
-                <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
+                <mat-error *ngIf="galleryForm.get('imgEn').hasError('required')">
                   Please select a file
                 </mat-error>
-                <!-- <mat-error *ngIf="sliderForm.get('imgEn').hasError('maxContentSize')">
-                  The total size must not exceed {{sliderForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
-                  ({{sliderForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
+                <!-- <mat-error *ngIf="galleryForm.get('imgEn').hasError('maxContentSize')">
+                  The total size must not exceed {{galleryForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
+                  ({{galleryForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
                 </mat-error> -->
             </mat-form-field>
           </div>
@@ -106,12 +106,12 @@
                   <mat-option [value]="2">image2.jpg</mat-option>
                   <mat-option [value]="3">image3.png</mat-option>
               </mat-select>
-            <mat-error *ngIf="sliderForm.get('imgBm').hasError('required')">
+            <mat-error *ngIf="galleryForm.get('imgBm').hasError('required')">
               Please select a file
             </mat-error>
-                <!-- <mat-error *ngIf="sliderForm.get('imgEn').hasError('maxContentSize')">
-                  The total size must not exceed {{sliderForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
-                  ({{sliderForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
+                <!-- <mat-error *ngIf="galleryForm.get('imgEn').hasError('maxContentSize')">
+                  The total size must not exceed {{galleryForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
+                  ({{galleryForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
                 </mat-error> -->
             </mat-form-field>
           </div>
@@ -133,7 +133,7 @@
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
-            (click)="updateSlider(sliderForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            (click)="updateGallery(galleryForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
