@@ -38,6 +38,7 @@ export class FootercontentComponent implements OnInit {
   updateForm: FormGroup;
 
   public catEng: FormControl;
+  public categoryEng: FormControl;
   
   public nameEng: FormControl;
   public descEng: FormControl;
@@ -64,11 +65,14 @@ export class FootercontentComponent implements OnInit {
 
   public active: FormControl;
   public copyImg: FormControl;  
+  public getCat: FormControl;
   public getRefCode: any;
-  public getCat: any;
 
   public dataUrl: any;  
   public recordList: any;
+  public resCatData: any;
+  // public category: any;
+  public categoryData: any;
 
 
   complete: boolean;
@@ -79,6 +83,7 @@ export class FootercontentComponent implements OnInit {
   ngOnInit() {
 
     this.catEng = new FormControl();
+    this.categoryEng = new FormControl();
 
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
@@ -96,24 +101,28 @@ export class FootercontentComponent implements OnInit {
 
     this.active = new FormControl();
     this.copyImg = new FormControl();
+    this.getCat = new FormControl();
+
+    this.getCategory();
 
     this.updateForm = new FormGroup({   
 
       catEng: this.catEng,
+      categoryEng: this.categoryEng,
 
       nameEng: this.nameEng,
       descEng: this.descEng,
       iconEng: this.iconEng,
       imgEng: this.imgEng,
       urlEng: this.urlEng,
-      seqEng: this.imgEng,
+      seqEng: this.seqEng,
 
       nameMy: this.nameMy,
       descMy: this.descMy,
       iconMy: this.iconMy,
       imgMy: this.imgMy,
       urlMy: this.urlMy,
-      seqMy: this.imgMy,
+      seqMy: this.seqMy,
 
       active: this.active,
       copyImg: this.copyImg,
@@ -133,11 +142,44 @@ export class FootercontentComponent implements OnInit {
     }
   }
 
+  getCategory(){
+    return this.commonservice.getFooterCategoryList()
+     .subscribe(resCatData => {
+        this.categoryData = resCatData;        
+      },
+      Error => {
+      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
+      console.log('Error in State');
+     });
+  }
+
+  // getCategory(){
+  //   this.dataUrl = this.appConfig.urlFooterCategory + '?active=true';
+  //   this.http.get(this.dataUrl)
+  //   .subscribe(dataRes => {
+  //     this.categoryData = dataRes;
+  //     console.log(this.categoryData);
+  //   },
+  //   Error => {
+  //   //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
+  //   console.log('Error in State');
+  //   });
+     
+  // }
+
+  selectedCat(e){
+    console.log(e);
+    this.getFooterIdEng = e.value.list[0].id;
+    this.getFooterIdMy = e.value.list[1].id;
+  }
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
     this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID;
+
+    this.getCategory();
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -146,6 +188,7 @@ export class FootercontentComponent implements OnInit {
       console.log(data);
 
       this.updateForm.get('catEng').setValue(this.recordList.list[0].footer.name);
+      this.updateForm.get('categoryEng').setValue(this.recordList.list[0].footer.name);
 
       this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
       this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
@@ -208,57 +251,74 @@ export class FootercontentComponent implements OnInit {
 
       let body = [
         {
-          "id": null,
+          // "id": null,
           "name": null,
           "description": null,
           "url": null,
           "icon": null,
           "contentCode": null,
-          "enabled": false,
-          "image": null,
-          "seq": null,
           "language": {
               "languageId": null
-          }
+          },
+          "image": null,
+          "enabled": false,
+          "sortingOrder": 0.0,
+          "footer": {
+              "id": null
+              // "name": null,
+          },
         },
         {
-          "category": null,
+          // "id": null,
           "name": null,
-          "desc": null,
-          "enabled": false,
-          "icon": null,
-          "image": null,
+          "description": null,
           "url": null,
-          "seq": null,
+          "icon": null,
+          "contentCode": null,
           "language": {
               "languageId": null
-          }
+          },
+          "image": null,
+          "enabled": false,
+          "sortingOrder": 0.0,
+          "footer": {
+              "id": null
+              // "name": null,
+          },
         }
       ]   
 
-      body[0].category = formValues.catEng;
+      // body[0].id = this.getIdEng;
       body[0].name = formValues.nameEng;
-      body[0].desc = formValues.descEng;
-      body[0].icon = formValues.iconEng;
-      body[0].image = formValues.imgEng;
+      body[0].description = formValues.descEng;
       body[0].url = formValues.urlEng;
-      body[0].seq = formValues.seqEng;
-      body[0].enabled = formValues.active;
+      body[0].icon = formValues.iconEng;
+      body[0].contentCode = this.getContentCodeEng;
       body[0].language.languageId = 1;
+      body[0].image = formValues.imgEng;
+      body[0].enabled = formValues.active;
+      body[0].sortingOrder = formValues.seqEng;
+      body[0].footer.id = this.getFooterIdEng;
+      // body[0].footer.id = 1;
+      // body[0].footer.name = this.getFooterNameEng;
 
-      body[1].category = formValues.catEng;
+      // body[1].id = this.getIdMy;
       body[1].name = formValues.nameMy;
-      body[1].desc = formValues.descMy;
-      body[1].icon = formValues.iconMy;
-      body[1].image = formValues.imgMy;
+      body[1].description = formValues.descMy;
       body[1].url = formValues.urlMy;
-      body[1].seq = formValues.seqMy;
-      body[1].enabled = formValues.active;
+      body[1].icon = formValues.iconMy;
+      body[1].contentCode = this.getContentCodeMy;
       body[1].language.languageId = 2;
+      body[1].image = formValues.imgMy;
+      body[1].enabled = formValues.active;
+      body[1].sortingOrder = formValues.seqMy;
+      body[1].footer.id = this.getFooterIdMy;
+      // body[1].footer.id = 1;
+      // body[1].footer.name = this.getFooterNameMy;
 
       console.log(body);
 
-      this.commonservice.addFooterCategory(body).subscribe(
+      this.commonservice.addFooterContent(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           console.log(body)
@@ -281,60 +341,74 @@ export class FootercontentComponent implements OnInit {
 
       let body = [
         {
-          "category": null,
+          "id": null,
           "name": null,
-          "desc": null,
-          "icon": null,
-          "image": null,
-          "active": false,
-          "refCode": null,
+          "description": null,
           "url": null,
-          "seq": null,
+          "icon": null,
+          "contentCode": null,
           "language": {
               "languageId": null
-          }
+          },
+          "image": null,
+          "enabled": false,
+          "sortingOrder": 0.0,
+          "footer": {
+              "id": null,
+              // "name": null,
+          },
         },
         {
-          "category": null,
+          "id": null,
           "name": null,
-          "desc": null,
-          "icon": null,
-          "image": null,
-          "active": false,
-          "refCode": null,
+          "description": null,
           "url": null,
-          "seq": null,
+          "icon": null,
+          "contentCode": null,
           "language": {
               "languageId": null
-          }
+          },
+          "image": null,
+          "enabled": false,
+          "sortingOrder": 0.0,
+          "footer": {
+              "id": null
+              // "name": null,
+          },
         }
       ]   
  
-      body[0].category = formValues.catEng;
+      body[0].id = this.getIdEng;
       body[0].name = formValues.nameEng;
-      body[0].desc = formValues.descEng;
-      body[0].icon = formValues.iconEng;
-      body[0].image = formValues.imgEng;
+      body[0].description = formValues.descEng;
       body[0].url = formValues.urlEng;
-      body[0].seq = formValues.seqEng;
-      body[0].active = formValues.active;
-      body[0].refCode = 1;
+      body[0].icon = formValues.iconEng;
+      body[0].contentCode = this.getContentCodeEng;
       body[0].language.languageId = 1;
+      body[0].image = formValues.imgEng;
+      body[0].enabled = formValues.active;
+      body[0].sortingOrder = formValues.seqEng;
+      body[0].footer.id = this.getFooterIdEng;
+      // body[0].footer.id = 1;
+      // body[0].footer.name = this.getFooterNameEng;
 
-      body[0].category = formValues.catEng;
+      body[1].id = this.getIdMy;
       body[1].name = formValues.nameMy;
-      body[1].desc = formValues.descMy;
+      body[1].description = formValues.descMy;
+      body[1].url = formValues.urlMy;
       body[1].icon = formValues.iconMy;
-      body[1].image = formValues.imgMy;
-      body[1].url = formValues.iconMy;
-      body[1].seq = formValues.imgMy;
-      body[1].active = formValues.active;
-      body[1].refCode = 1;
+      body[1].contentCode = this.getContentCodeMy;
       body[1].language.languageId = 2;
+      body[1].image = formValues.imgMy;
+      body[1].enabled = formValues.active;
+      body[1].sortingOrder = formValues.seqMy;
+      body[1].footer.id = this.getFooterIdMy;
+      // body[1].footer.id = 1;
+      // body[1].footer.name = this.getFooterNameMy;
 
       console.log(body);
 
-      this.commonservice.updateFooterCategory(body).subscribe(
+      this.commonservice.updateFooterContent(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
           console.log(body)
@@ -408,16 +482,16 @@ export class FootercontentComponent implements OnInit {
     }
   }
 
-  getCategory(id?){
-    return this.commonservice.getFooterCategoryList()
-     .subscribe(resCatData => {
-        this.getCat = resCatData;        
-      },
-      Error => {
-      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-      console.log('Error in State');
-     });
-  }
+  // getCategory(){
+  //   return this.commonservice.getFooterCategoryList()
+  //    .subscribe(resCatData => {
+  //       this.getCat = resCatData.list;        
+  //     },
+  //     Error => {
+  //     //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
+  //     console.log('Error in State');
+  //    });
+  // }
 
   // selectedCat(e){
   //   // this.getPostData = '';

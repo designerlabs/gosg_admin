@@ -133,17 +133,25 @@ export class FootercontenttblComponent implements OnInit {
     
     if (r == true) {
       console.log(refCode);
-      this.commonservice.delFooterCategory(refCode).subscribe(
+      this.commonservice.delFooterContent(refCode).subscribe(
         data => {
           // alert('Record deleted successfully!')
-          txt = " record deleted successfully!";
-
-          this.toastr.success(txt, '');   
-          this.router.navigate(['footer/footercontent']);
-          this.getRecordList(this.pageCount, this.pageSize);
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record Deletde Successfully!"
+            this.toastr.success(txt, '');  
+            // this.router.navigate(['footer/footercontent']);
+            this.getRecordList(this.pageCount, this.pageSize);
+          }               
         },
         error => {
-          txt = "Delete Cancelled!";
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
     else{
