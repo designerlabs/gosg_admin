@@ -90,7 +90,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[2];
-
+    let txt;
     // add form
     if(urlEdit === 'add'){
 
@@ -125,16 +125,85 @@ export class FeedbackvisitorComponent implements OnInit {
       console.log("UPDATE: ");
       console.log(body);
 
-      this.commonservice.updateRecordFeedback(body).subscribe(
+      this.commonservice.updateRecordFeedbackDraft(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
         
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['feedback/message/visitor']);
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+            txt = "Record updated successfully!";
+            this.toastr.success(txt, '');  
+            this.router.navigate(['feedback/message/visitor']);
+          }
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
+      });
+    }
+    
+  }
+
+  submitReply(formValues: any) {
+    let urlEdit = this.router.url.split('/')[2];
+    let txt;
+    // add form
+    if(urlEdit === 'add'){
+
+    // do nothing
+    }
+
+    // update form
+    else{
+      let body = {
+        "feedbackId": this.getId,
+        "feedbackName": this.name,
+        "feedbackRemarks":null,
+        "feedbackEmail": this.email,
+        "feedbackType": {
+          "feedbackTypeId": this.feedbackTypeId,
+        },
+        "feedbackSubject": {
+          "feedbackSubjectId": this.feedbackSubjectId,
+        },
+        "feedbackMessage": this.messages,
+        "feedbackUserIpAddress": this.feedbackUserIpAddress,
+        "feedbackReplyFlag": false,
+        "feedbackTicketNo": this.feedbackTicketNo,
+        "language": {
+          "languageId": this.lang
+        },
+        "isDraft":false
+      }
+
+      body.feedbackRemarks = formValues.reply;     
+
+      console.log("UPDATE: ");
+      console.log(body);
+
+      this.commonservice.updateRecordFeedbackReply(body).subscribe(
+        data => {
+          console.log(JSON.stringify(body))
+
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+        
+            txt = "Feedback replied successfully!";
+            this.toastr.success(txt, '');  
+            this.router.navigate(['feedback/message/visitor']);
+            }
+        },
+        error => {
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
     

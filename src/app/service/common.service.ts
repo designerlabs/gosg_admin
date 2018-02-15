@@ -876,8 +876,16 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
 
-  updateRecordFeedback(record) {
-    let fullUrl = this.appConfig.urlFeedback;
+  updateRecordFeedbackDraft(record) {
+    let fullUrl = this.appConfig.urlFeedback + "/saveasdraft?language=1";
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateRecordFeedbackReply(record) {
+    let fullUrl = this.appConfig.urlFeedback + "/submitreply?language=1";
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
