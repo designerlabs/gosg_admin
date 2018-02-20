@@ -19,7 +19,7 @@ export class MediatypetblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0;
 
-  displayedColumns = ['no', 'catName', 'mediaDes', 'status', 'action'];
+  displayedColumns = ['no', 'mediaType', 'catName',  'status', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
@@ -33,7 +33,7 @@ export class MediatypetblComponent implements OnInit {
 
   getMediaList() {
     // return this.commonservice.getMediaType()
-    return this.http.get('http://10.1.22.50:8080/mediatype')
+    return this.http.get('./app/apidata/race.json')
        .subscribe(resStateData => {
          debugger;
         this.seqPageNum = 1;

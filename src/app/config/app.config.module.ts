@@ -148,7 +148,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
-    urlMediaType: commonURL + 'mediatype',
+    // urlMediaType: commonURL + 'mediatype',
+    urlMediaType: 'http://10.1.22.50:8080/mediatype',
     urlSystemSettings: commonURL + 'systemsettings',
     lang: 'language='+localStorage.getItem('langID')
 };
