@@ -192,17 +192,15 @@ export class UsertblComponent implements OnInit {
 
   
   deleteMail(msgId){
-    
-    this.commonservice.addUserList(msgId).
-    subscribe(
-      success => {
-    //    this.getMails(this.mailPageCount, this.mailPageSize);
-        this.toastr.error(this.translate.instant('mailbox.success.deletesuccess'), '');     
+    this.commonservice.deleteUserList(msgId).subscribe(
+      data => {
+        
+        this.getUsersData(this.pageCount, this.pageSize);
+        this.toastr.success(this.translate.instant('mailbox.success.deletesuccess'), '');  
       },
-      Error => {
-
-       this.toastr.error(this.translate.instant('mailbox.err.failtodelete'), '');            
-     });
+      error => {
+        this.toastr.error(this.translate.instant('mailbox.err.failtodelete'), '');            
+      });
   }
 
 
