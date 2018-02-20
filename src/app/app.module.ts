@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
+import { HttpClientModule, HttpClient } from '@angular/common/http';  // replaces previous Http service
 import { RouterModule, ActivatedRouteSnapshot } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
@@ -95,7 +95,6 @@ import { ValidateService } from './common/validate.service';
 import { FootercontentComponent } from './footer/footercontent/footercontent.component';
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
-import { HttpClient } from '@angular/common/http/src/client';
 import { GalleryComponent } from './gallery/gallery.component';
 import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { DialogsService } from './dialogs/dialogs.service';
@@ -193,11 +192,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     TranslateModule.forRoot({
       loader: {
-        provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [Http]
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
       }
-    }),
+  }),
 
     BrowserAnimationsModule,
     HttpModule,
