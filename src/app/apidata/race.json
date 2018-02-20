@@ -48,6 +48,52 @@
                                 }
                         ],
                         "enabled": true
+                },
+                {
+                        "mediaTypeId": 512,
+                        "mediaTypeName": "Videos",
+                        "supportedFileExtensions": "avi,mpg,mpeg,mov",
+                        "mediaTypeCategories": [
+                                {
+                                        "mediaTypeCategoryId": 509,
+                                        "category": {
+                                                "categoryId": 3,
+                                                "categoryName": "Article",
+                                                "categoryCode": null,
+                                                "categoryDescription": "Article Category",
+                                                "parentId": 1,
+                                                "languageId": 1,
+                                                "contents": [],
+                                                "medias": []
+                                        },
+                                        "minH": 200,
+                                        "minW": 200,
+                                        "maxH": 600,
+                                        "maxW": 600,
+                                        "fileThresholdSize": 10,
+                                        "fileThresholdSizeUnits": "MB"
+                                },
+                                {
+                                        "mediaTypeCategoryId": 511,
+                                        "category": {
+                                                "categoryId": 4,
+                                                "categoryName": "Slider",
+                                                "categoryCode": null,
+                                                "categoryDescription": "Slider Category",
+                                                "parentId": 1,
+                                                "languageId": 1,
+                                                "contents": [],
+                                                "medias": []
+                                        },
+                                        "minH": 200,
+                                        "minW": 300,
+                                        "maxH": 500,
+                                        "maxW": 600,
+                                        "fileThresholdSize": 5,
+                                        "fileThresholdSizeUnits": "MB"
+                                }
+                        ],
+                        "enabled": true
                 }
         ]
 }
