@@ -3,6 +3,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-mediatypetbl',
@@ -18,11 +19,11 @@ export class MediatypetblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0;
 
-  displayedColumns = ['no', 'mediaName', 'mediaDes', 'status', 'action'];
+  displayedColumns = ['no', 'catName', 'mediaDes', 'status', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
-  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
+  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, ) { 
     this.getMediaList();
   }
 
@@ -31,11 +32,13 @@ export class MediatypetblComponent implements OnInit {
   }
 
   getMediaList() {
-    return this.commonservice.getMediaType()
+    // return this.commonservice.getMediaType()
+    return this.http.get('http://10.1.22.50:8080/mediatype')
        .subscribe(resStateData => {
+         debugger;
         this.seqPageNum = 1;
         this.seqPageSize = 10;
-          this.mediaList = resStateData.mediaTypes;  
+          this.mediaList = resStateData['mediaTypes'];  
           this.dataSource.data = this.mediaList;      
         },
         Error => {
