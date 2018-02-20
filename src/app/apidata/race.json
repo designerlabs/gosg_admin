@@ -1,44 +1,99 @@
 {
         "type": "RESPONSE",
-        "statusCode": "S001",
-        "statusDesc": "Media All",
-        "mediaList": [
+        "statusCode": "SUCCESS",
+        "statusDesc": "Retrieved All Media Types..",
+        "mediaTypes": [
                 {
-                        "mediaTypeID": 1,
-                        "mediaTypeName": "Image",
-                        "mediaTypeSize": 5000,
-                        "mediaTypeUnit": "kb",
-                        "activeFlag": true,
-                        "mediaTypeFormat": "jpg,jpeg,png,gif,tiff,bmp"
+                        "mediaTypeId": 508,
+                        "mediaTypeName": "Images",
+                        "supportedFileExtensions": "jpg,jpeg,gif,tiff,bmp",
+                        "mediaTypeCategories": [
+                                {
+                                        "mediaTypeCategoryId": 509,
+                                        "category": {
+                                                "categoryId": 3,
+                                                "categoryName": "Article",
+                                                "categoryCode": null,
+                                                "categoryDescription": "Article Category",
+                                                "parentId": 1,
+                                                "languageId": 1,
+                                                "contents": [],
+                                                "medias": []
+                                        },
+                                        "minH": 200,
+                                        "minW": 200,
+                                        "maxH": 600,
+                                        "maxW": 600,
+                                        "fileThresholdSize": 10,
+                                        "fileThresholdSizeUnits": "MB"
+                                },
+                                {
+                                        "mediaTypeCategoryId": 511,
+                                        "category": {
+                                                "categoryId": 4,
+                                                "categoryName": "Slider",
+                                                "categoryCode": null,
+                                                "categoryDescription": "Slider Category",
+                                                "parentId": 1,
+                                                "languageId": 1,
+                                                "contents": [],
+                                                "medias": []
+                                        },
+                                        "minH": 200,
+                                        "minW": 300,
+                                        "maxH": 500,
+                                        "maxW": 600,
+                                        "fileThresholdSize": 5,
+                                        "fileThresholdSizeUnits": "MB"
+                                }
+                        ],
+                        "enabled": true
                 },
                 {
-                        "mediaTypeID": 2,
-                        "mediaTypeName": "Video",
-                        "mediaTypeSize": 5000,
-                        "mediaTypeUnit": "kb",
-                        "activeFlag": true,
-                        "mediaTypeFormat": "AVI,FLV,WMV,MOV,MP4"
-                },
-                {
-                        "mediaTypeID": 3,
-                        "mediaTypeName": "Audio",
-                        "mediaTypeSize": 5000,
-                        "mediaTypeUnit": "kb",
-                        "activeFlag": true,
-                        "mediaTypeFormat": "MP3,WAV"
-                },
-                {
-                        "mediaTypeID": 4,
-                        "mediaTypeName": "Document",
-                        "mediaTypeSize": 5000,
-                        "mediaTypeUnit": "kb",
-                        "activeFlag": true,
-                        "mediaTypeFormat": "doc,docx,pdf,xls,xlsx,txt"
+                        "mediaTypeId": 512,
+                        "mediaTypeName": "Videos",
+                        "supportedFileExtensions": "avi,mpg,mpeg,mov",
+                        "mediaTypeCategories": [
+                                {
+                                        "mediaTypeCategoryId": 509,
+                                        "category": {
+                                                "categoryId": 3,
+                                                "categoryName": "Article",
+                                                "categoryCode": null,
+                                                "categoryDescription": "Article Category",
+                                                "parentId": 1,
+                                                "languageId": 1,
+                                                "contents": [],
+                                                "medias": []
+                                        },
+                                        "minH": 200,
+                                        "minW": 200,
+                                        "maxH": 600,
+                                        "maxW": 600,
+                                        "fileThresholdSize": 10,
+                                        "fileThresholdSizeUnits": "MB"
+                                },
+                                {
+                                        "mediaTypeCategoryId": 511,
+                                        "category": {
+                                                "categoryId": 4,
+                                                "categoryName": "Slider",
+                                                "categoryCode": null,
+                                                "categoryDescription": "Slider Category",
+                                                "parentId": 1,
+                                                "languageId": 1,
+                                                "contents": [],
+                                                "medias": []
+                                        },
+                                        "minH": 200,
+                                        "minW": 300,
+                                        "maxH": 500,
+                                        "maxW": 600,
+                                        "fileThresholdSize": 5,
+                                        "fileThresholdSizeUnits": "MB"
+                                }
+                        ],
+                        "enabled": true
                 }
-        ],
-        "pageNumber": 1,
-        "pageSize": 1,
-        "numberOfElements": 4,
-        "totalElements": 4,
-        "totalPages": 1
+        ]
 }

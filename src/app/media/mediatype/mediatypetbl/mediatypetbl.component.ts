@@ -3,6 +3,7 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-mediatypetbl',
@@ -18,11 +19,11 @@ export class MediatypetblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0;
 
-  displayedColumns = ['no', 'mediaName', 'mediaDes', 'status', 'action'];
+  displayedColumns = ['no', 'mediaType', 'catName',  'status', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
-  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
+  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, ) { 
     this.getMediaList();
   }
 
@@ -31,11 +32,13 @@ export class MediatypetblComponent implements OnInit {
   }
 
   getMediaList() {
-    return this.commonservice.getMediaType()
+    // return this.commonservice.getMediaType()
+    return this.http.get('./app/apidata/race.json')
        .subscribe(resStateData => {
+         debugger;
         this.seqPageNum = 1;
         this.seqPageSize = 10;
-          this.mediaList = resStateData.mediaTypes;  
+          this.mediaList = resStateData['mediaTypes'];  
           this.dataSource.data = this.mediaList;      
         },
         Error => {
@@ -45,12 +48,12 @@ export class MediatypetblComponent implements OnInit {
   }
 
   add(){    
-      this.router.navigate(['mediatype' , 'add']);
+      this.router.navigate(['media/type' , 'add']);
   }
 
   editGroup(mtId) {
     console.log(mtId);
-    this.router.navigate(['mediatype', mtId]);
+    this.router.navigate(['media/type', mtId]);
   }
 
   deleteRow(id) {
