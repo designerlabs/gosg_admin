@@ -7,6 +7,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-feedbackvisitor',
@@ -37,9 +39,40 @@ export class FeedbackvisitorComponent implements OnInit {
 
   public getId: any;
   public complete: boolean;
+  public languageId: any;
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService){ 
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getData();
+            }
+          }.bind(this));
+        })
+      });
+    });
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getData();
+    }
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -51,15 +84,14 @@ export class FeedbackvisitorComponent implements OnInit {
 
     });
 
-    this.getData();
-    
+    this.getData();    
   }
 
   getData() {
 
     let _getRefID = this.router.url.split('/')[4];
 
-    this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID;
+    this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID + '?language=' +this.languageId;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.recordList = data;
@@ -89,123 +121,111 @@ export class FeedbackvisitorComponent implements OnInit {
   }
 
   submit(formValues: any) {
+    alert("DRAFT");
     let urlEdit = this.router.url.split('/')[2];
     let txt;
-    // add form
-    if(urlEdit === 'add'){
-
-    // do nothing
+   
+    let body = {
+      "feedbackId": this.getId,
+      "feedbackName": this.name,
+      "feedbackRemarks":null,
+      "feedbackEmail": this.email,
+      "feedbackType": {
+        "feedbackTypeId": this.feedbackTypeId,
+      },
+      "feedbackSubject": {
+        "feedbackSubjectId": this.feedbackSubjectId,
+      },
+      "feedbackMessage": this.messages,
+      "feedbackUserIpAddress": this.feedbackUserIpAddress,
+      "feedbackReplyFlag": false,
+      "feedbackTicketNo": this.feedbackTicketNo,
+      "language": {
+        "languageId": this.lang
+      },
+      "feedbackDraftFlag":true
     }
 
-    // update form
-    else{
-      let body = {
-        "feedbackId": this.getId,
-        "feedbackName": this.name,
-        "feedbackRemarks":null,
-        "feedbackEmail": this.email,
-        "feedbackType": {
-          "feedbackTypeId": this.feedbackTypeId,
-        },
-        "feedbackSubject": {
-          "feedbackSubjectId": this.feedbackSubjectId,
-        },
-        "feedbackMessage": this.messages,
-        "feedbackUserIpAddress": this.feedbackUserIpAddress,
-        "feedbackReplyFlag": false,
-        "feedbackTicketNo": this.feedbackTicketNo,
-        "language": {
-          "languageId": this.lang
-        },
-        "isDraft":true
-      }
+    body.feedbackRemarks = formValues.reply;     
 
-      body.feedbackRemarks = formValues.reply;     
+    console.log("UPDATE: ");
+    console.log(JSON.stringify(body))
 
-      console.log("UPDATE: ");
-      console.log(body);
+    this.commonservice.updateRecordFeedbackDraft(body).subscribe(
+      data => {
 
-      this.commonservice.updateRecordFeedbackDraft(body).subscribe(
-        data => {
-          console.log(JSON.stringify(body))
-        
-          if(data.statusCode == "ERROR"){
-            this.commonservice.errorResponse(data);
-          }
-          else{
-            txt = "Record updated successfully!";
-            this.toastr.success(txt, '');  
-            this.router.navigate(['feedback/message/visitor']);
-          }
-        },
-        error => {
+        let errMsg = data.statusCode.toLowerCase();
+              
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+          txt = "Message saved successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/message/visitor']);
+        }
+      },
+      error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
-          console.log(error);
-      });
-    }
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });    
     
   }
 
   submitReply(formValues: any) {
+    alert("REPLY");
     let urlEdit = this.router.url.split('/')[2];
     let txt;
-    // add form
-    if(urlEdit === 'add'){
-
-    // do nothing
+   
+    let body = {
+      "feedbackId": this.getId,
+      "feedbackName": this.name,
+      "feedbackRemarks":null,
+      "feedbackEmail": this.email,
+      "feedbackType": {
+        "feedbackTypeId": this.feedbackTypeId,
+      },
+      "feedbackSubject": {
+        "feedbackSubjectId": this.feedbackSubjectId,
+      },
+      "feedbackMessage": this.messages,
+      "feedbackUserIpAddress": this.feedbackUserIpAddress,
+      "feedbackReplyFlag": true,
+      "feedbackTicketNo": this.feedbackTicketNo,
+      "language": {
+        "languageId": this.lang
+      },
+      "feedbackDraftFlag":false
     }
 
-    // update form
-    else{
-      let body = {
-        "feedbackId": this.getId,
-        "feedbackName": this.name,
-        "feedbackRemarks":null,
-        "feedbackEmail": this.email,
-        "feedbackType": {
-          "feedbackTypeId": this.feedbackTypeId,
-        },
-        "feedbackSubject": {
-          "feedbackSubjectId": this.feedbackSubjectId,
-        },
-        "feedbackMessage": this.messages,
-        "feedbackUserIpAddress": this.feedbackUserIpAddress,
-        "feedbackReplyFlag": false,
-        "feedbackTicketNo": this.feedbackTicketNo,
-        "language": {
-          "languageId": this.lang
-        },
-        "isDraft":false
-      }
+    body.feedbackRemarks = formValues.reply;     
 
-      body.feedbackRemarks = formValues.reply;     
+    console.log("UPDATE: ");
+    console.log(JSON.stringify(body))
 
-      console.log("UPDATE: ");
-      console.log(body);
-
-      this.commonservice.updateRecordFeedbackReply(body).subscribe(
-        data => {
-          console.log(JSON.stringify(body))
-
-          if(data.statusCode == "ERROR"){
-            this.commonservice.errorResponse(data);
-          }
-          else{
+    this.commonservice.updateRecordFeedbackReply(body).subscribe(
+      data => {
         
-            txt = "Feedback replied successfully!";
-            this.toastr.success(txt, '');  
-            this.router.navigate(['feedback/message/visitor']);
-            }
-        },
-        error => {
+        let errMsg = data.statusCode.toLowerCase();
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
-          console.log(error);
-      });
-    }
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+      
+          txt = "Feedback submitted successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/message/visitor']);
+          }
+      },
+      error => {
+
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });    
     
   }
 
@@ -231,15 +251,8 @@ export class FeedbackvisitorComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-    }
+    this.updateForm.reset();
+    this.checkReqValues();   
   }
 
   back(){

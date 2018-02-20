@@ -76,7 +76,10 @@ import { FootercontentComponent } from './footer/footercontent/footercontent.com
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { GalleryComponent } from './gallery/gallery.component';
-
+import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
+import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
+import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
+import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -85,6 +88,9 @@ export const appRoutes: Routes = [
 {path: 'media/type', component: MediatypetblComponent},
 {path: 'media/type/add', component: MediatypeComponent},
 {path: 'media/type/:id', component: MediatypeComponent},
+{path: 'media', component: MediafileuploadtblComponent},
+{path: 'media/add', component: MediafileuploadComponent},
+{path: 'media/:id', component: MediafileuploadComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 {path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
 {path: 'feedback/message/visitor/:id', component: FeedbackvisitorComponent},
@@ -185,6 +191,10 @@ export const appRoutes: Routes = [
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
+{path: 'categorymanagement', component: CategorymanagementtblComponent},
+{path: 'categorymanagement/:id', component: CategorymanagementComponent},
+{path: 'categorymanagement/add', component: CategorymanagementComponent},
+
 {path: '**', component: ErrorComponent}, // put at the last row
 // All Category
 

@@ -157,7 +157,6 @@ export class MediatypeComponent implements OnInit {
   }
 
   selCateType(event){
-    // debugger;
     if(this.isEdit) {
     console.log(this.getData);
     let filtrData = this.getData[0].mediaTypeCategories.filter(
@@ -169,6 +168,13 @@ export class MediatypeComponent implements OnInit {
         this.mediaTypeForm.get('minwidth').setValue(filtrData[0].minW);
         this.mediaTypeForm.get('maxheigth').setValue(filtrData[0].maxH);
         this.mediaTypeForm.get('maxwidth').setValue(filtrData[0].maxW);
+      }else{
+        this.mediaTypeForm.controls.filesize.reset();
+        this.mediaTypeForm.controls.fileunit.reset();
+        this.mediaTypeForm.controls.minheigth.reset();
+        this.mediaTypeForm.controls.minwidth.reset();
+        this.mediaTypeForm.controls.maxheigth.reset();
+        this.mediaTypeForm.controls.maxwidth.reset();
       }    
     }
     this.checkReqValues();

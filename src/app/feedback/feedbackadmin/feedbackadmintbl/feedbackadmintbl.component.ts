@@ -7,6 +7,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-feedbackadmintbl',
@@ -29,20 +31,65 @@ export class FeedbackadmintblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  languageId: any;
+  filterTypeVal: any;
+  
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(val) {   
+
+    console.log(val  + "TEST" + this.filterTypeVal);
+    
+    if(val){
+      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+    }
+    else{
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
+  
+  }
+
+  filterType(filterVal) {
+
+    this.filterTypeVal = filterVal.value;  
   }
   
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService) { 
+
+      /* LANGUAGE FUNC */
+      translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        translate.get('HOME').subscribe((res: any) => {
+          this.commonservice.getAllLanguage().subscribe((data:any) => {
+            let getLang = data.list;
+            let myLangData =  getLang.filter(function(val) {
+              if(val.languageCode == translate.currentLang){
+                this.lang = val.languageCode;
+                this.languageId = val.languageId;
+                this.getRecordList(this.pageCount, this.pageSize);
+              }
+            }.bind(this));
+          })
+        });
+      });
+
+      if(!this.languageId){
+        this.languageId = localStorage.getItem('langID');
+        this.getRecordList(this.pageCount, this.pageSize);
+      }
+
+      /* LANGUAGE FUNC */
+    }
 
   ngOnInit() {
 
@@ -51,7 +98,32 @@ export class FeedbackadmintblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedback + '/reply/1?page=' + count + '&size=' + size + '&language='+this.languageId;
+
+    this.http.get(this.dataUrl)
+    .subscribe(data => {
+      this.recordList = data;
+
+      console.log("data");
+      console.log(data);
+      
+      this.dataSource.data = this.recordList.feedbackList;
+      this.seqPageNum = this.recordList.pageNumber;
+      this.seqPageSize = this.recordList.pageSize;
+      this.commonservice.recordTable = this.recordList;
+      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+    });
+  }
+
+  getFilterList(count, size, val, filterVal) {
+
+    if(filterVal == 2){  // by Email
+      this.dataUrl = this.appConfig.urlFeedback + '/search/email/1/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+    }
+
+    else if (filterVal == 3){ // by keywords
+      this.dataUrl = this.appConfig.urlFeedback + '/search/1/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+    }
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -92,28 +164,30 @@ export class FeedbackadmintblComponent implements OnInit {
     this.router.navigate(['feedback/message/admin/', row]);
   }
 
-  deleteRow(refcode) {
+  deleteRow(getId) {
     let txt;
-    let r = confirm("Are you sure to delete?");
-    if (r == true) {
 
-      console.log(refcode);
-      // this.commonservice.delRecordAccStatus(refcode).subscribe(
-      //   data => {
-          
-      //     txt = "Record deleted successfully!";
+    console.log(getId);
+    this.commonservice.delRecordFeedback(getId).subscribe(
+      data => {
+        
+        let errMsg = data.statusCode.toLowerCase();
 
-      //     this.toastr.success(txt, '');  
-      //     this.getRecordList(this.pageCount, this.pageSize);
-      //   },
-      //   error => {
-      //     console.log("No Data")
-      // });
-    }
-
-    else{
-      txt = "Delete Cancelled!";
-    }
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+          txt = "Record deleted successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/message/admin']);
+        }
+      },
+      error => {
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });
+    
   }
 
   ngAfterViewInit() {

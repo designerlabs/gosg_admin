@@ -27,6 +27,7 @@ import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-faq',
@@ -57,9 +58,29 @@ export class FaqComponent implements OnInit {
   public getFaqActiveFlag: any;
 
   complete: boolean;
+  public languageId: any;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  private translate: TranslateService) { 
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }
+  }
 
   ngOnInit() {
 
@@ -96,7 +117,7 @@ export class FaqComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[2];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlFaqList + '/code/' +  _getRefID;
+    this.dataUrl = this.appConfig.urlFaqList + '/code/' +  _getRefID + "?language=" + this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
