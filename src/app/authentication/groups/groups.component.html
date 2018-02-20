@@ -19,13 +19,13 @@
         <div class="row">
             <div class="form-group col-md-12 col-lg-12 col-sm-12">
                 <mat-form-field class="example-full-width font-size-s">
-                    <input matInput formControlName="groupmodulename" type="text" maxlength="30" placeholder="Grouping Name"/>
+                    <input matInput formControlName="groupmodulename" type="text" maxlength="30" placeholder="Grouping Name" required/>
                 </mat-form-field>
             </div>
 
             <div class="form-group col-md-12 col-lg-12 col-sm-12">
                 <mat-form-field class="example-full-width font-size-s">
-                    <input matInput formControlName="groupmoduledesc" type="text" maxlength="100" placeholder="Grouping Description"/>
+                    <input matInput formControlName="groupmoduledesc" type="text" maxlength="100" placeholder="Grouping Description" required/>
                 </mat-form-field>
             </div>
         </div>
@@ -52,11 +52,11 @@
         <div class="row"></div>
         
         <div class="form-group" style="float: right;">
-            <button *ngIf="!isUpdate" mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
+            <button *ngIf="!isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
             (click)="addModuleData();false">
             <i class="fa fa-check"></i> Submit</button>
 
-            <button *ngIf="isUpdate" mat-raised-button type="button" color="primary" id="btnupdate" class="form-control btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i class="fa fa-check"></i> Update</button>
+            <button *ngIf="isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnupdate" class="form-control btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i class="fa fa-check"></i> Update</button>
         </div>
        
     </form>

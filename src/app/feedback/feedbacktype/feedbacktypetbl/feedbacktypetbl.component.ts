@@ -7,6 +7,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-feedbacktypetbl',
@@ -30,6 +32,7 @@ export class FeedbacktypetblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  public languageId: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -42,10 +45,34 @@ export class FeedbacktypetblComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
   
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
+  constructor(private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
 
-    this.getRecordList(this.pageCount, this.pageSize);
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
@@ -55,7 +82,7 @@ export class FeedbacktypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedbackType + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedbackType + '/?page=' + count + '&size=' + size + '&language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -98,27 +125,30 @@ export class FeedbacktypetblComponent implements OnInit {
   }
 
   deleteRow(refcode) {
-    let txt;
-    let r = confirm("Are you sure to delete?");
-    if (r == true) {
+    let txt;    
 
-      console.log(refcode);
-      this.commonservice.delRecordFeedbackType(refcode).subscribe(
-        data => {
-          
-          txt = "Record deleted successfully!";
+    console.log(refcode);
+    this.commonservice.delRecordFeedbackType(refcode).subscribe(
+      data => {
+        
+        let errMsg = data.statusCode.toLowerCase();
 
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+
+          txt = "Record deleted successfully!"
           this.toastr.success(txt, '');  
           this.getRecordList(this.pageCount, this.pageSize);
-        },
-        error => {
-          console.log("No Data")
-      });
-    }
+        } 
+      },
+      error => {
 
-    else{
-      txt = "Delete Cancelled!";
-    }
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });  
   }
 
   ngAfterViewInit() {
