@@ -133,8 +133,8 @@
               <i class="fa fa-edit" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow(element.id)" title="Delete">
-                <!-- (click)="deleteModal.show()" -->
+            <button mat-mini-fab style="background: red" (click)="deleteModal.show()" title="Delete">
+                <!-- (click)="deleteRow(element.id)" -->
               <i class="fa fa-trash"  title="Delete"></i>
             </button>
         </mat-cell>
@@ -173,8 +173,8 @@
 
 
 <app-confirm-dialog  #deleteModal 
-  [title]="'fa fa-exclamation-triangle'" 
-  [content]="'Are you sure to delete the record?'"
+  [title]="'common.icon.warn'" 
+  [content]="'common.msg.delete'"
   [state]="'bg_header bg_warn_header'"
   [isReset]="'true'"
   (resetMethod)="resetMethod($event, data)">
