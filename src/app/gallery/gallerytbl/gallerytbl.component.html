@@ -10,7 +10,7 @@
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-        <h3>Agency Type Management</h3>
+        <h3>Gallery Management</h3>
     </div>
     
     <div class="col-md-2 curdHeadingRight">
@@ -29,42 +29,45 @@
     </div> -->
 
     <mat-table #table [dataSource]="dataSource">
-      <!-- slideId Column -->
-      <!-- <ng-container matColumnDef="slideCode">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;">Code</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 10%;"> {{element.refCode}} </mat-cell>
-      </ng-container> -->
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
-        <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
+        <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+        <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
       </ng-container>
 
-      <!-- agencyTypeNameEn Column -->
-      <ng-container matColumnDef="agencyTypeNameEn">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Agency Type Name (EN)</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[0].agencyName}} </mat-cell>
+      <!-- galleryTitle Column -->
+      <ng-container matColumnDef="galleryTitleEn">
+        <mat-header-cell *matHeaderCellDef> Title (EN)</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[0].slideTitle}} </mat-cell>
       </ng-container>
 
-      <!-- agencyTypeNameBm Column -->
-      <ng-container matColumnDef="agencyTypeNameBm">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Agency Type Name (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].agencyName}} </mat-cell>
+      <!-- galleryDescription Column -->
+      <ng-container matColumnDef="galleryTitleBm">
+        <mat-header-cell *matHeaderCellDef> Title (BM) </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1].slideTitle}} </mat-cell>
       </ng-container>
 
+      <!-- galleryActiveFlag Column -->
+      <ng-container matColumnDef="galleryActiveFlag">
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="statusColumn">
+          <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+        </mat-cell>
+      </ng-container>
+      
       <!-- Action Column -->
-      <ng-container matColumnDef="agencyTypeAction">
+      <ng-container matColumnDef="galleryAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
               <i class="fa fa-edit"></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)" title="Delete {{ element.refCode }}">
-              <i class="fa fa-trash" title="Delete {{ element.refCode }}"></i>
+            <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].slideId,element.list[1].slideId)" title="Delete {{ element.list[0].slideId }},{{ element.list[1].slideId }}">
+              <i class="fa fa-trash" title="Delete {{ element.list[0].sliderId }}, {{ element.list[1].slideId }}"></i>
             </button>
         </mat-cell>
       </ng-container>
@@ -88,7 +91,7 @@
       <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
         <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
         <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-        <strong>{{commonservice.recordTable?.totalElements}}</strong> sliders</span>
+        <strong>{{commonservice.recordTable?.totalElements}}</strong> galleryrs</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
       </button>

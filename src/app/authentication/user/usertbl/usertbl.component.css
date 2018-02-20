@@ -112,3 +112,10 @@
         color: #fff;
         background: #666;
     }
+
+
+    .userListContainer{
+        background: #fff;
+        position: relative;
+        border: 1px solid;
+    }

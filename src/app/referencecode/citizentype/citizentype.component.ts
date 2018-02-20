@@ -105,6 +105,8 @@ export class CitizentypeComponent implements OnInit {
 
       this.getUserTypeActive = this.recordList.userTypeList[1].userTypeActiveFlag;
 
+      this.checkReqValues();
+
     });
   }
 

@@ -17,236 +17,85 @@
 
   <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate>
 
-    <div class="example-container mat-elevation-z8">
-    
-        <div class="row">
-          <div class="col-md-6">
-            <label>English</label>
-            <mat-form-field class="example-full-width">
-                <input matInput tabindex="1" placeholder="Ministry Name" formControlName="agencyNameEn" (change)="checkReqValues()" required>
-                <mat-error *ngIf="ministryForm.controls.agencyNameEn.hasError('required')">
-                  Ministry Name is required
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field class="example-full-width">
-                  <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
-                    required></textarea>
-                  <mat-error *ngIf="ministryForm.controls.descEn.hasError('required')">
-                    Description is required
-                  </mat-error>
-                  <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
-                </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <label>Bahasa Malaysia</label>
-            <mat-form-field class="example-full-width">
-              <input matInput tabindex="2" placeholder="Ministry Name" formControlName="agencyNameBm" (change)="checkReqValues()"
-                required>
-              <mat-error *ngIf="ministryForm.controls.agencyNameBm.hasError('required')">
-                Ministry Name is required
-              </mat-error>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
-                  required></textarea>
-                <mat-error *ngIf="ministryForm.controls.descBm.hasError('required')">
-                  Description is required
-                </mat-error>
-                <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
-              </mat-form-field>
-          </div>
+    <div class="example-container mat-elevation-z8 padding-10">
+
+      <div class="row">
+        <div class="col-md-6">
+          <label>English</label>
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="1" placeholder="Ministry Name" formControlName="ministryNameEn" (change)="checkReqValues()" required>
+            <mat-error *ngIf="ministryForm.controls.ministryNameEn.hasError('required')">
+              Ministry Name is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+              required></textarea>
+            <mat-error *ngIf="ministryForm.controls.descEn.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
+          </mat-form-field>
         </div>
+        <div class="col-md-6">
+          <label>Bahasa Malaysia</label>
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="2" placeholder="Ministry Name" formControlName="ministryNameBm" (change)="checkReqValues()" required>
+            <mat-error *ngIf="ministryForm.controls.ministryNameBm.hasError('required')">
+              Ministry Name is required
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="example-full-width">
+            <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+              required></textarea>
+            <mat-error *ngIf="ministryForm.controls.descBm.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
 
-        <div class="row">
-            <div class="col-md-6">
-              <label>English</label>
-              <mat-form-field class="example-full-width">
-                  <input matInput tabindex="1" placeholder="Ministry Name" formControlName="agencyNameEn" (change)="checkReqValues()" required>
-                  <mat-error *ngIf="ministryForm.controls.agencyNameEn.hasError('required')">
-                    Ministry Name is required
-                  </mat-error>
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                    <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
-                      required></textarea>
-                    <mat-error *ngIf="ministryForm.controls.descEn.hasError('required')">
-                      Description is required
-                    </mat-error>
-                    <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
-                  </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <label>Bahasa Malaysia</label>
-              <mat-form-field class="example-full-width">
-                <input matInput tabindex="2" placeholder="Ministry Name" formControlName="agencyNameBm" (change)="checkReqValues()"
-                  required>
-                <mat-error *ngIf="ministryForm.controls.agencyNameBm.hasError('required')">
-                  Ministry Name is required
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field class="example-full-width">
-                  <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
-                    required></textarea>
-                  <mat-error *ngIf="ministryForm.controls.descBm.hasError('required')">
-                    Description is required
-                  </mat-error>
-                  <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
-                </mat-form-field>
-            </div>
-          </div>
-          <div class="row">
-              <div class="col-md-6">
-                <label>English</label>
-                <mat-form-field class="example-full-width">
-                    <input matInput tabindex="1" placeholder="Ministry Name" formControlName="agencyNameEn" (change)="checkReqValues()" required>
-                    <mat-error *ngIf="ministryForm.controls.agencyNameEn.hasError('required')">
-                      Ministry Name is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field class="example-full-width">
-                      <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
-                        required></textarea>
-                      <mat-error *ngIf="ministryForm.controls.descEn.hasError('required')">
-                        Description is required
-                      </mat-error>
-                      <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
-                    </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <label>Bahasa Malaysia</label>
-                <mat-form-field class="example-full-width">
-                  <input matInput tabindex="2" placeholder="Ministry Name" formControlName="agencyNameBm" (change)="checkReqValues()"
-                    required>
-                  <mat-error *ngIf="ministryForm.controls.agencyNameBm.hasError('required')">
-                    Ministry Name is required
-                  </mat-error>
-                </mat-form-field>
-                <mat-form-field class="example-full-width">
-                    <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
-                      required></textarea>
-                    <mat-error *ngIf="ministryForm.controls.descBm.hasError('required')">
-                      Description is required
-                    </mat-error>
-                    <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
-                  </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                  <label>English</label>
-                  <mat-form-field class="example-full-width">
-                      <input matInput tabindex="1" placeholder="Ministry Name" formControlName="agencyNameEn" (change)="checkReqValues()" required>
-                      <mat-error *ngIf="ministryForm.controls.agencyNameEn.hasError('required')">
-                        Ministry Name is required
-                      </mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width">
-                        <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
-                          required></textarea>
-                        <mat-error *ngIf="ministryForm.controls.descEn.hasError('required')">
-                          Description is required
-                        </mat-error>
-                        <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
-                      </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <label>Bahasa Malaysia</label>
-                  <mat-form-field class="example-full-width">
-                    <input matInput tabindex="2" placeholder="Ministry Name" formControlName="agencyNameBm" (change)="checkReqValues()"
-                      required>
-                    <mat-error *ngIf="ministryForm.controls.agencyNameBm.hasError('required')">
-                      Ministry Name is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field class="example-full-width">
-                      <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
-                        required></textarea>
-                      <mat-error *ngIf="ministryForm.controls.descBm.hasError('required')">
-                        Description is required
-                      </mat-error>
-                      <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
-                    </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                  <div class="col-md-6">
-                    <label>English</label>
-                    <mat-form-field class="example-full-width">
-                        <input matInput tabindex="1" placeholder="Ministry Name" formControlName="agencyNameEn" (change)="checkReqValues()" required>
-                        <mat-error *ngIf="ministryForm.controls.agencyNameEn.hasError('required')">
-                          Ministry Name is required
-                        </mat-error>
-                      </mat-form-field>
-                      <mat-form-field class="example-full-width">
-                          <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
-                            required></textarea>
-                          <mat-error *ngIf="ministryForm.controls.descEn.hasError('required')">
-                            Description is required
-                          </mat-error>
-                          <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
-                        </mat-form-field>
-                  </div>
-                  <div class="col-md-6">
-                    <label>Bahasa Malaysia</label>
-                    <mat-form-field class="example-full-width">
-                      <input matInput tabindex="2" placeholder="Ministry Name" formControlName="agencyNameBm" (change)="checkReqValues()"
-                        required>
-                      <mat-error *ngIf="ministryForm.controls.agencyNameBm.hasError('required')">
-                        Ministry Name is required
-                      </mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="example-full-width">
-                        <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
-                          required></textarea>
-                        <mat-error *ngIf="ministryForm.controls.descBm.hasError('required')">
-                          Description is required
-                        </mat-error>
-                        <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
-                      </mat-form-field>
-                  </div>
-                </div>
-       
-          
-        <!-- LOCATION -->
-        <!-- <div class="row">
-          <div>
-            <label>Location Details</label>
-          </div>
+      <!-- LOCATION -->
+      <div class="row paddingTop-20">
+        <div class="col-md-12">
+          <label>Location Details</label>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <textarea matInput tabindex="5" placeholder="Address" formControlName="address" #address maxLength="10000" required></textarea>
+            <mat-error *ngIf="ministryForm.controls.address.hasError('required')">
+              Address is required
+            </mat-error>
+            <mat-hint align="end">{{address.value?.length || 0}}/10000</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="6" placeholder="Latitude" formControlName="agclat">
+            <mat-error *ngIf="ministryForm.controls.agclat.hasError('required')">
+              Latitude is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="7" placeholder="Longitude" formControlName="agclong">
+            <mat-error *ngIf="ministryForm.controls.agclong.hasError('required')">
+              Longitude is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="row paddingTop-20">
           <div class="col-md-12">
-            <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Address" formControlName="address" #address maxLength="10000" required></textarea>
-              <mat-error *ngIf="ministryForm.controls.address.hasError('required')">
-                Address is required
-              </mat-error>
-              <mat-hint align="end">{{address.value?.length || 0}}/10000</mat-hint>
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Latitude" formControlName="agclat">
-              <mat-error *ngIf="ministryForm.controls.agclat.hasError('required')">
-                Latitude is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Longitude" formControlName="agclong">
-              <mat-error *ngIf="ministryForm.controls.agclong.hasError('required')">
-                Longitude is required
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div> -->
-
-        <!-- CONTACT -->
-        <!-- <div class="row">
-          <div>
             <label class="">Contact Details</label>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Contact Person" formControlName="contactperson" (change)="checkReqValues()" required>
+              <input matInput tabindex="8" placeholder="Contact Person" formControlName="contactperson" (change)="checkReqValues()" required>
               <mat-error *ngIf="ministryForm.controls.contactperson.hasError('required')">
                 Contact Person is required
               </mat-error>
@@ -254,15 +103,18 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Email" formControlName="email" (change)="checkReqValues()" required>
+              <input matInput tabindex="9" placeholder="Email" formControlName="email" (change)="checkReqValues()" required>
               <mat-error *ngIf="ministryForm.controls.email.hasError('required')">
                 Email is required
+              </mat-error>
+              <mat-error *ngIf="!validateCtrlChk(email) &&  ministryForm.controls.email.errors.pattern">
+                Email Pattern not valid
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Phone Number" formControlName="phoneno" (change)="checkReqValues()" required>
+              <input matInput tabindex="10" placeholder="Phone Number" formControlName="phoneno" #phoneno [textMask]="{mask: maskPhoneNo}" (change)="checkReqValues()" required>
               <mat-error *ngIf="ministryForm.controls.phoneno.hasError('required')">
                 Phone Number is required
               </mat-error>
@@ -270,22 +122,22 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Fax Number" formControlName="faxno" (change)="checkReqValues()" required>
+              <input matInput tabindex="11" placeholder="Fax Number" formControlName="faxno" #faxno [textMask]="{mask: maskFaxNo}" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.faxno.hasError('required')">
                 Fax Number is required
               </mat-error>
             </mat-form-field>
           </div>
-        </div> -->
+        </div>
 
-        <!-- PUBLISHING -->
-        <!-- <div class="row">
-          <div>
+      <!-- PUBLISHING -->
+      <div class="row paddingTop-20">
+          <div class="col-md-12">
             <label class="">Publishing</label>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Website URL" formControlName="websiteUrl" (change)="checkReqValues()" required>
+              <input matInput tabindex="12" placeholder="Website URL" formControlName="websiteUrl" (change)="checkReqValues()" required>
               <mat-error *ngIf="ministryForm.controls.websiteUrl.hasError('required')">
                 Website URL is required
               </mat-error>
@@ -293,7 +145,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="RSS URL" formControlName="rssUrl" (change)="checkReqValues()">
+              <input matInput tabindex="13" placeholder="RSS URL" formControlName="rssUrl" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.rssUrl.hasError('required')">
                 Rss URL is required
               </mat-error>
@@ -301,22 +153,25 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Blog URL" formControlName="blogUrl" (change)="checkReqValues()">
+              <input matInput tabindex="14" placeholder="Blog URL" formControlName="blogUrl" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.blogUrl.hasError('required')">
                 Blog URL is required
               </mat-error>
             </mat-form-field>
           </div>
-        </div> -->
+          <div class="col-md-6">
+            &nbsp;  
+          </div>
+        </div>
 
-        <!-- SOCIAL MEDIA -->
-        <!-- <div class="row">
-          <div>
+      <!-- SOCIAL MEDIA -->
+      <div class="row paddingTop-20">
+          <div class="col-md-12">
             <label>Social Media</label>
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Facebook URL" formControlName="fbUrl" (change)="checkReqValues()">
+              <input matInput tabindex="15" placeholder="Facebook URL" formControlName="fbUrl" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.fbUrl.hasError('required')">
                 Facebook URL is required
               </mat-error>
@@ -324,17 +179,15 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Twitter URL" formControlName="twitterUrl" (change)="checkReqValues()">
+              <input matInput tabindex="16" placeholder="Twitter URL" formControlName="twitterUrl" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.twitterUrl.hasError('required')">
                 Twitter URL is required
               </mat-error>
             </mat-form-field>
           </div>
-        </div>
-        <div class="row">
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Youtube URL" formControlName="youtubeUrl" (change)="checkReqValues()">
+              <input matInput tabindex="17" placeholder="Youtube URL" formControlName="youtubeUrl" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.youtubeUrl.hasError('required')">
                 Youtube URL is required
               </mat-error>
@@ -342,7 +195,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Instagram URL" formControlName="instagramUrl" (change)="checkReqValues()">
+              <input matInput tabindex="18" placeholder="Instagram URL" formControlName="instagramUrl" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.instagramUrl.hasError('required')">
                 Instagram URL is required
               </mat-error>
@@ -350,7 +203,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Flickr URL" formControlName="flickrUrl" (change)="checkReqValues()">
+              <input matInput tabindex="19" placeholder="Flickr URL" formControlName="flickrUrl" (change)="checkReqValues()">
               <mat-error *ngIf="ministryForm.controls.flickrUrl.hasError('required')">
                 Flickr URL is required
               </mat-error>
@@ -358,27 +211,28 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-md-12">
-            <mat-checkbox formControlName="active"></mat-checkbox>
-            <span class="font-size-s">&nbsp;Active</span>
-          </div>
-        </div> -->
+      <div class="row paddingTop-20">
+        <div class="col-md-6">
+          <mat-checkbox tabindex="20" formControlName="active" [checked]="true"></mat-checkbox>
+          <span>&nbsp;Active</span>
+        </div>
+        <div class="col-md-6">
+          <mat-checkbox tabindex="21" formControlName="mdecStatus"></mat-checkbox>
+          <span>&nbsp;MDEC Status</span>
+        </div>
+      </div>
 
     </div>
 
-    <!-- <div class="container"> -->
-    <div class="col-md-12">&nbsp;</div>
-    <div class="form-group">
-      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
+    <div class="form-group paddingTop-20">
+      <button mat-raised-button type="button" tabindex="23" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
         (click)="updateAction(ministryForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
         <i *ngIf="complete" class="fa fa-check"></i>
         <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
-      <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
+      <button mat-raised-button color="warn" type="button" tabindex="22" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
         style="width: 100px; font-family: Roboto" (click)="myFunction()">
         <i class="fa fa-refresh"></i>&nbsp;Reset</button>
     </div>
     <div class="col-md-12">&nbsp;</div>
-    <!-- </div> -->
   </form>
 </div>

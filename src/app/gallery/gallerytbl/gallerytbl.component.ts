@@ -1,22 +1,23 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
-import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
+import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-agencyapptypetbl',
-  templateUrl: './agencyapptypetbl.component.html',
-  styleUrls: ['./agencyapptypetbl.component.css']
+  selector: 'app-gallerytbl',
+  templateUrl: './gallerytbl.component.html',
+  styleUrls: ['./gallerytbl.component.css']
 })
-export class AgencyapptypetblComponent implements OnInit {
+export class GallerytblComponent implements OnInit {
 
-  agencyAppData: Object;
-  agencyAppList = null;
+  galleryData: Object;
+  galleryList = null;
   displayedColumns: any;
-  agencyAppPageSize = 10;
+  displayedColumns2: any;
+  galleryPageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -32,7 +33,7 @@ export class AgencyapptypetblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.agencyAppList);
+  dataSource = new MatTableDataSource<object>(this.galleryList);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -47,11 +48,11 @@ export class AgencyapptypetblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
+    this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','agencyAppNameEn', 'agencyAppNameBm', 'agencyAppAction'];
+    this.displayedColumns = ['no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryAction'];
   }
 
   ngAfterViewInit() {
@@ -59,26 +60,27 @@ export class AgencyapptypetblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get agencyapptype Data 
-  getAgencyAppData(count, size) {
-    this.dataUrl = this.appConfig.urlAgencyApp;
-    console.log(this.dataUrl + '/code/?page=' + count + '&size=' + size)
+  // get gallery Data 
+  getGalleryData(count, size) {
+    // console.log(this.appConfig.urlgalleryList + '/?page=' + count + '&size=' + size)
+    this.dataUrl = this.appConfig.urlSlides;
 
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
-        this.agencyAppList = data;
-        console.log(this.agencyAppList)
-        this.dataSource.data = this.agencyAppList.list;
-        this.seqPageNum = this.agencyAppList.pageNumber;
-        this.seqPageSize = this.agencyAppList.pageSize;
-        this.commonservice.recordTable = this.agencyAppList;
-        this.noNextData = this.agencyAppList.pageNumber === this.agencyAppList.totalPages;
+        this.galleryList = data;
+        console.log(this.galleryList)
+        // console.log(JSON.stringify(this.galleryList))
+        this.dataSource.data = this.galleryList.list;
+        this.seqPageNum = this.galleryList.pageNumber;
+        this.seqPageSize = this.galleryList.pageSize;
+        this.commonservice.recordTable = this.galleryList;
+        this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
       });
   }
 
   paginatorL(page) {
-    this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
+    this.getGalleryData(this.pageCount, this.galleryPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -88,47 +90,43 @@ export class AgencyapptypetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getAgencyAppData(page + 1, this.agencyAppPageSize);
+    this.getGalleryData(page + 1, this.galleryPageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getAgencyAppData(this.pageCount, event.value);
-    this.agencyAppPageSize = event.value;
+    this.getGalleryData(this.pageCount, event.value);
+    this.galleryPageSize = event.value;
     this.noPrevData = true;
   }
 
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.router.navigate(['agencyapptype', "add"]);
+    this.router.navigate(['gallery', "add"]);
   }
   
   updateRow(row) {
     this.isEdit = true;
-    // this.changePageMode(this.isEdit);
-    this.router.navigate(['agencyapptype', row]);
+    this.router.navigate(['gallery', row]);
   }
 
-  deleteRow(refCode) {
+  deleteRow(enId,bmId) {
     let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
+    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
     if (r == true) {
 
-      this.commonservice.delAgencyAppType(refCode).subscribe(
+      this.commonservice.delGallery(enId,bmId).subscribe(
         data => {
-          txt = "agencyapptype deleted successfully!";
-          // this.router.navigate(['agencyapptype']);
+          txt = "gallery deleted successfully!";
           this.toastr.success(txt, '');   
-          this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
+          this.getGalleryData(this.pageCount, this.galleryPageSize);
         },
         error => {
           console.log("No Data")
         });
 
-      // this.agencyapptypeForm.reset();
     } else {
       txt = "Delete Cancelled!";
-      // alert(txt)
     }
   }
 
@@ -142,11 +140,11 @@ export class AgencyapptypetblComponent implements OnInit {
 
   navigateBack() {
     this.isEdit = false;
-    this.router.navigate(['agencyapptype']);
+    this.router.navigate(['gallery']);
   }
 
   back(){
-    this.router.navigate(['agencyapptype']);
+    this.router.navigate(['gallery']);
   }
 
 }

@@ -27,6 +27,7 @@ export class AppConfig {
     urlMinistry: string;
     urlAgency: string;
     urlAgencyApp: string;
+    urlGallery: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
@@ -62,6 +63,8 @@ export class AppConfig {
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
+    urlSearchbyAgency: string;
+    urlSearchbyMinistry: string;
 
     urlUserTypeList: string;
     urlUserTypeDelete: string;
@@ -74,6 +77,12 @@ export class AppConfig {
     urlModuleGroupList:string;
 
     urlFaqList:string;
+    urlAdminUserPermission:string;
+
+    urlFooterCategory: string;
+    urlFooterContent: string;
+    lang: string;
+    urlAdminUserFind: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -97,11 +106,15 @@ export const APP_DI_CONFIG: AppConfig = {
     urlMinistry: commonURL + 'ministry',
     urlAgency: commonURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
+    urlGallery: commonURL+'gallery',
     
-
+    urlAdminUserFind: commonURL+'adminuser',
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
+    urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
+    urlSearchbyAgency: commonURL+'agency/type/search/',
+    urlSearchbyMinistry: commonURL+'ministry/search/',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
@@ -118,6 +131,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlIdentificationType: commonURL + 'identificationtype',
 
     urlFaqList: commonURL + 'faq',
+    urlFooterCategory: commonURL + 'footer',
+    urlFooterContent: commonURL + 'footercontent',
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
@@ -133,9 +148,10 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
-    urlMediaType: commonURL + 'mediatype',
+    // urlMediaType: commonURL + 'mediatype',
+    urlMediaType: 'http://10.1.22.50:8080/mediatype',
     urlSystemSettings: commonURL + 'systemsettings',
-    
+    lang: 'language='+localStorage.getItem('langID')
 };
 
 @NgModule({

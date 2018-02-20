@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgencyapptypetblComponent } from './agencyapptypetbl.component';
+import { FootercategoryComponent } from './footercategory.component';
 
-describe('AgencyapptypetblComponent', () => {
-  let component: AgencyapptypetblComponent;
-  let fixture: ComponentFixture<AgencyapptypetblComponent>;
+describe('FootercategoryComponent', () => {
+  let component: FootercategoryComponent;
+  let fixture: ComponentFixture<FootercategoryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgencyapptypetblComponent ]
+      declarations: [ FootercategoryComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgencyapptypetblComponent);
+    fixture = TestBed.createComponent(FootercategoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

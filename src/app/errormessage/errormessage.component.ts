@@ -141,10 +141,17 @@ export class ErrormessageComponent implements OnInit {
       elemTwo.setValue(elemOne.value)
     else
       elemOne.setValue(elemTwo.value)
+      
+    this.stripspaces(elemOne)
+    this.stripspaces(elemTwo)
 
   }
 
-
+  stripspaces(input)
+  {
+    input.value = input.value.replace(/\s/gi,"");
+    return true;
+  }
 
   myFunction() {
     let txt;
@@ -165,7 +172,7 @@ export class ErrormessageComponent implements OnInit {
 
       this.commonservice.delErrorMsg(refCode).subscribe(
         data => {
-          txt = "ErrorMsg deleted successfully!";
+          txt = "Error Message deleted successfully!";
           // this.router.navigate(['ErrorMsg']);
           window.location.reload()
         },

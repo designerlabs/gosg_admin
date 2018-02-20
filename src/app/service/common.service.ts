@@ -10,9 +10,12 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/retry';
+import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
 export class CommonService {
+  languageId: any;
   ObjMenuid: object;
   dataTbl: object;
   data: object;
@@ -23,18 +26,47 @@ export class CommonService {
   userTable: object;
   recordTable: object;
   temp = null;
-
+  
   pageMode: String;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastrService,
+    private translate: TranslateService
+  ) {
 
+       /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }
+
+    /* LANGUAGE FUNC */
+     }
+  lang = this.lang;
   private usersUrl: string = this.appConfig.urlUsers;
   private errMsgUrl: string = this.appConfig.urlErrorMsg;
   private slidersUrl: string = this.appConfig.urlSlides;
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
+
   
   // getMenuID(ID): Observable<any> {
   //   // tslint:disable-next-line:no-debugger
@@ -57,21 +89,19 @@ export class CommonService {
     return this.http.get(this.usersUrl)
       .map((response: Response) => response.json())
       .catch(this.handleError);
-
   }
+
   
   getSlidersData(): Observable<any[]> {
     return this.http.get(this.slidersUrl)
       .map((response: Response) => response.json())
       .catch(this.handleError);
-
   }
 
   getUsersDataByID(uid): Observable<any[]> {
     return this.http.get(this.usersUrl + uid)
       .map((response: Response) => response.json())
       .catch(this.handleError);
-
   }
 
   getMenuID(data) {
@@ -82,14 +112,14 @@ export class CommonService {
 
   GetList(topicID) {
     if (this.mainid === 1 && topicID === 3) {
-      return this.http.get(this.appConfig.urlCommon + 'article/category/1')
+      return this.http.get(this.appConfig.urlCommon + 'article/category/1?language='+this.languageId)
       .subscribe(Rdata => {
         this.dataTbl = Rdata;
         // console.log(this.dataTbl);
         this.router.navigate(['articletbl', topicID]);
       });
     }else if (this.mainid === 1 && topicID === 4) {
-      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10')
+      return this.http.get(this.appConfig.urlUserList + '?page=1&size=10&language='+this.languageId)
       .subscribe(Rdata => {
         this.dataTbl = Rdata;
         this.router.navigate(['userlist']);
@@ -101,7 +131,7 @@ export class CommonService {
   }
 
   GetUser(userId) {
-    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlUserList + '/' + userId + '?language='+this.languageId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       this.router.navigate(['user', userId]);
@@ -113,7 +143,7 @@ export class CommonService {
     // console.log(this.appConfig.urlUsers + user.userId)
     // console.log(user)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    return this.http.put(this.appConfig.urlUserList + '/' + user.userId + '?langId=1', user)
+    return this.http.put(this.appConfig.urlUserList + '/' + user.userId + '?language='+this.languageId, user)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -125,13 +155,13 @@ export class CommonService {
   }
 
   getModuleListAll(){
-    return this.http.get(this.appConfig.urlModuleList+'/all')
+    return this.http.get(this.appConfig.urlModuleList+'/all?language='+this.languageId)
     .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }
 
   updateModuleList(data){
-    return this.http.put(this.appConfig.urlModuleList+'/update', data)
+    return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -144,8 +174,27 @@ export class CommonService {
   }
 
   getUserList(id){
-    return this.http.get(this.appConfig.urlCommon+'adminuser/'+id)
+    return this.http.get(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json().adminUserDetails)
+    .catch(this.handleError);
+  }
+
+  addUserList(id){
+    return this.http.post(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId,'')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  deleteUserList(id){
+    return this.http.delete(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId,'')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+
+  updateUserPermission(id, data){
+    return this.http.put(this.appConfig.urlAdminUserPermission+'/'+id+'?language='+this.languageId, data)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
@@ -191,7 +240,7 @@ export class CommonService {
   }
 
   getFeedbackType(){
-    return this.http.get(this.appConfig.urlFbTypeList + 'type/?langId=1')
+    return this.http.get(this.appConfig.urlFbTypeList + 'type/?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -241,6 +290,7 @@ delMediaType(mediaTypeId) {
 }
 
 // Media Types ends
+
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
@@ -282,6 +332,48 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
   // SLIDER END
+
+  // GALLERY
+  getGallery(code) {
+    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/' + code).subscribe(
+      Rdata => {
+      this.dataTbl = Rdata;
+      // this.router.navigate(['user', code]);
+    });
+  }
+
+  addGallery(gallery) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(slider)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlSlides, gallery)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateGallery(gallery) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // console.log(slider)
+    // debugger;
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlSlides+ "/multiple/update", gallery)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delGallery(enId, bmId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=" + enId + "," +bmId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // GALLERY END
 
   //ANNOUNCEMENT STARTS
 
@@ -369,7 +461,7 @@ delMediaType(mediaTypeId) {
     // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlMinistry, ministry)
+    return this.http.post(this.appConfig.urlMinistry + "/add/multiple", ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -377,10 +469,8 @@ delMediaType(mediaTypeId) {
   updateMinistry(ministry) {
 
     // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(Agency)
-    // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlMinistry, ministry)
+    return this.http.put(this.appConfig.urlMinistry + "/update/multiple", ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -389,7 +479,7 @@ delMediaType(mediaTypeId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlMinistry + "/" + refCode, null)
+    return this.http.delete(this.appConfig.urlMinistry + "/delete/code/" + refCode, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -407,9 +497,8 @@ delMediaType(mediaTypeId) {
 
   addAgency(agency) {
 
-    // console.log(this.appConfig.urlSlides)
-    // console.log(Agency)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    console.log(this.appConfig.urlAgency)
+    console.log(agency)
     
     return this.http.post(this.appConfig.urlAgency, agency)
     .map((response: Response) => response.json())
@@ -418,9 +507,9 @@ delMediaType(mediaTypeId) {
 
   updateAgency(agency) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(Agency)
-    // debugger;
+    console.log(this.appConfig.urlAgency)
+    console.log(agency)
+    
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
     return this.http.put(this.appConfig.urlAgency, agency)
     .map((response: Response) => response.json())
@@ -438,7 +527,7 @@ delMediaType(mediaTypeId) {
   // AGENCY END
 
   // AGENCY APP TYPE
-  getAgencyAppType(code) {
+  getAgencyApp(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
     return this.http.get(this.appConfig.urlAgencyApp + '/' + code).subscribe(
       Rdata => {
@@ -447,19 +536,19 @@ delMediaType(mediaTypeId) {
     });
   }
 
-  addAgencyAppType(Agency) {
+  addAgencyApp(Agency) {
     return this.http.post(this.appConfig.urlAgencyApp, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  updateAgencyAppType(Agency) {
+  updateAgencyApp(Agency) {
     return this.http.put(this.appConfig.urlAgencyApp, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delAgencyAppType(refCode) {
+  delAgencyApp(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
@@ -472,11 +561,9 @@ delMediaType(mediaTypeId) {
   // LANGUAGE
   getAllLanguage() {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlLanguage + '/all').subscribe(
-      Rdata => {
-      this.dataTbl = Rdata;
-      // this.router.navigate(['user', code]);
-    });
+    return this.http.get(this.appConfig.urlLanguage + '/all')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
   }
 
   addLanguage(language) {
@@ -511,6 +598,7 @@ delMediaType(mediaTypeId) {
   }
   // LANGUAGE END
 
+  // Start Poll Question - N
   addRecord(record) {
     let fullUrl = this.appConfig.urlPoll + "/question";
   
@@ -534,6 +622,7 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Poll Question - N
 
   addRace(record) {
     let fullUrl = this.appConfig.urlRace;
@@ -665,6 +754,68 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
 
+  addFooterCategory(record) {
+    let fullUrl = this.appConfig.urlFooterCategory + "?language=1" ;
+    // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFooterCategory(record) {
+    let fullUrl = this.appConfig.urlFooterCategory  + "?language=1" ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delFooterCategory(refCode) {
+    let fullUrl = this.appConfig.urlFooterCategory ;
+    
+    return this.http.delete(fullUrl + '/' + refCode)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getFooterCategoryList(){
+    let fullUrl = this.appConfig.urlFooterCategory ;
+    return this.http.get(fullUrl + '?active=true')
+    .map((response: Response) => response.json().list)
+    .catch(this.handleError);
+  }
+
+  addFooterContent(record) {
+    let fullUrl = this.appConfig.urlFooterContent + "?language=" + this.languageId;
+    // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
+    console.log(fullUrl)
+    console.log(record)
+
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFooterContent(record) {
+    let fullUrl = this.appConfig.urlFooterContent  + "?language=" + this.languageId ;
+    
+    return this.http.put(fullUrl, record)
+        .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+    
+  delFooterContent(refCode) {
+    let fullUrl = this.appConfig.urlFooterContent ;
+    
+    return this.http.delete(fullUrl + '/' + refCode + "?language=" + this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  // Start Address Type - N
   addRecordAddType(record) {
     let fullUrl = this.appConfig.urlAddressType;
 
@@ -688,7 +839,9 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Address Type - N
 
+  // Start Account Status - N
   addRecordAccStatus(record) {
     let fullUrl = this.appConfig.urlAccountStatus;
  
@@ -712,7 +865,9 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Account Status - N
 
+  // Start Feedback Type - N
   addRecordFeedbackType(record) {
     let fullUrl = this.appConfig.urlFeedbackType;
  
@@ -736,7 +891,9 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Feedback Type - N
 
+  // Start Feedback Subject - N
   addRecordFeedbackSubject(record) {
     let fullUrl = this.appConfig.urlFeedbackSubject;
  
@@ -760,9 +917,11 @@ delMediaType(mediaTypeId) {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End Feedback Subject - N
 
+  // Start System Settings - N
   addRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings;
+    let fullUrl = this.appConfig.urlSystemSettings + '?language='+this.languageId;
  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -770,21 +929,23 @@ delMediaType(mediaTypeId) {
   }
 
   delRecordSysSettings(key) {
-    let fullUrl = this.appConfig.urlSystemSettings;
+    let fullUrl = this.appConfig.urlSystemSettings + "/" + key + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl + "/" + key, null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordSysSettings(record) {
-    let fullUrl = this.appConfig.urlSystemSettings;
+    let fullUrl = this.appConfig.urlSystemSettings + '?language='+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+  // End System Settings - N
 
+  // Start Feedback Visitor/Admin - N
   delRecordFeedback(refCode) {
     let fullUrl = this.appConfig.urlFeedback;
 
@@ -793,13 +954,22 @@ delMediaType(mediaTypeId) {
     .catch(this.handleError);
   }
 
-  updateRecordFeedback(record) {
-    let fullUrl = this.appConfig.urlFeedback;
+  updateRecordFeedbackDraft(record) {
+    let fullUrl = this.appConfig.urlFeedback + "/saveasdraft?language=1";
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+
+  updateRecordFeedbackReply(record) {
+    let fullUrl = this.appConfig.urlFeedback + "/submitreply?language=1";
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // End Feedback Visitor/Admin - N
 
   
   private handleError(error: Response) {
@@ -839,6 +1009,10 @@ delMediaType(mediaTypeId) {
       .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
+  }
+
+  errorResponse(data){
+      this.toastr.error(data.statusDesc, ''); 
   }
 }
 

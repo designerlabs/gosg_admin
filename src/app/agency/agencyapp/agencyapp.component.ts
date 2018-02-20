@@ -8,17 +8,20 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-agencyapptype',
-  templateUrl: './agencyapptype.component.html',
-  styleUrls: ['./agencyapptype.component.css']
+  selector: 'app-agencyapp',
+  templateUrl: './agencyapp.component.html',
+  styleUrls: ['./agencyapp.component.css']
 })
-export class AgencyapptypeComponent implements OnInit {
+export class AgencyappComponent implements OnInit {
+  searchAgencyResult: Object;
+  isActiveList: boolean;
+  isActive: boolean;
   
-  AgencyAppTypeData: Object;
+  AgencyAppData: Object;
   AgencyData: Object;
   dataUrl: any;
   date = new Date();
-  agencyAppTypeForm: FormGroup
+  agencyAppForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -26,12 +29,14 @@ export class AgencyapptypeComponent implements OnInit {
   refCode:any;
   agencyAppIdEn:any;
   agencyAppIdBm:any;
+  agencyId:any;
+  ministryName:any;
 
   agencyAppNameEn: FormControl
   agencyAppNameBm: FormControl
   descEn: FormControl
   descBm: FormControl
-  agencyId: FormControl
+  agency: FormControl
   resetMsg = this.resetMsg;
 
   constructor(
@@ -52,16 +57,16 @@ export class AgencyapptypeComponent implements OnInit {
     this.agencyAppNameBm = new FormControl()
     this.descEn = new FormControl()
     this.descBm = new FormControl()
-    this.agencyId = new FormControl()
+    this.agency = new FormControl()
 
-    this.agencyAppTypeForm = new FormGroup({
+    this.agencyAppForm = new FormGroup({
       agencyAppNameEn: this.agencyAppNameEn,
       descEn: this.descEn,
       agencyAppNameBm: this.agencyAppNameBm,
       descBm: this.descBm,
-      agencyId: this.agencyId,
+      agency: this.agency,
     });
-    this.getAgencyType();
+    this.getAgency();
 
     if(refCode == "add") {
       this.isEdit = false;
@@ -77,7 +82,7 @@ export class AgencyapptypeComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['agencyapptype']);
+    this.router.navigate(['agencyapp']);
   }
 
   // get, add, update, delete
@@ -89,18 +94,18 @@ export class AgencyapptypeComponent implements OnInit {
     // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
       Rdata => {
 
-        this.AgencyAppTypeData = Rdata;
-        // console.log(JSON.stringify(this.AgencyAppTypeData))
-        console.log(this.AgencyAppTypeData)
-        let dataEn = this.AgencyAppTypeData['agencyApplicationList'][0];
-        let dataBm = this.AgencyAppTypeData['agencyApplicationList'][1];
+        this.AgencyAppData = Rdata;
+        // console.log(JSON.stringify(this.AgencyAppData))
+        console.log(this.AgencyAppData)
+        let dataEn = this.AgencyAppData['agencyApplicationList'][0];
+        let dataBm = this.AgencyAppData['agencyApplicationList'][1];
 
       // populate data
-      this.agencyAppTypeForm.get('agencyAppNameEn').setValue(dataEn.agencyApplicationName);
-      this.agencyAppTypeForm.get('descEn').setValue(dataEn.agencyApplicationDescription);
-      this.agencyAppTypeForm.get('agencyAppNameBm').setValue(dataBm.agencyApplicationName);
-      this.agencyAppTypeForm.get('descBm').setValue(dataBm.agencyApplicationDescription);
-      this.agencyAppTypeForm.get('agencyId').setValue(dataBm.agency.agencyId);
+      this.agencyAppForm.get('agencyAppNameEn').setValue(dataEn.agencyApplicationName);
+      this.agencyAppForm.get('descEn').setValue(dataEn.agencyApplicationDescription);
+      this.agencyAppForm.get('agencyAppNameBm').setValue(dataBm.agencyApplicationName);
+      this.agencyAppForm.get('descBm').setValue(dataBm.agencyApplicationDescription);
+      this.agencyAppForm.get('agencyId').setValue(dataBm.agency.agencyId);
       this.refCode = dataEn.agencyApplicationCode;
       this.agencyAppIdEn = dataEn.agencyApplicationId;
       this.agencyAppIdBm = dataBm.agencyApplicationId;
@@ -110,17 +115,54 @@ export class AgencyapptypeComponent implements OnInit {
     
   }
 
-  getAgencyType() {
+  getAgency() {
     return this.http.get(this.appConfig.urlAgency + '/code').subscribe(
       // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
       // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
         Rdata => {
   
           this.AgencyData = Rdata['list'];
-          // console.log(JSON.stringify(this.AgencyAppTypeData))
+          // 
+          // console.log(JSON.stringify(this.AgencyAppData))
           console.log(this.AgencyData)
-          console.log(this.AgencyData[0].list[0].agencyName)
+          // console.log(this.AgencyData[0]['list'][0].agencyName)
       });
+  }
+
+  getSearchData(keyword){
+
+    if(keyword != "" && keyword.length >= 3) {
+      this.isActive = true;
+      this.isActiveList = true;
+
+      this.http.get(
+        this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID')).subscribe(
+        data => {
+          console.log(this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID'))
+          this.searchAgencyResult = data['agencyList'];
+          console.log(this.searchAgencyResult)
+          // this.searchAgencyResult.
+      });
+    } else {
+      this.isActiveList = false;
+    }
+  }
+  
+  getValue(aId,aName,mName){
+    this.agency = this.agencyAppForm.get('agency').value;
+    this.isActive = false;
+    this.isActiveList = false;
+    this.searchAgencyResult = [''];
+    this.agencyAppForm.get('agency').setValue(aName);
+    this.agency = aId;
+    this.agencyId = aId;
+
+    console.log(mName)
+
+    if(mName != "")
+      this.ministryName = mName;
+      else
+      this.ministryName = "-";
   }
 
   checkReqValues() {
@@ -129,13 +171,13 @@ export class AgencyapptypeComponent implements OnInit {
     let descEn = "descEn";
     let agencyAppNameBm = "agencyAppNameBm";
     let descBm = "descBm";
-    let agencyId = "agencyId";
+    let agency = "agency";
 
-    let reqVal: any = [agencyAppNameEn, descEn, agencyAppNameBm, descBm, agencyId];
+    let reqVal: any = [agencyAppNameEn, descEn, agencyAppNameBm, descBm, agency];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.agencyAppTypeForm.get(reqData);
+      let elem = this.agencyAppForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -158,14 +200,14 @@ export class AgencyapptypeComponent implements OnInit {
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
-      this.agencyAppTypeForm.reset();
+      this.agencyAppForm.reset();
       this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";
     }
   }
 
-  updateAgencyAppType(formValues: any) {
+  updateAgencyApp(formValues: any) {
     
     if(!this.isEdit) {
 
@@ -177,10 +219,7 @@ export class AgencyapptypeComponent implements OnInit {
           "languageId": 1
         },
         "agency": {
-          "agencyId": null,
-          "language": {
-            "languageId": 1
-          }
+          "agencyId": null
         }
       }, 
       {
@@ -190,10 +229,7 @@ export class AgencyapptypeComponent implements OnInit {
           "languageId": 2
         },
         "agency": {
-          "agencyId": null,
-          "language": {
-            "languageId": 2
-          }
+          "agencyId": null
         }
       }
     ];
@@ -202,19 +238,19 @@ export class AgencyapptypeComponent implements OnInit {
 
     body[0].agencyApplicationName = formValues.agencyAppNameEn;
     body[0].agencyApplicationDescription = formValues.descEn;
-    body[0].agency.agencyId = formValues.agencyId;
+    body[0].agency.agencyId = this.agencyId;
 
     body[1].agencyApplicationName = formValues.agencyAppNameBm;
     body[1].agencyApplicationDescription = formValues.descBm;
-    body[1].agency.agencyId = formValues.agencyId;
+    body[1].agency.agencyId = this.agencyId;
 
     console.log(body)
 
     // Add ErrorMsg Service
-    this.commonservice.addAgencyAppType(body).subscribe(
+    this.commonservice.addAgencyApp(body).subscribe(
       data => {
         this.toastr.success('Agency Application added successfully!', ''); 
-        this.router.navigate(['agencyapptype']);
+        this.router.navigate(['agencyapp']);
       },
       error => {
         console.log("No Data")
@@ -270,10 +306,10 @@ export class AgencyapptypeComponent implements OnInit {
     console.log(body);
 
     // Update ErrorMsg Service
-    this.commonservice.updateAgencyAppType(body).subscribe(
+    this.commonservice.updateAgencyApp(body).subscribe(
       data => {
         this.toastr.success('Agency Application update successful!', '');   
-        this.router.navigate(['agencyapptype']);
+        this.router.navigate(['agencyapp']);
       },
       error => {
         console.log("No Data")

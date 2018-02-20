@@ -20,17 +20,17 @@
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
           <div class="bg-form-header col-md-6">
-            <label class="staticLabel font-size-s boldText">English</label>
+            <label class="">English</label>
           </div>
           <div class="bg-form-header col-md-6">
-            <label class="staticLabel font-size-s boldText">Bahasa Malaysia</label>
+            <label class="">Bahasa Malaysia</label>
           </div>
         </div>
   
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width">
               <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="sliderForm.controls.titleEn.hasError('required')">
@@ -39,7 +39,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width">
               <input matInput placeholder="Title" formControlName="titleBm" value="" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="sliderForm.controls.titleBm.hasError('required')">
@@ -51,7 +51,7 @@
   
         <div class="row">
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width">
               <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="sliderForm.controls.descEn.hasError('required')">
@@ -61,7 +61,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width">
               <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="sliderForm.controls.descBm.hasError('required')">
@@ -76,10 +76,10 @@
 
         <div class="row">
             <div class="col-md-12">
-                <label class="font-size-s">Slider Image</label>
+                <label class="">Slider Image</label>
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width">
                   <mat-select formControlName="imgEn" placeholder="Select Image" (change)="checkReqValues()" required>
                       <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
                       <mat-option [value]="1">image1.png</mat-option>
@@ -96,10 +96,10 @@
             </mat-form-field>
           </div>
           <div class="col-md-2" style="text-align: center; padding-top: 15px;">
-              <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="font-size-s">&nbsp;Copy</span>
+              <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;Copy</span>
           </div>
           <div class="col-md-5" style="border: 0px solid #000; text-align: left">
-            <mat-form-field class="example-full-width font-size-s">
+            <mat-form-field class="example-full-width">
               <mat-select formControlName="imgBm" placeholder="Select Image" (change)="checkReqValues()" required>
                   <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
                   <mat-option [value]="1">image1.png</mat-option>
@@ -123,7 +123,7 @@
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <mat-checkbox formControlName="active"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;Active</span>
           </div>
         </div>
         <div class="col-md-12">&nbsp;</div>
@@ -132,11 +132,11 @@
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group">
-          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
             (click)="updateSlider(sliderForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
-          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i>&nbsp;Reset</button>
         </div>

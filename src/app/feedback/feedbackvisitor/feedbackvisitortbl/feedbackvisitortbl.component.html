@@ -6,14 +6,12 @@
     </div>
 
     <div class="example-container mat-elevation-z8">
-        <!-- <div class="form-header col-md-12" style="background-color:lightgrey;">
-            <label class="staticLabel font-size-m boldText">View Polls Questions</label>
-        </div> -->
-        <!-- <div class="col-md-12 paddingTop-25 example-header">
-            <mat-form-field class="font-size-s">
+
+        <div class="col-md-12 paddingTop-10">
+            <mat-form-field>
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
             </mat-form-field>
-        </div> -->
+        </div>
 
         <mat-table #table [dataSource]="dataSource">           
         
@@ -53,8 +51,8 @@
             <ng-container matColumnDef="status">
                 <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Draft Status </mat-header-cell>
                 <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                    <i *ngIf="element.feedbackReplyFlag == true" class="fa fa-check" style="color: green;"></i>
-                    <i *ngIf="element.feedbackReplyFlag == false" class="fa fa-times" style="color: red;"></i>
+                    <i *ngIf="element.feedbackDraftFlag == true" class="fa fa-check" style="color: green;"></i>
+                    <i *ngIf="element.feedbackDraftFlag == false" class="fa fa-times" style="color: red;"></i>
                 </mat-cell>
             </ng-container>
 

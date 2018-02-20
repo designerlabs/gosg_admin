@@ -1,79 +1,407 @@
 <!-- VIEW: ADD/EDIT Category -->
 <div class="container right-content">
 
-    <div class="curdHeader">
-      <div class="col-md-10 curdHeadingLeft">
-        <h3>{{ pageMode }} Media Type</h3>
-      </div>
-  
-      <div class="col-md-2 curdHeadingRight">
-        <span class="pull-right">
-          <button type="button" mat-fab color="accent" (click)="back()">
-            <i class="fa fa-arrow-left font-size-l"></i>
-          </button>
-        </span>
-      </div>
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+      <h3>{{ pageMode }} Media Type</h3>
     </div>
-  
-    <form [formGroup]="mediaTypeForm" autocomplete="off" role="form" novalidate>
-      <!-- EN -->
-      <div class="example-container mat-elevation-z8 col-md-12">
-  
-        <div class="row">
-          <div class="col-md-12">&nbsp;</div>
-          <div class="col-md-4">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <input matInput placeholder="Media Type" formControlName="mediatype" (change)="checkReqValues()" readonly>              
-            </mat-form-field>
-          </div>
-          <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:30%">
-                <input matInput placeholder="Max File Size" type="number" formControlName="filesize" (change)="checkReqValues()" maxlength="5" required/>
-                <mat-error *ngIf="mediaTypeForm.get('filesize').hasError('required')">
-                    Max File Size is required
-                  </mat-error>
-              </mat-form-field>             
-         
-          <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:30%">              
-              <mat-select placeholder="File Unit" formControlName="fileunit" (change)="checkReqValues()" required>
-                  <mat-option *ngFor="let obj of objUnit" [value]="obj">{{obj}}</mat-option>
-                </mat-select>
-              <mat-error *ngIf="mediaTypeForm.get('fileunit').hasError('required')">
-                  File Unit is required
+
+    <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+        <button type="button" mat-fab color="accent" (click)="back()">
+          <i class="fa fa-arrow-left font-size-l"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <form [formGroup]="mediaTypeForm" autocomplete="off" role="form" novalidate>
+    <!-- EN -->
+    <div class="example-container mat-elevation-z8 col-md-12">
+      <div class="col-md-12">&nbsp;</div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <mat-select placeholder="Media Type" formControlName="mediatype" (change)="selMediaType($event)" required>
+              <mat-option *ngFor="let obj of objMediaType" [value]="obj">{{obj}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="mediaTypeForm.get('mediatype').hasError('required')">
+              Media Type is required
+            </mat-error>
+          </mat-form-field>
+          <!-- <label class="font-size-m" for="mediatype" *ngIf="isEdit" formControlName="mediatype" value=""> </label> -->
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <mat-select placeholder="Category" formControlName="catType" (change)="selCateType($event)" required>
+              <mat-option *ngFor="let obj of objCategory" [value]="obj">{{obj}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="mediaTypeForm.get('catType').hasError('required')">
+              Category is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s paddingTop-10">
+            <mat-select placeholder="File Type" formControlName="filetype" (change)="checkReqValues()" multiple required>
+              <mat-option *ngFor="let obj of objFileExtn" [value]="obj">{{obj}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="mediaTypeForm.get('filetype').hasError('required')">
+              File Type is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- Common controls -->
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value">
+        <div class="col-md-3 paddingTop-10">
+          <label class="font-size-m" for="mediatype"> {{mediaTypeForm.controls.mediatype.value}} </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:70%">
+              <input matInput placeholder="File Size" type="number" formControlName="filesize" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('filesize').hasError('required')">
+                Max File Size is required
               </mat-error>
             </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <mat-select placeholder="File Type" formControlName="filetype" (change)="checkReqValues()" multiple required>
-                <mat-option *ngFor="let obj of objFileExtn" [value]="obj">{{obj}}</mat-option>
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:30%">
+              <mat-select placeholder="Unit" formControlName="fileunit" (change)="checkReqValues()" required>
+                <mat-option *ngFor="let obj of objUnit" [value]="obj">{{obj}}</mat-option>
               </mat-select>
-              <mat-error *ngIf="mediaTypeForm.get('filetype').hasError('required')">
-                  File Type is required
+              <mat-error *ngIf="mediaTypeForm.get('fileunit').hasError('required')">
+                File Unit is required
               </mat-error>
-            </mat-form-field>  
-            </div>       
+            </mat-form-field>
+          </div>
         </div>
-        <div class="row">
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Width" type="number" formControlName="minwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('minwidth').hasError('required')">
+                Min Width is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Width" type="number" formControlName="maxwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('maxwidth').hasError('required')">
+                Max Width is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Height" type="number" formControlName="minheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('minheigth').hasError('required')">
+                Min Height is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Height" type="number" formControlName="maxheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('maxheigth').hasError('required')">
+                Max Height is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <mat-checkbox formControlName="active"></mat-checkbox>
-            <span class="font-size-s">&nbsp;Active</span>
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;Active</span>
+          </div>
+        </div> -->
+
+      <!-- Image Controls -->
+      <!-- <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Images'">
+        <div class="col-md-3 paddingTop-10">
+          <label class="font-size-m" for="mediatype"> {{mediaTypeForm.controls.mediatype.value}} </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Images'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:70%">
+              <input matInput placeholder="File Size" type="number" formControlName="imgfilesize" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('imgfilesize').hasError('required')">
+                Max File Size is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:30%">
+              <mat-select placeholder="Unit" formControlName="imgfileunit" (change)="checkReqValues()" required>
+                <mat-option *ngFor="let obj of objUnit" [value]="obj">{{obj}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="mediaTypeForm.get('imgfileunit').hasError('required')">
+                File Unit is required
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
-        <div class="col-md-12">&nbsp;</div>
       </div>
-  
-      <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;">
-        <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-          (click)="updateMediaType(mediaTypeForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-          <i *ngIf="complete" class="fa fa-check"></i> 
-          <i *ngIf="!complete" class="fa fa-times"></i> {{ pageMode }}</button>
-        <!-- <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Images'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Width" type="number" formControlName="imgminwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('imgminwidth').hasError('required')">
+                Min Width is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Width" type="number" formControlName="imgmaxwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('imgmaxwidth').hasError('required')">
+                Max Width is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Height" type="number" formControlName="imgminheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('imgminheigth').hasError('required')">
+                Min Height is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Height" type="number" formControlName="imgmaxheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('imgmaxheigth').hasError('required')">
+                Max Height is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Doc Controls -->
+      <!-- <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Documents'">
+        <div class="col-md-3 paddingTop-10">
+          <label class="font-size-m" for="mediatype"> Documents </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Documents'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:70%">
+              <input matInput placeholder="File Size" type="number" formControlName="docfilesize" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('docfilesize').hasError('required')">
+                Max File Size is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:30%">
+              <mat-select placeholder="Unit" formControlName="docfileunit" (change)="checkReqValues()" required>
+                <mat-option *ngFor="let obj of objUnit" [value]="obj">{{obj}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="mediaTypeForm.get('docfileunit').hasError('required')">
+                File Unit is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Documents'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="font-size-s" style="width:50%">
+              <input matInput placeholder="Min Width" type="number" formControlName="docminwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('docminwidth').hasError('required')">
+                Min Width is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Width" type="number" formControlName="docmaxwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('docmaxwidth').hasError('required')">
+                Max Width is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Height" type="number" formControlName="docminheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('docminheigth').hasError('required')">
+                Min Height is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Height" type="number" formControlName="docmaxheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('docmaxheigth').hasError('required')">
+                Max Height is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div> -->
+      <!-- Audio Controls -->
+      <!-- <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Audios'">
+        <div class="col-md-3 paddingTop-10">
+          <label class="font-size-m" for="mediatype"> Audios </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Audios'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:70%">
+              <input matInput placeholder="File Size" type="number" formControlName="audiofilesize" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('audiofilesize').hasError('required')">
+                Max File Size is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:30%">
+              <mat-select placeholder="Unit" formControlName="audiofileunit" (change)="checkReqValues()" required>
+                <mat-option *ngFor="let obj of objUnit" [value]="obj">{{obj}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="mediaTypeForm.get('audiofileunit').hasError('required')">
+                File Unit is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Audios'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Width" type="number" formControlName="audiominwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('audiominwidth').hasError('required')">
+                Min Width is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Width" type="number" formControlName="audiomaxwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('audiomaxwidth').hasError('required')">
+                Max Width is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Height" type="number" formControlName="audiominheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('audiominheigth').hasError('required')">
+                Min Height is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Height" type="number" formControlName="audiomaxheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('audiomaxheigth').hasError('required')">
+                Max Height is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div> -->
+      <!-- Video Controls -->
+      <!-- <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Videos'">
+        <div class="col-md-3 paddingTop-10">
+          <label class="font-size-m" for="mediatype"> Videos </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Videos'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10 paddingTop-10" style="width:70%">
+              <input matInput placeholder="File Size" type="number" formControlName="videofilesize" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('videofilesize').hasError('required')">
+                Max File Size is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="example-full-width font-size-s paddingTop-10" style="width:30%">
+              <mat-select placeholder="Unit" formControlName="videofileunit" (change)="checkReqValues()" required>
+                <mat-option *ngFor="let obj of objUnit" [value]="obj">{{obj}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="mediaTypeForm.get('videofileunit').hasError('required')">
+                File Unit is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value == 'Videos'">
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Width" type="number" formControlName="videominwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('videominwidth').hasError('required')">
+                Min Width is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Width" type="number" formControlName="videomaxwidth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('videomaxwidth').hasError('required')">
+                Max Width is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group input-group">
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Min Height" type="number" formControlName="videominheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('videominheigth').hasError('required')">
+                Min Height is required
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width font-size-s" style="width:50%">
+              <input matInput placeholder="Max Height" type="number" formControlName="videomaxheigth" (change)="checkReqValues()" maxlength="5"
+                required/>
+              <mat-error *ngIf="mediaTypeForm.get('videomaxheigth').hasError('required')">
+                Max Height is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;">
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+        (click)="updateMediaType(mediaTypeForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        <i *ngIf="complete" class="fa fa-check"></i>
+        <i *ngIf="!complete" class="fa fa-times"></i> {{ pageMode }}</button>
+      <!-- <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
           style="width: 100px; font-family: Roboto" (click)="myFunction()">
           <i class="fa fa-refresh"> </i> Reset</button> -->
-      </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>

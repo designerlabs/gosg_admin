@@ -51,10 +51,8 @@ import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl
 import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencytypetblComponent } from './agency/agencytype/agencytypetbl/agencytypetbl.component';
-import { AgencytypeComponent } from './agency/agencytype/agencytype.component';
-import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
-import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
+import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
+import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
@@ -68,11 +66,25 @@ import { IdentificationtypeComponent } from './referencecode/identificationtype/
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
+import { AgencyComponent } from './agency/agency.component';
+import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
+
+import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
+import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
+
+import { FootercontentComponent } from './footer/footercontent/footercontent.component';
+import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
+import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
+import { GalleryComponent } from './gallery/gallery.component';
+
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
 {path: 'addtemplate', component: AddtemplateComponent},
+{path: 'media/type', component: MediatypetblComponent},
+{path: 'media/type/add', component: MediatypeComponent},
+{path: 'media/type/:id', component: MediatypeComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 {path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
 {path: 'feedback/message/visitor/:id', component: FeedbackvisitorComponent},
@@ -94,12 +106,12 @@ export const appRoutes: Routes = [
 {path: 'ministry/add', component: MinistryComponent},
 {path: 'ministry/:id', component: MinistryComponent},
 {path: 'ministry', component: MinistrytblComponent},
-{path: 'agencytype/add', component: AgencytypeComponent},
-{path: 'agencytype/:id', component: AgencytypeComponent},
-{path: 'agencytype', component: AgencytypetblComponent},
-{path: 'agencyapptype/add', component: AgencyapptypeComponent},
-{path: 'agencyapptype/:id', component: AgencyapptypeComponent},
-{path: 'agencyapptype', component: AgencyapptypetblComponent},
+{path: 'agency/add', component: AgencyComponent},
+{path: 'agency/:id', component: AgencyComponent},
+{path: 'agency', component: AgencytblComponent},
+{path: 'agencyapp/add', component: AgencyappComponent},
+{path: 'agencyapp/:id', component: AgencyappComponent},
+{path: 'agencyapp', component: AgencyapptblComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
@@ -113,6 +125,9 @@ export const appRoutes: Routes = [
 {path: 'slider', component: SlidertblComponent},
 {path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
+{path: 'gallery', component: GallerytblComponent},
+{path: 'gallery/add', component: GalleryComponent},
+{path: 'gallery/:id', component: GalleryComponent},
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},
@@ -132,6 +147,14 @@ export const appRoutes: Routes = [
 {path: 'reference/identificationtype/:id', component: IdentificationtypeComponent},
 {path: 'reference/identificationtype/add', component: IdentificationtypeComponent},
 
+{path: 'footer/footercategory', component: FootercategorytblComponent},
+{path: 'footer/footercategory/:id', component: FootercategoryComponent},
+{path: 'footer/footercategory/add', component: FootercategoryComponent},
+
+{path: 'footer/footercontent', component: FootercontenttblComponent},
+{path: 'footer/footercontent/:id', component: FootercontentComponent},
+{path: 'footer/footercontent/add', component: FootercontentComponent},
+
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
 {path: 'category', component: CategorytblComponent},
@@ -141,13 +164,10 @@ export const appRoutes: Routes = [
 {path: 'maincategory/:id', component: MaincategoryComponent},
 {path: 'subcategory/:id', component: SubcategoryComponent},
 {path: 'category/:id', component: CategoryComponent},
-{path: 'mediatype', component: MediatypetblComponent},
-{path: 'mediatype/add', component: MediatypeComponent},
-{path: 'mediatype/:id', component: MediatypeComponent},
+
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
-{path: 'editor', component: EditorComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'systemsettings',component: SystemsettingstblComponent},
 {path: 'systemsettings/:id',component: SystemsettingsComponent},

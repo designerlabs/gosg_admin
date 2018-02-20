@@ -18,19 +18,14 @@
         <div class="example-container mat-elevation-z8 paddingBottom-10">
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-6 staticLabel font-size-s boldText">English</label>
-                    <label class="col-md-6 staticLabel font-size-s boldText">Malay</label>
+                    <label class="col-md-6">English</label>
+                    <label class="col-md-6">Bahasa Malaysia</label>
                 </div>
             </div><br>
 
             <div class="example-header">
-                <div class="col-md-6 text-align-Center font-size-m"> Type </div>
-                <div class="col-md-6 text-align-Center font-size-m"> Type </div>
-            </div>
-
-            <div class="example-header">
                 <div class="col-md-6">
-                    <mat-form-field class="example-full-width font-size-s" >
+                    <mat-form-field class="example-full-width" >
                         <input matInput placeholder="Type" formControlName="typeEn" (keyup)="checkReqValues()"
                         required tabindex="1">
                         <mat-error *ngIf="updateForm.controls.typeEn.hasError('required')">
@@ -39,8 +34,8 @@
                     </mat-form-field>
                 </div>
                 <div class="col-md-6">
-                    <mat-form-field class="example-full-width font-size-s" >
-                        <input matInput placeholder="Type" formControlName="typeBm" (keyup)="checkReqValues()"
+                    <mat-form-field class="example-full-width" >
+                        <input matInput placeholder="Jenis" formControlName="typeBm" (keyup)="checkReqValues()"
                         required tabindex="2">
                         <mat-error *ngIf="updateForm.controls.typeBm.hasError('required')">
                             Type is required

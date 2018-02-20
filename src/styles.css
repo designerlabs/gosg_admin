@@ -9,6 +9,70 @@ mat-header-cell{
     min-height: 50px !important;
 }
 
+.mat-dialog-container{
+    padding: 0 0 10px 0 !important;
+  }
+
+  .mat-dialog-container app-confirm-dialog p:nth-child(1){
+    padding:10px;
+  }
+  .mat-dialog-container app-confirm-dialog p:nth-child(2){
+    padding:10px;
+  }
+
+  .mat-dialog-container app-confirm-dialog button:nth-child(1){
+    padding-left:10px;
+  }
+  
+  .mat-dialog-container app-confirm-dialog button:nth-child(2){
+    padding-right:10px;
+  }
+
+  .modal-dialog{
+    margin-top: 10%;
+  }
+
+  .bg_header{
+    height: 55px;
+    border: none;
+    border-radius: 0;
+    padding: 6px;
+    width: 100%;
+  }
+
+  .bg_success_header{
+    color: #155724;
+    background-color: #d4edda;
+  }
+
+  .bg_success_header .close, .bg_error_header .close, .bg_info_header .close, bg_warning_header .close {
+    margin-top: -2px;
+    color: #000;
+  }
+
+  .bg_error_header{
+    color: #721c24;
+    background-color: #f8d7da;
+  }
+
+  .bg_info_header{
+    color: #0c5460;
+    background-color: #d1ecf1;
+  }
+
+  .bg_warn_header{
+    color: #721c24;
+    background-color: #f8d7da;
+  }
+
+  .modal-body{
+    background: #fff;
+    color: #000;
+    text-align: center;
+    font-size: 17px;
+  }
+
+
 
 .activeFontColor {
     color: green;
@@ -26,6 +90,10 @@ mat-header-cell{
 .curdHeadingRight{
     text-align: right;
     padding-right: 0px !important;
+}
+
+.align_right{
+    text-align: right;
 }
 
 .curdHeader{
@@ -55,6 +123,10 @@ mat-header-cell{
 
 .paddingTop-25 {
     padding-top: 25px;
+}
+
+.padding-10 {
+    padding:  10px;
 }
 
 .right-content {
@@ -88,3 +160,23 @@ mat-header-cell{
     -ms-flex-pack: center;
     justify-content: center;
 }
+
+
+/* below style added by sri */
+.font-size-l, .font-size-m, .font-size-s, .font-size-xl, .font-size-xxl {
+    font-weight: 500; }
+  
+  .font-size-s {
+    font-size: 14px; }
+  
+  .font-size-m {
+    font-size: 18px; }
+  
+  .font-size-l {
+    font-size: 24px; }
+  
+  .font-size-xl {
+    font-size: 38px; }
+  
+  .font-size-xxl {
+    font-size: 52px; }

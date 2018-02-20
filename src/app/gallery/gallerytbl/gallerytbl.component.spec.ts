@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgencytypetblComponent } from './agencytypetbl.component';
+import { GallerytblComponent } from './gallerytbl.component';
 
-describe('AgencytypetblComponent', () => {
-  let component: AgencytypetblComponent;
-  let fixture: ComponentFixture<AgencytypetblComponent>;
+describe('GallerytblComponent', () => {
+  let component: GallerytblComponent;
+  let fixture: ComponentFixture<GallerytblComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgencytypetblComponent ]
+      declarations: [ GallerytblComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgencytypetblComponent);
+    fixture = TestBed.createComponent(GallerytblComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

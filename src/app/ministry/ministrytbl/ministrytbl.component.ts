@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class MinistrytblComponent implements OnInit {
 
   agencyData: Object;
-  agencyList = null;
+  ministryList = null;
   displayedColumns: any;
   agencyPageSize = 10;
   pageCount = 1;
@@ -32,7 +32,7 @@ export class MinistrytblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.agencyList);
+  dataSource = new MatTableDataSource<object>(this.ministryList);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -47,11 +47,11 @@ export class MinistrytblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getAgencyData(this.pageCount, this.agencyPageSize);
+    this.getMinistryData(this.pageCount, this.agencyPageSize);
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','agencyTypeNameEn', 'agencyTypeNameBm', 'agencyTypeAction'];
+    this.displayedColumns = ['no','ministryNameEn', 'ministryNameBm', 'ministryAction'];
   }
 
   ngAfterViewInit() {
@@ -59,26 +59,26 @@ export class MinistrytblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get agencyType Data 
-  getAgencyData(count, size) {
-    this.dataUrl = this.appConfig.urlAgency;
-    console.log(this.dataUrl + '/code/?page=' + count + '&size=' + size)
+  // get ministry Data 
+  getMinistryData(count, size) {
+    this.dataUrl = this.appConfig.urlMinistry;
+    console.log(this.dataUrl + '/?page=' + count + '&size=' + size)
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
-        this.agencyList = data;
-        console.log(this.agencyList)
-        this.dataSource.data = this.agencyList.list;
-        this.seqPageNum = this.agencyList.pageNumber;
-        this.seqPageSize = this.agencyList.pageSize;
-        this.commonservice.recordTable = this.agencyList;
-        this.noNextData = this.agencyList.pageNumber === this.agencyList.totalPages;
+        this.ministryList = data;
+        console.log(this.ministryList)
+        this.dataSource.data = this.ministryList.list;
+        this.seqPageNum = this.ministryList.pageNumber;
+        this.seqPageSize = this.ministryList.pageSize;
+        this.commonservice.recordTable = this.ministryList;
+        this.noNextData = this.ministryList.pageNumber === this.ministryList.totalPages;
       });
   }
 
   paginatorL(page) {
-    this.getAgencyData(this.pageCount, this.agencyPageSize);
+    this.getMinistryData(this.pageCount, this.agencyPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -88,11 +88,11 @@ export class MinistrytblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getAgencyData(page + 1, this.agencyPageSize);
+    this.getMinistryData(page + 1, this.agencyPageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getAgencyData(this.pageCount, event.value);
+    this.getMinistryData(this.pageCount, event.value);
     this.agencyPageSize = event.value;
     this.noPrevData = true;
   }
@@ -106,7 +106,7 @@ export class MinistrytblComponent implements OnInit {
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['agencytype', row]);
+    this.router.navigate(['ministry', row]);
   }
 
   deleteRow(refCode) {
@@ -114,18 +114,18 @@ export class MinistrytblComponent implements OnInit {
     let r = confirm("Are you sure to delete " + refCode + "?");
     if (r == true) {
 
-      this.commonservice.delAgency(refCode).subscribe(
+      this.commonservice.delMinistry(refCode).subscribe(
         data => {
-          txt = "agencyType deleted successfully!";
-          // this.router.navigate(['agencyType']);
+          txt = "ministry deleted successfully!";
+          // this.router.navigate(['ministry']);
           this.toastr.success(txt, '');   
-          this.getAgencyData(this.pageCount, this.agencyPageSize);
+          this.getMinistryData(this.pageCount, this.agencyPageSize);
         },
         error => {
           console.log("No Data")
         });
 
-      // this.agencyTypeForm.reset();
+      // this.ministryForm.reset();
     } else {
       txt = "Delete Cancelled!";
       // alert(txt)

@@ -6,6 +6,8 @@ import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl } from '@angular/forms';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-usertbl',
@@ -13,6 +15,9 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  userId: any;
+  lang:any;
+  languageId: any;
   isActiveList: boolean;
   isActive: boolean;
   searchUserResult: Object;
@@ -42,6 +47,7 @@ export class UsertblComponent implements OnInit {
   emailFld: FormControl;
   icFld:FormControl;
   userType: FormControl;
+  isMailContainerShow = 'block';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -59,13 +65,39 @@ export class UsertblComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
-    private toastr: ToastrService
-  ) { 
-    this.getUsersData(this.pageCount, 
-    this.pageSize);
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService,
+  ) {
+    
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getUsersData(this.pageCount, this.pageSize); //internal function
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getUsersData(this.pageCount, this.pageSize);
+    }
+
+    /* LANGUAGE FUNC */
+    
   }
 
+  
+  
   ngOnInit() {
+    
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'activeFlag', 'action'];
@@ -104,7 +136,7 @@ export class UsertblComponent implements OnInit {
   // get User Data 
   getUsersData(count, size) {
     this.dataUrl = this.appConfig.urlAdminUserList;
-    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size).subscribe(data => {
+    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
       
 
       this.userList = data;
@@ -118,15 +150,16 @@ export class UsertblComponent implements OnInit {
     });
   }
 
-  getSearchData(type,keyword){
+
+
+  getSearchData(findby,type,keyword){
     this.isActive = true;
     this.isActiveList = true;
-    debugger;
     if(!keyword.value){
       keyword == '-';
     }
-    this.http.get(this.appConfig.urlSearchbyEmail+'?'+type+'='+keyword.value).subscribe(data => {
-      this.searchUserResult = data;
+    this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
+      this.searchUserResult = data['userList'];
     });
   }
 
@@ -151,6 +184,26 @@ export class UsertblComponent implements OnInit {
     this.noPrevData = true;
   }
 
+  resetMethod(event, msgId) {
+    debugger;
+    this.isMailContainerShow = 'none';
+    this.deleteMail(msgId);
+  }
+
+  
+  deleteMail(msgId){
+    this.commonservice.deleteUserList(msgId).subscribe(
+      data => {
+        
+        this.getUsersData(this.pageCount, this.pageSize);
+        this.toastr.success(this.translate.instant('mailbox.success.deletesuccess'), '');  
+      },
+      error => {
+        this.toastr.error(this.translate.instant('mailbox.err.failtodelete'), '');            
+      });
+  }
+
+
   closeUser(){
     this.addUserBtn = true;
     this.closeUserBtn = false;
@@ -163,24 +216,42 @@ export class UsertblComponent implements OnInit {
     this.showUserInput = true;
     this.animateClass = "animated flipInX";
   }
+
+  addUserDetails(){
+
+    this.commonservice.addUserList(this.userId).subscribe(
+      data => {
+          let statusCode = data.statusCode.toLowerCase();
+          if(statusCode == 'error'){
+            this.toastr.error(data.statusDesc, 'Error');
+          }else{
+            this.toastr.success('User successfully Add!', 'success');
+          }
+          
+          this.checkReqValues();
+          this.closeUser();
+          this.getUsersData(this.pageCount, this.pageSize);
+      }
+    )
   
+  }
+
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
     this.router.navigate(['admin/permission', row]);
   }
 
-  deleteRow(enId,bmId) {
+  deleteRow(enId) {
     let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+    let r = confirm("Are you sure to delete " + enId  + "?");
     if (r == true) {
 
-      this.commonservice.delSlider(enId,bmId).subscribe(
+      this.commonservice.deleteUserList(enId).subscribe(
         data => {
           txt = "Slider deleted successfully!";
-          // this.router.navigate(['slider']);
           this.toastr.success(txt, '');   
-          window.location.reload();
+          this.getUsersData(this.pageCount, this.pageSize);
         },
         error => {
           console.log("No Data")
@@ -206,7 +277,8 @@ export class UsertblComponent implements OnInit {
     this.router.navigate(['slider']);
   }
   
-  getValue(type, val){
+  getValue(type, val, usrId){
+    this.userId = usrId;
     this.isActive = false;
     this.isActiveList = false;
     this.searchUserResult = [''];

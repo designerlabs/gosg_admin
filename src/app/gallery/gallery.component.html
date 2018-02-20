@@ -1,0 +1,146 @@
+<!-- VIEW: ADD/EDIT gallery -->
+<div class="container right-content">
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>{{ pageMode }} Gallery</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i class="fa fa-arrow-left font-size-l"></i></button>
+          </span>
+      </div> 
+  </div>
+
+  <form [formGroup]="galleryForm" autocomplete="off" role="form" novalidate>
+  
+      <!-- EN -->
+      <div class="example-container mat-elevation-z8 col-md-12">
+        <div class="row">
+          <div class="bg-form-header col-md-6">
+            <label class="staticLabel">English</label>
+          </div>
+          <div class="bg-form-header col-md-6">
+            <label class="staticLabel">Bahasa Malaysia</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="galleryForm.controls.titleEn.hasError('required')">
+                Title is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Title" formControlName="titleBm" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="galleryForm.controls.titleBm.hasError('required')">
+                Title is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="galleryForm.controls.descEn.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="galleryForm.controls.descBm.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+              <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="">Gallery Image</label>
+            </div>
+          <div class="col-md-5" style="border: 0px solid #000">
+            <mat-form-field class="example-full-width">
+                  <mat-select formControlName="imgEn" placeholder="Select Image" (change)="checkReqValues()" required>
+                      <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
+                      <mat-option [value]="1">image1.png</mat-option>
+                      <mat-option [value]="2">image2.jpg</mat-option>
+                      <mat-option [value]="3">image3.png</mat-option>
+                  </mat-select>
+                <mat-error *ngIf="galleryForm.get('imgEn').hasError('required')">
+                  Please select a file
+                </mat-error>
+                <!-- <mat-error *ngIf="galleryForm.get('imgEn').hasError('maxContentSize')">
+                  The total size must not exceed {{galleryForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
+                  ({{galleryForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
+                </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-2" style="text-align: center; padding-top: 15px;">
+              <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;Copy</span>
+          </div>
+          <div class="col-md-5" style="border: 0px solid #000; text-align: left">
+            <mat-form-field class="example-full-width">
+              <mat-select formControlName="imgBm" placeholder="Select Image" (change)="checkReqValues()" required>
+                  <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
+                  <mat-option [value]="1">image1.png</mat-option>
+                  <mat-option [value]="2">image2.jpg</mat-option>
+                  <mat-option [value]="3">image3.png</mat-option>
+              </mat-select>
+            <mat-error *ngIf="galleryForm.get('imgBm').hasError('required')">
+              Please select a file
+            </mat-error>
+                <!-- <mat-error *ngIf="galleryForm.get('imgEn').hasError('maxContentSize')">
+                  The total size must not exceed {{galleryForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
+                  ({{galleryForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
+                </mat-error> -->
+            </mat-form-field>
+          </div>
+          <div class="col-md-1">
+            &nbsp;
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;Active</span>
+          </div>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+  
+      <!-- <div class="container"> -->
+      <div class="col-md-12">&nbsp;</div>
+        <div class="form-group">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
+            (click)="updateGallery(galleryForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
+            style="width: 100px; font-family: Roboto" (click)="myFunction()">
+            <i class="fa fa-refresh"></i>&nbsp;Reset</button>
+        </div>
+      <!-- <div class="col-md-12">&nbsp;</div> -->
+    <!-- </div> -->
+  </form>
+</div>
