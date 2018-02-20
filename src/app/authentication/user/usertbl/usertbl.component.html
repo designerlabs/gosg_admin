@@ -133,16 +133,25 @@
               <i class="fa fa-edit" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow(element.id)" title="Delete">
-                <!-- (click)="deleteModal.show()" -->
+            <button mat-mini-fab style="background: red" (click)="deleteModal.show()" title="Delete">
+                <!-- (click)="deleteRow(element.id)" -->
               <i class="fa fa-trash"  title="Delete"></i>
             </button>
+            <app-confirm-dialog  #deleteModal 
+              [title]="'common.icon.warn'" 
+              [content]="'common.msg.delete'"
+              [state]="'bg_header bg_warn_header'"
+              [isReset]="'true'"
+              (resetMethod)="resetMethod($event, element.id)">
+            </app-confirm-dialog>
         </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+
+    
 
   </div>
 
@@ -172,13 +181,7 @@
 </div>
 
 
-<app-confirm-dialog  #deleteModal 
-  [title]="'fa fa-exclamation-triangle'" 
-  [content]="'Are you sure to delete the record?'"
-  [state]="'bg_header bg_warn_header'"
-  [isReset]="'true'"
-  (resetMethod)="resetMethod($event, data)">
-</app-confirm-dialog>
+
 <!-- 
 <app-confirm-dialog  #deleteModal 
   [title]="'common.icon.warn'" 
