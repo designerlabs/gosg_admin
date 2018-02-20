@@ -147,7 +147,6 @@ export class UserpermissionComponent implements OnInit {
 
   back(){
     this.router.navigate(['admin']);
-    this.toastr.success('successfully backed', '');   
   }
 
 }

@@ -37,7 +37,7 @@
 
             </td>
             <td style="width:25%; padding-left:10px;">
-              <div> <button [disabled]="isActive" mat-raised-button color="primary">Add User</button> </div>
+              <div> <button [disabled]="isActive" mat-raised-button color="primary" (click)="addUserDetails(icFld)">Add User</button> </div>
             </td>
           </tr>
         </table>
@@ -49,7 +49,7 @@
                       <mat-icon matListIcon><i class="fa fa-user"></i></mat-icon>
                       <h4 matLine>{{data?.fullName}}</h4>
                       <p matLine class="demo-2"> {{data?.email}} </p>
-                      <button mat-icon-button (click)="getValue('email', data?.email)">
+                      <button mat-icon-button (click)="getValue('email', data?.email, data?.userId)">
                           <mat-icon matListIcon><i class="fa fa-plus-circle text-success"></i></mat-icon>
                        </button>
                 </mat-list-item>
@@ -62,7 +62,7 @@
                       <mat-icon matListIcon><i class="fa fa-user"></i></mat-icon>
                       <h4 matLine>{{data?.fullName}}</h4>
                       <p matLine class="demo-2"> {{data?.identificationNo}} </p>
-                      <button mat-icon-button (click)="getValue('identificationNo', data?.identificationNo)">
+                      <button mat-icon-button (click)="getValue('identificationNo', data?.identificationNo, data?.userId)">
                           <mat-icon matListIcon><i class="fa fa-plus-circle text-success"></i></mat-icon>
                        </button>
                 </mat-list-item>
@@ -134,6 +134,7 @@
             </button>
             &nbsp;
             <button mat-mini-fab style="background: red" (click)="deleteRow(element.id)" title="Delete">
+                <!-- (click)="deleteModal.show()" -->
               <i class="fa fa-trash"  title="Delete"></i>
             </button>
         </mat-cell>
@@ -169,3 +170,20 @@
   </div>
 
 </div>
+
+
+<app-confirm-dialog  #deleteModal 
+  [title]="'fa fa-exclamation-triangle'" 
+  [content]="'Are you sure to delete the record?'"
+  [state]="'bg_header bg_warn_header'"
+  [isReset]="'true'"
+  (resetMethod)="resetMethod($event, data)">
+</app-confirm-dialog>
+<!-- 
+<app-confirm-dialog  #deleteModal 
+  [title]="'common.icon.warn'" 
+  [content]="'common.msg.delete'"
+  [state]="'common.state.warn'"
+  [isReset]="'true'"
+  (resetMethod)="resetMethod($event, data.messageId)">
+</app-confirm-dialog> -->

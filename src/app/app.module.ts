@@ -94,10 +94,13 @@ import { TextMaskModule } from 'angular2-text-mask';
 import { ValidateService } from './common/validate.service';
 import { FootercontentComponent } from './footer/footercontent/footercontent.component';
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
-
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
 import { HttpClient } from '@angular/common/http/src/client';
 import { GalleryComponent } from './gallery/gallery.component';
 import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
+import { DialogsService } from './dialogs/dialogs.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -180,6 +183,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FootercontenttblComponent,
     GalleryComponent,
     GallerytblComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -204,11 +208,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     TextMaskModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
-    NgxEditorModule
+    NgxEditorModule,
+    ModalModule.forRoot()
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService, ValidateService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
