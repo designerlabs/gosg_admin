@@ -77,10 +77,12 @@ export class FootercontentComponent implements OnInit {
 
   public getCatValueEng: any;
   public getCatValueMy: any;
-  languageId: any;
-
+  public languageId: any;
 
   complete: boolean;
+
+  // public selectedImgMy = 'Sila Pilih';
+  // public selectedImgEng = 'Please Select';
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -154,6 +156,8 @@ export class FootercontentComponent implements OnInit {
       copyImg: this.copyImg,
 
       
+
+      
     });     
     
     let urlEdit = this.router.url.split('/')[3];
@@ -166,6 +170,9 @@ export class FootercontentComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+
+    this.isSameImg(this.imgEng,this.imgMy);
+    
   }
 
   getCategory(){
@@ -178,6 +185,9 @@ export class FootercontentComponent implements OnInit {
       console.log('Error in State');
      });
   }
+
+  // isSameImg(imgEng,imgMy);
+  // isChecked(e)
 
   // getCategory(){
   //   this.dataUrl = this.appConfig.urlFooterCategory + '?active=true';
@@ -199,11 +209,13 @@ export class FootercontentComponent implements OnInit {
     this.getFooterIdMy = e.value.list[1].id;
   }
 
+  
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID + "?language=" + this.languageId ;
+    this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID + "?language=" + this.languageId;
 
     this.getCategory();
 
@@ -219,7 +231,8 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
       this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
       this.updateForm.get('iconEng').setValue(this.recordList.list[0].icon);
-      this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
+      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].image.mediaId));
+      // this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
       this.updateForm.get('urlEng').setValue(this.recordList.list[0].url);
       this.updateForm.get('seqEng').setValue(this.recordList.list[0].sortingOrder);
 
@@ -230,7 +243,8 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('nameMy').setValue(this.recordList.list[1].name);
       this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
       this.updateForm.get('iconMy').setValue(this.recordList.list[1].icon);
-      this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
+      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].image.mediaId));
+      // this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
       this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
       this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
       
@@ -249,7 +263,6 @@ export class FootercontentComponent implements OnInit {
       this.getFooterNameMy = this.recordList.list[0].footer.name;
       this.getFooterIdMy = this.recordList.list[0].footer.id;
 
-      
 
       this.checkReqValues();
 
@@ -288,7 +301,9 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": null,
+          "image": {
+            "mediaId": null,
+          },
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -306,7 +321,9 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": null,
+          "image": {
+            "mediaId": null,
+          },
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -323,7 +340,7 @@ export class FootercontentComponent implements OnInit {
       body[0].icon = formValues.iconEng;
       body[0].contentCode = this.getContentCodeEng;
       body[0].language.languageId = 1;
-      body[0].image = formValues.imgEng;
+      body[0].image.mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
       body[0].footer.id = this.getFooterIdEng;
@@ -337,7 +354,7 @@ export class FootercontentComponent implements OnInit {
       body[1].icon = formValues.iconMy;
       body[1].contentCode = this.getContentCodeMy;
       body[1].language.languageId = 2;
-      body[1].image = formValues.imgMy;
+      body[1].image.mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
       body[1].footer.id = this.getFooterIdMy;
@@ -378,7 +395,9 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": null,
+          "image": {
+            "mediaId": null,
+          },
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -396,7 +415,9 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": null,
+          "image": {
+            "mediaId": null,
+          },
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -413,7 +434,7 @@ export class FootercontentComponent implements OnInit {
       body[0].icon = formValues.iconEng;
       body[0].contentCode = this.getContentCodeEng;
       body[0].language.languageId = 1;
-      body[0].image = formValues.imgEng;
+      body[0].image.mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
       body[0].footer.id = this.getFooterIdEng;
@@ -427,7 +448,7 @@ export class FootercontentComponent implements OnInit {
       body[1].icon = formValues.iconMy;
       body[1].contentCode = this.getContentCodeMy;
       body[1].language.languageId = 2;
-      body[1].image = formValues.imgMy;
+      body[1].image.mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
       body[1].footer.id = this.getFooterIdMy;

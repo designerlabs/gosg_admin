@@ -24,6 +24,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ethnicitytbl',
@@ -55,6 +56,7 @@ export class EthnicitytblComponent implements OnInit {
   public getRaceIdMy: any;
   public getRaceMy: any;
   public getRaceEng: any;
+  public languageId: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -70,24 +72,46 @@ export class EthnicitytblComponent implements OnInit {
   // }
 
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
+  // applyFilter(filterValue: string) {
+  //   filterValue = filterValue.trim(); // Remove whitespace
+  //   filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+  //   this.dataSource.filter = filterValue;
+  // }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
-    this.getRecordList(this.pageCount, this.pageSize);
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  private translate: TranslateService) {
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
+    // this.getRecordList(this.pageCount, this.pageSize);
+    
   }
 
   ngOnInit() {
-    this.getRecordList(this.pageCount, this.pageSize);
+    // this.getRecordList(this.pageCount, this.pageSize);
   }
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -151,7 +175,7 @@ export class EthnicitytblComponent implements OnInit {
           txt = " record deleted successfully!";
 
           this.toastr.success(txt, '');   
-          this.router.navigate(['reference/ethnicity']);
+          // this.router.navigate(['reference/ethnicity']);
           this.getRecordList(this.pageCount, this.pageSize);
         },
         error => {
