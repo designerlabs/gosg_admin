@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-feedbackadmin',
@@ -37,9 +38,39 @@ export class FeedbackadminComponent implements OnInit {
   public getId: any;
 
   public complete: boolean;
+  public languageId: any;
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService) { 
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getData();
+            }
+          }.bind(this));
+        })
+      });
+    });
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getData();
+    }
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -58,7 +89,7 @@ export class FeedbackadminComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[4];  
-    this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID;
+    this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -93,17 +124,25 @@ export class FeedbackadminComponent implements OnInit {
     if (r == true) {
 
       console.log(getId);
-      // this.commonservice.delRecordFeedback(getId).subscribe(
-      //   data => {
+      this.commonservice.delRecordFeedback(getId).subscribe(
+        data => {
           
-      //     txt = "Record deleted successfully!";
+          let errMsg = data.statusCode.toLowerCase;
 
-      //     this.toastr.success(txt, '');  
-      //     this.router.navigate(['feedback/message/admin']);
-      //   },
-      //   error => {
-      //     console.log("No Data")
-      // });
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+            txt = "Record deleted successfully!";
+            this.toastr.success(txt, '');  
+            this.router.navigate(['feedback/message/admin']);
+          }
+        },
+        error => {
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
+      });
     }
 
     else{

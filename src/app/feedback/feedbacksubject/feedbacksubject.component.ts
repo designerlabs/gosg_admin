@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-feedbacksubject',
@@ -30,9 +31,39 @@ export class FeedbacksubjectComponent implements OnInit {
   public getRefId: any;
 
   public complete: boolean;
+  public languageId: any;
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService) {
+
+      /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getData();
+            }
+          }.bind(this));
+        })
+      });
+    });
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getData();
+    }
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -61,7 +92,7 @@ export class FeedbacksubjectComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];  
-    this.dataUrl = this.appConfig.urlFeedbackSubject+ '/'+_getRefID;
+    this.dataUrl = this.appConfig.urlFeedbackSubject+ '/'+_getRefID + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -86,6 +117,7 @@ export class FeedbacksubjectComponent implements OnInit {
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[3];
+    let txt;
 
     // add form
     if(urlEdit === 'add'){
@@ -113,12 +145,23 @@ export class FeedbacksubjectComponent implements OnInit {
       this.commonservice.addRecordFeedbackSubject(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['feedback/subject']);
+
+          let errMsg = data.statusCode.toLowerCase;
+                 
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+            txt = "Record added successfully!";
+            this.toastr.success(txt, '');  
+            this.router.navigate(['feedback/subject']);
+          }
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 
@@ -151,13 +194,22 @@ export class FeedbacksubjectComponent implements OnInit {
       this.commonservice.updateRecordFeedbackSubject(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
+
+          let errMsg = data.statusCode.toLowerCase;
         
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['feedback/subject']);
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+            txt = "Record updated successfully!";
+            this.toastr.success(txt, '');  
+            this.router.navigate(['feedback/subject']);
+          }
         },
         error => {
-          console.log("No Data")
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
     

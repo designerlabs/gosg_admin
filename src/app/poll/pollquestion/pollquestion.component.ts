@@ -54,27 +54,27 @@ export class PollquestionComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService) {
 
-      /* LANGUAGE FUNC */
-      translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.getAllLanguage().subscribe((data:any) => {
-            let getLang = data.list;
-            let myLangData =  getLang.filter(function(val) {
-              if(val.languageCode == translate.currentLang){
-                this.lang = val.languageCode;
-                this.languageId = val.languageId;
-                //this.getUsersData(this.pageCount, this.pageSize);
-              }
-            }.bind(this));
-          })
-        });
-      });
-      if(!this.languageId){
-        this.languageId = localStorage.getItem('langID');
-        //this.getData();
-      }
     /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              //this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getData();
     }
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
   

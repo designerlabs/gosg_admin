@@ -31,21 +31,30 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   dataUrl: any;  
   languageId: any;
+  filterTypeVal: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  applyFilter(val) {
+  applyFilter(val) {   
 
-    console.log(val)
+    console.log(val  + "TEST" + this.filterTypeVal);
+    
     if(val){
-      this.getFilterList(this.pageCount, this.pageSize, val);
+      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
       this.getRecordList(this.pageCount, this.pageSize);
     }
+  
+  }
+
+  filterType(filterVal) {
+
+    this.filterTypeVal = filterVal.value; 
+ 
   }
 
   constructor(
@@ -104,9 +113,15 @@ export class FeedbackvisitortblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
-  
-    this.dataUrl = this.appConfig.urlFeedback + '/search/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+  getFilterList(count, size, val, filterVal) {
+
+    if(filterVal == 2){  // by Email
+      this.dataUrl = this.appConfig.urlFeedback + '/search/email/0/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+    }
+
+    else if (filterVal == 3){ // by keywords
+      this.dataUrl = this.appConfig.urlFeedback + '/search/0/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+    }
 
     this.http.get(this.dataUrl)
     .subscribe(data => {

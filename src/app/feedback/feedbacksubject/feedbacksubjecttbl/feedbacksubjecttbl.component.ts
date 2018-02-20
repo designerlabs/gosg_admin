@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-feedbacksubjecttbl',
@@ -29,6 +30,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  public languageId: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -41,9 +43,36 @@ export class FeedbacksubjecttblComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { 
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService,
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService) { 
 
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              //this.getData();
+            }
+          }.bind(this));
+        })
+      });
+    });
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getData();
+    }
+
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
@@ -53,7 +82,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedbackSubject + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedbackSubject + '/?page=' + count + '&size=' + size + '&language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -101,14 +130,22 @@ export class FeedbacksubjecttblComponent implements OnInit {
       console.log(refcode);
       this.commonservice.delRecordFeedbackSubject(refcode).subscribe(
         data => {
-          
-          txt = "Record deleted successfully!";
 
-          this.toastr.success(txt, '');  
-          this.getRecordList(this.pageCount, this.pageSize);
+          let errMsg = data.statusCode.toLowerCase;
+
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          else{
+            txt = "Record deleted successfully!";
+            this.toastr.success(txt, '');  
+            this.getRecordList(this.pageCount, this.pageSize);
+          }
         },
         error => {
-          console.log("No Data")
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 

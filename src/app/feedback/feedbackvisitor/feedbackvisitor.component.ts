@@ -151,8 +151,10 @@ export class FeedbackvisitorComponent implements OnInit {
 
     this.commonservice.updateRecordFeedbackDraft(body).subscribe(
       data => {
+
+        let errMsg = data.statusCode.toLowerCase;
               
-        if(data.statusCode == "ERROR"){
+        if(errMsg == "error"){
           this.commonservice.errorResponse(data);
         }
         else{
@@ -204,7 +206,9 @@ export class FeedbackvisitorComponent implements OnInit {
     this.commonservice.updateRecordFeedbackReply(body).subscribe(
       data => {
         
-        if(data.statusCode == "ERROR"){
+        let errMsg = data.statusCode.toLowerCase;
+
+        if(errMsg == "error"){
           this.commonservice.errorResponse(data);
         }
         else{
