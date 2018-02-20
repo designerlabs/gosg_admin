@@ -600,7 +600,7 @@ delMediaType(mediaTypeId) {
 
   // Start Poll Question - N
   addRecord(record) {
-    let fullUrl = this.appConfig.urlPoll + "/question";
+    let fullUrl = this.appConfig.urlPoll + "/question?language=" +this.languageId;
   
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -608,15 +608,15 @@ delMediaType(mediaTypeId) {
   }
 
   delRecord(enId, bmId) {
-    let fullUrl = this.appConfig.urlPoll + "/question";
+    let fullUrl = this.appConfig.urlPoll + "/question/delete/selected?id=" + enId + "," +bmId + "&language=" +this.languageId;
 
-    return this.http.delete(fullUrl + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecord(record) {
-    let fullUrl = this.appConfig.urlPoll + "/question/multiple/update";
+    let fullUrl = this.appConfig.urlPoll + "/question/multiple/update?language=" +this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
@@ -817,7 +817,7 @@ delMediaType(mediaTypeId) {
 
   // Start Address Type - N
   addRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType;
+    let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
 
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -825,15 +825,15 @@ delMediaType(mediaTypeId) {
   }
 
   delRecordAddType(refCode) {
-    let fullUrl = this.appConfig.urlAddressType;
+    let fullUrl = this.appConfig.urlAddressType  + "/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl + "/" + refCode, null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType;
+    let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
@@ -843,7 +843,7 @@ delMediaType(mediaTypeId) {
 
   // Start Account Status - N
   addRecordAccStatus(record) {
-    let fullUrl = this.appConfig.urlAccountStatus;
+    let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -851,15 +851,15 @@ delMediaType(mediaTypeId) {
   }
 
   delRecordAccStatus(refCode) {
-    let fullUrl = this.appConfig.urlAccountStatus;
+    let fullUrl = this.appConfig.urlAccountStatus + "/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl + "/" + refCode, null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordAccStatus(record) {
-    let fullUrl = this.appConfig.urlAccountStatus;
+    let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
@@ -869,7 +869,7 @@ delMediaType(mediaTypeId) {
 
   // Start Feedback Type - N
   addRecordFeedbackType(record) {
-    let fullUrl = this.appConfig.urlFeedbackType;
+    let fullUrl = this.appConfig.urlFeedbackType + '?language='+this.languageId;
  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -877,15 +877,15 @@ delMediaType(mediaTypeId) {
   }
 
   delRecordFeedbackType(refCode) {
-    let fullUrl = this.appConfig.urlFeedbackType;
+    let fullUrl = this.appConfig.urlFeedbackType  + "/code/" + refCode + "?language="+this.languageId;
 
-    return this.http.delete(fullUrl + "/code/" + refCode, null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordFeedbackType(record) {
-    let fullUrl = this.appConfig.urlFeedbackType;
+    let fullUrl = this.appConfig.urlFeedbackType + '?language='+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
@@ -895,7 +895,7 @@ delMediaType(mediaTypeId) {
 
   // Start Feedback Subject - N
   addRecordFeedbackSubject(record) {
-    let fullUrl = this.appConfig.urlFeedbackSubject;
+    let fullUrl = this.appConfig.urlFeedbackSubject + '?language='+this.languageId;
  
     return this.http.post(fullUrl, record)
     .map((response: Response) => response.json())
@@ -903,15 +903,15 @@ delMediaType(mediaTypeId) {
   }
 
   delRecordFeedbackSubject(refCode) {
-    let fullUrl = this.appConfig.urlFeedbackSubject;
+    let fullUrl = this.appConfig.urlFeedbackSubject  + "/code/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl + "/code/" + refCode, null)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordFeedbackSubject(record) {
-    let fullUrl = this.appConfig.urlFeedbackSubject;
+    let fullUrl = this.appConfig.urlFeedbackSubject + '?language='+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
@@ -946,16 +946,16 @@ delMediaType(mediaTypeId) {
   // End System Settings - N
 
   // Start Feedback Visitor/Admin - N
-  delRecordFeedback(refCode) {
-    let fullUrl = this.appConfig.urlFeedback;
+  delRecordFeedback(id) {
+    let fullUrl = this.appConfig.urlFeedback + "/" + id + "?language="+this.languageId;
 
-    return this.http.delete(fullUrl + "/code/" + refCode, null)
+    return this.http.delete(fullUrl , null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateRecordFeedbackDraft(record) {
-    let fullUrl = this.appConfig.urlFeedback + "/saveasdraft?language=1";
+    let fullUrl = this.appConfig.urlFeedback + "/saveasdraft?language="+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
@@ -963,7 +963,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateRecordFeedbackReply(record) {
-    let fullUrl = this.appConfig.urlFeedback + "/submitreply?language=1";
+    let fullUrl = this.appConfig.urlFeedback + "/submitreply?language="+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())

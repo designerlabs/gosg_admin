@@ -76,12 +76,17 @@ import { FootercontentComponent } from './footer/footercontent/footercontent.com
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { GalleryComponent } from './gallery/gallery.component';
+import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
+import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
 
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
 {path: 'addtemplate', component: AddtemplateComponent},
+{path: 'media/type', component: MediatypetblComponent},
+{path: 'media/type/add', component: MediatypeComponent},
+{path: 'media/type/:id', component: MediatypeComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 {path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
 {path: 'feedback/message/visitor/:id', component: FeedbackvisitorComponent},
@@ -161,13 +166,10 @@ export const appRoutes: Routes = [
 {path: 'maincategory/:id', component: MaincategoryComponent},
 {path: 'subcategory/:id', component: SubcategoryComponent},
 {path: 'category/:id', component: CategoryComponent},
-{path: 'mediatype', component: MediatypetblComponent},
-{path: 'mediatype/add', component: MediatypeComponent},
-{path: 'mediatype/:id', component: MediatypeComponent},
+
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
-{path: 'editor', component: EditorComponent},
 {path: 'editor', component: EditorComponent},
 {path: 'systemsettings',component: SystemsettingstblComponent},
 {path: 'systemsettings/:id',component: SystemsettingsComponent},
@@ -185,6 +187,10 @@ export const appRoutes: Routes = [
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
+{path: 'categorymanagement', component: CategorymanagementtblComponent},
+{path: 'categorymanagement/:id', component: CategorymanagementComponent},
+{path: 'categorymanagement/add', component: CategorymanagementComponent},
+
 {path: '**', component: ErrorComponent}, // put at the last row
 // All Category
 

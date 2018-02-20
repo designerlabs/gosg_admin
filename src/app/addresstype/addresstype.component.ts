@@ -7,6 +7,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-addresstype',
@@ -29,9 +31,37 @@ export class AddresstypeComponent implements OnInit {
   public getRefId: any;
 
   public complete: boolean;
+  public languageId: any;
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              //this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getData();
+    }
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -62,7 +92,7 @@ export class AddresstypeComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
   
-    this.dataUrl = this.appConfig.urlAddressType + '/code/'+_getRefID;
+    this.dataUrl = this.appConfig.urlAddressType + '/code/'+_getRefID + '?language=' +this.languageId;
 
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
@@ -88,6 +118,7 @@ export class AddresstypeComponent implements OnInit {
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[3];
+    let txt;
 
     // add form
     if(urlEdit === 'add'){
@@ -115,17 +146,28 @@ export class AddresstypeComponent implements OnInit {
       body[1].enabled = formValues.active;
 
       console.log("TEST")
-      console.log(body)
+      console.log(JSON.stringify(body))
 
       this.commonservice.addRecordAddType(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['address/type']);
+                    
+          let errMsg = data.statusCode.toLowerCase();
+
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['address/type']);
+          }           
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 
@@ -162,14 +204,24 @@ export class AddresstypeComponent implements OnInit {
 
       this.commonservice.updateRecordAddType(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-        
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['address/type']);
+          
+          let errMsg = data.statusCode.toLowerCase();
+
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record updated successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['address/type']);
+          }           
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
     
@@ -197,15 +249,8 @@ export class AddresstypeComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-    }
+    this.updateForm.reset();
+    this.checkReqValues();   
   }
 
   back(){

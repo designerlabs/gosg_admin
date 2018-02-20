@@ -74,31 +74,22 @@
             <button mat-raised-button type="button" color="primary" id="btnreply" class="form-control btn btn-md btn-success font-size-s pull-right"
             (click)="submitReply(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
-            <i *ngIf="!complete" class="fa fa-times"></i> Reply </button>
+            <i *ngIf="!complete" class="fa fa-times"></i> Submit </button>
             <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
             (click)="submit(updateForm.value)" style="width: 110px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i> Save Draft </button>
             <button tabindex="2" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
-            style="width: 100px; font-family: Roboto" (click)="myFunction()">
+            style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
             <i class="fa fa-refresh"></i> Reset</button>
         </div>      
     </form>
 </div>
       
-      <!-- <app-confirm-dialog  #resetModal 
-      [title]="'common.icon.warn'" 
-      [content]="'common.msg.reset'"
-      [state]="'common.state.warn'" 
-      [isReset]="'true'"
-      (resetMethod)="resetMethod($event)">
-      </app-confirm-dialog>
-      
-      <app-confirm-dialog  #infoModal 
-      [title]="'common.icon.success'" 
-      [content]="'register.popupmsg.success_content1'"
-      [email] = "getEmail"
-      [content2] = "'register.popupmsg.success_content2'" 
-      [state]="'common.state.success'" 
-      [isRegister]="'index'">
-      </app-confirm-dialog> -->
+<app-confirm-dialog  #resetModal 
+[title]="'common.icon.warn'" 
+[content]="'common.msg.reset'"
+[state]="'bg_header bg_warn_header'"
+[isReset]="'true'"
+(resetMethod)="myFunction()">
+</app-confirm-dialog>

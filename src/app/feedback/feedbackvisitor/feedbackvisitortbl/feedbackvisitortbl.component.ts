@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-feedbackvisitortbl',
@@ -29,24 +30,64 @@ export class FeedbackvisitortblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  languageId: any;
+  filterTypeVal: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  applyFilter(val) {
-    console.log(val)
+  applyFilter(val) {   
+
+    console.log(val  + "TEST" + this.filterTypeVal);
+    
     if(val){
-      this.getFilterList(this.pageCount, this.pageSize, val);
+      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
       this.getRecordList(this.pageCount, this.pageSize);
     }
+  
   }
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  filterType(filterVal) {
+
+    this.filterTypeVal = filterVal.value; 
+ 
+  }
+
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService) { 
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -55,7 +96,7 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size + '&language='+this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -72,9 +113,15 @@ export class FeedbackvisitortblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
-  
-    this.dataUrl = this.appConfig.urlFeedback + '/search/'+ val +'?page=' + count + '&size=' + size + "&language=1";
+  getFilterList(count, size, val, filterVal) {
+
+    if(filterVal == 2){  // by Email
+      this.dataUrl = this.appConfig.urlFeedback + '/search/email/0/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+    }
+
+    else if (filterVal == 3){ // by keywords
+      this.dataUrl = this.appConfig.urlFeedback + '/search/0/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+    }
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -105,40 +152,11 @@ export class FeedbackvisitortblComponent implements OnInit {
     this.getRecordList(page + 1, this.pageSize);
   }
 
-  // add() {
-  //   this.router.navigate(['feedback/message/visitor/add']);
-  //   this.commonservice.pageModeChange(false);
-  // }
-
   updateRow(row) {
     console.log(row);
     this.router.navigate(['feedback/message/visitor/', row]);
     this.commonservice.pageModeChange(true);
   }
-
-  // deleteRow(refcode) {
-  //   let txt;
-  //   let r = confirm("Are you sure to delete?");
-  //   if (r == true) {
-
-  //     console.log(refcode);
-  //     this.commonservice.delRecordAccStatus(refcode).subscribe(
-  //       data => {
-          
-  //         txt = "Record deleted successfully!";
-
-  //         this.toastr.success(txt, '');  
-  //         this.getRecordList(this.pageCount, this.pageSize);
-  //       },
-  //       error => {
-  //         console.log("No Data")
-  //     });
-  //   }
-
-  //   else{
-  //     txt = "Delete Cancelled!";
-  //   }
-  // }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

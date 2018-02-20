@@ -12,6 +12,7 @@ export class NavComponent implements OnInit {
   imgSrc: string = 'logo_en';
   lang = 'en';
   constructor(private translate: TranslateService) {
+    this.lang = translate.currentLang;
     translate.addLangs(['en', 'ms']);
 
     if(localStorage.getItem('langID') == "2"){
@@ -31,6 +32,7 @@ export class NavComponent implements OnInit {
       this.currlangMOB = 'BM';
       this.langId = 1;
     }
+
 
 
     translate.onLangChange.subscribe((event: LangChangeEvent) => {

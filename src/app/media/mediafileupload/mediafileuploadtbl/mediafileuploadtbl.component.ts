@@ -6,11 +6,11 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-mediatypetbl',
-  templateUrl: './mediatypetbl.component.html',
-  styleUrls: ['./mediatypetbl.component.css']
+  selector: 'app-mediafileuploadtbl',
+  templateUrl: './mediafileuploadtbl.component.html',
+  styleUrls: ['./mediafileuploadtbl.component.css']
 })
-export class MediatypetblComponent implements OnInit {
+export class MediafileuploadtblComponent implements OnInit {
 
   mediaList = null;
   noPrevData = true;
@@ -77,5 +77,4 @@ export class MediatypetblComponent implements OnInit {
       // alert(txt)
     }
   }
-
 }
