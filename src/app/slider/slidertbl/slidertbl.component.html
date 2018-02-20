@@ -46,13 +46,13 @@
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitleEn">
         <mat-header-cell *matHeaderCellDef> Title (EN)</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[0].slideTitle}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[0].sliderTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideDescription Column -->
       <ng-container matColumnDef="slideTitleBm">
         <mat-header-cell *matHeaderCellDef> Title (BM) </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[1].slideTitle}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1].sliderTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->
@@ -71,9 +71,16 @@
               <i class="fa fa-edit"></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].slideId,element.list[1].slideId)" title="Delete {{ element.list[0].slideId }},{{ element.list[1].slideId }}">
-              <i class="fa fa-trash" title="Delete {{ element.list[0].slideId }}, {{ element.list[1].slideId }}"></i>
+            <button mat-mini-fab style="background: red" (click)="deleteRow.show()" title="Delete {{ element.list[0].sliderId }},{{ element.list[1].sliderId }}">
+              <i class="fa fa-trash" title="Delete {{ element.list[0].sliderId }}, {{ element.list[1].sliderId }}"></i>
             </button>
+            <app-confirm-dialog  #deleteRow 
+            [title]="'common.icon.warn'" 
+            [content]="'common.msg.delete'"
+            [state]="'common.state.warn'"
+            [isReset]="'true'"
+            (resetMethod)="deleteItem(element.list[0].sliderId,element.list[1].sliderId)">
+            </app-confirm-dialog> 
         </mat-cell>
       </ng-container>
 

@@ -26,6 +26,7 @@ export class CommonService {
   userTable: object;
   recordTable: object;
   temp = null;
+  strLang: String = "language=";
   
   pageMode: String;
 
@@ -294,7 +295,7 @@ delMediaType(mediaTypeId) {
   // SLIDER
   getSlider(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlSlides + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlSlides + '/' + code+ '?language='+this.languageId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -307,7 +308,7 @@ delMediaType(mediaTypeId) {
     // console.log(slider)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlSlides, slider)
+    return this.http.post(this.appConfig.urlSlides+ '?language='+this.languageId, slider)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -318,7 +319,7 @@ delMediaType(mediaTypeId) {
     // console.log(slider)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlSlides+ "/multiple/update", slider)
+    return this.http.put(this.appConfig.urlSlides+ "/multiple/update"+ '?language='+this.languageId, slider)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -327,7 +328,7 @@ delMediaType(mediaTypeId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=" + enId + "," +bmId+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -349,7 +350,7 @@ delMediaType(mediaTypeId) {
     // console.log(slider)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlSlides, gallery)
+    return this.http.post(this.appConfig.urlSlides+ '?language='+this.languageId, gallery)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -360,7 +361,7 @@ delMediaType(mediaTypeId) {
     // console.log(slider)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlSlides+ "/multiple/update", gallery)
+    return this.http.put(this.appConfig.urlSlides+ "/multiple/update"+ '?language='+this.languageId, gallery)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -369,7 +370,7 @@ delMediaType(mediaTypeId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=" + enId + "," +bmId, null)
+    return this.http.delete(this.appConfig.urlSlides + "/delete/selected?id=" + enId + "," +bmId+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -448,7 +449,7 @@ delMediaType(mediaTypeId) {
   // MINISTRY TYPE
   getMinistry(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlAgency + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlAgency + '/' + code+ '?language='+this.languageId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -461,7 +462,7 @@ delMediaType(mediaTypeId) {
     // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlMinistry + "/add/multiple", ministry)
+    return this.http.post(this.appConfig.urlMinistry + "/add/multiple"+ '?language='+this.languageId, ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -470,7 +471,7 @@ delMediaType(mediaTypeId) {
 
     // console.log(this.appConfig.urlUsers + user.userId)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlMinistry + "/update/multiple", ministry)
+    return this.http.put(this.appConfig.urlMinistry + "/update/multiple"+ '?language='+this.languageId, ministry)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -479,7 +480,7 @@ delMediaType(mediaTypeId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlMinistry + "/delete/code/" + refCode, null)
+    return this.http.delete(this.appConfig.urlMinistry + "/delete/code/" + refCode+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -488,7 +489,7 @@ delMediaType(mediaTypeId) {
   // AGENCY TYPE
   getAgency(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlAgency + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlAgency + '/' + code+ '?language='+this.languageId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -497,10 +498,7 @@ delMediaType(mediaTypeId) {
 
   addAgency(agency) {
 
-    console.log(this.appConfig.urlAgency)
-    console.log(agency)
-    
-    return this.http.post(this.appConfig.urlAgency, agency)
+    return this.http.post(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -511,7 +509,7 @@ delMediaType(mediaTypeId) {
     console.log(agency)
     
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlAgency, agency)
+    return this.http.put(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -519,8 +517,9 @@ delMediaType(mediaTypeId) {
   delAgency(refCode) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    console.log(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId)
     
-    return this.http.delete(this.appConfig.urlAgency + "/" + refCode, null)
+    return this.http.delete(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -529,7 +528,7 @@ delMediaType(mediaTypeId) {
   // AGENCY APP TYPE
   getAgencyApp(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlAgencyApp + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlAgencyApp + '/' + code+ '?language='+this.languageId).subscribe(
       Rdata => {
       this.dataTbl = Rdata;
       // this.router.navigate(['user', code]);
@@ -537,22 +536,20 @@ delMediaType(mediaTypeId) {
   }
 
   addAgencyApp(Agency) {
-    return this.http.post(this.appConfig.urlAgencyApp, Agency)
+    return this.http.post(this.appConfig.urlAgencyApp+ '?language='+this.languageId, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateAgencyApp(Agency) {
-    return this.http.put(this.appConfig.urlAgencyApp, Agency)
+    return this.http.put(this.appConfig.urlAgencyApp+ '?language='+this.languageId, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   delAgencyApp(refCode) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    
-    return this.http.delete(this.appConfig.urlAgencyApp + "/" + refCode, null)
+    return this.http.delete(this.appConfig.urlAgencyApp + "/" + refCode+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

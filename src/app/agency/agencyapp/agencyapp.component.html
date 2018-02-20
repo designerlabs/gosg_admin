@@ -100,6 +100,22 @@
 
           <div class="col-md-12">&nbsp;</div>
         </div>
+
+        <div class="row">
+          <div class="col-md-10">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="6" placeholder="Website URL" formControlName="websiteUrl" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="agencyAppForm.controls.websiteUrl.hasError('required')">
+                Website URL is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 paddingTop-20">
+            <mat-checkbox tabindex="7" formControlName="isDoc" [checked]="false"></mat-checkbox>
+            <span>&nbsp;is Document</span>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
       </div>
         
       <!-- <div class="container"> -->
