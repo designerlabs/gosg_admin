@@ -51,8 +51,8 @@ import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl
 import { CategoryComponent } from './categories/category/category.component';
 import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
-import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
+import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
+import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
@@ -74,6 +74,8 @@ import { FootercategorytblComponent } from './footer/footercategory/footercatego
 
 import { FootercontentComponent } from './footer/footercontent/footercontent.component';
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
+import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
+import { GalleryComponent } from './gallery/gallery.component';
 
 
 export const appRoutes: Routes = [
@@ -107,9 +109,9 @@ export const appRoutes: Routes = [
 {path: 'agency/add', component: AgencyComponent},
 {path: 'agency/:id', component: AgencyComponent},
 {path: 'agency', component: AgencytblComponent},
-{path: 'agencyapp/add', component: AgencyapptypeComponent},
-{path: 'agencyapp/:id', component: AgencyapptypeComponent},
-{path: 'agencyapp', component: AgencyapptypetblComponent},
+{path: 'agencyapp/add', component: AgencyappComponent},
+{path: 'agencyapp/:id', component: AgencyappComponent},
+{path: 'agencyapp', component: AgencyapptblComponent},
 {path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UsertblComponent},
@@ -123,6 +125,9 @@ export const appRoutes: Routes = [
 {path: 'slider', component: SlidertblComponent},
 {path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
+{path: 'gallery', component: GallerytblComponent},
+{path: 'gallery/add', component: GalleryComponent},
+{path: 'gallery/:id', component: GalleryComponent},
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},

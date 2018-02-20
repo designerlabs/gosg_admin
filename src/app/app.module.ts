@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';  // replaces previous Http service
+import { HttpClientModule, HttpClient } from '@angular/common/http';  // replaces previous Http service
 import { RouterModule, ActivatedRouteSnapshot } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
@@ -70,8 +70,8 @@ import { SubcategoryComponent } from './categories/subcategory/subcategory.compo
 import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
 import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencyapptypeComponent } from './agency/agencyapptype/agencyapptype.component';
-import { AgencyapptypetblComponent } from './agency/agencyapptype/agencyapptypetbl/agencyapptypetbl.component';
+import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
+import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
 import { GenderComponent } from './referencecode/gender/gender.component';
 import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
 import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
@@ -90,10 +90,16 @@ import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
 import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
 import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
+import { TextMaskModule } from 'angular2-text-mask';
+import { ValidateService } from './common/validate.service';
 import { FootercontentComponent } from './footer/footercontent/footercontent.component';
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
-
-import { HttpClient } from '@angular/common/http/src/client';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
+import { DialogsService } from './dialogs/dialogs.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -152,8 +158,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SubcategorytblComponent,
     CategoryComponent,
     UserpermissionComponent,
-    AgencyapptypeComponent,
-    AgencyapptypetblComponent,
+    AgencyappComponent,
+    AgencyapptblComponent,
     GenderComponent,
     CitizentypeComponent,
     CitizentypetblComponent,
@@ -174,6 +180,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     FootercategorytblComponent,
     FootercontentComponent,
     FootercontenttblComponent,
+    GalleryComponent,
+    GallerytblComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -183,11 +192,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     TranslateModule.forRoot({
       loader: {
-        provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [Http]
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
       }
-    }),
+  }),
 
     BrowserAnimationsModule,
     HttpModule,
@@ -195,13 +204,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppConfigModule,
     SharedModule,
     FormsModule,
+    TextMaskModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
-    NgxEditorModule
+    NgxEditorModule,
+    ModalModule.forRoot()
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

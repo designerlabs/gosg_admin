@@ -25,6 +25,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footercontenttbl',
@@ -51,6 +52,7 @@ export class FootercontenttblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  languageId: any;
 
   public getIdentificationTypeIdEng: any;
   public getIdentificationTypeIdMy: any;
@@ -70,8 +72,27 @@ export class FootercontenttblComponent implements OnInit {
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
-    this.getRecordList(this.pageCount, this.pageSize);
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  private translate: TranslateService) {
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
   }
 
   ngOnInit() {
@@ -80,7 +101,7 @@ export class FootercontenttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlFooterContent + '?page=' + count + '&size=' + size +"?language=" + this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -133,17 +154,25 @@ export class FootercontenttblComponent implements OnInit {
     
     if (r == true) {
       console.log(refCode);
-      this.commonservice.delFooterCategory(refCode).subscribe(
+      this.commonservice.delFooterContent(refCode).subscribe(
         data => {
           // alert('Record deleted successfully!')
-          txt = " record deleted successfully!";
-
-          this.toastr.success(txt, '');   
-          this.router.navigate(['footer/footercontent']);
-          this.getRecordList(this.pageCount, this.pageSize);
+          if(data.statusCode == "ERROR"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record Deletde Successfully!"
+            this.toastr.success(txt, '');  
+            // this.router.navigate(['footer/footercontent']);
+            this.getRecordList(this.pageCount, this.pageSize);
+          }               
         },
         error => {
-          txt = "Delete Cancelled!";
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
     else{
