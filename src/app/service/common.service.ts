@@ -625,7 +625,7 @@ delMediaType(mediaTypeId) {
   // End Poll Question - N
 
   addRace(record) {
-    let fullUrl = this.appConfig.urlRace;
+    let fullUrl = this.appConfig.urlRace + "?language=" + this.languageId;
     console.log(fullUrl)
     console.log(record)
 
@@ -635,7 +635,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateRace(record) {
-    let fullUrl = this.appConfig.urlRace ;
+    let fullUrl = this.appConfig.urlRace + "?language=" + this.languageId ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -643,15 +643,15 @@ delMediaType(mediaTypeId) {
   }
     
   delRace(refCode) {
-    let fullUrl = this.appConfig.urlRaceDelete;
+    let fullUrl = this.appConfig.urlRaceDelete + refCode + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl + refCode)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   addReligion(record) {
-    let fullUrl = this.appConfig.urlReligionList;
+    let fullUrl = this.appConfig.urlReligionList + "?language=" + this.languageId;
     console.log(fullUrl)
     console.log(record)
 
@@ -661,7 +661,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateReligion(record) {
-    let fullUrl = this.appConfig.urlReligionList ;
+    let fullUrl = this.appConfig.urlReligionList + "?language=" + this.languageId;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -669,15 +669,15 @@ delMediaType(mediaTypeId) {
   }
     
   delReligion(refCode) {
-    let fullUrl = this.appConfig.urlReligionList;
+    let fullUrl = this.appConfig.urlReligionList + '/' + refCode + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl + '/' + refCode)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   addUserType(record) {
-    let fullUrl = this.appConfig.urlUserTypeList;
+    let fullUrl = this.appConfig.urlUserTypeList + "?language=" + this.languageId;
     console.log(fullUrl)
     console.log(record)
 
@@ -687,7 +687,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateUserType(record) {
-    let fullUrl = this.appConfig.urlUserTypeList ;
+    let fullUrl = this.appConfig.urlUserTypeList + "?language=" + this.languageId ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -695,15 +695,15 @@ delMediaType(mediaTypeId) {
   }
     
   delUserType(refCode) {
-    let fullUrl = this.appConfig.urlUserTypeDelete;
+    let fullUrl = this.appConfig.urlUserTypeDelete + refCode  + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl + refCode)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   addIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationType + '/add/multiple';
+    let fullUrl = this.appConfig.urlIdentificationType + '/add/multiple' + "?language=" + this.languageId;
     console.log(fullUrl)
     console.log(record)
 
@@ -713,7 +713,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateIdentificationType(record) {
-    let fullUrl = this.appConfig.urlIdentificationType + '/update/multiple' ;
+    let fullUrl = this.appConfig.urlIdentificationType + '/update/multiple' + "?language=" + this.languageId ;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -721,15 +721,15 @@ delMediaType(mediaTypeId) {
   }
     
   delIdentificationType(refCode) {
-    let fullUrl = this.appConfig.urlIdentificationType + '/delete/multiple/';
+    let fullUrl = this.appConfig.urlIdentificationType + '/delete/multiple/' + refCode  + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl + refCode)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   addFaq(record) {
-    let fullUrl = this.appConfig.urlFaqList ;
+    let fullUrl = this.appConfig.urlFaqList + "?language=" + this.languageId ;
     console.log(fullUrl)
     console.log(record)
 
@@ -739,7 +739,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateFaq(record) {
-    let fullUrl = this.appConfig.urlFaqList  ;
+    let fullUrl = this.appConfig.urlFaqList + "?language=" + this.languageId;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -747,15 +747,15 @@ delMediaType(mediaTypeId) {
   }
     
   delFaq(refCode) {
-    let fullUrl = this.appConfig.urlFaqList ;
+    let fullUrl = this.appConfig.urlFaqList + '/' + refCode + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl + '/' + refCode)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   addFooterCategory(record) {
-    let fullUrl = this.appConfig.urlFooterCategory + "?language=1" ;
+    let fullUrl = this.appConfig.urlFooterCategory + "?language=" + this.languageId ;
     // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
     console.log(fullUrl)
     console.log(record)
@@ -766,7 +766,7 @@ delMediaType(mediaTypeId) {
   }
 
   updateFooterCategory(record) {
-    let fullUrl = this.appConfig.urlFooterCategory  + "?language=1" ;
+    let fullUrl = this.appConfig.urlFooterCategory + "?language=" + this.languageId;
     
     return this.http.put(fullUrl, record)
         .map((response: Response) => response.json())
@@ -774,16 +774,16 @@ delMediaType(mediaTypeId) {
   }
     
   delFooterCategory(refCode) {
-    let fullUrl = this.appConfig.urlFooterCategory ;
+    let fullUrl = this.appConfig.urlFooterCategory + '/' + refCode + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl + '/' + refCode)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   getFooterCategoryList(){
-    let fullUrl = this.appConfig.urlFooterCategory ;
-    return this.http.get(fullUrl + '?active=true')
+    let fullUrl = this.appConfig.urlFooterCategory + '?active=true' + "&language=" + this.languageId;
+    return this.http.get(fullUrl, null)
     .map((response: Response) => response.json().list)
     .catch(this.handleError);
   }
@@ -808,9 +808,9 @@ delMediaType(mediaTypeId) {
   }
     
   delFooterContent(refCode) {
-    let fullUrl = this.appConfig.urlFooterContent ;
+    let fullUrl = this.appConfig.urlFooterContent + '/' + refCode + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl + '/' + refCode + "?language=" + this.languageId)
+    return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -981,7 +981,7 @@ delMediaType(mediaTypeId) {
 
   getStateData(): Observable<any[]> {
     //  console.log(this.countryUrl);
-    return this.http.get(this.stateUrl)
+    return this.http.get(this.stateUrl + '?language='+this.languageId)
       .map((response: Response) => response.json().stateList)
       .retry(5)
       .catch(this.handleError);
@@ -989,7 +989,7 @@ delMediaType(mediaTypeId) {
   }
 
   getCitiesbyState(code): Observable<any[]> {
-    return this.http.get(this.cityUrl + '/state/' + code)
+    return this.http.get(this.cityUrl + '/state/' + code + '?language='+this.languageId)
       .map((response: Response) => response.json().cityList)
       .retry(5)
       .catch(this.handleError);
@@ -998,7 +998,7 @@ delMediaType(mediaTypeId) {
 
   getPostCodeData(code): Observable<any[]> {
     //  console.log(this.countryUrl);
-    return this.http.get(this.postcodeUrl+ code)
+    return this.http.get(this.postcodeUrl+ code + '?language='+this.languageId)
       .map((response: Response) => response.json().postcodeList)
       .retry(5)
       .catch(this.handleError);

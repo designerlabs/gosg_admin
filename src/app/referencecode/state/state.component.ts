@@ -6,6 +6,7 @@ import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-state',
@@ -38,6 +39,7 @@ export class StateComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;
+  languageId: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -52,8 +54,32 @@ export class StateComponent implements OnInit {
   }
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-              private commonservice: CommonService, private router: Router) {
-    this.getRecordList(this.pageCount, this.pageSize);
+              private commonservice: CommonService, private router: Router,
+              private translate: TranslateService) {
+
+                /* LANGUAGE FUNC */
+              translate.onLangChange.subscribe((event: LangChangeEvent) => {
+                translate.get('HOME').subscribe((res: any) => {
+                  this.commonservice.getAllLanguage().subscribe((data:any) => {
+                    let getLang = data.list;
+                    let myLangData =  getLang.filter(function(val) {
+                      if(val.languageCode == translate.currentLang){
+                        this.lang = val.languageCode;
+                        this.languageId = val.languageId;
+                        this.getRecordList(this.pageCount, this.pageSize);
+                      }
+                    }.bind(this));
+                  })
+                });
+              });
+              if(!this.languageId){
+                this.languageId = localStorage.getItem('langID');
+                this.getRecordList(this.pageCount, this.pageSize);
+              }
+
+    
+
+    
   }
 
   ngOnInit() {
@@ -89,7 +115,7 @@ export class StateComponent implements OnInit {
 
 
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language='+this.languageId)
       .subscribe(data => {
         this.recordList = data;
 

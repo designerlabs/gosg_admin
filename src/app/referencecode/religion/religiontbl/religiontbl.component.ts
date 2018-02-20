@@ -24,6 +24,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-religiontbl',
@@ -54,6 +55,8 @@ export class ReligiontblComponent implements OnInit {
   public getRaceIdMy: any;
   public getRaceMy: any;
   public getRaceEng: any;
+
+  public languageId: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -69,8 +72,29 @@ export class ReligiontblComponent implements OnInit {
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) {
-    this.getRecordList(this.pageCount, this.pageSize);
+  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  private translate: TranslateService) {
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
+    
   }
 
   ngOnInit() {
@@ -79,7 +103,7 @@ export class ReligiontblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlReligionList + '/?page=' + count + '&size=' + size;
+    this.dataUrl = this.appConfig.urlReligionList + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
