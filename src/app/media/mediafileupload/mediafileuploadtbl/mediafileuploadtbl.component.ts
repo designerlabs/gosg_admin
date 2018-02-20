@@ -48,12 +48,12 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   add(){    
-      this.router.navigate(['media/type' , 'add']);
+      this.router.navigate(['media/' , 'add']);
   }
 
   editGroup(mtId) {
     console.log(mtId);
-    this.router.navigate(['media/type', mtId]);
+    this.router.navigate(['media/', mtId]);
   }
 
   deleteRow(id) {
