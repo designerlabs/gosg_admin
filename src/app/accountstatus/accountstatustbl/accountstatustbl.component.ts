@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../dialogs/dialogs.service';
 
 
 @Component({
@@ -49,7 +50,8 @@ export class AccountstatustblComponent implements OnInit {
     private commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -60,7 +62,7 @@ export class AccountstatustblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              //this.getUsersData(this.pageCount, this.pageSize);
+              this.getRecordList(this.pageCount, this.pageSize);
             }
           }.bind(this));
         })
@@ -68,7 +70,7 @@ export class AccountstatustblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getData();
+      this.getRecordList(this.pageCount, this.pageSize);
     }
     /* LANGUAGE FUNC */
   }
@@ -124,37 +126,30 @@ export class AccountstatustblComponent implements OnInit {
 
   deleteRow(refcode) {
     let txt;
-    let r = confirm("Are you sure to delete?");
-    if (r == true) {
+  
+    console.log(refcode);
+    this.commonservice.delRecordAccStatus(refcode).subscribe(
+      data => {
+        
+        let errMsg = data.statusCode.toLowerCase();
 
-      console.log(refcode);
-      this.commonservice.delRecordAccStatus(refcode).subscribe(
-        data => {
-          
-          let errMsg = data.statusCode.toLowerCase();
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          else{
+          txt = "Record deleted successfully!"
+          this.toastr.success(txt, '');  
+          this.getRecordList(this.pageCount, this.pageSize);
+        } 
+                  
+      },
+      error => {
 
-            txt = "Record deleted successfully!"
-            this.toastr.success(txt, '');  
-            this.getRecordList(this.pageCount, this.pageSize);
-          } 
-                   
-        },
-        error => {
-
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
-          console.log(error);
-      });
-    }
-
-    else{
-      txt = "Delete Cancelled!";
-    }
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });    
   }
 
   ngAfterViewInit() {

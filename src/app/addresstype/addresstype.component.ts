@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-addresstype',
@@ -37,7 +38,8 @@ export class AddresstypeComponent implements OnInit {
     private commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -247,15 +249,8 @@ export class AddresstypeComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-    }
+    this.updateForm.reset();
+    this.checkReqValues();   
   }
 
   back(){

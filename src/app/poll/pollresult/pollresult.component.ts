@@ -59,7 +59,7 @@ export class PollresultComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              //this.getUsersData(this.pageCount, this.pageSize);
+              this.getRecordList(this.pageCount, this.pageSize);
             }
           }.bind(this));
         })
@@ -67,11 +67,9 @@ export class PollresultComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getData();
+      this.getRecordList(this.pageCount, this.pageSize);
     }
-    /* LANGUAGE FUNC */
-    
-    this.getRecordList(this.pageCount, this.pageSize);
+    /* LANGUAGE FUNC */   
   }
 
   ngOnInit() {

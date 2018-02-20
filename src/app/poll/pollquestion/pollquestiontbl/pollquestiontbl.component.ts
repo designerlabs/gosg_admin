@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-pollquestiontbl',
@@ -67,7 +68,8 @@ export class PollquestiontblComponent implements OnInit {
     private commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
-    private translate: TranslateService) {
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
 
       /* LANGUAGE FUNC */
       translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -78,7 +80,7 @@ export class PollquestiontblComponent implements OnInit {
               if(val.languageCode == translate.currentLang){
                 this.lang = val.languageCode;
                 this.languageId = val.languageId;
-                //this.getUsersData(this.pageCount, this.pageSize);
+                this.getRecordList(this.pageCount, this.pageSize);
               }
             }.bind(this));
           })
@@ -86,11 +88,9 @@ export class PollquestiontblComponent implements OnInit {
       });
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
-        //this.getData();
+        this.getRecordList(this.pageCount, this.pageSize);
       }
-    /* LANGUAGE FUNC */
-
-    this.getRecordList(this.pageCount, this.pageSize);
+    /* LANGUAGE FUNC */    
   }
 
   ngOnInit() {
@@ -99,7 +99,7 @@ export class PollquestiontblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size + '?language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size + '&language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -148,25 +148,28 @@ export class PollquestiontblComponent implements OnInit {
   deleteRow(enId, bmId) {
   
     let txt;
-    let r = confirm("Are you sure to delete?");
-    if (r == true) {
+    
+    this.commonservice.delRecord(enId, bmId).subscribe(
+      data => {         
+        
+        let errMsg = data.statusCode.toLowerCase();
 
-      this.commonservice.delRecord(enId, bmId).subscribe(
-        data => {         
-          
-          txt = "Record deleted successfully!";
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
 
-          this.toastr.success(txt, '');   
+          txt = "Record deleted successfully!"
+          this.toastr.success(txt, '');  
           this.getRecordList(this.pageCount, this.pageSize);
-        },
-        error => {
-          console.log("No Data")
-      });
-    }
+        } 
+      },
+      error => {
 
-    else{
-      txt = "Delete Cancelled!";
-    }
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });    
   }
 
   ngAfterViewInit() {

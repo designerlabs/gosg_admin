@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-feedbackvisitor',
@@ -46,7 +47,8 @@ export class FeedbackvisitorComponent implements OnInit {
     private commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
-    private translate: TranslateService){ 
+    private translate: TranslateService,
+    private dialogsService: DialogsService){ 
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -152,7 +154,7 @@ export class FeedbackvisitorComponent implements OnInit {
     this.commonservice.updateRecordFeedbackDraft(body).subscribe(
       data => {
 
-        let errMsg = data.statusCode.toLowerCase;
+        let errMsg = data.statusCode.toLowerCase();
               
         if(errMsg == "error"){
           this.commonservice.errorResponse(data);
@@ -206,7 +208,7 @@ export class FeedbackvisitorComponent implements OnInit {
     this.commonservice.updateRecordFeedbackReply(body).subscribe(
       data => {
         
-        let errMsg = data.statusCode.toLowerCase;
+        let errMsg = data.statusCode.toLowerCase();
 
         if(errMsg == "error"){
           this.commonservice.errorResponse(data);
@@ -249,15 +251,8 @@ export class FeedbackvisitorComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-    }
+    this.updateForm.reset();
+    this.checkReqValues();   
   }
 
   back(){

@@ -60,7 +60,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              //this.getData();
+              this.getRecordList(this.pageCount, this.pageSize);
             }
           }.bind(this));
         })
@@ -69,7 +69,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getData();
+      this.getRecordList(this.pageCount, this.pageSize);
     }
 
     /* LANGUAGE FUNC */
@@ -123,35 +123,29 @@ export class FeedbacksubjecttblComponent implements OnInit {
   }
 
   deleteRow(refcode) {
-    let txt;
-    let r = confirm("Are you sure to delete?");
-    if (r == true) {
+    let txt;   
 
-      console.log(refcode);
-      this.commonservice.delRecordFeedbackSubject(refcode).subscribe(
-        data => {
+    console.log(refcode);
+    this.commonservice.delRecordFeedbackSubject(refcode).subscribe(
+      data => {
 
-          let errMsg = data.statusCode.toLowerCase;
+        let errMsg = data.statusCode.toLowerCase();
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          else{
-            txt = "Record deleted successfully!";
-            this.toastr.success(txt, '');  
-            this.getRecordList(this.pageCount, this.pageSize);
-          }
-        },
-        error => {
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
-          console.log(error);
-      });
-    }
-
-    else{
-      txt = "Delete Cancelled!";
-    }
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+          txt = "Record deleted successfully!";
+          this.toastr.success(txt, '');  
+          this.getRecordList(this.pageCount, this.pageSize);
+        }
+      },
+      error => {
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });
+   
   }
 
   ngAfterViewInit() {

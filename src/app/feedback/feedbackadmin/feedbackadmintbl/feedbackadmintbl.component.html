@@ -76,8 +76,15 @@
                     <button mat-mini-fab style="background: orange" (click)="updateRow(element.feedbackId)">
                     <i class="fa fa-eye" title="View {{ element.feedbackId }}"></i></button>
                     &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.feedbackId)"> 
+                    <button mat-mini-fab style="background: red" (click)="deleteModal.show()"> 
                     <i class="fa fa-trash" title="Delete {{ element.feedbackId }}"></i></button>
+                    <app-confirm-dialog  #deleteModal 
+                    [title]="'common.icon.warn'" 
+                    [content]="'common.msg.delete'"
+                    [state]="'bg_header bg_warn_header'"
+                    [isReset]="'true'"
+                    (resetMethod)="deleteRow(element.feedbackId)">
+                    </app-confirm-dialog>
                 </mat-cell>
             </ng-container>
         

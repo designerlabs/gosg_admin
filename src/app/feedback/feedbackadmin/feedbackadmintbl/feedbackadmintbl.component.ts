@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-feedbackadmintbl',
@@ -54,8 +55,7 @@ export class FeedbackadmintblComponent implements OnInit {
 
   filterType(filterVal) {
 
-    this.filterTypeVal = filterVal.value; 
- 
+    this.filterTypeVal = filterVal.value;  
   }
   
   constructor(
@@ -64,7 +64,8 @@ export class FeedbackadmintblComponent implements OnInit {
     private commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
-    private translate: TranslateService) { 
+    private translate: TranslateService,
+    private dialogsService: DialogsService) { 
 
       /* LANGUAGE FUNC */
       translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -165,34 +166,28 @@ export class FeedbackadmintblComponent implements OnInit {
 
   deleteRow(getId) {
     let txt;
-    let r = confirm("Are you sure to delete?");
-    if (r == true) {
 
-      console.log(getId);
-      this.commonservice.delRecordFeedback(getId).subscribe(
-        data => {
-          
-          let errMsg = data.statusCode.toLowerCase;
+    console.log(getId);
+    this.commonservice.delRecordFeedback(getId).subscribe(
+      data => {
+        
+        let errMsg = data.statusCode.toLowerCase();
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          else{
-            txt = "Record deleted successfully!";
-            this.toastr.success(txt, '');  
-            this.router.navigate(['feedback/message/admin']);
-          }
-        },
-        error => {
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
-          console.log(error);
-      });
-    }
-
-    else{
-      txt = "Delete Cancelled!";
-    }
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+          txt = "Record deleted successfully!";
+          this.toastr.success(txt, '');  
+          this.router.navigate(['feedback/message/admin']);
+        }
+      },
+      error => {
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });
+    
   }
 
   ngAfterViewInit() {

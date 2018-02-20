@@ -82,7 +82,7 @@
         <div class="form-group paddingTop-20">
             <button mat-raised-button type="button" color="primary" id="btnsubmit"
             class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="delete(getId)" style="width: 100px; font-family: Roboto; margin-left: 5px;">
+            (click)="deleteModal.show()" style="width: 100px; font-family: Roboto; margin-left: 5px;">
             <i class="fa fa-times"></i> Delete </button>
             <!-- <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
@@ -91,19 +91,10 @@
     </form>
 </div>
 
-<!-- <app-confirm-dialog  #resetModal 
+<app-confirm-dialog  #deleteModal 
 [title]="'common.icon.warn'" 
-[content]="'common.msg.reset'"
-[state]="'common.state.warn'" 
+[content]="'common.msg.delete'"
+[state]="'bg_header bg_warn_header'"
 [isReset]="'true'"
-(resetMethod)="resetMethod($event)">
+(resetMethod)="delete(getId)">
 </app-confirm-dialog>
-
-<app-confirm-dialog  #infoModal 
-[title]="'common.icon.success'" 
-[content]="'register.popupmsg.success_content1'"
-[email] = "getEmail"
-[content2] = "'register.popupmsg.success_content2'" 
-[state]="'common.state.success'" 
-[isRegister]="'index'">
-</app-confirm-dialog> -->
