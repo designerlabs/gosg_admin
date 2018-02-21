@@ -1,106 +1,43 @@
 .right-content {
     width: 100%;
-    }
-    
-    .example-container {
-    display: flex;
-    flex-direction: column;
-    min-width: 300px;
-    }
-    
-    .bg-form-header {
-    padding: 10px;
-    background: transparent;
-    border-bottom: 1px solid #ccc;
-    }
-    
-    .example-full-width {
-    width: 100%;
-    }
-    
-    .activeFontColor {
-    color: green;
-    }
-    
-    .inactiveFontColor {
-    color:red;
-    }
-    
-    .backTitle {
-    margin-left: -2%;
-    cursor: pointer;
-    }
-    
-    .backTitle:hover {
-    margin-left: -2%;
-    color: #ff4081;
-    cursor: pointer;
-    }
-    
-    /* .addBtn{ */
-    /* position: absolute; */
-    /* right: 10px;
-    top: 65%; */
-    /* } */
-    
-    .addBtn:hover {
-    /* position: absolute; */
-    background-color: rgb(109, 185, 38);
-    color: #FFF;
-    /* right: 10px;
-    top: 65%; */
-    }
-    
-    .addBtn-active {
-    /* position: absolute; */
-    background-color: rgb(109, 185, 38);
-    color: #FFF;
-    /* right: 10px;
-    top: 65%; */
-    }
-    
-    .backBtn a {
-    position: absolute;
-    right: 10px;
-    top: 40%;
-    cursor: pointer;
-    text-decoration: none
-    }
-    
-    .backBtn:hover a {
-    position: absolute;
-    right: 10px;
-    top: 40%;
-    cursor: pointer;
-    text-decoration: none
-    }
+}
+.example-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+  
+.mat-table {
+  overflow: auto;
+  max-height: 800px;
+}
 
-    .modal {
-        display: none;
-        overflow: hidden;
-        position: fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1050;
-        -webkit-overflow-scrolling: touch;
-        outline: 0;
-        padding: 0;
-    }
+.mat-header-cell.mat-sort-header-sorted {
+  color: black;
+}
 
-    .fade {
-        opacity: 0;
-        transition: opacity 0.15s linear;
-    }
+.padding5 {
+    padding:5px;
+}
 
-    .modal-open .modal {
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
+.editBtn{
+  position: absolute;
+  right: 10px;
+  top: 65%;
+}
 
-    .fade.in {
-        opacity: 1;
-    }
-    
-    
+.editBtn:hover {
+  position: absolute;
+  background-color: rgb(109, 185, 38);
+  color: #FFF;
+  right: 10px;
+  top: 65%;
+}
+
+.editBtn-active {
+  position: absolute;
+  background-color: rgb(109, 185, 38);
+  color: #FFF;
+  right: 10px;
+  top: 65%;
+}
