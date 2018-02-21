@@ -83,6 +83,8 @@ export class AppConfig {
     urlFooterContent: string;
     lang: string;
     urlAdminUserFind: string;
+
+    urlImageList: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -138,6 +140,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedback: commonURL + 'feedback',
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
+    urlImageList: commonURL + 'media/category/name/Article',
     // urlAnnounceList: './app/apidata/announce.json',
     urlAnnounceList: commonURL + 'announcement/code',
     // urlCategoryList: './app/apidata/category.json',

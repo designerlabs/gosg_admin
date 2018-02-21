@@ -226,6 +226,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getImageList() {
+    console.log(this.appConfig.urlImageList);
+    return this.http.get(this.appConfig.urlImageList)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getSubCategoryData() {
     console.log(this.appConfig.urlSubCategoryList);
     return this.http.get(this.appConfig.urlSubCategoryList)

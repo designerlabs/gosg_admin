@@ -26,6 +26,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-footercontent',
@@ -39,7 +40,7 @@ export class FootercontentComponent implements OnInit {
   updateForm: FormGroup;
 
   public catEng: FormControl;
-  public categoryEng: FormControl;
+  public catMy: FormControl;
   
   public nameEng: FormControl;
   public descEng: FormControl;
@@ -73,7 +74,8 @@ export class FootercontentComponent implements OnInit {
   public recordList: any;
   public resCatData: any;
   // public category: any;
-  public categoryData: any;
+  public categoryDataEng: any;
+  public categoryDataMy: any;
 
   public getCatValueEng: any;
   public getCatValueMy: any;
@@ -81,12 +83,16 @@ export class FootercontentComponent implements OnInit {
 
   complete: boolean;
 
+  public imageDataEng: any;
+  public imageDataMy: any;
+
   // public selectedImgMy = 'Sila Pilih';
   // public selectedImgEng = 'Please Select';
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
-  private translate: TranslateService) {
+  private translate: TranslateService,
+  private dialogsService: DialogsService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -111,7 +117,7 @@ export class FootercontentComponent implements OnInit {
   ngOnInit() {
 
     this.catEng = new FormControl();
-    this.categoryEng = new FormControl();
+    this.catMy = new FormControl();
 
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
@@ -132,11 +138,12 @@ export class FootercontentComponent implements OnInit {
     this.getCat = new FormControl();
 
     this.getCategory();
+    this.getImageList();
 
     this.updateForm = new FormGroup({   
 
       catEng: this.catEng,
-      categoryEng: this.categoryEng,
+      catMy: this.catMy,
 
       nameEng: this.nameEng,
       descEng: this.descEng,
@@ -178,13 +185,27 @@ export class FootercontentComponent implements OnInit {
   getCategory(){
     return this.commonservice.getFooterCategoryList()
      .subscribe(resCatData => {
-        this.categoryData = resCatData;        
+        this.categoryDataEng = resCatData;   
+        this.categoryDataMy = resCatData;       
       },
       Error => {
       //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
       console.log('Error in State');
      });
   }
+
+  getImageList(){
+    return this.commonservice.getImageList()
+     .subscribe(resCatData => {
+        this.imageDataEng = resCatData.list;   
+        this.imageDataMy = resCatData.list;      
+      },
+      Error => {
+      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
+      console.log('Error in State');
+     });
+  }
+
 
   // isSameImg(imgEng,imgMy);
   // isChecked(e)
@@ -209,6 +230,10 @@ export class FootercontentComponent implements OnInit {
     this.getFooterIdMy = e.value.list[1].id;
   }
 
+  selectedImg(e){
+    console.log(e);
+  }
+
   
 
   getData() {
@@ -226,12 +251,12 @@ export class FootercontentComponent implements OnInit {
       console.log(data);
 
       this.updateForm.get('catEng').setValue(this.recordList.list[0].footer.name);
-      this.updateForm.get('categoryEng').setValue(this.recordList.list[0].footer.name);
+      this.updateForm.get('catMy').setValue(this.recordList.list[0].footer.name);
 
       this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
       this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
       this.updateForm.get('iconEng').setValue(this.recordList.list[0].icon);
-      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].image.mediaId));
+      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].image));
       // this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
       this.updateForm.get('urlEng').setValue(this.recordList.list[0].url);
       this.updateForm.get('seqEng').setValue(this.recordList.list[0].sortingOrder);
@@ -243,7 +268,7 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('nameMy').setValue(this.recordList.list[1].name);
       this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
       this.updateForm.get('iconMy').setValue(this.recordList.list[1].icon);
-      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].image.mediaId));
+      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].image));
       // this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
       this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
       this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
@@ -276,6 +301,7 @@ export class FootercontentComponent implements OnInit {
   submit(formValues: any) {
     
     let flag = false;
+    let txt = "";
 
     if(formValues.active == null){
       flag = false;
@@ -365,19 +391,38 @@ export class FootercontentComponent implements OnInit {
 
       this.commonservice.addFooterContent(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-          console.log(body)
-          // alert('Record added successfully!')
 
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
+          let errMsg = data.statusCode.toLowerCase();
 
-          this.router.navigate(['footer/footercontent']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['footer/footercontent']);
+          }               
         },
         error => {
-          console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
+
+        //   console.log(JSON.stringify(body))
+        //   console.log(body)
+        //   // alert('Record added successfully!')
+
+        //   let txt = "Record added successfully!";
+        //   this.toastr.success(txt, '');  
+
+        //   this.router.navigate(['footer/footercontent']);
+        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+        // },
+        // error => {
+        //   console.log("No Data")
+        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
 
@@ -459,19 +504,38 @@ export class FootercontentComponent implements OnInit {
 
       this.commonservice.updateFooterContent(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-          console.log(body)
-          // alert('Record updated successfully!')
 
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, ''); 
+          let errMsg = data.statusCode.toLowerCase();
 
-          this.router.navigate(['footer/footercontent']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['footer/footercontent']);
+          }               
         },
         error => {
-          console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
+
+        //   console.log(JSON.stringify(body))
+        //   console.log(body)
+        //   // alert('Record updated successfully!')
+
+        //   let txt = "Record updated successfully!";
+        //   this.toastr.success(txt, ''); 
+
+        //   this.router.navigate(['footer/footercontent']);
+        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+        // },
+        // error => {
+        //   console.log("No Data")
+        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
   }
@@ -518,17 +582,21 @@ export class FootercontentComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.toastr.success(txt, ''); 
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-        this.toastr.success(txt, '');
-    }
+
+    this.updateForm.reset();
+    this.checkReqValues(); 
+
+    // var txt;
+    // var r = confirm("Are you sure to reset the form?");
+    // if (r == true) {
+    //     txt = "You pressed OK!";
+    //     this.toastr.success(txt, ''); 
+    //     this.updateForm.reset();
+    //     this.checkReqValues();
+    // } else {
+    //     txt = "You pressed Cancel!";
+    //     this.toastr.success(txt, '');
+    // }
   }
 
   // getCategory(){
