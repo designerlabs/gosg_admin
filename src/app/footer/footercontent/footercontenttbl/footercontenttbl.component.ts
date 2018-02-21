@@ -26,6 +26,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-footercontenttbl',
@@ -73,7 +74,8 @@ export class FootercontenttblComponent implements OnInit {
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
-  private translate: TranslateService) {
+  private translate: TranslateService,
+  private dialogsService: DialogsService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -148,36 +150,63 @@ export class FootercontenttblComponent implements OnInit {
 
   
   deleteRow(refCode) {
+
     let txt;
-    let r = confirm("Are you sure to delete ?");
+
+    console.log(refCode);
+    this.commonservice.delFooterContent(refCode).subscribe(
+      data => {
+
+        let errMsg = data.statusCode.toLowerCase();
+
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+
+          txt = "Record deleted successfully!"
+          this.toastr.success(txt, '');  
+          this.getRecordList(this.pageCount, this.pageSize);
+        } 
+
+      },
+      error => {
+
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });
+
+    // let txt;
+    // let r = confirm("Are you sure to delete ?");
 
     
-    if (r == true) {
-      console.log(refCode);
-      this.commonservice.delFooterContent(refCode).subscribe(
-        data => {
-          // alert('Record deleted successfully!')
-          if(data.statusCode == "ERROR"){
-            this.commonservice.errorResponse(data);
-          }
+    // if (r == true) {
+    //   console.log(refCode);
+    //   this.commonservice.delFooterContent(refCode).subscribe(
+    //     data => {
+    //       // alert('Record deleted successfully!')
+    //       if(data.statusCode == "ERROR"){
+    //         this.commonservice.errorResponse(data);
+    //       }
           
-          else{
-            txt = "Record Deletde Successfully!"
-            this.toastr.success(txt, '');  
-            // this.router.navigate(['footer/footercontent']);
-            this.getRecordList(this.pageCount, this.pageSize);
-          }               
-        },
-        error => {
+    //       else{
+    //         txt = "Record Deletde Successfully!"
+    //         this.toastr.success(txt, '');  
+    //         // this.router.navigate(['footer/footercontent']);
+    //         this.getRecordList(this.pageCount, this.pageSize);
+    //       }               
+    //     },
+    //     error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
-          console.log(error);
-      });
-    }
-    else{
-      txt = "Delete Cancelled!";
-    }
+    //       txt = "Server is down."
+    //       this.toastr.error(txt, '');  
+    //       console.log(error);
+    //   });
+    // }
+    // else{
+    //   txt = "Delete Cancelled!";
+    // }
   }
 
   ngAfterViewInit() {

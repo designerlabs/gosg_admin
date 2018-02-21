@@ -103,8 +103,8 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
 import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
-import { ModulesComponent } from './modules/modules.component';
-import { ModulestblComponent } from './modules/modulestbl/modulestbl.component';
+import { ModmenuComponent } from './modmenu/modmenu.component';
+import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 import { ContentComponent } from './content/content.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -193,8 +193,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CategorymanagementComponent,
     CategorymanagementtblComponent,
     MediafileuploadtblComponent,
-    ModulesComponent,
-    ModulestblComponent,
+    ModmenuComponent,
+    ModmenutblComponent,
     ContentComponent,
     ContenttblComponent
   ],

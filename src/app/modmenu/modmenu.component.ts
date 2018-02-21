@@ -11,11 +11,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-modules',
-  templateUrl: './modules.component.html',
-  styleUrls: ['./modules.component.css']
+  selector: 'app-modmenu',
+  templateUrl: './modmenu.component.html',
+  styleUrls: ['./modmenu.component.css']
 })
-export class ModulesComponent implements OnInit {
+export class ModmenuComponent implements OnInit {
 
   modulesData: Object;
   isActive: boolean;
@@ -94,7 +94,7 @@ export class ModulesComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['slider']);
+    this.router.navigate(['modmenu']);
   }
 
   // get, add, update, delete
@@ -148,6 +148,70 @@ export class ModulesComponent implements OnInit {
       this.complete = true;
     }
 
+  }
+
+  updateModule(formValues: any) {
+    
+    if(!this.isEdit) {
+
+    let body = {
+        "moduleName": null,
+        "moduleDescription": null,
+        "active": false,
+        "moduleUrl": null
+    };
+    
+    // console.log(formValues)
+
+    body.moduleName = formValues.moduleName;
+    body.moduleDescription = formValues.moduleDescription;
+    body.active = formValues.active;
+    body.moduleUrl = formValues.moduleUrl;
+
+
+    console.log(body)
+
+    // Add ErrorMsg Service
+    // this.commonservice.addAgencyApp(body).subscribe(
+    //   data => {
+    //     this.toastr.success('Agency Application added successfully!', ''); 
+    //     this.router.navigate(['agencyapp']);
+    //   },
+    //   error => {
+    //     console.log("No Data")
+    //   });
+
+    } else {
+
+      let body = {
+          "moduleId": null,
+          "moduleName": null,
+          "moduleDescription": null,
+          "active": false,
+          "moduleUrl": null
+      };
+      
+      // console.log(formValues)
+  
+      body.moduleName = formValues.moduleName;
+      body.moduleDescription = formValues.moduleDescription;
+      body.active = formValues.active;
+      body.moduleUrl = formValues.moduleUrl;
+
+    console.log(body);
+
+    // Update ErrorMsg Service
+    // this.commonservice.updateAgencyApp(body).subscribe(
+    //   data => {
+    //     this.toastr.success('Agency Application update successful!', '');   
+    //     this.router.navigate(['agencyapp']);
+    //   },
+    //   error => {
+    //     console.log("No Data")
+    //   });
+    // }
+    
+    }
   }
 
 }

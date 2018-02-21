@@ -238,7 +238,7 @@ export class CategorymanagementComponent implements OnInit {
           else{
             txt = "Record added successfully!"
             this.toastr.success(txt, '');  
-            this.router.navigate(['categorymanagement']);
+            this.router.navigate(['category']);
           }  
         },
         error => {
@@ -292,7 +292,7 @@ export class CategorymanagementComponent implements OnInit {
           else{
             txt = "Record updated successfully!"
             this.toastr.success(txt, '');  
-            this.router.navigate(['categorymanagement']);
+            this.router.navigate(['category']);
           }  
         },
         error => {
@@ -332,7 +332,7 @@ export class CategorymanagementComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['categorymanagement']);
+    this.router.navigate(['category']);
   }
 
 }
