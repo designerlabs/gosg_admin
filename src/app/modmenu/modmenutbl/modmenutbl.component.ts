@@ -98,6 +98,7 @@ export class ModmenutblComponent implements OnInit {
         this.commonservice.recordTable = this.moduleList;
         this.noNextData = this.moduleList.pageNumber === this.moduleList.totalPages;
       });
+      
   }
 
   paginatorL(page) {

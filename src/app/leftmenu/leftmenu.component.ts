@@ -40,7 +40,10 @@ export class LeftmenuComponent implements OnInit {
 //   public objMenu: object;
 
   // tslint:disable-next-line:max-line-length
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router ) { }
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router ) { 
+    
+    this.getMenuData();
+  }
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
@@ -50,11 +53,16 @@ export class LeftmenuComponent implements OnInit {
       map(name => name ? this.filter(name) : this.options.slice())
     );
 
-    // + 'langId=1'
-    this.http.get(this.appConfig.urlModule).subscribe(data => {
-      console.log(data);
+    this.getMenuData();
+  }
+
+  getMenuData() {
+    this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
-    });
+      console.log(this.menulst)
+      // let myLangData =  getLang.filter(function(val) {
+      // }.bind(this));
+    })
   }
 
   filter(name: string): User[] {

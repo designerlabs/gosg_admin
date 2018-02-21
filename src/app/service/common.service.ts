@@ -154,6 +154,13 @@ export class CommonService {
   }
 
   // MODULE
+
+  getModMenu() {
+    return this.http.get(this.appConfig.urlModule+'?language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   addModMenu(modmenu) {
 
     // console.log(this.appConfig.urlSlides)
@@ -178,7 +185,7 @@ export class CommonService {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlModule + modmenuId+ '?language='+this.languageId, null)
+    return this.http.delete(this.appConfig.urlModule + '/' + modmenuId+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
