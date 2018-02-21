@@ -139,14 +139,18 @@ export class UsertblComponent implements OnInit {
     this.dataUrl = this.appConfig.urlAdminUserList;
     this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
       
-
-      this.userList = data;
+      this.commonservice.errorHandling(data, (function(){
+        
+        this.userList = data;
         console.log(this.userList)
         this.dataSource.data = this.userList.adminUserListResource;
         this.seqPageNum = this.userList.pageNumber;
         this.seqPageSize = this.userList.pageSize;
         this.commonservice.recordTable = this.userList;
         this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+
+      }).bind(this));
+        
 
     },
     error => {
@@ -163,8 +167,15 @@ export class UsertblComponent implements OnInit {
       keyword == '-';
     }
     this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
-      this.searchUserResult = data['userList'];
-      this.checkStatus = data['statusCode'];
+
+      this.commonservice.errorHandling(data, (function(){
+        
+        this.searchUserResult = data['userList'];
+        this.checkStatus = data['statusCode'];
+
+      }).bind(this));
+
+      
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');          
@@ -195,16 +206,21 @@ export class UsertblComponent implements OnInit {
   resetMethod(event, msgId) {
     debugger;
     this.isMailContainerShow = 'none';
-    this.deleteMail(msgId);
+    this.deleteUser(msgId);
   }
 
   
-  deleteMail(msgId){
+  deleteUser(msgId){
     this.commonservice.deleteUserList(msgId).subscribe(
       data => {
         
-        this.getUsersData(this.pageCount, this.pageSize);
-        this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');  
+        this.commonservice.errorHandling(data, (function(){
+        
+          this.getUsersData(this.pageCount, this.pageSize);
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+  
+        }).bind(this));
+          
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');          

@@ -76,12 +76,20 @@ export class GroupstblComponent implements OnInit {
     
     this.dataUrl = this.appConfig.urlGroupList;
     this.http.get(this.dataUrl+'?page=' + count + '&size=' + size).subscribe(data => {
-      this.groupList = data;
-      this.dataSource.data = this.groupList.moduleGroupListViewList;
-      this.seqPageNum = this.groupList.pageNumber;
-      this.seqPageSize = this.groupList.pageSize;
-      this.commonservice.recordTable = this.groupList;
-      this.noNextData = this.groupList.pageNumber === this.groupList.totalPages;
+
+      this.commonservice.errorHandling(data, (function(){
+        
+        this.groupList = data;
+        this.dataSource.data = this.groupList.moduleGroupListViewList;
+        this.seqPageNum = this.groupList.pageNumber;
+        this.seqPageSize = this.groupList.pageSize;
+        this.commonservice.recordTable = this.groupList;
+        this.noNextData = this.groupList.pageNumber === this.groupList.totalPages;
+
+      }).bind(this));
+
+
+      
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');          
