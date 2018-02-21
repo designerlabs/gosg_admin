@@ -125,8 +125,13 @@ export class GroupstblComponent implements OnInit {
   deleteMail(msgId){
     this.commonservice.deleteModuleList(msgId).subscribe(
       data => {
-        this.getGroupList(this.groupPageCount, this.groupPageSize);
-        this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');  
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+          this.getGroupList(this.groupPageCount, this.groupPageSize);
+        }).bind(this));
+
+
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');            
