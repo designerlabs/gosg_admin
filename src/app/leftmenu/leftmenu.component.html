@@ -17,18 +17,18 @@
 
 	<mat-accordion *ngIf='menulst'>
 		
-		<mat-expansion-panel *ngFor="let menu of menulst.menuList" >
+		<mat-expansion-panel *ngFor="let menu of menulst.moduleList" >
 			
-			<mat-expansion-panel-header *ngIf='menu.isActive'>
+			<mat-expansion-panel-header *ngIf='menu.active'>
 				<mat-panel-title style="font-weight: bold;"> 
-					{{menu.mainMenuTitle}}
+					<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[menu.moduleUrl] >{{menu.moduleName}}</a>
 				</mat-panel-title>					
 			</mat-expansion-panel-header>
-			<div *ngFor="let sub of menu.subMenu" style="padding-bottom: 0px;">
-				<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[sub.subMenuUrl] >{{sub.subMenuTitle}}</a>
+			<!-- <div *ngFor="let sub of menu.subMenu" style="padding-bottom: 0px;">
+				<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[sub.subMenuUrl] >{{sub.subMenuTitle}}</a> -->
 				<!-- <button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" (click)="getTbl(menu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</button> -->
 				<!-- <a id="{{sub.subMenuId}}"  [routerLink]="['articletbl', sub.subMenuId]" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a> -->
-			</div>
+			<!-- </div> -->
 				
 		</mat-expansion-panel>	
 	</mat-accordion>

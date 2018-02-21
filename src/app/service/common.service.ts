@@ -149,6 +149,37 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  // MODULE
+  addModMenu(modmenu) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(ministry)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlModule + '?language='+this.languageId, modmenu)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateModMenu(modmenu) {
+
+    // console.log(this.appConfig.urlUsers + user.userId)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+    return this.http.put(this.appConfig.urlModule + "/"+ modmenu.moduleId + '?language='+this.languageId, modmenu)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delModMenu(modmenuId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlModule + modmenuId+ '?language='+this.languageId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // MODULE END
+
   getModuleList(id){
     return this.http.get(this.appConfig.urlModuleList+'/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json()[0])

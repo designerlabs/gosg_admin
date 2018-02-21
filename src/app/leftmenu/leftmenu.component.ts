@@ -51,7 +51,7 @@ export class LeftmenuComponent implements OnInit {
     );
 
     // + 'langId=1'
-    this.http.get(this.appConfig.urlMenu).subscribe(data => {
+    this.http.get(this.appConfig.urlModule).subscribe(data => {
       console.log(data);
       this.menulst = data;
     });
