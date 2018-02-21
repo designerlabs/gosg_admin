@@ -121,7 +121,7 @@ export class FeedbackvisitorComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    alert("DRAFT");
+    //alert("DRAFT");
     let urlEdit = this.router.url.split('/')[2];
     let txt;
    
@@ -175,7 +175,7 @@ export class FeedbackvisitorComponent implements OnInit {
   }
 
   submitReply(formValues: any) {
-    alert("REPLY");
+   // alert("REPLY");
     let urlEdit = this.router.url.split('/')[2];
     let txt;
    
