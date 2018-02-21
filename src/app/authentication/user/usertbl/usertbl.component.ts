@@ -15,6 +15,7 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  checkStatus: any;
   userId: any;
   lang:any;
   languageId: any;
@@ -160,6 +161,7 @@ export class UsertblComponent implements OnInit {
     }
     this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
       this.searchUserResult = data['userList'];
+      this.checkStatus = data['statusCode'];
     });
   }
 
@@ -278,6 +280,7 @@ export class UsertblComponent implements OnInit {
   }
   
   getValue(type, val, usrId){
+    event.preventDefault();
     this.userId = usrId;
     this.isActive = false;
     this.isActiveList = false;

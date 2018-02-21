@@ -4,7 +4,10 @@ import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
 import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
-
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
+import { ToastrService } from 'ngx-toastr';
+import 'rxjs/add/operator/finally';
 @Component({
   selector: 'app-groupstbl',
   templateUrl: './groupstbl.component.html',
@@ -17,6 +20,7 @@ export class GroupstblComponent implements OnInit {
   groupPageSize = 10;
   seqPageNum = 0;
   seqPageSize = 0 ;
+  languageId: any;
   groupList = null;
   noPrevData = true;
   noNextData = false;
@@ -30,8 +34,34 @@ export class GroupstblComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
-    private route:ActivatedRoute) {
-    this.getGroupList(this.groupPageCount, this.groupPageSize);
+    private route:ActivatedRoute,
+    private translate: TranslateService,
+    private dialogsService: DialogsService,
+    private toastr: ToastrService) {
+
+      /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getGroupList(this.groupPageCount, this.groupPageSize); //internal function
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getGroupList(this.groupPageCount, this.groupPageSize);
+    }
+
+    /* LANGUAGE FUNC */
+
+    
   }
 
   ngOnInit() {
@@ -83,4 +113,22 @@ export class GroupstblComponent implements OnInit {
   add(){
     this.router.navigate(['groups/add']);
   }
+
+  resetMethod(event, msgId) {
+    this.deleteMail(msgId);
+  }
+
+  
+  deleteMail(msgId){
+    this.commonservice.deleteModuleList(msgId).subscribe(
+      data => {
+        this.getGroupList(this.groupPageCount, this.groupPageSize);
+        this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');  
+      },
+      error => {
+        this.toastr.error(this.translate.instant('common.err.failtodelete'), '');            
+      });
+  }
 }
+
+

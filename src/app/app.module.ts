@@ -103,6 +103,10 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
 import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
+import { ModulesComponent } from './modules/modules.component';
+import { ModulestblComponent } from './modules/modulestbl/modulestbl.component';
+import { ContentComponent } from './content/content.component';
+import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -188,7 +192,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfirmDialogComponent,
     CategorymanagementComponent,
     CategorymanagementtblComponent,
-    MediafileuploadtblComponent
+    MediafileuploadtblComponent,
+    ModulesComponent,
+    ModulestblComponent,
+    ContentComponent,
+    ContenttblComponent
   ],
   imports: [
     BrowserModule,
