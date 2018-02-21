@@ -82,6 +82,9 @@ export class GroupstblComponent implements OnInit {
       this.seqPageSize = this.groupList.pageSize;
       this.commonservice.recordTable = this.groupList;
       this.noNextData = this.groupList.pageNumber === this.groupList.totalPages;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
     });
   }
 
@@ -126,7 +129,7 @@ export class GroupstblComponent implements OnInit {
         this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');  
       },
       error => {
-        this.toastr.error(this.translate.instant('common.err.failtodelete'), '');            
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');            
       });
   }
 }
