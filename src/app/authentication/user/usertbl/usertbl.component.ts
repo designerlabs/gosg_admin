@@ -278,6 +278,7 @@ export class UsertblComponent implements OnInit {
   }
   
   getValue(type, val, usrId){
+    event.preventDefault();
     this.userId = usrId;
     this.isActive = false;
     this.isActiveList = false;
