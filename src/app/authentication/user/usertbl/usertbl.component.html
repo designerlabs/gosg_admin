@@ -44,26 +44,32 @@
         </table>
 
         <div *ngIf="isActiveList" style="position:absolute; top:100%;">
-
+          <div *ngIf="searchUserResult?.length == 0">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" style="text-align:left; padding-left:10px;">
+                <h5>Please enter 1 or more characters</h5>
+              </li>
+            </ul>
+          </div>
           <div *ngIf="userType.value == 1">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of (searchUserResult?.length > 5 ? searchUserResult.slice(0,5):  searchUserResult)">
+              <a class="list-link" href="" (click)="getValue('email', data?.email, data?.userId)">
+                <h4 class="list-group-item-heading">{{(data?.fullName?.length > 30)? (data?.fullName | slice:0:30)+'..':(data?.fullName)}} </h4>
+                <span class="list-group-item-text">{{data?.email}}</span>
+              </a> </li>
+            </ul>
+          </div>
+
+            <div *ngIf="userType.value == 2">
               <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
                 <li class="list-group-item" *ngFor="let data of (searchUserResult?.length > 5 ? searchUserResult.slice(0,5):  searchUserResult)">
-                <a class="list-link" href="" (click)="getValue('email', data?.email, data?.userId)">
-                  <h4 class="list-group-item-heading">{{(data?.fullName.length > 30)? (data?.fullName | slice:0:30)+'..':(data?.fullName)}} </h4>
-                  <span class="list-group-item-text">{{data?.email}}</span>
+                <a class="list-link" href="" (click)="getValue('identificationNo', data?.identificationNo, data?.userId)">
+                  <h4 class="list-group-item-heading">{{(data?.fullName?.length > 30)? (data?.fullName | slice:0:30)+'..':(data?.fullName)}}</h4>
+                  <span class="list-group-item-text">{{data?.identificationNo}}</span>
                 </a> </li>
               </ul>
             </div>
-
-            <div *ngIf="userType.value == 2">
-                <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
-                  <li class="list-group-item" *ngFor="let data of (searchUserResult?.length > 5 ? searchUserResult.slice(0,5):  searchUserResult)">
-                  <a class="list-link" href="" (click)="getValue('identificationNo', data?.identificationNo, data?.userId)">
-                    <h4 class="list-group-item-heading">{{(data?.fullName.length > 30)? (data?.fullName | slice:0:30)+'..':(data?.fullName)}}</h4>
-                    <span class="list-group-item-text">{{data?.identificationNo}}</span>
-                  </a> </li>
-                </ul>
-              </div>
         </div>
       </form>
   </div>
