@@ -115,13 +115,13 @@ export class CategorymanagementtblComponent implements OnInit {
   }
 
   add() {
-    this.router.navigate(['categorymanagement/add']);
+    this.router.navigate(['category/add']);
     this.commonservice.pageModeChange(false);
   }
 
   updateRow(row) {
     console.log(row);
-    this.router.navigate(['categorymanagement/', row]);
+    this.router.navigate(['category/', row]);
     this.commonservice.pageModeChange(true);
   }
 

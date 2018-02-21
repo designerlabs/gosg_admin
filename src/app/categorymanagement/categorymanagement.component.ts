@@ -109,13 +109,40 @@ export class CategorymanagementComponent implements OnInit {
     }
   }
 
-  selectedCat(e){
-    console.log(e);
-    this.getCatIdEn = e.value.list[0].id;
-    this.getCatIdBm = e.value.list[1].id;
+  selectedCat(e, val){
 
-    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm);
-    this.updateForm.get('parentsBm').setValue(parseInt(this.getCatIdBm));  
+    console.log(e);
+    this.getCatIdEn = e.value;
+    this.getCatIdBm = e.value;
+    let dataList = this.categoryData;
+    let indexVal: any;
+    let idBm: any;
+    let idEn: any;
+
+    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
+
+    if(val == 1){
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[0].id;
+        if(indexVal == this.getCatIdEn){
+          idBm = dataList[i].list[1].id;
+        }        
+      }
+
+      this.updateForm.get('parentsBm').setValue(idBm);  
+    }
+    else{
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[1].id;
+        if(indexVal == this.getCatIdBm){
+          idEn = dataList[i].list[0].id;
+        }        
+      }
+
+      this.updateForm.get('parentsEn').setValue(idEn); 
+    }
   }
 
   getCategory(){
@@ -211,7 +238,7 @@ export class CategorymanagementComponent implements OnInit {
           else{
             txt = "Record added successfully!"
             this.toastr.success(txt, '');  
-            this.router.navigate(['categorymanagement']);
+            this.router.navigate(['category']);
           }  
         },
         error => {
@@ -265,7 +292,7 @@ export class CategorymanagementComponent implements OnInit {
           else{
             txt = "Record updated successfully!"
             this.toastr.success(txt, '');  
-            this.router.navigate(['categorymanagement']);
+            this.router.navigate(['category']);
           }  
         },
         error => {
@@ -305,7 +332,7 @@ export class CategorymanagementComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['categorymanagement']);
+    this.router.navigate(['category']);
   }
 
 }

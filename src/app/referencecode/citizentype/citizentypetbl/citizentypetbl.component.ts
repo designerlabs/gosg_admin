@@ -26,6 +26,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-citizentypetbl',
@@ -73,7 +74,8 @@ export class CitizentypetblComponent implements OnInit {
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
-  private translate: TranslateService) {
+  private translate: TranslateService,
+  private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -154,29 +156,56 @@ export class CitizentypetblComponent implements OnInit {
   }
 
   
-  deleteRow(refCode, userTypeMy, userTypeEng) {
+  deleteRow(refCode) {
+
     let txt;
-    let r = confirm("Are you sure to delete ?");
+
+    console.log(refCode);
+    this.commonservice.delUserType(refCode).subscribe(
+      data => {
+
+        let errMsg = data.statusCode.toLowerCase();
+
+        if(errMsg == "error"){
+          this.commonservice.errorResponse(data);
+        }
+        else{
+
+          txt = "Record deleted successfully!"
+          this.toastr.success(txt, '');  
+          this.getRecordList(this.pageCount, this.pageSize);
+        } 
+
+      },
+      error => {
+
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(error);
+    });
+
+    // let txt;
+    // let r = confirm("Are you sure to delete ?");
 
     
-    if (r == true) {
-      console.log(refCode);
-      this.commonservice.delUserType(refCode).subscribe(
-        data => {
-          // alert('Record deleted successfully!')
-          txt = " record deleted successfully!";
+    // if (r == true) {
+    //   console.log(refCode);
+    //   this.commonservice.delUserType(refCode).subscribe(
+    //     data => {
+    //       // alert('Record deleted successfully!')
+    //       txt = " record deleted successfully!";
 
-          this.toastr.success(txt, '');   
-          this.router.navigate(['reference/citizentype']);
-          this.getRecordList(this.pageCount, this.pageSize);
-        },
-        error => {
-          txt = "Delete Cancelled!";
-      });
-    }
-    else{
-      txt = "Delete Cancelled!";
-    }
+    //       this.toastr.success(txt, '');   
+    //       this.router.navigate(['reference/citizentype']);
+    //       this.getRecordList(this.pageCount, this.pageSize);
+    //     },
+    //     error => {
+    //       txt = "Delete Cancelled!";
+    //   });
+    // }
+    // else{
+    //   txt = "Delete Cancelled!";
+    // }
   }
 
   ngAfterViewInit() {

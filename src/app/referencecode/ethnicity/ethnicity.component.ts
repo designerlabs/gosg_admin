@@ -32,6 +32,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-ethnicity',
@@ -63,7 +64,8 @@ export class EthnicityComponent implements OnInit {
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
-  private translate: TranslateService) {
+  private translate: TranslateService,
+  private dialogsService: DialogsService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -143,6 +145,7 @@ export class EthnicityComponent implements OnInit {
   submit(formValues: any) {
     
     let flag = false;
+    let txt = "";
 
     if(formValues.active == null){
       flag = false;
@@ -186,19 +189,38 @@ export class EthnicityComponent implements OnInit {
 
       this.commonservice.addRace(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-          console.log(body)
-          // alert('Record added successfully!')
 
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
+          let errMsg = data.statusCode.toLowerCase();
 
-          this.router.navigate(['reference/ethnicity']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['reference/ethnicity']);
+          }               
         },
         error => {
-          console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
+
+        //   console.log(JSON.stringify(body))
+        //   console.log(body)
+        //   // alert('Record added successfully!')
+
+        //   let txt = "Record added successfully!";
+        //   this.toastr.success(txt, '');  
+
+        //   this.router.navigate(['reference/ethnicity']);
+        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+        // },
+        // error => {
+        //   console.log("No Data")
+        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
 
@@ -243,19 +265,38 @@ export class EthnicityComponent implements OnInit {
 
       this.commonservice.updateRace(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-          console.log(body)
-          // alert('Record updated successfully!')
 
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, ''); 
+          let errMsg = data.statusCode.toLowerCase();
 
-          this.router.navigate(['reference/ethnicity']);
-          // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['reference/ethnicity']);
+          }               
         },
         error => {
-          console.log("No Data")
-          // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
+
+        //   console.log(JSON.stringify(body))
+        //   console.log(body)
+        //   // alert('Record updated successfully!')
+
+        //   let txt = "Record updated successfully!";
+        //   this.toastr.success(txt, ''); 
+
+        //   this.router.navigate(['reference/ethnicity']);
+        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
+        // },
+        // error => {
+        //   console.log("No Data")
+        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
   }
@@ -282,17 +323,21 @@ export class EthnicityComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.toastr.success(txt, ''); 
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-        this.toastr.success(txt, '');
-    }
+
+    this.updateForm.reset();
+    this.checkReqValues();   
+
+    // var txt;
+    // var r = confirm("Are you sure to reset the form?");
+    // if (r == true) {
+    //     txt = "You pressed OK!";
+    //     this.toastr.success(txt, ''); 
+    //     this.updateForm.reset();
+    //     this.checkReqValues();
+    // } else {
+    //     txt = "You pressed Cancel!";
+    //     this.toastr.success(txt, '');
+    // }
   }
 
 }
