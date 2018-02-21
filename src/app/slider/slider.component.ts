@@ -23,9 +23,9 @@ export class SliderComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-  slideCode:any;
-  slideIdEn:any;
-  slideIdBm:any;
+  sliderCode:any;
+  sliderIdEn:any;
+  sliderIdBm:any;
 
   titleEn: FormControl
   titleBm: FormControl
@@ -119,18 +119,18 @@ export class SliderComponent implements OnInit {
         let dataBm = this.sliderData['list'][1];
 
       // populate data
-      this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
-      this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
-      this.sliderForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
-      this.sliderForm.get('titleBm').setValue(dataBm.slideTitle);
-      this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
-      this.sliderForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
-      this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
-      this.slideCode = dataEn.slideCode;
-      this.slideIdEn = dataEn.slideId;
-      this.slideIdBm = dataBm.slideId;
+      this.sliderForm.get('titleEn').setValue(dataEn.sliderTitle);
+      this.sliderForm.get('descEn').setValue(dataEn.sliderDescription);
+      this.sliderForm.get('imgEn').setValue(parseInt(dataEn.sliderImage));
+      this.sliderForm.get('titleBm').setValue(dataBm.sliderTitle);
+      this.sliderForm.get('descBm').setValue(dataBm.sliderDescription);
+      this.sliderForm.get('imgBm').setValue(parseInt(dataBm.sliderImage));
+      this.sliderForm.get('active').setValue(dataEn.sliderActiveFlag);
+      this.sliderCode = dataEn.sliderCode;
+      this.sliderIdEn = dataEn.sliderId;
+      this.sliderIdBm = dataBm.sliderId;
       
-      this.isSameImg(dataEn.slideImage,dataBm.slideImage);
+      this.isSameImg(dataEn.sliderImage,dataBm.sliderImage);
 
       this.checkReqValues();
     });
@@ -194,53 +194,33 @@ export class SliderComponent implements OnInit {
     }
   }
 
-  deleteRow(enId,bmId) {
-    let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
-    if (r == true) {
-
-      this.commonservice.delSlider(enId,bmId).subscribe(
-        data => {
-          txt = "Slider deleted successfully!";
-          // this.router.navigate(['slider']);
-          window.location.reload()
-        },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.sliderForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      alert(txt)
-    }
-  }
-  
   updateSlider(formValues: any) {
-    // console.log(this.viewSeq);
-    // let sliderCode = Math.floor((Math.random() * 100) + 1);
     
     if(!this.isEdit) {
 
     let body = [
       {
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": null,
-        "slideSort": null,
-        "slideActiveFlag": false,
+        "sliderTitle": null,
+        "sliderDescription": null,
+        "sliderImage": {
+          "mediaId": null
+        },
+        "sliderCode": null,
+        "sliderSort": null,
+        "sliderActiveFlag": false,
         "language": {
           "languageId": null
         }
       }, 
       {
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": null,
-        "slideSort": null,
-        "slideActiveFlag": false,
+        "sliderTitle": null,
+        "sliderDescription": null,
+        "sliderImage":  {
+          "mediaId": null
+        },
+        "sliderCode": null,
+        "sliderSort": null,
+        "sliderActiveFlag": false,
         "language": {
           "languageId": null
         }
@@ -249,18 +229,18 @@ export class SliderComponent implements OnInit {
     
     // console.log(formValues)
 
-    body[0].slideTitle = formValues.titleEn;
-    body[0].slideDescription = formValues.descEn;
-    body[0].slideImage = formValues.imgEn;
-    body[0].slideSort = null;
-    body[0].slideActiveFlag = formValues.active;
+    body[0].sliderTitle = formValues.titleEn;
+    body[0].sliderDescription = formValues.descEn;
+    body[0].sliderImage.mediaId = formValues.imgEn;
+    body[0].sliderSort = null;
+    body[0].sliderActiveFlag = formValues.active;
     body[0].language.languageId = 1;
 
-    body[1].slideTitle = formValues.titleBm;
-    body[1].slideDescription = formValues.descBm;
-    body[1].slideImage = formValues.imgBm;
-    body[1].slideSort = null;
-    body[1].slideActiveFlag = formValues.active;
+    body[1].sliderTitle = formValues.titleBm;
+    body[1].sliderDescription = formValues.descBm;
+    body[1].sliderImage.mediaId = formValues.imgBm;
+    body[1].sliderSort = null;
+    body[1].sliderActiveFlag = formValues.active;
     body[1].language.languageId = 2;
 
     console.log(body)
@@ -279,47 +259,51 @@ export class SliderComponent implements OnInit {
       
     let body = [
       {
-        "slideId": null,
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": null,
-        "slideSort": null,
-        "slideActiveFlag": false,
+        "sliderId": null,
+        "sliderTitle": null,
+        "sliderDescription": null,
+        "sliderImage": {
+          "mediaId": null
+        },
+        "sliderCode": null,
+        "sliderSort": null,
+        "sliderActiveFlag": false,
         "language": {
           "languageId": null
         }
       }, 
       {
-        "slideId": null,
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": null,
-        "slideSort": null,
-        "slideActiveFlag": false,
+        "sliderId": null,
+        "sliderTitle": null,
+        "sliderDescription": null,
+        "sliderImage": {
+          "mediaId": null
+        },
+        "sliderCode": null,
+        "sliderSort": null,
+        "sliderActiveFlag": false,
         "language": {
           "languageId": null
         }
       }
     ];
       
-    body[0].slideCode = this.slideCode;
-    body[0].slideId = this.slideIdEn;
-    body[0].slideTitle = formValues.titleEn;
-    body[0].slideDescription = formValues.descEn;
-    body[0].slideImage = formValues.imgEn;
-    body[0].slideSort = null;
-    body[0].slideActiveFlag = formValues.active;
+    body[0].sliderCode = this.sliderCode;
+    body[0].sliderId = this.sliderIdEn;
+    body[0].sliderTitle = formValues.titleEn;
+    body[0].sliderDescription = formValues.descEn;
+    body[0].sliderImage.mediaId = formValues.imgEn;
+    body[0].sliderSort = null;
+    body[0].sliderActiveFlag = formValues.active;
     body[0].language.languageId = 1;
     
-    body[1].slideCode = this.slideCode;
-    body[1].slideId = this.slideIdBm;
-    body[1].slideTitle = formValues.titleBm;
-    body[1].slideDescription = formValues.descBm;
-    body[1].slideImage = formValues.imgBm;
-    body[1].slideSort = null;
-    body[1].slideActiveFlag = formValues.active;
+    body[1].sliderCode = this.sliderCode;
+    body[1].sliderId = this.sliderIdBm;
+    body[1].sliderTitle = formValues.titleBm;
+    body[1].sliderDescription = formValues.descBm;
+    body[1].sliderImage.mediaId = formValues.imgBm;
+    body[1].sliderSort = null;
+    body[1].sliderActiveFlag = formValues.active;
     body[1].language.languageId = 2;
 
     console.log(body);

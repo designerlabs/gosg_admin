@@ -6,6 +6,9 @@ import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { DialogsService } from '../../dialogs/dialogs.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-agencyapp',
@@ -24,6 +27,7 @@ export class AgencyappComponent implements OnInit {
   agencyAppForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
+  isDocument: boolean;
   complete: boolean;
   pageMode: String;
   refCode:any;
@@ -31,25 +35,52 @@ export class AgencyappComponent implements OnInit {
   agencyAppIdBm:any;
   agencyId:any;
   ministryName:any;
+  lang:any;
+  languageId: any;
 
   agencyAppNameEn: FormControl
   agencyAppNameBm: FormControl
   descEn: FormControl
   descBm: FormControl
   agency: FormControl
+  websiteUrl: FormControl
+  isDoc: FormControl
   resetMsg = this.resetMsg;
 
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private dialogsService: DialogsService,
+    private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
-  ) { }
+  ) { 
+    
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getAgency();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getAgency();
+    }
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
-    // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
 
     let refCode = this.router.url.split('/')[2];
 
@@ -58,6 +89,8 @@ export class AgencyappComponent implements OnInit {
     this.descEn = new FormControl()
     this.descBm = new FormControl()
     this.agency = new FormControl()
+    this.websiteUrl = new FormControl()
+    this.isDoc = new FormControl()
 
     this.agencyAppForm = new FormGroup({
       agencyAppNameEn: this.agencyAppNameEn,
@@ -65,6 +98,8 @@ export class AgencyappComponent implements OnInit {
       agencyAppNameBm: this.agencyAppNameBm,
       descBm: this.descBm,
       agency: this.agency,
+      websiteUrl: this.websiteUrl,
+      isDoc: this.isDoc,
     });
     this.getAgency();
 
@@ -105,7 +140,9 @@ export class AgencyappComponent implements OnInit {
       this.agencyAppForm.get('descEn').setValue(dataEn.agencyApplicationDescription);
       this.agencyAppForm.get('agencyAppNameBm').setValue(dataBm.agencyApplicationName);
       this.agencyAppForm.get('descBm').setValue(dataBm.agencyApplicationDescription);
-      this.agencyAppForm.get('agencyId').setValue(dataBm.agency.agencyId);
+      this.agencyAppForm.get('agency').setValue(dataBm.agency);
+      this.agencyAppForm.get('websiteUrl').setValue(dataBm.agencyApplicationUrl);
+      // this.agencyAppForm.get('isDoc').setValue(dataBm.agency.isDocument);
       this.refCode = dataEn.agencyApplicationCode;
       this.agencyAppIdEn = dataEn.agencyApplicationId;
       this.agencyAppIdBm = dataBm.agencyApplicationId;
@@ -116,7 +153,7 @@ export class AgencyappComponent implements OnInit {
   }
 
   getAgency() {
-    return this.http.get(this.appConfig.urlAgency + '/code').subscribe(
+    return this.http.get(this.appConfig.urlAgency + '/code'+ '?language='+this.languageId).subscribe(
       // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
       // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
         Rdata => {
@@ -131,17 +168,19 @@ export class AgencyappComponent implements OnInit {
 
   getSearchData(keyword){
 
-    if(keyword != "" && keyword.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      console.log(keyword)
+      console.log(keyword.length)
       this.isActive = true;
       this.isActiveList = true;
 
       this.http.get(
         this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID')).subscribe(
         data => {
-          console.log(this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID'))
+          console.log(this.appConfig.urlSearchbyAgency+keyword+'?language='+localStorage.getItem('langID'));
+          // if()
           this.searchAgencyResult = data['agencyList'];
           console.log(this.searchAgencyResult)
-          // this.searchAgencyResult.
       });
     } else {
       this.isActiveList = false;
@@ -171,9 +210,10 @@ export class AgencyappComponent implements OnInit {
     let descEn = "descEn";
     let agencyAppNameBm = "agencyAppNameBm";
     let descBm = "descBm";
+    let websiteUrl = "websiteUrl";
     let agency = "agency";
 
-    let reqVal: any = [agencyAppNameEn, descEn, agencyAppNameBm, descBm, agency];
+    let reqVal: any = [agencyAppNameEn, descEn, agencyAppNameBm, descBm, websiteUrl, agency];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -215,22 +255,22 @@ export class AgencyappComponent implements OnInit {
       {
         "agencyApplicationName": null,
         "agencyApplicationDescription": null,
+        "isDocument": false,
+        "agencyApplicationUrl": null,
         "language": {
           "languageId": 1
         },
-        "agency": {
-          "agencyId": null
-        }
+        "agency":  null
       }, 
       {
         "agencyApplicationName": null,
         "agencyApplicationDescription": null,
+        "isDocument": false,
+        "agencyApplicationUrl": null,
         "language": {
           "languageId": 2
         },
-        "agency": {
-          "agencyId": null
-        }
+        "agency":  null
       }
     ];
     
@@ -238,11 +278,15 @@ export class AgencyappComponent implements OnInit {
 
     body[0].agencyApplicationName = formValues.agencyAppNameEn;
     body[0].agencyApplicationDescription = formValues.descEn;
-    body[0].agency.agencyId = this.agencyId;
+    body[0].isDocument = formValues.isDoc;
+    body[0].agencyApplicationUrl = formValues.websiteUrl;
+    body[0].agency = this.agencyId;
 
     body[1].agencyApplicationName = formValues.agencyAppNameBm;
     body[1].agencyApplicationDescription = formValues.descBm;
-    body[1].agency.agencyId = this.agencyId;
+    body[1].isDocument = formValues.isDoc;
+    body[1].agencyApplicationUrl = formValues.websiteUrl;
+    body[1].agency = this.agencyId;
 
     console.log(body)
 
@@ -264,30 +308,24 @@ export class AgencyappComponent implements OnInit {
         "agencyApplicationName": null,
         "agencyApplicationCode": null,
         "agencyApplicationDescription": null,
+        "isDocument": false,
+        "agencyApplicationUrl": null,
         "language": {
           "languageId": 2
         },
-        "agency": {
-          "agencyId": null,
-          "language": {
-            "languageId": 2
-          }
-        }
+        "agency":  null
       }, 
       {
         "agencyApplicationId": null,
         "agencyApplicationName": null,
         "agencyApplicationCode": null,
         "agencyApplicationDescription": null,
+        "isDocument": false,
+        "agencyApplicationUrl": null,
         "language": {
           "languageId": 2
         },
-        "agency": {
-          "agencyId": null,
-          "language": {
-            "languageId": 2
-          }
-        }
+        "agency":  null
       }
     ];
       
@@ -295,13 +333,17 @@ export class AgencyappComponent implements OnInit {
     body[0].agencyApplicationId = this.agencyAppIdEn;
     body[0].agencyApplicationName = formValues.agencyAppNameEn;
     body[0].agencyApplicationDescription = formValues.descEn;
-    body[0].agency.agencyId = formValues.agencyId;
+    body[0].isDocument = formValues.isDoc;
+    body[0].agencyApplicationUrl = formValues.websiteUrl;
+    body[0].agency = formValues.agencyId;
     
     body[1].agencyApplicationCode = this.refCode;
     body[1].agencyApplicationId = this.agencyAppIdBm;
     body[1].agencyApplicationName = formValues.agencyAppNameBm;
     body[1].agencyApplicationDescription = formValues.descBm;
-    body[1].agency.agencyId = formValues.agencyId;
+    body[1].isDocument = formValues.isDoc;
+    body[1].agencyApplicationUrl = formValues.websiteUrl;
+    body[1].agency = formValues.agencyId;
 
     console.log(body);
 

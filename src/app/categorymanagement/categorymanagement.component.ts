@@ -11,24 +11,28 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
 
 @Component({
-  selector: 'app-accountstatus',
-  templateUrl: './accountstatus.component.html',
-  styleUrls: ['./accountstatus.component.css']
+  selector: 'app-categorymanagement',
+  templateUrl: './categorymanagement.component.html',
+  styleUrls: ['./categorymanagement.component.css']
 })
-export class AccountstatusComponent implements OnInit {
+export class CategorymanagementComponent implements OnInit {
 
   updateForm: FormGroup;
   
-  public accEn: FormControl;  
-  public accBm: FormControl;
-  public active: FormControl
+  public titleEn: FormControl;  
+  public titleBm: FormControl;
+  public descEn: FormControl;  
+  public descBm: FormControl;
+  public parents: FormControl;
+  public active: FormControl;
+  public ismainmenu: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
 
   public getIdEn: any;
   public getIdBm: any;
-  public getRefId: any;
+  public getRefCode: any;
 
   public complete: boolean;
   public languageId: any;
@@ -65,15 +69,23 @@ export class AccountstatusComponent implements OnInit {
 
   ngOnInit() {
 
-    this.accEn = new FormControl();
-    this.accBm = new FormControl();
+    this.titleEn = new FormControl();
+    this.titleBm = new FormControl();
+    this.descEn = new FormControl();
+    this.descBm = new FormControl();
+    this.parents = new FormControl();
     this.active = new FormControl();
+    this.ismainmenu = new FormControl();
 
     this.updateForm = new FormGroup({   
 
-      accEn: this.accEn,
-      accBm: this.accBm,
-      active: this.active      
+      titleEn: this.titleEn,
+      titleBm: this.titleBm,
+      descEn: this.descEn,    
+      descBm: this.descBm,
+      parents: this.parents,
+      active: this.active,
+      ismainmenu: this.ismainmenu   
     });
 
     let urlEdit = this.router.url.split('/')[2];
@@ -101,13 +113,17 @@ export class AccountstatusComponent implements OnInit {
       console.log("data");
       console.log(data);
 
-      this.updateForm.get('accEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('accBm').setValue(this.recordList[1].accountStatusDescription);      
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+      this.updateForm.get('titleEn').setValue(this.recordList[0].accountStatusDescription);
+      this.updateForm.get('titleBm').setValue(this.recordList[1].accountStatusDescription);   
+      this.updateForm.get('descEn').setValue(this.recordList[0].accountStatusDescription);
+      this.updateForm.get('descBm').setValue(this.recordList[1].accountStatusDescription);  
+      this.updateForm.get('parents').setValue(this.recordList[0].enabled);    
+      this.updateForm.get('active').setValue(this.recordList[0].enabled);      
+      this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
 
       this.getIdEn = this.recordList[0].accountStatusId;
       this.getIdBm = this.recordList[1].accountStatusId;
-      this.getRefId = this.recordList[0].accountStatusCode;
+      this.getRefCode = this.recordList[0].accountStatusCode;
 
       this.checkReqValues();
       
@@ -158,7 +174,7 @@ export class AccountstatusComponent implements OnInit {
           else{
             txt = "Record added successfully!"
             this.toastr.success(txt, '');  
-            this.router.navigate(['account']);
+            this.router.navigate(['categorymanagement']);
           }  
         },
         error => {
@@ -176,7 +192,7 @@ export class AccountstatusComponent implements OnInit {
           "accountStatusId":this.getIdEn,
           "accountStatusDescription": null,
           "enabled":false,
-          "accountStatusCode": this.getRefId,
+          "accountStatusCode": this.getRefCode,
           "language": {
               "languageId": 1
           }
@@ -184,7 +200,7 @@ export class AccountstatusComponent implements OnInit {
           "accountStatusId":this.getIdBm,
           "accountStatusDescription": null,
           "enabled":false,
-          "accountStatusCode": this.getRefId,
+          "accountStatusCode": this.getRefCode,
           "language": {
               "languageId": 2
           }
@@ -212,7 +228,7 @@ export class AccountstatusComponent implements OnInit {
           else{
             txt = "Record updated successfully!"
             this.toastr.success(txt, '');  
-            this.router.navigate(['account']);
+            this.router.navigate(['categorymanagement']);
           }  
         },
         error => {
@@ -227,7 +243,7 @@ export class AccountstatusComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["accEn", "accBm"];
+    let reqVal:any = ["titleEn", "titleBm", "descEn", "descBm"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
@@ -252,7 +268,7 @@ export class AccountstatusComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['account']);
+    this.router.navigate(['categorymanagement']);
   }
 
 }

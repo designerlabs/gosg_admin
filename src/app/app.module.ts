@@ -100,6 +100,8 @@ import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { DialogsService } from './dialogs/dialogs.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
+import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
+import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -184,6 +186,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     GalleryComponent,
     GallerytblComponent,
     ConfirmDialogComponent,
+    CategorymanagementComponent,
+    CategorymanagementtblComponent,
     MediafileuploadtblComponent
   ],
   imports: [

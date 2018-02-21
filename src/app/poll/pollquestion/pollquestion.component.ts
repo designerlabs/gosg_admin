@@ -6,6 +6,8 @@ import { CommonService } from './../../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-pollquestion',
@@ -43,9 +45,38 @@ export class PollquestionComponent implements OnInit {
   public getRefId: any;
 
   public complete: boolean;
+  public languageId: any;
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              //this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getData();
+    }
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
   
@@ -101,7 +132,7 @@ export class PollquestionComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
   
-    this.dataUrl = this.appConfig.urlPoll + '/question/same/'+_getRefID;
+    this.dataUrl = this.appConfig.urlPoll + '/question/same/' + _getRefID + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -133,6 +164,7 @@ export class PollquestionComponent implements OnInit {
   submit(formValues: any) {
     
     let urlEdit = this.router.url.split('/')[3];
+    let txt = "";
 
     // add form
     if(urlEdit === 'add'){
@@ -192,18 +224,28 @@ export class PollquestionComponent implements OnInit {
       body[1].language.languageId = 2;
 
       console.log("ADD BODY: ");
-      console.log(body);
+      console.log(JSON.stringify(body))
 
       this.commonservice.addRecord(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-        
-          let txt = "Record added successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['poll/questions']);
+          
+          let errMsg = data.statusCode.toLowerCase();
+
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record added successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['poll/questions']);
+          } 
         },
         error => {
-          console.log("No Data")
+
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
 
@@ -273,14 +315,25 @@ export class PollquestionComponent implements OnInit {
 
       this.commonservice.updateRecord(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-        
-          let txt = "Record updated successfully!";
-          this.toastr.success(txt, '');  
-          this.router.navigate(['poll/questions']);
+          
+          let errMsg = data.statusCode.toLowerCase();
+
+          if(errMsg == "error"){
+            this.commonservice.errorResponse(data);
+          }
+          
+          else{
+            txt = "Record updated successfully!"
+            this.toastr.success(txt, '');  
+            this.router.navigate(['poll/questions']);
+          } 
+          
         },
         error => {
-          console.log("No Data")
+          
+          txt = "Server is down."
+          this.toastr.error(txt, '');  
+          console.log(error);
       });
     }
   }
@@ -307,17 +360,8 @@ export class PollquestionComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.toastr.success(txt, '');  
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-        this.toastr.success(txt, '');  
-    }
+    this.updateForm.reset();
+    this.checkReqValues();   
   }
 
   back(){

@@ -7,6 +7,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-systemsettings',
@@ -30,9 +32,38 @@ export class SystemsettingsComponent implements OnInit {
   public complete: boolean;
   public urlEdit: any;
   public keyVal: any;
+  public languageId: any;
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService, 
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              //this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getData();
+    }
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -65,7 +96,7 @@ export class SystemsettingsComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];  
-    this.dataUrl = this.appConfig.urlSystemSettings + '/'+_getRefID;
+    this.dataUrl = this.appConfig.urlSystemSettings + '/'+_getRefID  + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -107,15 +138,14 @@ export class SystemsettingsComponent implements OnInit {
       body.isActive = formValues.active;
 
       console.log("TEST")
-      console.log(body)
+      console.log(JSON.stringify(body))
 
       this.commonservice.addRecordSysSettings(body).subscribe(
         data => {
+                    
+          let errMsg = data.statusCode.toLowerCase();
 
-          console.log(JSON.stringify(body))
-          console.log(data);
-          
-          if(data.statusCode == "ERROR"){
+          if(errMsg == "error"){
             this.commonservice.errorResponse(data);
           }
           
@@ -151,13 +181,14 @@ export class SystemsettingsComponent implements OnInit {
       body.isActive = formValues.active;
 
       console.log("UPDATE: ");     
+      console.log(JSON.stringify(body))
 
       this.commonservice.updateRecordSysSettings(body).subscribe(
         data => {
                   
-          console.log(data);     
-    
-          if(data.statusCode == "ERROR"){
+          let errMsg = data.statusCode.toLowerCase();
+          
+          if(errMsg == "error"){
             this.commonservice.errorResponse(data);
           }
 
@@ -214,15 +245,8 @@ export class SystemsettingsComponent implements OnInit {
   }
 
   myFunction() {
-    var txt;
-    var r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-        txt = "You pressed OK!";
-        this.updateForm.reset();
-        this.checkReqValues();
-    } else {
-        txt = "You pressed Cancel!";
-    }
+    this.updateForm.reset();
+    this.checkReqValues();   
   }
 
   back(){

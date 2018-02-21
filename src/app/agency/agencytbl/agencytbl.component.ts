@@ -5,6 +5,9 @@ import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DialogsService } from '../../dialogs/dialogs.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-agencytbl',
@@ -28,6 +31,8 @@ export class AgencytblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
+  lang:any;
+  languageId: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -44,10 +49,33 @@ export class AgencytblComponent implements OnInit {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private dialogsService: DialogsService,
+    private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+    
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+    }
+
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
@@ -62,7 +90,6 @@ export class AgencytblComponent implements OnInit {
   // get agencyType Data 
   getAgencyTypesData(count, size) {
     this.dataUrl = this.appConfig.urlAgency;
-    console.log(this.dataUrl + '/code/?page=' + count + '&size=' + size)
 
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
@@ -114,15 +141,15 @@ export class AgencytblComponent implements OnInit {
     this.router.navigate(['agency', row]);
   }
 
-  deleteRow(refCode) {
+  deleteItem(refCode) {
+
+    console.log(refCode)
     let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
-    if (r == true) {
 
       this.commonservice.delAgency(refCode).subscribe(
         data => {
           txt = "Agency deleted successfully!";
-          // this.router.navigate(['agency']);
+          console.log(data)
           this.toastr.success(txt, '');   
           this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
         },
@@ -130,11 +157,6 @@ export class AgencytblComponent implements OnInit {
           console.log("No Data")
         });
 
-      // this.agencyTypeForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      // alert(txt)
-    }
   }
 
   changePageMode(isEdit) {

@@ -5,6 +5,9 @@ import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DialogsService } from '../../dialogs/dialogs.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-errormessagetbl',
@@ -28,6 +31,8 @@ export class ErrormessagetblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
+  lang:any;
+  languageId: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,9 +50,32 @@ export class ErrormessagetblComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
+    private dialogsService: DialogsService,
+    private translate: TranslateService,
     private toastr: ToastrService
   ) { 
-    this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+    
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+    }
+
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
@@ -115,27 +143,19 @@ export class ErrormessagetblComponent implements OnInit {
     this.router.navigate(['errormessage', row]);
   }
 
-  deleteRow(refCode) {
+  deleteItem(refCode) {
+
     let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
-    if (r == true) {
 
       this.commonservice.delErrorMsg(refCode).subscribe(
         data => {
           txt = "Error Message deleted successfully!";
-          // this.router.navigate(['errMsg']);
           this.toastr.success(txt, '');   
           this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
         },
         error => {
           console.log("No Data")
         });
-
-      // this.errMsgForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      // alert(txt)
-    }
   }
 
   changePageMode(isEdit) {

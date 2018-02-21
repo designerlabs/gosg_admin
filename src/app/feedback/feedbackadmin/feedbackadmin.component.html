@@ -1,20 +1,20 @@
 <div class="container-fluid">
 
-  <div class="curdHeader">
-      <div class="col-md-10 curdHeadingLeft">
-          <h3>Feedback Message</h3>
-      </div>
-      
-      <div class="col-md-2 curdHeadingRight">
-          <span class="pull-right">
-              <button type="button" mat-fab color="accent" (click)="back()" >
-              <i class="fa fa-arrow-left font-size-l"></i></button>
-          </span>
-      </div> 
-  </div>
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>Feedback Message</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="accent" (click)="back()" >
+                <i class="fa fa-arrow-left font-size-l"></i></button>
+            </span>
+        </div> 
+    </div>
 
-  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
-                   
+    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+                    
         <div class="example-container mat-elevation-z8 paddingBottom-10">
 
             <div class="bg-form-header col-md-12">
@@ -58,41 +58,43 @@
                 <div class="col-md-1"><span class="label-name">Reply</span></div>
                 <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
             </div>
-    
+
             <div class="row" style="padding-bottom: 10px;">
                 <div class="col-md-1"><span class="label-name">&nbsp;</span></div>
-                <div class="col-md-10"><span style="font-size: 17px; text-align:justify;">This document contains proprietary and confidential information of Constant Contact, Inc. Use, disclosure, or reproduction
-                        is prohibited without the prior express written consent of Constant Contact, Inc. For inquiries regarding
-                        reproduction or distribution of any Constant Contact material, please contact legal@constantcontact.com.</span></div>
+                <div class="col-md-10">
+                    <span style="font-size: 17px; text-align:justify;">
+                        <pre>{{replyMessage}}</pre>
+                    </span>
+                </div>
             </div>
+
+            <!-- <div class="example-header">
+                <div class="col-md-12">
+                    <mat-form-field class="example-full-width" >
+                        <textarea matInput formControlName="reply" 
+                        rows="20" [attr.disabled]="true"></textarea>
+                    </mat-form-field>
+                </div>
+            </div> -->
         
         </div>
-    
+
         <div class="form-group paddingTop-20">
             <button mat-raised-button type="button" color="primary" id="btnsubmit"
             class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="delete(getId)" style="width: 100px; font-family: Roboto; margin-left: 5px;">
+            (click)="deleteModal.show()" style="width: 100px; font-family: Roboto; margin-left: 5px;">
             <i class="fa fa-times"></i> Delete </button>
             <!-- <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i> Reset</button> -->
         </div>      
-  </form>
+    </form>
 </div>
 
-<!-- <app-confirm-dialog  #resetModal 
+<app-confirm-dialog  #deleteModal 
 [title]="'common.icon.warn'" 
-[content]="'common.msg.reset'"
-[state]="'common.state.warn'" 
+[content]="'common.msg.delete'"
+[state]="'bg_header bg_warn_header'"
 [isReset]="'true'"
-(resetMethod)="resetMethod($event)">
+(resetMethod)="delete(getId)">
 </app-confirm-dialog>
-
-<app-confirm-dialog  #infoModal 
-[title]="'common.icon.success'" 
-[content]="'register.popupmsg.success_content1'"
-[email] = "getEmail"
-[content2] = "'register.popupmsg.success_content2'" 
-[state]="'common.state.success'" 
-[isRegister]="'index'">
-</app-confirm-dialog> -->

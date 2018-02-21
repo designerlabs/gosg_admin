@@ -50,6 +50,7 @@ export class LeftmenuComponent implements OnInit {
       map(name => name ? this.filter(name) : this.options.slice())
     );
 
+    // + 'langId=1'
     this.http.get(this.appConfig.urlMenu).subscribe(data => {
       console.log(data);
       this.menulst = data;
