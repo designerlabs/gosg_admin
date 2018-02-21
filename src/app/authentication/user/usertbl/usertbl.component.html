@@ -47,10 +47,12 @@
           <div *ngIf="searchUserResult?.length == 0">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" style="text-align:left; padding-left:10px;">
-                <h5>Please enter 1 or more characters</h5>
+                <h5 *ngIf="checkStatus == 'SUCCESS'">No record found!</h5>
+                <h5 *ngIf="checkStatus == 'ERROR'">Please enter 1 or more characters</h5>
               </li>
             </ul>
           </div>
+          
           <div *ngIf="userType.value == 1">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of (searchUserResult?.length > 5 ? searchUserResult.slice(0,5):  searchUserResult)">
