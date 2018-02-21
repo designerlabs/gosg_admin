@@ -536,7 +536,7 @@ delMediaType(mediaTypeId) {
   }
 
   addAgencyApp(Agency) {
-    return this.http.post(this.appConfig.urlAgencyApp+ '?language='+this.languageId, Agency)
+    return this.http.post(this.appConfig.urlAgencyApp+ '/add?language='+this.languageId, Agency)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

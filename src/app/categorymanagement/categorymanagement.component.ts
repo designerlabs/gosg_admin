@@ -23,12 +23,16 @@ export class CategorymanagementComponent implements OnInit {
   public titleBm: FormControl;
   public descEn: FormControl;  
   public descBm: FormControl;
-  public parents: FormControl;
+  public parentsEn: FormControl;
+  public parentsBm: FormControl;
   public active: FormControl;
   public ismainmenu: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
+  public categoryData: any;
+  public getCatIdEn: any;
+  public getCatIdBm: any;
 
   public getIdEn: any;
   public getIdBm: any;
@@ -36,6 +40,7 @@ export class CategorymanagementComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -73,7 +78,8 @@ export class CategorymanagementComponent implements OnInit {
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
     this.descBm = new FormControl();
-    this.parents = new FormControl();
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl();
     this.active = new FormControl();
     this.ismainmenu = new FormControl();
 
@@ -83,10 +89,13 @@ export class CategorymanagementComponent implements OnInit {
       titleBm: this.titleBm,
       descEn: this.descEn,    
       descBm: this.descBm,
-      parents: this.parents,
+      parentsEn: this.parentsEn,
+      parentsBm: this.parentsBm,
       active: this.active,
       ismainmenu: this.ismainmenu   
     });
+
+    this.getCategory();
 
     let urlEdit = this.router.url.split('/')[2];
     
@@ -98,6 +107,34 @@ export class CategorymanagementComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+  }
+
+  selectedCat(e){
+    console.log(e);
+    this.getCatIdEn = e.value.list[0].id;
+    this.getCatIdBm = e.value.list[1].id;
+
+    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm);
+    this.updateForm.get('parentsBm').setValue(parseInt(this.getCatIdBm));  
+  }
+
+  getCategory(){
+
+    let txt = "";
+
+    return this.commonservice.getFooterCategoryList()
+     .subscribe(data => {
+        
+        this.categoryData = data;   
+        console.log(this.categoryData);         
+      },
+
+      Error => {
+
+        txt = "Server is down."
+        this.toastr.error(txt, '');  
+        console.log(Error);
+    });
   }
 
   getData() {
