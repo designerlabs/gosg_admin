@@ -54,6 +54,10 @@ export class FeedbackvisitortblComponent implements OnInit {
   filterType(filterVal) {
 
     this.filterTypeVal = filterVal.value; 
+
+    if(this.filterTypeVal == 1){
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
  
   }
 
