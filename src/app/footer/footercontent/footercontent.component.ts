@@ -282,16 +282,7 @@ export class FootercontentComponent implements OnInit {
 
   isChecked(e) {
 
-    // if(this.imgEng != null && this.imgEng == this.imgMy) {
-    //   this.updateForm.get('copyImg').setValue(true);
-    // } else {
-    //   this.updateForm.get('copyImg').setValue(false);
-    // }
-
     if (e.checked) {
-      if(this.imgEng != null){
-
-      }
       this.updateForm.get("imgMy").setValue(this.imgEng);
     } else {
       this.updateForm.get("imgMy").setValue("");
