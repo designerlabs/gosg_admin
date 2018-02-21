@@ -87,7 +87,7 @@ export class AppConfig {
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
-    urlMenu: commonURL + 'menu/list?',
+    urlMenu: commonURL + 'menu',
     urlCommon: commonURL,
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
