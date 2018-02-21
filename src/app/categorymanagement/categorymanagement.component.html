@@ -72,9 +72,9 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width">
-                        <mat-select formControlName="parentsEn" placeholder="Parent" tabindex="5" (change)="selectedCat($event)">
+                        <mat-select formControlName="parentsEn" placeholder="Parent" tabindex="5" (change)="selectedCat($event,1)">
                             <mat-option *ngFor="let category of categoryData" 
-                            [value]="category">{{ category?.list[0].name }}</mat-option>
+                            [value]="category?.list[0].id">{{ category?.list[0].name }}</mat-option>
                             <!-- <mat-option [value]="1">All</mat-option>
                             <mat-option [value]="2">Email</mat-option>
                             <mat-option [value]="3">Keyword</mat-option>-->
@@ -84,9 +84,9 @@
 
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width">
-                        <mat-select formControlName="parentsBm" placeholder="Induk" tabindex="6">
+                        <mat-select formControlName="parentsBm" placeholder="Induk" tabindex="6" (change)="selectedCat($event,2)">
                             <mat-option *ngFor="let category of categoryData" 
-                            [value]="category">{{ category?.list[1].name }}</mat-option>
+                            [value]="category?.list[1].id">{{ category?.list[1].name }}</mat-option>
                             <!-- <mat-option [value]="1">All</mat-option>
                             <mat-option [value]="2">Email</mat-option>
                             <mat-option [value]="3">Keyword</mat-option> -->
