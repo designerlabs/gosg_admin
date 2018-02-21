@@ -74,6 +74,7 @@ export class AppConfig {
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
     urlSystemSettings: string;
+    urlModule:string;
     urlModuleGroupList:string;
 
     urlFaqList:string;
@@ -87,7 +88,7 @@ export class AppConfig {
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
-    urlMenu: commonURL + 'menu/list?',
+    urlMenu: commonURL + 'menu/',
     urlCommon: commonURL,
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
@@ -98,6 +99,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlSlides: commonURL + 'slide',  
     urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
+    urlModule: commonURL + 'authorization/module',
     urlModuleList: commonURL + 'authorization/module/moduleList',
     urlModuleGroupList: commonURL + 'authorization/module/group',
     urlGroupModuleList: mockApiURL + 'groupList',
