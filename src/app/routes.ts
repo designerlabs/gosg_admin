@@ -82,6 +82,8 @@ import { MediafileuploadComponent } from './media/mediafileupload/mediafileuploa
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
 import { ContentComponent } from './content/content.component';
+import { ModmenuComponent } from './modmenu/modmenu.component';
+import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -114,6 +116,9 @@ export const appRoutes: Routes = [
 {path: 'language/add', component: LanguageComponent},
 {path: 'language/:id', component: LanguageComponent},
 {path: 'language', component: LanguagetblComponent},
+{path: 'modmenu/add', component: ModmenuComponent},
+{path: 'modmenu/:id', component: ModmenuComponent},
+{path: 'modmenu', component: ModmenutblComponent},
 {path: 'ministry/add', component: MinistryComponent},
 {path: 'ministry/:id', component: MinistryComponent},
 {path: 'ministry', component: MinistrytblComponent},
@@ -171,13 +176,13 @@ export const appRoutes: Routes = [
 
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
-{path: 'category', component: CategorytblComponent},
+{path: 'categories', component: CategorytblComponent},
 {path: 'maincategory/add', component: MaincategoryComponent},
 {path: 'subcategory/add', component: SubcategoryComponent},
-{path: 'category/add', component: CategoryComponent},
+{path: 'categories/add', component: CategoryComponent},
 {path: 'maincategory/:id', component: MaincategoryComponent},
 {path: 'subcategory/:id', component: SubcategoryComponent},
-{path: 'category/:id', component: CategoryComponent},
+{path: 'categories/:id', component: CategoryComponent},
 
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
@@ -207,9 +212,9 @@ export const appRoutes: Routes = [
 {path: 'account/add', component: AccountstatusComponent},
 
 // Category & Content: N
-{path: 'categorymanagement', component: CategorymanagementtblComponent},
-{path: 'categorymanagement/:id', component: CategorymanagementComponent},
-{path: 'categorymanagement/add', component: CategorymanagementComponent},
+{path: 'category', component: CategorymanagementtblComponent},
+{path: 'category/:id', component: CategorymanagementComponent},
+{path: 'category/add', component: CategorymanagementComponent},
 {path: 'content', component: ContenttblComponent},
 {path: 'content/:id', component: ContentComponent},
 {path: 'content/add', component: ContentComponent},

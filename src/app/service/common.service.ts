@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import {Http, Request, RequestOptionsArgs, Response } from '@angular/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import {map} from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +8,7 @@ import { ObservableInput } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import "rxjs/add/observable/throw";
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/retry';
 import { ToastrService } from 'ngx-toastr';
@@ -32,12 +33,15 @@ export class CommonService {
 
   // tslint:disable-next-line:max-line-length
   constructor(
-    private http: Http, @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public http: Http,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
     private route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService
   ) {
+
+    
 
        /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -157,7 +161,7 @@ export class CommonService {
 
   deleteModuleList(id){
     return this.http.delete(this.appConfig.urlModule+'/'+id+'?language='+this.languageId)
-    .map((response: Response) => response.json())
+    .map((response: Response) => response.json()[0])
     .catch(this.handleError);
   }
 
@@ -982,12 +986,8 @@ delMediaType(mediaTypeId) {
   // End Feedback Visitor/Admin - N
 
   
-  private handleError(error: Response) {
-    const msg = `Status code ${error.status} on url ${error.url}`;
-    console.error(msg);
-    debugger;
-    return Observable.throw(msg);
-
+  public handleError = (error: Response) => {
+    return Observable.throw(error);
   }
 
   getStateData(): Observable<any[]> {
@@ -997,6 +997,15 @@ delMediaType(mediaTypeId) {
       .retry(5)
       .catch(this.handleError);
 
+  }
+
+  errorHandling(err, callback){
+    let statusCode = err.statusCode.toLowerCase();
+    if(statusCode == 'error'){
+      this.toastr.error(err.statusDesc, 'Error');
+    }else{
+      callback()
+    }
   }
 
   getCitiesbyState(code): Observable<any[]> {
