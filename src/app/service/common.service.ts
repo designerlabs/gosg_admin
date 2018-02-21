@@ -150,8 +150,14 @@ export class CommonService {
   }
 
   getModuleList(id){
-    return this.http.get(this.appConfig.urlModuleList+'/'+id)
+    return this.http.get(this.appConfig.urlModuleList+'/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json()[0])
+    .catch(this.handleError);
+  }
+
+  deleteModuleList(id){
+    return this.http.delete(this.appConfig.urlModule+'/'+id+'?language='+this.languageId)
+    .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
@@ -972,6 +978,7 @@ delMediaType(mediaTypeId) {
   private handleError(error: Response) {
     const msg = `Status code ${error.status} on url ${error.url}`;
     console.error(msg);
+    debugger;
     return Observable.throw(msg);
 
   }
