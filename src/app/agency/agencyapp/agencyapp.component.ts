@@ -154,9 +154,10 @@ export class AgencyappComponent implements OnInit {
       this.refCode = dataEn.agencyApplicationCode;
       this.agencyAppIdEn = dataEn.agencyApplicationId;
       this.agencyAppIdBm = dataBm.agencyApplicationId;
-      // this.agency = dataBm.agencyName;
       this.agencyIdEn = dataEn.agencyId;
       this.agencyIdBm = dataBm.agencyId;
+      this.ministryNameEn = dataEn.ministryName;
+      this.ministryNameBm = dataBm.ministryName;
 
       this.checkReqValues();
     });
@@ -165,19 +166,23 @@ export class AgencyappComponent implements OnInit {
 
   getAgency() {
     return this.http.get(this.appConfig.urlAgency + '/code'+ '?language='+this.languageId).subscribe(
-      // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
-      // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
         Rdata => {
-  
           this.AgencyData = Rdata['list'];
-          // 
-          // console.log(JSON.stringify(this.AgencyAppData))
-          // console.log(this.AgencyData)
-          // console.log(this.AgencyData[0]['list'][0].agencyName)
       });
   }
 
   getSearchData(keyword, langId){
+
+    let selLangField;
+      
+    if(langId == 1) {
+      selLangField = "agencyBm";
+      this.ministryNameBm = "";
+    } else {
+      selLangField = "agencyEn";
+      this.ministryNameEn = "";
+    }
+    this.agencyAppForm.get(selLangField).setValue("");
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       console.log(keyword)
@@ -210,7 +215,7 @@ export class AgencyappComponent implements OnInit {
     }
   }
   
-  getValue(aId,aName,mName, langId){
+  getValue(aId,aName,mName, refCode, langId){
 
     if(langId == 1) {
       this.agencyEn = this.agencyAppForm.get('agencyEn').value;
@@ -219,11 +224,10 @@ export class AgencyappComponent implements OnInit {
       this.agencyAppForm.get('agencyEn').setValue(aName);
       this.agencyEn = aId;
       this.agencyIdEn = aId;
+      this.ministryNameEn = mName;
 
-      if(mName != "")
-        this.ministryNameEn = mName;
-        else
-        this.ministryNameEn = "-";
+      this.getAgencyByRefCode(refCode,langId);
+
     } else {
       this.agencyBm = this.agencyAppForm.get('agencyBm').value;
       this.isActive = false;
@@ -231,14 +235,49 @@ export class AgencyappComponent implements OnInit {
       this.agencyAppForm.get('agencyBm').setValue(aName);
       this.agencyBm = aId;
       this.agencyIdBm = aId;
+      this.ministryNameBm = mName;
 
-      if(mName != "")
-        this.ministryNameBm = mName;
-        else
-        this.ministryNameBm = "-";
+      this.getAgencyByRefCode(refCode,langId);
     }
 
     // console.log(mName)
+  }
+
+  // GET AGENCY NAME BY PAIRED LANGUAGE ID
+  getAgencyByRefCode(refCode, langId) {
+
+    let selLangField;
+    let mName;
+    let aName;
+    let aId;
+
+    if(langId == 1) {
+      langId = 2;
+      selLangField = "agencyBm";
+    } else {
+      langId = 1;
+      selLangField = "agencyEn";
+    }
+
+    return this.http.get(this.appConfig.urlAgency + '/code/language/' + refCode+ '?language='+langId).subscribe(
+      data => {
+        console.log('refCode Data');
+        console.log(data);
+
+        mName = data['agencyList'][0]['agencyMinistry']['ministryName'];
+        aName = data['agencyList'][0]['agencyName'];
+        aId = data['agencyList'][0]['agencyId'];
+        
+        this.agencyAppForm.get(selLangField).setValue(aName);
+
+        if(langId == 1) {
+          this.agencyIdEn = aId;
+          this.ministryNameEn = mName;
+        } else {
+          this.agencyIdBm = aId;
+          this.ministryNameBm = mName;
+        }
+    });
   }
 
   checkReqValues() {
@@ -339,14 +378,18 @@ export class AgencyappComponent implements OnInit {
     // Add ErrorMsg Service
     this.commonservice.addAgencyApp(body).subscribe(
       data => {
-        this.toastr.success('Agency Application added successfully!', ''); 
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
         this.router.navigate(['agencyapp']);
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');       
       });
 
     } else {
+
+      console.log(this.refCode)
       
     let body = [
       {
@@ -357,7 +400,7 @@ export class AgencyappComponent implements OnInit {
         "isDocument": false,
         "agencyApplicationUrl": null,
         "language": {
-          "languageId": 2
+          "languageId": 1
         },
         "agencyId":  null
       }, 
@@ -381,7 +424,7 @@ export class AgencyappComponent implements OnInit {
     body[0].agencyApplicationDescription = formValues.descEn;
     body[0].isDocument = formValues.isDoc;
     body[0].agencyApplicationUrl = formValues.websiteUrl;
-    body[0].agencyId = formValues.agencyIdEn;
+    body[0].agencyId = this.agencyIdEn;
     
     body[1].agencyApplicationCode = this.refCode;
     body[1].agencyApplicationId = this.agencyAppIdBm;
@@ -389,21 +432,22 @@ export class AgencyappComponent implements OnInit {
     body[1].agencyApplicationDescription = formValues.descBm;
     body[1].isDocument = formValues.isDoc;
     body[1].agencyApplicationUrl = formValues.websiteUrl;
-    body[1].agencyId = formValues.agencyIdBm;
+    body[1].agencyId = this.agencyIdBm;
 
     console.log(body);
 
-    // Update ErrorMsg Service
+    // Update AgencyApp Service
     this.commonservice.updateAgencyApp(body).subscribe(
       data => {
-        this.toastr.success('Agency Application update successful!', '');   
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
         this.router.navigate(['agencyapp']);
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       });
     }
-    
 
   }
 

@@ -156,7 +156,7 @@ export class CommonService {
   // MODULE
 
   getModMenu() {
-    return this.http.get(this.appConfig.urlModule+'?language='+this.languageId)
+    return this.http.get(this.appConfig.urlModule+'/menu?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -174,9 +174,7 @@ export class CommonService {
 
   updateModMenu(modmenu) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlModule + "/"+ modmenu.moduleId + '?language='+this.languageId, modmenu)
+    return this.http.put(this.appConfig.urlModule + '?language='+this.languageId, modmenu)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -502,14 +500,6 @@ delMediaType(mediaTypeId) {
   // ERROR MESSAGE END
 
   // MINISTRY TYPE
-  getMinistry(code) {
-    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlAgency + '/' + code+ '?language='+this.languageId).subscribe(
-      Rdata => {
-      this.dataTbl = Rdata;
-      // this.router.navigate(['user', code]);
-    });
-  }
 
   addMinistry(ministry) {
 
@@ -590,14 +580,14 @@ delMediaType(mediaTypeId) {
     });
   }
 
-  addAgencyApp(Agency) {
-    return this.http.post(this.appConfig.urlAgencyApp+ '/add?language='+this.languageId, Agency)
+  addAgencyApp(agencyapp) {
+    return this.http.post(this.appConfig.urlAgencyApp+ '/add?language='+this.languageId, agencyapp)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  updateAgencyApp(Agency) {
-    return this.http.put(this.appConfig.urlAgencyApp+ '?language='+this.languageId, Agency)
+  updateAgencyApp(agencyapp) {
+    return this.http.put(this.appConfig.urlAgencyApp+ '/update?language='+this.languageId, agencyapp)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

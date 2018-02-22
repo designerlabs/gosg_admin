@@ -88,11 +88,12 @@ export class ModmenutblComponent implements OnInit {
   // get module Data 
   getModuleData(count, size) {
 
-    this.http.get(this.appConfig.urlModule + '?page=' + count + '&size=' + size).subscribe(
+    console.log(this.appConfig.urlModule + '?page=' + count + '&size=' + size+ '&language='+this.languageId)
+    this.http.get(this.appConfig.urlModule + '?page=' + count + '&size=' + size+ '&language='+this.languageId).subscribe(
       data => {
-        this.moduleList = data['moduleList'];
+        this.moduleList = data;
         console.log(this.moduleList)
-        this.dataSource.data = this.moduleList;
+        this.dataSource.data = this.moduleList['moduleList'];
         this.seqPageNum = this.moduleList.pageNumber;
         this.seqPageSize = this.moduleList.pageSize;
         this.commonservice.recordTable = this.moduleList;
@@ -133,17 +134,15 @@ export class ModmenutblComponent implements OnInit {
 
   deleteItem(moduleId) {
 
-    let txt;
-
       this.commonservice.delModMenu(moduleId).subscribe(
         data => {
-          txt = "Module deleted successfully!";
-          console.log(data)
-          this.toastr.success(txt, '');   
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
+          }).bind(this));  
           this.getModuleData(this.pageCount, this.modulePageSize);
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');    
         });
 
   }

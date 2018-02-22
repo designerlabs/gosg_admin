@@ -228,6 +228,7 @@
     },
     "success":{
       "added": "Successfully added!",
+      "updated": "Berjaya dikemaskini!",
       "deletesuccess":"Record has been deleted successfully!",
       "deletesuccess_multi":"Selected Record has been deleted successfully!"
     },
