@@ -103,9 +103,12 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
 import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
+import { Ng4FilesModule } from './ng4-files';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -203,7 +206,7 @@ export function HttpLoaderFactory(http: HttpClient) {
           deps: [HttpClient]
       }
   }),
-
+    Ng4FilesModule,
     BrowserAnimationsModule,
     HttpModule,
     HttpClientModule,
