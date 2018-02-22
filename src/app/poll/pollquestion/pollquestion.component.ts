@@ -138,25 +138,26 @@ export class PollquestionComponent implements OnInit {
     .subscribe(data => {
 
       //this.commonservice.errorHandling(data, (function(){
+        console.log(data);
         this.recordList = data;
 
-        this.updateForm.get('pollEng').setValue(this.recordList[0].questionTitle);
-        this.updateForm.get('pollMalay').setValue(this.recordList[1].questionTitle); 
-        this.updateForm.get('opt1En').setValue(this.recordList[0].answer[0].answer);    
-        this.updateForm.get('opt2En').setValue(this.recordList[0].answer[1].answer);    
-        this.updateForm.get('opt3En').setValue(this.recordList[0].answer[2].answer);    
-        this.updateForm.get('opt4En').setValue(this.recordList[0].answer[3].answer);    
-        this.updateForm.get('opt5En').setValue(this.recordList[0].answer[4].answer);    
-        this.updateForm.get('opt1Bm').setValue(this.recordList[1].answer[0].answer);    
-        this.updateForm.get('opt2Bm').setValue(this.recordList[1].answer[1].answer);    
-        this.updateForm.get('opt3Bm').setValue(this.recordList[1].answer[2].answer);    
-        this.updateForm.get('opt4Bm').setValue(this.recordList[1].answer[3].answer);    
-        this.updateForm.get('opt5Bm').setValue(this.recordList[1].answer[4].answer);
-        this.updateForm.get('active').setValue(this.recordList[0].pollsActiveFlag);
+        this.updateForm.get('pollEng').setValue(this.recordList.pollQuestionListDto[0].questionTitle);
+        this.updateForm.get('pollMalay').setValue(this.recordList.pollQuestionListDto[1].questionTitle); 
+        this.updateForm.get('opt1En').setValue(this.recordList.pollQuestionListDto[0].answer[0].answer);    
+        this.updateForm.get('opt2En').setValue(this.recordList.pollQuestionListDto[0].answer[1].answer);    
+        this.updateForm.get('opt3En').setValue(this.recordList.pollQuestionListDto[0].answer[2].answer);    
+        this.updateForm.get('opt4En').setValue(this.recordList.pollQuestionListDto[0].answer[3].answer);    
+        this.updateForm.get('opt5En').setValue(this.recordList.pollQuestionListDto[0].answer[4].answer);    
+        this.updateForm.get('opt1Bm').setValue(this.recordList.pollQuestionListDto[1].answer[0].answer);    
+        this.updateForm.get('opt2Bm').setValue(this.recordList.pollQuestionListDto[1].answer[1].answer);    
+        this.updateForm.get('opt3Bm').setValue(this.recordList.pollQuestionListDto[1].answer[2].answer);    
+        this.updateForm.get('opt4Bm').setValue(this.recordList.pollQuestionListDto[1].answer[3].answer);    
+        this.updateForm.get('opt5Bm').setValue(this.recordList.pollQuestionListDto[1].answer[4].answer);
+        this.updateForm.get('active').setValue(this.recordList.pollQuestionListDto[0].pollsActiveFlag);
 
-        this.getIdEn = this.recordList[0].questionId;
-        this.getIdBm = this.recordList[1].questionId;
-        this.getRefId = this.recordList[0].pollReference;
+        this.getIdEn = this.recordList.pollQuestionListDto[0].questionId;
+        this.getIdBm = this.recordList.pollQuestionListDto[1].questionId;
+        this.getRefId = this.recordList.pollQuestionListDto[0].pollReference;
 
         this.checkReqValues();
       //}).bind(this));  
