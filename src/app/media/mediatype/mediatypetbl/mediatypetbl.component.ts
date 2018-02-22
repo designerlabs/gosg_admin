@@ -33,17 +33,16 @@ export class MediatypetblComponent implements OnInit {
 
   getMediaList() {
     return this.commonservice.getMediaType()
-    // return this.http.get('./app/apidata/race.json')
        .subscribe(resStateData => {
-         debugger;
-        this.seqPageNum = 1;
-        this.seqPageSize = 10;
-          this.mediaList = resStateData['mediaTypes'];  
-          this.dataSource.data = this.mediaList;      
+        this.commonservice.errorHandling(resStateData, (function(){
+            this.seqPageNum = 1;
+            this.seqPageSize = 10;
+            this.mediaList = resStateData['mediaTypes'];  
+            this.dataSource.data = this.mediaList;      
+          }).bind(this));
         },
-        Error => {
-        //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-        console.log('Error in State');
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');          
        });
   }
 
@@ -62,19 +61,17 @@ export class MediatypetblComponent implements OnInit {
     if (r == true) {
       this.commonservice.delMediaType(id).subscribe(
         data => {
-          txt = "Media Type deleted successfully!";
-          // this.router.navigate(['slider']);
-          this.toastr.success(txt, '');   
-          this.getMediaList();
+          this.commonservice.errorHandling(data, (function(){
+            txt = "Media Type deleted successfully!";
+            this.toastr.success(txt, '');   
+            this.getMediaList();
+          }).bind(this));
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');    
         });
-
-      // this.sliderForm.reset();
     } else {
       txt = "Delete Cancelled!";
-      // alert(txt)
     }
   }
 

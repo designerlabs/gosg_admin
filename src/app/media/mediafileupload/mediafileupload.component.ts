@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { HttpClientModule , HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
@@ -65,9 +65,9 @@ export class MediafileuploadComponent implements OnInit {
   };
 
   constructor(
-    private ng4FilesService: Ng4FilesService, private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    private ng4FilesService: Ng4FilesService, private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService
   ) { }
@@ -100,7 +100,7 @@ export class MediafileuploadComponent implements OnInit {
     });
     this.fnLoadCateMediaType();
 
-    if(refCode == "add") {
+    if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
     } else {
@@ -111,64 +111,71 @@ export class MediafileuploadComponent implements OnInit {
 
   }
 
-  back(){
+  back() {
     this.router.navigate(['media']);
   }
 
-  fnLoadCateMediaType(){
+  fnLoadCateMediaType() {
     // Get MediaType
     this.commonservice.getMediaType()
-    .subscribe(resStateData => {
-       this.objMediaType = resStateData['mediaTypes'];  
-     },
-     Error => {
-     console.log('Error in Media Type');
-    });
+      .subscribe(resStateData => {
+        this.commonservice.errorHandling(resStateData, (function () {
+          this.objMediaType = resStateData['mediaTypes'];
+        }).bind(this));
+      },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        });
     // Get Categories
     this.commonservice.getCategoryData()
-    // this.http.get('./app/apidata/category.json')
-    .subscribe(resStateData => {
-       this.objCategory = resStateData['list'];  
-     },
-     Error => {
-     console.log('Error in Media Type');
-    });
+      // this.http.get('./app/apidata/category.json')
+      .subscribe(resStateData => {
+        this.commonservice.errorHandling(resStateData, (function () {
+          this.objCategory = resStateData['list'];
+        }).bind(this));
+      },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        });
   }
 
-   getRow(row) {    
-
+  getRow(row) {
     return this.http.get(this.appConfig.urlMediaFileUpload + '/code/' + row).subscribe(
-    // return this.http.get('./app/apidata/race.json').subscribe(
+      // return this.http.get('./app/apidata/race.json').subscribe(
       Rdata => {
-        this.mediaFileUpData = Rdata;
-        console.log(this.mediaFileUpData);
-        let data = this.mediaFileUpData['list'][0];
-        let selCate = [];
-        this.getData = data.list;
-      // populate data
-      if(data){
-        // this.mediaTypeId = data.mediaTypeId;
-        for (let itm of data.list[0].mediaCategories) {
-          console.log(itm.categoryId);
-          selCate.push(itm.categoryId);
-      }
-    //   for (let itm of data.list[0].mediaCategories) {
-    //     console.log(itm.categoryName);
-    //     selCate.push(itm.categoryName);
-    // }
-        this.mediaFileUpForm.get('mediatype').setValue(data.list[0].mediaTypeId);
-        this.mediaFileUpForm.get('catType').setValue(selCate);
-          // this.mediaFileUpForm.get('filetype').setValue(data[0].supportedFileExtensions.split(','));
-          this.mediaFileUpForm.get('mediaTitleEn').setValue(data.list[0].mediaTitle);
-          this.mediaFileUpForm.get('mediaFileEn').setValue(data.list[0].mediaFile);
-
-          this.mediaFileUpForm.get('mediaTitleMy').setValue(data.list[0].mediaTitle); // data.list[0]
-          this.mediaFileUpForm.get('mediaFileMy').setValue(data.list[0].mediaFile); // data.list[0]
-
-          this.mediaFileUpForm.get('active').setValue(data.enabled); 
-          this.checkReqValues();
-      }
-    });    
+        this.commonservice.errorHandling(Rdata, (function(){
+          this.mediaFileUpData = Rdata;
+          console.log(this.mediaFileUpData);
+          let data = this.mediaFileUpData['list'][0];
+          let selCate = [];
+          this.getData = data.list;
+          // populate data
+          if (data) {
+            // this.mediaTypeId = data.mediaTypeId;
+            for (let itm of data.list[0].mediaCategories) {
+              console.log(itm.categoryId);
+              selCate.push(itm.categoryId);
+            }
+            //   for (let itm of data.list[0].mediaCategories) {
+            //     console.log(itm.categoryName);
+            //     selCate.push(itm.categoryName);
+            // }
+            this.mediaFileUpForm.get('mediatype').setValue(data.list[0].mediaTypeId);
+            this.mediaFileUpForm.get('catType').setValue(selCate);
+            // this.mediaFileUpForm.get('filetype').setValue(data[0].supportedFileExtensions.split(','));
+            this.mediaFileUpForm.get('mediaTitleEn').setValue(data.list[0].mediaTitle);
+            this.mediaFileUpForm.get('mediaFileEn').setValue(data.list[0].mediaFile);
+            this.mediaFileUpForm.get('mediaTitleMy').setValue(data.list[0].mediaTitle); // data.list[0]
+            this.mediaFileUpForm.get('mediaFileMy').setValue(data.list[0].mediaFile); // data.list[0]
+            this.mediaFileUpForm.get('active').setValue(data.enabled);
+            this.checkReqValues();
+          }
+        }).bind(this));
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      });
+    
   }
 
   checkReqValues() {
@@ -183,7 +190,7 @@ export class MediafileuploadComponent implements OnInit {
 
     let reqVal: any = [mediatype, catType, mediaTitleEn, mediaFileEn, mediaTitleMy, mediaFileMy];
     let nullPointers: any = [];
-    
+
     for (var reqData of reqVal) {
       let elem = this.mediaFileUpForm.get(reqData);
 
@@ -198,46 +205,34 @@ export class MediafileuploadComponent implements OnInit {
     } else {
       this.complete = true;
     }
-
   }
 
-  fileChange(event,lan) {
+  fileChange(event, lan) {
     let files = event;
-        if (files.length > 0) {
-        let formData: FormData = new FormData();
-        for (let file of files) {
-             formData.append('files', file, file.name);
-        }
-        let headers = new Headers();
-        headers.set('Accept', 'application/json');
-        // let options = new RequestOptions({ headers: headers });
-        this.http.post(this.appConfig.urlMediaFileUpload, formData)            
-            .subscribe(
-              Rdata => {
-                // Consume Files
-                // ..
-                console.log('uploaded and processed files');
-            });
-    }    
-}
-// curl -i -X POST 'http://localhost:8080/media' \
-// -H 'Content-type:multipart/form-data' \
-// -F 'mediaFiles=@<image-name>;type=image/png' \
-// -F 'mediaFiles=@<image-name>;type=image/png' \
-// -F 'medias=@<json-file>;type=application/json'
-
-// curl -i -X PUT 'http://localhost:8080/media' \
-// -H 'Content-type:multipart/form-data' \
-// -F 'mediaFiles=@mibis-query.png;type=image/png' \
-// -F 'medias=@MediaUpdate.json;type=application/json'
-
-// Content-Disposition: form-data; name="DownTimeNotice.JPG"; filename="DownTimeNotice.JPG"
-// Content-Type: image/jpeg
-
-//dev server path: opt/media
-filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
-  if (selectedFiles.status !== Ng4FilesStatus.STATUS_SUCCESS) {
-    let  name = selectedFiles.files[0].name;
+    if (files.length > 0) {
+      let formData: FormData = new FormData();
+      for (let file of files) {
+        formData.append('files', file, file.name);
+      }
+      let headers = new Headers();
+      headers.set('Accept', 'application/json');
+      // let options = new RequestOptions({ headers: headers });
+      this.http.post(this.appConfig.urlMediaFileUpload, formData)
+        .subscribe(
+          Rdata => {
+            this.commonservice.errorHandling(Rdata, (function(){
+              console.log('uploaded and processed files');
+            }).bind(this));
+          },
+          error => {
+            this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+          });
+    }
+  }
+  //dev server path: opt/media
+  filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
+    if (selectedFiles.status !== Ng4FilesStatus.STATUS_SUCCESS) {
+      let name = selectedFiles.files[0].name;
       let fileList = selectedFiles.files;
       if (selectedFiles.files.length > 0) {
         let file: File = fileList[0];
@@ -250,12 +245,12 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
       }
       let headers = new Headers();
       headers.append('Content-Type', 'multipart/form-data');
-     
-          this.selectedFilesMy = selectedFiles.files[0].name;
-          console.log(this.selectedFilesMy);
-       this.selFiles.push(selectedFiles);
+
+      this.selectedFilesMy = selectedFiles.files[0].name;
+      console.log(this.selectedFilesMy);
+      this.selFiles.push(selectedFiles);
+    }
   }
-}
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {
     if (selectedFiles.status !== Ng4FilesStatus.STATUS_SUCCESS) {
       // let headers = new Headers();
@@ -263,7 +258,7 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
 
       // const headers = new HttpHeaders()
       //        .set('content-type', 'multipart/form-data');
-             
+
 
       //    const body = {
       //        email: 'myemail@xyz.com',
@@ -275,49 +270,28 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
       //    + '-F mediaFiles=@'+selectedFiles.files[0].name+';type=image/png \ '
       //    + '-F medias=@'+body+';type=application/json'
 
-      let  name = selectedFiles.files[0].name;
+      let name = selectedFiles.files[0].name;
       let fileList = selectedFiles.files;
       if (selectedFiles.files.length > 0) {
         let file: File = fileList[0];
         let fileSize: number = fileList[0].size;
         if (fileSize <= 10485760) {
           let formData: FormData = new FormData();
-          // formData.append('Document', file);
-          // formData.append('ClientId', this.clientId);
-          // formData.append('DocumentType', 'ClientContractDoc');
-          // let opts = new RequestOptions();
-          // opts.headers = headers;
-        
-
           formData.append(selectedFiles.files[0].name, selectedFiles.files[0], selectedFiles.files[0].name);
           console.log(formData);
-          // this.http.post(this.appConfig.urlMediaFileUpload, curl)            
-          //   .subscribe(
-          //     Rdata => {
-          //       // Consume Files
-          //       // ..
-          //       console.log('uploaded and processed files');
-          //   });
-           
-          // this.http.post('http://10.1.70.148:8080/service-admin-protected/mediatype', formData)
-          //   .map((response: Response) => response.json());
-            
         }
       }
       let headers = new Headers();
-      headers.append('Content-Type', 'multipart/form-data');      
-        this.selectedFilesEn = selectedFiles.files[0].name;
-        console.log(this.selectedFilesEn);      
-        this.selFiles.push(selectedFiles);
+      headers.append('Content-Type', 'multipart/form-data');
+      this.selectedFilesEn = selectedFiles.files[0].name;
+      console.log(this.selectedFilesEn);
+      this.selFiles.push(selectedFiles);
     }
-    // return this.http.post(Upload , this.selectedFiles, { headers: headers, method: 'POST' })
-    //         .map((res: Response) => res.json());
-
   }
 
-  updateMediaFileUpload(formValues: any){
+  updateMediaFileUpload(formValues: any) {
     let mediaCate = [];
-    if(this.isEdit) {
+    if (this.isEdit) {
       let langEn = {
         "languageId": 1,
         "languageCode": "en",
@@ -350,7 +324,7 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
 
       let body = [
         {
-          "mediaId": 0,	
+          "mediaId": 0,
           "rootCategoryId": 1,
           "language": {
             "languageId": null,
@@ -358,17 +332,17 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
             "languageName": null,
             "languageDescription": "English language"
           },
-          "mediaTypeId": 508,	
+          "mediaTypeId": 508,
           "mediaTitle": "MIBISQuery",
           "mediaFile": "mibis-query.png",
           "fileSize": 4,
           "fileSizeUnits": "MB",
           "fileDimensions": "200*500",
           "enabled": true,
-          "mediaCodeRunningNo": 40,	
+          "mediaCodeRunningNo": 40,
           "mediaCategories": mediaCate
-        },{
-          "mediaId": 0,	
+        }, {
+          "mediaId": 0,
           "rootCategoryId": 1,
           "language": {
             "languageId": null,
@@ -376,34 +350,27 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
             "languageName": null,
             "languageDescription": null
           },
-          "mediaTypeId": 508,	
+          "mediaTypeId": 508,
           "mediaTitle": "MIBISQuery",
           "mediaFile": "mibis-query.png",
           "fileSize": 4,
           "fileSizeUnits": "MB",
           "fileDimensions": "200*500",
           "enabled": true,
-          "mediaCodeRunningNo": 40,	
+          "mediaCodeRunningNo": 40,
           "mediaCategories": mediaCate
         }
       ];
-  
-      // let filtrData = this.getData[0].mediaTypeCategories.filter(
-      //   fdata => fdata.category.categoryName === formValues.catType);   
-      // let filtrootCatId = this.objCategory.filter(
-      //   filtrdata => filtrdata.categoryName === 'Media'
-      // );
-  
-      // body[0].mediaTypeId = this.mediaTypeId;
+
       body[0].mediaId = this.getData[0].mediaId;// have to set form get data
       body[0].mediaTypeId = formValues.mediaTypeId;
       body[0].rootCategoryId = 1;
-      body[0].mediaTitle = formValues.mediaTitleEn;  
-      body[0].mediaFile = this.selectedFilesEn;      
+      body[0].mediaTitle = formValues.mediaTitleEn;
+      body[0].mediaFile = this.selectedFilesEn;
       body[0].fileSize = this.selectedFilesEn;
-      body[0].fileSizeUnits =  this.selectedFilesEn;
+      body[0].fileSizeUnits = this.selectedFilesEn;
       body[0].fileDimensions = this.selectedFilesEn;
-      body[0].enabled = formValues.active;  
+      body[0].enabled = formValues.active;
       body[0].mediaCodeRunningNo = this.getData[0].mediaCodeRunningNo;
       body[0].language.languageId = 1;
       body[0].language.languageCode = "en";
@@ -417,12 +384,12 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
       body[1].mediaId = this.getData[0].mediaId;// have to set form get data
       body[1].mediaTypeId = formValues.mediaTypeId;
       body[1].rootCategoryId = 1;
-      body[1].mediaTitle = formValues.mediaTitleMy;  
-      body[1].mediaFile = this.selectedFilesMy;      
+      body[1].mediaTitle = formValues.mediaTitleMy;
+      body[1].mediaFile = this.selectedFilesMy;
       body[1].fileSize = this.selectedFilesMy;
-      body[1].fileSizeUnits =  this.selectedFilesMy;
+      body[1].fileSizeUnits = this.selectedFilesMy;
       body[1].fileDimensions = this.selectedFilesMy;
-      body[1].enabled = formValues.active;  
+      body[1].enabled = formValues.active;
       body[1].mediaCodeRunningNo = this.getData[0].mediaCodeRunningNo;
       body[1].language.languageId = 2;
       body[1].language.languageCode = "ms";
@@ -438,108 +405,25 @@ filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
       debugger;
       let formData: FormData = new FormData();
       for (let file of this.selFiles) {
-           formData.append('mediaFiles', file.files[0], file.files[0].name);
+        formData.append('mediaFiles', file.files[0], file.files[0].name);
       }
-      formData.append('medias', JSON.stringify(body));
+      formData.append('strMedias', JSON.stringify(body));
+      this.commonservice.addMediaFileUpload(formData).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success('Media Type Updated successfully!', '');
+            this.router.navigate(['mediatype']);
+          }).bind(this));
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        });
 
-      // const headers = new HttpHeaders()
-      //        .set('content-type', 'multipart/form-data');
-      // let opts = new RequestOptions();
-      //     opts.body = body;
-      //     opts.params = formData;
-      //     opts.method = "PUT";
-      //     opts.url = this.appConfig.urlMediaFileUpload;
-      
-      // solution 1
-      let headers = new Headers();
-      // headers.set('content-type', 'multipart/form-data');     
-      headers.append('Content-Type', 'application/json; charset=UTF-8'); 
-      // headers.set('file', 'mediaFiles=@'+this.selFiles[0].files[0].name+';'+this.selFiles[0].files[0].type);
-      // headers.set('file', 'medias=@<'+ JSON.stringify(body) +'>;type=application/json');
-
-      let options = new RequestOptions({ headers: headers });      
-      options.method = "PUT";
-      options.body = formData;
-      // options.search = body;
-      let options1 = new RequestOptions; 
-          
-      // options.url = this.appConfig.urlMediaFileUpload;
-      let url = `${this.appConfig.urlMediaFileUpload}/put`;
-      let search = new URLSearchParams();
-      
-
-      
-      this.http.put(this.appConfig.urlMediaFileUpload, formData)
-          .map(res => res)
-          .catch(error => Observable.throw(error))
-          .subscribe(
-          data => {
-              // Consume Files
-              // ..
-              console.log('uploaded and processed files');
-          },
-          error => console.log(error),
-          () => {
-            console.log("No Data");
-          });
-
-      // this.addMediaFileUpload(body,opts).subscribe(
-      //   data => {
-      //     this.toastr.success('Media Type Updated successfully!', ''); 
-      //     this.router.navigate(['mediatype']);
-      //   },
-      //   error => {
-      //     console.log("No Data")
-      //   });
-  
-      }else {
+    } else {
 
 
-      }
+    }
   }
-  addMediaFileUpload(mediaFile,opts) {
-    return this.http.post(this.appConfig.urlMediaFileUpload, opts)
-    .map((response: Response) => response.json());
-  }
+
 }
 
-// solution 1 https://stackoverflow.com/questions/37174759/how-do-you-post-a-formdata-object-in-angular-2
-// let formData: FormData = new FormData();
-// for (let file of files) {
-//       formData.append('files', file, file.name);
-// }
-// let headers = new Headers();
-// headers.set('Accept', 'application/json');
-// let options = new RequestOptions({ headers: headers });
-// this.http.post(uploadURL, formData, options)
-//     .map(res => res.json())
-//     .catch(error => Observable.throw(error))
-//     .subscribe(
-//     data => {
-//         // Consume Files
-//         // ..
-//         console.log('uploaded and processed files');
-//     },
-//     error => console.log(error),
-//     () => {
-//         this.sleep(1000).then(() =>
-//             // .. Post Upload Delayed Action
-//         )
-//     });
-
-// Solution 2 : https://stackoverflow.com/questions/46000608/angular-2-send-request-with-json-data-formdata
-// let data = {id: 1, name: 'test'};
-// let formData = new FormData();
-// formData.append('fileData', file); //file from inputfile
-
-// let headers = new Headers();
-// headers.append('Accept', 'application/json');
-
-// let options =  new RequestOptions({ headers: headers });
-// options.method = 'POST';
-// options.body = data; //data is my object
-
-// options.body.append('file', formData); // May be will work
-// //options.formData= formData; //formData is my FormData with file data to upload
-
-// this.http.request(url, options);
