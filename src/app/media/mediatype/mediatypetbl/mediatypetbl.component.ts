@@ -32,8 +32,8 @@ export class MediatypetblComponent implements OnInit {
   }
 
   getMediaList() {
-    // return this.commonservice.getMediaType()
-    return this.http.get('./app/apidata/race.json')
+    return this.commonservice.getMediaType()
+    // return this.http.get('./app/apidata/race.json')
        .subscribe(resStateData => {
          debugger;
         this.seqPageNum = 1;

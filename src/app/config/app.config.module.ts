@@ -70,6 +70,7 @@ export class AppConfig {
     urlUserTypeDelete: string;
     urlAdminUserListUpdate: string;
     urlMediaType: string;
+    urlMediaFileUpload: string;
 
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
@@ -148,18 +149,16 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAnnounceList: commonURL + 'announcement/code',
     // urlCategoryList: './app/apidata/category.json',
     urlCategoryList: commonURL + 'announcement/category',
+    urlCategory: commonURL + 'content/category',
     urlAddressType: commonURL + 'addresstype',
     urlAccountStatus: commonURL + 'accountstatus',
     urlFeedbackType: commonURL + 'feedback/type',
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
-    // urlMediaType: commonURL + 'mediatype',
-    urlMediaType: 'http://10.1.22.50:8080/mediatype',
+    urlMediaType: commonURL + 'mediatype',
+    urlMediaFileUpload: commonURL + 'media',
     urlSystemSettings: commonURL + 'systemsettings',
-
-    urlCategory: commonURL + 'content/category',
-
     lang: 'language='+localStorage.getItem('langID')
 };
 
