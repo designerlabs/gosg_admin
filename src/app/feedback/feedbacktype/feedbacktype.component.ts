@@ -96,28 +96,35 @@ export class FeedbacktypeComponent implements OnInit {
     this.dataUrl = this.appConfig.urlFeedbackType + '/'+_getRefID + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
-    .subscribe(data => {
-      this.recordList = data;
+      .subscribe(data => {
 
-      console.log("data");
-      console.log(data);
+        this.commonservice.errorHandling(data, (function(){
 
-      this.updateForm.get('typeEn').setValue(this.recordList.feedbackTypeEntityList[1].feedbackTypeDescription);
-      this.updateForm.get('typeBm').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);        
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
 
-      this.getIdEn = this.recordList.feedbackTypeEntityList[1].feedbackTypeId;
-      this.getIdBm = this.recordList.feedbackTypeEntityList[0].feedbackTypeId;
-      this.getRefId = this.recordList.feedbackTypeEntityList[0].feedbackTypeCode;
+          this.updateForm.get('typeEn').setValue(this.recordList.feedbackTypeEntityList[1].feedbackTypeDescription);
+          this.updateForm.get('typeBm').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);        
 
-      this.checkReqValues();
+          this.getIdEn = this.recordList.feedbackTypeEntityList[1].feedbackTypeId;
+          this.getIdBm = this.recordList.feedbackTypeEntityList[0].feedbackTypeId;
+          this.getRefId = this.recordList.feedbackTypeEntityList[0].feedbackTypeCode;
+
+          this.checkReqValues();
+        }).bind(this));   
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
       
     });
   }
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[3];
-    let txt = "";
-
+   
     // add form
     if(urlEdit === 'add'){
 
@@ -143,24 +150,15 @@ export class FeedbacktypeComponent implements OnInit {
 
       this.commonservice.addRecordFeedbackType(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
           
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), ''); 
             this.router.navigate(['feedback/type']);
-          }          
+          }).bind(this));          
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
     }
@@ -194,22 +192,14 @@ export class FeedbacktypeComponent implements OnInit {
       this.commonservice.updateRecordFeedbackType(body).subscribe(
         data => {
           
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), ''); 
             this.router.navigate(['feedback/type']);
-          }        
+          }).bind(this));         
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
     }

@@ -103,17 +103,26 @@ export class FeedbackvisitortblComponent implements OnInit {
     this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size + '&language='+this.languageId;
 
     this.http.get(this.dataUrl)
-    .subscribe(data => {
-      this.recordList = data;
+      .subscribe(data => {
 
-      console.log("data");
-      console.log(data);
-      
-      this.dataSource.data = this.recordList.feedbackList;
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+        this.commonservice.errorHandling(data, (function(){
+
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.feedbackList;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+      }).bind(this)); 
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
     });
   }
 
@@ -129,16 +138,25 @@ export class FeedbackvisitortblComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
-      
-      this.dataSource.data = this.recordList.feedbackList;
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      this.commonservice.errorHandling(data, (function(){
+        this.recordList = data;
+
+        console.log("data");
+        console.log(data);
+        
+        this.dataSource.data = this.recordList.feedbackList;
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+      }).bind(this)); 
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
     });
   }
 

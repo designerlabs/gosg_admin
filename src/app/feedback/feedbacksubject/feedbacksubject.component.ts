@@ -98,28 +98,35 @@ export class FeedbacksubjectComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+      this.commonservice.errorHandling(data, (function(){
 
-      this.updateForm.get('subjectBm').setValue(this.recordList.feedbackSubjectEntityList[0].feedbackSubjectDescription);
-      this.updateForm.get('subjectEn').setValue(this.recordList.feedbackSubjectEntityList[1].feedbackSubjectDescription);      
+        this.recordList = data;
+        console.log("data");
+        console.log(data);
 
-      this.getIdBm = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectId;
-      this.getIdEn = this.recordList.feedbackSubjectEntityList[1].feedbackSubjectId;      
-      this.getRefId = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectCode;
+        this.updateForm.get('subjectBm').setValue(this.recordList.feedbackSubjectEntityList[0].feedbackSubjectDescription);
+        this.updateForm.get('subjectEn').setValue(this.recordList.feedbackSubjectEntityList[1].feedbackSubjectDescription);      
 
-      console.log("EN: "+this.getIdEn+" BM: "+this.getIdBm)
+        this.getIdBm = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectId;
+        this.getIdEn = this.recordList.feedbackSubjectEntityList[1].feedbackSubjectId;      
+        this.getRefId = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectCode;
 
-      this.checkReqValues();
+        console.log("EN: "+this.getIdEn+" BM: "+this.getIdBm)
+
+        this.checkReqValues();
+      }).bind(this));   
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
       
     });
   }
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[3];
-    let txt;
 
     // add form
     if(urlEdit === 'add'){
@@ -148,21 +155,14 @@ export class FeedbacksubjectComponent implements OnInit {
         data => {
           console.log(JSON.stringify(body))
 
-          let errMsg = data.statusCode.toLowerCase();
-                 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          else{
-            txt = "Record added successfully!";
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['feedback/subject']);
-          }
+          }).bind(this)); 
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
     }
@@ -197,20 +197,13 @@ export class FeedbacksubjectComponent implements OnInit {
         data => {
           console.log(JSON.stringify(body))
 
-          let errMsg = data.statusCode.toLowerCase();
-        
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          else{
-            txt = "Record updated successfully!";
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['feedback/subject']);
-          }
+          }).bind(this)); 
         },
         error => {
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
           console.log(error);
       });
     }

@@ -86,6 +86,7 @@ export class AppConfig {
     urlAdminUserFind: string;
 
     urlImageList: string;
+    urlCategory: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -156,6 +157,9 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlMediaType: commonURL + 'mediatype',
     urlMediaType: 'http://10.1.22.50:8080/mediatype',
     urlSystemSettings: commonURL + 'systemsettings',
+
+    urlCategory: commonURL + 'content/category',
+
     lang: 'language='+localStorage.getItem('langID')
 };
 

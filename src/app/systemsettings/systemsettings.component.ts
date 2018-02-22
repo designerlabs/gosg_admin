@@ -100,26 +100,33 @@ export class SystemsettingsComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+        //this.commonservice.errorHandling(data, (function(){
 
-      this.updateForm.get('entity').setValue(this.recordList.settingsEntities);
-      this.updateForm.get('key').setValue(this.recordList.settingsKey); 
-      this.updateForm.get('value').setValue(this.recordList.settingsValue);       
-      this.updateForm.get('active').setValue(this.recordList.isActive);      
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
 
-      this.getId = this.recordList.settings_id;
+          this.updateForm.get('entity').setValue(this.recordList.settingsEntities);
+          this.updateForm.get('key').setValue(this.recordList.settingsKey); 
+          this.updateForm.get('value').setValue(this.recordList.settingsValue);       
+          this.updateForm.get('active').setValue(this.recordList.isActive);      
 
-      this.checkReqValues();
+          this.getId = this.recordList.settings_id;
+          this.checkReqValues();
+
+        //}).bind(this));   
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);
       
     });
   }
 
   submit(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
-    let txt = "";
 
     // add form
     if(this.urlEdit === 'add'){
@@ -143,22 +150,14 @@ export class SystemsettingsComponent implements OnInit {
       this.commonservice.addRecordSysSettings(body).subscribe(
         data => {
                     
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['systemsettings']);
-          }               
+          }).bind(this));            
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
     }
@@ -186,22 +185,15 @@ export class SystemsettingsComponent implements OnInit {
       this.commonservice.updateRecordSysSettings(body).subscribe(
         data => {
                   
-          let errMsg = data.statusCode.toLowerCase();
-          
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['systemsettings']);
-          }    
+          }).bind(this)); 
+
         },
         error => {
           
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
           console.log(error);
       });
     }

@@ -6,6 +6,7 @@ import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
+import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
@@ -48,6 +49,7 @@ export class PollresultComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
+    private toastr: ToastrService,
     private translate: TranslateService) { 
 
     /* LANGUAGE FUNC */
@@ -83,16 +85,24 @@ export class PollresultComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
-      
-      this.dataSource.data = this.recordList.pollQuestionFormatList;
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+        this.commonservice.errorHandling(data, (function(){
+
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.pollQuestionFormatList;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+        }).bind(this)); 
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
     });
   }
 

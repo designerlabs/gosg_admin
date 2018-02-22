@@ -34,7 +34,7 @@
           <ng-container matColumnDef="accEng">
               <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category (EN) </mat-header-cell>
               <mat-cell class="text-align-Left" *matCellDef="let element">
-                  {{element.list[0].accountStatusDescription}} 
+                  {{element.list[0].categoryName}} 
               </mat-cell>
           </ng-container>
 
@@ -42,7 +42,7 @@
           <ng-container matColumnDef="accMalay">
               <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category (BM) </mat-header-cell>
               <mat-cell class="text-align-Left" *matCellDef="let element">
-                  {{element.list[1].accountStatusDescription}}
+                  {{element.list[1].categoryName}}
               </mat-cell>
           </ng-container>
       
