@@ -192,20 +192,20 @@
           <div class="example-header">
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100" required>
+                    <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
                     <!-- <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint> -->
-                    <mat-error *ngIf="updateForm.controls.seqEng.hasError('required')">
+                    <!-- <mat-error *ngIf="updateForm.controls.seqEng.hasError('required')">
                             Sequence Number is required
-                    </mat-error>
+                    </mat-error> -->
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100" required>
+                    <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
                     <!-- <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint> -->
-                    <mat-error *ngIf="updateForm.controls.seqMy.hasError('required')">
+                    <!-- <mat-error *ngIf="updateForm.controls.seqMy.hasError('required')">
                             Nombor Urutan Diperlukan
-                    </mat-error>
+                    </mat-error> -->
                 </mat-form-field>
             </div>
           </div>

@@ -329,9 +329,15 @@ export class FootercontentComponent implements OnInit {
 
   stripspaces(input)
   {
-    let word = input.value.toString();
+    if(input.value != null){
+      let word = input.value.toString();
     input.value = word.replace(/\s/gi,"");
     return true;
+    }
+    else{
+      return false;
+    }
+    
   }
   
 
@@ -345,6 +351,7 @@ export class FootercontentComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      // this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
       console.log(data);
@@ -390,6 +397,12 @@ export class FootercontentComponent implements OnInit {
       this.isSameImg(this.recordList.list[0].image,this.recordList.list[1].image);
 
       this.checkReqValues();
+      // }).bind(this));   
+    },
+    error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);
 
     });
   }
@@ -492,22 +505,14 @@ export class FootercontentComponent implements OnInit {
       this.commonservice.addFooterContent(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['footer/footercontent']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
         //   console.log(JSON.stringify(body))
@@ -605,22 +610,14 @@ export class FootercontentComponent implements OnInit {
       this.commonservice.updateFooterContent(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['footer/footercontent']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
         //   console.log(JSON.stringify(body))
@@ -642,7 +639,7 @@ export class FootercontentComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["nameEng", "nameMy", "seqEng", "seqMy"];
+    let reqVal:any = ["nameEng", "nameMy"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

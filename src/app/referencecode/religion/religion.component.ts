@@ -126,6 +126,7 @@ export class ReligionComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
       console.log(data);
@@ -140,6 +141,14 @@ export class ReligionComponent implements OnInit {
       this.getReligionIdEng = this.recordList.religionList[0].religionId;
       this.getReligionCodeEng = this.recordList.religionList[0].religionCode;
       // this.getRaceActive = this.recordList.raceList[0].active;
+
+    }).bind(this));   
+  },
+  error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
+
 
     });
   }
@@ -196,22 +205,14 @@ export class ReligionComponent implements OnInit {
       this.commonservice.addReligion(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['reference/religion']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
         //   console.log(JSON.stringify(body))
@@ -274,22 +275,14 @@ export class ReligionComponent implements OnInit {
       this.commonservice.updateReligion(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['reference/religion']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
         //   console.log(JSON.stringify(body))
