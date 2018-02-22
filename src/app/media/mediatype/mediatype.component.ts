@@ -60,6 +60,7 @@ export class MediatypeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    debugger;
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
     this.catType = new FormControl();
@@ -103,13 +104,13 @@ export class MediatypeComponent implements OnInit {
 
   // get, add, update, delete
   getRow(row) {
-    // return this.http.get(this.appConfig.urlMediaType + '/id/' + row).subscribe(
-    return this.http.get('./app/apidata/race.json').subscribe(
+    return this.http.get(this.appConfig.urlMediaType + '/id/' + row).subscribe(
+    // return this.http.get('./app/apidata/race.json').subscribe(
       Rdata => {
         // debugger;
         this.mediaTypeData = Rdata;
         console.log(this.mediaTypeData);
-        let data = this.mediaTypeData['mediaTypes'];
+        let data = this.mediaTypeData['mediaType'];
         this.getData = data;
       // populate data
       if(data){

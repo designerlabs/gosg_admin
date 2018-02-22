@@ -35,7 +35,7 @@
         <ng-container matColumnDef="catName">
           <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> Category </mat-header-cell>
             <mat-cell *matCellDef="let element" [style.flex]="'0 0 25%'"> <mat-chip-list >               
-                <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories">{{ele.category.categoryName}}</mat-chip>
+                <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories">{{ele.mediaTypeCategoryId}}</mat-chip>
             </mat-chip-list>  
           </mat-cell>
         </ng-container>
