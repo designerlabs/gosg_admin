@@ -365,7 +365,7 @@ addMediaFileUpload(mediaFile) {
 // Media File upload ends
 
 // Get Category List
-getCategoryList() {
+getCategoryList1() {
   console.log(this.appConfig.urlMediaFileUpload);
   return this.http.get(this.appConfig.urlMediaFileUpload)
   .map((response: Response) => response.json())
