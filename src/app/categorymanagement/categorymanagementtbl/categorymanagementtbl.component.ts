@@ -44,8 +44,7 @@ export class CategorymanagementtblComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-
-
+  
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
