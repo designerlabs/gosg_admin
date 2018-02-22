@@ -123,6 +123,7 @@ export class FaqComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
       console.log(data);
@@ -141,6 +142,13 @@ export class FaqComponent implements OnInit {
       this.getFaqIdMy = this.recordList.faqList[1].faqId;
 
       this.checkReqValues();
+
+    }).bind(this));   
+  },
+  error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
 
     });
   }
@@ -205,22 +213,14 @@ export class FaqComponent implements OnInit {
       this.commonservice.addFaq(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['faq']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
 
@@ -285,22 +285,14 @@ export class FaqComponent implements OnInit {
       this.commonservice.updateFaq(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['faq']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
 

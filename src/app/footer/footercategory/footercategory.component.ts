@@ -128,6 +128,7 @@ export class FootercategoryComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      // this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
       console.log(data);
@@ -142,6 +143,13 @@ export class FootercategoryComponent implements OnInit {
       this.getRefCode = this.recordList.refCode;
       this.getFooterIdEng = this.recordList.list[0].id;
       this.getFooterIdMy = this.recordList.list[1].id;
+
+    // }).bind(this));   
+  },
+  error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
       
       // this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
       // this.getFaqIdEng = this.recordList.faqList[0].faqId;
@@ -209,24 +217,14 @@ export class FootercategoryComponent implements OnInit {
 
       this.commonservice.addFooterCategory(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-          console.log(body)
-          // alert('Record added successfully!')
-
-          if(data.statusCode == "ERROR"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['footer/footercategory']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
     }
@@ -275,24 +273,14 @@ export class FootercategoryComponent implements OnInit {
 
       this.commonservice.updateFooterCategory(body).subscribe(
         data => {
-          console.log(JSON.stringify(body))
-          console.log(body)
-          // alert('Record updated successfully!')
-
-          if(data.statusCode == "ERROR"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['footer/footercategory']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
     }
