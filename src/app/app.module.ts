@@ -103,15 +103,12 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
 import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
-<<<<<<< HEAD
 import { Ng4FilesModule } from './ng4-files';
 
-=======
 import { ModmenuComponent } from './modmenu/modmenu.component';
 import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 import { ContentComponent } from './content/content.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
->>>>>>> 7f2bb720b1e1f7bb5fceee3b07bbb2cf4090fff4
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
