@@ -268,8 +268,8 @@ export class CommonService {
   }
 
   getCategoryData() {
-    console.log(this.appConfig.urlCategoryList);
-    return this.http.get(this.appConfig.urlCategoryList)
+    console.log(this.appConfig.urlCategory);
+    return this.http.get(this.appConfig.urlCategory + '/code?page=1&size=100&language=1')
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -345,7 +345,32 @@ delMediaType(mediaTypeId) {
   .catch(this.handleError);
 }
 
-// Media Types ends
+// Media Types ends urlMediaFileUpload
+
+// Media File upload starts
+getMediaFileUpload() {
+  console.log(this.appConfig.urlMediaFileUpload);
+  return this.http.get(this.appConfig.urlMediaFileUpload)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+addMediaFileUpload(mediaFile) {
+  debugger;
+  return this.http.post(this.appConfig.urlMediaFileUpload, mediaFile)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+// Media File upload ends
+
+// Get Category List
+getCategoryList() {
+  console.log(this.appConfig.urlMediaFileUpload);
+  return this.http.get(this.appConfig.urlMediaFileUpload)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
 
   // SLIDER
   getSlider(code) {
