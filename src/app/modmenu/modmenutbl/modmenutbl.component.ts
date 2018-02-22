@@ -88,8 +88,7 @@ export class ModmenutblComponent implements OnInit {
   // get module Data 
   getModuleData(count, size) {
 
-    console.log(this.appConfig.urlModule + '?page=' + count + '&size=' + size+ '&language='+this.languageId)
-    this.http.get(this.appConfig.urlModule + '?page=' + count + '&size=' + size+ '&language='+this.languageId).subscribe(
+    this.http.get(this.appConfig.urlModule + '?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(
       data => {
         this.moduleList = data;
         console.log(this.moduleList)

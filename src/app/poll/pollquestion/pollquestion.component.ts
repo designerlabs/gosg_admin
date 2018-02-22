@@ -136,28 +136,37 @@ export class PollquestionComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      this.updateForm.get('pollEng').setValue(this.recordList[0].questionTitle);
-      this.updateForm.get('pollMalay').setValue(this.recordList[1].questionTitle); 
-      this.updateForm.get('opt1En').setValue(this.recordList[0].answer[0].answer);    
-      this.updateForm.get('opt2En').setValue(this.recordList[0].answer[1].answer);    
-      this.updateForm.get('opt3En').setValue(this.recordList[0].answer[2].answer);    
-      this.updateForm.get('opt4En').setValue(this.recordList[0].answer[3].answer);    
-      this.updateForm.get('opt5En').setValue(this.recordList[0].answer[4].answer);    
-      this.updateForm.get('opt1Bm').setValue(this.recordList[1].answer[0].answer);    
-      this.updateForm.get('opt2Bm').setValue(this.recordList[1].answer[1].answer);    
-      this.updateForm.get('opt3Bm').setValue(this.recordList[1].answer[2].answer);    
-      this.updateForm.get('opt4Bm').setValue(this.recordList[1].answer[3].answer);    
-      this.updateForm.get('opt5Bm').setValue(this.recordList[1].answer[4].answer);
-      this.updateForm.get('active').setValue(this.recordList[0].pollsActiveFlag);
+      //this.commonservice.errorHandling(data, (function(){
+        console.log(data);
+        this.recordList = data;
 
-      this.getIdEn = this.recordList[0].questionId;
-      this.getIdBm = this.recordList[1].questionId;
-      this.getRefId = this.recordList[0].pollReference;
+        this.updateForm.get('pollEng').setValue(this.recordList.pollQuestionListDto[0].questionTitle);
+        this.updateForm.get('pollMalay').setValue(this.recordList.pollQuestionListDto[1].questionTitle); 
+        this.updateForm.get('opt1En').setValue(this.recordList.pollQuestionListDto[0].answer[0].answer);    
+        this.updateForm.get('opt2En').setValue(this.recordList.pollQuestionListDto[0].answer[1].answer);    
+        this.updateForm.get('opt3En').setValue(this.recordList.pollQuestionListDto[0].answer[2].answer);    
+        this.updateForm.get('opt4En').setValue(this.recordList.pollQuestionListDto[0].answer[3].answer);    
+        this.updateForm.get('opt5En').setValue(this.recordList.pollQuestionListDto[0].answer[4].answer);    
+        this.updateForm.get('opt1Bm').setValue(this.recordList.pollQuestionListDto[1].answer[0].answer);    
+        this.updateForm.get('opt2Bm').setValue(this.recordList.pollQuestionListDto[1].answer[1].answer);    
+        this.updateForm.get('opt3Bm').setValue(this.recordList.pollQuestionListDto[1].answer[2].answer);    
+        this.updateForm.get('opt4Bm').setValue(this.recordList.pollQuestionListDto[1].answer[3].answer);    
+        this.updateForm.get('opt5Bm').setValue(this.recordList.pollQuestionListDto[1].answer[4].answer);
+        this.updateForm.get('active').setValue(this.recordList.pollQuestionListDto[0].pollsActiveFlag);
 
-      this.checkReqValues();
+        this.getIdEn = this.recordList.pollQuestionListDto[0].questionId;
+        this.getIdBm = this.recordList.pollQuestionListDto[1].questionId;
+        this.getRefId = this.recordList.pollQuestionListDto[0].pollReference;
 
+        this.checkReqValues();
+      //}).bind(this));  
+
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);  
     });
   }
 
@@ -229,22 +238,14 @@ export class PollquestionComponent implements OnInit {
       this.commonservice.addRecord(body).subscribe(
         data => {
           
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['poll/questions']);
-          } 
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
           console.log(error);
       });
     }
@@ -316,23 +317,15 @@ export class PollquestionComponent implements OnInit {
       this.commonservice.updateRecord(body).subscribe(
         data => {
           
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), ''); 
             this.router.navigate(['poll/questions']);
-          } 
+          }).bind(this)); 
           
         },
         error => {
           
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           console.log(error);
       });
     }

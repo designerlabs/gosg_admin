@@ -262,6 +262,8 @@ export class FootercontentComponent implements OnInit {
       this.imgMy = e.value;
     }
 
+    this.isSameImg(this.updateForm.controls.imgEng.value,this.updateForm.controls.imgMy.value);
+
     // if(this.imgEng != null && this.imgEng == this.imgMy) {
     //   this.updateForm.get('copyImg').setValue(true);
     // } else {
@@ -280,16 +282,63 @@ export class FootercontentComponent implements OnInit {
     }
   }
 
-  isChecked(e) {
+  isChecked(e, imgEng) {
+
+    // if (e.checked) {
+    //   this.updateForm.get("imgMy").setValue(this.imgEng);
+    // } else {
+    //   this.updateForm.get("imgMy").setValue("");
+    // }
+    // this.copyImg = e.checked;
+
+    // this.checkReqValues();
 
     if (e.checked) {
-      this.updateForm.get("imgMy").setValue(this.imgEng);
+      
+      if(this.updateForm.controls.imgEng.value == null || this.updateForm.controls.imgEng.value == undefined){
+        this.updateForm.get("imgMy").setValue("");
+        this.updateForm.get('copyImg').setValue(false);
+      }
+      else
+        {
+          // this.selectedImg(this.imgEng, 1);
+          // this.updateForm.get("imgMy").setValue(this.imgEng);
+          this.updateForm.get('copyImg').setValue(true);
+          this.updateForm.get("imgMy").setValue(this.updateForm.controls.imgEng.value);
+        } 
+      
     } else {
       this.updateForm.get("imgMy").setValue("");
+      this.updateForm.get('copyImg').setValue(false);
     }
-    this.copyImg = e.checked;
   }
 
+  copyValue(type) {
+    let elemOne = this.updateForm.get('seqEng');
+    let elemTwo = this.updateForm.get('seqMy');
+
+    if(type == 1)
+      elemTwo.setValue(elemOne.value)
+    else
+      elemOne.setValue(elemTwo.value)
+      
+    this.stripspaces(elemOne)
+    this.stripspaces(elemTwo)
+
+  }
+
+  stripspaces(input)
+  {
+    if(input.value != null){
+      let word = input.value.toString();
+    input.value = word.replace(/\s/gi,"");
+    return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
   
 
   getData() {
@@ -302,6 +351,7 @@ export class FootercontentComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      // this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
       console.log(data);
@@ -312,7 +362,7 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
       this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
       this.updateForm.get('iconEng').setValue(this.recordList.list[0].icon);
-      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].image));
+      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].image.mediaId));
       // this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
       this.updateForm.get('urlEng').setValue(this.recordList.list[0].url);
       this.updateForm.get('seqEng').setValue(this.recordList.list[0].sortingOrder);
@@ -324,7 +374,7 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('nameMy').setValue(this.recordList.list[1].name);
       this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
       this.updateForm.get('iconMy').setValue(this.recordList.list[1].icon);
-      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].image));
+      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].image.mediaId));
       // this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
       this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
       this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
@@ -344,8 +394,15 @@ export class FootercontentComponent implements OnInit {
       this.getFooterNameMy = this.recordList.list[0].footer.name;
       this.getFooterIdMy = this.recordList.list[0].footer.id;
 
+      this.isSameImg(this.recordList.list[0].image,this.recordList.list[1].image);
 
       this.checkReqValues();
+      // }).bind(this));   
+    },
+    error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);
 
     });
   }
@@ -448,22 +505,14 @@ export class FootercontentComponent implements OnInit {
       this.commonservice.addFooterContent(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['footer/footercontent']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
         //   console.log(JSON.stringify(body))
@@ -538,7 +587,7 @@ export class FootercontentComponent implements OnInit {
       body[0].image.mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
-      body[0].footer.id = this.getCatIdEn;
+      body[0].footer.id = this.getFooterIdEng;
       // body[0].footer.id = 1;
       // body[0].footer.name = this.getFooterNameEng;
 
@@ -552,7 +601,7 @@ export class FootercontentComponent implements OnInit {
       body[1].image.mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
-      body[1].footer.id = this.getCatIdBm;
+      body[1].footer.id = this.getFooterIdMy;
       // body[1].footer.id = 1;
       // body[1].footer.name = this.getFooterNameMy;
 
@@ -561,22 +610,14 @@ export class FootercontentComponent implements OnInit {
       this.commonservice.updateFooterContent(body).subscribe(
         data => {
 
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['footer/footercontent']);
-          }               
+          }).bind(this));   
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
         //   console.log(JSON.stringify(body))

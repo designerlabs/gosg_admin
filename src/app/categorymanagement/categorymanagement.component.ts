@@ -124,9 +124,9 @@ export class CategorymanagementComponent implements OnInit {
     if(val == 1){
 
       for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[0].id;
+        indexVal = dataList[i].list[0].categoryId;
         if(indexVal == this.getCatIdEn){
-          idBm = dataList[i].list[1].id;
+          idBm = dataList[i].list[1].categoryId;
         }        
       }
 
@@ -135,9 +135,9 @@ export class CategorymanagementComponent implements OnInit {
     else{
 
       for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[1].id;
+        indexVal = dataList[i].list[1].categoryId;
         if(indexVal == this.getCatIdBm){
-          idEn = dataList[i].list[0].id;
+          idEn = dataList[i].list[0].categoryId;
         }        
       }
 
@@ -147,20 +147,21 @@ export class CategorymanagementComponent implements OnInit {
 
   getCategory(){
 
-    let txt = "";
-
-    return this.commonservice.getFooterCategoryList()
+    return this.commonservice.getCategoryList()
      .subscribe(data => {
+      debugger;
+      console.log(data);
         
-        this.categoryData = data;   
-        console.log(this.categoryData);         
+      this.commonservice.errorHandling(data, (function(){
+          this.categoryData = data.list;   
+          console.log(this.categoryData);        
+          
+        }).bind(this));
       },
+      error => {
 
-      Error => {
-
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
-        console.log(Error);
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
     });
   }
 
@@ -243,8 +244,7 @@ export class CategorymanagementComponent implements OnInit {
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');    
           console.log(error);
       });
     }
@@ -297,8 +297,7 @@ export class CategorymanagementComponent implements OnInit {
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           console.log(error);
       });
     }

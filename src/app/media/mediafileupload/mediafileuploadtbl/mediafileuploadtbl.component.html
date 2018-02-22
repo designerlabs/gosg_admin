@@ -20,22 +20,19 @@
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }} 
           </mat-cell>
         </ng-container>
-      <!-- Title (BM) Column -->
-      <ng-container matColumnDef="mediaType">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element" [style.flex]="'0 0 25%'">
-          {{element.mediaTypeName}}
+      <!-- Media File Column -->
+      <ng-container matColumnDef="mediaFile">
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 35%'"> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element" [style.flex]="'0 0 35%'">
+          {{element.list[0].mediaFile}}
         </mat-cell>
-        <!-- <mat-cell *matCellDef="let element" [style.flex]="'0 0 25%'"> <mat-chip-list >               
-            <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories">{{ele.category.categoryName}}</mat-chip>
-        </mat-chip-list> 
-      </mat-cell> -->
       </ng-container>
       <!-- Title (EN) Column -->
       <ng-container matColumnDef="catName">
-        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> Formats </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> Category </mat-header-cell>
           <mat-cell *matCellDef="let element" [style.flex]="'0 0 25%'"> <mat-chip-list >               
-              <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories">{{ele.category.categoryName}}</mat-chip>
+              <mat-chip color="primary" selected="true" *ngFor="let ele of element.list[0].mediaCategories">
+                {{ele.categoryName}}</mat-chip>
           </mat-chip-list>  
         </mat-cell>
       </ng-container>
@@ -43,19 +40,19 @@
       <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
-            <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+            <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
           </mat-cell>
         </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action">
         <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
         <mat-cell class="actionColumn padding5" *matCellDef="let element" >
-          <button mat-mini-fab style="background: orange" (click)="editGroup(element.mediaTypeId)" title="Update {{ element.mediaTypeId }}">
+          <button mat-mini-fab style="background: orange" (click)="editGroup(element.refCode)" title="Update {{ element.refCode }}">
             <i class="fa fa-edit"></i>
           </button>&nbsp;
           <!-- Delete option not required for Media Type -->
-          <button mat-mini-fab style="background: red" (click)="deleteRow(element.mediaTypeId)">
-            <i class="fa fa-trash" title="Delete {{ element.mediaTypeId }}"></i>
+          <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
+            <i class="fa fa-trash" title="Delete {{ element.refCode }}"></i>
           </button>
         </mat-cell>
       </ng-container>

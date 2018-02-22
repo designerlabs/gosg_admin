@@ -139,6 +139,7 @@
             <div class="col-md-5" style="border: 0px solid #000">
                 <mat-form-field class="font-size-s" style="width:100%;" >
                         <mat-select formControlName="imgEng"  placeholder="Select Image" (change)="selectedImg($event, 1)">
+                            <mat-option [value]=null>Select Image</mat-option>
                             <mat-option *ngFor="let imageEng of imageDataEng" [value]="imageEng.list[0].mediaId">{{ imageEng.list[0].mediaFile }}</mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -151,11 +152,12 @@
               </mat-form-field> -->
             </div>
             <div class="col-md-2" style="text-align: center; padding-top: 15px;">
-                <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span>&nbsp;Copy</span>
+                <mat-checkbox formControlName="copyImg" (change)="isChecked($event, imgEng)"></mat-checkbox><span>&nbsp;Copy</span>
             </div>
             <div class="col-md-5" style="border: 0px solid #000; text-align: left">
                 <mat-form-field class="font-size-s" style="width:100%;" >
                     <mat-select formControlName="imgMy"  placeholder="Pilih Gambar" (change)="selectedImg($event, 2)">
+                        <mat-option [value]=null>Pilih Gambar</mat-option>
                         <mat-option *ngFor="let imageMy of imageDataMy" [value]="imageMy.list[0].mediaId">{{ imageMy.list[0].mediaFile}}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -190,14 +192,20 @@
           <div class="example-header">
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Sequence Number" formControlName="seqEng" #seqEng maxlength="100">
+                    <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
                     <!-- <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint> -->
+                    <!-- <mat-error *ngIf="updateForm.controls.seqEng.hasError('required')">
+                            Sequence Number is required
+                    </mat-error> -->
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Nombor Urutan" formControlName="seqMy" #seqMy maxlength="100">
+                    <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
                     <!-- <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint> -->
+                    <!-- <mat-error *ngIf="updateForm.controls.seqMy.hasError('required')">
+                            Nombor Urutan Diperlukan
+                    </mat-error> -->
                 </mat-form-field>
             </div>
           </div>

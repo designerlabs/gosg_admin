@@ -41,6 +41,7 @@ export class AppConfig {
     urlCountryList: string;
     urlStateList: string;
     urlCityList: string;
+    urlReligion: string;
     urlReligionList: string;
     urlModuleList: string;
     urlGroupModuleList: string;
@@ -70,6 +71,7 @@ export class AppConfig {
     urlUserTypeDelete: string;
     urlAdminUserListUpdate: string;
     urlMediaType: string;
+    urlMediaFileUpload: string;
 
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
@@ -86,6 +88,7 @@ export class AppConfig {
     urlAdminUserFind: string;
 
     urlImageList: string;
+    urlCategory: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -122,6 +125,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
+    urlReligion: serviceURL + 'religion',
     urlReligionList: commonURL + 'religion',
     urlRaceList: serviceURL + 'race',
     urlRace: commonURL + 'race',
@@ -147,14 +151,15 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAnnounceList: commonURL + 'announcement/code',
     // urlCategoryList: './app/apidata/category.json',
     urlCategoryList: commonURL + 'announcement/category',
+    urlCategory: commonURL + 'content/category',
     urlAddressType: commonURL + 'addresstype',
     urlAccountStatus: commonURL + 'accountstatus',
     urlFeedbackType: commonURL + 'feedback/type',
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
-    // urlMediaType: commonURL + 'mediatype',
-    urlMediaType: 'http://10.1.22.50:8080/mediatype',
+    urlMediaType: commonURL + 'mediatype',
+    urlMediaFileUpload: commonURL + 'media',
     urlSystemSettings: commonURL + 'systemsettings',
     lang: 'language='+localStorage.getItem('langID')
 };

@@ -230,7 +230,9 @@
       "added": "Successfully added!",
       "updated": "Successfully updated!",
       "deletesuccess":"Record has been deleted successfully!",
-      "deletesuccess_multi":"Selected Record has been deleted successfully!"
+      "deletesuccess_multi":"Selected Record has been deleted successfully!",
+      "feedbacksummitted":"Feedback has been submitted successfully!",
+      "feedbackdraft":"Feedback has been saved has darft!"
     },
     "icon":{
       "success":"fa fa-check",

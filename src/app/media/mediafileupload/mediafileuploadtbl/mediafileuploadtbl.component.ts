@@ -19,7 +19,7 @@ export class MediafileuploadtblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0;
 
-  displayedColumns = ['no', 'mediaType', 'catName',  'status', 'action'];
+  displayedColumns = ['no', 'mediaFile', 'catName',  'status', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
@@ -32,13 +32,13 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   getMediaList() {
-    // return this.commonservice.getMediaType()
-    return this.http.get('./app/apidata/race.json')
+    return this.commonservice.getMediaFileUpload()
+    // return this.http.get('./app/apidata/race.json')
        .subscribe(resStateData => {
          debugger;
-        this.seqPageNum = 1;
-        this.seqPageSize = 10;
-          this.mediaList = resStateData['mediaTypes'];  
+        this.seqPageNum = resStateData.pageNumber;
+        this.seqPageSize = resStateData.pageSize;
+          this.mediaList = resStateData['list'];  
           this.dataSource.data = this.mediaList;      
         },
         Error => {

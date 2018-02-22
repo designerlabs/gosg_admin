@@ -1,99 +1,131 @@
 {
-        "type": "RESPONSE",
-        "statusCode": "SUCCESS",
-        "statusDesc": "Retrieved All Media Types..",
-        "mediaTypes": [
-                {
-                        "mediaTypeId": 508,
-                        "mediaTypeName": "Images",
-                        "supportedFileExtensions": "jpg,jpeg,gif,tiff,bmp",
-                        "mediaTypeCategories": [
-                                {
-                                        "mediaTypeCategoryId": 509,
-                                        "category": {
-                                                "categoryId": 3,
-                                                "categoryName": "Article",
-                                                "categoryCode": null,
-                                                "categoryDescription": "Article Category",
-                                                "parentId": 1,
-                                                "languageId": 1,
-                                                "contents": [],
-                                                "medias": []
-                                        },
-                                        "minH": 200,
-                                        "minW": 200,
-                                        "maxH": 600,
-                                        "maxW": 600,
-                                        "fileThresholdSize": 10,
-                                        "fileThresholdSizeUnits": "MB"
-                                },
-                                {
-                                        "mediaTypeCategoryId": 511,
-                                        "category": {
-                                                "categoryId": 4,
-                                                "categoryName": "Slider",
-                                                "categoryCode": null,
-                                                "categoryDescription": "Slider Category",
-                                                "parentId": 1,
-                                                "languageId": 1,
-                                                "contents": [],
-                                                "medias": []
-                                        },
-                                        "minH": 200,
-                                        "minW": 300,
-                                        "maxH": 500,
-                                        "maxW": 600,
-                                        "fileThresholdSize": 5,
-                                        "fileThresholdSizeUnits": "MB"
-                                }
-                        ],
-                        "enabled": true
-                },
-                {
-                        "mediaTypeId": 512,
-                        "mediaTypeName": "Videos",
-                        "supportedFileExtensions": "avi,mpg,mpeg,mov",
-                        "mediaTypeCategories": [
-                                {
-                                        "mediaTypeCategoryId": 509,
-                                        "category": {
-                                                "categoryId": 3,
-                                                "categoryName": "Article",
-                                                "categoryCode": null,
-                                                "categoryDescription": "Article Category",
-                                                "parentId": 1,
-                                                "languageId": 1,
-                                                "contents": [],
-                                                "medias": []
-                                        },
-                                        "minH": 200,
-                                        "minW": 200,
-                                        "maxH": 600,
-                                        "maxW": 600,
-                                        "fileThresholdSize": 10,
-                                        "fileThresholdSizeUnits": "MB"
-                                },
-                                {
-                                        "mediaTypeCategoryId": 511,
-                                        "category": {
-                                                "categoryId": 4,
-                                                "categoryName": "Slider",
-                                                "categoryCode": null,
-                                                "categoryDescription": "Slider Category",
-                                                "parentId": 1,
-                                                "languageId": 1,
-                                                "contents": [],
-                                                "medias": []
-                                        },
-                                        "minH": 200,
-                                        "minW": 300,
-                                        "maxH": 500,
-                                        "maxW": 600,
-                                        "fileThresholdSize": 5,
-                                        "fileThresholdSizeUnits": "MB"
-                                }
-                        ],
-                        "enabled": true
-                }
-        ]
+  "type": "RESPONSE",
+  "statusCode": "SUCCESS",
+  "statusDesc": "Retrieved All Medias..",
+  "list": [
+    {
+      "refCode": 36,
+      "active": true,
+      "list": [
+        {
+          "mediaId": 647,
+          "rootCategoryId": 1,
+          "language": {
+            "languageId": 1,
+            "languageCode": "en",
+            "languageName": "ENGLISH",
+            "languageDescription": "English Language"
+          },
+          "mediaTypeId": 508,
+          "mediaTitle": "Gallery",
+          "mediaFile": "PortScan.png",
+          "fileSize": 2,
+          "fileSizeUnits": "MB",
+          "fileDimensions": "240*320",
+          "mediaFilePath": "/opt/media/Images/PortScan.png",
+          "enabled": true,
+          "mediaCodeRunningNo": 36,
+          "mediaCategories": [
+            {
+              "categoryId": 3,
+              "categoryName": "Article",
+              "categoryDescription": "Article Category",
+              "parentId": 1,
+              "language": {
+                "languageId": 1,
+                "languageCode": "en",
+                "languageName": "ENGLISH",
+                "languageDescription": "English Language"
+              }
+            },
+            {
+              "categoryId": 2,
+              "categoryName": "Gallery",
+              "categoryDescription": "Gallery Category",
+              "parentId": 1,
+              "language": {
+                "languageId": 1,
+                "languageCode": "en",
+                "languageName": "ENGLISH",
+                "languageDescription": "English Language"
+              }
+            },
+            {
+              "categoryId": 4,
+              "categoryName": "Slider",
+              "categoryDescription": "Slider Category",
+              "parentId": 1,
+              "language": {
+                "languageId": 1,
+                "languageCode": "en",
+                "languageName": "ENGLISH",
+                "languageDescription": "English Language"
+              }
+            }
+          ]
+        },{
+          "mediaId": 647,
+          "rootCategoryId": 1,
+          "language": {
+            "languageId": 2,
+            "languageCode": "ms",
+            "languageName": "BAHASA MALAYSIA",
+            "languageDescription": "Bahasa Malaysia"
+          },
+          "mediaTypeId": 508,
+          "mediaTitle": "Gallery",
+          "mediaFile": "PortScan.png",
+          "fileSize": 2,
+          "fileSizeUnits": "MB",
+          "fileDimensions": "240*320",
+          "mediaFilePath": "/opt/media/Images/PortScan.png",
+          "enabled": true,
+          "mediaCodeRunningNo": 36,
+          "mediaCategories": [
+            {
+              "categoryId": 3,
+              "categoryName": "Article",
+              "categoryDescription": "Article Category",
+              "parentId": 1,
+              "language": {
+                "languageId": 2,
+                "languageCode": "ms",
+                "languageName": "BAHASA MALAYSIA",
+                "languageDescription": "Bahasa Malaysia"
+              }
+            },
+            {
+              "categoryId": 2,
+              "categoryName": "Gallery",
+              "categoryDescription": "Gallery Category",
+              "parentId": 1,
+              "language": {
+                "languageId": 2,
+                "languageCode": "ms",
+                "languageName": "BAHASA MALAYSIA",
+                "languageDescription": "Bahasa Malaysia"
+              }
+            },
+            {
+              "categoryId": 4,
+              "categoryName": "Slider",
+              "categoryDescription": "Slider Category",
+              "parentId": 1,
+              "language": {
+                "languageId": 2,
+                "languageCode": "ms",
+                "languageName": "BAHASA MALAYSIA",
+                "languageDescription": "Bahasa Malaysia"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pageNumber": 1,
+  "pageSize": 10,
+  "numberOfElements": 3,
+  "totalElements": 3,
+  "totalPages": 1
 }
