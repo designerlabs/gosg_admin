@@ -82,6 +82,8 @@ import { MediafileuploadComponent } from './media/mediafileupload/mediafileuploa
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
 import { ContentComponent } from './content/content.component';
+import { ModmenuComponent } from './modmenu/modmenu.component';
+import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -114,6 +116,9 @@ export const appRoutes: Routes = [
 {path: 'language/add', component: LanguageComponent},
 {path: 'language/:id', component: LanguageComponent},
 {path: 'language', component: LanguagetblComponent},
+{path: 'modmenu/add', component: ModmenuComponent},
+{path: 'modmenu/:id', component: ModmenuComponent},
+{path: 'modmenu', component: ModmenutblComponent},
 {path: 'ministry/add', component: MinistryComponent},
 {path: 'ministry/:id', component: MinistryComponent},
 {path: 'ministry', component: MinistrytblComponent},

@@ -74,17 +74,24 @@ export class FootercontentComponent implements OnInit {
   public recordList: any;
   public resCatData: any;
   // public category: any;
-  public categoryDataEng: any;
-  public categoryDataMy: any;
+  public categoryData: any;
+  // public categoryDataEng: any;
+  // public categoryDataMy: any;
 
   public getCatValueEng: any;
   public getCatValueMy: any;
   public languageId: any;
 
+  public getCatIdEn: any;
+  public getCatIdBm: any;
+
   complete: boolean;
 
   public imageDataEng: any;
   public imageDataMy: any;
+
+  public imejEng: any;
+  public imejMy: any;
 
   // public selectedImgMy = 'Sila Pilih';
   // public selectedImgEng = 'Please Select';
@@ -178,20 +185,59 @@ export class FootercontentComponent implements OnInit {
       this.getData();
     }
 
-    this.isSameImg(this.imgEng,this.imgMy);
+    // this.isSameImg(this.imgEng,this.imgMy);
     
   }
 
   getCategory(){
     return this.commonservice.getFooterCategoryList()
      .subscribe(resCatData => {
-        this.categoryDataEng = resCatData;   
-        this.categoryDataMy = resCatData;       
+        this.categoryData = resCatData;   
+        // this.categoryDataMy = resCatData;       
       },
       Error => {
       //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
       console.log('Error in State');
      });
+  }
+
+  
+
+
+  selectedCat(e, val){
+
+    console.log(e);
+    this.getCatIdEn = e.value;
+    this.getCatIdBm = e.value;
+    let dataList = this.categoryData;
+    let indexVal: any;
+    let idBm: any;
+    let idEn: any;
+
+    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm + " value: " +val);
+
+    if(val == 1){
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[0].id;
+        if(indexVal == this.getCatIdEn){
+          idBm = dataList[i].list[1].id;
+        }        
+      }
+
+      this.updateForm.get('catMy').setValue(idBm);  
+    }
+    else{
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[1].id;
+        if(indexVal == this.getCatIdBm){
+          idEn = dataList[i].list[0].id;
+        }        
+      }
+
+      this.updateForm.get('catEng').setValue(idEn); 
+    }
   }
 
   getImageList(){
@@ -206,32 +252,42 @@ export class FootercontentComponent implements OnInit {
      });
   }
 
-
-  // isSameImg(imgEng,imgMy);
-  // isChecked(e)
-
-  // getCategory(){
-  //   this.dataUrl = this.appConfig.urlFooterCategory + '?active=true';
-  //   this.http.get(this.dataUrl)
-  //   .subscribe(dataRes => {
-  //     this.categoryData = dataRes;
-  //     console.log(this.categoryData);
-  //   },
-  //   Error => {
-  //   //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-  //   console.log('Error in State');
-  //   });
-     
-  // }
-
-  selectedCat(e){
+  selectedImg(e, val){
     console.log(e);
-    this.getFooterIdEng = e.value.list[0].id;
-    this.getFooterIdMy = e.value.list[1].id;
+
+    if(val == 1){
+      this.imgEng = e.value;
+    }
+    else{
+      this.imgMy = e.value;
+    }
+
+    // if(this.imgEng != null && this.imgEng == this.imgMy) {
+    //   this.updateForm.get('copyImg').setValue(true);
+    // } else {
+    //   this.updateForm.get('copyImg').setValue(false);
+    // }
+    
   }
 
-  selectedImg(e){
-    console.log(e);
+  isSameImg(imgEng,imgMy) {
+
+    console.log(imgEng)
+    if(imgEng != null && imgEng == imgMy) {
+      this.updateForm.get('copyImg').setValue(true);
+    } else {
+      this.updateForm.get('copyImg').setValue(false);
+    }
+  }
+
+  isChecked(e) {
+
+    if (e.checked) {
+      this.updateForm.get("imgMy").setValue(this.imgEng);
+    } else {
+      this.updateForm.get("imgMy").setValue("");
+    }
+    this.copyImg = e.checked;
   }
 
   
@@ -369,7 +425,7 @@ export class FootercontentComponent implements OnInit {
       body[0].image.mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
-      body[0].footer.id = this.getFooterIdEng;
+      body[0].footer.id = this.getCatIdEn;
       // body[0].footer.id = 1;
       // body[0].footer.name = this.getFooterNameEng;
 
@@ -383,7 +439,7 @@ export class FootercontentComponent implements OnInit {
       body[1].image.mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
-      body[1].footer.id = this.getFooterIdMy;
+      body[1].footer.id = this.getCatIdBm;
       // body[1].footer.id = 1;
       // body[1].footer.name = this.getFooterNameMy;
 
@@ -482,7 +538,7 @@ export class FootercontentComponent implements OnInit {
       body[0].image.mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
-      body[0].footer.id = this.getFooterIdEng;
+      body[0].footer.id = this.getCatIdEn;
       // body[0].footer.id = 1;
       // body[0].footer.name = this.getFooterNameEng;
 
@@ -496,7 +552,7 @@ export class FootercontentComponent implements OnInit {
       body[1].image.mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
-      body[1].footer.id = this.getFooterIdMy;
+      body[1].footer.id = this.getCatIdBm;
       // body[1].footer.id = 1;
       // body[1].footer.name = this.getFooterNameMy;
 
@@ -561,25 +617,7 @@ export class FootercontentComponent implements OnInit {
     }
   }
 
-  isSameImg(imgEng,imgMy) {
-
-    console.log(imgEng)
-    if(imgEng != null && imgEng == imgMy) {
-      this.updateForm.get('copyImg').setValue(true);
-    } else {
-      this.updateForm.get('copyImg').setValue(false);
-    }
-  }
-
-  isChecked(e) {
-
-    if (e.checked) {
-      this.updateForm.get("imgMy").setValue(this.imgEng.value);
-    } else {
-      this.updateForm.get("imgMy").setValue("");
-    }
-    this.copyImg = e.checked;
-  }
+  
 
   myFunction() {
 

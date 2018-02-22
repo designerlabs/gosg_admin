@@ -11,13 +11,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-modules',
-  templateUrl: './modules.component.html',
-  styleUrls: ['./modules.component.css']
+  selector: 'app-modmenu',
+  templateUrl: './modmenu.component.html',
+  styleUrls: ['./modmenu.component.css']
 })
-export class ModulesComponent implements OnInit {
+export class ModmenuComponent implements OnInit {
 
-  modulesData: Object;
+  moduleData: Object;
   isActive: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -94,7 +94,7 @@ export class ModulesComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['slider']);
+    this.router.navigate(['modmenu']);
   }
 
   // get, add, update, delete
@@ -105,16 +105,16 @@ export class ModulesComponent implements OnInit {
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
 
-        this.modulesData = Rdata;
-        console.log(this.modulesData)
-        console.log(this.appConfig.urlMenu + "/" + row)
+        this.moduleData = Rdata['module'];
+        console.log(this.moduleData)
+        // console.log(this.appConfig.urlMenu + "/" + row)
 
       // populate data
-      // this.modulesForm.get('moduleName').setValue(this.modulesData.moduleName);
-      // this.modulesForm.get('moduleDesc').setValue(this.modulesData.moduleDesc);
-      // this.modulesForm.get('moduleUrl').setValue(parseInt(this.modulesData.moduleUrl));
-      // this.modulesForm.get('active').setValue(this.modulesData.active);
-      // this.moduleId = this.modulesData.moduleId;
+      this.modulesForm.get('moduleName').setValue(this.moduleData['moduleName']);
+      this.modulesForm.get('moduleDesc').setValue(this.moduleData['moduleDescription']);
+      this.modulesForm.get('moduleUrl').setValue(this.moduleData['moduleUrl']);
+      this.modulesForm.get('active').setValue(this.moduleData['active']);
+      this.moduleId = this.moduleData['moduleId'];
 
       this.checkReqValues();
     });
@@ -149,5 +149,69 @@ export class ModulesComponent implements OnInit {
     }
 
   }
+
+  updateModule(formValues: any) {
+    
+    if(!this.isEdit) {
+
+    let body = {
+        "moduleName": null,
+        "moduleDescription": null,
+        "active": false,
+        "moduleUrl": null
+    };
+    
+    // console.log(formValues)
+
+    body.moduleName = formValues.moduleName;
+    body.moduleDescription = formValues.moduleDesc;
+    body.active = formValues.active;
+    body.moduleUrl = formValues.moduleUrl;
+
+
+    console.log(body)
+
+    // Add ErrorMsg Service
+    this.commonservice.addModMenu(body).subscribe(
+      data => {
+        this.toastr.success('Module added successfully!', ''); 
+        this.router.navigate(['modmenu']);
+      },
+      error => {
+        console.log("No Data")
+      });
+
+    } else {
+
+      let body = {
+          "moduleId": null,
+          "moduleName": null,
+          "moduleDescription": null,
+          "active": false,
+          "moduleUrl": null
+      };
+      
+      // console.log(formValues)
+  
+      body.moduleId = this.moduleId;
+      body.moduleName = formValues.moduleName;
+      body.moduleDescription = formValues.moduleDesc;
+      body.active = formValues.active;
+      body.moduleUrl = formValues.moduleUrl;
+
+    console.log(body);
+
+    // Update ErrorMsg Service
+    this.commonservice.updateModMenu(body).subscribe(
+      data => {
+        this.toastr.success('Module update successful!', '');   
+        this.router.navigate(['modmenu']);
+      },
+      error => {
+        console.log("No Data")
+      });
+    }
+    
+    }
 
 }
