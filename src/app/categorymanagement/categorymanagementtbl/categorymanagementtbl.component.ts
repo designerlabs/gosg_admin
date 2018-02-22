@@ -141,6 +141,7 @@ export class CategorymanagementtblComponent implements OnInit {
         
         this.commonservice.errorHandling(data, (function(){
 
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         
         }).bind(this));    

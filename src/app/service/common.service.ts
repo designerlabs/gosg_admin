@@ -1062,6 +1062,13 @@ delMediaType(mediaTypeId) {
       .catch(this.handleError);
   }
 
+  getCategoryList(){
+    let fullUrl = this.appConfig.urlCategory + '?page=1&size=100&language=' + this.languageId;
+    return this.http.get(fullUrl, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getAdminUser(): Observable<any[]> {
     return this.http.get(this.appConfig.urlAdminUserList)
       .map((response: Response) => response.json())
