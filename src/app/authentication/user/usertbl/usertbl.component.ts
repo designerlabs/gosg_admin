@@ -15,6 +15,7 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
   styleUrls: ['./usertbl.component.css']
 })
 export class UsertblComponent implements OnInit {
+  checkStatus: any;
   userId: any;
   lang:any;
   languageId: any;
@@ -138,8 +139,9 @@ export class UsertblComponent implements OnInit {
     this.dataUrl = this.appConfig.urlAdminUserList;
     this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
       
-
-      this.userList = data;
+      this.commonservice.errorHandling(data, (function(){
+        
+        this.userList = data;
         console.log(this.userList)
         this.dataSource.data = this.userList.adminUserListResource;
         this.seqPageNum = this.userList.pageNumber;
@@ -147,6 +149,12 @@ export class UsertblComponent implements OnInit {
         this.commonservice.recordTable = this.userList;
         this.noNextData = this.userList.pageNumber === this.userList.totalPages;
 
+      }).bind(this));
+        
+
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
     });
   }
 
@@ -159,7 +167,18 @@ export class UsertblComponent implements OnInit {
       keyword == '-';
     }
     this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
-      this.searchUserResult = data['userList'];
+
+      this.commonservice.errorHandling(data, (function(){
+        
+        this.searchUserResult = data['userList'];
+        this.checkStatus = data['statusCode'];
+
+      }).bind(this));
+
+      
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
     });
   }
 
@@ -187,19 +206,24 @@ export class UsertblComponent implements OnInit {
   resetMethod(event, msgId) {
     debugger;
     this.isMailContainerShow = 'none';
-    this.deleteMail(msgId);
+    this.deleteUser(msgId);
   }
 
   
-  deleteMail(msgId){
+  deleteUser(msgId){
     this.commonservice.deleteUserList(msgId).subscribe(
       data => {
         
-        this.getUsersData(this.pageCount, this.pageSize);
-        this.toastr.success(this.translate.instant('mailbox.success.deletesuccess'), '');  
+        this.commonservice.errorHandling(data, (function(){
+        
+          this.getUsersData(this.pageCount, this.pageSize);
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+  
+        }).bind(this));
+          
       },
       error => {
-        this.toastr.error(this.translate.instant('mailbox.err.failtodelete'), '');            
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
       });
   }
 
@@ -217,22 +241,24 @@ export class UsertblComponent implements OnInit {
     this.animateClass = "animated flipInX";
   }
 
+
   addUserDetails(){
 
     this.commonservice.addUserList(this.userId).subscribe(
       data => {
-          let statusCode = data.statusCode.toLowerCase();
-          if(statusCode == 'error'){
-            this.toastr.error(data.statusDesc, 'Error');
-          }else{
-            this.toastr.success('User successfully Add!', 'success');
-          }
-          
-          this.checkReqValues();
-          this.closeUser();
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
           this.getUsersData(this.pageCount, this.pageSize);
-      }
-    )
+        }).bind(this));
+          
+        this.checkReqValues();
+        this.closeUser();
+          
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      });
   
   }
 
@@ -242,27 +268,6 @@ export class UsertblComponent implements OnInit {
     this.router.navigate(['admin/permission', row]);
   }
 
-  deleteRow(enId) {
-    let txt;
-    let r = confirm("Are you sure to delete " + enId  + "?");
-    if (r == true) {
-
-      this.commonservice.deleteUserList(enId).subscribe(
-        data => {
-          txt = "Slider deleted successfully!";
-          this.toastr.success(txt, '');   
-          this.getUsersData(this.pageCount, this.pageSize);
-        },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.sliderForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      // alert(txt)
-    }
-  }
 
   changePageMode(isEdit) {
     if (isEdit == false) {
@@ -278,6 +283,7 @@ export class UsertblComponent implements OnInit {
   }
   
   getValue(type, val, usrId){
+    event.preventDefault();
     this.userId = usrId;
     this.isActive = false;
     this.isActiveList = false;
@@ -289,8 +295,6 @@ export class UsertblComponent implements OnInit {
     }
   }
 
-  back(){
-    this.router.navigate(['slider']);
-  }
+
 
 }

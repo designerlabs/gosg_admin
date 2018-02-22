@@ -199,17 +199,24 @@ export class AgencyComponent implements OnInit {
   }
 
   getSearchData(keyword){
-    this.isActive = true;
-    this.isActiveList = true;
 
-    if(keyword != "") {
+    
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      console.log(keyword)
+      
+      this.isActive = true;
+      this.isActiveList = true;
+
       this.http.get(
-        this.appConfig.urlSearchbyMinistry+keyword.value+'?language='+localStorage.getItem('langID')).subscribe(
+        this.appConfig.urlSearchbyMinistry+keyword+'?language='+localStorage.getItem('langID')).subscribe(
         data => {
           // debugger;
         this.searchMinistryResult = data['ministryList'];
+        console.log(this.appConfig.urlSearchbyMinistry+keyword+'?language='+localStorage.getItem('langID'))
         console.log(this.searchMinistryResult)
       });
+    } else {
+      this.isActiveList = false;
     }
   }
   

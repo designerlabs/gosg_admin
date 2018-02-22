@@ -75,6 +75,7 @@ export class AppConfig {
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
     urlSystemSettings: string;
+    urlModule:string;
     urlModuleGroupList:string;
 
     urlFaqList:string;
@@ -84,12 +85,14 @@ export class AppConfig {
     urlFooterContent: string;
     lang: string;
     urlAdminUserFind: string;
+
+    urlImageList: string;
     urlCategory: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
-    urlMenu: commonURL + 'menu/list?',
+    urlMenu: commonURL + 'menu',
     urlCommon: commonURL,
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
@@ -100,6 +103,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlSlides: commonURL + 'slide',  
     urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
+    urlModule: commonURL + 'authorization/module',
     urlModuleList: commonURL + 'authorization/module/moduleList',
     urlModuleGroupList: commonURL + 'authorization/module/group',
     urlGroupModuleList: mockApiURL + 'groupList',
@@ -140,6 +144,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFeedback: commonURL + 'feedback',
     urlPostcode: serviceURL + 'postcode/city/',
     urlFaq: './app/apidata/faq.json',
+    urlImageList: commonURL + 'media/category/name/Article',
     // urlAnnounceList: './app/apidata/announce.json',
     urlAnnounceList: commonURL + 'announcement/code',
     // urlCategoryList: './app/apidata/category.json',

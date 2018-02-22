@@ -73,31 +73,69 @@
           <div class="col-md-12">&nbsp;</div>
         </div>
         
-        <!-- <div class="col-md-12">&nbsp;</div> -->
         <div class="row">
           <div class="col-md-6" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
-              <input matInput tabindex="5" placeholder="Agency" formControlName="agency" #agencyId (keyup)="getSearchData(agency.value)" (change)="checkReqValues()" required>
-              <mat-error *ngIf="agencyAppForm.controls.agency.hasError('required')">
+              <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (keyup)="getSearchData(agencyEn.value, 1)" (change)="checkReqValues()" required>
+              <mat-error *ngIf="agencyAppForm.controls.agencyEn.hasError('required')">
                 Agency is required
               </mat-error>
             </mat-form-field>
 
-            <div *ngIf="isActiveList" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
+            <div *ngIf="isActiveListEn" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
               <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
-                <li *ngFor="let data of searchAgencyResult">
-                  <button (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName)">{{data?.agencyName}}</button>
+                <li *ngFor="let data of searchAgencyResultEn">
+                  <button (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName,1)">{{data?.agencyName}}</button>
                 </li>
               </ul>
             </div>
           </div>
+          <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="5" placeholder="Agency" formControlName="agencyBm" #agencyBm (keyup)="getSearchData(agencyBm.value, 2)" (change)="checkReqValues()" required>
+              <mat-error *ngIf="agencyAppForm.controls.agencyBm.hasError('required')">
+                Agency is required
+              </mat-error>
+            </mat-form-field>
 
+            <div *ngIf="isActiveListBm" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
+              <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
+                <li *ngFor="let data of searchAgencyResultBm">
+                  <button (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName,2)">{{data?.agencyName}}</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
           <div class="col-md-6" style="margin-top: -0.5%">
             <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Ministry</label>
             <br />
-            <span>{{ ministryName }}</span>
+            <span>{{ ministryNameEn }}</span>
+          </div>
+          <div class="col-md-6" style="margin-top: -0.5%">
+            <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Ministry</label>
+            <br />
+            <span>{{ ministryNameBm }}</span>
           </div>
 
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-10">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="6" placeholder="Website URL" formControlName="websiteUrl" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="agencyAppForm.controls.websiteUrl.hasError('required')">
+                Website URL is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 paddingTop-20">
+            <mat-checkbox tabindex="7" formControlName="isDoc" [checked]="false" [value]="false"></mat-checkbox>
+            <span>&nbsp;is Document</span>
+          </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
       </div>

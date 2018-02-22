@@ -221,7 +221,18 @@
       "home":"Home"
     },
     "err":{
-      "servicedown": "Sorry, Server is down"
+      "servicedown": "Sorry, Server is down",
+      "failtoload":"Sorry, Record is not loading properly, Try again!",
+      "failtodelete":"Sorry, Record is not deleted properly, Try again!",
+      "failtoview":"Sorry, Record is not viewed properly, Try again!"
+    },
+    "success":{
+      "added": "Successfully added!",
+      "updated": "Successfully updated!",
+      "deletesuccess":"Record has been deleted successfully!",
+      "deletesuccess_multi":"Selected Record has been deleted successfully!",
+      "feedbacksummitted":"Feedback has been submitted successfully!",
+      "feedbackdraft":"Feedback has been saved has darft!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -231,7 +242,7 @@
     },
     "msg":{
       "reset":"Reset this form?",
-      "delete":"Are you sure to delete the record?"   
+      "delete":"Are you sure to delete the record?"
     },
     "state":{
       "success":"bg_header bg_success_header",

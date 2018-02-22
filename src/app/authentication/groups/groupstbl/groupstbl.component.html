@@ -49,8 +49,16 @@
         <mat-cell class="text-align-Center padding5" *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab style="background: orange" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
             <i class="fa fa-edit" ></i></button>&nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow(element.moduleGroupId)">
+            <button mat-mini-fab style="background: red" (click)="deleteModal.show()">
             <i class="fa fa-trash"  title="Delete {{ element.moduleGroupId }}"></i></button>
+
+            <app-confirm-dialog  #deleteModal 
+              [title]="'common.icon.warn'" 
+              [content]="'common.msg.delete'"
+              [state]="'bg_header bg_warn_header'"
+              [isReset]="'true'"
+              (resetMethod)="resetMethod($event, element.moduleGroupId)">
+            </app-confirm-dialog>
         </mat-cell>
     </ng-container> 
       <!-- Account Status Column -->

@@ -82,9 +82,8 @@
             <mat-form-field class="example-full-width">
                   <mat-select formControlName="imgEn" placeholder="Select Image" (change)="checkReqValues()" required>
                       <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
-                      <mat-option [value]="1">image1.png</mat-option>
-                      <mat-option [value]="2">image2.jpg</mat-option>
-                      <mat-option [value]="3">image3.png</mat-option>
+                      <mat-option [value]="647">image1.png</mat-option>
+                      <mat-option [value]="648">image2.jpg</mat-option>
                   </mat-select>
                 <mat-error *ngIf="sliderForm.get('imgEn').hasError('required')">
                   Please select a file
@@ -102,9 +101,8 @@
             <mat-form-field class="example-full-width">
               <mat-select formControlName="imgBm" placeholder="Select Image" (change)="checkReqValues()" required>
                   <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
-                  <mat-option [value]="1">image1.png</mat-option>
-                  <mat-option [value]="2">image2.jpg</mat-option>
-                  <mat-option [value]="3">image3.png</mat-option>
+                  <mat-option [value]="647">image1.png</mat-option>
+                  <mat-option [value]="648">image2.jpg</mat-option>
               </mat-select>
             <mat-error *ngIf="sliderForm.get('imgBm').hasError('required')">
               Please select a file

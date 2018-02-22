@@ -84,7 +84,6 @@
       "success_content2":"for your account activation",
       "isexist":"Email penuh Sudah Wujud"
     }
-    
   },
   "profile":{
     "msg":{
@@ -222,7 +221,18 @@
       "home":"Laman Utama"
     },
     "err":{
-      "servicedown": "Harap maaf, Pelayan tidak aktif "
+      "servicedown": "Harap maaf, Pelayan tidak aktif ",
+      "failtoload":"Harap maaf, Record is not loading properly, Try again!",
+      "failtodelete":"Harap maaf, Record is not deleted properly, Try again!",
+      "failtoview":"Harap maaf, Record is not viewed properly, Try again!"
+    },
+    "success":{
+      "added": "Berjaya ditambah!",
+      "updated": "Berjaya dikemaskini!",
+      "deletesuccess":"Rekod berjaya dipadam!",
+      "deletesuccess_multi":"Rekod yang dipilih berjaya dipadam!",
+      "feedbacksummitted":"Maklum balas berjaya dihantar!",
+      "feedbackdraft":"Maklum balas berjaya disimpan sebagai deraf!"
     },
     "icon":{
       "success":"fa fa-check",

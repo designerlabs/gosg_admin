@@ -1,0 +1,76 @@
+<!-- VIEW: ADD/EDIT AGENCY APP  -->
+<div class="container right-content">
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>{{ pageMode }} Module </h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i class="fa fa-arrow-left font-size-l"></i></button>
+          </span>
+      </div> 
+  </div>
+
+  <form [formGroup]="modulesForm" autocomplete="off" role="form" novalidate>
+  
+      <div class="example-container mat-elevation-z8 col-md-12">
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width ">
+              <input matInput tabindex="1" placeholder="Module Name" formControlName="moduleName" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="modulesForm.controls.moduleName.hasError('required')">
+                Module Name is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width ">
+              <textarea matInput tabindex="2" placeholder="Description" formControlName="moduleDesc" #moduleDesc maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="modulesForm.controls.moduleDesc.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-hint align="end">{{moduleDesc.value?.length || 0}}/10000</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-10">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="3" placeholder="Module URL" formControlName="moduleUrl" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="modulesForm.controls.moduleUrl.hasError('required')">
+                Module URL is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2 paddingTop-20">
+            <mat-checkbox tabindex="4" formControlName="active" [checked]="true"></mat-checkbox>
+            <span>&nbsp;Active</span>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+      </div>
+        
+      <!-- <div class="container"> -->
+      <div class="col-md-12">&nbsp;</div>
+        <div class="form-group">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success  pull-right"
+            (click)="updateModule(modulesForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning  pull-right"
+            style="width: 100px; font-family: Roboto" (click)="myFunction()">
+            <i class="fa fa-refresh"></i>&nbsp;Reset</button>
+        </div>
+      <div class="col-md-12">&nbsp;</div>
+    <!-- </div> -->
+  </form>
+</div>

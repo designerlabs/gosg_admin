@@ -80,6 +80,10 @@ import { CategorymanagementtblComponent } from './categorymanagement/categoryman
 import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
 import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
+import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
+import { ContentComponent } from './content/content.component';
+import { ModmenuComponent } from './modmenu/modmenu.component';
+import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -92,6 +96,8 @@ export const appRoutes: Routes = [
 {path: 'media/add', component: MediafileuploadComponent},
 {path: 'media/:id', component: MediafileuploadComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
+
+//Feedback: N
 {path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
 {path: 'feedback/message/visitor/:id', component: FeedbackvisitorComponent},
 {path: 'feedback/message/admin', component: FeedbackadmintblComponent},
@@ -102,6 +108,7 @@ export const appRoutes: Routes = [
 {path: 'feedback/subject', component: FeedbacksubjecttblComponent},
 {path: 'feedback/subject/:id', component: FeedbacksubjectComponent},
 {path: 'feedback/subject/add', component: FeedbacksubjectComponent},
+
 {path: '404', component: ErrorComponent},
 {path: 'errormessage/add', component: ErrormessageComponent},
 {path: 'errormessage/:id', component: ErrormessageComponent},
@@ -109,6 +116,9 @@ export const appRoutes: Routes = [
 {path: 'language/add', component: LanguageComponent},
 {path: 'language/:id', component: LanguageComponent},
 {path: 'language', component: LanguagetblComponent},
+{path: 'modmenu/add', component: ModmenuComponent},
+{path: 'modmenu/:id', component: ModmenuComponent},
+{path: 'modmenu', component: ModmenutblComponent},
 {path: 'ministry/add', component: MinistryComponent},
 {path: 'ministry/:id', component: MinistryComponent},
 {path: 'ministry', component: MinistrytblComponent},
@@ -124,10 +134,13 @@ export const appRoutes: Routes = [
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
+
+// Poll: N
 {path: 'poll/questions', component: PollquestiontblComponent},
 {path: 'poll/questions/:id', component: PollquestionComponent},
 {path: 'poll/questions/add', component: PollquestionComponent},
 {path: 'poll/results', component: PollresultComponent},
+
 {path: 'slider', component: SlidertblComponent},
 {path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
@@ -163,18 +176,20 @@ export const appRoutes: Routes = [
 
 {path: 'maincategory', component: MaincategorytblComponent},
 {path: 'subcategory', component: SubcategorytblComponent},
-{path: 'category', component: CategorytblComponent},
+{path: 'categories', component: CategorytblComponent},
 {path: 'maincategory/add', component: MaincategoryComponent},
 {path: 'subcategory/add', component: SubcategoryComponent},
-{path: 'category/add', component: CategoryComponent},
+{path: 'categories/add', component: CategoryComponent},
 {path: 'maincategory/:id', component: MaincategoryComponent},
 {path: 'subcategory/:id', component: SubcategoryComponent},
-{path: 'category/:id', component: CategoryComponent},
+{path: 'categories/:id', component: CategoryComponent},
 
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
+
+//System Settings: N
 {path: 'systemsettings',component: SystemsettingstblComponent},
 {path: 'systemsettings/:id',component: SystemsettingsComponent},
 {path: 'systemsettings/add',component: SystemsettingsComponent},
@@ -185,15 +200,24 @@ export const appRoutes: Routes = [
 {path: 'announcement', component: AnnouncementtblComponent},
 {path: 'announcement/:id', component: AnnouncementComponent},
 {path: 'announcement/add', component: AnnouncementComponent},
+
+//Address Type: N
 {path: 'address/type', component: AddresstypetblComponent},
 {path: 'address/type/:id', component: AddresstypeComponent},
 {path: 'address/type/add', component: AddresstypeComponent},
+
+//Account Status: N
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
-{path: 'categorymanagement', component: CategorymanagementtblComponent},
-{path: 'categorymanagement/:id', component: CategorymanagementComponent},
-{path: 'categorymanagement/add', component: CategorymanagementComponent},
+
+// Category & Content: N
+{path: 'category', component: CategorymanagementtblComponent},
+{path: 'category/:id', component: CategorymanagementComponent},
+{path: 'category/add', component: CategorymanagementComponent},
+{path: 'content', component: ContenttblComponent},
+{path: 'content/:id', component: ContentComponent},
+{path: 'content/add', component: ContentComponent},
 
 {path: '**', component: ErrorComponent}, // put at the last row
 // All Category

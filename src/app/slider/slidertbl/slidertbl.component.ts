@@ -5,6 +5,9 @@ import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DialogsService } from '../../dialogs/dialogs.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-slidertbl',
@@ -29,6 +32,8 @@ export class SlidertblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
+  lang:any;
+  languageId: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,10 +50,33 @@ export class SlidertblComponent implements OnInit {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private dialogsService: DialogsService,
+    private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+    
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              // this.getSlidersData(this.pageCount, this.sliderPageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      // this.getSlidersData(this.pageCount, this.sliderPageSize);
+    }
+
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
@@ -115,15 +143,12 @@ export class SlidertblComponent implements OnInit {
     this.router.navigate(['slider', row]);
   }
 
-  deleteRow(enId,bmId) {
+  deleteItem(enId,bmId) {
     let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
-    if (r == true) {
 
       this.commonservice.delSlider(enId,bmId).subscribe(
         data => {
           txt = "Slider deleted successfully!";
-          // this.router.navigate(['slider']);
           this.toastr.success(txt, '');   
           this.getSlidersData(this.pageCount, this.sliderPageSize);
         },
@@ -131,11 +156,6 @@ export class SlidertblComponent implements OnInit {
           console.log("No Data")
         });
 
-      // this.sliderForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      // alert(txt)
-    }
   }
 
   changePageMode(isEdit) {

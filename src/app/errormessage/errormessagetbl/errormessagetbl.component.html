@@ -63,9 +63,16 @@
               <i class="fa fa-edit" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)" title="Delete {{ element.refCode }}">
+            <button mat-mini-fab style="background: red" (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
               <i class="fa fa-trash"  title="Delete {{ element.refCode }}"></i>
             </button>
+            <app-confirm-dialog  #deleteRow 
+            [title]="'common.icon.warn'" 
+            [content]="'common.msg.delete'"
+            [state]="'common.state.warn'"
+            [isReset]="'true'"
+            (resetMethod)="deleteItem($event, element.refCode)">
+            </app-confirm-dialog> 
         </mat-cell>
       </ng-container>
 

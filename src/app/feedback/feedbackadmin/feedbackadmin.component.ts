@@ -95,52 +95,53 @@ export class FeedbackadminComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);    
+      this.commonservice.errorHandling(data, (function(){
 
-      this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks); 
+        this.recordList = data;
+        console.log("data");
+        console.log(data);    
 
-      this.name = this.recordList.feedback.feedbackName;
-      this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
-      this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
-      this.messages = this.recordList.feedback.feedbackMessage;
-      this.email = this.recordList.feedback.feedbackEmail;
-      this.replyMessage = this.recordList.feedback.feedbackRemarks;
-      this.lang = this.recordList.feedback.language.languageId;
-      this.feedbackTicketNo = this.recordList.feedback.feedbackTicketNo;
-      this.feedbackUserIpAddress = this.recordList.feedback.feedbackUserIpAddress;
-      this.feedbackTypeId = this.recordList.feedback.feedbackType.feedbackTypeId;
-      this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
+        this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks); 
 
-      this.getId = this.recordList.feedback.feedbackId;
-      console.log(this.messages);       
-      
+        this.name = this.recordList.feedback.feedbackName;
+        this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
+        this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
+        this.messages = this.recordList.feedback.feedbackMessage;
+        this.email = this.recordList.feedback.feedbackEmail;
+        this.replyMessage = this.recordList.feedback.feedbackRemarks;
+        this.lang = this.recordList.feedback.language.languageId;
+        this.feedbackTicketNo = this.recordList.feedback.feedbackTicketNo;
+        this.feedbackUserIpAddress = this.recordList.feedback.feedbackUserIpAddress;
+        this.feedbackTypeId = this.recordList.feedback.feedbackType.feedbackTypeId;
+        this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
+
+        this.getId = this.recordList.feedback.feedbackId;
+        console.log(this.messages);   
+
+      }).bind(this));       
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);      
     });
   }
 
   delete(getId) {
-    let txt;
-   
+    
     console.log(getId);
     this.commonservice.delRecordFeedback(getId).subscribe(
       data => {
         
-        let errMsg = data.statusCode.toLowerCase();
+        this.commonservice.errorHandling(data, (function(){
 
-        if(errMsg == "error"){
-          this.commonservice.errorResponse(data);
-        }
-        else{
-          txt = "Record deleted successfully!";
-          this.toastr.success(txt, '');  
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.router.navigate(['feedback/message/admin']);
-        }
+        }).bind(this)); 
       },
       error => {
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         console.log(error);
     });
 
