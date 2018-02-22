@@ -87,13 +87,21 @@ export class FeedbacksubjecttblComponent implements OnInit {
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
-      console.log("GET RECORD: ")
-      this.recordList = data;      
-      this.dataSource.data = this.recordList.list;
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      this.commonservice.errorHandling(data, (function(){
+
+        console.log("GET RECORD: ")
+        this.recordList = data;      
+        this.dataSource.data = this.recordList.list;
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      }).bind(this)); 
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
     });
   }
 
@@ -123,26 +131,20 @@ export class FeedbacksubjecttblComponent implements OnInit {
   }
 
   deleteRow(refcode) {
-    let txt;   
 
     console.log(refcode);
     this.commonservice.delRecordFeedbackSubject(refcode).subscribe(
       data => {
 
-        let errMsg = data.statusCode.toLowerCase();
-
-        if(errMsg == "error"){
-          this.commonservice.errorResponse(data);
-        }
-        else{
-          txt = "Record deleted successfully!";
-          this.toastr.success(txt, '');  
+        this.commonservice.errorHandling(data, (function(){
+          
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
-        }
+        }).bind(this)); 
       },
       error => {
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
+        
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
         console.log(error);
     });
    

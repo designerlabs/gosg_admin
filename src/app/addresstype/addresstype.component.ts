@@ -94,23 +94,31 @@ export class AddresstypeComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlAddressType + '/code/'+_getRefID + '?language=' +this.languageId;
 
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+      //this.commonservice.errorHandling(data, (function(){
 
-      this.updateForm.get('addTypeEn').setValue(this.recordList[0].addressType);
-      this.updateForm.get('addTypeBm').setValue(this.recordList[1].addressType);      
-      this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+          this.recordList = data;
 
-      this.getIdEn = this.recordList[0].addressTypeId;
-      this.getIdBm = this.recordList[1].addressTypeId;
-      this.getRefId = this.recordList[0].refCode;
+          console.log("data");
+          console.log(data);
 
-      this.checkReqValues();
+          this.updateForm.get('addTypeEn').setValue(this.recordList[0].addressType);
+          this.updateForm.get('addTypeBm').setValue(this.recordList[1].addressType);      
+          this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+
+          this.getIdEn = this.recordList[0].addressTypeId;
+          this.getIdBm = this.recordList[1].addressTypeId;
+          this.getRefId = this.recordList[0].refCode;
+
+          this.checkReqValues();
+        //}).bind(this));  
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);
       
     });
   }
@@ -151,22 +159,14 @@ export class AddresstypeComponent implements OnInit {
       this.commonservice.addRecordAddType(body).subscribe(
         data => {
                     
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['address/type']);
-          }           
+          }).bind(this));            
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');    
           console.log(error);
       });
     }
@@ -205,22 +205,14 @@ export class AddresstypeComponent implements OnInit {
       this.commonservice.updateRecordAddType(body).subscribe(
         data => {
           
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['address/type']);
-          }           
+          }).bind(this));           
         },
         error => {
 
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           console.log(error);
       });
     }

@@ -1,0 +1,19 @@
+.right-content {
+    width: 100%;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+.bg-form-header {
+    padding: 10px;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+}
+
+.example-full-width {
+    width: 100%;
+}

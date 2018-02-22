@@ -94,28 +94,37 @@ export class FeedbackvisitorComponent implements OnInit {
     this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID + '?language=' +this.languageId;
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+      this.commonservice.errorHandling(data, (function(){
 
-      this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks);     
+        this.recordList = data;
+        console.log("data");
+        console.log(data);
 
-      this.name = this.recordList.feedback.feedbackName;
-      this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
-      this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
-      this.messages = this.recordList.feedback.feedbackMessage;
-      this.email = this.recordList.feedback.feedbackEmail;
-      this.replyMessage = this.recordList.feedback.feedbackRemarks;
-      this.lang = this.recordList.feedback.language.languageId;
-      this.feedbackTicketNo = this.recordList.feedback.feedbackTicketNo;
-      this.feedbackUserIpAddress = this.recordList.feedback.feedbackUserIpAddress;
-      this.feedbackTypeId = this.recordList.feedback.feedbackType.feedbackTypeId;
-      this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
+        this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks);     
 
-      this.getId = this.recordList.feedback.feedbackId;
-      console.log(this.messages);
-      this.checkReqValues();
+        this.name = this.recordList.feedback.feedbackName;
+        this.type = this.recordList.feedback.feedbackType.feedbackTypeDescription;
+        this.subject = this.recordList.feedback.feedbackSubject.feedbackSubjectDescription;
+        this.messages = this.recordList.feedback.feedbackMessage;
+        this.email = this.recordList.feedback.feedbackEmail;
+        this.replyMessage = this.recordList.feedback.feedbackRemarks;
+        this.lang = this.recordList.feedback.language.languageId;
+        this.feedbackTicketNo = this.recordList.feedback.feedbackTicketNo;
+        this.feedbackUserIpAddress = this.recordList.feedback.feedbackUserIpAddress;
+        this.feedbackTypeId = this.recordList.feedback.feedbackType.feedbackTypeId;
+        this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
+
+        this.getId = this.recordList.feedback.feedbackId;
+        console.log(this.messages);
+        this.checkReqValues();
+
+      }).bind(this)); 
+    },
+    error => {
+      
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
       
     });
   }
@@ -123,8 +132,7 @@ export class FeedbackvisitorComponent implements OnInit {
   submit(formValues: any) {
     //alert("DRAFT");
     let urlEdit = this.router.url.split('/')[2];
-    let txt;
-   
+
     let body = {
       "feedbackId": this.getId,
       "feedbackName": this.name,
@@ -154,21 +162,14 @@ export class FeedbackvisitorComponent implements OnInit {
     this.commonservice.updateRecordFeedbackDraft(body).subscribe(
       data => {
 
-        let errMsg = data.statusCode.toLowerCase();
-              
-        if(errMsg == "error"){
-          this.commonservice.errorResponse(data);
-        }
-        else{
-          txt = "Message saved successfully!";
-          this.toastr.success(txt, '');  
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.feedbackdraft'), '');
           this.router.navigate(['feedback/message/visitor']);
-        }
+        }).bind(this));  
       },
       error => {
 
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
         console.log(error);
     });    
     
@@ -177,7 +178,6 @@ export class FeedbackvisitorComponent implements OnInit {
   submitReply(formValues: any) {
    // alert("REPLY");
     let urlEdit = this.router.url.split('/')[2];
-    let txt;
    
     let body = {
       "feedbackId": this.getId,
@@ -208,22 +208,14 @@ export class FeedbackvisitorComponent implements OnInit {
     this.commonservice.updateRecordFeedbackReply(body).subscribe(
       data => {
         
-        let errMsg = data.statusCode.toLowerCase();
-
-        if(errMsg == "error"){
-          this.commonservice.errorResponse(data);
-        }
-        else{
-      
-          txt = "Feedback submitted successfully!";
-          this.toastr.success(txt, '');  
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.feedbacksummitted'), ''); 
           this.router.navigate(['feedback/message/visitor']);
-          }
+        }).bind(this)); 
       },
       error => {
 
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
         console.log(error);
     });    
     

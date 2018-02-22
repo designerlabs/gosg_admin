@@ -98,6 +98,7 @@ export class ModmenutblComponent implements OnInit {
         this.commonservice.recordTable = this.moduleList;
         this.noNextData = this.moduleList.pageNumber === this.moduleList.totalPages;
       });
+      
   }
 
   paginatorL(page) {
@@ -130,12 +131,11 @@ export class ModmenutblComponent implements OnInit {
     this.router.navigate(['modmenu', row]);
   }
 
-  deleteItem(refCode) {
+  deleteItem(moduleId) {
 
-    console.log(refCode)
     let txt;
 
-      this.commonservice.delAgency(refCode).subscribe(
+      this.commonservice.delModMenu(moduleId).subscribe(
         data => {
           txt = "Module deleted successfully!";
           console.log(data)

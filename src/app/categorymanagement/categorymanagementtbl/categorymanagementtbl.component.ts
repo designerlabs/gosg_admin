@@ -44,8 +44,7 @@ export class CategorymanagementtblComponent implements OnInit {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-
-
+  
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
@@ -83,20 +82,29 @@ export class CategorymanagementtblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
-      
-      this.dataSource.data = this.recordList.list;
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      this.commonservice.errorHandling(data, (function(){
+
+        this.recordList = data;
+        console.log("data");
+        console.log(data);
+        
+        this.dataSource.data = this.recordList.list;
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+      }).bind(this));
+    },
+    error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);
     });
   }
 
@@ -126,29 +134,21 @@ export class CategorymanagementtblComponent implements OnInit {
   }
 
   deleteRow(refcode) {
-    let txt;
-  
+   
     console.log(refcode);
     this.commonservice.delRecordAccStatus(refcode).subscribe(
       data => {
         
-        let errMsg = data.statusCode.toLowerCase();
+        this.commonservice.errorHandling(data, (function(){
 
-        if(errMsg == "error"){
-          this.commonservice.errorResponse(data);
-        }
-        else{
-
-          txt = "Record deleted successfully!"
-          this.toastr.success(txt, '');  
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
-        } 
-                  
+        
+        }).bind(this));    
       },
       error => {
 
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });    
   }
