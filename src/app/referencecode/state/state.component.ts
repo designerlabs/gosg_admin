@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-state',
@@ -55,7 +56,8 @@ export class StateComponent implements OnInit {
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
               private commonservice: CommonService, private router: Router,
-              private translate: TranslateService) {
+              private translate: TranslateService,
+              private toastr: ToastrService) {
 
                 /* LANGUAGE FUNC */
               translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -117,6 +119,7 @@ export class StateComponent implements OnInit {
 
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language='+this.languageId)
       .subscribe(data => {
+        this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
         console.log("data");
@@ -128,6 +131,13 @@ export class StateComponent implements OnInit {
         this.dataSource.data = this.recordList.stateList;
         this.commonservice.recordTable = this.recordList;
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+      }).bind(this)); 
+    },
+    error => {
+
+    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+    console.log(error);
       });
   }
 

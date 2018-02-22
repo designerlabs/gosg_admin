@@ -117,6 +117,7 @@ export class EthnicitytblComponent implements OnInit {
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
+      this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
       console.log("data");
@@ -128,6 +129,13 @@ export class EthnicitytblComponent implements OnInit {
       this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+        }).bind(this)); 
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
 
       //
       // this.getRaceIdMy = this.recordList.raceList[0].raceId;
@@ -172,23 +180,16 @@ export class EthnicitytblComponent implements OnInit {
     this.commonservice.delRace(refCode).subscribe(
       data => {
 
-        let errMsg = data.statusCode.toLowerCase();
-
-        if(errMsg == "error"){
-          this.commonservice.errorResponse(data);
-        }
-        else{
-
-          txt = "Record deleted successfully!"
-          this.toastr.success(txt, '');  
+        this.commonservice.errorHandling(data, (function(){
+          
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
-        } 
-
+        }).bind(this)); 
+                  
       },
       error => {
 
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });
 
