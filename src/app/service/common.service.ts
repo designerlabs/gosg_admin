@@ -156,7 +156,7 @@ export class CommonService {
   // MODULE
 
   getModMenu() {
-    return this.http.get(this.appConfig.urlModule+'?language='+this.languageId)
+    return this.http.get(this.appConfig.urlModule+'/menu?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -167,7 +167,7 @@ export class CommonService {
     // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlModule + '?language='+this.languageId, modmenu)
+    return this.http.post(this.appConfig.urlModule + '/menu?language='+this.languageId, modmenu)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

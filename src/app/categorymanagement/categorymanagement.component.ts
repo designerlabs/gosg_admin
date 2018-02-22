@@ -149,7 +149,7 @@ export class CategorymanagementComponent implements OnInit {
 
     return this.commonservice.getCategoryList()
      .subscribe(data => {
-
+      debugger;
       console.log(data);
         
       this.commonservice.errorHandling(data, (function(){

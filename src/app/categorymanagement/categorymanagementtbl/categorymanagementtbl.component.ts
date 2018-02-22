@@ -81,6 +81,7 @@ export class CategorymanagementtblComponent implements OnInit {
   }
 
   getRecordList(count, size) {
+
   
     this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
 
