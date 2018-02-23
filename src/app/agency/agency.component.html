@@ -56,16 +56,16 @@
           </div>
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryIdEn (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
+                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryEn (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
                 <mat-error *ngIf="agencyForm.controls.ministryEn.hasError('required')">
                   Ministry is required
                 </mat-error>
               </mat-form-field>
 
-              <div *ngIf="isActiveListEn" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
-                <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
-                  <li *ngFor="let data of searchMinistryResultEn">
-                    <button (click)="getValue(data?.ministryId, data?.ministryName, data?.ministryCode, 1)">{{data?.ministryName}}</button>
+              <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+                <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+                  <li class="list-group-item" *ngFor="let data of searchMinistryResultEn">
+                    <a class="list-link" (click)="getValue(data?.ministryId, data?.ministryName, data?.ministryCode, 1)"><span class="list-group-item-text">{{data?.ministryName}}</span></a>
                   </li>
                 </ul>
               </div>
@@ -78,10 +78,10 @@
                 </mat-error>
               </mat-form-field>
 
-              <div *ngIf="isActiveListBm" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
-                <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
-                  <li *ngFor="let data of searchMinistryResultBm">
-                    <button (click)="getValue(data?.ministryId,data?.ministryName, data?.ministryCode, 2)">{{data?.ministryName}}</button>
+              <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+                <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+                  <li class="list-group-item" *ngFor="let data of searchMinistryResultBm">
+                    <a class="list-link" (click)="getValue(data?.ministryId,data?.ministryName, data?.ministryCode, 2)"><span class="list-group-item-text">{{data?.ministryName}}</span></a>
                   </li>
                 </ul>
               </div>

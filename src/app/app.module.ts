@@ -49,7 +49,6 @@ import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksub
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
-import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -64,11 +63,6 @@ import { AccountstatusComponent } from './accountstatus/accountstatus.component'
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 import { LanguageComponent } from './language/language.component';
 import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
-import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
-import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
-import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
-import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
-import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
 import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
 import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
@@ -100,8 +94,8 @@ import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { DialogsService } from './dialogs/dialogs.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
-import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
+import { CategoryComponent } from './category/category.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 import { Ng4FilesModule } from './ng4-files';
 
@@ -109,6 +103,10 @@ import { ModmenuComponent } from './modmenu/modmenu.component';
 import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 import { ContentComponent } from './content/content.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
+import { ColorComponent } from './color/color.component';
+import { ColortblComponent } from './color/colortbl/colortbl.component';
+import { FontComponent } from './font/font.component';
+import { FonttblComponent } from './font/fonttbl/fonttbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -149,7 +147,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     EthnicitytblComponent,
     AnnouncementComponent,
     AnnouncementtblComponent,
-    CategorytblComponent,
     SlidertblComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
@@ -162,11 +159,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     AccountstatustblComponent,
     LanguageComponent,
     LanguagetblComponent,
-    MaincategoryComponent,
-    MaincategorytblComponent,
-    SubcategoryComponent,
-    SubcategorytblComponent,
-    CategoryComponent,
     UserpermissionComponent,
     AgencyappComponent,
     AgencyapptblComponent,
@@ -193,13 +185,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     GalleryComponent,
     GallerytblComponent,
     ConfirmDialogComponent,
-    CategorymanagementComponent,
-    CategorymanagementtblComponent,
+    CategoryComponent,
+    CategorytblComponent,
     MediafileuploadtblComponent,
     ModmenuComponent,
     ModmenutblComponent,
     ContentComponent,
-    ContenttblComponent
+    ContenttblComponent,
+    ColorComponent,
+    ColortblComponent,
+    FontComponent,
+    FonttblComponent,
   ],
   imports: [
     BrowserModule,

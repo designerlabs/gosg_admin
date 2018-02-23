@@ -84,7 +84,7 @@ export class AddresstypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAddressType + '/?page=' + count + '&size=' + size + '&language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlAddressTypeGet + '?page=' + count + '&size=' + size + '&language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {

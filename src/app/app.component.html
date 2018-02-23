@@ -6,8 +6,8 @@
     </button>
 </div>  [ngClass]="{'rightsdE':!side,'rightsdC':side}"-->
 
-<app-nav ></app-nav>
-<app-leftmenu class="leftsdE"></app-leftmenu>
+<app-nav [state]='getUserName' [getMail]='getEmail' [superStatus]='superAdmin'></app-nav>
+<app-leftmenu [state]='getUserName' [getMail]='getEmail' [superStatus]='superAdmin' class="leftsdE"></app-leftmenu>
 <div class="alnmt">
     <div class="rightsdC">
         <router-outlet></router-outlet>

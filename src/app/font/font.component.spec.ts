@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MaincategorytblComponent } from './maincategorytbl.component';
+import { FontComponent } from './font.component';
 
-describe('MaincategorytblComponent', () => {
-  let component: MaincategorytblComponent;
-  let fixture: ComponentFixture<MaincategorytblComponent>;
+describe('FontComponent', () => {
+  let component: FontComponent;
+  let fixture: ComponentFixture<FontComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MaincategorytblComponent ]
+      declarations: [ FontComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MaincategorytblComponent);
+    fixture = TestBed.createComponent(FontComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

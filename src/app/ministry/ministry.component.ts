@@ -31,6 +31,11 @@ export class MinistryComponent implements OnInit {
   ministryIdEn:any;
   ministryIdBm:any;
 
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
+
   ministryNameEn: FormControl
   ministryNameBm: FormControl
   descEn: FormControl
@@ -68,7 +73,8 @@ export class MinistryComponent implements OnInit {
   ngOnInit() {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
-
+    this.getUserData();
+    
     let refCode = this.router.url.split('/')[2];
     this.maskPhoneNo = this.validateService.getMask().telephone;
     this.maskFaxNo = this.validateService.getMask().fax;
@@ -119,6 +125,7 @@ export class MinistryComponent implements OnInit {
       mdecStatus: this.mdecStatus
     });
 
+    
     if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
@@ -136,6 +143,43 @@ export class MinistryComponent implements OnInit {
 
   back(){
     this.router.navigate(['ministry']);
+  }
+
+  
+
+  getModuleId(){
+    debugger;
+    let getURLArr = this.router.url.split('/');
+    getURLArr = getURLArr.splice(0, 2);
+    let getURLStr = getURLArr.join('/');
+    this.commonservice.requestUrl(getURLStr).subscribe(
+      data => {
+        debugger;
+      }
+    )
+  }
+  
+  getUserData(){
+    this.commonservice.getUsersDetails().subscribe(
+      data => {
+        if(data['adminUser']){
+          if(data['adminUser'].superAdmin){
+            
+          }else{
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              this.getModuleId();
+              debugger;
+            });
+          }
+        }else{
+          
+        }
+        
+      },
+    error => {
+      
+      }
+    )
   }
 
   // get, add, update, delete

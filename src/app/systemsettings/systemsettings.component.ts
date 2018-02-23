@@ -101,21 +101,21 @@ export class SystemsettingsComponent implements OnInit {
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
-        //this.commonservice.errorHandling(data, (function(){
+        this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
           console.log("data");
           console.log(data);
 
-          this.updateForm.get('entity').setValue(this.recordList.settingsEntities);
-          this.updateForm.get('key').setValue(this.recordList.settingsKey); 
-          this.updateForm.get('value').setValue(this.recordList.settingsValue);       
-          this.updateForm.get('active').setValue(this.recordList.isActive);      
+          this.updateForm.get('entity').setValue(this.recordList.object.settingsEntities);
+          this.updateForm.get('key').setValue(this.recordList.object.settingsKey); 
+          this.updateForm.get('value').setValue(this.recordList.object.settingsValue);       
+          this.updateForm.get('active').setValue(this.recordList.object.isActive);      
 
-          this.getId = this.recordList.settings_id;
+          this.getId = this.recordList.object.settings_id;
           this.checkReqValues();
 
-        //}).bind(this));   
+        }).bind(this));   
       },
       error => {
 

@@ -82,7 +82,7 @@ export class FeedbacktypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedbackType + '/?page=' + count + '&size=' + size + '&language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlFeedbackTypeGet + '?page=' + count + '&size=' + size + '&language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {

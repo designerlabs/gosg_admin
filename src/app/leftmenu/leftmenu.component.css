@@ -19,4 +19,5 @@
 .submenu_link_active {
     text-decoration: none;
     color: #000;
+    background: #dddddd;
 }
