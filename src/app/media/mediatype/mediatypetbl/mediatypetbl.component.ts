@@ -34,12 +34,12 @@ export class MediatypetblComponent implements OnInit {
   getMediaList() {
     return this.commonservice.getMediaType()
        .subscribe(resStateData => {
-        this.commonservice.errorHandling(resStateData, (function(){
+        // this.commonservice.errorHandling(resStateData, (function(){
             this.seqPageNum = 1;
             this.seqPageSize = 10;
             this.mediaList = resStateData['mediaTypes'];  
             this.dataSource.data = this.mediaList;      
-          }).bind(this));
+          // }).bind(this));
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');          

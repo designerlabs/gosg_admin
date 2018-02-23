@@ -345,7 +345,7 @@ delMediaType(mediaTypeId) {
 
 // Media Types ends urlMediaFileUpload
 
-// Media File upload starts
+// Media File upload starts 
 getMediaFileUpload() {
   console.log(this.appConfig.urlMediaFileUpload);
   return this.http.get(this.appConfig.urlMediaFileUpload)
@@ -353,9 +353,20 @@ getMediaFileUpload() {
   .catch(this.handleError);
 }
 
+UpdateMediaFileUpload(mediaFile) {
+  return this.http.put(this.appConfig.urlMediaFileUpload, mediaFile)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
 addMediaFileUpload(mediaFile) {
-  debugger;
   return this.http.post(this.appConfig.urlMediaFileUpload, mediaFile)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+delMediaFileUpload(mediaFile) {
+  return this.http.delete(this.appConfig.urlMediaFileUpload + "/id/" + mediaFile)
   .map((response: Response) => response.json())
   .catch(this.handleError);
 }
