@@ -44,12 +44,6 @@ import { AccountstatustblComponent } from './accountstatus/accountstatustbl/acco
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
 import { LanguageComponent } from './language/language.component';
-import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
-import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
-import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
-import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
-import { CategoryComponent } from './categories/category/category.component';
-import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
 import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
 import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
@@ -76,12 +70,12 @@ import { FootercontentComponent } from './footer/footercontent/footercontent.com
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { GalleryComponent } from './gallery/gallery.component';
-import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
-import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
 import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
 import { ContentComponent } from './content/content.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+import { CategoryComponent } from './category/category.component';
 import { ModmenuComponent } from './modmenu/modmenu.component';
 import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 
@@ -174,16 +168,6 @@ export const appRoutes: Routes = [
 {path: 'footer/footercontent/:id', component: FootercontentComponent},
 {path: 'footer/footercontent/add', component: FootercontentComponent},
 
-{path: 'maincategory', component: MaincategorytblComponent},
-{path: 'subcategory', component: SubcategorytblComponent},
-{path: 'categories', component: CategorytblComponent},
-{path: 'maincategory/add', component: MaincategoryComponent},
-{path: 'subcategory/add', component: SubcategoryComponent},
-{path: 'categories/add', component: CategoryComponent},
-{path: 'maincategory/:id', component: MaincategoryComponent},
-{path: 'subcategory/:id', component: SubcategoryComponent},
-{path: 'categories/:id', component: CategoryComponent},
-
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
@@ -212,9 +196,9 @@ export const appRoutes: Routes = [
 {path: 'account/add', component: AccountstatusComponent},
 
 // Category & Content: N
-{path: 'category', component: CategorymanagementtblComponent},
-{path: 'category/:id', component: CategorymanagementComponent},
-{path: 'category/add', component: CategorymanagementComponent},
+{path: 'category', component: CategorytblComponent},
+{path: 'category/:id', component: CategoryComponent},
+{path: 'category/add', component: CategoryComponent},
 {path: 'content', component: ContenttblComponent},
 {path: 'content/:id', component: ContentComponent},
 {path: 'content/add', component: ContentComponent},
