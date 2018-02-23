@@ -75,21 +75,13 @@ export class LeftmenuComponent implements OnInit {
               debugger
             });
           }
-          
-          // this.getUserName = data['adminUser'].fullName;
-          // this.getEmail = data['adminUser'].email;
-          // this.userID = data['adminUser'].userId;
-          // this.isSuperAdmin = data['adminUser'].isSuperAdmin;
-          // localStorage.setItem('fullname',data['adminUser'].fullName);
-          // localStorage.setItem('email',data['adminUser'].email);
         }else{
           
         }
         
       },
     error => {
-        //location.href = this.config.urlUAP +'uapsso/Logout';
-        //location.href = this.config.urlUAP+'portal/index';
+      
       }
     )
   }
