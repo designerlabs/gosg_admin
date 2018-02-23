@@ -69,7 +69,9 @@ export class LeftmenuComponent implements OnInit {
             this.getMenuData();
           }else{
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              
               this.menulst = data;
+              debugger
             });
           }
           
@@ -94,6 +96,7 @@ export class LeftmenuComponent implements OnInit {
   getMenuData() {
     this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
+      debugger;
       console.log(this.menulst)
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
