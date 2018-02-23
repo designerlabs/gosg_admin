@@ -11,9 +11,9 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
 
 @Component({
-  selector: 'app-CategoryComponent',
-  templateUrl: './CategoryComponent.component.html',
-  styleUrls: ['./CategoryComponent.component.css']
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
 

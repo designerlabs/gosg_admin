@@ -76,12 +76,12 @@ import { FootercontentComponent } from './footer/footercontent/footercontent.com
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { GalleryComponent } from './gallery/gallery.component';
-import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
-import { CategoryComponent } from './category/category.component';
 import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
 import { ContentComponent } from './content/content.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+import { CategoryComponent } from './category/category.component';
 import { ModmenuComponent } from './modmenu/modmenu.component';
 import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 
