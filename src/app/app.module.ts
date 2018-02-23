@@ -103,6 +103,10 @@ import { ModmenuComponent } from './modmenu/modmenu.component';
 import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
 import { ContentComponent } from './content/content.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
+import { ColorComponent } from './color/color.component';
+import { ColortblComponent } from './color/colortbl/colortbl.component';
+import { FontComponent } from './font/font.component';
+import { FonttblComponent } from './font/fonttbl/fonttbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -187,7 +191,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     ModmenuComponent,
     ModmenutblComponent,
     ContentComponent,
-    ContenttblComponent
+    ContenttblComponent,
+    ColorComponent,
+    ColortblComponent,
+    FontComponent,
+    FonttblComponent,
   ],
   imports: [
     BrowserModule,

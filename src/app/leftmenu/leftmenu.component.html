@@ -1,37 +1,29 @@
 <form class="example-form">
-	<mat-form-field class="example-form-field" style="width:100%">
-		<input matInput type="text" placeholder="Search" [(ngModel)]="value" [matAutocomplete]="auto"  [ngModelOptions]="{standalone: true}"/>
-		<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-			<mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-				{{ option.name }}
-			</mat-option>
-		</mat-autocomplete>
-		<button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-			<mat-icon>close</mat-icon>
-		</button>
-		
-		<button mat-button *ngIf="!value" matSuffix mat-icon-button aria-label="Search">
-			<mat-icon>search</mat-icon>
-		</button>
-	</mat-form-field>
 
-	<mat-accordion *ngIf='menulst'>
-		
-		<mat-expansion-panel *ngFor="let menu of menulst.moduleList" >
-			
-			<mat-expansion-panel-header *ngIf='menu.active'>
-				<mat-panel-title class="submenu_link" style="font-weight: bold;"> 
-					<a routerLinkActive="submenu_link_active" [routerLink]=[menu.moduleUrl] >{{menu.moduleName}}</a>
-				</mat-panel-title>					
+	<div *ngIf='menulst'>
+		<div *ngFor="let menu of menulst.moduleList" style="padding-bottom: 0px; border-bottom: 1px solid #e6e6e6;">
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[menu.moduleUrl] >{{menu.moduleName}}</a>
+		</div>
+		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['admin']">Admin Management</a>
+		</div>
+		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">Grouping Management</a>
+		</div>
+	</div>
+
+	<mat-accordion *ngIf='menulist_non_admin'>
+		<mat-expansion-panel *ngFor="let menu of menulist_non_admin.items">
+			<mat-expansion-panel-header>
+			<mat-panel-title style="font-weight: bold;">
+				{{menu.moduleGroupName}}
+			</mat-panel-title>
 			</mat-expansion-panel-header>
-			<!-- <div *ngFor="let sub of menu.subMenu" style="padding-bottom: 0px;">
-				<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[sub.subMenuUrl] >{{sub.subMenuTitle}}</a> -->
-				<!-- <button mat-button *ngIf="sub.isactive" id="{{sub.subMenuId}}" (click)="getTbl(menu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</button> -->
-				<!-- <a id="{{sub.subMenuId}}"  [routerLink]="['articletbl', sub.subMenuId]" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a> -->
-			<!-- </div> -->
-				
-		</mat-expansion-panel>	
+			<div *ngFor="let sub of menu.modules" style="padding-bottom: 0px;">
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[sub.moduleUrl] >{{sub.moduleName}}</a>
+			</div>
+
+		</mat-expansion-panel>
 	</mat-accordion>
-	{{getMail}}
 
 </form>
