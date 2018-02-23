@@ -59,11 +59,14 @@ export class AppConfig {
     urlAnnounceList: string;
     urlCategoryList: string;
     urlAddressType: string;
+    urlAddressTypeGet: string;
     urlAccountStatus: string;
     urlLanguage: string;
     urlAdminUserList:string;
     urlFeedbackType: string;
     urlFeedbackSubject: string;
+    urlFeedbackTypeGet: string;
+    urlFeedbackSubjectGet: string;
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
@@ -160,9 +163,12 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCategoryList: commonURL + 'announcement/category',
     urlCategory: commonURL + 'content/category',
     urlAddressType: commonURL + 'addresstype',
+    urlAddressTypeGet: serviceURL + 'addresstype',
     urlAccountStatus: commonURL + 'accountstatus',
     urlFeedbackType: commonURL + 'feedback/type',
     urlFeedbackSubject: commonURL + 'feedback/subject',
+    urlFeedbackTypeGet: serviceURL + 'feedback/type',
+    urlFeedbackSubjectGet: serviceURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',
