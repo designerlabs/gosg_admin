@@ -30,8 +30,24 @@
 				<!-- <a id="{{sub.subMenuId}}"  [routerLink]="['articletbl', sub.subMenuId]" (click)="getTbl(mnu.mainMenuId,sub.subMenuId)">{{sub.subMenuTitle}}</a> -->
 			<!-- </div> -->
 				
-		</mat-expansion-panel>	
+		</mat-expansion-panel>
+			
 	</mat-accordion>
-	{{getMail}}
+
+
+
+	<mat-accordion *ngIf='menulist_non_admin'>
+		<mat-expansion-panel *ngFor="let menu of menulist_non_admin.items">
+		  <mat-expansion-panel-header>
+			<mat-panel-title style="font-weight: bold;">
+			  {{menu.moduleGroupName}}
+			</mat-panel-title>
+		  </mat-expansion-panel-header>
+		  <div *ngFor="let sub of menu.modules" style="padding-bottom: 0px;">
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[sub.moduleUrl] >{{sub.moduleName}}</a>
+		  </div>
+
+		</mat-expansion-panel>
+	  </mat-accordion>
 
 </form>

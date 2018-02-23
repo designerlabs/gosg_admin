@@ -24,6 +24,7 @@ export class User {
 
 
 export class LeftmenuComponent implements OnInit {
+  menulist_non_admin: any;
   @Output() menuClick = new EventEmitter();
   myControl = new FormControl();
   menulst: object;
@@ -70,7 +71,7 @@ export class LeftmenuComponent implements OnInit {
           }else{
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
               
-              this.menulst = data;
+              this.menulist_non_admin = data.data[1];
               debugger
             });
           }
