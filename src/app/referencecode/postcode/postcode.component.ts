@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../service/common.service';
 import { SharedModule } from '../../shared/shared.module';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -16,10 +17,11 @@ export class PostcodeComponent implements OnInit {
   selectedState: any;
   selStateInfo: any;
   selCityInfo: any;
+  // public stateList: any;
   public languageId: any;
 
   constructor(private commonservice: CommonService,
-  private translate: TranslateService) {
+  private translate: TranslateService, private toastr: ToastrService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -48,11 +50,14 @@ export class PostcodeComponent implements OnInit {
   getState(id?){
     return this.commonservice.getStateData()
      .subscribe(resStateData => {
-        this.getStateData = resStateData;        
-      },
-      Error => {
-      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-      console.log('Error in State');
+      this.commonservice.errorHandling(resStateData, (function(){
+        this.getStateData = resStateData["stateList"];        //.stateList
+      }).bind(this)); 
+    },
+    error => {
+  
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
      });
   }
 
@@ -62,11 +67,14 @@ export class PostcodeComponent implements OnInit {
     if(e){
       return this.commonservice.getCitiesbyState(e.value.stateId)
       .subscribe(resCityData => {
-        this.getCityData = resCityData;          
-      },
-      Error => {
-    //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');      
-    console.log('Error in City');      
+        this.commonservice.errorHandling(resCityData, (function(){
+        this.getCityData = resCityData["cityList"];          
+      }).bind(this)); 
+    },
+    error => {
+  
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);     
      });
     }
   }
@@ -76,11 +84,14 @@ export class PostcodeComponent implements OnInit {
     if(e){
       return this.commonservice.getPostCodeData(e.value.cityId)
       .subscribe(resPostCodeData => {
-        this.getPostData = resPostCodeData;
-      },
-      Error => {
-      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');      
-      console.log('Error in Podtcode');      
+        this.commonservice.errorHandling(resPostCodeData, (function(){
+        this.getPostData = resPostCodeData["postcodeList"];
+      }).bind(this)); 
+    },
+    error => {
+  
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);      
      });
     }    
   }
