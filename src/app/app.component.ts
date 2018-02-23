@@ -24,6 +24,7 @@ ngOnInit() {
   getUserData(){
     this.commonService.getUsersDetails().subscribe(
       data => {
+        debugger;
         if(data['user']){
           debugger;
           // this.getUserName = data.user.fullName;
