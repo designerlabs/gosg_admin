@@ -156,12 +156,16 @@ export class MinistryComponent implements OnInit {
           if(data['adminUser'].superAdmin){
             
           }else{
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              this.getModuleId();
-            });
+       
           }
         }else{
-          
+          this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+            data => {
+              debugger;
+              this.getModuleId();
+            }
+            
+          });
         }
         
       },
@@ -173,7 +177,7 @@ export class MinistryComponent implements OnInit {
     getModuleId(){
       this.commonservice.requestUrl('ministry').subscribe(
         data => {
-          alert(data);
+          debugger;
         },
         error => {
           
