@@ -67,7 +67,12 @@ export class LeftmenuComponent implements OnInit {
         if(data['adminUser']){
           if(data['adminUser'].isSuperAdmin){
             this.getMenuData();
+          }else{
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              this.menulst = data;
+            });
           }
+          
           // this.getUserName = data['adminUser'].fullName;
           // this.getEmail = data['adminUser'].email;
           // this.userID = data['adminUser'].userId;
@@ -75,9 +80,7 @@ export class LeftmenuComponent implements OnInit {
           // localStorage.setItem('fullname',data['adminUser'].fullName);
           // localStorage.setItem('email',data['adminUser'].email);
         }else{
-          this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-            this.menulst = data;
-          })
+          
         }
         
       },
