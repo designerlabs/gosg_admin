@@ -75,7 +75,6 @@ export class MinistryComponent implements OnInit {
     // this.changePageMode(this.isEdit); 
     this.getUserData();
     
-    this.getModuleId();
     let refCode = this.router.url.split('/')[2];
     this.maskPhoneNo = this.validateService.getMask().telephone;
     this.maskFaxNo = this.validateService.getMask().fax;
@@ -150,8 +149,7 @@ export class MinistryComponent implements OnInit {
 
   getModuleId(){
     debugger;
-    let getURL = window.location.pathname;
-    let getURLArr = getURL.split('/');
+    let getURLArr = this.router.url.split('/');
     getURLArr = getURLArr.splice(0, 2);
     let getURLStr = getURLArr.join('/');
     this.commonservice.requestUrl(getURLStr).subscribe(
@@ -169,6 +167,7 @@ export class MinistryComponent implements OnInit {
             
           }else{
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              this.getModuleId();
               debugger;
             });
           }
