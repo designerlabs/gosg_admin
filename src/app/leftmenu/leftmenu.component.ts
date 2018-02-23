@@ -42,7 +42,7 @@ export class LeftmenuComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router ) { 
     
-    this.getMenuData();
+    this.getUserData();
   }
 
   ngOnInit() {
@@ -53,7 +53,42 @@ export class LeftmenuComponent implements OnInit {
       map(name => name ? this.filter(name) : this.options.slice())
     );
 
-    this.getMenuData();
+    this.getUserData();
+   
+  }
+
+  @Input() state:string;
+  @Input() getMail:string;
+  @Input() superStatus:string;
+
+  getUserData(){
+    this.commonservice.getUsersDetails().subscribe(
+      data => {
+        if(data['adminUser']){
+          if(data['adminUser'].isSuperAdmin){
+            this.getMenuData();
+          }else{
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              this.menulst = data;
+            });
+          }
+          
+          // this.getUserName = data['adminUser'].fullName;
+          // this.getEmail = data['adminUser'].email;
+          // this.userID = data['adminUser'].userId;
+          // this.isSuperAdmin = data['adminUser'].isSuperAdmin;
+          // localStorage.setItem('fullname',data['adminUser'].fullName);
+          // localStorage.setItem('email',data['adminUser'].email);
+        }else{
+          
+        }
+        
+      },
+    error => {
+        //location.href = this.config.urlUAP +'uapsso/Logout';
+        //location.href = this.config.urlUAP+'portal/index';
+      }
+    )
   }
 
   getMenuData() {

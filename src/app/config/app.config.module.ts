@@ -92,6 +92,7 @@ export class AppConfig {
 
     urlImageList: string;
     urlCategory: string;
+    urlGetUser: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -120,7 +121,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAgencyApp: commonURL + 'agency/application',
     urlGetAgencyApp: serviceURL + 'agency/application',
     urlGallery: commonURL+'gallery',
-    
+    urlGetUser: commonURL+'adminuser/detail',
     urlAdminUserFind: commonURL+'adminuser',
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
