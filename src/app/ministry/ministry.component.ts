@@ -148,11 +148,7 @@ export class MinistryComponent implements OnInit {
   
 
   getModuleId(){
-    debugger;
-    let getURLArr = this.router.url.split('/');
-    getURLArr = getURLArr.splice(0, 2);
-    let getURLStr = getURLArr.join('/');
-    this.commonservice.requestUrl(getURLStr).subscribe(
+    this.commonservice.requestUrl('ministry').subscribe(
       data => {
         debugger;
       }
