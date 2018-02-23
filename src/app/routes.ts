@@ -44,12 +44,6 @@ import { AccountstatustblComponent } from './accountstatus/accountstatustbl/acco
 import { AccountstatusComponent } from './accountstatus/accountstatus.component';
 import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
 import { LanguageComponent } from './language/language.component';
-// import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
-// import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
-// import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
-// import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
-// import { CategoryComponent } from './categories/category/category.component';
-// import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
 import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
 import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
@@ -173,16 +167,6 @@ export const appRoutes: Routes = [
 {path: 'footer/footercontent', component: FootercontenttblComponent},
 {path: 'footer/footercontent/:id', component: FootercontentComponent},
 {path: 'footer/footercontent/add', component: FootercontentComponent},
-
-// {path: 'maincategory', component: MaincategorytblComponent},
-// {path: 'subcategory', component: SubcategorytblComponent},
-// {path: 'categories', component: CategorytblComponent},
-// {path: 'maincategory/add', component: MaincategoryComponent},
-// {path: 'subcategory/add', component: SubcategoryComponent},
-// {path: 'categories/add', component: CategoryComponent},
-// {path: 'maincategory/:id', component: MaincategoryComponent},
-// {path: 'subcategory/:id', component: SubcategoryComponent},
-// {path: 'categories/:id', component: CategoryComponent},
 
 {path: 'faq', component: FaqtblComponent},
 {path: 'faq/:id', component: FaqComponent},
