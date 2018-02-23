@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ValidateService } from '../common/validate.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-agency',
@@ -18,8 +19,10 @@ export class AgencyComponent implements OnInit {
   maskPhoneNo: (string | RegExp)[];
   maskFaxNo: (string | RegExp)[];
   
-  searchMinistryResult: Object;
-  isActiveList: boolean;
+  searchMinistryResultEn: Object;
+  searchMinistryResultBm: Object;
+  isActiveListEn: boolean;
+  isActiveListBm: boolean;
   isActive: boolean;
   closeUserBtn: boolean;
   addUserBtn: boolean;
@@ -39,12 +42,16 @@ export class AgencyComponent implements OnInit {
   refCode:any;
   agencyIdEn:any;
   agencyIdBm:any;
-  ministryId:any;
+  ministryIdEn:any;
+  ministryIdBm:any;
+  ministryNameEn:any;
+  ministryNameBm:any;
 
   agencyNameEn: FormControl
   agencyNameBm: FormControl
   descEn: FormControl
   descBm: FormControl
+  uniqueCode: FormControl
   active: FormControl
   address: FormControl
   email: FormControl
@@ -62,7 +69,8 @@ export class AgencyComponent implements OnInit {
   twitterUrl: FormControl
   youtubeUrl: FormControl
   mdecStatus: FormControl
-  ministry: FormControl
+  ministryEn: FormControl
+  ministryBm: FormControl
 
   resetMsg = this.resetMsg;
 
@@ -71,6 +79,7 @@ export class AgencyComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router,
+    private translate: TranslateService,
     private validateService: ValidateService,
     private toastr: ToastrService
   ) { }
@@ -87,6 +96,7 @@ export class AgencyComponent implements OnInit {
     this.agencyNameBm = new FormControl()
     this.descEn = new FormControl()
     this.descBm = new FormControl()
+    this.uniqueCode = new FormControl()
     this.active = new FormControl()
     this.address = new FormControl()
     this.agclat = new FormControl()
@@ -104,7 +114,8 @@ export class AgencyComponent implements OnInit {
     this.twitterUrl = new FormControl()
     this.flickrUrl = new FormControl()
     this.mdecStatus = new FormControl()
-    this.ministry = new FormControl()
+    this.ministryEn = new FormControl()
+    this.ministryBm = new FormControl()
 
     this.agencyForm = new FormGroup({
       agencyNameEn: this.agencyNameEn,
@@ -112,6 +123,7 @@ export class AgencyComponent implements OnInit {
       agencyNameBm: this.agencyNameBm,
       descBm: this.descBm,
       address: this.address,
+      uniqueCode: this.uniqueCode,
       agclat: this.agclat,
       agclong: this.agclong,
       phoneno: this.phoneno,
@@ -128,7 +140,8 @@ export class AgencyComponent implements OnInit {
       flickrUrl: this.flickrUrl,
       active: this.active,
       mdecStatus: this.mdecStatus,
-      ministry: this.ministry
+      ministryEn: this.ministryEn,
+      ministryBm: this.ministryBm
     });
 
     if(refCode == "add") {
@@ -170,7 +183,9 @@ export class AgencyComponent implements OnInit {
         this.agencyForm.get('descEn').setValue(dataEn.agencyDescription);
         this.agencyForm.get('agencyNameBm').setValue(dataBm.agencyName);
         this.agencyForm.get('descBm').setValue(dataBm.agencyDescription);
-        this.agencyForm.get('ministry').setValue(dataBm.agencyMinistry.ministryName);
+        this.agencyForm.get('ministryEn').setValue(dataEn.agencyMinistry.ministryName);
+        this.agencyForm.get('ministryBm').setValue(dataBm.agencyMinistry.ministryName);
+        this.agencyForm.get('uniqueCode').setValue(dataBm.agencyUniqueCode);
         this.agencyForm.get('active').setValue(dataBm.agencyStatus);
         this.agencyForm.get('address').setValue(dataBm.agencyAddress);
         this.agencyForm.get('agclat').setValue(dataBm.agencyLatitude);
@@ -191,43 +206,112 @@ export class AgencyComponent implements OnInit {
         this.refCode = dataEn.agencyCode;
         this.agencyIdEn = dataEn.agencyId;
         this.agencyIdBm = dataBm.agencyId;
-        this.ministryId = dataBm.agencyMinistry.ministryId;
+        this.ministryIdEn = dataEn.agencyMinistry.ministryId;
+        this.ministryIdBm = dataBm.agencyMinistry.ministryId;
 
       this.checkReqValues();
     });
     
   }
 
-  getSearchData(keyword){
+  getSearchData(keyword, langId){
 
+    let selLangField;
+      
+    if(langId == 1) {
+      selLangField = "ministryBm";
+      this.ministryNameBm = "";
+    } else {
+      selLangField = "ministryEn";
+      this.ministryNameEn = "";
+    }
+    this.agencyForm.get(selLangField).setValue("");
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       console.log(keyword)
       
       this.isActive = true;
-      this.isActiveList = true;
 
-      this.http.get(
-        this.appConfig.urlSearchbyMinistry+keyword+'?language='+localStorage.getItem('langID')).subscribe(
-        data => {
-          // debugger;
-        this.searchMinistryResult = data['ministryList'];
-        console.log(this.appConfig.urlSearchbyMinistry+keyword+'?language='+localStorage.getItem('langID'))
-        console.log(this.searchMinistryResult)
+      if(langId == 1) {
+        this.isActiveListEn = true;
+        this.isActiveListBm = false;
+      } else {
+        this.isActiveListBm = true;
+        this.isActiveListEn = false;
+      }
+
+      this.http.get(this.appConfig.urlSearchbyMinistry+keyword+'?language='+langId).subscribe(
+          data => {
+
+          if(langId == 1) {
+            this.searchMinistryResultEn = data['ministryList'];
+          } else {
+            this.searchMinistryResultBm = data['ministryList'];
+          }
       });
     } else {
-      this.isActiveList = false;
+      this.isActiveListEn = false;
+      this.isActiveListBm = false;
     }
   }
   
-  getValue(mId,mName){
-    // console.log(val)
-    this.ministryId = this.agencyForm.get('ministry').value;
-    this.isActive = false;
-    this.isActiveList = false;
-    this.searchMinistryResult = [''];
-    this.agencyForm.get('ministry').setValue(mName);
-    this.ministryId = mId;
+  getValue(mId,mName, refCode, langId){
+
+    if(langId == 1) {
+      this.ministryEn = this.agencyForm.get('ministryEn').value;
+      this.isActiveListEn = false;
+      this.searchMinistryResultEn = [''];
+      this.agencyForm.get('ministryEn').setValue(mName);
+      this.ministryIdEn = mId;
+
+
+      this.getMinistryByRefCode(refCode,langId);
+      
+    } else {
+      this.ministryBm = this.agencyForm.get('ministryBm').value;
+      this.isActive = false;
+      this.isActiveListBm = false;
+      this.searchMinistryResultBm = [''];
+      this.agencyForm.get('ministryBm').setValue(mName);
+      this.ministryIdBm = mId;
+
+      this.getMinistryByRefCode(refCode,langId);
+
+    }
+  }
+
+  // GET MINISTRY NAME BY PAIRED LANGUAGE ID
+  getMinistryByRefCode(refCode, langId) {
+
+    let selLangField;
+    let mName;
+    let mId;
+
+    if(langId == 1) {
+      langId = 2;
+      selLangField = "ministryBm";
+    } else {
+      langId = 1;
+      selLangField = "ministryEn";
+    }
+
+    return this.http.get(this.appConfig.urlMinistry + '/refcode/language/' + refCode+ '?language='+langId).subscribe(
+      data => {
+        console.log('refCode Data');
+        console.log(data);
+
+        // console.log(data['ministryEntityList'][0]['ministryName']);
+        mName = data['ministryEntityList'][0]['ministryName'];
+        mId = data['ministryEntityList'][0]['ministryId'];
+        
+        this.agencyForm.get(selLangField).setValue(mName);
+
+        if(langId == 1)
+          this.ministryIdEn = mId;
+        else
+          this.ministryIdBm = mId;
+
+    });
   }
 
   checkReqValues() {
@@ -284,6 +368,7 @@ export class AgencyComponent implements OnInit {
         {
           "agencyName": null,
           "agencyDescription": null,
+          "agencyUniqueCode": null,
           "agencyAddress": null,
           "agencyLatitude": null,
           "agencyLongitude": null,
@@ -311,6 +396,7 @@ export class AgencyComponent implements OnInit {
         {
           "agencyName": null,
           "agencyDescription": null,
+          "agencyUniqueCode": null,
           "agencyAddress": null,
           "agencyLatitude": null,
           "agencyLongitude": null,
@@ -341,6 +427,7 @@ export class AgencyComponent implements OnInit {
   
       body[0].agencyName = formValues.agencyNameEn;
       body[0].agencyDescription = formValues.descEn;
+      body[0].agencyUniqueCode = formValues.uniqueCode;
       body[0].agencyAddress = formValues.address;
       body[0].agencyLatitude = formValues.agclat;
       body[0].agencyLongitude = formValues.agclong;
@@ -358,10 +445,11 @@ export class AgencyComponent implements OnInit {
       body[0].agencyTwitter = formValues.twitterUrl;
       body[0].agencyWebsiteUrl = formValues.websiteUrl;
       body[0].agencyYoutube = formValues.youtubeUrl;
-      body[0].agencyMinistry.ministryId = this.ministryId;
+      body[0].agencyMinistry.ministryId = this.ministryIdEn;
   
       body[1].agencyName = formValues.agencyNameBm;
       body[1].agencyDescription = formValues.descBm;
+      body[1].agencyUniqueCode = formValues.uniqueCode;
       body[1].agencyAddress = formValues.address;
       body[1].agencyLatitude = formValues.agclat;
       body[1].agencyLongitude = formValues.agclong;
@@ -379,18 +467,20 @@ export class AgencyComponent implements OnInit {
       body[1].agencyTwitter = formValues.twitterUrl;
       body[1].agencyWebsiteUrl = formValues.websiteUrl;
       body[1].agencyYoutube = formValues.youtubeUrl;
-      body[1].agencyMinistry.ministryId = this.ministryId;
+      body[1].agencyMinistry.ministryId = this.ministryIdBm;
   
       console.log(body)
 
-    // Add ErrorMsg Service
+    // Add Agency Service
     this.commonservice.addAgency(body).subscribe(
       data => {
-        this.toastr.success('Agency added successfully!', ''); 
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
         this.router.navigate(['agency']);
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
       });
 
     } else {
@@ -399,6 +489,7 @@ export class AgencyComponent implements OnInit {
       {
         "agencyId": null,
         "agencyCode": null,
+        "agencyUniqueCode": null,
         "agencyName": "",
         "agencyDescription": "",
         "agencyAddress": "",
@@ -428,6 +519,7 @@ export class AgencyComponent implements OnInit {
       {
         "agencyId": null,
         "agencyCode": null,
+        "agencyUniqueCode": null,
         "agencyName": "",
         "agencyDescription": "",
         "agencyAddress": "",
@@ -461,6 +553,7 @@ export class AgencyComponent implements OnInit {
     body[0].agencyName = formValues.agencyNameEn;
     body[0].agencyDescription = formValues.descEn;
     body[0].agencyAddress = formValues.address;
+    body[0].agencyUniqueCode = formValues.uniqueCode;
     body[0].agencyLatitude = formValues.agclat;
     body[0].agencyLongitude = formValues.agclong;
     body[0].agencyPhoneNo = formValues.phoneno;
@@ -477,11 +570,12 @@ export class AgencyComponent implements OnInit {
     body[0].agencyTwitter = formValues.twitterUrl;
     body[0].agencyWebsiteUrl = formValues.websiteUrl;
     body[0].agencyYoutube = formValues.youtubeUrl;
-    body[0].agencyMinistry.ministryId = this.ministryId;
+    body[0].agencyMinistry.ministryId = this.ministryIdEn;
 
     body[1].agencyId = this.agencyIdBm;
     body[1].agencyName = formValues.agencyNameBm;
     body[1].agencyDescription = formValues.descBm;
+    body[1].agencyUniqueCode = formValues.uniqueCode;
     body[1].agencyCode = this.refCode;
     body[1].agencyAddress = formValues.address;
     body[1].agencyLatitude = formValues.agclat;
@@ -500,19 +594,21 @@ export class AgencyComponent implements OnInit {
     body[1].agencyTwitter = formValues.twitterUrl;
     body[1].agencyWebsiteUrl = formValues.websiteUrl;
     body[1].agencyYoutube = formValues.youtubeUrl;
-    body[1].agencyMinistry.ministryId = this.ministryId;
+    body[1].agencyMinistry.ministryId = this.ministryIdBm;
 
     console.log(body);
-    console.log(JSON.stringify(body));
+    // console.log(JSON.stringify(body));
 
-    // // Update ErrorMsg Service
+    // // Update Agency Service
     this.commonservice.updateAgency(body).subscribe(
       data => {
-        this.toastr.success('Agency update successful!', '');   
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
         this.router.navigate(['agency']);
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
       });
     }
     

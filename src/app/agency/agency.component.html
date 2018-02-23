@@ -56,19 +56,44 @@
           </div>
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministry" #ministryId (keyup)="getSearchData(ministry.value)" (change)="checkReqValues()" required>
-                <mat-error *ngIf="agencyForm.controls.ministry.hasError('required')">
+                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryIdEn (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
+                <mat-error *ngIf="agencyForm.controls.ministryEn.hasError('required')">
                   Ministry is required
                 </mat-error>
               </mat-form-field>
 
-              <div *ngIf="isActiveList" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
+              <div *ngIf="isActiveListEn" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
                 <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
-                  <li *ngFor="let data of searchMinistryResult">
-                    <button (click)="getValue(data?.ministryId,data?.ministryName)">{{data?.ministryName}}</button>
+                  <li *ngFor="let data of searchMinistryResultEn">
+                    <button (click)="getValue(data?.ministryId, data?.ministryName, data?.ministryCode, 1)">{{data?.ministryName}}</button>
                   </li>
                 </ul>
               </div>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                <input matInput tabindex="6" placeholder="Ministry" formControlName="ministryBm" #ministryBm (keyup)="getSearchData(ministryBm.value, 2)" (change)="checkReqValues()" required>
+                <mat-error *ngIf="agencyForm.controls.ministryBm.hasError('required')">
+                  Ministry is required
+                </mat-error>
+              </mat-form-field>
+
+              <div *ngIf="isActiveListBm" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
+                <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
+                  <li *ngFor="let data of searchMinistryResultBm">
+                    <button (click)="getValue(data?.ministryId,data?.ministryName, data?.ministryCode, 2)">{{data?.ministryName}}</button>
+                  </li>
+                </ul>
+              </div>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width font-size-s">
+              <input matInput placeholder="Agency Unique Code" formControlName="uniqueCode" #UniqueCode (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="agencyForm.controls.uniqueCode.hasError('required')">
+                Agency Unique Code required
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
   

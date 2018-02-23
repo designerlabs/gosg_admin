@@ -156,7 +156,7 @@ export class CommonService {
   // MODULE
 
   getModMenu() {
-    return this.http.get(this.appConfig.urlModule+'?language='+this.languageId)
+    return this.http.get(this.appConfig.urlModule+'/menu?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -167,16 +167,14 @@ export class CommonService {
     // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlModule + '?language='+this.languageId, modmenu)
+    return this.http.post(this.appConfig.urlModule + '/menu?language='+this.languageId, modmenu)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
   updateModMenu(modmenu) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlModule + "/"+ modmenu.moduleId + '?language='+this.languageId, modmenu)
+    return this.http.put(this.appConfig.urlModule + '?language='+this.languageId, modmenu)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -527,14 +525,6 @@ getCategoryList1() {
   // ERROR MESSAGE END
 
   // MINISTRY TYPE
-  getMinistry(code) {
-    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlAgency + '/' + code+ '?language='+this.languageId).subscribe(
-      Rdata => {
-      this.dataTbl = Rdata;
-      // this.router.navigate(['user', code]);
-    });
-  }
 
   addMinistry(ministry) {
 
@@ -615,14 +605,14 @@ getCategoryList1() {
     });
   }
 
-  addAgencyApp(Agency) {
-    return this.http.post(this.appConfig.urlAgencyApp+ '/add?language='+this.languageId, Agency)
+  addAgencyApp(agencyapp) {
+    return this.http.post(this.appConfig.urlAgencyApp+ '/add?language='+this.languageId, agencyapp)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  updateAgencyApp(Agency) {
-    return this.http.put(this.appConfig.urlAgencyApp+ '?language='+this.languageId, Agency)
+  updateAgencyApp(agencyapp) {
+    return this.http.put(this.appConfig.urlAgencyApp+ '/update?language='+this.languageId, agencyapp)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -1056,7 +1046,7 @@ getCategoryList1() {
   getStateData(): Observable<any[]> {
     //  console.log(this.countryUrl);
     return this.http.get(this.stateUrl + '?language='+this.languageId)
-      .map((response: Response) => response.json().stateList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
 
@@ -1073,7 +1063,7 @@ getCategoryList1() {
 
   getCitiesbyState(code): Observable<any[]> {
     return this.http.get(this.cityUrl + '/state/' + code + '?language='+this.languageId)
-      .map((response: Response) => response.json().cityList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
 
@@ -1082,7 +1072,7 @@ getCategoryList1() {
   getPostCodeData(code): Observable<any[]> {
     //  console.log(this.countryUrl);
     return this.http.get(this.postcodeUrl+ code + '?language='+this.languageId)
-      .map((response: Response) => response.json().postcodeList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
   }

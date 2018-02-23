@@ -5,6 +5,7 @@ import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
 import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-agencyapptbl',
@@ -44,6 +45,7 @@ export class AgencyapptblComponent implements OnInit {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
   ) { 
@@ -109,27 +111,19 @@ export class AgencyapptblComponent implements OnInit {
     this.router.navigate(['agencyapp', row]);
   }
 
-  deleteRow(refCode) {
-    let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
-    if (r == true) {
+  deleteItem(refCode) {
 
       this.commonservice.delAgencyApp(refCode).subscribe(
         data => {
-          txt = "agencyapp deleted successfully!";
-          // this.router.navigate(['agencyapp']);
-          this.toastr.success(txt, '');   
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
+          }).bind(this));  
           this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         });
 
-      // this.agencyappForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      // alert(txt)
-    }
   }
 
   changePageMode(isEdit) {

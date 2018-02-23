@@ -148,13 +148,13 @@ export class AgencytblComponent implements OnInit {
 
       this.commonservice.delAgency(refCode).subscribe(
         data => {
-          txt = "Agency deleted successfully!";
-          console.log(data)
-          this.toastr.success(txt, '');   
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
+          }).bind(this));  
           this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
         });
 
   }

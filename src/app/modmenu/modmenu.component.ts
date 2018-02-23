@@ -65,7 +65,7 @@ export class ModmenuComponent implements OnInit {
 
   ngOnInit() {
 
-    let refCode = this.router.url.split('/')[2];
+    let refId = this.router.url.split('/')[2];
 
     this.moduleName = new FormControl()
     this.moduleDesc = new FormControl()
@@ -81,14 +81,14 @@ export class ModmenuComponent implements OnInit {
 
     });
 
-    if(refCode == "add") {
+    if(refId == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
       this.modulesForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
-      this.getRow(refCode);
+      this.getRow(refId);
     }
 
   }
@@ -126,9 +126,8 @@ export class ModmenuComponent implements OnInit {
     let moduleName = "moduleName";
     let moduleDesc = "moduleDesc";
     let moduleUrl = "moduleUrl";
-    let active = "active";
 
-    let reqVal: any = [moduleName, moduleDesc, moduleUrl, active];
+    let reqVal: any = [moduleName, moduleDesc, moduleUrl];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -174,11 +173,13 @@ export class ModmenuComponent implements OnInit {
     // Add ErrorMsg Service
     this.commonservice.addModMenu(body).subscribe(
       data => {
-        this.toastr.success('Module added successfully!', ''); 
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
         this.router.navigate(['modmenu']);
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
       });
 
     } else {
@@ -199,16 +200,18 @@ export class ModmenuComponent implements OnInit {
       body.active = formValues.active;
       body.moduleUrl = formValues.moduleUrl;
 
-    console.log(body);
+    console.log(JSON.stringify(body));
 
     // Update ErrorMsg Service
     this.commonservice.updateModMenu(body).subscribe(
       data => {
-        this.toastr.success('Module update successful!', '');   
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
         this.router.navigate(['modmenu']);
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
       });
     }
     
