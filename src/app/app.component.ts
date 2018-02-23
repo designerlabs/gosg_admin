@@ -34,7 +34,7 @@ ngOnInit() {
           this.getUserName = data['adminUser'].fullName;
           this.getEmail = data['adminUser'].email;
           this.userID = data['adminUser'].userId;
-          this.isSuperAdmin = data['adminUser'].isSuperAdmin;
+          this.isSuperAdmin = data['adminUser'].superAdmin;
           localStorage.setItem('fullname',data['adminUser'].fullName);
           localStorage.setItem('email',data['adminUser'].email);
         }else{

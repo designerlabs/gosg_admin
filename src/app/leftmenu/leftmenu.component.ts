@@ -65,7 +65,7 @@ export class LeftmenuComponent implements OnInit {
     this.commonservice.getUsersDetails().subscribe(
       data => {
         if(data['adminUser']){
-          if(data['adminUser'].isSuperAdmin){
+          if(data['adminUser'].superAdmin){
             this.getMenuData();
           }else{
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
