@@ -24,6 +24,7 @@ export class User {
 
 
 export class LeftmenuComponent implements OnInit {
+  menulist_non_admin: any;
   @Output() menuClick = new EventEmitter();
   myControl = new FormControl();
   menulst: object;
@@ -65,11 +66,13 @@ export class LeftmenuComponent implements OnInit {
     this.commonservice.getUsersDetails().subscribe(
       data => {
         if(data['adminUser']){
-          if(data['adminUser'].isSuperAdmin){
+          if(data['adminUser'].superAdmin){
             this.getMenuData();
           }else{
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              this.menulst = data;
+              
+              this.menulist_non_admin = data.data[1];
+              debugger
             });
           }
           
@@ -94,6 +97,7 @@ export class LeftmenuComponent implements OnInit {
   getMenuData() {
     this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
+      debugger;
       console.log(this.menulst)
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
