@@ -89,9 +89,8 @@ export class AgencytblComponent implements OnInit {
 
   // get agencyType Data 
   getAgencyTypesData(count, size) {
-    this.dataUrl = this.appConfig.urlAgency;
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    this.http.get(this.appConfig.urlGetAgency + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.agencyTypeList = data;

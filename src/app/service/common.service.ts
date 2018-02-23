@@ -41,8 +41,6 @@ export class CommonService {
     private translate: TranslateService
   ) {
 
-    
-
        /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {

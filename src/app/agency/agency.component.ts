@@ -295,7 +295,7 @@ export class AgencyComponent implements OnInit {
       selLangField = "ministryEn";
     }
 
-    return this.http.get(this.appConfig.urlMinistry + '/refcode/language/' + refCode+ '?language='+langId).subscribe(
+    return this.http.get(this.appConfig.urlGetMinistry + '/refcode/language/' + refCode+ '?language='+langId).subscribe(
       data => {
         console.log('refCode Data');
         console.log(data);

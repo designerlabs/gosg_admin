@@ -25,8 +25,11 @@ const serviceURL = devURL + 'service/';
 export class AppConfig {
     apiEndpoint: string;
     urlMinistry: string;
+    urlGetMinistry: string;
     urlAgency: string;
+    urlGetAgency: string;
     urlAgencyApp: string;
+    urlGetAgencyApp: string;
     urlGallery: string;
     urlMenu: string;
     urlCommon: string;
@@ -111,8 +114,11 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
     urlMinistry: commonURL + 'ministry',
+    urlGetMinistry: serviceURL + 'ministry',
     urlAgency: commonURL + 'agency/type',
+    urlGetAgency: serviceURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
+    urlGetAgencyApp: serviceURL + 'agency/application',
     urlGallery: commonURL+'gallery',
     
     urlAdminUserFind: commonURL+'adminuser',
@@ -120,8 +126,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
-    urlSearchbyAgency: commonURL+'agency/type/search/',
-    urlSearchbyMinistry: commonURL+'ministry/search/',
+    urlSearchbyAgency: serviceURL+'agency/type/search/',
+    urlSearchbyMinistry: serviceURL+'ministry/search/',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',

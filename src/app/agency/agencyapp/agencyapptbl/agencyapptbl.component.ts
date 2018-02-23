@@ -63,10 +63,8 @@ export class AgencyapptblComponent implements OnInit {
 
   // get agencyapp Data 
   getAgencyAppData(count, size) {
-    this.dataUrl = this.appConfig.urlAgencyApp;
-    console.log(this.dataUrl + '/code/?page=' + count + '&size=' + size)
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    this.http.get(this.appConfig.urlGetAgencyApp + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.agencyAppList = data;
