@@ -1046,7 +1046,7 @@ getCategoryList1() {
   getStateData(): Observable<any[]> {
     //  console.log(this.countryUrl);
     return this.http.get(this.stateUrl + '?language='+this.languageId)
-      .map((response: Response) => response.json().stateList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
 
@@ -1063,7 +1063,7 @@ getCategoryList1() {
 
   getCitiesbyState(code): Observable<any[]> {
     return this.http.get(this.cityUrl + '/state/' + code + '?language='+this.languageId)
-      .map((response: Response) => response.json().cityList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
 
@@ -1072,7 +1072,7 @@ getCategoryList1() {
   getPostCodeData(code): Observable<any[]> {
     //  console.log(this.countryUrl);
     return this.http.get(this.postcodeUrl+ code + '?language='+this.languageId)
-      .map((response: Response) => response.json().postcodeList)
+      .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
   }
