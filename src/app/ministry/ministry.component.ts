@@ -31,6 +31,11 @@ export class MinistryComponent implements OnInit {
   ministryIdEn:any;
   ministryIdBm:any;
 
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
+
   ministryNameEn: FormControl
   ministryNameBm: FormControl
   descEn: FormControl
@@ -68,7 +73,7 @@ export class MinistryComponent implements OnInit {
   ngOnInit() {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
-
+    this.getUserData();
     let refCode = this.router.url.split('/')[2];
     this.maskPhoneNo = this.validateService.getMask().telephone;
     this.maskFaxNo = this.validateService.getMask().fax;
@@ -136,6 +141,29 @@ export class MinistryComponent implements OnInit {
 
   back(){
     this.router.navigate(['ministry']);
+  }
+
+  
+  getUserData(){
+    this.commonservice.getUsersDetails().subscribe(
+      data => {
+        if(data['adminUser']){
+          if(data['adminUser'].superAdmin){
+            
+          }else{
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              debugger;
+            });
+          }
+        }else{
+          
+        }
+        
+      },
+    error => {
+      
+      }
+    )
   }
 
   // get, add, update, delete
