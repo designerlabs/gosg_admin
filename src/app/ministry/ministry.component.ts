@@ -124,6 +124,8 @@ export class MinistryComponent implements OnInit {
       mdecStatus: this.mdecStatus
     });
 
+    
+    this.getModuleId();
     if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
@@ -143,6 +145,19 @@ export class MinistryComponent implements OnInit {
     this.router.navigate(['ministry']);
   }
 
+  
+
+  getModuleId(){
+    let getURL = window.location.pathname;
+    let getURLArr = getURL.split('/');
+    getURLArr = getURLArr.splice(0, 2);
+    let getURLStr = getURLArr.join('/');
+    this.commonservice.requestUrl(getURLStr).subscribe(
+      data => {
+        debugger;
+      }
+    )
+  }
   
   getUserData(){
     this.commonservice.getUsersDetails().subscribe(

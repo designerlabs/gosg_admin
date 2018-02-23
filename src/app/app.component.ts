@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  isSuperAdmin: any;
+  superAdmin: any;
   userID: any;
   getFullname: any;
   getEmail: any;
@@ -34,7 +34,7 @@ ngOnInit() {
           this.getUserName = data['adminUser'].fullName;
           this.getEmail = data['adminUser'].email;
           this.userID = data['adminUser'].userId;
-          this.isSuperAdmin = data['adminUser'].superAdmin;
+          this.superAdmin = data['adminUser'].superAdmin;
           localStorage.setItem('fullname',data['adminUser'].fullName);
           localStorage.setItem('email',data['adminUser'].email);
         }else{

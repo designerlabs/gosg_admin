@@ -231,6 +231,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  requestUrl(url){
+    return this.http.post(this.appConfig.urlModule+'url?requestUrl='+url,'')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  
+
   addUserList(id){
     return this.http.post(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId,'')
     .map((response: Response) => response.json())
