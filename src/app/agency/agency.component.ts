@@ -215,6 +215,8 @@ export class AgencyComponent implements OnInit {
   }
 
   getSearchData(keyword, langId){
+    console.log(keyword)
+    console.log(langId)
 
     let selLangField;
       
@@ -225,13 +227,11 @@ export class AgencyComponent implements OnInit {
       selLangField = "ministryEn";
       this.ministryNameEn = "";
     }
-    this.agencyForm.get(selLangField).setValue("");
+    this.agencyForm.get(selLangField).reset();
+    // console.log(selLangField)
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      console.log(keyword)
       
-      this.isActive = true;
-
       if(langId == 1) {
         this.isActiveListEn = true;
         this.isActiveListBm = false;
@@ -264,12 +264,10 @@ export class AgencyComponent implements OnInit {
       this.agencyForm.get('ministryEn').setValue(mName);
       this.ministryIdEn = mId;
 
-
       this.getMinistryByRefCode(refCode,langId);
       
     } else {
       this.ministryBm = this.agencyForm.get('ministryBm').value;
-      this.isActive = false;
       this.isActiveListBm = false;
       this.searchMinistryResultBm = [''];
       this.agencyForm.get('ministryBm').setValue(mName);
