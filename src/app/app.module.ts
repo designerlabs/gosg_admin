@@ -49,7 +49,7 @@ import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksub
 import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
-import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
+// import { CategorytblComponent } from './categories/category/categorytbl/categorytbl.component';
 
 import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { ToastrModule } from 'ngx-toastr';
@@ -64,11 +64,11 @@ import { AccountstatusComponent } from './accountstatus/accountstatus.component'
 import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
 import { LanguageComponent } from './language/language.component';
 import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
-import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
-import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
-import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
-import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
-import { CategoryComponent } from './categories/category/category.component';
+// import { MaincategoryComponent } from './categories/maincategory/maincategory.component';
+// import { MaincategorytblComponent } from './categories/maincategory/maincategorytbl/maincategorytbl.component';
+// import { SubcategoryComponent } from './categories/subcategory/subcategory.component';
+// import { SubcategorytblComponent } from './categories/subcategory/subcategorytbl/subcategorytbl.component';
+// import { CategoryComponent } from './categories/category/category.component';
 import { UserpermissionComponent } from './authentication/user/userpermission.component';
 import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
 import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
@@ -149,7 +149,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EthnicitytblComponent,
     AnnouncementComponent,
     AnnouncementtblComponent,
-    CategorytblComponent,
+    // CategorytblComponent,
     SlidertblComponent,
     AddresstypeComponent,
     AddresstypetblComponent,
@@ -162,11 +162,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     AccountstatustblComponent,
     LanguageComponent,
     LanguagetblComponent,
-    MaincategoryComponent,
-    MaincategorytblComponent,
-    SubcategoryComponent,
-    SubcategorytblComponent,
-    CategoryComponent,
+    // MaincategoryComponent,
+    // MaincategorytblComponent,
+    // SubcategoryComponent,
+    // SubcategorytblComponent,
+    // CategoryComponent,
     UserpermissionComponent,
     AgencyappComponent,
     AgencyapptblComponent,
