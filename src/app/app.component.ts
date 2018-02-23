@@ -24,8 +24,7 @@ ngOnInit() {
   getUserData(){
     this.commonService.getUsersDetails().subscribe(
       data => {
-        debugger;
-        if(data['user']){
+        if(data['adminUser']){
           debugger;
           // this.getUserName = data.user.fullName;
           // this.getEmail = data.user.email;
