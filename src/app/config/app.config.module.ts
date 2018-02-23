@@ -34,6 +34,10 @@ export class AppConfig {
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
+    urlColor: string;
+    urlGetColor: string;
+    urlFont: string;
+    urlGetFont: string;
     urlUsers: string;
     urlSlides: string;
     urlErrorMsg: string;
@@ -98,6 +102,10 @@ export class AppConfig {
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
     urlMenu: commonURL + 'menu',
+    urlColor: commonURL + 'color',
+    urlGetColor: serviceURL + 'color',
+    urlFont: commonURL + 'font',
+    urlGetFont: serviceURL + 'font',
     urlCommon: commonURL,
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',

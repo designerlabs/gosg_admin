@@ -78,6 +78,10 @@ import { CategorytblComponent } from './category/categorytbl/categorytbl.compone
 import { CategoryComponent } from './category/category.component';
 import { ModmenuComponent } from './modmenu/modmenu.component';
 import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
+import { FonttblComponent } from './font/fonttbl/fonttbl.component';
+import { FontComponent } from './font/font.component';
+import { ColortblComponent } from './color/colortbl/colortbl.component';
+import { ColorComponent } from './color/color.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -177,6 +181,14 @@ export const appRoutes: Routes = [
 {path: 'systemsettings',component: SystemsettingstblComponent},
 {path: 'systemsettings/:id',component: SystemsettingsComponent},
 {path: 'systemsettings/add',component: SystemsettingsComponent},
+
+//Theme Settings
+{path: 'color',component: ColortblComponent},
+{path: 'color/:id',component: ColorComponent},
+{path: 'color/add',component: ColorComponent},
+{path: 'font',component: FonttblComponent},
+{path: 'font/:id',component: FontComponent},
+{path: 'font/add',component: FontComponent},
 
 // Article and Announcement Category
 {path: 'admin', component: UsertblComponent},

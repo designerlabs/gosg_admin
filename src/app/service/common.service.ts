@@ -158,6 +158,66 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  // Color
+
+  addColor(Color) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(ministry)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlColor + '/menu?language='+this.languageId, Color)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateColor(Color) {
+
+    return this.http.put(this.appConfig.urlColor + '?language='+this.languageId, Color)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delColor(ColorId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlColor + '/' + ColorId+ '?language='+this.languageId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // Color END
+
+  // FONT
+
+  addFont(font) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(ministry)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlFont + '/menu?language='+this.languageId, font)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFont(font) {
+
+    return this.http.put(this.appConfig.urlFont + '?language='+this.languageId, font)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delFont(fontId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlFont + '/' + fontId+ '?language='+this.languageId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // FONT END
+
   // MODULE
 
   getModMenu() {
