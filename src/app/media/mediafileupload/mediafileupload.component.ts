@@ -141,7 +141,6 @@ export class MediafileuploadComponent implements OnInit {
 
   getRow(row) {
     return this.http.get(this.appConfig.urlMediaFileUpload + '/code/' + row).subscribe(
-      // return this.http.get('./app/apidata/race.json').subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.mediaFileUpData = Rdata;
@@ -206,29 +205,7 @@ export class MediafileuploadComponent implements OnInit {
       this.complete = true;
     }
   }
-
-  fileChange(event, lan) {
-    let files = event;
-    if (files.length > 0) {
-      let formData: FormData = new FormData();
-      for (let file of files) {
-        formData.append('files', file, file.name);
-      }
-      let headers = new Headers();
-      headers.set('Accept', 'application/json');
-      // let options = new RequestOptions({ headers: headers });
-      this.http.post(this.appConfig.urlMediaFileUpload, formData)
-        .subscribe(
-          Rdata => {
-            this.commonservice.errorHandling(Rdata, (function(){
-              console.log('uploaded and processed files');
-            }).bind(this));
-          },
-          error => {
-            this.toastr.error(JSON.parse(error._body).statusDesc, '');          
-          });
-    }
-  }
+ 
   //dev server path: opt/media
   filesSelectMy(selectedFiles: Ng4FilesSelected, lan): void {
     if (selectedFiles.status !== Ng4FilesStatus.STATUS_SUCCESS) {
@@ -243,33 +220,18 @@ export class MediafileuploadComponent implements OnInit {
           console.log(formData);
         }
       }
-      let headers = new Headers();
-      headers.append('Content-Type', 'multipart/form-data');
+      
 
       this.selectedFilesMy = selectedFiles.files[0].name;
+      if(!this.isEdit){
+        this.mediaFileUpForm.controls.mediaFileMy.setValue(this.selectedFilesMy);
+      }
       console.log(this.selectedFilesMy);
       this.selFiles.push(selectedFiles);
     }
   }
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {
     if (selectedFiles.status !== Ng4FilesStatus.STATUS_SUCCESS) {
-      // let headers = new Headers();
-      // headers.append('Content-Type', 'multipart/form-data');
-
-      // const headers = new HttpHeaders()
-      //        .set('content-type', 'multipart/form-data');
-
-
-      //    const body = {
-      //        email: 'myemail@xyz.com',
-      //        user_password: 'mypasss',
-      //        token: 'my token'
-      //    }
-      //    const curl = 'curl -i -X PUT ' + this.appConfig.urlMediaFileUpload + '\ '
-      //    + '-H Content-type:multipart/form-data \ '
-      //    + '-F mediaFiles=@'+selectedFiles.files[0].name+';type=image/png \ '
-      //    + '-F medias=@'+body+';type=application/json'
-
       let name = selectedFiles.files[0].name;
       let fileList = selectedFiles.files;
       if (selectedFiles.files.length > 0) {
@@ -281,9 +243,11 @@ export class MediafileuploadComponent implements OnInit {
           console.log(formData);
         }
       }
-      let headers = new Headers();
-      headers.append('Content-Type', 'multipart/form-data');
+      
       this.selectedFilesEn = selectedFiles.files[0].name;
+      if(!this.isEdit){
+        this.mediaFileUpForm.controls.mediaFileEn.setValue(this.selectedFilesEn);
+      }
       console.log(this.selectedFilesEn);
       this.selFiles.push(selectedFiles);
     }

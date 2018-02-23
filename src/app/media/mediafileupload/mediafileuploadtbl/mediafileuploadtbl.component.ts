@@ -33,13 +33,13 @@ export class MediafileuploadtblComponent implements OnInit {
 
   getMediaList() {
     return this.commonservice.getMediaFileUpload()
-    // return this.http.get('./app/apidata/race.json')
        .subscribe(resStateData => {
-         debugger;
+        this.commonservice.errorHandling(resStateData, (function(){
         this.seqPageNum = resStateData.pageNumber;
         this.seqPageSize = resStateData.pageSize;
           this.mediaList = resStateData['list'];  
-          this.dataSource.data = this.mediaList;      
+          this.dataSource.data = this.mediaList; 
+        }).bind(this));     
         },
         Error => {
         //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
