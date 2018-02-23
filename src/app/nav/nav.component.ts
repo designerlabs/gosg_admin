@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
@@ -33,7 +33,7 @@ export class NavComponent implements OnInit {
       this.langId = 1;
     }
 
-
+    
 
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
 
@@ -61,6 +61,10 @@ export class NavComponent implements OnInit {
   currlang: string = this.currlang;
   currlangMOB: string = this.currlangMOB;
   isActive;
+
+  @Input() state:string;
+  @Input() getMail:string;
+  @Input() superStatus:string;
   
   ngOnInit() {
     if(this.currlang == 'English'){

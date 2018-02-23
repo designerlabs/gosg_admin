@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Http } from '@angular/http';
 import { CommonService} from './service/common.service';
 import { Router } from '@angular/router';
@@ -9,6 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  isSuperAdmin: any;
+  userID: any;
+  getFullname: any;
+  getEmail: any;
+  getUserName: any;
   title = 'app';
   bTop = '15px';
   side = true;
@@ -21,16 +26,17 @@ ngOnInit() {
   this.getUserData();
 }
 
+
   getUserData(){
     this.commonService.getUsersDetails().subscribe(
       data => {
         if(data['adminUser']){
-          debugger;
-          // this.getUserName = data.user.fullName;
-          // this.getEmail = data.user.email;
-          // this.getFullname = data.user.fullName;
-          // localStorage.setItem('fullname',data.user.fullName);
-          // localStorage.setItem('email',data.user.email);
+          this.getUserName = data['adminUser'].fullName;
+          this.getEmail = data['adminUser'].email;
+          this.userID = data['adminUser'].userId;
+          this.isSuperAdmin = data['adminUser'].isSuperAdmin;
+          localStorage.setItem('fullname',data['adminUser'].fullName);
+          localStorage.setItem('email',data['adminUser'].email);
         }else{
           
         }
