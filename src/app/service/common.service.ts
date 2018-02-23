@@ -71,6 +71,7 @@ export class CommonService {
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
+  private getUserUrl: string = this.appConfig.urlGetUser;
 
   
   // getMenuID(ID): Observable<any> {
@@ -92,6 +93,12 @@ export class CommonService {
   //      }
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  getUsersDetails(): Observable<any[]> {
+    return this.http.get(this.getUserUrl+'?langId='+this.languageId)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
