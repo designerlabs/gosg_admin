@@ -75,7 +75,9 @@ export class LeftmenuComponent implements OnInit {
           // localStorage.setItem('fullname',data['adminUser'].fullName);
           // localStorage.setItem('email',data['adminUser'].email);
         }else{
-          
+          this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+            this.menulst = data;
+          })
         }
         
       },
