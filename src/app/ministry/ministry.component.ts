@@ -147,13 +147,7 @@ export class MinistryComponent implements OnInit {
 
   
 
-  getModuleId(){
-    this.commonservice.requestUrl('ministry').subscribe(
-      data => {
-        debugger;
-      }
-    )
-  }
+  
   
   getUserData(){
     this.commonservice.getUsersDetails().subscribe(
@@ -164,7 +158,6 @@ export class MinistryComponent implements OnInit {
           }else{
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
               this.getModuleId();
-              debugger;
             });
           }
         }else{
@@ -175,8 +168,17 @@ export class MinistryComponent implements OnInit {
     error => {
       
       }
-    )
-  }
+    )}
+
+    getModuleId(){
+      this.commonservice.requestUrl('ministry').subscribe(
+        data => {
+          alert(data);
+        },
+        error => {
+          
+          })
+    };
 
   // get, add, update, delete
   getRow(row) {
