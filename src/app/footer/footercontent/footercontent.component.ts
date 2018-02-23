@@ -27,6 +27,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../../dialogs/dialogs.service';
+import { ValidateService } from '../../common/validate.service';
 
 @Component({
   selector: 'app-footercontent',
@@ -93,13 +94,16 @@ export class FootercontentComponent implements OnInit {
   public imejEng: any;
   public imejMy: any;
 
+  // patternIconEng: string;
+
   // public selectedImgMy = 'Sila Pilih';
   // public selectedImgEng = 'Please Select';
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
-  private dialogsService: DialogsService) {
+  private dialogsService: DialogsService,
+  private validateService: ValidateService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -129,6 +133,7 @@ export class FootercontentComponent implements OnInit {
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
     this.iconEng = new FormControl();
+    // this.iconEng = new FormControl('', [Validators.pattern(this.validateService.getPattern().alphaOnly)]);
     this.imgEng = new FormControl();
     this.urlEng = new FormControl();
     this.seqEng = new FormControl();
@@ -143,6 +148,8 @@ export class FootercontentComponent implements OnInit {
     this.active = new FormControl();
     this.copyImg = new FormControl();
     this.getCat = new FormControl();
+
+    // this.patternIconEng = this.validateService.getPattern().alphaOnly;
 
     this.getCategory();
     this.getImageList();
@@ -188,6 +195,11 @@ export class FootercontentComponent implements OnInit {
     // this.isSameImg(this.imgEng,this.imgMy);
     
   }
+
+  validateCtrlChk(ctrl: FormControl) {
+    // return ctrl.valid || ctrl.untouched
+    return this.validateService.validateCtrl(ctrl);
+}
 
   getCategory(){
     return this.commonservice.getFooterCategoryList()
@@ -312,6 +324,33 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('copyImg').setValue(false);
     }
   }
+
+  copyIcon(type) {
+    let elemOne = this.updateForm.get('iconEng');
+    let elemTwo = this.updateForm.get('iconMy');
+
+    if(type == 1)
+      elemTwo.setValue(elemOne.value)
+    else
+      elemOne.setValue(elemTwo.value)
+      
+    this.onlyAlpha(elemOne)
+    this.onlyAlpha(elemTwo)
+
+  }
+
+  onlyAlpha(text)
+  {
+    if(text.value !== text){
+      text.value = text.value.replace(/[^a-zA-Z]/g, '');
+    return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
 
   copyValue(type) {
     let elemOne = this.updateForm.get('seqEng');
@@ -440,9 +479,7 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": {
-            "mediaId": null,
-          },
+          "mediaId": null,
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -460,9 +497,7 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": {
-            "mediaId": null,
-          },
+          "mediaId": null,
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -479,7 +514,7 @@ export class FootercontentComponent implements OnInit {
       body[0].icon = formValues.iconEng;
       body[0].contentCode = this.getContentCodeEng;
       body[0].language.languageId = 1;
-      body[0].image.mediaId = formValues.imgEng;
+      body[0].mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
       body[0].footer.id = this.getCatIdEn;
@@ -493,7 +528,7 @@ export class FootercontentComponent implements OnInit {
       body[1].icon = formValues.iconMy;
       body[1].contentCode = this.getContentCodeMy;
       body[1].language.languageId = 2;
-      body[1].image.mediaId = formValues.imgMy;
+      body[1].mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
       body[1].footer.id = this.getCatIdBm;
@@ -545,9 +580,7 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": {
-            "mediaId": null,
-          },
+          "mediaId": null,
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -565,9 +598,7 @@ export class FootercontentComponent implements OnInit {
           "language": {
               "languageId": null
           },
-          "image": {
-            "mediaId": null,
-          },
+          "mediaId": null,
           "enabled": false,
           "sortingOrder": 0.0,
           "footer": {
@@ -584,7 +615,7 @@ export class FootercontentComponent implements OnInit {
       body[0].icon = formValues.iconEng;
       body[0].contentCode = this.getContentCodeEng;
       body[0].language.languageId = 1;
-      body[0].image.mediaId = formValues.imgEng;
+      body[0].mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
       body[0].footer.id = this.getFooterIdEng;
@@ -598,7 +629,7 @@ export class FootercontentComponent implements OnInit {
       body[1].icon = formValues.iconMy;
       body[1].contentCode = this.getContentCodeMy;
       body[1].language.languageId = 2;
-      body[1].image.mediaId = formValues.imgMy;
+      body[1].mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
       body[1].footer.id = this.getFooterIdMy;

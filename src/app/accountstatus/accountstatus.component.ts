@@ -97,21 +97,21 @@ export class AccountstatusComponent implements OnInit {
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
-       //this.commonservice.errorHandling(data, (function(){
+      this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
         console.log("data");
         console.log(data);
 
-        this.updateForm.get('accEn').setValue(this.recordList[0].accountStatusDescription);
-        this.updateForm.get('accBm').setValue(this.recordList[1].accountStatusDescription);      
-        this.updateForm.get('active').setValue(this.recordList[1].enabled);      
+        this.updateForm.get('accEn').setValue(this.recordList.list[0].accountStatusDescription);
+        this.updateForm.get('accBm').setValue(this.recordList.list[1].accountStatusDescription);      
+        this.updateForm.get('active').setValue(this.recordList.list[1].enabled);      
 
-        this.getIdEn = this.recordList[0].accountStatusId;
-        this.getIdBm = this.recordList[1].accountStatusId;
-        this.getRefId = this.recordList[0].accountStatusCode;
+        this.getIdEn = this.recordList.list[0].accountStatusId;
+        this.getIdBm = this.recordList.list[1].accountStatusId;
+        this.getRefId = this.recordList.list[0].accountStatusCode;
 
         this.checkReqValues();
-      //}).bind(this));   
+      }).bind(this));   
     },
     error => {
 

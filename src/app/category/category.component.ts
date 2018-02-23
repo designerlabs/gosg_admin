@@ -25,7 +25,6 @@ export class CategoryComponent implements OnInit {
   public descBm: FormControl;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
-  public active: FormControl;
   public ismainmenu: FormControl;
 
   public dataUrl: any;  
@@ -40,6 +39,7 @@ export class CategoryComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public out: any[];
 
 
   constructor(private http: HttpClient, 
@@ -80,7 +80,6 @@ export class CategoryComponent implements OnInit {
     this.descBm = new FormControl();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
-    this.active = new FormControl();
     this.ismainmenu = new FormControl();
 
     this.updateForm = new FormGroup({   
@@ -91,7 +90,6 @@ export class CategoryComponent implements OnInit {
       descBm: this.descBm,
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
-      active: this.active,
       ismainmenu: this.ismainmenu   
     });
 
@@ -101,7 +99,6 @@ export class CategoryComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -149,12 +146,28 @@ export class CategoryComponent implements OnInit {
 
     return this.commonservice.getCategoryList()
      .subscribe(data => {
-      debugger;
+  
+      console.log("GET CATEGORY: ");
       console.log(data);
         
       this.commonservice.errorHandling(data, (function(){
-          this.categoryData = data.list;   
-          console.log(this.categoryData);        
+          this.categoryData = data["list"];   
+          console.log(this.categoryData);    
+          let arrCat = [];
+          let parent = [];
+
+          for(let i=0; i<this.categoryData.length; i++){
+
+            
+            arrCat.push({id:this.categoryData[i].list[0].categoryId, 
+                         parent: this.categoryData[i].list[0].parentId,
+                         title: this.categoryData[i].list[0].categoryDescription});
+            parent.push(this.categoryData[i].list[0].categoryId);
+          }
+          
+          this.getNestedChildren(arrCat, parent);
+          console.log(arrCat);
+          console.log(this.out);
           
         }).bind(this));
       },
@@ -165,33 +178,56 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  getNestedChildren(arr, parent) {
+    //var out = []
+    for(var i in arr) {
+        if(arr[i].parent == parent) {
+            var children = this.getNestedChildren(arr, arr[i].id)
+
+            if(children.length) {
+                arr[i].children = children
+            }
+            this.out.push(arr[i])
+        }
+    }
+    return this.out
+  }
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
   
-    this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID + '?language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlCategory + '/'+_getRefID + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+      this.commonservice.errorHandling(data, (function(){
 
-      this.updateForm.get('titleEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('titleBm').setValue(this.recordList[1].accountStatusDescription);   
-      this.updateForm.get('descEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('descBm').setValue(this.recordList[1].accountStatusDescription);  
-      this.updateForm.get('parents').setValue(this.recordList[0].enabled);    
-      this.updateForm.get('active').setValue(this.recordList[0].enabled);      
-      this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
+        this.recordList = data;
+        console.log("data");
+        console.log(data);
 
-      this.getIdEn = this.recordList[0].accountStatusId;
-      this.getIdBm = this.recordList[1].accountStatusId;
-      this.getRefCode = this.recordList[0].accountStatusCode;
-
-      this.checkReqValues();
+        this.updateForm.get('titleEn').setValue(this.recordList.list[0].categoryName);
+        this.updateForm.get('titleBm').setValue(this.recordList.list[1].categoryName);   
+        this.updateForm.get('descEn').setValue(this.recordList.list[0].categoryDescription);
+        this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
+        this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);    
+        this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId); 
       
+        //this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
+
+        this.getIdEn = this.recordList.list[0].categoryId;
+        this.getIdBm = this.recordList.list[1].categoryId;
+        this.getRefCode = this.recordList.list[0].refCode;
+
+        this.checkReqValues();
+      }).bind(this));
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);      
     });
   }
 
