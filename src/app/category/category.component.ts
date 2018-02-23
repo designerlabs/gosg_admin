@@ -11,11 +11,11 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
 
 @Component({
-  selector: 'app-categorymanagement',
-  templateUrl: './categorymanagement.component.html',
-  styleUrls: ['./categorymanagement.component.css']
+  selector: 'app-CategoryComponent',
+  templateUrl: './CategoryComponent.component.html',
+  styleUrls: ['./CategoryComponent.component.css']
 })
-export class CategorymanagementComponent implements OnInit {
+export class CategoryComponent implements OnInit {
 
   updateForm: FormGroup;
   

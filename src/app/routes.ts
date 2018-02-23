@@ -76,8 +76,8 @@ import { FootercontentComponent } from './footer/footercontent/footercontent.com
 import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
 import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { GalleryComponent } from './gallery/gallery.component';
-import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
-import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+import { CategoryComponent } from './category/category.component';
 import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
@@ -212,9 +212,9 @@ export const appRoutes: Routes = [
 {path: 'account/add', component: AccountstatusComponent},
 
 // Category & Content: N
-{path: 'category', component: CategorymanagementtblComponent},
-{path: 'category/:id', component: CategorymanagementComponent},
-{path: 'category/add', component: CategorymanagementComponent},
+{path: 'category', component: CategorytblComponent},
+{path: 'category/:id', component: CategoryComponent},
+{path: 'category/add', component: CategoryComponent},
 {path: 'content', component: ContenttblComponent},
 {path: 'content/:id', component: ContentComponent},
 {path: 'content/add', component: ContentComponent},

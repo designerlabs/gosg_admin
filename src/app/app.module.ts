@@ -100,8 +100,8 @@ import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
 import { DialogsService } from './dialogs/dialogs.service';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { CategorymanagementComponent } from './categorymanagement/categorymanagement.component';
-import { CategorymanagementtblComponent } from './categorymanagement/categorymanagementtbl/categorymanagementtbl.component';
+import { CategoryComponent } from './category/category.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
 import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
 import { Ng4FilesModule } from './ng4-files';
 
@@ -193,8 +193,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     GalleryComponent,
     GallerytblComponent,
     ConfirmDialogComponent,
-    CategorymanagementComponent,
-    CategorymanagementtblComponent,
+    CategoryComponent,
+    CategorytblComponent,
     MediafileuploadtblComponent,
     ModmenuComponent,
     ModmenutblComponent,
