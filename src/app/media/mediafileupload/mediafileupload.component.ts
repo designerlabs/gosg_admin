@@ -246,7 +246,16 @@ export class MediafileuploadComponent implements OnInit {
   checkFileSize(){
     // kb=*1024 mb=*1048576
     let resMT = this.objMediaType.filter(fmt => fmt.mediaTypeId===this.mediaFileUpForm.controls.mediatype.value);
-    let fileConfig = resMT[0].mediaTypeCategories.filter(fDcon => fDcon.category.categoryId === this.mediaFileUpForm.controls.catType.value);
+    // let fileConfig = resMT[0].mediaTypeCategories.filter(fDcon => 
+    // if(fDcon.category){
+    //   fDcon.category.categoryId === this.mediaFileUpForm.controls.catType.value
+    // }
+    // );
+    let fileConfig = resMT[0].mediaTypeCategories.filter(function(k,v){
+      if(k.category){
+        k.category.categoryId === this.mediaFileUpForm.controls.catType.value
+      }
+    }).bind(this);
 
     let maxFileSize;
     if(fileConfig.length > 0){

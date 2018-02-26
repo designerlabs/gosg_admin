@@ -34,7 +34,7 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width font-size-s paddingTop-10">
             <mat-select placeholder="Category" formControlName="catType" (change)="selCateType($event)" required>
-              <mat-option *ngFor="let obj of objCategory" [value]="obj">{{obj}}</mat-option>
+              <mat-option *ngFor="let obj of objCategory" [value]="obj.list[0].categoryId">{{obj.list[0].categoryName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="mediaTypeForm.get('catType').hasError('required')">
               Category is required
