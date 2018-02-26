@@ -168,7 +168,7 @@ export class MinistrytblComponent implements OnInit {
     error => {
       
       },() => {
-        this.commonservice.getUserList(this.userID).subscribe((dataT:any) => {
+        this.commonservice.getUserList(this.userID).subscribe(
           dataT => {
             debugger;
             console.log(this.refModuleId);
@@ -176,9 +176,10 @@ export class MinistrytblComponent implements OnInit {
             this.getDataT = dataT.data[1].items;
             console.log(this.getDataT);
             debugger;
+          }, error => {
+            debugger;
           }
-          
-        });
+        );
       }
     )}
 
