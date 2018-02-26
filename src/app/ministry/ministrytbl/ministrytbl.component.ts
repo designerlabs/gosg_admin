@@ -91,7 +91,7 @@ export class MinistrytblComponent implements OnInit {
 
   // get ministry Data 
   getMinistryData(count, size) {
-    this.dataUrl = this.appConfig.urlMinistry;
+    this.dataUrl = this.appConfig.urlGetMinistry;
     console.log(this.dataUrl + '/?page=' + count + '&size=' + size)
 
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
