@@ -126,6 +126,8 @@ export class PollquestionComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+
+    this.getUserData();
   }
 
   getData() {
@@ -169,6 +171,48 @@ export class PollquestionComponent implements OnInit {
       console.log(error);  
     });
   }
+
+  getUserData(){
+    this.commonservice.getUsersDetails().subscribe(
+      data => {
+        debugger;
+        if(data['adminUser']){
+          if(data['adminUser'].superAdmin){
+            
+          }else{
+
+            this.getModuleId();
+            
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              data => {
+                debugger;
+              }
+              
+            });
+          }
+        }else{
+          
+        }
+        
+      },
+    error => {
+      
+      }
+    )}
+
+    getModuleId(){
+      let urlRef = window.location.pathname.split('/')
+      let urlSplit = urlRef.splice(0, 2);
+      let urlJoin = urlRef.join('/');
+
+      this.commonservice.requestUrl(urlJoin).subscribe(
+        data => {
+          debugger;
+        },
+        error => {
+          
+          })
+    };
 
   submit(formValues: any) {
     

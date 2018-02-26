@@ -81,6 +81,7 @@ export class MinistrytblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','ministryNameEn', 'ministryNameBm', 'ministryAction'];
+    this.getUserData();
   }
 
   ngAfterViewInit() {
@@ -137,6 +138,50 @@ export class MinistrytblComponent implements OnInit {
     // this.changePageMode(this.isEdit);
     this.router.navigate(['ministry', row]);
   }
+
+  
+  
+  getUserData(){
+    this.commonservice.getUsersDetails().subscribe(
+      data => {
+        debugger;
+        if(data['adminUser']){
+          if(data['adminUser'].superAdmin){
+            
+          }else{
+
+            this.getModuleId();
+            
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              data => {
+                debugger;
+              }
+              
+            });
+          }
+        }else{
+          
+        }
+        
+      },
+    error => {
+      
+      }
+    )}
+
+    getModuleId(){
+      let urlRef = window.location.pathname.split('/')
+      let urlSplit = urlRef.splice(0, 2);
+      let urlJoin = urlRef.join('/');
+
+      this.commonservice.requestUrl(urlJoin).subscribe(
+        data => {
+          debugger;
+        },
+        error => {
+          
+          })
+    };
 
   deleteItem(refCode) {
     let txt;
