@@ -100,6 +100,7 @@ export class AppConfig {
     urlImageList: string;
     urlCategory: string;
     urlGetUser: string;
+    urlModuleRef: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -120,6 +121,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlLanguage: commonURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModule: commonURL + 'authorization/module',
+    urlModuleRef: commonURL + 'authorization/module/url',
     urlModuleList: commonURL + 'authorization/module/moduleList',
     urlModuleGroupList: commonURL + 'authorization/module/group',
     urlGroupModuleList: mockApiURL + 'groupList',
