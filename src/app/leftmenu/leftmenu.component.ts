@@ -24,6 +24,7 @@ export class User {
 
 
 export class LeftmenuComponent implements OnInit {
+  menulist_non_admin: any;
   @Output() menuClick = new EventEmitter();
   myControl = new FormControl();
   menulst: object;
@@ -42,7 +43,7 @@ export class LeftmenuComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router ) { 
     
-    this.getMenuData();
+    this.getUserData();
   }
 
   ngOnInit() {
@@ -53,12 +54,42 @@ export class LeftmenuComponent implements OnInit {
       map(name => name ? this.filter(name) : this.options.slice())
     );
 
-    this.getMenuData();
+    this.getUserData();
+   
+  }
+
+  @Input() state:string;
+  @Input() getMail:string;
+  @Input() superStatus:string;
+
+  getUserData(){
+    this.commonservice.getUsersDetails().subscribe(
+      data => {
+        if(data['adminUser']){
+          if(data['adminUser'].superAdmin){
+            this.getMenuData();
+          }else{
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              
+              this.menulist_non_admin = data.data[1];
+              debugger
+            });
+          }
+        }else{
+          
+        }
+        
+      },
+    error => {
+      
+      }
+    )
   }
 
   getMenuData() {
     this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
+      debugger;
       console.log(this.menulst)
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));

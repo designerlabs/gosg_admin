@@ -25,12 +25,19 @@ const serviceURL = devURL + 'service/';
 export class AppConfig {
     apiEndpoint: string;
     urlMinistry: string;
+    urlGetMinistry: string;
     urlAgency: string;
+    urlGetAgency: string;
     urlAgencyApp: string;
+    urlGetAgencyApp: string;
     urlGallery: string;
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
+    urlColor: string;
+    urlGetColor: string;
+    urlFont: string;
+    urlGetFont: string;
     urlUsers: string;
     urlSlides: string;
     urlErrorMsg: string;
@@ -56,11 +63,14 @@ export class AppConfig {
     urlAnnounceList: string;
     urlCategoryList: string;
     urlAddressType: string;
+    urlAddressTypeGet: string;
     urlAccountStatus: string;
     urlLanguage: string;
     urlAdminUserList:string;
     urlFeedbackType: string;
     urlFeedbackSubject: string;
+    urlFeedbackTypeGet: string;
+    urlFeedbackSubjectGet: string;
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
@@ -89,11 +99,16 @@ export class AppConfig {
 
     urlImageList: string;
     urlCategory: string;
+    urlGetUser: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
     urlMenu: commonURL + 'menu',
+    urlColor: commonURL + 'color',
+    urlGetColor: serviceURL + 'color',
+    urlFont: commonURL + 'font',
+    urlGetFont: serviceURL + 'font',
     urlCommon: commonURL,
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
@@ -111,17 +126,20 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlGroupList: './app/apidata/groupslist.json',
     urlGroupList: commonURL + 'authorization/module/groupListView',
     urlMinistry: commonURL + 'ministry',
+    urlGetMinistry: serviceURL + 'ministry',
     urlAgency: commonURL + 'agency/type',
+    urlGetAgency: serviceURL + 'agency/type',
     urlAgencyApp: commonURL + 'agency/application',
+    urlGetAgencyApp: serviceURL + 'agency/application',
     urlGallery: commonURL+'gallery',
-    
+    urlGetUser: commonURL+'adminuser/detail',
     urlAdminUserFind: commonURL+'adminuser',
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
     urlSearchbyEmail: mockApiURL+'searchByEmailIC',
-    urlSearchbyAgency: commonURL+'agency/type/search/',
-    urlSearchbyMinistry: commonURL+'ministry/search/',
+    urlSearchbyAgency: serviceURL+'agency/type/search/',
+    urlSearchbyMinistry: serviceURL+'ministry/search/',
     urlCountryList: serviceURL + 'country',
     urlStateList: serviceURL + 'state',
     urlCityList: serviceURL + 'city',
@@ -153,9 +171,12 @@ export const APP_DI_CONFIG: AppConfig = {
     urlCategoryList: commonURL + 'announcement/category',
     urlCategory: commonURL + 'content/category',
     urlAddressType: commonURL + 'addresstype',
+    urlAddressTypeGet: serviceURL + 'addresstype',
     urlAccountStatus: commonURL + 'accountstatus',
     urlFeedbackType: commonURL + 'feedback/type',
     urlFeedbackSubject: commonURL + 'feedback/subject',
+    urlFeedbackTypeGet: serviceURL + 'feedback/type',
+    urlFeedbackSubjectGet: serviceURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',

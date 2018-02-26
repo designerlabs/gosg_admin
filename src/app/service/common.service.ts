@@ -41,8 +41,6 @@ export class CommonService {
     private translate: TranslateService
   ) {
 
-    
-
        /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -71,6 +69,7 @@ export class CommonService {
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
   private postcodeUrl:string = this.appConfig.urlPostcode;
+  private getUserUrl: string = this.appConfig.urlGetUser;
 
   
   // getMenuID(ID): Observable<any> {
@@ -92,6 +91,12 @@ export class CommonService {
   //      }
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
+
+  getUsersDetails(): Observable<any[]> {
+    return this.http.get(this.getUserUrl+'?langId='+this.languageId)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
@@ -152,6 +157,66 @@ export class CommonService {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+
+  // Color
+
+  addColor(Color) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(ministry)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlColor + '/menu?language='+this.languageId, Color)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateColor(Color) {
+
+    return this.http.put(this.appConfig.urlColor + '?language='+this.languageId, Color)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delColor(ColorId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlColor + '/' + ColorId+ '?language='+this.languageId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // Color END
+
+  // FONT
+
+  addFont(font) {
+
+    // console.log(this.appConfig.urlSlides)
+    // console.log(ministry)
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.post(this.appConfig.urlFont + '/menu?language='+this.languageId, font)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateFont(font) {
+
+    return this.http.put(this.appConfig.urlFont + '?language='+this.languageId, font)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delFont(fontId) {
+
+    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+    
+    return this.http.delete(this.appConfig.urlFont + '/' + fontId+ '?language='+this.languageId, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // FONT END
 
   // MODULE
 
@@ -225,6 +290,13 @@ export class CommonService {
     .map((response: Response) => response.json().adminUserDetails)
     .catch(this.handleError);
   }
+
+  requestUrl(url){
+    return this.http.post(this.appConfig.urlModule+'url?requestUrl='+url,'')
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  
 
   addUserList(id){
     return this.http.post(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId,'')

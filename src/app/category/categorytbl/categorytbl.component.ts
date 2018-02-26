@@ -12,12 +12,12 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 
 
 @Component({
-  selector: 'app-categorymanagementtbl',
-  templateUrl: './categorymanagementtbl.component.html',
-  styleUrls: ['./categorymanagementtbl.component.css'],
+  selector: 'app-categorytbl',
+  templateUrl: './categorytbl.component.html',
+  styleUrls: ['./categorytbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class CategorymanagementtblComponent implements OnInit {
+export class CategorytblComponent implements OnInit {
 
   recordList = null;
   displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];

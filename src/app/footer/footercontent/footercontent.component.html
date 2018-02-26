@@ -124,14 +124,20 @@
           <div class="example-header">
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s">
-                    <input matInput placeholder="Icon" formControlName="iconEng" #iconEng maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
+                    <input matInput placeholder="Icon" formControlName="iconEng" #iconEng (keyup)="copyIcon(1)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
                 </mat-form-field>
+                <!-- <mat-error *ngIf="!validateCtrlChk(iconEng) &&  updateForm.controls.iconEng.errors.pattern">
+                    Icon Pattern not valid
+                </mat-error> -->
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Ikon" formControlName="iconMy" #iconMy maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
+                    <input matInput placeholder="Ikon" formControlName="iconMy" #iconMy (keyup)="copyIcon(2)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
                     <!-- <mat-hint align="end">{{iconMy.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
+                <!-- <mat-error *ngIf="!validateCtrlChk(iconMy) &&  updateForm.controls.iconMy.errors.pattern">
+                    Ikon Pattern not valid
+                </mat-error> -->
             </div>
           </div>
 
