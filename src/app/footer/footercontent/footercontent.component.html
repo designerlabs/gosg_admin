@@ -128,25 +128,25 @@
                 </mat-form-field>
                 <!-- <mat-error *ngIf="!validateCtrlChk(iconEng) &&  updateForm.controls.iconEng.errors.pattern">
                     Icon Pattern not valid
-                </mat-error> -->
+                  </mat-error> -->
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width font-size-s" >
                     <input matInput placeholder="Ikon" formControlName="iconMy" #iconMy (keyup)="copyIcon(2)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
                     <!-- <mat-hint align="end">{{iconMy.value?.length || 0}}/100</mat-hint> -->
                 </mat-form-field>
-                <!-- <mat-error *ngIf="!validateCtrlChk(iconMy) &&  updateForm.controls.iconMy.errors.pattern">
-                    Ikon Pattern not valid
-                </mat-error> -->
+                <!-- <mat-error *ngIf="!validateCtrlChk(iconEng) && updateForm.controls.iconMy.errors.pattern">
+                    Icon Pattern not valid
+                  </mat-error> -->
             </div>
           </div>
 
           <div class="example-header">
-            <div class="col-md-5" style="border: 0px solid #000">
-                <mat-form-field class="font-size-s" style="width:100%;" >
+            <div class="col-md-6" style="border: 0px solid #000">
+                <mat-form-field class="font-size-s" style="width:100%;" > 
                         <mat-select formControlName="imgEng"  placeholder="Select Image" (change)="selectedImg($event, 1)">
                             <mat-option [value]=null>Select Image</mat-option>
-                            <mat-option *ngFor="let imageEng of imageDataEng" [value]="imageEng.list[0].mediaId">{{ imageEng.list[0].mediaFile }}</mat-option>
+                            <mat-option *ngFor="let imageEng of imageData" [value]="imageEng.list[0].mediaId">{{ imageEng.list[0].mediaFile }}</mat-option>
                         </mat-select>
                     </mat-form-field>
               <!-- <mat-form-field class="example-full-width font-size-s">
@@ -157,14 +157,14 @@
                     </mat-select>
               </mat-form-field> -->
             </div>
-            <div class="col-md-2" style="text-align: center; padding-top: 15px;">
+            <!-- <div class="col-md-2" style="text-align: center; padding-top: 15px;">
                 <mat-checkbox formControlName="copyImg" (change)="isChecked($event, imgEng)"></mat-checkbox><span>&nbsp;Copy</span>
-            </div>
-            <div class="col-md-5" style="border: 0px solid #000; text-align: left">
+            </div> -->
+            <div class="col-md-6" style="border: 0px solid #000; text-align: left">
                 <mat-form-field class="font-size-s" style="width:100%;" >
                     <mat-select formControlName="imgMy"  placeholder="Pilih Gambar" (change)="selectedImg($event, 2)">
                         <mat-option [value]=null>Pilih Gambar</mat-option>
-                        <mat-option *ngFor="let imageMy of imageDataMy" [value]="imageMy.list[0].mediaId">{{ imageMy.list[0].mediaFile}}</mat-option>
+                        <mat-option *ngFor="let imageMy of imageData" [value]="imageMy.list[1].mediaId">{{ imageMy.list[1].mediaFile}}</mat-option>
                     </mat-select>
                 </mat-form-field>
               <!-- <mat-form-field class="example-full-width font-size-s">
