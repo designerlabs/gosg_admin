@@ -72,6 +72,7 @@ export class NavComponent implements OnInit {
     }else{
       this.isActive = false;
     }
+    this.getLangID();
   }
 
 

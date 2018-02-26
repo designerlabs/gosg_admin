@@ -68,7 +68,10 @@ export class MinistryComponent implements OnInit {
     private validateService: ValidateService,
     textMask:TextMaskModule,
     private toastr: ToastrService
-  ) { }
+  ) {
+
+    this.getUserData();
+  }
 
   ngOnInit() {
     // this.isEdit = false;
@@ -152,6 +155,7 @@ export class MinistryComponent implements OnInit {
   getUserData(){
     this.commonservice.getUsersDetails().subscribe(
       data => {
+        debugger;
         if(data['adminUser']){
           if(data['adminUser'].superAdmin){
             

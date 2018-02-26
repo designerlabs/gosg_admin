@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field class="example-full-width font-size-s paddingTop-10">
-            <mat-select placeholder="Media Type" formControlName="mediatype" (change)="checkReqValues()" required >
+            <mat-select placeholder="Media Type" formControlName="mediatype" (change)="selMediaType($event)" required >
               <mat-option *ngFor="let obj of objMediaType" [value]="obj.mediaTypeId">{{obj.mediaTypeName}}</mat-option>
               <!-- <mat-option *ngFor="let obj of objMediaType" [value]="obj">{{obj}}</mat-option> -->
             </mat-select>
@@ -32,8 +32,8 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width font-size-s paddingTop-10">
-            <mat-select placeholder="Category" formControlName="catType" (change)="checkReqValues()" multiple required>
-              <mat-option *ngFor="let obj of objCategory" [value]="obj.list[0].categoryId">{{obj.list[0].categoryName}}</mat-option>
+            <mat-select placeholder="Category" formControlName="catType" (change)="selCateType($event)" required>
+              <mat-option *ngFor="let obj of objCategory" [value]="obj.category.categoryId">{{obj.category.categoryName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="mediaFileUpForm.get('catType').hasError('required')">
               Category is required
@@ -76,7 +76,7 @@
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
                       <input matInput placeholder="Media File" formControlName="mediaFileEn" maxlength="100" 
-                      (change)="checkReqValues()" required>
+                      (change)="checkReqValues()" required readonly>
                       <mat-error *ngIf="mediaFileUpForm.controls.mediaFileEn.hasError('required')">
                           Media Title is required
                       </mat-error>
@@ -85,7 +85,7 @@
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
                       <input matInput placeholder="Tajuk Media" formControlName="mediaFileMy" maxlength="100" 
-                      (change)="checkReqValues()" required>
+                      (change)="checkReqValues()" required readonly>
                       <mat-error *ngIf="mediaFileUpForm.controls.mediaFileMy.hasError('required')">
                           Tajuk Media diperlukan
                       </mat-error>

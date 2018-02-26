@@ -15,21 +15,23 @@ import { debug } from 'util';
 })
 export class MediatypeComponent implements OnInit {
 
-  objImage = ["jpg","jpeg","png","gif","tiff","bmp"];
-  objAudio = ["MP3","WAV"];
-  objVideo = ["AVI","FLV","WMV","MOV","MP4"];
-  objDoc = ["doc","docx","pdf","xls","xlsx","txt"];
-  objUnit = ["MB","KB"];
-  objCategory = ["Slider","Article","Gallery"];
-  objMediaType = ["Images","Documents","Videos","Audios"];
+  objImage = ["jpg", "jpeg", "png", "gif", "tiff", "bmp"];
+  objAudio = ["MP3", "WAV"];
+  objVideo = ["AVI", "FLV", "WMV", "MOV", "MP4"];
+  objDoc = ["doc", "docx", "pdf", "xls", "xlsx", "txt"];
+  objUnit = ["MB", "KB"];
+  // objCategory = ["Slider", "Article", "Gallery"];
+  objMediaType = ["Images", "Documents", "Videos", "Audios"];
   objFileExtn = [];
-  getData = [];
-  mediaTypeData: Object;
+  objCategory: any;
+  getData;
+  mediaTypeData: any;
   mediaTypeForm: FormGroup;
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-
+  selCategory: any;
+  selmediaTypeCategoryId;
   catType: FormControl;
   mediatype: FormControl;
   filetype: FormControl;
@@ -41,25 +43,26 @@ export class MediatypeComponent implements OnInit {
   maxheigth: FormControl;
 
   active: FormControl;
- 
+
   resetMsg = this.resetMsg;
   imgchk = false;
 
-  reqVal=[];
-  imgreqVal=[];
-  docreqVal=[];
-  audioreqVal=[];
-  videoreqVal=[];
+  reqVal = [];
+  imgreqVal = [];
+  docreqVal = [];
+  audioreqVal = [];
+  videoreqVal = [];
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService
   ) { }
 
   ngOnInit() {
+    debugger;
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
     this.catType = new FormControl();
@@ -84,97 +87,126 @@ export class MediatypeComponent implements OnInit {
       maxheigth: this.maxheigth,
       active: this.active,
     });
-
-    if(refCode == "add") {
+   
+    if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
+      this.loadCate(); // Add media type will have all category
       // this.mediaTypeForm.get('imgchkactive').setValue(false);     
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
-      this.getRow(refCode);
-    }
+      this.getRow(refCode); // Edit media type will have only selected category
+      }
   }//10.1.22.50:8080/mediatype
 
 
-  back(){
+  back() {
     this.router.navigate(['media/type']);
   }
 
-  // get, add, update, delete
+  loadCate(){
+    // Get Categories
+    this.commonservice.getCategoryData()
+    .subscribe(resStateData => {
+      this.commonservice.errorHandling(resStateData, (function () {
+        this.objCategory = resStateData['list'];
+      }).bind(this));
+    },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      });
+}  // get, add, update, delete
   getRow(row) {
-    // return this.http.get(this.appConfig.urlMediaType + '/id/' + row).subscribe(
-    return this.http.get('./app/apidata/race.json').subscribe(
+    
+    return this.http.get(this.appConfig.urlMediaType + '/id/' + row).subscribe(
       Rdata => {
-        // debugger;
-        this.mediaTypeData = Rdata;
-        console.log(this.mediaTypeData);
-        let data = this.mediaTypeData['mediaTypes'];
-        this.getData = data;
-      // populate data
-      if(data){
-        // this.mediaTypeId = data.mediaTypeId;
-        this.mediaTypeForm.get('mediatype').setValue(data[0].mediaTypeName);
+        this.commonservice.errorHandling(Rdata, (function () {
+          this.mediaTypeData = Rdata;
+          console.log(this.mediaTypeData);
+          let data = this.mediaTypeData['mediaType'];
+          this.getData = data;
+          // populate data
+          if (data) {
+            // this.mediaTypeId = data.mediaTypeId;
+            this.mediaTypeForm.get('mediatype').setValue(data.mediaTypeName);
 
-        if(data[0].mediaTypeName == "Images"){
-          this.objFileExtn = this.objImage;
-          }else if(data[0].mediaTypeName == "Documents"){
-            this.objFileExtn = this.objDoc;
-          }else if(data[0].mediaTypeName == "Videos"){
-            this.objFileExtn = this.objVideo;
-          }else if(data[0].mediaTypeName == "Audios"){
-            this.objFileExtn = this.objAudio;
-          }          
-          this.mediaTypeForm.get('catType').setValue(data[0].mediaTypeCategories[0].category.categoryName);
-          this.mediaTypeForm.get('filetype').setValue(data[0].supportedFileExtensions.split(','));
-          
-          this.mediaTypeForm.get('filesize').setValue(data[0].mediaTypeCategories[0].fileThresholdSize);
-          this.mediaTypeForm.get('fileunit').setValue(data[0].mediaTypeCategories[0].fileThresholdSizeUnits);
-          this.mediaTypeForm.get('minheigth').setValue(data[0].mediaTypeCategories[0].minH);
-          this.mediaTypeForm.get('minwidth').setValue(data[0].mediaTypeCategories[0].minW);
-          this.mediaTypeForm.get('maxheigth').setValue(data[0].mediaTypeCategories[0].maxH);
-          this.mediaTypeForm.get('maxwidth').setValue(data[0].mediaTypeCategories[0].maxW);
-          
-          this.mediaTypeForm.get('active').setValue(data[0].enabled); 
-          this.checkReqValues();
-      }
-    });    
+            if (data.mediaTypeName == "Images") {
+              this.objFileExtn = this.objImage;
+            } else if (data.mediaTypeName == "Documents") {
+              this.objFileExtn = this.objDoc;
+            } else if (data.mediaTypeName == "Videos") {
+              this.objFileExtn = this.objVideo;
+            } else if (data.mediaTypeName == "Audios") {
+              this.objFileExtn = this.objAudio;
+            }
+
+            this.objCategory = data.mediaTypeCategories;
+
+            this.selCategory = data.mediaTypeCategories[0].category;
+            this.selmediaTypeCategoryId = data.mediaTypeCategories[0].mediaTypeCategoryId;
+            this.mediaTypeForm.get('catType').setValue(data.mediaTypeCategories[0].category.categoryId);
+            this.mediaTypeForm.get('filetype').setValue(data.supportedFileExtensions.split(','));
+
+            this.mediaTypeForm.get('filesize').setValue(data.mediaTypeCategories[0].fileThresholdSize);
+            this.mediaTypeForm.get('fileunit').setValue(data.mediaTypeCategories[0].fileThresholdSizeUnits);
+            this.mediaTypeForm.get('minheigth').setValue(data.mediaTypeCategories[0].minH);
+            this.mediaTypeForm.get('minwidth').setValue(data.mediaTypeCategories[0].minW);
+            this.mediaTypeForm.get('maxheigth').setValue(data.mediaTypeCategories[0].maxH);
+            this.mediaTypeForm.get('maxwidth').setValue(data.mediaTypeCategories[0].maxW);
+
+            this.mediaTypeForm.get('active').setValue(data.enabled);
+            this.checkReqValues();
+          }
+        }).bind(this));
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      });    
   }
 
-  selMediaType(event){
-    if(event.value == "Images"){
+  selMediaType(event) {
+    if (event.value == "Images") {
       this.objFileExtn = this.objImage;
-      }else if(event.value == "Documents"){
-        this.objFileExtn = this.objDoc;
-      }else if(event.value == "Videos"){
-        this.objFileExtn = this.objVideo;
-      }else if(event.value == "Audios"){
-        this.objFileExtn = this.objAudio;
-      }
+    } else if (event.value == "Documents") {
+      this.objFileExtn = this.objDoc;
+    } else if (event.value == "Videos") {
+      this.objFileExtn = this.objVideo;
+    } else if (event.value == "Audios") {
+      this.objFileExtn = this.objAudio;
+    }
 
-      this.checkReqValues();
+    this.checkReqValues();
   }
 
-  selCateType(event){
-    if(this.isEdit) {
-    console.log(this.getData);
-    let filtrData = this.getData[0].mediaTypeCategories.filter(
-          fdata => fdata.category.categoryName === event.value);    
-      if(filtrData.length > 0){
+  selCateType(event) {
+    
+    if (this.isEdit) {  
+      let filtrData = this.objCategory.filter(
+        fdata => fdata.category.categoryId === event.value);
+        this.selCategory = filtrData[0].category;
+        this.selmediaTypeCategoryId = filtrData[0].mediaTypeCategoryId;
+      console.log(this.getData);      
+      if (filtrData.length > 0) {
         this.mediaTypeForm.get('filesize').setValue(filtrData[0].fileThresholdSize);
         this.mediaTypeForm.get('fileunit').setValue(filtrData[0].fileThresholdSizeUnits);
         this.mediaTypeForm.get('minheigth').setValue(filtrData[0].minH);
         this.mediaTypeForm.get('minwidth').setValue(filtrData[0].minW);
         this.mediaTypeForm.get('maxheigth').setValue(filtrData[0].maxH);
         this.mediaTypeForm.get('maxwidth').setValue(filtrData[0].maxW);
-      }else{
+      } else {
+        
         this.mediaTypeForm.controls.filesize.reset();
         this.mediaTypeForm.controls.fileunit.reset();
         this.mediaTypeForm.controls.minheigth.reset();
         this.mediaTypeForm.controls.minwidth.reset();
         this.mediaTypeForm.controls.maxheigth.reset();
         this.mediaTypeForm.controls.maxwidth.reset();
-      }    
+      }
+    }else {
+      let filtrData = this.objCategory.filter(
+        fdata => fdata.list[0].categoryId === event.value);
+        this.selCategory = filtrData[0].list[0];
     }
     this.checkReqValues();
   }
@@ -193,7 +225,7 @@ export class MediatypeComponent implements OnInit {
 
     let reqVal: any = [mediatype, catType, filetype, filesize, fileunit, minwidth, maxwidth, minheigth, maxheigth];
     let nullPointers: any = [];
-    
+
     for (var reqData of reqVal) {
       let elem = this.mediaTypeForm.get(reqData);
 
@@ -225,76 +257,17 @@ export class MediatypeComponent implements OnInit {
 
   // updateMediaType
   updateMediaType(formValues: any) {
-    if(this.isEdit) {
-    let body = [
-      {
-        "mediaTypeName": "",
-        "supportedFileExtensions": "",
-        "mediaTypeCategories": [{
-          "category": {
-              "categoryId": "",
-              "categoryName": "",
-              "categoryDescription": "",
-              "parentId": "",
-              "languageId": "",
-              "contents": null
-          },
-          "minH": "",
-          "minW": "",
-          "maxH": "",
-          "maxW": "",
-          "fileThresholdSize": "",
-          "fileThresholdSizeUnits": ""
-      }],
-      "enabled": true
-      }
-    ];
-
-    let filtrData = this.getData[0].mediaTypeCategories.filter(
-      fdata => fdata.category.categoryName === formValues.catType);    
-
-    // body[0].mediaTypeId = this.mediaTypeId;
-    body[0].mediaTypeName = formValues.mediatype;
-    body[0].supportedFileExtensions = formValues.filetype.toString();
-    body[0].mediaTypeCategories[0].category.categoryName = formValues.catType;  
-    body[0].mediaTypeCategories[0].category.categoryId = filtrData[0].category.categoryId;      
-    body[0].mediaTypeCategories[0].category.categoryDescription = filtrData[0].category.categoryDescription;
-    body[0].mediaTypeCategories[0].category.parentId =  filtrData[0].category.parentId;
-    body[0].mediaTypeCategories[0].category.languageId = filtrData[0].category.languageId;
-    body[0].mediaTypeCategories[0].category.contents = filtrData[0].category.contents;
-
-    body[0].mediaTypeCategories[0].minH = formValues.minheigth;
-    body[0].mediaTypeCategories[0].minW = formValues.minwidth;
-    body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
-    body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
-    body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
-    body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
-    // body[0].enabled = formValues.active;
-    console.log(body);
-
-    // Update Media Type Service
-    this.commonservice.updateMediaType(body[0]).subscribe(
-      data => {
-        this.toastr.success('Media Type Updated successfully!', ''); 
-        this.router.navigate(['mediatype']);
-      },
-      error => {
-        console.log("No Data")
-      });
-
-    }else {
+    if (this.isEdit) {
       let body = [
         {
+          "mediaTypeId": null,
           "mediaTypeName": "",
           "supportedFileExtensions": "",
           "mediaTypeCategories": [{
+            "mediaTypeCategoryId": null,
             "category": {
-                "categoryId": "",
-                "categoryName": "",
-                "categoryDescription": "",
-                "parentId": "",
-                "languageId": "",
-                "contents": null
+              "categoryId": null,
+              "categoryName": ""
             },
             "minH": "",
             "minW": "",
@@ -302,41 +275,91 @@ export class MediatypeComponent implements OnInit {
             "maxW": "",
             "fileThresholdSize": "",
             "fileThresholdSizeUnits": ""
-        }],
-        "enabled": true
+          }],
+          "enabled": true
         }
       ];
-  
+
+      // let filtrData = this.getData.mediaTypeCategories.filter(
+      //   fdata => fdata.category.categoryId === formValues.catType);
+
+      body[0].mediaTypeId = this.mediaTypeData.mediaType.mediaTypeId;
+      body[0].mediaTypeName = formValues.mediatype;
+      body[0].supportedFileExtensions = formValues.filetype.toString();
+      body[0].mediaTypeCategories[0].mediaTypeCategoryId = this.selmediaTypeCategoryId;
+      body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
+      body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
+
+      body[0].mediaTypeCategories[0].minH = formValues.minheigth;
+      body[0].mediaTypeCategories[0].minW = formValues.minwidth;
+      body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
+      body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
+      body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
+      body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
+      body[0].enabled = true;
+      console.log(body);
+
+      // Update Media Type Service
+      this.commonservice.updateMediaType(body[0]).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success('Media Type Updated successfully!', '');
+            this.router.navigate(['media/type']);
+          }).bind(this));
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        });
+
+    } else {
+      let body = [
+        {
+          "mediaTypeName": "",
+          "supportedFileExtensions": "",
+          "mediaTypeCategories": [{
+            "category": {
+              "categoryId": null,
+              "categoryName": ""
+            },     
+            "minH": "",
+            "minW": "",
+            "maxH": "",
+            "maxW": "",
+            "fileThresholdSize": "",
+            "fileThresholdSizeUnits": ""
+          }],
+          "enabled": true
+        }
+      ];
+
       // body[0].mediaTypeId = this.mediaTypeId;
-    body[0].mediaTypeName = formValues.mediatype;
-    body[0].supportedFileExtensions = formValues.filetype.toString();
-    body[0].mediaTypeCategories[0].category.categoryId = "12";
-    body[0].mediaTypeCategories[0].category.categoryName = formValues.catType;    
-    body[0].mediaTypeCategories[0].category.categoryDescription = '';
-    body[0].mediaTypeCategories[0].category.parentId = "2";
-    body[0].mediaTypeCategories[0].category.languageId = "1";
-    body[0].mediaTypeCategories[0].category.contents = '';
+      body[0].mediaTypeName = formValues.mediatype;
+      body[0].supportedFileExtensions = formValues.filetype.toString();
+      body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
+      body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
 
-    body[0].mediaTypeCategories[0].minH = formValues.minheigth;
-    body[0].mediaTypeCategories[0].minW = formValues.minwidth;
-    body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
-    body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
-    body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
-    body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
-    body[0].enabled = formValues.active;
-    console.log(body);
+      body[0].mediaTypeCategories[0].minH = formValues.minheigth;
+      body[0].mediaTypeCategories[0].minW = formValues.minwidth;
+      body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
+      body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
+      body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
+      body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
+      body[0].enabled = true;
+      console.log(body);
 
-    // Update Media Type Service
-    this.commonservice.updateMediaType(body[0]).subscribe(
-      data => {
-        this.toastr.success('Media Type Updated successfully!', ''); 
-        this.router.navigate(['mediatype']);
-      },
-      error => {
-        console.log("No Data")
-      });
-    } 
+      // Update Media Type Service
+      this.commonservice.addMediaType(body[0]).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success('Media Type Updated successfully!', '');
+            this.router.navigate(['media/type']);
+          }).bind(this));
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        });
+    }
   }
-  
+
 
 }

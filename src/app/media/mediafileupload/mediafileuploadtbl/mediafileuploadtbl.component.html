@@ -51,7 +51,7 @@
             <i class="fa fa-edit"></i>
           </button>&nbsp;
           <!-- Delete option not required for Media Type -->
-          <button mat-mini-fab style="background: red" (click)="deleteRow(element.refCode)">
+          <button mat-mini-fab style="background: red" (click)="deleteRow(element.list[0].mediaId)">
             <i class="fa fa-trash" title="Delete {{ element.refCode }}"></i>
           </button>
         </mat-cell>
@@ -61,4 +61,26 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>  
   </div> 
+  <div class="float-right paddingTop-15">
+    <mat-form-field style="width:50px;">
+      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, mediaList?.totalPages)">
+        <mat-option value="5">5</mat-option>
+        <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+        <strong>{{mediaPage?.pageNumber}}</strong> of
+        <strong>{{mediaPage?.totalPages}}</strong> in
+        <strong>{{mediaPage?.totalElements}}</strong> users</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(mediaPage?.pageNumber)">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+      </button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(mediaPage?.pageNumber, mediaPage?.totalPages)">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div>
 </div>
