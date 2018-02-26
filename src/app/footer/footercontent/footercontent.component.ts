@@ -28,6 +28,7 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../../dialogs/dialogs.service';
 import { ValidateService } from '../../common/validate.service';
+// import { PatternValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-footercontent',
@@ -39,6 +40,8 @@ import { ValidateService } from '../../common/validate.service';
 export class FootercontentComponent implements OnInit {
 
   updateForm: FormGroup;
+
+  patternAlphaOnly: string;
 
   public catEng: FormControl;
   public catMy: FormControl;
@@ -86,10 +89,13 @@ export class FootercontentComponent implements OnInit {
   public getCatIdEn: any;
   public getCatIdBm: any;
 
+  public getImgIdEn: any;
+  public getImgIdBm: any;
+
   complete: boolean;
 
-  public imageDataEng: any;
-  public imageDataMy: any;
+  public imageData: any;
+  // public imageData: any;
 
   public imejEng: any;
   public imejMy: any;
@@ -133,7 +139,7 @@ export class FootercontentComponent implements OnInit {
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
     this.iconEng = new FormControl();
-    // this.iconEng = new FormControl('', [Validators.pattern(this.validateService.getPattern().alphaOnly)]);
+    // this.iconEng = new FormControl('',[Validators.pattern(this.validateService.getPattern().alphaOnly)]);
     this.imgEng = new FormControl();
     this.urlEng = new FormControl();
     this.seqEng = new FormControl();
@@ -141,6 +147,7 @@ export class FootercontentComponent implements OnInit {
     this.nameMy = new FormControl();
     this.descMy = new FormControl();
     this.iconMy = new FormControl();
+    // this.iconMy = new FormControl(['',Validators.pattern(this.validateService.getPattern().alphaOnly)]);
     this.imgMy = new FormControl();
     this.urlMy = new FormControl();
     this.seqMy = new FormControl();
@@ -149,7 +156,6 @@ export class FootercontentComponent implements OnInit {
     this.copyImg = new FormControl();
     this.getCat = new FormControl();
 
-    // this.patternIconEng = this.validateService.getPattern().alphaOnly;
 
     this.getCategory();
     this.getImageList();
@@ -196,10 +202,7 @@ export class FootercontentComponent implements OnInit {
     
   }
 
-  validateCtrlChk(ctrl: FormControl) {
-    // return ctrl.valid || ctrl.untouched
-    return this.validateService.validateCtrl(ctrl);
-}
+  
 
   getCategory(){
     return this.commonservice.getFooterCategoryList()
@@ -237,6 +240,7 @@ export class FootercontentComponent implements OnInit {
         }        
       }
 
+      this.updateForm.get('catEng').setValue(this.getCatIdEn); 
       this.updateForm.get('catMy').setValue(idBm);  
     }
     else{
@@ -249,14 +253,15 @@ export class FootercontentComponent implements OnInit {
       }
 
       this.updateForm.get('catEng').setValue(idEn); 
+      this.updateForm.get('catMy').setValue(this.getCatIdBm);
     }
   }
 
   getImageList(){
     return this.commonservice.getImageList()
      .subscribe(resCatData => {
-        this.imageDataEng = resCatData.list;   
-        this.imageDataMy = resCatData.list;      
+        this.imageData = resCatData.list;   
+        // this.imageData = resCatData.list;      
       },
       Error => {
       //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
@@ -265,64 +270,105 @@ export class FootercontentComponent implements OnInit {
   }
 
   selectedImg(e, val){
+
     console.log(e);
+    this.getImgIdEn = e.value;
+    this.getImgIdBm = e.value;
+    let dataList = this.imageData;
+    let indexVal: any;
+    let idBm: any;
+    let idEn: any;
+
+    console.log("EN: "+this.getImgIdEn+" BM: "+this.getImgIdBm + " value: " + val);
 
     if(val == 1){
-      this.imgEng = e.value;
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[0].mediaId;
+        if(indexVal == this.getImgIdEn){
+          idBm = dataList[i].list[1].mediaId;
+        }        
+      }
+
+      this.updateForm.get('imgMy').setValue(idBm);  
     }
     else{
-      this.imgMy = e.value;
-    }
 
-    this.isSameImg(this.updateForm.controls.imgEng.value,this.updateForm.controls.imgMy.value);
-
-    // if(this.imgEng != null && this.imgEng == this.imgMy) {
-    //   this.updateForm.get('copyImg').setValue(true);
-    // } else {
-    //   this.updateForm.get('copyImg').setValue(false);
-    // }
-    
-  }
-
-  isSameImg(imgEng,imgMy) {
-
-    console.log(imgEng)
-    if(imgEng != null && imgEng == imgMy) {
-      this.updateForm.get('copyImg').setValue(true);
-    } else {
-      this.updateForm.get('copyImg').setValue(false);
-    }
-  }
-
-  isChecked(e, imgEng) {
-
-    // if (e.checked) {
-    //   this.updateForm.get("imgMy").setValue(this.imgEng);
-    // } else {
-    //   this.updateForm.get("imgMy").setValue("");
-    // }
-    // this.copyImg = e.checked;
-
-    // this.checkReqValues();
-
-    if (e.checked) {
-      
-      if(this.updateForm.controls.imgEng.value == null || this.updateForm.controls.imgEng.value == undefined){
-        this.updateForm.get("imgMy").setValue("");
-        this.updateForm.get('copyImg').setValue(false);
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[1].mediaId;
+        if(indexVal == this.getImgIdBm){
+          idEn = dataList[i].list[0].mediaId;
+        }        
       }
-      else
-        {
-          // this.selectedImg(this.imgEng, 1);
-          // this.updateForm.get("imgMy").setValue(this.imgEng);
-          this.updateForm.get('copyImg').setValue(true);
-          this.updateForm.get("imgMy").setValue(this.updateForm.controls.imgEng.value);
-        } 
-      
-    } else {
-      this.updateForm.get("imgMy").setValue("");
-      this.updateForm.get('copyImg').setValue(false);
+
+      this.updateForm.get('imgEng').setValue(idEn); 
     }
+  }
+
+  // selectedImg(e, val){
+  //   console.log(e);
+
+  //   if(val == 1){
+  //     this.imgEng = e.value;
+  //   }
+  //   else{
+  //     this.imgMy = e.value;
+  //   }
+
+  //   // this.isSameImg(this.updateForm.controls.imgEng.value,this.updateForm.controls.imgMy.value);
+
+  //   // if(this.imgEng != null && this.imgEng == this.imgMy) {
+  //   //   this.updateForm.get('copyImg').setValue(true);
+  //   // } else {
+  //   //   this.updateForm.get('copyImg').setValue(false);
+  //   // }
+    
+  // }
+
+  // isSameImg(imgEng,imgMy) {
+
+  //   console.log(imgEng)
+  //   if(imgEng != null && imgEng == imgMy) {
+  //     this.updateForm.get('copyImg').setValue(true);
+  //   } else {
+  //     this.updateForm.get('copyImg').setValue(false);
+  //   }
+  // }
+
+  // isChecked(e, imgEng) {
+
+  //   // if (e.checked) {
+  //   //   this.updateForm.get("imgMy").setValue(this.imgEng);
+  //   // } else {
+  //   //   this.updateForm.get("imgMy").setValue("");
+  //   // }
+  //   // this.copyImg = e.checked;
+
+  //   // this.checkReqValues();
+
+  //   if (e.checked) {
+      
+  //     if(this.updateForm.controls.imgEng.value == null || this.updateForm.controls.imgEng.value == undefined){
+  //       this.updateForm.get("imgMy").setValue("");
+  //       this.updateForm.get('copyImg').setValue(false);
+  //     }
+  //     else
+  //       {
+  //         // this.selectedImg(this.imgEng, 1);
+  //         // this.updateForm.get("imgMy").setValue(this.imgEng);
+  //         this.updateForm.get('copyImg').setValue(true);
+  //         this.updateForm.get("imgMy").setValue(this.updateForm.controls.imgEng.value);
+  //       } 
+      
+  //   } else {
+  //     this.updateForm.get("imgMy").setValue("");
+  //     this.updateForm.get('copyImg').setValue(false);
+  //   }
+  // }
+
+  validateCtrlChk(ctrl: FormControl) {
+    // return ctrl.valid || ctrl.untouched
+    return this.validateService.validateCtrl(ctrl);
   }
 
   copyIcon(type) {
@@ -334,22 +380,22 @@ export class FootercontentComponent implements OnInit {
     else
       elemOne.setValue(elemTwo.value)
       
-    this.onlyAlpha(elemOne)
-    this.onlyAlpha(elemTwo)
+    // this.onlyAlpha(elemOne)
+    // this.onlyAlpha(elemTwo)
 
   }
 
-  onlyAlpha(text)
-  {
-    if(text.value !== text){
-      text.value = text.value.replace(/[^a-zA-Z]/g, '');
-    return true;
-    }
-    else{
-      return false;
-    }
+  // onlyAlpha(text)
+  // {
+  //   if(text.value !== text){
+  //     text.value = text.value.replace(/[^a-zA-Z]/g, '');
+  //   return true;
+  //   }
+  //   else{
+  //     return false;
+  //   }
     
-  }
+  // }
 
 
   copyValue(type) {
@@ -401,7 +447,7 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
       this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
       this.updateForm.get('iconEng').setValue(this.recordList.list[0].icon);
-      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].image.mediaId));
+      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].mediaId));
       // this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
       this.updateForm.get('urlEng').setValue(this.recordList.list[0].url);
       this.updateForm.get('seqEng').setValue(this.recordList.list[0].sortingOrder);
@@ -413,7 +459,7 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('nameMy').setValue(this.recordList.list[1].name);
       this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
       this.updateForm.get('iconMy').setValue(this.recordList.list[1].icon);
-      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].image.mediaId));
+      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].mediaId));
       // this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
       this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
       this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
@@ -433,7 +479,7 @@ export class FootercontentComponent implements OnInit {
       this.getFooterNameMy = this.recordList.list[0].footer.name;
       this.getFooterIdMy = this.recordList.list[0].footer.id;
 
-      this.isSameImg(this.recordList.list[0].image,this.recordList.list[1].image);
+      // this.isSameImg(this.recordList.list[0].image,this.recordList.list[1].image);
 
       this.checkReqValues();
       // }).bind(this));   
@@ -517,7 +563,7 @@ export class FootercontentComponent implements OnInit {
       body[0].mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
       body[0].sortingOrder = formValues.seqEng;
-      body[0].footer.id = this.getCatIdEn;
+      body[0].footer.id = formValues.catEng;
       // body[0].footer.id = 1;
       // body[0].footer.name = this.getFooterNameEng;
 
@@ -531,7 +577,7 @@ export class FootercontentComponent implements OnInit {
       body[1].mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
       body[1].sortingOrder = formValues.seqMy;
-      body[1].footer.id = this.getCatIdBm;
+      body[1].footer.id = formValues.catMy;
       // body[1].footer.id = 1;
       // body[1].footer.name = this.getFooterNameMy;
 
