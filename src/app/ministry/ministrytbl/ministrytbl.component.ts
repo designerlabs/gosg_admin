@@ -155,6 +155,7 @@ export class MinistrytblComponent implements OnInit {
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((dataT:any) => {
               dataT => {
                 this.getDataT = dataT.data[1].items;
+                console.log(this.getDataT);
                 debugger;
               }
               
