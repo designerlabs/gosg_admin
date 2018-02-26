@@ -1,3 +1,89 @@
-<p>
-  font works!
-</p>
+<div class="container-fluid">
+
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>{{commonservice.pageMode}} Font Settings</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="accent" (click)="back()" >
+                <i class="fa fa-arrow-left font-size-l"></i></button>
+            </span>
+        </div> 
+    </div>
+
+    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+                    
+        <div class="example-container mat-elevation-z8 paddingBottom-10">
+
+            <div class="bg-form-header col-md-12">
+                <div class="row">
+                    <label class="col-md-12">Font Settings</label>
+                </div>
+            </div><br>
+
+            <div class="example-header">
+                <div class="col-md-12">
+                    <mat-form-field class="example-full-width" >
+                        <input matInput placeholder="Font Name" formControlName="fname" (keyup)="checkReqValues()"
+                        required tabindex="1">
+                        <mat-error *ngIf="updateForm.controls.fname.hasError('required')">
+                            Font Name is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div> 
+
+            <div class="example-header">
+                <div class="col-md-12">
+                    <mat-form-field class="example-full-width">
+                        <input  matInput placeholder="Font Url" formControlName="furl" (keyup)="checkReqValues()" 
+                        required tabindex="2">
+                        <mat-error *ngIf="updateForm.controls.furl.hasError('required')">
+                            Font Url is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-12">
+                    <mat-checkbox class="example-full-width" formControlName="default_status" 
+                    (change)="checkReqValues()" tabindex="3">Default</mat-checkbox>
+                </div>
+            </div>
+
+            <div *ngIf="defStatus == true" class="example-header">
+                <div class="col-md-12">
+                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="4" [disabled]="true">Active</mat-checkbox>
+                </div>
+            </div>
+
+            <div *ngIf="defStatus == false" class="example-header">
+                <div class="col-md-12">
+                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="4">Active</mat-checkbox>
+                </div>
+            </div>
+        
+        </div>
+    
+        <div class="form-group paddingTop-20">
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
+            (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
+            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
+            style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
+            <i class="fa fa-refresh"></i> Reset</button>
+        </div>      
+    </form>
+</div>
+
+<app-confirm-dialog  #resetModal 
+[title]="'common.icon.warn'" 
+[content]="'common.msg.reset'"
+[state]="'bg_header bg_warn_header'"
+[isReset]="'true'"
+(resetMethod)="myFunction()">
+</app-confirm-dialog>
