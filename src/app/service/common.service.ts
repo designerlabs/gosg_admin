@@ -191,12 +191,8 @@ export class CommonService {
   // FONT
 
   addFont(font) {
-
-    // console.log(this.appConfig.urlSlides)
-    // console.log(ministry)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlFont + '/menu?language='+this.languageId, font)
+    return this.http.post(this.appConfig.urlFont + '?language='+this.languageId, font)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -209,10 +205,8 @@ export class CommonService {
   }
 
   delFont(fontId) {
-
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    
-    return this.http.delete(this.appConfig.urlFont + '/' + fontId+ '?language='+this.languageId, null)
+   
+    return this.http.delete(this.appConfig.urlFont + '/id/' + fontId+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

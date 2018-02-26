@@ -155,14 +155,32 @@ export class CategoryComponent implements OnInit {
           console.log(this.categoryData);    
           let arrCat = [];
           let parent = [];
+          let flagParent: any;
 
           for(let i=0; i<this.categoryData.length; i++){
+            
+            if(this.categoryData[i].list[0].parentId == undefined){
+              this.categoryData[i].list[0].parentId = 0;
+            }
+
+            let tempParent = this.categoryData[i].list[0].parentId;
+            flagParent = false;
 
             
             arrCat.push({id:this.categoryData[i].list[0].categoryId, 
                          parent: this.categoryData[i].list[0].parentId,
                          title: this.categoryData[i].list[0].categoryDescription});
-            parent.push(this.categoryData[i].list[0].categoryId);
+
+            for(let x=0; x<parent.length; x++){
+              if(tempParent == parent[x]){
+                flagParent = true;
+              }
+            }
+
+            if(flagParent == false){
+              parent.push(tempParent);
+            }
+            
           }
           
           this.getNestedChildren(arrCat, parent);
@@ -181,7 +199,8 @@ export class CategoryComponent implements OnInit {
   getNestedChildren(arr, parent) {
     //var out = []
     for(var i in arr) {
-        if(arr[i].parent == parent) {
+      for(var k in parent){
+        if(arr[k].parent == arr[i].id) {
             var children = this.getNestedChildren(arr, arr[i].id)
 
             if(children.length) {
@@ -189,6 +208,7 @@ export class CategoryComponent implements OnInit {
             }
             this.out.push(arr[i])
         }
+      }
     }
     return this.out
   }

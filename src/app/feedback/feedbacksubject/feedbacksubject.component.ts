@@ -94,7 +94,7 @@ export class FeedbacksubjectComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];  
-    this.dataUrl = this.appConfig.urlFeedbackSubject+ '/'+_getRefID + '?language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlFeedbackSubjectGet+ '/'+_getRefID + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {

@@ -93,7 +93,7 @@ export class FeedbacktypeComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];  
-    this.dataUrl = this.appConfig.urlFeedbackType + '/'+_getRefID + '?language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlFeedbackTypeGet + '/'+_getRefID + '?language=' +this.languageId;
 
     this.http.get(this.dataUrl)
       .subscribe(data => {
