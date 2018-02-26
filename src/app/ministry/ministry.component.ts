@@ -152,6 +152,7 @@ export class MinistryComponent implements OnInit {
   getUserData(){
     this.commonservice.getUsersDetails().subscribe(
       data => {
+        debugger;
         if(data['adminUser']){
           if(data['adminUser'].superAdmin){
             
