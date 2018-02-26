@@ -159,6 +159,7 @@ export class MinistrytblComponent implements OnInit {
             this.commonservice.getUserList(dataC['adminUser'].userId).subscribe((dataT:any) => {
               dataT => {
                 debugger;
+                console.log(this.refModuleId);
                 console.log(dataT.data[1]);
                 this.getDataT = dataT.data[1].items;
                 console.log(this.getDataT);
@@ -186,13 +187,11 @@ export class MinistrytblComponent implements OnInit {
       this.commonservice.requestUrl(urlJoin).subscribe(
         data => {
           this.refModuleId = data.moduleId;
-          if(data.moduleId){
-            this.getUserData();
-          }
-          
         },
         error => {
           
+          },() => {
+            this.getUserData();
           })
     };
 
