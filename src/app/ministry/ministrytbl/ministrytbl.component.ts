@@ -149,15 +149,16 @@ export class MinistrytblComponent implements OnInit {
   
   getUserData(){
     this.commonservice.getUsersDetails().subscribe(
-      data => {
+      dataC => {
 
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
+        if(dataC['adminUser']){
+          if(dataC['adminUser'].superAdmin){
             
           }else{
 
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((dataT:any) => {
+            this.commonservice.getUserList(dataC['adminUser'].userId).subscribe((dataT:any) => {
               dataT => {
+                debugger;
                 console.log(dataT.data[1]);
                 this.getDataT = dataT.data[1].items;
                 console.log(this.getDataT);
