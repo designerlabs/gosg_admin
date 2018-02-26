@@ -31,6 +31,7 @@ export class MediatypeComponent implements OnInit {
   complete: boolean;
   pageMode: String;
   selCategory: any;
+  selmediaTypeCategoryId;
   catType: FormControl;
   mediatype: FormControl;
   filetype: FormControl;
@@ -86,16 +87,17 @@ export class MediatypeComponent implements OnInit {
       maxheigth: this.maxheigth,
       active: this.active,
     });
-    this.loadCate();
+   
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
+      this.loadCate(); // Add media type will have all category
       // this.mediaTypeForm.get('imgchkactive').setValue(false);     
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
-      this.getRow(refCode);
-    }
+      this.getRow(refCode); // Edit media type will have only selected category
+      }
   }//10.1.22.50:8080/mediatype
 
 
@@ -138,7 +140,11 @@ export class MediatypeComponent implements OnInit {
             } else if (data.mediaTypeName == "Audios") {
               this.objFileExtn = this.objAudio;
             }
+
+            this.objCategory = data.mediaTypeCategories;
+
             this.selCategory = data.mediaTypeCategories[0].category;
+            this.selmediaTypeCategoryId = data.mediaTypeCategories[0].mediaTypeCategoryId;
             this.mediaTypeForm.get('catType').setValue(data.mediaTypeCategories[0].category.categoryId);
             this.mediaTypeForm.get('filetype').setValue(data.supportedFileExtensions.split(','));
 
@@ -174,11 +180,12 @@ export class MediatypeComponent implements OnInit {
   }
 
   selCateType(event) {
-    debugger;
-    let filtrData = this.objCategory.filter(
-      fdata => fdata.list[0].categoryId === event.value);
-      this.selCategory = filtrData[0].list[0];
-    if (this.isEdit) {      
+    
+    if (this.isEdit) {  
+      let filtrData = this.objCategory.filter(
+        fdata => fdata.category.categoryId === event.value);
+        this.selCategory = filtrData[0].category;
+        this.selmediaTypeCategoryId = filtrData[0].mediaTypeCategoryId;
       console.log(this.getData);      
       if (filtrData.length > 0) {
         this.mediaTypeForm.get('filesize').setValue(filtrData[0].fileThresholdSize);
@@ -196,6 +203,10 @@ export class MediatypeComponent implements OnInit {
         this.mediaTypeForm.controls.maxheigth.reset();
         this.mediaTypeForm.controls.maxwidth.reset();
       }
+    }else {
+      let filtrData = this.objCategory.filter(
+        fdata => fdata.list[0].categoryId === event.value);
+        this.selCategory = filtrData[0].list[0];
     }
     this.checkReqValues();
   }
@@ -253,8 +264,11 @@ export class MediatypeComponent implements OnInit {
           "mediaTypeName": "",
           "supportedFileExtensions": "",
           "mediaTypeCategories": [{
-            "categoryId": "",
-            "categoryName": "",
+            "mediaTypeCategoryId": null,
+            "category": {
+              "categoryId": null,
+              "categoryName": ""
+            },
             "minH": "",
             "minW": "",
             "maxH": "",
@@ -272,8 +286,9 @@ export class MediatypeComponent implements OnInit {
       body[0].mediaTypeId = this.mediaTypeData.mediaType.mediaTypeId;
       body[0].mediaTypeName = formValues.mediatype;
       body[0].supportedFileExtensions = formValues.filetype.toString();
-      body[0].mediaTypeCategories[0].categoryName = this.selCategory.categoryName;
-      body[0].mediaTypeCategories[0].categoryId = formValues.catType;
+      body[0].mediaTypeCategories[0].mediaTypeCategoryId = this.selmediaTypeCategoryId;
+      body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
+      body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
 
       body[0].mediaTypeCategories[0].minH = formValues.minheigth;
       body[0].mediaTypeCategories[0].minW = formValues.minwidth;
@@ -302,8 +317,10 @@ export class MediatypeComponent implements OnInit {
           "mediaTypeName": "",
           "supportedFileExtensions": "",
           "mediaTypeCategories": [{
-            "categoryId": "",
-            "categoryName": "",              
+            "category": {
+              "categoryId": null,
+              "categoryName": ""
+            },     
             "minH": "",
             "minW": "",
             "maxH": "",
@@ -318,8 +335,8 @@ export class MediatypeComponent implements OnInit {
       // body[0].mediaTypeId = this.mediaTypeId;
       body[0].mediaTypeName = formValues.mediatype;
       body[0].supportedFileExtensions = formValues.filetype.toString();
-      body[0].mediaTypeCategories[0].categoryId = formValues.catType;
-      body[0].mediaTypeCategories[0].categoryName = this.selCategory.categoryName;
+      body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
+      body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
 
       body[0].mediaTypeCategories[0].minH = formValues.minheigth;
       body[0].mediaTypeCategories[0].minW = formValues.minwidth;
