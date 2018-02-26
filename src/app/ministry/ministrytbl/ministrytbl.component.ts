@@ -82,7 +82,7 @@ export class MinistrytblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','ministryNameEn', 'ministryNameBm', 'ministryAction'];
-    this.getUserData();
+    this.getModuleId();
   }
 
   ngAfterViewInit() {
