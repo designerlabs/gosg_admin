@@ -68,6 +68,7 @@ export class MinistrytblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getMinistryData(this.pageCount, this.agencyPageSize);
+              this.getModuleId();
             }
           }.bind(this));
         })
@@ -76,7 +77,10 @@ export class MinistrytblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getMinistryData(this.pageCount, this.agencyPageSize);
+      this.getModuleId();
     }
+
+   
 
     /* LANGUAGE FUNC */
   }
