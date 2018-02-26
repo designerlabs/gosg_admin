@@ -151,7 +151,12 @@ export class MinistrytblComponent implements OnInit {
             
           }else{
 
-            this.getModuleId();
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              data => {
+                debugger;
+              }
+              
+            });
             
           }
         }else{
@@ -173,12 +178,7 @@ export class MinistrytblComponent implements OnInit {
         data => {
           this.refModuleId = data.moduleId;
           if(data.moduleId){
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              data => {
-                debugger;
-              }
-              
-            });
+            this.getUserData();
           }
           
         },
