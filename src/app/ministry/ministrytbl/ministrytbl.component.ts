@@ -149,16 +149,16 @@ export class MinistrytblComponent implements OnInit {
           if(data['adminUser'].superAdmin){
             
           }else{
-       
+            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              data => {
+                debugger;
+                this.getModuleId();
+              }
+              
+            });
           }
         }else{
-          this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-            data => {
-              debugger;
-              this.getModuleId();
-            }
-            
-          });
+          
         }
         
       },
@@ -168,7 +168,11 @@ export class MinistrytblComponent implements OnInit {
     )}
 
     getModuleId(){
-      this.commonservice.requestUrl('ministry').subscribe(
+      let urlRef = window.location.pathname.split('/')
+      let urlSplit = urlRef.splice(0, 2);
+      let urlJoin = urlRef.join('/');
+
+      this.commonservice.requestUrl(urlJoin).subscribe(
         data => {
           debugger;
         },
