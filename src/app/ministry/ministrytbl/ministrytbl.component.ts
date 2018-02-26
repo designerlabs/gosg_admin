@@ -15,6 +15,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./ministrytbl.component.css']
 })
 export class MinistrytblComponent implements OnInit {
+  getDataT: any;
   refModuleId: any;
 
   agencyData: Object;
@@ -145,7 +146,7 @@ export class MinistrytblComponent implements OnInit {
   getUserData(){
     this.commonservice.getUsersDetails().subscribe(
       data => {
-        debugger;
+
         if(data['adminUser']){
           if(data['adminUser'].superAdmin){
             
@@ -153,6 +154,7 @@ export class MinistrytblComponent implements OnInit {
 
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((dataT:any) => {
               dataT => {
+                this.getDataT = dataT.data[1].items;
                 debugger;
               }
               
