@@ -292,7 +292,7 @@ export class CommonService {
   }
 
   requestUrl(url){
-    return this.http.post(this.appConfig.urlModule+'url?requestUrl='+url,'')
+    return this.http.post(this.appConfig.urlModule+'/url?requestUrl='+url,'')
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
