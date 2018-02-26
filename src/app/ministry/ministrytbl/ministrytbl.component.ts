@@ -149,10 +149,12 @@ export class MinistrytblComponent implements OnInit {
           if(data['adminUser'].superAdmin){
             
           }else{
+
+            this.getModuleId();
+            
             this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
               data => {
                 debugger;
-                this.getModuleId();
               }
               
             });
