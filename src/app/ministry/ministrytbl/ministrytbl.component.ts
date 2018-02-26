@@ -15,6 +15,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./ministrytbl.component.css']
 })
 export class MinistrytblComponent implements OnInit {
+  userID: any;
   getDataT: any;
   refModuleId: any;
 
@@ -156,17 +157,7 @@ export class MinistrytblComponent implements OnInit {
             
           }else{
 
-            this.commonservice.getUserList(dataC['adminUser'].userId).subscribe((dataT:any) => {
-              dataT => {
-                debugger;
-                console.log(this.refModuleId);
-                console.log(dataT.data[1]);
-                this.getDataT = dataT.data[1].items;
-                console.log(this.getDataT);
-                debugger;
-              }
-              
-            });
+           this.userID = dataC['adminUser'].userId;
             
           }
         }else{
@@ -176,6 +167,18 @@ export class MinistrytblComponent implements OnInit {
       },
     error => {
       
+      },() => {
+        this.commonservice.getUserList(this.userID).subscribe((dataT:any) => {
+          dataT => {
+            debugger;
+            console.log(this.refModuleId);
+            console.log(dataT.data[1]);
+            this.getDataT = dataT.data[1].items;
+            console.log(this.getDataT);
+            debugger;
+          }
+          
+        });
       }
     )}
 
