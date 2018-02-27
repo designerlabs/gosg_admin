@@ -138,8 +138,8 @@ export class FootercontentComponent implements OnInit {
 
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
-    this.iconEng = new FormControl();
-    // this.iconEng = new FormControl('',[Validators.pattern(this.validateService.getPattern().alphaOnly)]);
+    // this.iconEng = new FormControl();
+    this.iconEng = new FormControl('',[Validators.pattern(this.validateService.getPattern(1,5).alphaOnly)]);
     this.imgEng = new FormControl();
     this.urlEng = new FormControl();
     this.seqEng = new FormControl();

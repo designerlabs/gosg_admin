@@ -161,12 +161,8 @@ export class CommonService {
   // Color
 
   addColor(Color) {
-
-    // console.log(this.appConfig.urlSlides)
-    // console.log(ministry)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlColor + '/menu?language='+this.languageId, Color)
+    return this.http.post(this.appConfig.urlColor + '?language='+this.languageId, Color)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

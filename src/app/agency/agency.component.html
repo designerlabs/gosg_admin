@@ -117,6 +117,9 @@
               <mat-error *ngIf="agencyForm.controls.agclat.hasError('required')">
                 Latitude is required
               </mat-error>
+              <mat-error *ngIf="!validateCtrlChk(agclat) &&  agencyForm.controls.agclat.errors.pattern">
+                Latitude Pattern not valid
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-6">
