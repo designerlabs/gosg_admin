@@ -223,7 +223,7 @@ export class MinistryComponent implements OnInit {
   getRow(row) {
 
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlMinistry + "/" + row).subscribe(
+    return this.http.get(this.appConfig.urlGetMinistry + "/" + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + row + "/").subscribe(
       Rdata => {

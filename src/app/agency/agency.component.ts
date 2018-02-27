@@ -99,7 +99,7 @@ export class AgencyComponent implements OnInit {
     this.uniqueCode = new FormControl()
     this.active = new FormControl()
     this.address = new FormControl()
-    this.agclat = new FormControl()
+    this.agclat = new FormControl('', [Validators.pattern(this.validateService.getPattern(1,5).alphaOnly)])
     this.agclong = new FormControl()
     this.phoneno = new FormControl()
     this.faxno = new FormControl()
@@ -167,7 +167,7 @@ export class AgencyComponent implements OnInit {
   getRow(row) {
 
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
+    return this.http.get(this.appConfig.urlGetAgency + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyType + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyType + row + "/").subscribe(
       Rdata => {

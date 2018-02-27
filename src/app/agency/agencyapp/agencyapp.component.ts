@@ -131,7 +131,7 @@ export class AgencyappComponent implements OnInit {
   getRow(row) {
 
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
+    return this.http.get(this.appConfig.urlGetAgencyApp + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
       Rdata => {
@@ -259,7 +259,7 @@ export class AgencyappComponent implements OnInit {
       selLangField = "agencyEn";
     }
 
-    return this.http.get(this.appConfig.urlAgency + '/code/language/' + refCode+ '?language='+langId).subscribe(
+    return this.http.get(this.appConfig.urlGetAgency + '/code/language/' + refCode+ '?language='+langId).subscribe(
       data => {
         console.log('refCode Data');
         console.log(data);
