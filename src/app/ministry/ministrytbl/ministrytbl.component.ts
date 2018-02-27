@@ -74,7 +74,7 @@ export class MinistrytblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getMinistryData(this.pageCount, this.agencyPageSize);
-              this.getModuleId();
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -83,7 +83,7 @@ export class MinistrytblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getMinistryData(this.pageCount, this.agencyPageSize);
-      this.getModuleId();
+      this.commonservice.getModuleId();
     }
 
    
@@ -93,7 +93,7 @@ export class MinistrytblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','ministryNameEn', 'ministryNameBm', 'ministryAction'];
-    this.getModuleId();
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {
@@ -151,68 +151,7 @@ export class MinistrytblComponent implements OnInit {
     this.router.navigate(['ministry', row]);
   }
 
-  
-  
-  getUserData(){
-    this.commonservice.getUsersDetails().subscribe(
-      dataC => {
-
-        if(dataC['adminUser']){
-          if(dataC['adminUser'].superAdmin){
-            
-          }else{
-
-           this.userID = dataC['adminUser'].userId;
-            
-          }
-        }else{
-          
-        }
-        
-      },
-    error => {
-      
-      },() => {
-        this.commonservice.getUserList(this.userID).subscribe(
-          dataT => {
-            
-            this.getDataT = dataT.data[1].items;
-
-            let firstLvlFltr =  this.getDataT.filter(function(fdata) {
-              
-              fdata.modules.filter(function(second){
-                if(second.moduleId == this.refModuleId){
-                  this.isDelete = second.permission.isDelete;
-                  this.isRead = second.permission.isRead;
-                  this.isWrite = second.permission.isWrite;
-                  this.isUpdate = second.permission.isUpdate;
-                }
-          
-              }.bind(this))
-            }.bind(this));
-
-          }, error => {
-            
-          }
-        );
-      }
-    )}
-
-    getModuleId(){
-      let urlRef = window.location.pathname.split('/')
-      let urlSplit = urlRef.splice(0, 2);
-      let urlJoin = urlRef.join('/');
-
-      this.commonservice.requestUrl(urlJoin).subscribe(
-        data => {
-          this.refModuleId = data.moduleId;
-        },
-        error => {
-          
-          },() => {
-            this.getUserData();
-          })
-    };
+    
 
   deleteItem(refCode) {
     let txt;

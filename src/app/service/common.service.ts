@@ -16,6 +16,9 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
 export class CommonService {
+  getDataT: any;
+  userID: any;
+  refModuleId: any;
   languageId: any;
   ObjMenuid: object;
   dataTbl: object;
@@ -1171,6 +1174,69 @@ getCategoryList1() {
   errorResponse(data){
       this.toastr.error(data.statusDesc, ''); 
   }
+
+
+  getModuleId(){
+    let urlRef = window.location.pathname.split('/')
+    let urlSplit = urlRef.splice(0, 2);
+    let urlJoin = urlRef.join('/');
+
+    this.requestUrl(urlJoin).subscribe(
+      data => {
+        this.refModuleId = data.moduleId;
+      },
+      error => {
+        
+        },() => {
+          this.getUserData();
+        })
+  };
+
+
+  getUserData(){
+    this.getUsersDetails().subscribe(
+      dataC => {
+
+        if(dataC['adminUser']){
+          if(dataC['adminUser'].superAdmin){
+            
+          }else{
+
+           this.userID = dataC['adminUser'].userId;
+            
+          }
+        }else{
+          
+        }
+        
+      },
+    error => {
+      
+      },() => {
+        this.getUserList(this.userID).subscribe(
+          dataT => {
+            
+            this.getDataT = dataT.data[1].items;
+
+            let firstLvlFltr =  this.getDataT.filter(function(fdata) {
+              
+              fdata.modules.filter(function(second){
+                if(second.moduleId == this.refModuleId){
+                  this.isDelete = second.permission.isDelete;
+                  this.isRead = second.permission.isRead;
+                  this.isWrite = second.permission.isWrite;
+                  this.isUpdate = second.permission.isUpdate;
+                }
+          
+              }.bind(this))
+            }.bind(this));
+
+          }, error => {
+            
+          }
+        );
+      }
+    )}
 }
 
 
