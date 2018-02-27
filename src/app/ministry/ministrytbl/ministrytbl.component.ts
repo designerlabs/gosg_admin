@@ -36,7 +36,7 @@ export class MinistrytblComponent implements OnInit {
   seqPageSize = 0 ;
   lang:any;
   languageId: any;
-
+  collectModules:any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -174,16 +174,22 @@ export class MinistrytblComponent implements OnInit {
             console.log(this.refModuleId);
             console.log(dataT.data[1]);
             this.getDataT = dataT.data[1].items;
+            let le = [];
+            let firstLvlFltr =  this.getDataT.filter(function(fdata) {
+             
+              fdata.modules.forEach(item => {
+                this.collectModules.push(item);
+                le.push(item);
+              });
 
-            let firstLvlFltr =  this.getDataT.filter(function(first) {
-              let refId = this.refModuleId;
-              first.modules.filter(function(second){
-                if(second.moduleId == refId){
-                  console.log(second);
-                  console.log(second.permission);
-                }
+              
+              // first.modules.filter(function(second){
+              //   if(second.moduleId == this.refModuleId){
+              //     console.log(second);
+              //     console.log(second.permission);
+              //   }
           
-              })
+              // }).bind(this)
             }).bind(this);
 
           }, error => {
