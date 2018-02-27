@@ -176,11 +176,11 @@ export class MinistrytblComponent implements OnInit {
             this.getDataT = dataT.data[1].items;
 
             let firstLvlFltr =  this.getDataT.filter(function(first) {
-              var marvelModules = first.modules.filter(function(second){
-              if(second.moduleId == this.refModuleId){
-                console.log(second);
-                console.log(second.permission);
-              }
+              first.modules.filter(function(second){
+                if(second.moduleId == this.refModuleId){
+                  console.log(second);
+                  console.log(second.permission);
+                }
           
               }).bind(this)
             }).bind(this);
