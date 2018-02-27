@@ -178,11 +178,11 @@ export class MinistrytblComponent implements OnInit {
             let firstLvlFltr =  this.getDataT.filter(function(fdata) {
              
               fdata.modules.forEach(item => {
-                this.collectModules.push(item);
+                // this.collectModules.push(item);
                 le.push(item);
               });
 
-              
+         
               // first.modules.filter(function(second){
               //   if(second.moduleId == this.refModuleId){
               //     console.log(second);
@@ -192,6 +192,7 @@ export class MinistrytblComponent implements OnInit {
               // }).bind(this)
             }).bind(this);
 
+            console.log(le);
           }, error => {
             debugger;
           }
