@@ -1176,7 +1176,7 @@ getCategoryList1() {
   }
 
 
-  getModuleId(){
+  getModuleId(del, read, write, update){
     let urlRef = window.location.pathname.split('/')
     let urlSplit = urlRef.splice(0, 2);
     let urlJoin = urlRef.join('/');
@@ -1188,12 +1188,12 @@ getCategoryList1() {
       error => {
         
         },() => {
-          this.getUserData();
+          this.getUserData(del, read, write, update);
         })
   };
 
 
-  getUserData(){
+  getUserData(del, read, write, update){
     this.getUsersDetails().subscribe(
       dataC => {
 
@@ -1222,10 +1222,10 @@ getCategoryList1() {
               
               fdata.modules.filter(function(second){
                 if(second.moduleId == this.refModuleId){
-                  this.isDelete = second.permission.isDelete;
-                  this.isRead = second.permission.isRead;
-                  this.isWrite = second.permission.isWrite;
-                  this.isUpdate = second.permission.isUpdate;
+                  del = second.permission.isDelete;
+                  read = second.permission.isRead;
+                  write = second.permission.isWrite;
+                  update = second.permission.isUpdate;
                 }
           
               }.bind(this))

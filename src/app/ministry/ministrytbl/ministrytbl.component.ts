@@ -74,7 +74,7 @@ export class MinistrytblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getMinistryData(this.pageCount, this.agencyPageSize);
-              this.commonservice.getModuleId();
+              this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
             }
           }.bind(this));
         })
@@ -83,7 +83,7 @@ export class MinistrytblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getMinistryData(this.pageCount, this.agencyPageSize);
-      this.commonservice.getModuleId();
+      this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
     }
 
    
@@ -93,7 +93,7 @@ export class MinistrytblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','ministryNameEn', 'ministryNameBm', 'ministryAction'];
-    this.commonservice.getModuleId();
+    this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
   }
 
   ngAfterViewInit() {

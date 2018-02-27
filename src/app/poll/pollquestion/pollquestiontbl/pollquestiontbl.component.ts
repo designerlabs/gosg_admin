@@ -87,7 +87,7 @@ export class PollquestiontblComponent implements OnInit {
                 this.lang = val.languageCode;
                 this.languageId = val.languageId;
                 this.getRecordList(this.pageCount, this.pageSize);
-                this.commonservice.getModuleId();
+                this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
               }
             }.bind(this));
           })
@@ -96,14 +96,14 @@ export class PollquestiontblComponent implements OnInit {
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
         this.getRecordList(this.pageCount, this.pageSize);
-        this.commonservice.getModuleId();
+        this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
       }
     /* LANGUAGE FUNC */    
   }
 
   ngOnInit() {
     // this.getRecordList(this.pageCount, this.pageSize);
-    this.commonservice.getModuleId();
+    this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
   }
 
   getRecordList(count, size) {
