@@ -205,7 +205,7 @@ export class FontComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["fname", "furl"];
+    let reqVal:any = ["fname"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
@@ -242,7 +242,17 @@ export class FontComponent implements OnInit {
     else{
       this.defStatus = false;
     }
+    // end active is auto check when default status is true
+    
+    //capitalize font name
+    if(this.updateForm.controls.fname.value != ""){
 
+      let capFname = this.updateForm.controls.fname.value;
+
+      capFname = capFname.replace(/(^|\s)[a-z]/g,function(f){return f.toUpperCase();})
+      this.updateForm.get('fname').setValue(capFname);
+
+    }
   }
 
   stripspaces(input){

@@ -1115,6 +1115,33 @@ getCategoryList1() {
   }
   // End Feedback Visitor/Admin - N
 
+
+  // Start Category - N
+  addCategory(record) {
+    let fullUrl = this.appConfig.urlCategory + '/post?language='+this.languageId;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delCategory(key) {
+    let fullUrl = this.appConfig.urlCategory + "/" + key + '?language='+this.languageId;
+
+    return this.http.delete(fullUrl, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateCategory(record) {
+    let fullUrl = this.appConfig.urlCategory + '?language='+this.languageId;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // End Start Category - N
+
   
   public handleError = (error: Response) => {
     return Observable.throw(error);
