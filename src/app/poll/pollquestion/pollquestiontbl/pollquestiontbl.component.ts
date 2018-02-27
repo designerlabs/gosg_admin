@@ -35,12 +35,6 @@ export class PollquestiontblComponent implements OnInit {
 
   dataUrl: any;  
   languageId: any;
-
-  isRead: false;
-  isWrite: false;
-  isUpdate: false;
-  isDelete: false;
-
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
