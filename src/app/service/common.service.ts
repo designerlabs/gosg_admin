@@ -34,6 +34,11 @@ export class CommonService {
   
   pageMode: String;
 
+  del:boolean;
+  read:boolean;
+  write:boolean;
+  update:boolean;
+
   // tslint:disable-next-line:max-line-length
   constructor(
     public http: Http,
@@ -1176,7 +1181,7 @@ getCategoryList1() {
   }
 
 
-  getModuleId(del, read, write, update){
+  getModuleId(){
     let urlRef = window.location.pathname.split('/')
     let urlSplit = urlRef.splice(0, 2);
     let urlJoin = urlRef.join('/');
@@ -1188,12 +1193,12 @@ getCategoryList1() {
       error => {
         
         },() => {
-          this.getUserData(del, read, write, update);
+          this.getUserData();
         })
   };
 
 
-  getUserData(del, read, write, update){
+  getUserData(){
     this.getUsersDetails().subscribe(
       dataC => {
 
@@ -1222,10 +1227,10 @@ getCategoryList1() {
               
               fdata.modules.filter(function(second){
                 if(second.moduleId == this.refModuleId){
-                  del = second.permission.isDelete;
-                  read = second.permission.isRead;
-                  write = second.permission.isWrite;
-                  update = second.permission.isUpdate;
+                  this.del = second.permission.isDelete;
+                  this.read = second.permission.isRead;
+                  this.write = second.permission.isWrite;
+                  this.update = second.permission.isUpdate;
                 }
           
               }.bind(this))
