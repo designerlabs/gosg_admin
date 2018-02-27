@@ -21,6 +21,11 @@
     </div> 
 </div>
 
+<div *ngIf="!commonservice.isRead" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+</div>
+
+<div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
     <!-- <div class="example-header">
       <mat-form-field>
@@ -28,7 +33,7 @@
       </mat-form-field>
     </div> -->
 
-    <mat-table #table [dataSource]="dataSource" *ngIf="commonservice.isRead">
+    <mat-table #table [dataSource]="dataSource" >
       <!-- slideId Column -->
       <!-- <ng-container matColumnDef="slideCode">
         <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;">Code</mat-header-cell>
@@ -104,5 +109,5 @@
       </button>
     </span>
   </div>
-
+</div>
 </div>

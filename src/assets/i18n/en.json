@@ -242,7 +242,8 @@
     },
     "msg":{
       "reset":"Reset this form?",
-      "delete":"Are you sure to delete the record?"
+      "delete":"Are you sure to delete the record?",
+      "unauthorized": "You are not authorized to access this page!"
     },
     "state":{
       "success":"bg_header bg_success_header",
@@ -250,6 +251,7 @@
       "warn":"bg_header bg_warn_header",
       "info":"bg_header bg_info_header"
     }
+    
   },
   "appmngt":{
     "setSearch":{
