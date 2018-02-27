@@ -37,6 +37,12 @@ export class MinistrytblComponent implements OnInit {
   lang:any;
   languageId: any;
   collectModules:any;
+  permission:{
+    isRead: false,
+    isWrite: false,
+    isUpdate: false,
+    isDelete: false
+  }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -170,29 +176,24 @@ export class MinistrytblComponent implements OnInit {
       },() => {
         this.commonservice.getUserList(this.userID).subscribe(
           dataT => {
-            debugger;
-            console.log(this.refModuleId);
-            console.log(dataT.data[1]);
+            
             this.getDataT = dataT.data[1].items;
 
             let firstLvlFltr =  this.getDataT.filter(function(fdata) {
-             
-              // fdata.modules.forEach(item => {
-              //   this.collectModules.push(item)
-              // });
-
               
               fdata.modules.filter(function(second){
                 if(second.moduleId == this.refModuleId){
-                  console.log(second);
-                  console.log(second.permission);
+                  this.permission.isDelete = second.permission.isDelete;
+                  this.permission.isRead = second.permission.isRead;
+                  this.permission.isWrite = second.permission.isWrite;
+                  this.permission.isUpdate = second.permission.isUpdate;
                 }
           
               }.bind(this))
             }.bind(this));
 
           }, error => {
-            debugger;
+            
           }
         );
       }
