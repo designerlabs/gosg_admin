@@ -38,11 +38,6 @@ export class MinistrytblComponent implements OnInit {
   languageId: any;
   collectModules:any;
   
-  isRead: false;
-  isWrite: false;
-  isUpdate: false;
-  isDelete: false;
-  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -74,7 +69,7 @@ export class MinistrytblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getMinistryData(this.pageCount, this.agencyPageSize);
-              this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -83,7 +78,7 @@ export class MinistrytblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getMinistryData(this.pageCount, this.agencyPageSize);
-      this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
+      this.commonservice.getModuleId();
     }
 
    
@@ -93,7 +88,7 @@ export class MinistrytblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','ministryNameEn', 'ministryNameBm', 'ministryAction'];
-    this.commonservice.getModuleId(this.isDelete, this.isRead, this.isWrite, this.isUpdate);
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

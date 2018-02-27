@@ -34,10 +34,10 @@ export class CommonService {
   
   pageMode: String;
 
-  del:boolean;
-  read:boolean;
-  write:boolean;
-  update:boolean;
+  isDelete:boolean;
+  isRead:boolean;
+  isWrite:boolean;
+  isUpdate:boolean;
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -1227,10 +1227,10 @@ getCategoryList1() {
               
               fdata.modules.filter(function(second){
                 if(second.moduleId == this.refModuleId){
-                  this.del = second.permission.isDelete;
-                  this.read = second.permission.isRead;
-                  this.write = second.permission.isWrite;
-                  this.update = second.permission.isUpdate;
+                  this.isDelete = second.permission.isDelete;
+                  this.isRead = second.permission.isRead;
+                  this.isWrite = second.permission.isWrite;
+                  this.isUpdate = second.permission.isUpdate;
                 }
           
               }.bind(this))
