@@ -183,7 +183,7 @@ export class MinistrytblComponent implements OnInit {
                   console.log(second.permission);
                 }
           
-              }).bind(this)
+              })
             }).bind(this);
 
           }, error => {
