@@ -14,8 +14,9 @@
       </span>
     </div>
   </div>
+  <h1>{{commonservice.isWrite }} | {{commonservice.isUpdate}}</h1>
 
-  <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
 
     <div class="example-container mat-elevation-z8 padding-10">
 
