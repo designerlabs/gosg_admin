@@ -174,25 +174,23 @@ export class MinistrytblComponent implements OnInit {
             console.log(this.refModuleId);
             console.log(dataT.data[1]);
             this.getDataT = dataT.data[1].items;
-            let le = [];
+
             let firstLvlFltr =  this.getDataT.filter(function(fdata) {
              
-              fdata.modules.forEach(item => {
-                // this.collectModules.push(item);
-                le.push(item);
-              });
+              // fdata.modules.forEach(item => {
+              //   this.collectModules.push(item)
+              // });
 
-         
-              // first.modules.filter(function(second){
-              //   if(second.moduleId == this.refModuleId){
-              //     console.log(second);
-              //     console.log(second.permission);
-              //   }
+              
+              fdata.modules.filter(function(second){
+                if(second.moduleId == this.refModuleId){
+                  console.log(second);
+                  console.log(second.permission);
+                }
           
-              // }).bind(this)
-            }).bind(this);
+              }.bind(this))
+            }.bind(this));
 
-            console.log(le);
           }, error => {
             debugger;
           }
