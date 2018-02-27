@@ -274,7 +274,7 @@ export class CommonService {
 
 
   addModuleGroup(data){
-    return this.http.post(this.appConfig.urlModuleGroupList, data)
+    return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -333,7 +333,7 @@ export class CommonService {
 
   getCategoryData() {
     console.log(this.appConfig.urlCategory);
-    return this.http.get(this.appConfig.urlCategory + '/code?page=1&size=100&language=1')
+    return this.http.get(this.appConfig.urlCategory + '/code?page=1&size=100&language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
