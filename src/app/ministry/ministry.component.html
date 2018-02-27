@@ -14,7 +14,9 @@
       </span>
     </div>
   </div>
-  <h1>{{commonservice.isWrite }} | {{commonservice.isUpdate}}</h1>
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate">
+    Not Authorized
+  </div>
 
   <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
 
