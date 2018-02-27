@@ -100,6 +100,11 @@ export class FootercontentComponent implements OnInit {
   public imejEng: any;
   public imejMy: any;
 
+  public flagErrIcon: any;
+
+  // public min: any;
+  // public max: any;
+
   // patternIconEng: string;
 
   // public selectedImgMy = 'Sila Pilih';
@@ -138,16 +143,16 @@ export class FootercontentComponent implements OnInit {
 
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
-    this.iconEng = new FormControl();
-    // this.iconEng = new FormControl('',[Validators.pattern(this.validateService.getPattern().alphaOnly)]);
+    // this.iconEng = new FormControl();
+    this.iconEng = new FormControl('',[Validators.pattern(this.validateService.getPattern(0,10).alphaOnly)]);
     this.imgEng = new FormControl();
     this.urlEng = new FormControl();
     this.seqEng = new FormControl();
 
     this.nameMy = new FormControl();
     this.descMy = new FormControl();
-    this.iconMy = new FormControl();
-    // this.iconMy = new FormControl(['',Validators.pattern(this.validateService.getPattern().alphaOnly)]);
+    // this.iconMy = new FormControl();
+    this.iconMy = new FormControl('',[Validators.pattern(this.validateService.getPattern(0,10).alphaOnly)]);
     this.imgMy = new FormControl();
     this.urlMy = new FormControl();
     this.seqMy = new FormControl();
@@ -521,7 +526,7 @@ export class FootercontentComponent implements OnInit {
           "description": null,
           "url": null,
           "icon": null,
-          "contentCode": null,
+          // "contentCode": null,
           "language": {
               "languageId": null
           },
@@ -539,7 +544,7 @@ export class FootercontentComponent implements OnInit {
           "description": null,
           "url": null,
           "icon": null,
-          "contentCode": null,
+          // "contentCode": null,
           "language": {
               "languageId": null
           },
@@ -558,7 +563,7 @@ export class FootercontentComponent implements OnInit {
       body[0].description = formValues.descEng;
       body[0].url = formValues.urlEng;
       body[0].icon = formValues.iconEng;
-      body[0].contentCode = this.getContentCodeEng;
+      // body[0].contentCode = this.getContentCodeEng;
       body[0].language.languageId = 1;
       body[0].mediaId = formValues.imgEng;
       body[0].enabled = formValues.active;
@@ -572,7 +577,7 @@ export class FootercontentComponent implements OnInit {
       body[1].description = formValues.descMy;
       body[1].url = formValues.urlMy;
       body[1].icon = formValues.iconMy;
-      body[1].contentCode = this.getContentCodeMy;
+      // body[1].contentCode = this.getContentCodeMy;
       body[1].language.languageId = 2;
       body[1].mediaId = formValues.imgMy;
       body[1].enabled = formValues.active;
