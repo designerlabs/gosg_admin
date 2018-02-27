@@ -81,6 +81,7 @@ export class PollquestiontblComponent implements OnInit {
                 this.lang = val.languageCode;
                 this.languageId = val.languageId;
                 this.getRecordList(this.pageCount, this.pageSize);
+                this.commonservice.getModuleId();
               }
             }.bind(this));
           })
@@ -89,13 +90,14 @@ export class PollquestiontblComponent implements OnInit {
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
         this.getRecordList(this.pageCount, this.pageSize);
+        this.commonservice.getModuleId();
       }
     /* LANGUAGE FUNC */    
   }
 
   ngOnInit() {
     // this.getRecordList(this.pageCount, this.pageSize);
-    this.getUserData();
+    this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {
@@ -148,49 +150,7 @@ export class PollquestiontblComponent implements OnInit {
     this.commonservice.pageModeChange(false);
   }
 
-  
-  getUserData(){
-    this.commonservice.getUsersDetails().subscribe(
-      data => {
-        debugger;
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
-            
-          }else{
-
-            this.getModuleId();
-            
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              data => {
-                debugger;
-              }
-              
-            });
-          }
-        }else{
-          
-        }
-        
-      },
-    error => {
-      
-      }
-    )}
-
-    getModuleId(){
-      let urlRef = window.location.pathname.split('/')
-      let urlSplit = urlRef.splice(0, 2);
-      let urlJoin = urlRef.join('/');
-
-      this.commonservice.requestUrl(urlJoin).subscribe(
-        data => {
-          debugger;
-        },
-        error => {
-          
-          })
-    };
-
+ 
   updateRow(row) {
     
     console.log(row);

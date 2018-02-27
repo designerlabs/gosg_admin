@@ -43,7 +43,7 @@
       <ng-container matColumnDef="colorActiveStatus">
         <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
-          <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+          <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
         </mat-cell>
       </ng-container>
 
@@ -51,7 +51,7 @@
       <ng-container matColumnDef="colorDefaultFlag">
         <mat-header-cell *matHeaderCellDef class="statusColumn"> Default</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
-          <i [ngClass]="[element.default ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+          <i [ngClass]="[element.defaultColor ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
         </mat-cell>
       </ng-container>
       

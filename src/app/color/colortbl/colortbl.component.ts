@@ -92,7 +92,7 @@ export class ColortblComponent implements OnInit {
       data => {
         this.colorList = data;
         console.log(this.colorList)
-        this.dataSource.data = this.colorList['colorList'];
+        this.dataSource.data = this.colorList['list'];
         this.seqPageNum = this.colorList.pageNumber;
         this.seqPageSize = this.colorList.pageSize;
         this.commonservice.recordTable = this.colorList;
