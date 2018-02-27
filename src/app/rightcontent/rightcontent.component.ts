@@ -1,5 +1,13 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, AfterViewInit } from '@angular/core';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, Inject } from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
+import {startWith} from 'rxjs/operators/startWith';
+import {map} from 'rxjs/operators/map';
+import { SharedModule } from '../shared/shared.module';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { APP_CONFIG, AppConfig } from '../config/app.config.module';
+import { CommonService } from '../service/common.service';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-rightcontent',
@@ -8,57 +16,79 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
   encapsulation: ViewEncapsulation.None
 })
 export class RightcontentComponent implements OnInit {
-
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  menulst: any;
+  menulist_non_admin: any;
 
   applyFilter(filterValue: string) {
 
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
   }
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
-  constructor() { }
+  constructor(
+    private commonservice: CommonService
+  ) { }
 
   ngOnInit() {
+    this.getUserData();
     // this.dataSource.paginator = this.paginator;
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  }
+
+
+  getUserData(){
+    this.menulist_non_admin = {
+      "items": [{ 
+        "moduleGroupId": 242, 
+        "moduleGroupName": "sample management", 
+        "modules": [{ 
+          "moduleId": 5, 
+          "moduleName": "Slider", 
+          "permission": { "isRead": true, "isWrite": false, "isUpdate": false, "isDelete": true } }, 
+          { "moduleId": 915, 
+          "moduleName": "POLL QUESTIONS", 
+          "permission": { "isRead": true, "isWrite": true, "isUpdate": false, "isDelete": false } }] }, 
+          { "moduleGroupId": 1003, 
+          "moduleGroupName": "ministry", 
+          "modules": [{ "moduleId": 866, "moduleName": "MINISTRY", 
+          "permission": { "isRead": true, "isWrite": true, "isUpdate": false, "isDelete": false } }] }]
+    };
+    // this.commonservice.getUsersDetails().subscribe(
+    //   data => {
+    //     if(data['adminUser']){
+    //       if(data['adminUser'].superAdmin){
+    //         this.getMenuData();
+    //       }else{
+    //         this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              
+    //           this.menulist_non_admin = data.data[1];
+    //           debugger
+    //         });
+    //       }
+    //     }else{
+          
+    //     }
+        
+    //   },
+    // error => {
+      
+    //   }
+    // )
+  }
+
+  getMenuData() {
+    this.commonservice.getModMenu().subscribe((data:any) => {
+      this.menulst = data;
+      debugger;
+      console.log(this.menulst)
+      // let myLangData =  getLang.filter(function(val) {
+      // }.bind(this));
+    })
   }
 
 }
-export interface Element {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: Element[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  // {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  // {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  // {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  // {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  // {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];

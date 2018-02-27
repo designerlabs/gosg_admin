@@ -129,15 +129,15 @@
                         Icon Pattern not valid
                     </mat-error>
                 </mat-form-field>
+                
             </div>
             <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="Ikon" formControlName="iconMy" (keyup)="copyIcon(2)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
-                    <!-- <mat-hint align="end">{{iconMy.value?.length || 0}}/100</mat-hint> -->
+                <mat-form-field class="example-full-width font-size-s">
+                    <input matInput placeholder="Icon" formControlName="iconMy" (keyup)="copyIcon(2)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
+                    <mat-error *ngIf="!validateCtrlChk(iconMy) &&  updateForm.controls.iconMy.errors.pattern">
+                        Corak Ikon tidak sah
+                    </mat-error>
                 </mat-form-field>
-                <!-- <mat-error *ngIf="!validateCtrlChk(iconEng) && updateForm.controls.iconMy.errors.pattern">
-                    Icon Pattern not valid
-                  </mat-error> -->
             </div>
           </div>
 
@@ -226,7 +226,7 @@
   
       <div class="form-group paddingTop-10">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-          (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete || ((!validateCtrlChk(iconEng)|| !validateCtrlChk(iconEng)) &&  updateForm.controls.iconEng.errors.pattern)">
           <i *ngIf="complete" class="fa fa-check"></i>
           <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
           <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"

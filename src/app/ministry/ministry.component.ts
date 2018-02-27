@@ -71,13 +71,14 @@ export class MinistryComponent implements OnInit {
   ) {
 
     this.getUserData();
+    this.commonservice.getModuleId();
   }
 
   ngOnInit() {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
     this.getUserData();
-    
+    this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[2];
     this.maskPhoneNo = this.validateService.getMask().telephone;
     this.maskFaxNo = this.validateService.getMask().fax;

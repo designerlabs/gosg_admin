@@ -14,8 +14,11 @@
       </span>
     </div>
   </div>
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate">
+    Not Authorized
+  </div>
 
-  <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
 
     <div class="example-container mat-elevation-z8 padding-10">
 

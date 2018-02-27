@@ -106,7 +106,12 @@ export class GroupsComponent implements OnInit {
 
     this.commonservice.updateModuleList(this.updateData).subscribe(
       data => {
-        this.toastr.success('success');
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+          
+        }).bind(this));
+
       }
     );
   }
@@ -122,7 +127,10 @@ export class GroupsComponent implements OnInit {
 
     this.commonservice.addModuleGroup(this.addData).subscribe(
       data => {
-        this.toastr.success('success');
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+          
+        }).bind(this));
       }
     );
     
