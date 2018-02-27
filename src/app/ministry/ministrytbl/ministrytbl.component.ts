@@ -37,13 +37,12 @@ export class MinistrytblComponent implements OnInit {
   lang:any;
   languageId: any;
   collectModules:any;
-  permission:{
-    isRead: false,
-    isWrite: false,
-    isUpdate: false,
-    isDelete: false
-  }
-
+  
+  isRead: false;
+  isWrite: false;
+  isUpdate: false;
+  isDelete: false;
+  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -183,10 +182,10 @@ export class MinistrytblComponent implements OnInit {
               
               fdata.modules.filter(function(second){
                 if(second.moduleId == this.refModuleId){
-                  this.permission.isDelete = second.permission.isDelete;
-                  this.permission.isRead = second.permission.isRead;
-                  this.permission.isWrite = second.permission.isWrite;
-                  this.permission.isUpdate = second.permission.isUpdate;
+                  this.isDelete = second.permission.isDelete;
+                  this.isRead = second.permission.isRead;
+                  this.isWrite = second.permission.isWrite;
+                  this.isUpdate = second.permission.isUpdate;
                 }
           
               }.bind(this))
