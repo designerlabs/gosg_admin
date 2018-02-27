@@ -16,6 +16,7 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
 export class CommonService {
+  isAdmin: boolean;
   getDataT: any;
   userID: any;
   refModuleId: any;
@@ -1204,9 +1205,13 @@ getCategoryList1() {
 
         if(dataC['adminUser']){
           if(dataC['adminUser'].superAdmin){
-            
+            this.isAdmin = true;
+            this.isDelete = true;
+            this.isRead = true;
+            this.isWrite = true;
+            this.isUpdate = true;
           }else{
-
+            this.isAdmin = false;
            this.userID = dataC['adminUser'].userId;
             
           }
@@ -1218,28 +1223,31 @@ getCategoryList1() {
     error => {
       
       },() => {
-        this.getUserList(this.userID).subscribe(
-          dataT => {
-            
-            this.getDataT = dataT.data[1].items;
-
-            let firstLvlFltr =  this.getDataT.filter(function(fdata) {
+        if(!this.isAdmin){
+          this.getUserList(this.userID).subscribe(
+            dataT => {
               
-              fdata.modules.filter(function(second){
-                if(second.moduleId == this.refModuleId){
-                  this.isDelete = second.permission.isDelete;
-                  this.isRead = second.permission.isRead;
-                  this.isWrite = second.permission.isWrite;
-                  this.isUpdate = second.permission.isUpdate;
-                }
-          
-              }.bind(this))
-            }.bind(this));
-
-          }, error => {
+              this.getDataT = dataT.data[1].items;
+  
+              let firstLvlFltr =  this.getDataT.filter(function(fdata) {
+                
+                fdata.modules.filter(function(second){
+                  if(second.moduleId == this.refModuleId){
+                    this.isDelete = second.permission.isDelete;
+                    this.isRead = second.permission.isRead;
+                    this.isWrite = second.permission.isWrite;
+                    this.isUpdate = second.permission.isUpdate;
+                  }
             
-          }
-        );
+                }.bind(this))
+              }.bind(this));
+  
+            }, error => {
+              
+            }
+          );
+        }
+       
       }
     )}
 }
