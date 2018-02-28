@@ -135,7 +135,7 @@ export class GroupstblComponent implements OnInit {
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           this.getGroupList(this.groupPageCount, this.groupPageSize);
         }).bind(this));
 
