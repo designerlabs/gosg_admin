@@ -18,7 +18,7 @@
         
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
-                <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+                <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
                 <i class="fa fa-plus font-size-l"></i></button>
             </span>
         </div> 
@@ -32,7 +32,7 @@
             </mat-form-field>
         </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
+        <mat-table #table [dataSource]="dataSource" style="min-height: 1px;" *ngIf="commonservice.isRead">
 
             <ng-container matColumnDef="no">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
@@ -69,10 +69,10 @@
             <ng-container matColumnDef="action">
                 <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                 <mat-cell class="actionColumn" *matCellDef="let element">
-                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
+                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)" *ngIf="commonservice.isUpdate">
                     <i class="fa fa-edit" ></i></button>
                     &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteModal.show()">
+                    <button mat-mini-fab style="background: red" (click)="deleteModal.show()" *ngIf="commonservice.isDelete">
                             <i class="fa fa-trash" title="Delete {{element.refCode}}"></i></button>
                             <app-confirm-dialog  #deleteModal 
                                 [title]="'common.icon.warn'" 
@@ -92,7 +92,7 @@
 
     
 
-    <div class="float-right paddingTop-15">
+    <div class="float-right paddingTop-15" *ngIf="commonservice.isRead">
         <mat-form-field style="width:50px; margin-top: -10px">
             <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
             <mat-option value="5">5</mat-option>
