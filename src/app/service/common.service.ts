@@ -106,9 +106,11 @@ export class CommonService {
   }
 
   getUsersDetails(): Observable<any[]> {
-    return this.http.get(this.getUserUrl+'?langId='+this.languageId)
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
+    if(!environment.staging){
+      return this.http.get(this.getUserUrl+'?langId='+this.languageId)
+        .map((response: Response) => response.json())
+        .catch(this.handleError);
+    }
   }
 
   
