@@ -89,7 +89,7 @@ export class LanguagetblComponent implements OnInit {
   // get language Data 
   getlanguagesData() {
     // console.log(this.appConfig.urllanguageList + '/?page=' + count + '&size=' + size)
-    this.dataUrl = this.appConfig.urlLanguage;
+    this.dataUrl = this.appConfig.urlGetLanguage;
 
     this.http.get(this.dataUrl + '/all?language='+this.languageId).subscribe(
   

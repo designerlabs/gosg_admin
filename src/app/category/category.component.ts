@@ -61,6 +61,7 @@ export class CategoryComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
               //this.getUsersData(this.pageCount, this.pageSize);
             }
           }.bind(this));
@@ -69,6 +70,7 @@ export class CategoryComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
       //this.getData();
     }
     /* LANGUAGE FUNC */
@@ -106,6 +108,8 @@ export class CategoryComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+
+    this.commonservice.getModuleId();
   }
 
   selectedCat(e, val){
@@ -171,7 +175,7 @@ export class CategoryComponent implements OnInit {
             
             arrCat.push({id:this.categoryData[i].list[0].categoryId, 
                          parent: this.categoryData[i].list[0].parentId,
-                         title: this.categoryData[i].list[0].categoryDescription});
+                         categoryName: this.categoryData[i].list[0].categoryName});
 
             // for(let x=0; x<parent.length; x++){
             //   if(tempParent == parent[x]){
@@ -187,7 +191,7 @@ export class CategoryComponent implements OnInit {
           
           this.tree = this.getNestedChildren(arrCat, 1);
           console.log(arrCat);
-          console.log(this.tree);
+          console.log(JSON.stringify(this.tree));
           
         }).bind(this));
       },
