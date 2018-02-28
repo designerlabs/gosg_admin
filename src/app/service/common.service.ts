@@ -240,7 +240,7 @@ export class CommonService {
     // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlModule + '/menu?language='+this.languageId, modmenu)
+    return this.http.post(this.appConfig.urlModule + '?language='+this.languageId, modmenu)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

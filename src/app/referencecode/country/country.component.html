@@ -1,88 +1,73 @@
-<!--<p>-->
-  <!--country works!-->
-<!--</p>-->
-
-
 <div class="container right-content">
-  <!-- <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-    <h2 class="staticLabel">View Country</h2>
-  </div> -->
-
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
           <h3>Country</h3>
       </div>
   </div>
+  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+  </div>
+  <div *ngIf="commonservice.isRead">
+    <div class="example-container mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource">
+        <!-- No Column -->
+        <ng-container matColumnDef="num">
+            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+            <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+              {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+            </mat-cell>
+          </ng-container>
 
-  <div class="example-container mat-elevation-z8">
-    <!-- <div class="example-header">
-      <mat-form-field class="font-size-s" style="margin: 5px 0 0 10px;">
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-    </div> -->
-
-    <mat-table #table [dataSource]="dataSource">
-
-      <!-- No Column -->
-      <ng-container matColumnDef="num">
-          <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
-          <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
-            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+        <!-- Country Name Column -->
+        <ng-container matColumnDef="countryName">
+          <mat-header-cell class="text-align-Left" style="flex: 0 0 30%;" *matHeaderCellDef> Country Name </mat-header-cell>
+          <mat-cell class="text-align-Left" style="flex: 0 0 30%;" *matCellDef="let element">
+            {{element.countryName}}
           </mat-cell>
         </ng-container>
 
-      <!-- Country Name 1 Column -->
-      <ng-container matColumnDef="countryName">
-        <mat-header-cell class="text-align-Left" style="flex: 0 0 30%;" *matHeaderCellDef> Country Name </mat-header-cell>
-        <mat-cell class="text-align-Left" style="flex: 0 0 30%;" *matCellDef="let element">
-          {{element.countryName}}
-        </mat-cell>
-      </ng-container>
+        <!-- countryCode Column -->
+        <ng-container matColumnDef="countryCode">
+          <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matHeaderCellDef> Country Code </mat-header-cell>
+          <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matCellDef="let element">
+            {{element.countryCode}}
+          </mat-cell>
+        </ng-container>
 
-      <!-- Country Name 1 Column -->
-      <ng-container matColumnDef="countryCode">
-        <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matHeaderCellDef> Country Code </mat-header-cell>
-        <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matCellDef="let element">
-          {{element.countryCode}}
-        </mat-cell>
-      </ng-container>
-
-      <!-- Country Name 1 Column -->
-      <ng-container matColumnDef="dialCode">
-        <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matHeaderCellDef> Dial Code </mat-header-cell>
-        <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matCellDef="let element">
-          {{element.countryDialCode}}
-        </mat-cell>
-      </ng-container>
-
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-
-  </div>
-
-  <div class="float-right paddingTop-15">
-    <mat-form-field style="width:50px; margin-top: -10px">
-      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-        <mat-option value="5">5</mat-option>
-        <mat-option value="10">10</mat-option>
-        <mat-option value="25">25</mat-option>
-        <mat-option value="50">50</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <span class="float-right">
-            <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                <strong>{{commonservice.recordTable?.totalElements}}</strong> country list
-            </span>
-            <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </button>
-            <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </button>
-        </span>
+        <!-- dialCode Column -->
+        <ng-container matColumnDef="dialCode">
+          <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matHeaderCellDef> Dial Code </mat-header-cell>
+          <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matCellDef="let element">
+            {{element.countryDialCode}}
+          </mat-cell>
+        </ng-container>
+        
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+    <div class="float-right paddingTop-15">
+      <mat-form-field style="width:50px; margin-top: -10px">
+        <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+          <mat-option value="5">5</mat-option>
+          <mat-option value="10">10</mat-option>
+          <mat-option value="25">25</mat-option>
+          <mat-option value="50">50</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="float-right">
+              <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+                  <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
+                  <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+                  <strong>{{commonservice.recordTable?.totalElements}}</strong> country list
+              </span>
+              <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+              <i class="fa fa-angle-left" aria-hidden="true"></i>
+              </button>
+              <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+              </button>
+          </span>
+    </div>
   </div>
 </div>
