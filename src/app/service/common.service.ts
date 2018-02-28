@@ -106,9 +106,11 @@ export class CommonService {
   }
 
   getUsersDetails(): Observable<any[]> {
-    return this.http.get(this.getUserUrl+'?langId='+this.languageId)
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
+    if(!environment.staging){
+      return this.http.get(this.getUserUrl+'?langId='+this.languageId)
+        .map((response: Response) => response.json())
+        .catch(this.handleError);
+    }
   }
 
   
@@ -222,6 +224,12 @@ export class CommonService {
 
   getModMenu() {
     return this.http.get(this.appConfig.urlModule+'/menu?language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getModMenuLocal() {
+    return this.http.get(this.appConfig.urlModule+'/menu/localhost?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
