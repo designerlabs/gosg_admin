@@ -39,10 +39,8 @@ export class CategoryComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
-  public tree: any;
-  //public out: any[];
-  //public children: any[];
-
+  public treeEn: any;
+  public treeBm: any;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -117,19 +115,27 @@ export class CategoryComponent implements OnInit {
     console.log(e);
     this.getCatIdEn = e.value;
     this.getCatIdBm = e.value;
-    let dataList = this.categoryData;
+    let dataListEn = this.treeEn;
+    let dataListBm = this.treeBm;
     let indexVal: any;
     let idBm: any;
     let idEn: any;
+    let refCodeVal: any;
 
     console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
 
     if(val == 1){
 
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[0].categoryId;
+      for(let i=0; i<dataListEn.length; i++){
+        indexVal = dataListEn[i].id;
         if(indexVal == this.getCatIdEn){
-          idBm = dataList[i].list[1].categoryId;
+          refCodeVal = dataListEn[i].refCode;
+        }        
+      }
+
+      for(let i=0; i<dataListBm.length; i++){
+        if(refCodeVal ==  dataListBm[i].refCode){
+          idBm = dataListBm[i].id;
         }        
       }
 
@@ -137,10 +143,16 @@ export class CategoryComponent implements OnInit {
     }
     else{
 
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[1].categoryId;
+      for(let i=0; i<dataListBm.length; i++){
+        indexVal = dataListBm[i].id;
         if(indexVal == this.getCatIdBm){
-          idEn = dataList[i].list[0].categoryId;
+          refCodeVal = dataListBm[i].refCode;
+        }        
+      }
+
+      for(let i=0; i<dataListEn.length; i++){
+        if(refCodeVal ==  dataListEn[i].refCode){
+          idBm = dataListEn[i].id;
         }        
       }
 
@@ -157,41 +169,31 @@ export class CategoryComponent implements OnInit {
       console.log(data);
         
       this.commonservice.errorHandling(data, (function(){
+
           this.categoryData = data["list"];   
           console.log(this.categoryData);    
-          let arrCat = [];          
-          let parent;
-          let flagParent: any;
+          let arrCatEn = [];          
+          let parentEn;
+          let arrCatBm = [];          
+          let parentBm;
 
-          for(let i=0; i<this.categoryData.length; i++){
-            
-            // if(this.categoryData[i].list[0].parentId == undefined){
-            //   this.categoryData[i].list[0].parentId = 0;
-            // }
-
-            let tempParent = this.categoryData[i].list[0].parentId;
-            flagParent = false;
-
-            
-            arrCat.push({id:this.categoryData[i].list[0].categoryId, 
+          for(let i=0; i<this.categoryData.length; i++){        
+         
+            arrCatEn.push({id:this.categoryData[i].list[0].categoryId,
+                         refCode: this.categoryData[i].refCode,
                          parent: this.categoryData[i].list[0].parentId,
-                         categoryName: this.categoryData[i].list[0].categoryName});
-
-            // for(let x=0; x<parent.length; x++){
-            //   if(tempParent == parent[x]){
-            //     flagParent = true;
-            //   }
-            // }
-
-            // if(flagParent == false){
-            //   parent.push(tempParent);
-            // }
-            
+                         categoryName: this.categoryData[i].list[0].categoryName});      
+                         
+            arrCatBm.push({id:this.categoryData[i].list[1].categoryId,
+                          refCode: this.categoryData[i].refCode,
+                          parent: this.categoryData[i].list[1].parentId,
+                          categoryName: this.categoryData[i].list[1].categoryName}); 
           }
           
-          this.tree = this.getNestedChildren(arrCat, 1);
-          console.log(arrCat);
-          console.log(JSON.stringify(this.tree));
+          this.treeEn = this.getNestedChildrenEn(arrCatEn, 1);
+          this.treeBm = this.getNestedChildrenBm(arrCatBm, 8);
+          console.log(arrCatEn);
+          console.log(JSON.stringify(this.treeEn));
           
         }).bind(this));
       },
@@ -202,14 +204,33 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  getNestedChildren(arr, parent) {
+  getNestedChildrenEn(arr, parent) {
     var out = []
     var children = []
 
     for(var i in arr) {
     
         if(arr[i].parent == parent) {
-            children = this.getNestedChildren(arr, arr[i].id)
+            children = this.getNestedChildrenEn(arr, arr[i].id)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }
+      
+    }    
+    return out  
+  }
+
+  getNestedChildrenBm(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+    
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenBm(arr, arr[i].id)
 
             if(children.length) {
                  arr[i].children = children
