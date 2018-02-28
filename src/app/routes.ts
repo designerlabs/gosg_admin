@@ -81,8 +81,6 @@ import { FonttblComponent } from './font/fonttbl/fonttbl.component';
 import { FontComponent } from './font/font.component';
 import { ColortblComponent } from './color/colortbl/colortbl.component';
 import { ColorComponent } from './color/color.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { CalendartblComponent } from './calendar/calendartbl/calendartbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -111,9 +109,6 @@ export const appRoutes: Routes = [
 {path: 'errormessage/add', component: ErrormessageComponent},
 {path: 'errormessage/:id', component: ErrormessageComponent},
 {path: 'errormessage', component: ErrormessagetblComponent},
-{path: 'calendar/add', component: CalendarComponent},
-{path: 'calendar/:id', component: CalendarComponent},
-{path: 'calendar', component: CalendartblComponent},
 {path: 'language/add', component: LanguageComponent},
 {path: 'language/:id', component: LanguageComponent},
 {path: 'language', component: LanguagetblComponent},
