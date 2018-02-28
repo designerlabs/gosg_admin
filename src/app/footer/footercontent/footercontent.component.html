@@ -33,7 +33,11 @@
 
   </div>
 
-  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
+    </div>
+
+  <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isWrite || commonservice.isUpdate" novalidate>       
       <div class="example-container mat-elevation-z8 paddingBottom-10">
 
             

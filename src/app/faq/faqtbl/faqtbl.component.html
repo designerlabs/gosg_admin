@@ -20,10 +20,10 @@
             </mat-form-field>
         </div> -->
 
-        <mat-table #table [dataSource]="dataSource" style="min-height: 1px;" *ngIf="commonservice.isRead">
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
-    </div>
+        <!-- <mat-table #table [dataSource]="dataSource" style="min-height: 1px;" *ngIf="commonservice.isRead"> -->
+            <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+                {{'common.msg.unauthorized' | translate}}
+            </div>
 
     <div *ngIf="commonservice.isRead">
         <div class="example-container mat-elevation-z8">
