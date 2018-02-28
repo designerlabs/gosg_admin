@@ -4,7 +4,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ErrorComponent } from './error/error.component';
 import { AppComponent } from './app.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
-import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
@@ -88,7 +87,6 @@ import { CalendartblComponent } from './calendar/calendartbl/calendartbl.compone
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
-{path: 'addtemplate', component: AddtemplateComponent},
 {path: 'media/type', component: MediatypetblComponent},
 {path: 'media/type/add', component: MediatypeComponent},
 {path: 'media/type/:id', component: MediatypeComponent},

@@ -5,109 +5,115 @@
         </div>
     </div>
 
-    <div class="example-container mat-elevation-z8">
-
-        <div class="row">
-            <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
-                <mat-form-field class="example-full-width">
-                    <mat-select  placeholder="Filter By" (change)="filterType($event)">
-                        <mat-option [value]="1">All</mat-option>
-                        <mat-option [value]="2">Email</mat-option>
-                        <mat-option [value]="3">Keyword</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1">
-                <mat-form-field>
-                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Keywords">
-                </mat-form-field>
-            </div>      
-        </div>
-
-        <mat-table #table [dataSource]="dataSource">           
-        
-            <!-- num Column -->
-            <ng-container matColumnDef="num">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
-                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-                </mat-cell>
-            </ng-container>
-        
-            <!-- type Column -->
-            <ng-container matColumnDef="type">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Feedback Type </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.feedbackType.feedbackTypeDescription}} 
-                </mat-cell>
-            </ng-container>
-
-            <!-- name Column -->
-            <ng-container matColumnDef="name">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Name </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.feedbackName}}
-                </mat-cell>
-            </ng-container>
-
-            <!-- Email Column -->
-            <ng-container matColumnDef="email">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Email </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.feedbackEmail}}
-                </mat-cell>
-            </ng-container>
-        
-            <!-- status Column -->
-            <ng-container matColumnDef="status">
-                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Draft Status </mat-header-cell>
-                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                    <i *ngIf="element.feedbackDraftFlag == true" class="fa fa-check" style="color: green;"></i>
-                    <i *ngIf="element.feedbackDraftFlag == false" class="fa fa-times" style="color: red;"></i>
-                </mat-cell>
-            </ng-container>
-
-            <!-- action Column -->
-            <ng-container matColumnDef="action">
-                <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
-                <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.feedbackId)">
-                    <i class="fa fa-eye" title="View {{ element.feedbackId }}"></i></button>
-                    <!-- &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteRow(element.feedbackTypeId)"> 
-                    <i class="fa fa-trash" title="Delete {{ element.feedbackTypeCode }}"></i></button> -->
-                </mat-cell>
-            </ng-container>
-        
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        
+    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
     </div>
 
-    <div class="float-right paddingTop-15">
-        <mat-form-field style="width:50px; margin-top: -10px">
-            <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-            <mat-option value="5">5</mat-option>
-            <mat-option value="10">10</mat-option>
-            <mat-option value="25">25</mat-option>
-            <mat-option value="50">50</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <span class="float-right">
-            <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                <strong>{{commonservice.recordTable?.totalElements}}</strong> feedback message
+    <div *ngIf="commonservice.isRead">    
+        <div class="example-container mat-elevation-z8">
+
+            <div class="row">
+                <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
+                    <mat-form-field class="example-full-width">
+                        <mat-select  placeholder="Filter By" (change)="filterType($event)">
+                            <mat-option [value]="1">All</mat-option>
+                            <mat-option [value]="2">Email</mat-option>
+                            <mat-option [value]="3">Keyword</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Keywords">
+                    </mat-form-field>
+                </div>      
+            </div>
+
+            <mat-table #table [dataSource]="dataSource">           
+            
+                <!-- num Column -->
+                <ng-container matColumnDef="num">
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
+                        {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                    </mat-cell>
+                </ng-container>
+            
+                <!-- type Column -->
+                <ng-container matColumnDef="type">
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Feedback Type </mat-header-cell>
+                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                        {{element.feedbackType.feedbackTypeDescription}} 
+                    </mat-cell>
+                </ng-container>
+
+                <!-- name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                        {{element.feedbackName}}
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="email">
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Email </mat-header-cell>
+                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                        {{element.feedbackEmail}}
+                    </mat-cell>
+                </ng-container>
+            
+                <!-- status Column -->
+                <ng-container matColumnDef="status">
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Draft Status </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                        <i *ngIf="element.feedbackDraftFlag == true" class="fa fa-check" style="color: green;"></i>
+                        <i *ngIf="element.feedbackDraftFlag == false" class="fa fa-times" style="color: red;"></i>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- action Column -->
+                <ng-container matColumnDef="action">
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                        <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.feedbackId)">
+                        <i class="fa fa-eye" title="View {{ element.feedbackId }}"></i></button>
+                        <!-- &nbsp;
+                        <button mat-mini-fab style="background: red" (click)="deleteRow(element.feedbackTypeId)"> 
+                        <i class="fa fa-trash" title="Delete {{ element.feedbackTypeCode }}"></i></button> -->
+                    </mat-cell>
+                </ng-container>
+            
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            
+        </div>
+
+        <div class="float-right paddingTop-15">
+            <mat-form-field style="width:50px; margin-top: -10px">
+                <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option value="5">5</mat-option>
+                <mat-option value="10">10</mat-option>
+                <mat-option value="25">25</mat-option>
+                <mat-option value="50">50</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <span class="float-right">
+                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> feedback message
+                </span>
+                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </button>
+                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </button>
             </span>
-            <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-            <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </button>
-            <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-            <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </button>
-        </span>
+        </div>
     </div>
 </div>
 

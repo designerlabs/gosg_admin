@@ -1,19 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-gender',
-//   templateUrl: './gender.component.html',
-//   styleUrls: ['./gender.component.css']
-// })
-// export class GenderComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -23,6 +7,9 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
+import { DialogsService } from '../../dialogs/dialogs.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-gender',
@@ -47,7 +34,7 @@ export class GenderComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
-
+  languageId: any;
   dataUrl: any;  
 
   public getRaceIdEng: any;
@@ -62,11 +49,34 @@ export class GenderComponent implements OnInit {
   selection = new SelectionModel<Element>(true, []);
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router) {
-    this.getRecordList();
+  private commonservice: CommonService, private router: Router,private dialogsService: DialogsService, private translate: TranslateService) {
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList();
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList();
+      this.commonservice.getModuleId();
+    }
+
+    
   }
 
   ngOnInit() {
+    this.commonservice.getModuleId();
     this.getRecordList();
   }
 

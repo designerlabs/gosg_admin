@@ -75,6 +75,7 @@ export class FootercategoryComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -82,11 +83,14 @@ export class FootercategoryComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
     }
    }
 
   ngOnInit() {
 
+    this.commonservice.getModuleId();
+    
     this.catEng = new FormControl();
     this.descEng = new FormControl();
 

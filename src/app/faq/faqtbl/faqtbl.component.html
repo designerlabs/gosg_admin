@@ -12,9 +12,18 @@
         </div>
     </div>
 
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
-    </div>
+    <div class="example-container mat-elevation-z8">
+        
+        <!-- <div class="example-header">
+            <mat-form-field class="font-size-s" style="margin: 5px 0 0 10px;">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div> -->
+
+        <!-- <mat-table #table [dataSource]="dataSource" style="min-height: 1px;" *ngIf="commonservice.isRead"> -->
+            <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+                {{'common.msg.unauthorized' | translate}}
+            </div>
 
     <div *ngIf="commonservice.isRead">
         <div class="example-container mat-elevation-z8">

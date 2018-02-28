@@ -63,7 +63,6 @@ export class FaqComponent implements OnInit {
       this.languageId = localStorage.getItem('langID');
       this.commonservice.getModuleId();
     }
-    this.commonservice.getModuleId();
   }
 
   ngOnInit() {

@@ -1,28 +1,3 @@
-// import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
-// import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-// import { HttpClient } from '@angular/common/http';
-// import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-// import { CommonService } from '../../service/common.service';
-// import { Router } from '@angular/router';
-// import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-// @Component({
-//   selector: 'app-slider',
-//   templateUrl: './ethnicity.component.html',
-//   styleUrls: ['./ethnicity.component.css'],
-//   encapsulation: ViewEncapsulation.None
-// })
-// export class EthnicityComponent implements OnInit {
-
-//     constructor() { }
-  
-//     ngOnInit() {
-//     }
-  
-//   }
-
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -76,6 +51,7 @@ export class EthnicityComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               // this.getData();
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -83,12 +59,13 @@ export class EthnicityComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
       // this.getData();
     }
    }
 
   ngOnInit() {
-  
+    this.commonservice.getModuleId();
     this.raceEng = new FormControl();
     this.raceMy = new FormControl();
     this.active = new FormControl();

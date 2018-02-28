@@ -1,8 +1,4 @@
-
     <div class="container-fluid">
-
-            
-
             <div class="curdHeader">
                 <div class="col-md-10 curdHeadingLeft">
                     <h3>{{ commonservice.pageMode }} Race/Ethnic</h3>
@@ -14,16 +10,12 @@
                         <i class="fa fa-arrow-left font-size-l"></i></button>
                     </span>
                 </div> 
-
-                <!-- <div class="col-md-2 curdHeadingRight">
-                    <span class="pull-right">
-                        <button type="button" mat-fab color="accent"  routerLink='/reference/ethnicity' >
-                        <i class="fa fa-arrow-left font-size-l"></i></button>
-                    </span>
-                </div>  -->
             </div>
-        
-            <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>       
+            <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+                    {{'common.msg.unauthorized' | translate}}
+            </div>
+
+            <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">       
                 <div class="example-container mat-elevation-z8 paddingBottom-10">
 
                     <div class="bg-form-header col-md-12">

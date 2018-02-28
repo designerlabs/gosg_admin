@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
-import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -34,10 +34,10 @@ export class StateComponent implements OnInit {
   complete: boolean;
   active: FormControl
   pageMode: String;
-  
+
   seqNo = 0;
   seqPageNum = 0;
-  seqPageSize = 0 ;
+  seqPageSize = 0;
 
   dataUrl: any;
   languageId: any;
@@ -55,36 +55,36 @@ export class StateComponent implements OnInit {
   }
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-              private commonservice: CommonService, private router: Router,
-              private translate: TranslateService,
-              private toastr: ToastrService) {
+    private commonservice: CommonService, private router: Router,
+    private translate: TranslateService,
+    private toastr: ToastrService) {
 
-                /* LANGUAGE FUNC */
-              translate.onLangChange.subscribe((event: LangChangeEvent) => {
-                translate.get('HOME').subscribe((res: any) => {
-                  this.commonservice.getAllLanguage().subscribe((data:any) => {
-                    let getLang = data.list;
-                    let myLangData =  getLang.filter(function(val) {
-                      if(val.languageCode == translate.currentLang){
-                        this.lang = val.languageCode;
-                        this.languageId = val.languageId;
-                        this.getRecordList(this.pageCount, this.pageSize);
-                      }
-                    }.bind(this));
-                  })
-                });
-              });
-              if(!this.languageId){
-                this.languageId = localStorage.getItem('langID');
-                this.getRecordList(this.pageCount, this.pageSize);
-              }
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data: any) => {
+          let getLang = data.list;
+          let myLangData = getLang.filter(function (val) {
+            if (val.languageCode == translate.currentLang) {
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
+    }
 
-    
-
-    
   }
 
   ngOnInit() {
+    this.commonservice.getModuleId();
     this.getRecordList(this.pageCount, this.pageSize);
     this.viewSeq = 1;
     this.isEdit = false;
@@ -117,28 +117,28 @@ export class StateComponent implements OnInit {
 
 
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language='+this.languageId)
+    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language=' + this.languageId)
       .subscribe(data => {
-        this.commonservice.errorHandling(data, (function(){
-        this.recordList = data;
+        this.commonservice.errorHandling(data, (function () {
+          this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+          console.log("data");
+          console.log(data);
 
-        this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
 
-        this.dataSource.data = this.recordList.stateList;
-        this.commonservice.recordTable = this.recordList;
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          this.dataSource.data = this.recordList.stateList;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-      }).bind(this)); 
-    },
-    error => {
+        }).bind(this));
+      },
+        error => {
 
-    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
-      });
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+        });
   }
 
   addBtn() {
@@ -199,32 +199,32 @@ export class StateComponent implements OnInit {
         let dataEn = this.sliderData['slideList'][0];
         let dataBm = this.sliderData['slideList'][1];
 
-      // console.log(this.sliderData['slideList'])
+        // console.log(this.sliderData['slideList'])
 
-      // populate data
-      this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
-      // this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
-      // this.sliderForm.get('imgEn').setValue(dataEn.slideImage);
-      this.sliderForm.get('titleBm').setValue(dataBm.slideTitle);
-      // this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
-      // this.sliderForm.get('imgBm').setValue(dataBm.slideImage);
-      this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
-      // this.slideCode = this.sliderData['slideCode'];
-      // this.slideIdEn = dataEn.slideId;
-      // this.slideIdBm = dataBm.slideId;
-      // this.copyImg
-    });
-    
+        // populate data
+        this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
+        // this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
+        // this.sliderForm.get('imgEn').setValue(dataEn.slideImage);
+        this.sliderForm.get('titleBm').setValue(dataBm.slideTitle);
+        // this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
+        // this.sliderForm.get('imgBm').setValue(dataBm.slideImage);
+        this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
+        // this.slideCode = this.sliderData['slideCode'];
+        // this.slideIdEn = dataEn.slideId;
+        // this.slideIdBm = dataBm.slideId;
+        // this.copyImg
+      });
+
   }
 
-  deleteRow(enId,bmId) {
+  deleteRow(enId, bmId) {
     // console.log(enId);
-    alert("Delete Slider id: " + enId + " & " +bmId);
+    alert("Delete Slider id: " + enId + " & " + bmId);
     // this.commonservice.GetUser(row.userId);
 
     // this.deletePopup(enId,bmId)
 
-    this.commonservice.delSlider(enId,bmId).subscribe(
+    this.commonservice.delSlider(enId, bmId).subscribe(
       data => {
         alert('Slider deleted successfully!')
         this.router.navigate(['slider']);
@@ -257,7 +257,7 @@ export class StateComponent implements OnInit {
         "language": {
           "languageId": null
         }
-      }, 
+      },
       {
         "slideId": null,
         "slideTitle": null,
@@ -271,7 +271,7 @@ export class StateComponent implements OnInit {
         }
       }
     ];
-    
+
     // console.log(formValues)
 
     body[0].slideTitle = formValues.titleEn;
@@ -293,25 +293,25 @@ export class StateComponent implements OnInit {
     console.log(body)
     // console.log(JSON.stringify(body))
 
-    if(!this.isEdit) {
+    if (!this.isEdit) {
 
-    // Add Slider Service
-    this.commonservice.addSlider(body).subscribe(
-      data => {
-        alert('Slider added successfully!')
-      },
-      error => {
-        console.log("No Data")
-      });
+      // Add Slider Service
+      this.commonservice.addSlider(body).subscribe(
+        data => {
+          alert('Slider added successfully!')
+        },
+        error => {
+          console.log("No Data")
+        });
 
     } else {
-      
+
       // body[0].slideId = this.slideIdEn;
       // body[1].slideId = this.slideIdBm;
       // body[0].slideCode = this.slideCode;
       // body[1].slideCode = this.slideCode;
 
-    // Update Slider Service
+      // Update Slider Service
       this.commonservice.updateSlider(body).subscribe(
         data => {
           alert('Slider update successful!')
@@ -320,7 +320,7 @@ export class StateComponent implements OnInit {
           console.log("No Data")
         });
     }
-    
+
     this.router.navigate(['slider']);
 
   }
@@ -336,7 +336,7 @@ export class StateComponent implements OnInit {
     }
   }
 
-  deletePopup(enId,bmId) {
+  deletePopup(enId, bmId) {
     let txt;
     let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
     if (r == true) {
