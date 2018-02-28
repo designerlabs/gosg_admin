@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router, RouterModule, ParamMap } from '@angular/router';
 import { ObservableInput } from 'rxjs/Observable';
+import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -1206,23 +1207,34 @@ getCategoryList1() {
 
 
   getModuleId(){
-    let urlRef = window.location.pathname.split('/')
-    let urlSplit = urlRef.splice(0, 2);
-    let urlJoin = urlRef.join('/');
 
-    this.requestUrl(urlJoin).subscribe(
-      data => {
-        this.refModuleId = data.moduleId;
-      },
-      error => {
-        
+    if(environment.staging){
+      this.isDelete = true;
+      this.isRead = true;
+      this.isWrite = true;
+      this.isUpdate = true;
+    }else{
+      let urlRef = window.location.pathname.split('/')
+      let urlSplit = urlRef.splice(0, 2);
+      let urlJoin = urlRef.join('/');
+
+      this.requestUrl(urlJoin).subscribe(
+        data => {
+          this.refModuleId = data.moduleId;
+        },
+        error => {
+          
         },() => {
-          this.getUserData();
+            this.getUserData();
+          
         })
+    }
+    
   };
 
 
   getUserData(){
+  
     this.getUsersDetails().subscribe(
       dataC => {
 

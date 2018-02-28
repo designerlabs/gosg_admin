@@ -95,19 +95,14 @@ export class MinistryComponent implements OnInit {
       this.commonservice.getModuleId();
     }
 
-   
 
     /* LANGUAGE FUNC */
-
-
-    this.getUserData();
-    this.commonservice.getModuleId();
   }
 
   ngOnInit() {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
-    this.getUserData();
+
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[2];
     this.maskPhoneNo = this.validateService.getMask().telephone;
@@ -181,43 +176,6 @@ export class MinistryComponent implements OnInit {
 
   
 
-  
-  
-  getUserData(){
-    this.commonservice.getUsersDetails().subscribe(
-      data => {
-        debugger;
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
-            
-          }else{
-       
-          }
-        }else{
-          this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-            data => {
-              debugger;
-              this.getModuleId();
-            }
-            
-          });
-        }
-        
-      },
-    error => {
-      
-      }
-    )}
-
-    getModuleId(){
-      this.commonservice.requestUrl('ministry').subscribe(
-        data => {
-          debugger;
-        },
-        error => {
-          
-          })
-    };
 
   // get, add, update, delete
   getRow(row) {
