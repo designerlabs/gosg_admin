@@ -39,7 +39,9 @@ export class CategoryComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
-  public out: any[];
+  public tree: any;
+  //public out: any[];
+  //public children: any[];
 
 
   constructor(private http: HttpClient, 
@@ -153,21 +155,39 @@ export class CategoryComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
           this.categoryData = data["list"];   
           console.log(this.categoryData);    
-          let arrCat = [];
-          let parent = [];
+          let arrCat = [];          
+          let parent;
+          let flagParent: any;
 
           for(let i=0; i<this.categoryData.length; i++){
+            
+            // if(this.categoryData[i].list[0].parentId == undefined){
+            //   this.categoryData[i].list[0].parentId = 0;
+            // }
+
+            let tempParent = this.categoryData[i].list[0].parentId;
+            flagParent = false;
 
             
             arrCat.push({id:this.categoryData[i].list[0].categoryId, 
                          parent: this.categoryData[i].list[0].parentId,
                          title: this.categoryData[i].list[0].categoryDescription});
-            parent.push(this.categoryData[i].list[0].categoryId);
+
+            // for(let x=0; x<parent.length; x++){
+            //   if(tempParent == parent[x]){
+            //     flagParent = true;
+            //   }
+            // }
+
+            // if(flagParent == false){
+            //   parent.push(tempParent);
+            // }
+            
           }
           
-          this.getNestedChildren(arrCat, parent);
+          this.tree = this.getNestedChildren(arrCat, 1);
           console.log(arrCat);
-          console.log(this.out);
+          console.log(this.tree);
           
         }).bind(this));
       },
@@ -179,18 +199,22 @@ export class CategoryComponent implements OnInit {
   }
 
   getNestedChildren(arr, parent) {
-    //var out = []
+    var out = []
+    var children = []
+
     for(var i in arr) {
+    
         if(arr[i].parent == parent) {
-            var children = this.getNestedChildren(arr, arr[i].id)
+            children = this.getNestedChildren(arr, arr[i].id)
 
             if(children.length) {
-                arr[i].children = children
+                 arr[i].children = children
             }
-            this.out.push(arr[i])
+            out.push(arr[i])
         }
-    }
-    return this.out
+      
+    }    
+    return out  
   }
 
   getData() {
@@ -241,29 +265,33 @@ export class CategoryComponent implements OnInit {
       let body = [
         {
         
-          "accountStatusDescription": null,
-          "enabled":false,
+          "categoryName": null,
+          "categoryDescription":null,
+          "parentId":null,
           "language": {
               "languageId": 1
           }
         },{
-          "accountStatusDescription": null,
-          "enabled":false,
+          "categoryName": null,
+          "categoryDescription":null,
+          "parentId":null,
           "language": {
               "languageId": 2
           }
         }
       ]    
 
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
+      body[0].categoryName = formValues.titleEn;
+      body[0].categoryDescription = formValues.descEn;
+      body[0].parentId = formValues.parentsEn;
+      body[1].categoryName = formValues.titleBm;
+      body[1].categoryDescription = formValues.descBm;
+      body[1].parentId = formValues.parentsBm;
 
       console.log("TEST")
       console.log(JSON.stringify(body))
      
-      this.commonservice.addRecordAccStatus(body).subscribe(
+      this.commonservice.addCategory(body).subscribe(
         data => {         
           
           let errMsg = data.statusCode.toLowerCase();

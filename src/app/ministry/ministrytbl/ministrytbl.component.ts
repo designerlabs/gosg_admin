@@ -15,6 +15,9 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./ministrytbl.component.css']
 })
 export class MinistrytblComponent implements OnInit {
+  userID: any;
+  getDataT: any;
+  refModuleId: any;
 
   agencyData: Object;
   ministryList = null;
@@ -33,8 +36,8 @@ export class MinistrytblComponent implements OnInit {
   seqPageSize = 0 ;
   lang:any;
   languageId: any;
-
-
+  collectModules:any;
+  
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -66,6 +69,7 @@ export class MinistrytblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getMinistryData(this.pageCount, this.agencyPageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -74,14 +78,17 @@ export class MinistrytblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getMinistryData(this.pageCount, this.agencyPageSize);
+      this.commonservice.getModuleId();
     }
+
+   
 
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
     this.displayedColumns = ['no','ministryNameEn', 'ministryNameBm', 'ministryAction'];
-    this.getUserData();
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {
@@ -139,49 +146,7 @@ export class MinistrytblComponent implements OnInit {
     this.router.navigate(['ministry', row]);
   }
 
-  
-  
-  getUserData(){
-    this.commonservice.getUsersDetails().subscribe(
-      data => {
-        debugger;
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
-            
-          }else{
-
-            this.getModuleId();
-            
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              data => {
-                debugger;
-              }
-              
-            });
-          }
-        }else{
-          
-        }
-        
-      },
-    error => {
-      
-      }
-    )}
-
-    getModuleId(){
-      let urlRef = window.location.pathname.split('/')
-      let urlSplit = urlRef.splice(0, 2);
-      let urlJoin = urlRef.join('/');
-
-      this.commonservice.requestUrl(urlJoin).subscribe(
-        data => {
-          debugger;
-        },
-        error => {
-          
-          })
-    };
+    
 
   deleteItem(refCode) {
     let txt;

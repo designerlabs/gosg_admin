@@ -16,6 +16,10 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
 export class CommonService {
+  isAdmin: boolean;
+  getDataT: any;
+  userID: any;
+  refModuleId: any;
   languageId: any;
   ObjMenuid: object;
   dataTbl: object;
@@ -30,6 +34,11 @@ export class CommonService {
   strLang: String = "language=";
   
   pageMode: String;
+
+  isDelete:boolean;
+  isRead:boolean;
+  isWrite:boolean;
+  isUpdate:boolean;
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -161,12 +170,8 @@ export class CommonService {
   // Color
 
   addColor(Color) {
-
-    // console.log(this.appConfig.urlSlides)
-    // console.log(ministry)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlColor + '/menu?language='+this.languageId, Color)
+    return this.http.post(this.appConfig.urlColor + '?language='+this.languageId, Color)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -191,12 +196,8 @@ export class CommonService {
   // FONT
 
   addFont(font) {
-
-    // console.log(this.appConfig.urlSlides)
-    // console.log(ministry)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlFont + '/menu?language='+this.languageId, font)
+    return this.http.post(this.appConfig.urlFont + '?language='+this.languageId, font)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -209,10 +210,8 @@ export class CommonService {
   }
 
   delFont(fontId) {
-
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    
-    return this.http.delete(this.appConfig.urlFont + '/' + fontId+ '?language='+this.languageId, null)
+   
+    return this.http.delete(this.appConfig.urlFont + '/id/' + fontId+ '?language='+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -280,7 +279,7 @@ export class CommonService {
 
 
   addModuleGroup(data){
-    return this.http.post(this.appConfig.urlModuleGroupList, data)
+    return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -339,7 +338,7 @@ export class CommonService {
 
   getCategoryData() {
     console.log(this.appConfig.urlCategory);
-    return this.http.get(this.appConfig.urlCategory + '/code?page=1&size=100&language=1')
+    return this.http.get(this.appConfig.urlCategory + '/code?page=1&size=100&language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -1121,6 +1120,33 @@ getCategoryList1() {
   }
   // End Feedback Visitor/Admin - N
 
+
+  // Start Category - N
+  addCategory(record) {
+    let fullUrl = this.appConfig.urlCategory + '/post?language='+this.languageId;
+ 
+    return this.http.post(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  delCategory(key) {
+    let fullUrl = this.appConfig.urlCategory + "/" + key + '?language='+this.languageId;
+
+    return this.http.delete(fullUrl, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateCategory(record) {
+    let fullUrl = this.appConfig.urlCategory + '?language='+this.languageId;
+
+    return this.http.put(fullUrl, record)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  // End Start Category - N
+
   
   public handleError = (error: Response) => {
     return Observable.throw(error);
@@ -1177,6 +1203,76 @@ getCategoryList1() {
   errorResponse(data){
       this.toastr.error(data.statusDesc, ''); 
   }
+
+
+  getModuleId(){
+    let urlRef = window.location.pathname.split('/')
+    let urlSplit = urlRef.splice(0, 2);
+    let urlJoin = urlRef.join('/');
+
+    this.requestUrl(urlJoin).subscribe(
+      data => {
+        this.refModuleId = data.moduleId;
+      },
+      error => {
+        
+        },() => {
+          this.getUserData();
+        })
+  };
+
+
+  getUserData(){
+    this.getUsersDetails().subscribe(
+      dataC => {
+
+        if(dataC['adminUser']){
+          if(dataC['adminUser'].superAdmin){
+            this.isAdmin = true;
+            this.isDelete = true;
+            this.isRead = true;
+            this.isWrite = true;
+            this.isUpdate = true;
+          }else{
+            this.isAdmin = false;
+           this.userID = dataC['adminUser'].userId;
+            
+          }
+        }else{
+          
+        }
+        
+      },
+    error => {
+      
+      },() => {
+        if(!this.isAdmin){
+          this.getUserList(this.userID).subscribe(
+            dataT => {
+              
+              this.getDataT = dataT.data[1].items;
+  
+              let firstLvlFltr =  this.getDataT.filter(function(fdata) {
+                
+                fdata.modules.filter(function(second){
+                  if(second.moduleId == this.refModuleId){
+                    this.isDelete = second.permission.isDelete;
+                    this.isRead = second.permission.isRead;
+                    this.isWrite = second.permission.isWrite;
+                    this.isUpdate = second.permission.isUpdate;
+                  }
+            
+                }.bind(this))
+              }.bind(this));
+  
+            }, error => {
+              
+            }
+          );
+        }
+       
+      }
+    )}
 }
 
 
