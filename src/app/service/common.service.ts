@@ -281,7 +281,7 @@ export class CommonService {
   }
 
   updateModuleList(data){
-    return this.http.put(this.appConfig.urlModule+'/update?language='+this.languageId, data)
+    return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
