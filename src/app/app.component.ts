@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Http } from '@angular/http';
 import { CommonService} from './service/common.service';
 import { Router } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -28,25 +29,27 @@ ngOnInit() {
 
 
   getUserData(){
-    this.commonService.getUsersDetails().subscribe(
-      data => {
-        if(data['adminUser']){
-          this.getUserName = data['adminUser'].fullName;
-          this.getEmail = data['adminUser'].email;
-          this.userID = data['adminUser'].userId;
-          this.superAdmin = data['adminUser'].superAdmin;
-          localStorage.setItem('fullname',data['adminUser'].fullName);
-          localStorage.setItem('email',data['adminUser'].email);
-        }else{
+    if(!environment.staging){
+      this.commonService.getUsersDetails().subscribe(
+        data => {
+          if(data['adminUser']){
+            this.getUserName = data['adminUser'].fullName;
+            this.getEmail = data['adminUser'].email;
+            this.userID = data['adminUser'].userId;
+            this.superAdmin = data['adminUser'].superAdmin;
+            localStorage.setItem('fullname',data['adminUser'].fullName);
+            localStorage.setItem('email',data['adminUser'].email);
+          }else{
+            
+          }
           
+        },
+      error => {
+          //location.href = this.config.urlUAP +'uapsso/Logout';
+          //location.href = this.config.urlUAP+'portal/index';
         }
-        
-      },
-    error => {
-        //location.href = this.config.urlUAP +'uapsso/Logout';
-        //location.href = this.config.urlUAP+'portal/index';
-      }
-    )
+      )
+    }
   }
   
 }

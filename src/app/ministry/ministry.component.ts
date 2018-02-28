@@ -8,6 +8,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ValidateService } from '../common/validate.service';
 import { TextMaskModule } from 'angular2-text-mask';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ministry',
@@ -35,7 +37,7 @@ export class MinistryComponent implements OnInit {
   isCreate: boolean;
   isWrite: boolean;
   isDelete: boolean;
-
+  languageId: any;
   ministryNameEn: FormControl
   ministryNameBm: FormControl
   descEn: FormControl
@@ -67,17 +69,41 @@ export class MinistryComponent implements OnInit {
     private router: Router,
     private validateService: ValidateService,
     textMask:TextMaskModule,
+    private translate: TranslateService,
     private toastr: ToastrService
   ) {
 
-    this.getUserData();
+     /* LANGUAGE FUNC */
+     translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              // this.getMinistryData(this.pageCount, this.agencyPageSize);
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      // this.getMinistryData(this.pageCount, this.agencyPageSize);
+      this.commonservice.getModuleId();
+    }
+
+
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
-    this.getUserData();
-    
+
+    this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[2];
     this.maskPhoneNo = this.validateService.getMask().telephone;
     this.maskFaxNo = this.validateService.getMask().fax;
@@ -150,49 +176,12 @@ export class MinistryComponent implements OnInit {
 
   
 
-  
-  
-  getUserData(){
-    this.commonservice.getUsersDetails().subscribe(
-      data => {
-        debugger;
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
-            
-          }else{
-       
-          }
-        }else{
-          this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-            data => {
-              debugger;
-              this.getModuleId();
-            }
-            
-          });
-        }
-        
-      },
-    error => {
-      
-      }
-    )}
-
-    getModuleId(){
-      this.commonservice.requestUrl('ministry').subscribe(
-        data => {
-          debugger;
-        },
-        error => {
-          
-          })
-    };
 
   // get, add, update, delete
   getRow(row) {
 
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlMinistry + "/" + row).subscribe(
+    return this.http.get(this.appConfig.urlGetMinistry + "/" + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + row + "/").subscribe(
       Rdata => {

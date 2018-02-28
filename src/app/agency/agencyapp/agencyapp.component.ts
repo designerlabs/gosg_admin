@@ -39,7 +39,11 @@ export class AgencyappComponent implements OnInit {
   agencyIdBm:any;
   ministryNameEn:any;
   ministryNameBm:any;
-  lang:any;
+
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
   languageId: any;
 
   agencyAppNameEn: FormControl
@@ -72,6 +76,7 @@ export class AgencyappComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getAgency();
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -80,6 +85,7 @@ export class AgencyappComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getAgency();
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -88,6 +94,7 @@ export class AgencyappComponent implements OnInit {
   ngOnInit() {
 
     let refCode = this.router.url.split('/')[2];
+    this.commonservice.getModuleId();
 
     this.agencyAppNameEn = new FormControl()
     this.agencyAppNameBm = new FormControl()
@@ -131,7 +138,7 @@ export class AgencyappComponent implements OnInit {
   getRow(row) {
 
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
+    return this.http.get(this.appConfig.urlGetAgencyApp + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
       Rdata => {
@@ -259,7 +266,7 @@ export class AgencyappComponent implements OnInit {
       selLangField = "agencyEn";
     }
 
-    return this.http.get(this.appConfig.urlAgency + '/code/language/' + refCode+ '?language='+langId).subscribe(
+    return this.http.get(this.appConfig.urlGetAgency + '/code/language/' + refCode+ '?language='+langId).subscribe(
       data => {
         console.log('refCode Data');
         console.log(data);

@@ -64,6 +64,7 @@ export class ColortblComponent implements OnInit {
                 this.lang = val.languageCode;
                 this.languageId = val.languageId;
                 this.getcolorData(this.pageCount, this.colorPageSize);
+                this.commonservice.getModuleId();
               }
             }.bind(this));
           })
@@ -72,12 +73,14 @@ export class ColortblComponent implements OnInit {
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
         this.getcolorData(this.pageCount, this.colorPageSize);
+        this.commonservice.getModuleId();
       }
   
       /* LANGUAGE FUNC */ }
 
   ngOnInit() {
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {
@@ -92,7 +95,7 @@ export class ColortblComponent implements OnInit {
       data => {
         this.colorList = data;
         console.log(this.colorList)
-        this.dataSource.data = this.colorList['colorList'];
+        this.dataSource.data = this.colorList['list'];
         this.seqPageNum = this.colorList.pageNumber;
         this.seqPageSize = this.colorList.pageSize;
         this.commonservice.recordTable = this.colorList;

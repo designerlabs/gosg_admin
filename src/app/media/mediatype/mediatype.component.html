@@ -14,13 +14,15 @@
       </span>
     </div>
   </div>
-
-  <form [formGroup]="mediaTypeForm" autocomplete="off" role="form" novalidate>
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+  </div>
+  <form [formGroup]="mediaTypeForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
     <!-- EN -->
     <div class="example-container mat-elevation-z8 col-md-12">
       <div class="col-md-12">&nbsp;</div>
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" [hidden]="isEdit">
           <mat-form-field class="example-full-width font-size-s paddingTop-10">
             <mat-select placeholder="Media Type" formControlName="mediatype" (change)="selMediaType($event)" required>
               <mat-option *ngFor="let obj of objMediaType" [value]="obj">{{obj}}</mat-option>
@@ -29,25 +31,28 @@
               Media Type is required
             </mat-error>
           </mat-form-field>
+        </div>
+        <div class="col-md-6" [hidden]="!isEdit" style="padding:20px;">
+          <label class="font-size-m" for="mediatype"> {{mediaTypeForm.controls.mediatype.value}} </label>
           <!-- <label class="font-size-m" for="mediatype" *ngIf="isEdit" formControlName="mediatype" value=""> </label> -->
         </div>
         <div class="col-md-6">
           <mat-form-field *ngIf="!isEdit" class="example-full-width font-size-s paddingTop-10">
             <mat-select placeholder="Category" formControlName="catType" (change)="selCateType($event)" required>
               <mat-option *ngFor="let obj of objCategory" [value]="obj.list[0].categoryId">{{obj.list[0].categoryName}}</mat-option>
-            </mat-select>            
+            </mat-select>
             <mat-error *ngIf="mediaTypeForm.get('catType').hasError('required')">
               Category is required
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="isEdit" class="example-full-width font-size-s paddingTop-10">
-            <mat-select  placeholder="Category" formControlName="catType" (change)="selCateType($event)" required>
+            <mat-select placeholder="Category" formControlName="catType" (change)="selCateType($event)" required>
               <mat-option *ngFor="let obj of objCategory" [value]="obj.category.categoryId">{{obj.category.categoryName}}</mat-option>
-            </mat-select>           
+            </mat-select>
             <mat-error *ngIf="mediaTypeForm.get('catType').hasError('required')">
               Category is required
             </mat-error>
-          </mat-form-field>          
+          </mat-form-field>
         </div>
       </div>
       <div class="row">

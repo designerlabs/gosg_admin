@@ -6,6 +6,8 @@ import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-errormessage',
@@ -32,19 +34,49 @@ export class ErrormessageComponent implements OnInit {
   descBm: FormControl
   resetMsg = this.resetMsg;
 
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
+  languageId: any;
+
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
-  ) { }
+  ) { 
+
+     /* LANGUAGE FUNC */
+     translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
+    }
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
 
     let refMessageCode = this.router.url.split('/')[2];
+    this.commonservice.getModuleId();
 
     this.msgCodeEn = new FormControl()
     this.msgCodeBm = new FormControl()

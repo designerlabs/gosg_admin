@@ -32,6 +32,7 @@ export class PostcodeComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getState('152');
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -40,11 +41,13 @@ export class PostcodeComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getState('152');
+      this.commonservice.getModuleId();
     }
    }
 
   ngOnInit() {
-    this.getState('152');    
+    this.getState('152');   
+    this.commonservice.getModuleId(); 
   }
     
   getState(id?){

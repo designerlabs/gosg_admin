@@ -15,7 +15,11 @@
       </div>
     </div>
   
-    <form [formGroup]="agencyForm" autocomplete="off" role="form" novalidate>
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
+    </div>
+  
+    <form [formGroup]="agencyForm" *ngIf="commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 padding-10">
   
@@ -116,6 +120,9 @@
               <input matInput tabindex="7" placeholder="Latitude" formControlName="agclat">
               <mat-error *ngIf="agencyForm.controls.agclat.hasError('required')">
                 Latitude is required
+              </mat-error>
+              <mat-error *ngIf="!validateCtrlChk(agclat) &&  agencyForm.controls.agclat.errors.pattern">
+                Latitude Pattern not valid
               </mat-error>
             </mat-form-field>
           </div>

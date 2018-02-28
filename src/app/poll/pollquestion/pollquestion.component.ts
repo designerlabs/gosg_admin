@@ -65,6 +65,7 @@ export class PollquestionComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
               //this.getUsersData(this.pageCount, this.pageSize);
             }
           }.bind(this));
@@ -73,6 +74,7 @@ export class PollquestionComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
       //this.getData();
     }
     /* LANGUAGE FUNC */
@@ -127,7 +129,7 @@ export class PollquestionComponent implements OnInit {
       this.getData();
     }
 
-    this.getUserData();
+    this.commonservice.getModuleId();
   }
 
   getData() {
@@ -139,7 +141,7 @@ export class PollquestionComponent implements OnInit {
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
-      //this.commonservice.errorHandling(data, (function(){
+      // this.commonservice.errorHandling(data, (function(){
         console.log(data);
         this.recordList = data;
 
@@ -171,48 +173,6 @@ export class PollquestionComponent implements OnInit {
       console.log(error);  
     });
   }
-
-  getUserData(){
-    this.commonservice.getUsersDetails().subscribe(
-      data => {
-        debugger;
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
-            
-          }else{
-
-            this.getModuleId();
-            
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              data => {
-                debugger;
-              }
-              
-            });
-          }
-        }else{
-          
-        }
-        
-      },
-    error => {
-      
-      }
-    )}
-
-    getModuleId(){
-      let urlRef = window.location.pathname.split('/')
-      let urlSplit = urlRef.splice(0, 2);
-      let urlJoin = urlRef.join('/');
-
-      this.commonservice.requestUrl(urlJoin).subscribe(
-        data => {
-          debugger;
-        },
-        error => {
-          
-          })
-    };
 
   submit(formValues: any) {
     

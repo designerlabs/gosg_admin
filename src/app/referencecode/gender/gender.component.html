@@ -1,27 +1,15 @@
-<!-- <p>
-  gender works!
-</p> -->
-
-
-
-<div class="container right-content">
-    
+<div class="container right-content">    
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>Gender</h3>
         </div>
     </div>
+    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+            {{'common.msg.unauthorized' | translate}}
+    </div>
 
-    <div class="example-container mat-elevation-z8">
-        
-        <!-- <div class="example-header">
-            <mat-form-field class="font-size-s" style="margin: 5px 0 0 10px;">
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-            </mat-form-field>
-        </div> -->
-
+    <div class="example-container mat-elevation-z8" *ngIf="commonservice.isRead">
         <mat-table #table [dataSource]="dataSource" style="display: initial;">
-
             <ng-container matColumnDef="no">
                 <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
@@ -42,14 +30,11 @@
                 <mat-cell class="text-align-left" style="flex: 0 0 40%;" *matCellDef="let element">
                     {{element.list[1].gender}}
                 </mat-cell>
-            </ng-container>
-
-            
+            </ng-container>            
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-
     </div>
 
 </div>

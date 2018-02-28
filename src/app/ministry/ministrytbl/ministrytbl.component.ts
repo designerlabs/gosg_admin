@@ -80,9 +80,6 @@ export class MinistrytblComponent implements OnInit {
       this.getMinistryData(this.pageCount, this.agencyPageSize);
       this.commonservice.getModuleId();
     }
-
-   
-
     /* LANGUAGE FUNC */
   }
 

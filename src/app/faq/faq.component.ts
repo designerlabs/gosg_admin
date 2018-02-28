@@ -1,24 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { CommonService } from '../service/common.service';
-// import { Router, RouterModule } from '@angular/router';
-
-
-// @Component({
-//   selector: 'app-faq',
-//   templateUrl: './faq.component.html',
-//   styleUrls: ['./faq.component.css']
-// })
-// export class FaqComponent implements OnInit {
-
-//   constructor(private commonservice: CommonService, private router: Router) { 
-//   }
-
-//   ngOnInit() {
-//   }
-  
-// }
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -74,6 +53,7 @@ export class FaqComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -81,11 +61,12 @@ export class FaqComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
     }
   }
 
   ngOnInit() {
-
+    this.commonservice.getModuleId();
     this.faqQEng = new FormControl();
     this.faqQMy = new FormControl();
     this.faqAEng = new FormControl();

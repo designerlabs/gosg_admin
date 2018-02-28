@@ -65,6 +65,7 @@ export class AgencytblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -73,6 +74,7 @@ export class AgencytblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -80,6 +82,7 @@ export class AgencytblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','agencyTypeNameEn', 'agencyTypeNameBm', 'agencyTypeAction'];
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

@@ -242,7 +242,8 @@
     },
     "msg":{
       "reset":"Set semula borang ini?",
-      "delete":"Padam mesej ini?"
+      "delete":"Padam mesej ini?",
+      "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!"
     },
     "state":{
       "success":"bg_header bg_success_header",
