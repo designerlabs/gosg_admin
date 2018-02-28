@@ -53,6 +53,7 @@ export class FontComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
               //this.getUsersData(this.pageCount, this.pageSize);
             }
           }.bind(this));
@@ -61,6 +62,7 @@ export class FontComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
       //this.getData();
     }
     /* LANGUAGE FUNC */
@@ -94,6 +96,8 @@ export class FontComponent implements OnInit {
       this.commonservice.pageModeChange(true);      
       this.getData();
     }
+
+    this.commonservice.getModuleId();
   }
 
   getData() {

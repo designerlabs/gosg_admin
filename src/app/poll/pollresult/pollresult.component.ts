@@ -62,6 +62,7 @@ export class PollresultComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -70,6 +71,7 @@ export class PollresultComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */   
   }
@@ -77,6 +79,7 @@ export class PollresultComponent implements OnInit {
   ngOnInit() {
 
     // this.getRecordList(this.pageCount, this.pageSize);
+    this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {

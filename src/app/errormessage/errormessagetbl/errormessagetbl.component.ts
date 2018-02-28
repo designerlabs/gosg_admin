@@ -65,6 +65,7 @@ export class ErrormessagetblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -73,6 +74,7 @@ export class ErrormessagetblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -85,6 +87,7 @@ export class ErrormessagetblComponent implements OnInit {
       'messagesDescriptionEn', 
       'messagesDescriptionBm', 
       'errMsgAction'];
+      this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

@@ -23,8 +23,13 @@ export class ColorComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-  lang:any;
+
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
   languageId: any;
+  
   colorId: any;
   maskColorCode: (string | RegExp)[];
   
@@ -56,6 +61,7 @@ export class ColorComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -63,6 +69,7 @@ export class ColorComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -71,6 +78,7 @@ export class ColorComponent implements OnInit {
   ngOnInit() {
 
     let refId = this.router.url.split('/')[2];
+    this.commonservice.getModuleId();
     this.maskColorCode = this.validateService.getMask().colorcode;
 
     this.colorName = new FormControl()

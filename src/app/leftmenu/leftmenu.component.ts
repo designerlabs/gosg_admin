@@ -8,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment';
 // import { Router } from '@angular/router/src/router';
 
 export class User {
@@ -63,31 +64,46 @@ export class LeftmenuComponent implements OnInit {
   @Input() superStatus:string;
 
   getUserData(){
-    this.commonservice.getUsersDetails().subscribe(
-      data => {
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
-            this.getMenuData();
+    if(!environment.staging){
+      this.commonservice.getUsersDetails().subscribe(
+        data => {
+          if(data['adminUser']){
+            if(data['adminUser'].superAdmin){
+              this.getMenuData();
+            }else{
+              this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+                
+                this.menulist_non_admin = data.data[1];
+                debugger
+              });
+            }
           }else{
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              
-              this.menulist_non_admin = data.data[1];
-              debugger
-            });
+            
           }
-        }else{
           
-        }
+        },
+      error => {
         
-      },
-    error => {
-      
-      }
-    )
+        }
+      )
+    }else{
+      this.getMenuDataLocal();
+    }
+    
   }
 
   getMenuData() {
     this.commonservice.getModMenu().subscribe((data:any) => {
+      this.menulst = data;
+      debugger;
+      console.log(this.menulst)
+      // let myLangData =  getLang.filter(function(val) {
+      // }.bind(this));
+    })
+  }
+
+  getMenuDataLocal() {
+    this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       debugger;
       console.log(this.menulst)

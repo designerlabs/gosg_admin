@@ -6,6 +6,7 @@ import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-agencyapptbl',
@@ -29,6 +30,8 @@ export class AgencyapptblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
+  lang:any;
+  languageId: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,11 +52,34 @@ export class AgencyapptblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getAgencyAppData(this.pageCount, this.agencyAppPageSize);
+      this.commonservice.getModuleId();
+    }
+
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
     this.displayedColumns = ['no','agencyAppNameEn', 'agencyAppNameBm', 'agencyAppAction'];
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

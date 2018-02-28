@@ -5,6 +5,8 @@ import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from '../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-languagetbl',
@@ -28,6 +30,7 @@ export class LanguagetblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
+  languageId:any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -42,16 +45,40 @@ export class LanguagetblComponent implements OnInit {
 
   constructor(
     private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService, 
-    private router: Router,
-    private toastr: ToastrService
-  ) { 
-    this.getlanguagesData();
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+              this.getlanguagesData();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
+      this.getlanguagesData();
+    }
+    /* LANGUAGE FUNC */  
   }
 
   ngOnInit() {
     this.displayedColumns = ['no','languageCode', 'languageName', 'languageDescription', 'languageAction'];
+    this.commonservice.getModuleId();    
   }
 
   ngAfterViewInit() {
@@ -64,16 +91,25 @@ export class LanguagetblComponent implements OnInit {
     // console.log(this.appConfig.urllanguageList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlLanguage;
 
-    this.http.get(this.dataUrl + '/all').subscribe(
-      // this.http.get(this.dataUrl).subscribe(
+    this.http.get(this.dataUrl + '/all?language='+this.languageId).subscribe(
+  
       data => {
-        this.languageList = data;
-        console.log(this.languageList)
-        this.dataSource.data = this.languageList.list;
-        this.seqPageNum = 1;
-        this.seqPageSize = 10;
-        this.commonservice.recordTable = this.languageList;
-        this.noNextData = this.languageList.pageNumber === this.languageList.totalPages;
+
+        this.commonservice.errorHandling(data, (function(){
+          this.languageList = data;
+          console.log(this.languageList)
+          this.dataSource.data = this.languageList.list;
+          this.seqPageNum = 1;
+          this.seqPageSize = 10;
+          this.commonservice.recordTable = this.languageList;
+          this.noNextData = this.languageList.pageNumber === this.languageList.totalPages;
+
+        }).bind(this));  
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);  
       });
   }
 
@@ -115,26 +151,20 @@ export class LanguagetblComponent implements OnInit {
   }
 
   deleteRow(langId) {
-    let txt;
-    let r = confirm("Are you sure to delete " + langId + "?");
-    if (r == true) {
+    this.commonservice.delLanguage(langId).subscribe(
+      data => {
 
-      this.commonservice.delLanguage(langId).subscribe(
-        data => {
-          txt = "Language deleted successfully!";
-          // this.router.navigate(['language']);
-          this.toastr.success(txt, '');   
-          this.getlanguagesData();
-        },
-        error => {
-          console.log("No Data")
-        });
+        this.commonservice.errorHandling(data, (function(){
 
-      // this.languageForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      // alert(txt)
-    }
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');     
+          this.getlanguagesData()
+      }).bind(this)); 
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
+    });
   }
 
   changePageMode(isEdit) {

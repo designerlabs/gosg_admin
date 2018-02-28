@@ -66,6 +66,7 @@ export class SlidertblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               // this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -74,6 +75,7 @@ export class SlidertblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       // this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -81,6 +83,7 @@ export class SlidertblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

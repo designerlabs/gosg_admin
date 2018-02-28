@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router, RouterModule, ParamMap } from '@angular/router';
 import { ObservableInput } from 'rxjs/Observable';
+import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -105,9 +106,11 @@ export class CommonService {
   }
 
   getUsersDetails(): Observable<any[]> {
-    return this.http.get(this.getUserUrl+'?langId='+this.languageId)
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
+    if(!environment.staging){
+      return this.http.get(this.getUserUrl+'?langId='+this.languageId)
+        .map((response: Response) => response.json())
+        .catch(this.handleError);
+    }
   }
 
   
@@ -221,6 +224,12 @@ export class CommonService {
 
   getModMenu() {
     return this.http.get(this.appConfig.urlModule+'/menu?language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  getModMenuLocal() {
+    return this.http.get(this.appConfig.urlModule+'/menu/localhost?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -721,7 +730,7 @@ getCategoryList1() {
     // console.log(Agency)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlLanguage, language)
+    return this.http.post(this.appConfig.urlLanguage + '?language='+this.languageId, language)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -732,16 +741,16 @@ getCategoryList1() {
     // console.log(Agency)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlLanguage, language)
+    return this.http.put(this.appConfig.urlLanguage + '?language='+this.languageId, language)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delLanguage(languageId) {
+  delLanguage(langId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlLanguage + "/" + languageId, null)
+    return this.http.delete(this.appConfig.urlLanguage + "/" + langId + "?language="+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -1206,23 +1215,34 @@ getCategoryList1() {
 
 
   getModuleId(){
-    let urlRef = window.location.pathname.split('/')
-    let urlSplit = urlRef.splice(0, 2);
-    let urlJoin = urlRef.join('/');
 
-    this.requestUrl(urlJoin).subscribe(
-      data => {
-        this.refModuleId = data.moduleId;
-      },
-      error => {
-        
+    if(environment.staging){
+      this.isDelete = true;
+      this.isRead = true;
+      this.isWrite = true;
+      this.isUpdate = true;
+    }else{
+      let urlRef = window.location.pathname.split('/')
+      let urlSplit = urlRef.splice(0, 2);
+      let urlJoin = urlRef.join('/');
+
+      this.requestUrl(urlJoin).subscribe(
+        data => {
+          this.refModuleId = data.moduleId;
+        },
+        error => {
+          
         },() => {
-          this.getUserData();
+            this.getUserData();
+          
         })
+    }
+    
   };
 
 
   getUserData(){
+  
     this.getUsersDetails().subscribe(
       dataC => {
 

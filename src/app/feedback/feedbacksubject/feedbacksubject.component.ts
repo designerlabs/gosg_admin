@@ -52,6 +52,7 @@ export class FeedbacksubjectComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
               //this.getData();
             }
           }.bind(this));
@@ -61,6 +62,7 @@ export class FeedbacksubjectComponent implements OnInit {
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
       //this.getData();
     }
 
@@ -89,6 +91,8 @@ export class FeedbacksubjectComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+
+    this.commonservice.getModuleId();
   }
 
   getData() {
