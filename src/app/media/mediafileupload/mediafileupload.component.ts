@@ -8,6 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Headers, RequestOptions } from '@angular/http';
 import { debug } from 'util';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 import {
   Ng4FilesService,
   Ng4FilesConfig,
@@ -54,6 +56,7 @@ export class MediafileuploadComponent implements OnInit {
   selectedFilesMy;
   selectedFiles;
   filesResult : any;
+  languageId: any;
   // formdata: FileList;
   clientId;
   networkContract: any;
@@ -69,10 +72,32 @@ export class MediafileuploadComponent implements OnInit {
     private commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService,
+    private translate: TranslateService,
     private el:ElementRef
-  ) { }
+  ) { 
+     /* LANGUAGE FUNC */
+     translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
+    }
+  }
 
   ngOnInit() {
+    this.commonservice.getModuleId();
     this.addconfig = false;
     let refCode = this.router.url.split('/')[2];
  

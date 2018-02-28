@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 import { debug } from 'util';
 
 @Component({
@@ -25,6 +27,7 @@ export class MediatypeComponent implements OnInit {
   objFileExtn = [];
   objCategory: any;
   getData;
+  languageId: any;
   mediaTypeData: any;
   mediaTypeForm: FormGroup;
   isEdit: boolean;
@@ -58,10 +61,32 @@ export class MediatypeComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService,
     private router: Router,
+    private translate: TranslateService,
     private toastr: ToastrService
-  ) { }
+  ) { 
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
+    }
+  }
 
   ngOnInit() {
+    this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
     this.catType = new FormControl();

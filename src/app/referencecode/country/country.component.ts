@@ -1,5 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -59,6 +57,7 @@ export class CountryComponent implements OnInit {
                           this.lang = val.languageCode;
                           this.languageId = val.languageId;
                           this.getRecordList(this.pageCount, this.pageSize);
+                          this.commonservice.getModuleId();
                         }
                       }.bind(this));
                     })
@@ -67,6 +66,7 @@ export class CountryComponent implements OnInit {
                 if(!this.languageId){
                   this.languageId = localStorage.getItem('langID');
                   this.getRecordList(this.pageCount, this.pageSize);
+                  this.commonservice.getModuleId();
                 }
 
     // this.getRecordList(this.pageCount, this.pageSize);
@@ -74,6 +74,7 @@ export class CountryComponent implements OnInit {
 
   ngOnInit() {
     this.getRecordList(this.pageCount, this.pageSize);
+    this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {

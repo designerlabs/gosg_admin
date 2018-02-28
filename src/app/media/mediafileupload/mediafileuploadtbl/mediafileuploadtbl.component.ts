@@ -3,7 +3,10 @@ import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-mediafileuploadtbl',
@@ -20,17 +23,40 @@ export class MediafileuploadtblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0;
-
+  languageId: any;
   displayedColumns = ['no', 'mediaFile', 'catName',  'status', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
-  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, ) { 
-    this.getMediaList(this.PageCount, this.PageSize);
+  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getMediaList(this.PageCount, this.PageSize);
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getMediaList(this.PageCount, this.PageSize);
+      this.commonservice.getModuleId();
+    }
+
+    
   }
 
   ngOnInit() {
     this.getMediaList(this.PageCount, this.PageSize);
+    this.commonservice.getModuleId();
   }
 
   getMediaList(count, size) {

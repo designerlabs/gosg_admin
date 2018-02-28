@@ -1,21 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-citizentypetbl',
-//   templateUrl: './citizentypetbl.component.html',
-//   styleUrls: ['./citizentypetbl.component.css']
-// })
-// export class CitizentypetblComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -87,6 +69,7 @@ export class CitizentypetblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -95,12 +78,14 @@ export class CitizentypetblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
     }
     
   }
 
   ngOnInit() {
     this.getRecordList(this.pageCount, this.pageSize);
+    this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {
