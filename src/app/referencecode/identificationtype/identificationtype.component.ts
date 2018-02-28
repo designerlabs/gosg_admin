@@ -1,21 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-identificationtype',
-//   templateUrl: './identificationtype.component.html',
-//   styleUrls: ['./identificationtype.component.css']
-// })
-// export class IdentificationtypeComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -71,6 +53,7 @@ export class IdentificationtypeComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -78,11 +61,12 @@ export class IdentificationtypeComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
     }
   }
 
   ngOnInit() {
-
+    this.commonservice.getModuleId();
     this.identificationTypeEng = new FormControl();
     this.identificationTypeMy = new FormControl();
     this.active = new FormControl();

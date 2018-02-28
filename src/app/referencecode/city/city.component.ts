@@ -58,6 +58,7 @@ export class CityComponent implements OnInit {
                         this.lang = val.languageCode;
                         this.languageId = val.languageId;
                         this.getRecordList(this.pageCount, this.pageSize);
+                        this.commonservice.getModuleId();
                       }
                     }.bind(this));
                   })
@@ -66,6 +67,7 @@ export class CityComponent implements OnInit {
               if(!this.languageId){
                 this.languageId = localStorage.getItem('langID');
                 this.getRecordList(this.pageCount, this.pageSize);
+                this.commonservice.getModuleId();
               }
 
     
@@ -73,8 +75,7 @@ export class CityComponent implements OnInit {
 
   ngOnInit() {
     this.getRecordList(this.pageCount, this.pageSize);
-    // debugger;
-    //debugger;
+    this.commonservice.getModuleId(); 
   }
 
   getRecordList(count, size) {
@@ -83,9 +84,6 @@ export class CityComponent implements OnInit {
     this.dataUrl = this.appConfig.urlCityList;
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     //this.http.get(this.dataUrl)
-
-
-
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + "&language=" + this.languageId)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){

@@ -1,21 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-citizentype',
-//   templateUrl: './citizentype.component.html',
-//   styleUrls: ['./citizentype.component.css']
-// })
-// export class CitizentypeComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -67,6 +49,7 @@ export class CitizentypeComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -74,11 +57,12 @@ export class CitizentypeComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
     }
    }
 
   ngOnInit() {
-  
+    this.commonservice.getModuleId();
     this.userTypeEng = new FormControl();
     this.userTypeMy = new FormControl();
     this.active = new FormControl();

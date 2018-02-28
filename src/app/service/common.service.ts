@@ -730,7 +730,7 @@ getCategoryList1() {
     // console.log(Agency)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlLanguage, language)
+    return this.http.post(this.appConfig.urlLanguage + '?language='+this.languageId, language)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -741,16 +741,16 @@ getCategoryList1() {
     // console.log(Agency)
     // debugger;
     // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlLanguage, language)
+    return this.http.put(this.appConfig.urlLanguage + '?language='+this.languageId, language)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
 
-  delLanguage(languageId) {
+  delLanguage(langId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlLanguage + "/" + languageId, null)
+    return this.http.delete(this.appConfig.urlLanguage + "/" + langId + "?language="+this.languageId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

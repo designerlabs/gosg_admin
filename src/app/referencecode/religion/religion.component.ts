@@ -1,31 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-// import { MatPaginator, MatTableDataSource } from '@angular/material';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { debug } from 'util';
-
-// @Component({
-//   selector: 'app-religion',
-//   templateUrl: './religion.component.html',
-//   styleUrls: ['./religion.component.css']
-// })
-// export class ReligionComponent implements OnInit {
-
-  
-
-//   constructor(private http: HttpClient,) { }
-
-//   ngOnInit() {
-    
-//   }
-
-  
-// }
-
-
-
-
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -36,7 +8,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../../dialogs/dialogs.service';
-
 
 @Component({
   selector: 'app-religion',
@@ -80,6 +51,7 @@ export class ReligionComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               // this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -88,11 +60,12 @@ export class ReligionComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       // this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
     }
   }
 
   ngOnInit() {
-  
+    this.commonservice.getModuleId();
     this.religionEng = new FormControl();
     this.religionMy = new FormControl();
     // this.active = new FormControl();

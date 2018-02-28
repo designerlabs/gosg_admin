@@ -189,7 +189,6 @@ export class LanguageComponent implements OnInit {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');     
           this.getRow()
-          //window.location.reload()
       }).bind(this)); 
     },
     error => {

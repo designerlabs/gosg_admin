@@ -86,6 +86,7 @@ export class FootercontenttblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -94,11 +95,13 @@ export class FootercontenttblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
     }
   }
 
   ngOnInit() {
     this.getRecordList(this.pageCount, this.pageSize);
+    this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {
