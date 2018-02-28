@@ -39,7 +39,11 @@ export class AgencyappComponent implements OnInit {
   agencyIdBm:any;
   ministryNameEn:any;
   ministryNameBm:any;
-  lang:any;
+
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
   languageId: any;
 
   agencyAppNameEn: FormControl
@@ -72,6 +76,7 @@ export class AgencyappComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getAgency();
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -80,6 +85,7 @@ export class AgencyappComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getAgency();
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -88,6 +94,7 @@ export class AgencyappComponent implements OnInit {
   ngOnInit() {
 
     let refCode = this.router.url.split('/')[2];
+    this.commonservice.getModuleId();
 
     this.agencyAppNameEn = new FormControl()
     this.agencyAppNameBm = new FormControl()

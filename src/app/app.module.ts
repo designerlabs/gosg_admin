@@ -107,6 +107,8 @@ import { ColorComponent } from './color/color.component';
 import { ColortblComponent } from './color/colortbl/colortbl.component';
 import { FontComponent } from './font/font.component';
 import { FonttblComponent } from './font/fonttbl/fonttbl.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { CalendartblComponent } from './calendar/calendartbl/calendartbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -196,6 +198,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ColortblComponent,
     FontComponent,
     FonttblComponent,
+    CalendarComponent,
+    CalendartblComponent,
   ],
   imports: [
     BrowserModule,

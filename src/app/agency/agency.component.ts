@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ValidateService } from '../common/validate.service';
 import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-agency',
@@ -74,6 +75,12 @@ export class AgencyComponent implements OnInit {
 
   resetMsg = this.resetMsg;
 
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
+  languageId: any;
+
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -82,13 +89,38 @@ export class AgencyComponent implements OnInit {
     private translate: TranslateService,
     private validateService: ValidateService,
     private toastr: ToastrService
-  ) { }
+  ) { 
+    
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getAgency();
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
+    }
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
 
     let refCode = this.router.url.split('/')[2];
+    this.commonservice.getModuleId();
     this.maskPhoneNo = this.validateService.getMask().telephone;
     this.maskFaxNo = this.validateService.getMask().fax;
 
