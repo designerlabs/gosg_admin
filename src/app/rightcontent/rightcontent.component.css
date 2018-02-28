@@ -13,3 +13,36 @@
     overflow: auto;
     max-height: 1100px !important;
 }
+
+.card{
+  display:block;
+  float: left;
+  margin:5px;
+  padding: 0px 10px;
+  border:1px solid #ccc;
+  width:200px;
+  height: 100px;
+  text-decoration: none;
+
+}
+
+.card:hover{
+  background: #d0d0d0;
+  color: #000;
+  text-decoration: none;
+}
+
+.card-title{
+  font-size:18px;
+}
+
+.card-text{
+  font-size:12px;
+  text-transform: capitalize;
+}
+
+.mat-chip-list-wrapper{
+  display: inline !important;
+  top: -5px !important;
+  position: relative !important;
+}
