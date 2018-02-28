@@ -293,6 +293,13 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+
+  deleteModuleGroup(id){
+    return this.http.delete(this.appConfig.urlModuleGroupList+'/'+id+'?language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   getUserList(id){
     return this.http.get(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json().adminUserDetails)

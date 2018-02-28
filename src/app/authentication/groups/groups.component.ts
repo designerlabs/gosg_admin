@@ -4,6 +4,7 @@ import { CommonService } from '../../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 // multiSelect()
 // import * as multiSelect from 'multiSelect';
 // compMultiSelect.multiSelect()
@@ -37,6 +38,7 @@ export class GroupsComponent implements OnInit {
     private http:HttpClient,
     private router:Router,
     private toastr: ToastrService,
+    private translate: TranslateService,
     private route:ActivatedRoute
   ) {
     this.elementRef = elementRef;
@@ -106,10 +108,10 @@ export class GroupsComponent implements OnInit {
 
     this.commonservice.updateModuleList(this.updateData).subscribe(
       data => {
-
+        debugger;
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-          
+          this.router.navigate(['groupmodule']);
         }).bind(this));
 
       }
@@ -127,8 +129,10 @@ export class GroupsComponent implements OnInit {
 
     this.commonservice.addModuleGroup(this.addData).subscribe(
       data => {
+        debugger;
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
+          this.router.navigate(['groupmodule']);
           
         }).bind(this));
       }
