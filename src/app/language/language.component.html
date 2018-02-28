@@ -14,7 +14,11 @@
       </div> 
   </div>
 
-  <form [formGroup]="languageForm" autocomplete="off" role="form" novalidate>
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+  </div>
+
+  <form [formGroup]="languageForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
   
       <div class="example-container mat-elevation-z8 col-md-12">
 
