@@ -20,23 +20,20 @@
               {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }} 
             </mat-cell>
           </ng-container>
-        <!-- Title (BM) Column -->
+        <!-- mediaType Column -->
         <ng-container matColumnDef="mediaType">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> Name </mat-header-cell>
-          <mat-cell *matCellDef="let element" [style.flex]="'0 0 25%'">
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 20%'"> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element" [style.flex]="'0 0 20%'">
             {{element.mediaTypeName}}
           </mat-cell>
-          <!-- <mat-cell *matCellDef="let element" [style.flex]="'0 0 25%'"> <mat-chip-list >               
-              <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories">{{ele.category.categoryName}}</mat-chip>
-          </mat-chip-list> 
-        </mat-cell> -->
         </ng-container>
-        <!-- Title (EN) Column -->
+        <!-- categoryName Column -->
         <ng-container matColumnDef="catName">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> Category </mat-header-cell>
-            <mat-cell *matCellDef="let element" [style.flex]="'0 0 25%'"> <mat-chip-list >               
-                <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories">
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 30%'"> Category </mat-header-cell>
+            <mat-cell *matCellDef="let element" [style.flex]="'0 0 30%'"> <mat-chip-list >               
+                <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories.length > 3 ? element.mediaTypeCategories.slice(0,3): element.mediaTypeCategories">
                   {{ele.category.categoryName}}</mat-chip>
+                  <mat-chip color="default" *ngIf="element.mediaTypeCategories.length > 3">+{{element.mediaTypeCategories.length - 3}}</mat-chip>
             </mat-chip-list>  
           </mat-cell>
         </ng-container>

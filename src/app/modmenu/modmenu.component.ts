@@ -23,6 +23,11 @@ export class ModmenuComponent implements OnInit {
   complete: boolean;
   pageMode: String;
   lang:any;
+
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
   languageId: any;
   moduleId: any;
   
@@ -51,6 +56,7 @@ export class ModmenuComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -58,6 +64,7 @@ export class ModmenuComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -66,6 +73,7 @@ export class ModmenuComponent implements OnInit {
   ngOnInit() {
 
     let refId = this.router.url.split('/')[2];
+    this.commonservice.getModuleId();
 
     this.moduleName = new FormControl()
     this.moduleDesc = new FormControl()

@@ -5,6 +5,8 @@ import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-gallerytbl',
@@ -29,6 +31,8 @@ export class GallerytblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
+  lang:any;
+  languageId: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,14 +49,38 @@ export class GallerytblComponent implements OnInit {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
   ) { 
-    this.getGalleryData(this.pageCount, this.galleryPageSize);
+    
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getGalleryData(this.pageCount, this.galleryPageSize);
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getGalleryData(this.pageCount, this.galleryPageSize);
+      this.commonservice.getModuleId();
+    }
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
     this.displayedColumns = ['no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryAction'];
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {
