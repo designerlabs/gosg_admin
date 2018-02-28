@@ -228,6 +228,12 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getModMenuLocal() {
+    return this.http.get(this.appConfig.urlModule+'/menu/localhost?language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   addModMenu(modmenu) {
 
     // console.log(this.appConfig.urlSlides)

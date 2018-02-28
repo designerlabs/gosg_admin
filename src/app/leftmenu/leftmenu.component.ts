@@ -86,12 +86,24 @@ export class LeftmenuComponent implements OnInit {
         
         }
       )
+    }else{
+      this.getMenuDataLocal();
     }
     
   }
 
   getMenuData() {
     this.commonservice.getModMenu().subscribe((data:any) => {
+      this.menulst = data;
+      debugger;
+      console.log(this.menulst)
+      // let myLangData =  getLang.filter(function(val) {
+      // }.bind(this));
+    })
+  }
+
+  getMenuDataLocal() {
+    this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       debugger;
       console.log(this.menulst)
