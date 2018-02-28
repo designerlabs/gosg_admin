@@ -9,6 +9,7 @@ import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '../../environments/environment';
+
 // import { Router } from '@angular/router/src/router';
 
 export class User {
