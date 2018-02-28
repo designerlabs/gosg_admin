@@ -42,6 +42,7 @@ export class Ng4FilesClickComponent implements OnInit, DoCheck {
   }
 
   ngOnInit() {
+    debugger;
     const config = this.ng4FilesService.getConfig(this.configId);
 
     this.maxFilesCount = config.maxFilesCount;
