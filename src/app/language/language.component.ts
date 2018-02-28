@@ -6,6 +6,8 @@ import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-language',
@@ -32,11 +34,36 @@ export class LanguageComponent implements OnInit {
 
   constructor(
     private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService, 
-    private router: Router,
-    private toastr: ToastrService
-  ) { }
+    private router: Router, 
+    private toastr: ToastrService,
+    private translate: TranslateService,
+    private dialogsService: DialogsService) {
+
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+              //this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
+      //this.getData();
+    }
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
     // this.isEdit = false;
@@ -62,6 +89,8 @@ export class LanguageComponent implements OnInit {
       this.pageMode = "Update";
       this.getRow(this.langCode);
     }
+
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {
@@ -79,21 +108,27 @@ export class LanguageComponent implements OnInit {
     // return this.http.get(this.appConfig.urlLanguage + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlLanguage + row + "/").subscribe(
       Rdata => {
+        this.commonservice.errorHandling(Rdata, (function(){
+          this.LanguageData = Rdata;
+          console.log(this.LanguageData)
+          console.log(this.appConfig.urlLanguage + "/" + code)
+          let langData = this.LanguageData['language'];
+          this.languageId = langData.languageId;
 
-        this.LanguageData = Rdata;
-        console.log(this.LanguageData)
-        console.log(this.appConfig.urlLanguage + "/" + code)
-        let langData = this.LanguageData['language'];
-        this.languageId = langData.languageId;
+        // populate data
+        this.languageForm.get('languageName').setValue(langData.languageName);
+        this.languageForm.get('languageDescription').setValue(langData.languageDescription);
+        this.languageForm.get('languageCode').setValue(langData.languageCode);
+        
+        this.checkReqValues();
 
-      // populate data
-      this.languageForm.get('languageName').setValue(langData.languageName);
-      this.languageForm.get('languageDescription').setValue(langData.languageDescription);
-      this.languageForm.get('languageCode').setValue(langData.languageCode);
-      
-      this.checkReqValues();
-    });
-    
+      }).bind(this)); 
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
+    });    
   }
 
   // isChecked(e) {
@@ -125,8 +160,6 @@ export class LanguageComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
-
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -148,25 +181,22 @@ export class LanguageComponent implements OnInit {
   }
 
   deleteRow(langCode) {
-    let txt;
-    let r = confirm("Are you sure to delete " + langCode + "?");
-    if (r == true) {
+   
+    this.commonservice.delLanguage(langCode).subscribe(
+      data => {
 
-      this.commonservice.delLanguage(langCode).subscribe(
-        data => {
-          txt = "Language deleted successfully!";
-          // this.router.navigate(['Language']);
-          window.location.reload()
-        },
-        error => {
-          console.log("No Data")
-        });
+        this.commonservice.errorHandling(data, (function(){
 
-      // this.languageForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      alert(txt)
-    }
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');     
+          this.getRow()
+          //window.location.reload()
+      }).bind(this)); 
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
+    });
   }
   
   updateLanguage(formValues: any) {
@@ -192,11 +222,16 @@ export class LanguageComponent implements OnInit {
     // Add Language Service
     this.commonservice.addLanguage(body).subscribe(
       data => {
-        this.toastr.success('Language added successfully!', ''); 
-        this.router.navigate(['language']);
-      },
-      error => {
-        console.log("No Data")
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), '');
+          this.router.navigate(['language']);
+      }).bind(this));   
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
       });
 
     } else {
@@ -218,15 +253,16 @@ export class LanguageComponent implements OnInit {
     // Update Language Service
     this.commonservice.updateLanguage(body).subscribe(
       data => {
-        this.toastr.success('Language update successful!', '');   
-        this.router.navigate(['language']);
-      },
-      error => {
-        console.log("No Data")
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), '');
+          this.router.navigate(['language']);
+      }).bind(this));   
+    },
+    error => {
+
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
       });
-    }
-    
-
+    }   
   }
-
 }
