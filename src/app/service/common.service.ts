@@ -281,7 +281,7 @@ export class CommonService {
   }
 
   updateModuleList(data){
-    return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
+    return this.http.put(this.appConfig.urlModule+'/update?language='+this.languageId, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -289,6 +289,13 @@ export class CommonService {
 
   addModuleGroup(data){
     return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+
+  deleteModuleGroup(id){
+    return this.http.delete(this.appConfig.urlModuleGroupList+'/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

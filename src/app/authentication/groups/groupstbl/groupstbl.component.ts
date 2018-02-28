@@ -131,7 +131,7 @@ export class GroupstblComponent implements OnInit {
 
   
   deleteMail(msgId){
-    this.commonservice.deleteModuleList(msgId).subscribe(
+    this.commonservice.deleteModuleGroup(msgId).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
