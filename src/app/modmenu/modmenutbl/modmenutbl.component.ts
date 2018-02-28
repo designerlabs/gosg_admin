@@ -64,6 +64,7 @@ export class ModmenutblComponent implements OnInit {
                 this.lang = val.languageCode;
                 this.languageId = val.languageId;
                 this.getModuleData(this.pageCount, this.modulePageSize);
+                this.commonservice.getModuleId();
               }
             }.bind(this));
           })
@@ -72,12 +73,14 @@ export class ModmenutblComponent implements OnInit {
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
         this.getModuleData(this.pageCount, this.modulePageSize);
+        this.commonservice.getModuleId();
       }
   
       /* LANGUAGE FUNC */ }
 
   ngOnInit() {
     this.displayedColumns = ['no','moduleName', 'moduleDesc', 'moduleUrl', 'moduleActiveStatus', 'moduleAction'];
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

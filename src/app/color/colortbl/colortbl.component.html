@@ -7,11 +7,17 @@
     
     <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
-            <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+            <button type="button" mat-fab color="warn" (click)="addBtn()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
             <i class="fa fa-plus font-size-l"></i></button>
         </span>
     </div> 
 </div>
+
+<div *ngIf="!commonservice.isRead" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+</div>
+
+<div *ngIf="commonservice.isRead">
 
   <div class="example-container mat-elevation-z8">
 
@@ -59,11 +65,11 @@
       <ng-container matColumnDef="colorAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab style="background: orange" (click)="updateRow(element.colorId)" title="Update {{ element.colorName }}">
+            <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.colorId)" title="Update {{ element.colorName }}">
               <i class="fa fa-edit" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" (click)="deleteRow.show()" title="Delete {{ element.colorName }}">
+            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.colorName }}">
               <i class="fa fa-trash"  title="Delete {{ element.colorName }}"></i>
             </button>
             <app-confirm-dialog  #deleteRow 
@@ -103,6 +109,7 @@
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </button>
     </span>
+  </div>
   </div>
 
 </div>

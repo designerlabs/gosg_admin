@@ -20,7 +20,7 @@
       </mat-form-field>
     </div> -->
 
-    <mat-table #table [dataSource]="dataSource">
+    <mat-table *ngIf="commonservice.isRead" #table [dataSource]="dataSource">
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
