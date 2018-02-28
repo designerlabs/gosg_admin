@@ -6,103 +6,109 @@
         
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
-                <button type="button" mat-fab color="warn" (click)="add()" >
+                <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
                 <i class="fa fa-plus font-size-l"></i></button>
             </span>
         </div> 
     </div>
 
-    <div class="example-container mat-elevation-z8">
-    
-        <!-- <div class="col-md-12 paddingTop-10">
-            <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-            </mat-form-field>
-        </div> -->
-
-        <mat-table #table [dataSource]="dataSource">           
-        
-            <!-- num Column -->
-            <ng-container matColumnDef="num">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
-                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-                </mat-cell>
-            </ng-container>
-        
-            <!-- Account Status en Column -->
-            <ng-container matColumnDef="accEng">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status (EN) </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[0].accountStatusDescription}} 
-                </mat-cell>
-            </ng-container>
-
-            <!-- Account Status bm Column -->
-            <ng-container matColumnDef="accMalay">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status (BM) </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[1].accountStatusDescription}}
-                </mat-cell>
-            </ng-container>
-        
-            <!-- status Column -->
-            <ng-container matColumnDef="status">
-                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
-                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                    <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
-                    <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
-                </mat-cell>
-            </ng-container>
-
-            <!-- action Column -->
-            <ng-container matColumnDef="action">
-                <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
-                <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                    <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
-                    <i class="fa fa-edit" title="Update {{ element.refCode }}"></i></button>
-                    &nbsp;
-                    <button mat-mini-fab style="background: red" (click)="deleteModal.show()">
-                    <i class="fa fa-trash"title="Delete {{ element.refCode}}"></i></button>
-                    <app-confirm-dialog  #deleteModal 
-                    [title]="'common.icon.warn'" 
-                    [content]="'common.msg.delete'"
-                    [state]="'bg_header bg_warn_header'"
-                    [isReset]="'true'"
-                    (resetMethod)="deleteRow(element.refCode)">
-                    </app-confirm-dialog>
-                </mat-cell>
-            </ng-container>
-        
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        
+    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
     </div>
 
-<div class="float-right paddingTop-15">
-    <mat-form-field style="width:50px; margin-top: -10px">
-        <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-        <mat-option value="5">5</mat-option>
-        <mat-option value="10">10</mat-option>
-        <mat-option value="25">25</mat-option>
-        <mat-option value="50">50</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <span class="float-right">
-        <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-            <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-            <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-            <strong>{{commonservice.recordTable?.totalElements}}</strong> account status
-        </span>
-        <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-        <i class="fa fa-angle-left" aria-hidden="true"></i>
-        </button>
-        <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-        </button>
-    </span>
-</div>
+    <div *ngIf="commonservice.isRead">
+        <div class="example-container mat-elevation-z8">
+        
+            <!-- <div class="col-md-12 paddingTop-10">
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+            </div> -->
+
+            <mat-table #table [dataSource]="dataSource">           
+            
+                <!-- num Column -->
+                <ng-container matColumnDef="num">
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
+                        {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                    </mat-cell>
+                </ng-container>
+            
+                <!-- Account Status en Column -->
+                <ng-container matColumnDef="accEng">
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status (EN) </mat-header-cell>
+                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                        {{element.list[0].accountStatusDescription}} 
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Account Status bm Column -->
+                <ng-container matColumnDef="accMalay">
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status (BM) </mat-header-cell>
+                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                        {{element.list[1].accountStatusDescription}}
+                    </mat-cell>
+                </ng-container>
+            
+                <!-- status Column -->
+                <ng-container matColumnDef="status">
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                        <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
+                        <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- action Column -->
+                <ng-container matColumnDef="action">
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                        <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
+                        <i class="fa fa-edit" title="Update {{ element.refCode }}"></i></button>
+                        &nbsp;
+                        <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
+                        <i class="fa fa-trash" title="Delete {{ element.refCode}}"></i></button>
+                        <app-confirm-dialog  #deleteModal 
+                        [title]="'common.icon.warn'" 
+                        [content]="'common.msg.delete'"
+                        [state]="'bg_header bg_warn_header'"
+                        [isReset]="'true'"
+                        (resetMethod)="deleteRow(element.refCode)">
+                        </app-confirm-dialog>
+                    </mat-cell>
+                </ng-container>
+            
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            
+        </div>
+
+        <div class="float-right paddingTop-15">
+            <mat-form-field style="width:50px; margin-top: -10px">
+                <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option value="5">5</mat-option>
+                <mat-option value="10">10</mat-option>
+                <mat-option value="25">25</mat-option>
+                <mat-option value="50">50</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <span class="float-right">
+                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> account status
+                </span>
+                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </button>
+                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </button>
+            </span>
+        </div>
+    </div>
 </div>
 
 <!-- <app-confirm-dialog  #resetModal 
