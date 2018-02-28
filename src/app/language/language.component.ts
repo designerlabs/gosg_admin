@@ -17,7 +17,6 @@ import { DialogsService } from './../dialogs/dialogs.service';
 export class LanguageComponent implements OnInit {
   
   LanguageData: Object;
-  dataUrl: any;
   date = new Date();
   languageForm: FormGroup
   isLocalAPI: boolean;
@@ -110,8 +109,6 @@ export class LanguageComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.LanguageData = Rdata;
-          console.log(this.LanguageData)
-          console.log(this.appConfig.urlLanguage + "/" + code)
           let langData = this.LanguageData['language'];
           this.languageId = langData.languageId;
 
