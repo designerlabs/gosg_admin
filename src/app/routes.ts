@@ -87,9 +87,9 @@ import { CalendartblComponent } from './calendar/calendartbl/calendartbl.compone
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
-{path: 'media/type', component: MediatypetblComponent},
-{path: 'media/type/add', component: MediatypeComponent},
-{path: 'media/type/:id', component: MediatypeComponent},
+{path: 'mediatype', component: MediatypetblComponent},
+{path: 'mediatype/add', component: MediatypeComponent},
+{path: 'mediatype/:id', component: MediatypeComponent},
 {path: 'media', component: MediafileuploadtblComponent},
 {path: 'media/add', component: MediafileuploadComponent},
 {path: 'media/:id', component: MediafileuploadComponent},

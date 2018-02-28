@@ -1,6 +1,7 @@
 <form class="example-form">
 
 	<div *ngIf='menulst'>
+		
 		<div *ngFor="let menu of menulst.moduleList" style="padding-bottom: 0px; border-bottom: 1px solid #e6e6e6;">
 			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[menu.moduleUrl] >{{menu.moduleName}}</a>
 		</div>
