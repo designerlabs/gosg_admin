@@ -627,7 +627,7 @@ export class AgencyComponent implements OnInit {
     body[1].agencyMinistry.ministryId = this.ministryIdBm;
 
     console.log(body);
-    // console.log(JSON.stringify(body));
+    console.log(JSON.stringify(body));
 
     // // Update Agency Service
     this.commonservice.updateAgency(body).subscribe(
