@@ -62,7 +62,6 @@ export class MediatypeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    debugger;
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
     this.catType = new FormControl();
@@ -74,6 +73,7 @@ export class MediatypeComponent implements OnInit {
     this.minheigth = new FormControl();
     this.maxheigth = new FormControl();
     this.active = new FormControl();
+    this
 
     this.mediaTypeForm = new FormGroup({
       catType: this.catType,
@@ -87,7 +87,7 @@ export class MediatypeComponent implements OnInit {
       maxheigth: this.maxheigth,
       active: this.active,
     });
-   
+ 
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
