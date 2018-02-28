@@ -1,15 +1,29 @@
 <h1>
-  Modules <mat-chip-list><mat-chip color="primary" selected="true">{{menulst?.moduleList?.length }}</mat-chip></mat-chip-list>
+  Modules <mat-chip-list *ngIf="menulst"><mat-chip color="primary" selected="true">{{menulst?.moduleList?.length }}</mat-chip></mat-chip-list>
+  <mat-chip-list *ngIf="menulist_non_admin"><mat-chip color="primary" selected="true">{{menulist_non_admin?.moduleList?.length }}</mat-chip></mat-chip-list>
 </h1>
 
-{{menulist_non_admin | json}}
 
-<div *ngFor="let menu of menulst?.moduleList">
+<div *ngIf="menulst">
+    <div *ngFor="let menu of menulst?.moduleList">
   
-  <a class="card" [routerLink]=" [ '/' + menu.moduleUrl ] ">
-      <div class="card-body">
-        <h5 class="card-title">{{menu.moduleName}}</h5>
-        <p class="card-text">{{menu.moduleDescription}}</p>
+        <a class="card" [routerLink]=" [ '/' + menu.moduleUrl ] ">
+            <div class="card-body">
+              <h5 class="card-title">{{menu.moduleName}}</h5>
+              <p class="card-text">{{menu.moduleDescription}}</p>
+            </div>
+          </a>
       </div>
-    </a>
+</div>
+
+<div *ngIf="menulist_non_admin">
+    <div *ngFor="let menu of menulist_non_admin?.moduleList">
+  
+        <a class="card" [routerLink]=" [ '/' + menu.moduleUrl ] ">
+            <div class="card-body">
+              <h5 class="card-title">{{menu.moduleName}}</h5>
+              <p class="card-text">{{menu.moduleDescription}}</p>
+            </div>
+          </a>
+      </div>
 </div>
