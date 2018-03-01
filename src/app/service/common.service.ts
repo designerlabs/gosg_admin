@@ -354,7 +354,7 @@ export class CommonService {
 
   getCategoryData() {
     console.log(this.appConfig.urlCategory);
-    return this.http.get(this.appConfig.urlCategory + '/code?page=1&size=100&language='+this.languageId)
+    return this.http.get(this.appConfig.urlCategory + '?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -1203,7 +1203,7 @@ getCategoryList1() {
   }
 
   getCategoryList(){
-    let fullUrl = this.appConfig.urlCategory + '?page=1&size=100&language=' + this.languageId;
+    let fullUrl = this.appConfig.urlCategory + '?language=' + this.languageId;
     return this.http.get(fullUrl, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);

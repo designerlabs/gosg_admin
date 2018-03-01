@@ -26,6 +26,8 @@ export class CategoryComponent implements OnInit {
   public parentsEn: FormControl;
   public parentsBm: FormControl;
   public ismainmenu: FormControl;
+  public imageEn: FormControl;
+  public imageBm: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
@@ -41,6 +43,9 @@ export class CategoryComponent implements OnInit {
   public languageId: any;
   public treeEn: any;
   public treeBm: any;
+  public imageData: any;
+  public getImgEn: any;
+  public getImgdBm: any;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -60,7 +65,7 @@ export class CategoryComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
-              //this.getUsersData(this.pageCount, this.pageSize);
+              //this.getData();
             }
           }.bind(this));
         })
@@ -83,6 +88,8 @@ export class CategoryComponent implements OnInit {
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
     this.ismainmenu = new FormControl();
+    this.imageEn = new FormControl();
+    this.imageBm = new FormControl();
 
     this.updateForm = new FormGroup({   
 
@@ -92,10 +99,14 @@ export class CategoryComponent implements OnInit {
       descBm: this.descBm,
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
-      ismainmenu: this.ismainmenu   
+      ismainmenu: this.ismainmenu,
+      imageEn: this.imageEn,
+      imageBm: this.imageBm
+      
     });
 
     this.getCategory();
+    this.getImageList();
 
     let urlEdit = this.router.url.split('/')[2];
     
@@ -124,8 +135,10 @@ export class CategoryComponent implements OnInit {
 
     console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
 
+    // if english
     if(val == 1){
 
+      //get the refcode
       for(let i=0; i<dataListEn.length; i++){
         indexVal = dataListEn[i].id;
         if(indexVal == this.getCatIdEn){
@@ -133,6 +146,7 @@ export class CategoryComponent implements OnInit {
         }        
       }
 
+      //comprare refcode to get id for bm
       for(let i=0; i<dataListBm.length; i++){
         if(refCodeVal ==  dataListBm[i].refCode){
           idBm = dataListBm[i].id;
@@ -141,7 +155,8 @@ export class CategoryComponent implements OnInit {
 
       this.updateForm.get('parentsBm').setValue(idBm);  
     }
-    else{
+
+    else{ //if malay
 
       for(let i=0; i<dataListBm.length; i++){
         indexVal = dataListBm[i].id;
@@ -157,6 +172,46 @@ export class CategoryComponent implements OnInit {
       }
 
       this.updateForm.get('parentsEn').setValue(idEn); 
+    }
+  }
+
+  selectedImage(e, val){
+
+    console.log(e);
+    this.imageEn = e.value;
+    this.imageBm = e.value;
+   
+    let indexVal: any;
+    let idBm: any;
+    let idEn: any;
+   
+
+    console.log("EN: "+this.imageEn+" BM: "+this.imageBm+ " value: " +val);
+
+    // if english
+    if(val == 1){
+
+    
+      for(let i=0; i<this.imageData.length; i++){
+        indexVal = this.imageData[i].list[0].mediaId;
+        if(indexVal == this.imageEn){
+          idBm = this.imageData[i].list[1].mediaId;
+        }            
+      }   
+
+      this.updateForm.get('imageBm').setValue(idBm);  
+    }
+
+    else{ //if malay
+
+      for(let i=0; i<this.imageData.length; i++){
+        indexVal = this.imageData[i].list[1].mediaId;
+        if(indexVal == this.imageBm){
+          idBm = this.imageData[i].list[0].mediaId;
+        }        
+      }
+
+      this.updateForm.get('imageEn').setValue(idEn); 
     }
   }
 
@@ -194,6 +249,7 @@ export class CategoryComponent implements OnInit {
           this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
           console.log(arrCatEn);
           console.log(JSON.stringify(this.treeEn));
+          console.log(JSON.stringify(this.treeBm));
           
         }).bind(this));
       },
@@ -264,7 +320,7 @@ export class CategoryComponent implements OnInit {
         this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);    
         this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId); 
       
-        //this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
+        this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -280,9 +336,39 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  getImageList(){
+
+    return this.commonservice.getImageList()
+     .subscribe(resCatData => {
+
+      this.commonservice.errorHandling(resCatData, (function(){
+
+        this.imageData = resCatData.list;       
+        console.log(this.imageData);
+
+      }).bind(this));
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
+    });
+  }
+
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[2];
     let txt = "";
+    let parentValEn: any;
+    let parentValBm: any;
+
+    if(formValues.parentsEn == null){
+      parentValEn = -1;
+      parentValBm = -2;
+    }
+
+    else {
+      parentValEn = formValues.parentsEn;
+      parentValBm = formValues.parentsBm;
+    }
 
     // add form
     if(urlEdit === 'add'){
@@ -293,6 +379,8 @@ export class CategoryComponent implements OnInit {
           "categoryName": null,
           "categoryDescription":null,
           "parentId":null,
+          "isMainMenu": false,
+          "image": false,
           "language": {
               "languageId": 1
           }
@@ -300,18 +388,25 @@ export class CategoryComponent implements OnInit {
           "categoryName": null,
           "categoryDescription":null,
           "parentId":null,
+          "isMainMenu": false,
+          "image": false,
           "language": {
               "languageId": 2
           }
         }
-      ]    
+      ]         
 
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
-      body[0].parentId = formValues.parentsEn;
+      body[0].parentId = parentValEn;
+      body[0].isMainMenu = formValues.ismainmenu;
+      body[0].image = formValues.imageEn;
+
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
-      body[1].parentId = formValues.parentsBm;
+      body[1].parentId = parentValBm;
+      body[1].isMainMenu = formValues.ismainmenu;
+      body[1].image = formValues.imageBm;
 
       console.log("TEST")
       console.log(JSON.stringify(body))
@@ -319,17 +414,12 @@ export class CategoryComponent implements OnInit {
       this.commonservice.addCategory(body).subscribe(
         data => {         
           
-          let errMsg = data.statusCode.toLowerCase();
+          this.commonservice.errorHandling(data, (function(){
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['category']);
-          }  
+
+          }).bind(this));   
         },
         error => {
 
@@ -342,28 +432,44 @@ export class CategoryComponent implements OnInit {
     else{
       let body = [
         {
-          "accountStatusId":this.getIdEn,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefCode,
+        
+          "categoryId": null,
+          "categoryCode": null,
+          "refCode": null,
+          "categoryName": null,
+          "categoryDescription":null,
+          "parentId":null,
+          "isMainMenu": false,
+          "images": false,
           "language": {
               "languageId": 1
           }
         },{
-          "accountStatusId":this.getIdBm,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefCode,
+          "categoryId": null,
+          "categoryCode": null,
+          "refCode": null,
+          "categoryName": null,
+          "categoryDescription":null,
+          "parentId":null,
+          "isMainMenu": false,
+          "images": false,
           "language": {
               "languageId": 2
           }
         }
-      ]        
+      ]    
 
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
+      body[0].categoryName = formValues.titleEn;
+      body[0].categoryDescription = formValues.descEn;
+      body[0].parentId = formValues.parentsEn;
+      body[0].isMainMenu = formValues.ismainmenu;
+      body[0].images = formValues.imageEn;
+
+      body[1].categoryName = formValues.titleBm;
+      body[1].categoryDescription = formValues.descBm;
+      body[1].parentId = formValues.parentsBm;
+      body[1].isMainMenu = formValues.ismainmenu;
+      body[1].images = formValues.imageBm;
       
 
       console.log("UPDATE: ");

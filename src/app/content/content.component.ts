@@ -150,21 +150,85 @@ export class ContentComponent implements OnInit {
 
   getCategory(){
 
-    let txt = "";
-
-    return this.commonservice.getFooterCategoryList()
+    return this.commonservice.getCategoryList()
      .subscribe(data => {
+  
+      console.log("GET CATEGORY: ");
+      console.log(data);
         
-        this.categoryData = data;   
-        console.log(this.categoryData);         
+      this.commonservice.errorHandling(data, (function(){
+
+          this.categoryData = data["list"];   
+          console.log(this.categoryData);    
+          let arrCatEn = [];          
+          let parentEn;
+          let arrCatBm = [];          
+          let parentBm;
+
+          for(let i=0; i<this.categoryData.length; i++){        
+         
+            arrCatEn.push({id:this.categoryData[i].list[0].categoryId,
+                         refCode: this.categoryData[i].refCode,
+                         parent: this.categoryData[i].list[0].parentId,
+                         categoryName: this.categoryData[i].list[0].categoryName});      
+                         
+            arrCatBm.push({id:this.categoryData[i].list[1].categoryId,
+                          refCode: this.categoryData[i].refCode,
+                          parent: this.categoryData[i].list[1].parentId,
+                          categoryName: this.categoryData[i].list[1].categoryName}); 
+          }
+          
+          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
+          console.log(arrCatEn);
+          console.log(JSON.stringify(this.treeEn));
+          console.log(JSON.stringify(this.treeBm));
+          
+        }).bind(this));
       },
+      error => {
 
-      Error => {
-
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
-        console.log(Error);
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
     });
+  }
+
+  getNestedChildrenEn(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+    
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenEn(arr, arr[i].id)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }
+      
+    }    
+    return out  
+  }
+
+  getNestedChildrenBm(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+    
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenBm(arr, arr[i].id)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }
+      
+    }    
+    return out  
   }
 
   getData() {
