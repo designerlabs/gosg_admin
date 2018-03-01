@@ -4,7 +4,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ErrorComponent } from './error/error.component';
 import { AppComponent } from './app.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
-import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
@@ -82,16 +81,13 @@ import { FonttblComponent } from './font/fonttbl/fonttbl.component';
 import { FontComponent } from './font/font.component';
 import { ColortblComponent } from './color/colortbl/colortbl.component';
 import { ColorComponent } from './color/color.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { CalendartblComponent } from './calendar/calendartbl/calendartbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
-{path: 'addtemplate', component: AddtemplateComponent},
-{path: 'media/type', component: MediatypetblComponent},
-{path: 'media/type/add', component: MediatypeComponent},
-{path: 'media/type/:id', component: MediatypeComponent},
+{path: 'mediatype', component: MediatypetblComponent},
+{path: 'mediatype/add', component: MediatypeComponent},
+{path: 'mediatype/:id', component: MediatypeComponent},
 {path: 'media', component: MediafileuploadtblComponent},
 {path: 'media/add', component: MediafileuploadComponent},
 {path: 'media/:id', component: MediafileuploadComponent},
@@ -113,9 +109,6 @@ export const appRoutes: Routes = [
 {path: 'errormessage/add', component: ErrormessageComponent},
 {path: 'errormessage/:id', component: ErrormessageComponent},
 {path: 'errormessage', component: ErrormessagetblComponent},
-{path: 'calendar/add', component: CalendarComponent},
-{path: 'calendar/:id', component: CalendarComponent},
-{path: 'calendar', component: CalendartblComponent},
 {path: 'language/add', component: LanguageComponent},
 {path: 'language/:id', component: LanguageComponent},
 {path: 'language', component: LanguagetblComponent},

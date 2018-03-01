@@ -240,7 +240,7 @@ export class CommonService {
     // console.log(ministry)
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.post(this.appConfig.urlModule + '/menu?language='+this.languageId, modmenu)
+    return this.http.post(this.appConfig.urlModule + '?language='+this.languageId, modmenu)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -289,6 +289,13 @@ export class CommonService {
 
   addModuleGroup(data){
     return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+
+  deleteModuleGroup(id){
+    return this.http.delete(this.appConfig.urlModuleGroupList+'/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -719,7 +726,7 @@ getCategoryList1() {
   // LANGUAGE
   getAllLanguage() {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlLanguage + '/all')
+    return this.http.get(this.appConfig.urlGetLanguage + '/all')
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

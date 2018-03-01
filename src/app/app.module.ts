@@ -16,8 +16,6 @@ import { LeftmenuComponent } from './leftmenu/leftmenu.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
-// import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { AddtemplateComponent } from './addtemplate/addtemplate.component';
 import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
@@ -107,8 +105,6 @@ import { ColorComponent } from './color/color.component';
 import { ColortblComponent } from './color/colortbl/colortbl.component';
 import { FontComponent } from './font/font.component';
 import { FonttblComponent } from './font/fonttbl/fonttbl.component';
-import { CalendarComponent } from './calendar/calendar.component';
-import { CalendartblComponent } from './calendar/calendartbl/calendartbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -120,7 +116,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LeftmenuComponent,
     RightcontentComponent,
     ErrorComponent,
-    AddtemplateComponent,
     ArticletblComponent,
     UserComponent,
     UsertblComponent,
@@ -198,8 +193,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     ColortblComponent,
     FontComponent,
     FonttblComponent,
-    CalendarComponent,
-    CalendartblComponent,
   ],
   imports: [
     BrowserModule,

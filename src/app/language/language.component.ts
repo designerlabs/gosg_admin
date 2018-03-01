@@ -17,7 +17,6 @@ import { DialogsService } from './../dialogs/dialogs.service';
 export class LanguageComponent implements OnInit {
   
   LanguageData: Object;
-  dataUrl: any;
   date = new Date();
   languageForm: FormGroup
   isLocalAPI: boolean;
@@ -104,14 +103,12 @@ export class LanguageComponent implements OnInit {
   getRow(code) {
 
     // Update Language Service
-    return this.http.get(this.appConfig.urlLanguage + '/' + code).subscribe(
+    return this.http.get(this.appConfig.urlGetLanguage + '/' + code + '?language='+this.languageId).subscribe(
     // return this.http.get(this.appConfig.urlLanguage + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlLanguage + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.LanguageData = Rdata;
-          console.log(this.LanguageData)
-          console.log(this.appConfig.urlLanguage + "/" + code)
           let langData = this.LanguageData['language'];
           this.languageId = langData.languageId;
 
@@ -169,35 +166,10 @@ export class LanguageComponent implements OnInit {
   }
 
   myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
       this.languageForm.reset();
       this.checkReqValues();
-    } else {
-      txt = "You pressed Cancel!";
-    }
   }
-
-  deleteRow(langCode) {
-   
-    this.commonservice.delLanguage(langCode).subscribe(
-      data => {
-
-        this.commonservice.errorHandling(data, (function(){
-
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');     
-          this.getRow()
-      }).bind(this)); 
-    },
-    error => {
-
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
-    });
-  }
-  
+ 
   updateLanguage(formValues: any) {
     
     if(!this.isEdit) {

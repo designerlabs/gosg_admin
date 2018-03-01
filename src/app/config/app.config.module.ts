@@ -66,6 +66,7 @@ export class AppConfig {
     urlAddressTypeGet: string;
     urlAccountStatus: string;
     urlLanguage: string;
+    urlGetLanguage: string;
     urlAdminUserList:string;
     urlFeedbackType: string;
     urlFeedbackSubject: string;
@@ -119,6 +120,7 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',  
     urlLanguage: commonURL + 'language',  
+    urlGetLanguage: serviceURL + 'language',  
     urlErrorMsg: commonURL + 'errormessage',
     urlModule: commonURL + 'authorization/module',
     urlModuleRef: commonURL + 'authorization/module/url',

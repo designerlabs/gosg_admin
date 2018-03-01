@@ -63,6 +63,7 @@ export class CategorytblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -71,6 +72,7 @@ export class CategorytblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
   }
@@ -78,6 +80,7 @@ export class CategorytblComponent implements OnInit {
   ngOnInit() {
 
     this.getRecordList(this.pageCount, this.pageSize);
+    this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {

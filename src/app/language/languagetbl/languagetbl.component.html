@@ -63,9 +63,16 @@
                   <i class="fa fa-edit" ></i>
                 </button>
                 &nbsp;
-                <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow(element.languageId)" title="Delete {{ element.languageName }}">
+                <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()" title="Delete {{ element.languageName }}">
                   <i class="fa fa-trash"  title="Delete {{ element.languageName }}"></i>
                 </button>
+                <app-confirm-dialog  #deleteModal 
+                [title]="'common.icon.warn'" 
+                [content]="'common.msg.delete'"
+                [state]="'bg_header bg_warn_header'"
+                [isReset]="'true'"
+                (resetMethod)="deleteRow(element.languageId)">
+                </app-confirm-dialog>
             </mat-cell>
           </ng-container>
 

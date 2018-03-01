@@ -141,7 +141,7 @@ export class PollquestionComponent implements OnInit {
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
-      // this.commonservice.errorHandling(data, (function(){
+      this.commonservice.errorHandling(data, (function(){
         console.log(data);
         this.recordList = data;
 
@@ -164,7 +164,7 @@ export class PollquestionComponent implements OnInit {
         this.getRefId = this.recordList.pollQuestionListDto[0].pollReference;
 
         this.checkReqValues();
-      //}).bind(this));  
+      }).bind(this));  
 
     },
     error => {
