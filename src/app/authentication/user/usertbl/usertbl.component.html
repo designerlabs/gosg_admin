@@ -74,12 +74,12 @@
         </div>
       </form>
   </div>
-  <div class="col-md-2 curdHeadingRight">
+  <div class="col-md-2 curdHeadingRight" *ngIf="commonservice.isWrite">
       <span class="pull-right">
-          <button *ngIf="commonservice.isWrite" *ngIf="addUserBtn" type="button" mat-fab color="warn" (click)="addUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
+          <button *ngIf="addUserBtn" type="button" mat-fab color="warn" (click)="addUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
           <i class="fa fa-plus font-size-l"></i></button>
 
-          <button *ngIf="commonservice.isWrite" *ngIf="closeUserBtn" type="button" mat-fab color="default" (click)="closeUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
+          <button *ngIf="closeUserBtn" type="button" mat-fab color="default" (click)="closeUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
               <i class="fa fa-times font-size-l"></i></button>
       </span>
   </div> 
