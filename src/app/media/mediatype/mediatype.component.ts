@@ -90,7 +90,7 @@ export class MediatypeComponent implements OnInit {
   ngOnInit() {
     debugger;
     this.commonservice.getModuleId();
-    let refCode = this.router.url.split('/')[3];
+    let refCode = this.router.url.split('/')[2];
     this.mediatype = new FormControl();
     this.catType = new FormControl();
     this.filetype = new FormControl();
@@ -101,8 +101,7 @@ export class MediatypeComponent implements OnInit {
     this.minheigth = new FormControl();
     this.maxheigth = new FormControl();
     this.active = new FormControl();
-    this
-
+    
     this.mediaTypeForm = new FormGroup({
       catType: this.catType,
       mediatype: this.mediatype,
@@ -131,7 +130,7 @@ export class MediatypeComponent implements OnInit {
 
 
   back() {
-    this.router.navigate(['media/type']);
+    this.router.navigate(['mediatype']);
   }
 
   loadMedia() {
@@ -353,7 +352,7 @@ export class MediatypeComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
-            this.router.navigate(['media/type']);
+            this.router.navigate(['mediatype']);
           }).bind(this));
         },
         error => {
@@ -406,7 +405,7 @@ export class MediatypeComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
-            this.router.navigate(['media/type']);
+            this.router.navigate(['mediatype']);
           }).bind(this));
         },
         error => {

@@ -74,12 +74,12 @@ export class MediatypetblComponent implements OnInit {
   }
 
   add(){    
-      this.router.navigate(['media/type' , 'add']);
+      this.router.navigate(['mediatype' , 'add']);
   }
 
   editGroup(mtId) {
     console.log(mtId);
-    this.router.navigate(['media/type', mtId]);
+    this.router.navigate(['mediatype', mtId]);
   }
 
   deleteRow(id) {
