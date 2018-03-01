@@ -29,8 +29,8 @@
                     <mat-form-field class="example-full-width">
                         <mat-select formControlName="catEn" placeholder="Category" tabindex="1" 
                         required (change)="selectedCat($event,1)">
-                            <mat-option *ngFor="let category of categoryData" 
-                            [value]="category?.list[0].id">{{ category?.list[0].name }}</mat-option>
+                            <mat-option *ngFor="let category of treeEn" 
+                            [value]="category?.id">{{ category?.categoryName }}</mat-option>
                         </mat-select> 
                         <mat-error *ngIf="updateForm.controls.catEn.hasError('required')">
                             Category is required
@@ -42,8 +42,8 @@
                     <mat-form-field class="example-full-width">
                         <mat-select formControlName="catBm" placeholder="Kategori" tabindex="2" 
                         required (change)="selectedCat($event,2)">
-                            <mat-option *ngFor="let category of categoryData" 
-                            [value]="category?.list[1].id">{{ category?.list[1].name }}</mat-option>
+                        <mat-option *ngFor="let category of treeBm" 
+                        [value]="category?.id">{{ category?.categoryName }}</mat-option>
                         </mat-select>
                         <mat-error *ngIf="updateForm.controls.catBm.hasError('required')">
                             Kategori diperlukan
@@ -96,32 +96,6 @@
                     </mat-form-field>
                 </div>
             </div> 
-
-            <div class="example-header">
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                        <mat-select formControlName="imgEn" placeholder="Image" tabindex="5" (change)="selectedCat($event,1)">
-                            <mat-option *ngFor="let category of categoryData" 
-                            [value]="category?.list[0].id">{{ category?.list[0].name }}</mat-option>
-                            <!-- <mat-option [value]="1">All</mat-option>
-                            <mat-option [value]="2">Email</mat-option>
-                            <mat-option [value]="3">Keyword</mat-option>-->
-                        </mat-select> 
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                        <mat-select formControlName="imgBm" placeholder="Imej" tabindex="6" (change)="selectedCat($event,2)">
-                            <mat-option *ngFor="let category of categoryData" 
-                            [value]="category?.list[1].id">{{ category?.list[1].name }}</mat-option>
-                            <!-- <mat-option [value]="1">All</mat-option>
-                            <mat-option [value]="2">Email</mat-option>
-                            <mat-option [value]="3">Keyword</mat-option> -->
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
 
             <div class="example-header">
                 <div class="col-md-12">
