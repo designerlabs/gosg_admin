@@ -76,7 +76,7 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width">
-                        <mat-select formControlName="parentsEn" placeholder="Parent" tabindex="5" >
+                        <mat-select formControlName="parentsEn" placeholder="Parent" tabindex="5" (change)="selectedCat($event,1)">
                             <mat-option *ngFor="let category of treeEn" 
                             [value]="category?.id">{{ category?.categoryName }}</mat-option>
                     
@@ -95,8 +95,31 @@
             </div>
 
             <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-select formControlName="imageEn" placeholder="Select Image" tabindex="7" (change)="selectedImage($event,1)">
+                            <mat-option [value]=null>Select Image</mat-option>
+                            <mat-option *ngFor="let img of imageData" 
+                            [value]="img.list[0].mediaId">{{ img.list[0].mediaFile }}</mat-option>
+                    
+                        </mat-select> 
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width">
+                        <mat-select formControlName="imageBm" placeholder="Pilih Gambar" tabindex="8" (change)="selectedImage($event,2)">
+                            <mat-option [value]=null>Pilih Gambar</mat-option>
+                            <mat-option *ngFor="let img of imageData" 
+                            [value]="img.list[1].mediaId">{{ img.list[1].mediaFile }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width" formControlName="ismainmenu" tabindex="7">is Main Menu</mat-checkbox>
+                    <mat-checkbox class="example-full-width" formControlName="ismainmenu" tabindex="9">is Main Menu</mat-checkbox>
                 </div>
             </div>          
         

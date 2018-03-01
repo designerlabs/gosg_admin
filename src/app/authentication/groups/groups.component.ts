@@ -31,7 +31,7 @@ export class GroupsComponent implements OnInit {
   groupmodulename: FormControl;
   active: FormControl;
   groupmoduledesc: FormControl;
-  
+  public languageId: any;
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
     private commonservice:CommonService,
@@ -41,6 +41,29 @@ export class GroupsComponent implements OnInit {
     private translate: TranslateService,
     private route:ActivatedRoute
   ) {
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.getAllLanguage().subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+              //this.getUsersData(this.pageCount, this.pageSize);
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.commonservice.getModuleId();
+      //this.getData();
+    }
+    /* LANGUAGE FUNC */
+
     this.elementRef = elementRef;
     
   }
@@ -50,6 +73,7 @@ export class GroupsComponent implements OnInit {
 
   
   ngOnInit() {
+    this.commonservice.getModuleId();
     this.isUpdate = false;
     this.route.snapshot.params.id;
     this.groupmodulename = new FormControl()

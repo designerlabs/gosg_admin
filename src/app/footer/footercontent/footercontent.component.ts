@@ -1,22 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-footercontent',
-//   templateUrl: './footercontent.component.html',
-//   styleUrls: ['./footercontent.component.css']
-// })
-// export class FootercontentComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -189,9 +170,7 @@ export class FootercontentComponent implements OnInit {
       seqMy: this.seqMy,
 
       active: this.active,
-      copyImg: this.copyImg,
-
-      
+      copyImg: this.copyImg,    
 
       
     });     
