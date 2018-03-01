@@ -87,7 +87,6 @@ export class MediafileuploadtblComponent implements OnInit {
 
   
   paginatorL(page) {
-    debugger;
     this.getMediaList(page - 2, this.PageSize);
     this.noPrevData = page <= 0 ? true : false;
     this.noNextData = false;

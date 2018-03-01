@@ -88,7 +88,7 @@ export class MediatypeComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+    // debugger;
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[2];
     this.mediatype = new FormControl();
