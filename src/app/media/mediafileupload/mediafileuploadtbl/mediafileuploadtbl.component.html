@@ -16,6 +16,11 @@
     {{'common.msg.unauthorized' | translate}}
   </div>
   <div *ngIf="commonservice.isRead">
+    <!-- <div class="row">
+      <div class="col-md-6">
+          <input matInput placeholder="Search By Category" (change)="searchByCate($event)">
+      </div>
+    </div> -->
     <div class="example-container mat-elevation-z8">
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
@@ -57,7 +62,7 @@
               <i class="fa fa-edit"></i>
             </button>&nbsp;
             <!-- Delete option not required for Media Type -->
-            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow(element.list[0].mediaId)">
+            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow(element.refCode)">
               <i class="fa fa-trash" title="Delete {{ element.refCode }}"></i>
             </button>
           </mat-cell>

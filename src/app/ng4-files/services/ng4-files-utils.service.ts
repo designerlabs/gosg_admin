@@ -19,7 +19,7 @@ export class Ng4FilesUtilsService {
 
     public verifyFiles(files: FileList, configId = 'shared'): Ng4FilesSelected {
         const filesArray = Array.from(files);
-
+// debugger;
         const config = this.ng4FilesService.getConfig(configId);
         const maxFilesCount = config.maxFilesCount;
         const totalFilesSize = config.totalFilesSize;
