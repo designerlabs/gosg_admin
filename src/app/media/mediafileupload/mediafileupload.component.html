@@ -108,15 +108,21 @@
         <div class="col-md-6">
           <ng4-files-click (filesSelect)="filesSelectEn($event)">
             <!-- <span>Upload a File here</span> -->
-            <span role="button" class="btn">File Upload</span>
+            <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> File Upload</span>
           </ng4-files-click>
+          <div *ngIf="selectedFilesEn">
+            <img [src]="appConfig.externalMediaURL+'/'+selectedFilesEn" style="width:200px">
+        </div>
           
         </div>
         <div class="col-md-6">
             <ng4-files-click (filesSelect)="filesSelectMy($event)">
               <!-- <span>Upload a File here</span> -->
-              <span role="button" class="btn">File Upload</span>
+              <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> File Upload</span>
             </ng4-files-click>
+            <div *ngIf="selectedFilesMy">
+                <img [src]="appConfig.externalMediaURL+'/'+selectedFilesMy" style="width:200px">
+            </div>
           </div>
       </div>
       <div class="row">

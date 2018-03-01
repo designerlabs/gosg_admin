@@ -26,7 +26,21 @@
 
 }
 
-.card:hover{
+
+.card_non_admin{
+  display: block;
+  float: left;
+  margin: 5px;
+  padding: 0px 10px;
+  border: 1px solid #ccc;
+  width: 260px;
+  height: 120px;
+  text-decoration: none;
+  padding-bottom: 10px;
+  overflow: auto;
+}
+
+.card:hover, .card_non_admin:hover{
   background: #d0d0d0;
   color: #000;
   text-decoration: none;
@@ -45,4 +59,32 @@
   display: inline !important;
   top: -5px !important;
   position: relative !important;
+}
+
+
+.permission_container {
+  display: inline-block;
+  padding-left: 10px;
+  float: right;
+}
+
+.permission_container span{
+  margin: -1px;
+  padding: 1px 4px;
+  width: 15px;
+  font-size: 10px;
+  height: 15px;
+  display: inline-block;
+  border-radius: 20px;
+}
+
+.inActiveState{
+  background:#ccc;
+  color: #000;
+}
+
+
+.activeState{
+  background:rgb(27, 179, 77);
+  color: #fff;
 }

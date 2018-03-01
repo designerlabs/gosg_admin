@@ -25,7 +25,7 @@
         <div class="col-md-6" [hidden]="isEdit">
           <mat-form-field class="example-full-width font-size-s paddingTop-10">
             <mat-select placeholder="Media Type" formControlName="mediatype" (change)="selMediaType($event)" required>
-              <mat-option *ngFor="let obj of objMediaType" [value]="obj">{{obj}}</mat-option>
+              <mat-option *ngFor="let obj of objMediaType" [value]="obj.mediaTypeId">{{obj.mediaTypeName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="mediaTypeForm.get('mediatype').hasError('required')">
               Media Type is required
@@ -33,7 +33,7 @@
           </mat-form-field>
         </div>
         <div class="col-md-6" [hidden]="!isEdit" style="padding:20px;">
-          <label class="font-size-m" for="mediatype"> {{mediaTypeForm.controls.mediatype.value}} </label>
+          <label class="font-size-m" for="mediatype"> {{displaymediaTypeName}} </label>
           <!-- <label class="font-size-m" for="mediatype" *ngIf="isEdit" formControlName="mediatype" value=""> </label> -->
         </div>
         <div class="col-md-6">
@@ -70,7 +70,7 @@
       <!-- Common controls -->
       <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value">
         <div class="col-md-3 paddingTop-10">
-          <label class="font-size-m" for="mediatype"> {{mediaTypeForm.controls.mediatype.value}} </label>
+          <label class="font-size-m" for="mediatype"> {{displaymediaTypeName}} </label>
         </div>
       </div>
       <div class="row" *ngIf="mediaTypeForm.controls.mediatype.value">
