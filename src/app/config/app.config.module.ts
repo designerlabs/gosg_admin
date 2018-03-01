@@ -154,7 +154,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
     urlGenderList : serviceURL + 'gender/all',
-    externalMediaURL: "http://10.1.71.168/media/Images",
+    externalMediaURL: "http://10.1.71.168/media",
     urlUserTypeList: commonURL + 'usertype',
     urlUserTypeDelete: commonURL + 'usertype/',
 

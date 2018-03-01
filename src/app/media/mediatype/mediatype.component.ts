@@ -88,7 +88,7 @@ export class MediatypeComponent implements OnInit {
   }
 
   ngOnInit() {
-    debugger;
+    // debugger;
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[2];
     this.mediatype = new FormControl();
@@ -304,51 +304,73 @@ export class MediatypeComponent implements OnInit {
   // updateMediaType
   updateMediaType(formValues: any) {
     if (this.isEdit) {
-      let body = [
-        {
-          "mediaTypeId": null,  
-          "mediaTypeName": null,
-          "supportedFileExtensions": null,        
-          "mediaTypeCategories": [{
-            "mediaTypeCategoryId": null,
-            "category": {
-              "categoryId": null,
-              "categoryName": ""
-            },
-            "minH": "",
-            "minW": "",
-            "maxH": "",
-            "maxW": "",
-            "fileThresholdSize": "",
-            "fileThresholdSizeUnits": "",
-            "fileExtensions": "",
-          }],
-          "enabled": true
-        }
-      ];
+      // let body = [
+      //   {
+                  
+      //     "mediaTypeCategories": [{
+      //       "mediaTypeCategoryId": null,
+      //       "category": {
+      //         "categoryId": null,
+      //         "categoryName": ""
+      //       },
+      //       "minH": "",
+      //       "minW": "",
+      //       "maxH": "",
+      //       "maxW": "",
+      //       "fileThresholdSize": "",
+      //       "fileThresholdSizeUnits": "",
+      //       "fileExtensions": "",
+      //     }],
+      //     "enabled": true
+      //   }
+      // ];
 
-      // let filtrData = this.getData.mediaTypeCategories.filter(
-      //   fdata => fdata.category.categoryId === formValues.catType);
+      let body = [{
+        "category": {
+          "categoryId": null,
+          "categoryName": null
+        },
+        "mediaTypeCategoryId" : null,
+        "minH": null,
+        "minW": null,
+        "maxH": null,
+        "maxW": null,
+        "fileThresholdSize": null,
+        "fileThresholdSizeUnits": null,
+        "fileExtensions": null
+      }];
+    
+      // body[0].mediaTypeId = this.mediaTypeData.mediaType.mediaTypeId;
+      // body[0].mediaTypeName = this.mediaTypeData.mediaType.mediaTypeName;
+      // body[0].supportedFileExtensions = this.mediaTypeData.supportedFileExtensions;
+      // body[0].mediaTypeCategories[0].mediaTypeCategoryId = this.selmediaTypeCategoryId;
+      // body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
+      // body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
 
-      body[0].mediaTypeId = this.mediaTypeData.mediaType.mediaTypeId;
-      body[0].mediaTypeName = this.mediaTypeData.mediaType.mediaTypeName;
-      body[0].supportedFileExtensions = this.mediaTypeData.supportedFileExtensions;
-      body[0].mediaTypeCategories[0].mediaTypeCategoryId = this.selmediaTypeCategoryId;
-      body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
-      body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
+      // body[0].mediaTypeCategories[0].minH = formValues.minheigth;
+      // body[0].mediaTypeCategories[0].minW = formValues.minwidth;
+      // body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
+      // body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
+      // body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
+      // body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
+      // body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString();
+      // body[0].enabled = true;
 
-      body[0].mediaTypeCategories[0].minH = formValues.minheigth;
-      body[0].mediaTypeCategories[0].minW = formValues.minwidth;
-      body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
-      body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
-      body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
-      body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
-      body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString();
-      body[0].enabled = true;
+      body[0].category.categoryId = formValues.catType;
+      body[0].category.categoryName = this.selCategory.categoryName;
+      body[0].mediaTypeCategoryId =  this.selmediaTypeCategoryId;
+      body[0].minH = formValues.minheigth;
+      body[0].maxH = formValues.maxheigth;
+      body[0].minW = formValues.minwidth;
+      body[0].maxW = formValues.maxwidth;
+      body[0].fileThresholdSize = formValues.filesize;
+      body[0].fileThresholdSizeUnits = formValues.fileunit;
+      body[0].fileExtensions = formValues.filetype.toString();
+
       console.log(body);
 
       // Update Media Type Service
-      this.commonservice.updateMediaType(body[0]).subscribe(
+      this.commonservice.updateMediaType(this.mediaTypeData.mediaType.mediaTypeId, body[0]).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
@@ -360,48 +382,70 @@ export class MediatypeComponent implements OnInit {
         });
 
     } else {
-      let body = [
-        {
-          "mediaTypeId": null,  
-          "mediaTypeName": null,
-          "supportedFileExtensions": null,       
-          "mediaTypeCategories": [{
-            "category": {
-              "categoryId": null,
-              "categoryName": ""
-            },     
-            "minH": "",
-            "minW": "",
-            "maxH": "",
-            "maxW": "",
-            "fileThresholdSize": "",
-            "fileThresholdSizeUnits": "",
-            "fileExtensions": "",
-          }],
-          "enabled": true
-        }
-      ];
+      // let body = [
+      //   {
+      //     "mediaTypeId": null,  
+      //     "mediaTypeName": null,
+      //     "supportedFileExtensions": null,       
+      //     "mediaTypeCategories": [{
+      //       "category": {
+      //         "categoryId": null,
+      //         "categoryName": ""
+      //       },     
+      //       "minH": "",
+      //       "minW": "",
+      //       "maxH": "",
+      //       "maxW": "",
+      //       "fileThresholdSize": "",
+      //       "fileThresholdSizeUnits": "",
+      //       "fileExtensions": "",
+      //     }],
+      //     "enabled": true
+      //   }
+      // ];
+      let body = [{
+        "category": {
+          "categoryId": null,
+          "categoryName": null
+        },
+        "minH": null,
+        "minW": null,
+        "maxH": null,
+        "maxW": null,
+        "fileThresholdSize": null,
+        "fileThresholdSizeUnits": null,
+        "fileExtensions": null
+      }];
       var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == formValues.mediatype);
-      // body[0].mediaTypeId = this.mediaTypeId;
-      body[0].mediaTypeId = formValues.mediatype;
-      body[0].mediaTypeName = fltr[0].mediaTypeName;
-      // body[0].mediaTypeName = formValues.mediatype;
-      body[0].supportedFileExtensions = fltr[0].supportedFileExtensions;
-      body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
-      body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
+      // // body[0].mediaTypeId = this.mediaTypeId;
+      // body[0].mediaTypeId = formValues.mediatype;
+      // body[0].mediaTypeName = fltr[0].mediaTypeName;
+      // // body[0].mediaTypeName = formValues.mediatype;
+      // body[0].supportedFileExtensions = fltr[0].supportedFileExtensions;
+      // body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
+      // body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
 
-      body[0].mediaTypeCategories[0].minH = formValues.minheigth;
-      body[0].mediaTypeCategories[0].minW = formValues.minwidth;
-      body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
-      body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
-      body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
-      body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
-      body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString()
-      body[0].enabled = true;
+      // body[0].mediaTypeCategories[0].minH = formValues.minheigth;
+      // body[0].mediaTypeCategories[0].minW = formValues.minwidth;
+      // body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
+      // body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
+      // body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
+      // body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
+      // body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString()
+      // body[0].enabled = true;
+      body[0].category.categoryId = formValues.catType;
+      body[0].category.categoryName = this.selCategory.categoryName;
+      body[0].minH = formValues.minheigth;
+      body[0].maxH = formValues.maxheigth;
+      body[0].minW = formValues.minwidth;
+      body[0].maxW = formValues.maxwidth;
+      body[0].fileThresholdSize = formValues.filesize;
+      body[0].fileThresholdSizeUnits = formValues.fileunit;
+      body[0].fileExtensions = formValues.filetype.toString();
       console.log(body);
 
       // Update Media Type Service
-      this.commonservice.updateMediaType(body[0]).subscribe(
+      this.commonservice.addMediaType(formValues.mediatype, body[0]).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');

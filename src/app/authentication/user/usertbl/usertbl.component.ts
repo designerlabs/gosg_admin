@@ -80,6 +80,7 @@ export class UsertblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.commonservice.getModuleId();
               this.getUsersData(this.pageCount, this.pageSize); //internal function
             }
           }.bind(this));
@@ -89,6 +90,7 @@ export class UsertblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getUsersData(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -112,6 +114,7 @@ export class UsertblComponent implements OnInit {
       icFld:this.icFld,
       userType: this.userType
     });
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

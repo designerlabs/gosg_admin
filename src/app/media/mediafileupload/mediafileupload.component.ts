@@ -40,6 +40,7 @@ export class MediafileuploadComponent implements OnInit {
   chkUploadFile : any;
   addconfig: boolean;
   showMediaTypeName: string;
+  mediaPath: string;
 
   catType: FormControl;
   mediatype: FormControl;
@@ -168,7 +169,7 @@ export class MediafileuploadComponent implements OnInit {
       .subscribe(resStateData => {
         // this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
-        // }).bind(this));
+        // }).bind(this));        
       },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
@@ -215,6 +216,15 @@ export class MediafileuploadComponent implements OnInit {
             }
 
             let resMT = this.objMediaType.filter(fmt => fmt.mediaTypeId===data.list[0].mediaTypeId);
+            if(resMT[0].mediaTypeName === "Images"){
+              this.mediaPath = "images";
+            }else if(resMT[0].mediaTypeName === "Documents"){
+              this.mediaPath = "documents";
+            }else if(resMT[0].mediaTypeName === "Videos"){
+              this.mediaPath = "videos";
+            }else if(resMT[0].mediaTypeName === "Audios"){
+              this.mediaPath = "audios";
+            }
             this.objCategory = resMT[0].mediaTypeCategories;
            this.showMediaTypeName = resMT[0].mediaTypeName;
             this.mediaFileUpForm.get('mediatype').setValue(data.list[0].mediaTypeId);
@@ -239,6 +249,16 @@ export class MediafileuploadComponent implements OnInit {
   selMediaType(event){
     let resMT = this.objMediaType.filter(fmt => fmt.mediaTypeId === this.mediaFileUpForm.controls.mediatype.value);
     this.objCategory = resMT[0].mediaTypeCategories;
+    if(resMT[0].mediaTypeName === "Images"){
+      this.mediaPath = "images";
+    }else if(resMT[0].mediaTypeName === "Documents"){
+      this.mediaPath = "documents";
+    }else if(resMT[0].mediaTypeName === "Videos"){
+      this.mediaPath = "videos";
+    }else if(resMT[0].mediaTypeName === "Audios"){
+      this.mediaPath = "audios";
+    }
+    
     this.checkReqValues();
   }
   selCateType(event) {   
@@ -291,9 +311,9 @@ export class MediafileuploadComponent implements OnInit {
       }
       this.chkUploadFile.maxSize =  maxFileSize;
     }
-    let filextnLCase = resMT[0].supportedFileExtensions.toLowerCase();
+    let filextnLCase = fileConfig[0].fileExtensions.toLowerCase();
    
-    this.chkUploadFile.allowedFormat = resMT[0].supportedFileExtensions;
+    this.chkUploadFile.allowedFormat = fileConfig[0].fileExtensions;
     this.chkUploadFile.minH = fileConfig[0].minH;
     this.chkUploadFile.maxH = fileConfig[0].maxH;
     this.chkUploadFile.minW = fileConfig[0].minW;
@@ -303,7 +323,10 @@ export class MediafileuploadComponent implements OnInit {
     this.sharedConfig.maxFileSize = maxFileSize;
     if(!this.addconfig){
       this.ng4FilesService.addConfig(this.sharedConfig); 
-    }      
+      this.addconfig = true;
+    } else{
+      // this.ng4FilesService.configs.shared.acceptExtensions = this.sharedConfig.acceptExtensions;
+    }
   }
  
   //dev server path: opt/media

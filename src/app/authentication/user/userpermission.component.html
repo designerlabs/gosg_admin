@@ -14,8 +14,11 @@
         </div> 
     </div>
 
-
-    <form [formGroup]="groupModule" autocomplete="off" (ngSubmit)="updateGroup(groupModule.value)" role="form" novalidate>
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
+    </div>
+    
+    <form *ngIf="!commonservice.isWrite && !commonservice.isUpdate"  [formGroup]="groupModule" autocomplete="off" (ngSubmit)="updateGroup(groupModule.value)" role="form" novalidate>
         <div class="row">
             <div class="form-group col-md-12 col-lg-12 col-sm-12">
                 <h3>{{username}}</h3>
