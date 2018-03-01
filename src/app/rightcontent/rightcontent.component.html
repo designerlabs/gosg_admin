@@ -49,11 +49,11 @@
         <div class="card">
             <div class="card-body">
               <h5 class="card-title">{{menu.moduleGroupName}}</h5>
-              <div *ngFor="let modules of menu">
+              <div *ngFor="let modules of menu.modules">
                 <a [routerLink]="[ '/'+ modules.moduleUrl ]">
                   <span>{{modules.moduleName}}</span>
                 </a>
-                <span>{{modules.permission}}</span>
+                <span>{{modules.permission?.isDelete}}</span>
               </div>
             </div>
           </div>
