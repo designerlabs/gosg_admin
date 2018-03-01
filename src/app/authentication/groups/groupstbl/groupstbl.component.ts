@@ -49,6 +49,7 @@ export class GroupstblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getGroupList(this.groupPageCount, this.groupPageSize); //internal function
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -57,6 +58,7 @@ export class GroupstblComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.getGroupList(this.groupPageCount, this.groupPageSize);
+      this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -66,6 +68,7 @@ export class GroupstblComponent implements OnInit {
 
   ngOnInit() {
     this.getGroupList(this.groupPageCount, this.groupPageSize);
+    this.commonservice.getModuleId();
   }
 
   ngAfterViewInit() {

@@ -6,12 +6,17 @@
       
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
-              <button type="button" mat-fab color="warn" (click)="add()" >
+              <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
               <i class="fa fa-plus font-size-l"></i></button>
           </span>
       </div> 
   </div>
+  
+  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+  </div>
 
+  <div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
     <mat-table #table [dataSource]="dataSource" matSort>
       <!-- Number Column -->
@@ -99,7 +104,7 @@
         </button>
       </span>
     </div>
-    
+  </div>
 
   </div>
 

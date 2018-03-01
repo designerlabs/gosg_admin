@@ -102,6 +102,7 @@ export class AppConfig {
     urlCategory: string;
     urlGetUser: string;
     urlModuleRef: string;
+    externalMediaURL: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -153,7 +154,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlRace: commonURL + 'race',
     urlRaceDelete: commonURL + 'race/',
     urlGenderList : serviceURL + 'gender/all',
-
+    externalMediaURL: "http://10.1.71.168/media/Images",
     urlUserTypeList: commonURL + 'usertype',
     urlUserTypeDelete: commonURL + 'usertype/',
 
