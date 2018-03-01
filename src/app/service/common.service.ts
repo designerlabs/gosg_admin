@@ -412,14 +412,14 @@ getMediaType() {
   .catch(this.handleError);
 }
 
-addMediaType(mediaType) {
-  return this.http.post(this.appConfig.urlMediaType, mediaType)
+addMediaType(mediaTypeId, mediaTypeVal) {
+  return this.http.post(this.appConfig.urlMediaType + mediaTypeId, mediaTypeVal)
   .map((response: Response) => response.json())
   .catch(this.handleError);
 }
 
-updateMediaType(mediaType) {
-  return this.http.put(this.appConfig.urlMediaType, mediaType)
+updateMediaType(mediaTypeId,mediaTypeVal) {
+  return this.http.put(this.appConfig.urlMediaType + mediaTypeId, mediaTypeVal)
   .map((response: Response) => response.json())
   .catch(this.handleError);
 }

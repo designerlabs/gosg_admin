@@ -291,9 +291,9 @@ export class MediafileuploadComponent implements OnInit {
       }
       this.chkUploadFile.maxSize =  maxFileSize;
     }
-    let filextnLCase = resMT[0].supportedFileExtensions.toLowerCase();
+    let filextnLCase = fileConfig[0].fileExtensions.toLowerCase();
    
-    this.chkUploadFile.allowedFormat = resMT[0].supportedFileExtensions;
+    this.chkUploadFile.allowedFormat = fileConfig[0].fileExtensions;
     this.chkUploadFile.minH = fileConfig[0].minH;
     this.chkUploadFile.maxH = fileConfig[0].maxH;
     this.chkUploadFile.minW = fileConfig[0].minW;
@@ -303,7 +303,10 @@ export class MediafileuploadComponent implements OnInit {
     this.sharedConfig.maxFileSize = maxFileSize;
     if(!this.addconfig){
       this.ng4FilesService.addConfig(this.sharedConfig); 
-    }      
+      this.addconfig = true;
+    } else{
+      // this.ng4FilesService.configs.shared.acceptExtensions = this.sharedConfig.acceptExtensions;
+    }
   }
  
   //dev server path: opt/media

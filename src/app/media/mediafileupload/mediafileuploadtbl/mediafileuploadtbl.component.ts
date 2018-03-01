@@ -107,23 +107,34 @@ export class MediafileuploadtblComponent implements OnInit {
 
   deleteRow(id) {
     let txt;
+    // this.commonservice.delMediaFileUpload(id).subscribe(
+    //   data => {
+    //     txt = "Media Type deleted successfully!";
+    //     this.toastr.success(txt, '');   
+    //     this.getMediaList(this.PageCount, this.PageSize);
+    //   },
+    //   error => {
+    //     console.log("No Data")
+    //   });
+
     let r = confirm("Are you sure to delete " + id + "?");
     if (r == true) {
-      this.commonservice.delMediaFileUpload(id).subscribe(
+       this.commonservice.delMediaFileUpload(id).subscribe(
         data => {
           txt = "Media Type deleted successfully!";
-          // this.router.navigate(['slider']);
           this.toastr.success(txt, '');   
           this.getMediaList(this.PageCount, this.PageSize);
         },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.sliderForm.reset();
+      error => {
+        console.log("No Data")
+      });
     } else {
       txt = "Delete Cancelled!";
       // alert(txt)
     }
+  }
+
+  searchByCate(evnt){
+    
   }
 }
