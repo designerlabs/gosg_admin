@@ -1,6 +1,33 @@
+<div *ngIf="menulst" style="display: inline-block;">
+  
+
+  <h1>
+    Grouping and Permission Modules
+  </h1>
+
+  <div>
+      <a class="card" routerLink="/groupmodule">
+          <div class="card-body">
+            <h5 class="card-title">Grouping Management</h5>
+            <p class="card-text">Sorting and Grouping from isolate module</p>
+          </div>
+      </a>
+
+      <a class="card" routerLink="/admin">
+        <div class="card-body">
+          <h5 class="card-title">Admin Management</h5>
+          <p class="card-text">Assign Admin user and providing permission</p>
+        </div>
+      </a>
+  
+</div>
+  
+
+</div>
+
 <h1>
   Modules <mat-chip-list *ngIf="menulst"><mat-chip color="primary" selected="true">{{menulst?.moduleList?.length }}</mat-chip></mat-chip-list>
-  <mat-chip-list *ngIf="menulist_non_admin"><mat-chip color="primary" selected="true">{{menulist_non_admin?.moduleList?.length }}</mat-chip></mat-chip-list>
+  <mat-chip-list *ngIf="menulist_non_admin"><mat-chip color="primary" selected="true">{{menulist_non_admin?.items?.length }}</mat-chip></mat-chip-list>
 </h1>
 
 
@@ -17,13 +44,18 @@
 </div>
 
 <div *ngIf="menulist_non_admin">
-    <div *ngFor="let menu of menulist_non_admin?.moduleList">
+    <div *ngFor="let menu of menulist_non_admin?.items">
   
-        <a class="card" [routerLink]=" [ '/' + menu.moduleUrl ] ">
+        <div class="card">
             <div class="card-body">
-              <h5 class="card-title">{{menu.moduleName}}</h5>
-              <p class="card-text">{{menu.moduleDescription}}</p>
+              <h5 class="card-title">{{menu.moduleGroupName}}</h5>
+              <div *ngFor="let modules of menu.modules">
+                <a [routerLink]="[ '/'+ modules.moduleUrl ]">
+                  <span>{{modules.moduleName}}</span>
+                </a>
+                <span>{{modules.permission?.isDelete}}</span>
+              </div>
             </div>
-          </a>
+          </div>
       </div>
 </div>
