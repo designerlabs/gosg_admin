@@ -23,10 +23,12 @@ export class MediatypeComponent implements OnInit {
   objDoc = ["doc", "docx", "pdf", "xls", "xlsx", "txt"];
   objUnit = ["MB", "KB"];
   // objCategory = ["Slider", "Article", "Gallery"];
-  objMediaType = ["Images", "Documents", "Videos", "Audios"];
+  // objMediaType = ["Images", "Documents", "Videos", "Audios"];
+  objMediaType: any;
   objFileExtn = [];
   objCategory: any;
   getData;
+  displaymediaTypeName;
   languageId: any;
   mediaTypeData: any;
   mediaTypeForm: FormGroup;
@@ -86,6 +88,7 @@ export class MediatypeComponent implements OnInit {
   }
 
   ngOnInit() {
+    debugger;
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
@@ -112,11 +115,12 @@ export class MediatypeComponent implements OnInit {
       maxheigth: this.maxheigth,
       active: this.active,
     });
- 
+    this.loadMedia();    
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
-      this.loadCate(); // Add media type will have all category
+      this.loadCate();
+       // Add media type will have all category
       // this.mediaTypeForm.get('imgchkactive').setValue(false);     
     } else {
       this.isEdit = true;
@@ -130,6 +134,18 @@ export class MediatypeComponent implements OnInit {
     this.router.navigate(['media/type']);
   }
 
+  loadMedia() {
+    //Get Media Type
+    this.commonservice.getMediaType()
+    .subscribe(resStateData => {
+     // this.commonservice.errorHandling(resStateData, (function(){            
+         this.objMediaType = resStateData['mediaTypes'];              
+     },
+     error => {
+       this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+    });
+  }
+
   loadCate(){
     // Get Categories
     this.commonservice.getCategoryData()
@@ -141,6 +157,7 @@ export class MediatypeComponent implements OnInit {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
       });
+      
 }  // get, add, update, delete
   getRow(row) {
     
@@ -154,24 +171,26 @@ export class MediatypeComponent implements OnInit {
           // populate data
           if (data) {
             // this.mediaTypeId = data.mediaTypeId;
-            this.mediaTypeForm.get('mediatype').setValue(data.mediaTypeName);
+            this.mediaTypeForm.get('mediatype').setValue(data.mediaTypeId);
 
-            if (data.mediaTypeName == "Images") {
-              this.objFileExtn = this.objImage;
-            } else if (data.mediaTypeName == "Documents") {
-              this.objFileExtn = this.objDoc;
-            } else if (data.mediaTypeName == "Videos") {
-              this.objFileExtn = this.objVideo;
-            } else if (data.mediaTypeName == "Audios") {
-              this.objFileExtn = this.objAudio;
-            }
-
+            // if (data.mediaTypeName == "Images") {
+            //   this.objFileExtn = this.objImage;
+            // } else if (data.mediaTypeName == "Documents") {
+            //   this.objFileExtn = this.objDoc;
+            // } else if (data.mediaTypeName == "Videos") {
+            //   this.objFileExtn = this.objVideo;
+            // } else if (data.mediaTypeName == "Audios") {
+            //   this.objFileExtn = this.objAudio;
+            // }
+            var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == data.mediaTypeId);
+            this.objFileExtn = fltr[0].supportedFileExtensions.split(',');
+            this.displaymediaTypeName = data.mediaTypeName;
             this.objCategory = data.mediaTypeCategories;
 
             this.selCategory = data.mediaTypeCategories[0].category;
             this.selmediaTypeCategoryId = data.mediaTypeCategories[0].mediaTypeCategoryId;
             this.mediaTypeForm.get('catType').setValue(data.mediaTypeCategories[0].category.categoryId);
-            this.mediaTypeForm.get('filetype').setValue(data.supportedFileExtensions.split(','));
+            this.mediaTypeForm.get('filetype').setValue(data.mediaTypeCategories[0].fileExtensions.split(','));
 
             this.mediaTypeForm.get('filesize').setValue(data.mediaTypeCategories[0].fileThresholdSize);
             this.mediaTypeForm.get('fileunit').setValue(data.mediaTypeCategories[0].fileThresholdSizeUnits);
@@ -191,15 +210,18 @@ export class MediatypeComponent implements OnInit {
   }
 
   selMediaType(event) {
-    if (event.value == "Images") {
-      this.objFileExtn = this.objImage;
-    } else if (event.value == "Documents") {
-      this.objFileExtn = this.objDoc;
-    } else if (event.value == "Videos") {
-      this.objFileExtn = this.objVideo;
-    } else if (event.value == "Audios") {
-      this.objFileExtn = this.objAudio;
-    }
+    var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == event.value);
+    this.objFileExtn = fltr[0].supportedFileExtensions.split(',');
+    this.displaymediaTypeName = fltr[0].mediaTypeName;
+    // if (event.value == "Images") {
+    //   this.objFileExtn = this.objImage;
+    // } else if (event.value == "Documents") {
+    //   this.objFileExtn = this.objDoc;
+    // } else if (event.value == "Videos") {
+    //   this.objFileExtn = this.objVideo;
+    // } else if (event.value == "Audios") {
+    //   this.objFileExtn = this.objAudio;
+    // }
 
     this.checkReqValues();
   }
@@ -285,9 +307,9 @@ export class MediatypeComponent implements OnInit {
     if (this.isEdit) {
       let body = [
         {
-          "mediaTypeId": null,
-          "mediaTypeName": "",
-          "supportedFileExtensions": "",
+          "mediaTypeId": null,  
+          "mediaTypeName": null,
+          "supportedFileExtensions": null,        
           "mediaTypeCategories": [{
             "mediaTypeCategoryId": null,
             "category": {
@@ -299,7 +321,8 @@ export class MediatypeComponent implements OnInit {
             "maxH": "",
             "maxW": "",
             "fileThresholdSize": "",
-            "fileThresholdSizeUnits": ""
+            "fileThresholdSizeUnits": "",
+            "fileExtensions": "",
           }],
           "enabled": true
         }
@@ -309,8 +332,8 @@ export class MediatypeComponent implements OnInit {
       //   fdata => fdata.category.categoryId === formValues.catType);
 
       body[0].mediaTypeId = this.mediaTypeData.mediaType.mediaTypeId;
-      body[0].mediaTypeName = formValues.mediatype;
-      body[0].supportedFileExtensions = formValues.filetype.toString();
+      body[0].mediaTypeName = this.mediaTypeData.mediaType.mediaTypeName;
+      body[0].supportedFileExtensions = this.mediaTypeData.supportedFileExtensions;
       body[0].mediaTypeCategories[0].mediaTypeCategoryId = this.selmediaTypeCategoryId;
       body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
       body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
@@ -321,6 +344,7 @@ export class MediatypeComponent implements OnInit {
       body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
       body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
       body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
+      body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString();
       body[0].enabled = true;
       console.log(body);
 
@@ -339,8 +363,9 @@ export class MediatypeComponent implements OnInit {
     } else {
       let body = [
         {
-          "mediaTypeName": "",
-          "supportedFileExtensions": "",
+          "mediaTypeId": null,  
+          "mediaTypeName": null,
+          "supportedFileExtensions": null,       
           "mediaTypeCategories": [{
             "category": {
               "categoryId": null,
@@ -351,15 +376,18 @@ export class MediatypeComponent implements OnInit {
             "maxH": "",
             "maxW": "",
             "fileThresholdSize": "",
-            "fileThresholdSizeUnits": ""
+            "fileThresholdSizeUnits": "",
+            "fileExtensions": "",
           }],
           "enabled": true
         }
       ];
-
+      var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == formValues.mediatype);
       // body[0].mediaTypeId = this.mediaTypeId;
-      body[0].mediaTypeName = formValues.mediatype;
-      body[0].supportedFileExtensions = formValues.filetype.toString();
+      body[0].mediaTypeId = formValues.mediatype;
+      body[0].mediaTypeName = fltr[0].mediaTypeName;
+      // body[0].mediaTypeName = formValues.mediatype;
+      body[0].supportedFileExtensions = fltr[0].supportedFileExtensions;
       body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
       body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
 
@@ -369,11 +397,12 @@ export class MediatypeComponent implements OnInit {
       body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
       body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
       body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
+      body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString()
       body[0].enabled = true;
       console.log(body);
 
       // Update Media Type Service
-      this.commonservice.addMediaType(body[0]).subscribe(
+      this.commonservice.updateMediaType(body[0]).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
