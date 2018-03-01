@@ -413,13 +413,13 @@ getMediaType() {
 }
 
 addMediaType(mediaTypeId, mediaTypeVal) {
-  return this.http.post(this.appConfig.urlMediaType + mediaTypeId, mediaTypeVal)
+  return this.http.post(this.appConfig.urlMediaType + "/" + mediaTypeId, mediaTypeVal)
   .map((response: Response) => response.json())
   .catch(this.handleError);
 }
 
 updateMediaType(mediaTypeId,mediaTypeVal) {
-  return this.http.put(this.appConfig.urlMediaType + mediaTypeId, mediaTypeVal)
+  return this.http.put(this.appConfig.urlMediaType + "/" + mediaTypeId, mediaTypeVal)
   .map((response: Response) => response.json())
   .catch(this.handleError);
 }

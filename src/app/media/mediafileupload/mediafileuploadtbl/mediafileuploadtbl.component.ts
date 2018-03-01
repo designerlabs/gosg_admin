@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DialogsService } from '../../../dialogs/dialogs.service';
@@ -14,7 +15,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./mediafileuploadtbl.component.css']
 })
 export class MediafileuploadtblComponent implements OnInit {
-  PageCount = 1;
+  PageCount = 0;
   PageSize = 10;
   mediaList = null;
   mediaPage = null;
@@ -25,10 +26,11 @@ export class MediafileuploadtblComponent implements OnInit {
   seqPageSize = 0;
   languageId: any;
   displayedColumns = ['no', 'mediaFile', 'catName',  'status', 'action'];
-
+  dataUrl;
+  resultData = null;
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
-  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
+  constructor(private commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -60,13 +62,16 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   getMediaList(count, size) {
-    return this.commonservice.getMediaFileUpload()
-       .subscribe(resStateData => {
-        this.commonservice.errorHandling(resStateData, (function(){
-        this.seqPageNum = resStateData.pageNumber;
-        this.seqPageSize = resStateData.pageSize;
-        this.mediaPage = resStateData;
-          this.mediaList = resStateData['list'];  
+    this.dataUrl = this.appConfig.urlMediaFileUpload + '/?page=' + count + '&size=' + size;
+    return this.http.get(this.dataUrl)
+       .subscribe(resData => {
+        this.commonservice.errorHandling(resData, (function(){
+          this.resultData = resData;
+        this.seqPageNum = this.resultData.pageNumber;
+        this.seqPageSize = this.resultData.pageSize;
+        // this.noNextData = this.resultData.pageSize >= this.resultData.totalElements;
+        this.mediaPage = resData;
+          this.mediaList = resData['list'];  
           this.dataSource.data = this.mediaList; 
         }).bind(this));     
         },
@@ -82,17 +87,18 @@ export class MediafileuploadtblComponent implements OnInit {
 
   
   paginatorL(page) {
-    this.getMediaList(page - 1, this.PageSize);
-    this.noPrevData = page <= 2 ? true : false;
+    debugger;
+    this.getMediaList(page - 2, this.PageSize);
+    this.noPrevData = page <= 0 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
-    this.noPrevData = page >= 1 ? false : true;
+    this.noPrevData = page >= 0 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    // this.noNextData = pageInc === totalPages;
-    this.getMediaList(page + 1, this.PageSize);
+    this.noNextData = pageInc === totalPages;
+    this.getMediaList(page, this.PageSize);
   }
 
   pageChange(event, totalPages) {
@@ -135,6 +141,6 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   searchByCate(evnt){
-    
+
   }
 }

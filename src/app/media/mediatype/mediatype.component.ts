@@ -403,7 +403,7 @@ export class MediatypeComponent implements OnInit {
       //     "enabled": true
       //   }
       // ];
-      let body = {
+      let body = [{
         "category": {
           "categoryId": null,
           "categoryName": null
@@ -415,7 +415,7 @@ export class MediatypeComponent implements OnInit {
         "fileThresholdSize": null,
         "fileThresholdSizeUnits": null,
         "fileExtensions": null
-      };
+      }];
       var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == formValues.mediatype);
       // // body[0].mediaTypeId = this.mediaTypeId;
       // body[0].mediaTypeId = formValues.mediatype;

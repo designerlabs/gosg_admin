@@ -16,11 +16,11 @@
     {{'common.msg.unauthorized' | translate}}
   </div>
   <div *ngIf="commonservice.isRead">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-6">
           <input matInput placeholder="Search By Category" (change)="searchByCate($event)">
       </div>
-    </div>
+    </div> -->
     <div class="example-container mat-elevation-z8">
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
