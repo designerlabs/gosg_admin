@@ -46,9 +46,9 @@
 <div *ngIf="menulist_non_admin">
     <div *ngFor="let menu of menulist_non_admin?.items">
   
-        <div class="card">
+        <div class="card_non_admin">
             <div class="card-body">
-              <h5 class="card-title">{{menu.moduleGroupName}}</h5>
+              <h5 class="card-title">{{menu.moduleGroupName}} <mat-chip-list *ngIf="menulist_non_admin"><mat-chip color="primary" selected="true">{{ menu.modules?.length }}</mat-chip></mat-chip-list></h5>
               <div *ngFor="let modules of menu.modules">
                 <a [routerLink]="[ '/'+ modules.moduleUrl ]">
                   <span>{{modules.moduleName}}</span>
