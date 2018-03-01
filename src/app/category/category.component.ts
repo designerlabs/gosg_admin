@@ -190,8 +190,8 @@ export class CategoryComponent implements OnInit {
                           categoryName: this.categoryData[i].list[1].categoryName}); 
           }
           
-          this.treeEn = this.getNestedChildrenEn(arrCatEn, 1);
-          this.treeBm = this.getNestedChildrenBm(arrCatBm, 8);
+          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
           console.log(arrCatEn);
           console.log(JSON.stringify(this.treeEn));
           
