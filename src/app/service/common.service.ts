@@ -1146,8 +1146,8 @@ getCategoryList1() {
     .catch(this.handleError);
   }
 
-  delCategory(key) {
-    let fullUrl = this.appConfig.urlCategory + "/" + key + '?language='+this.languageId;
+  delCategory(id) {
+    let fullUrl = this.appConfig.urlCategory + "/delete/selected/" + id + '?language='+this.languageId;
 
     return this.http.delete(fullUrl, null)
     .map((response: Response) => response.json())
@@ -1155,7 +1155,7 @@ getCategoryList1() {
   }
 
   updateCategory(record) {
-    let fullUrl = this.appConfig.urlCategory + '?language='+this.languageId;
+    let fullUrl = this.appConfig.urlCategory + '/update?language='+this.languageId;
 
     return this.http.put(fullUrl, record)
     .map((response: Response) => response.json())
