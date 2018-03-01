@@ -53,7 +53,12 @@
                 <a [routerLink]="[ '/'+ modules.moduleUrl ]">
                   <span>{{modules.moduleName}}</span>
                 </a>
-                <span>{{modules.permission?.isDelete}}</span>
+                <div class="permission_container">
+                  <span [ngClass]="modules.permission?.isWrite ? 'activeState' : 'inActiveState'">C</span>
+                  <span [ngClass]="modules.permission?.isRead ? 'activeState' : 'inActiveState'">R</span>
+                  <span [ngClass]="modules.permission?.isUpdate ? 'activeState' : 'inActiveState'">U</span>
+                  <span [ngClass]="modules.permission?.isDelete ? 'activeState' : 'inActiveState'">D</span>
+                </div>
               </div>
             </div>
           </div>

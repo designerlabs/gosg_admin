@@ -46,3 +46,27 @@
   top: -5px !important;
   position: relative !important;
 }
+
+
+.permission_container{
+  display:inline-block;
+}
+
+.permission_container span{
+  margin:5px;
+  padding:5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+}
+
+.inActiveState{
+  background:#ccc;
+  color: #000;
+}
+
+
+.activeState{
+  background:rgb(27, 179, 77);
+  color: #fff;
+}
