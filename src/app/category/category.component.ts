@@ -28,6 +28,7 @@ export class CategoryComponent implements OnInit {
   public ismainmenu: FormControl;
   public imageEn: FormControl;
   public imageBm: FormControl;
+  public resultEn: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
@@ -46,6 +47,7 @@ export class CategoryComponent implements OnInit {
   public imageData: any;
   public getImgEn: any;
   public getImgdBm: any;
+  public catCode: any;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -91,6 +93,8 @@ export class CategoryComponent implements OnInit {
     this.imageEn = new FormControl();
     this.imageBm = new FormControl();
 
+    this.resultEn = new FormControl();
+
     this.updateForm = new FormGroup({   
 
       titleEn: this.titleEn,
@@ -101,7 +105,8 @@ export class CategoryComponent implements OnInit {
       parentsBm: this.parentsBm,
       ismainmenu: this.ismainmenu,
       imageEn: this.imageEn,
-      imageBm: this.imageBm
+      imageBm: this.imageBm,
+      resultEn: this.resultEn
       
     });
 
@@ -119,7 +124,50 @@ export class CategoryComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
+
+    var data = [
+      // {
+      //   "id": 3,
+      //   "parent": 1,
+      //   "categoryName": "Article",
+      //   "children": []
+      // },
+      // {
+      //   "id": 13,
+      //   "parent": 1,
+      //   "categoryName": "Media",
+      //   "children": [
+      //     {
+      //       "id": 4,
+      //       "parent": 13,
+      //       "categoryName": "Slider",
+      //       "children": []
+      //     },
+      //     {
+      //       "id": 2,
+      //       "parent": 13,
+      //       "categoryName": "Gallery",
+      //       "children": []
+      //     }
+      //   ]
+      // },
+      // {
+      //   "id": 5,
+      //   "parent": 1,
+      //   "categoryName": "Promotion",
+      //   "children": []
+      // },
+      // {
+      //   "id": 7,
+      //   "parent": 1,
+      //   "categoryName": "Tender",
+      //   "children": []
+      // }
+    ]
+    //document.getElementById("result").innerHTML = this.json_tree(data);
+
   }
+
 
   selectedCat(e, val){
 
@@ -237,12 +285,14 @@ export class CategoryComponent implements OnInit {
             arrCatEn.push({id:this.categoryData[i].list[0].categoryId,
                          refCode: this.categoryData[i].refCode,
                          parent: this.categoryData[i].list[0].parentId,
-                         categoryName: this.categoryData[i].list[0].categoryName});      
+                         categoryName: this.categoryData[i].list[0].categoryName,
+                         children: []});      
                          
             arrCatBm.push({id:this.categoryData[i].list[1].categoryId,
                           refCode: this.categoryData[i].refCode,
                           parent: this.categoryData[i].list[1].parentId,
-                          categoryName: this.categoryData[i].list[1].categoryName}); 
+                          categoryName: this.categoryData[i].list[1].categoryName,
+                          children: []}); 
           }
           
           this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
@@ -260,6 +310,21 @@ export class CategoryComponent implements OnInit {
     });
   }
 
+  json_tree(a) {
+    var json = "";
+
+    
+    for(var i = 0; i < this.treeEn.length; ++i) {
+        json = json  + this.treeEn[i].categoryName;
+        if(this.treeEn[i].children.length) {
+            json = json + this.json_tree (this.treeEn[i].children);
+        }
+        json = json;
+    }
+    return json;
+  }
+
+
   getNestedChildrenEn(arr, parent) {
     var out = []
     var children = []
@@ -273,8 +338,7 @@ export class CategoryComponent implements OnInit {
                  arr[i].children = children
             }
             out.push(arr[i])
-        }
-      
+        }      
     }    
     return out  
   }
@@ -318,13 +382,15 @@ export class CategoryComponent implements OnInit {
         this.updateForm.get('descEn').setValue(this.recordList.list[0].categoryDescription);
         this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
         this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);    
-        this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId); 
-      
-        this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
+        this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
+        this.updateForm.get('imageEn').setValue(this.recordList.list[0].image); 
+        this.updateForm.get('imageBm').setValue(this.recordList.list[1].image);       
+        this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);   
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
         this.getRefCode = this.recordList.list[0].refCode;
+        this.catCode = this.recordList.list[0].categoryCode;
 
         this.checkReqValues();
       }).bind(this));
@@ -360,6 +426,7 @@ export class CategoryComponent implements OnInit {
     let parentValEn: any;
     let parentValBm: any;
 
+    //predefined super parent id;
     if(formValues.parentsEn == null){
       parentValEn = -1;
       parentValBm = -2;
@@ -368,6 +435,10 @@ export class CategoryComponent implements OnInit {
     else {
       parentValEn = formValues.parentsEn;
       parentValBm = formValues.parentsBm;
+    }
+
+    if(formValues.ismainmenu == null){
+      formValues.ismainmenu = false;
     }
 
     // add form
@@ -380,7 +451,9 @@ export class CategoryComponent implements OnInit {
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": false,
+          "image": {
+            "mediaId": null
+           },
           "language": {
               "languageId": 1
           }
@@ -389,7 +462,9 @@ export class CategoryComponent implements OnInit {
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": false,
+          "image": {
+            "mediaId": null
+           },
           "language": {
               "languageId": 2
           }
@@ -400,13 +475,13 @@ export class CategoryComponent implements OnInit {
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = parentValEn;
       body[0].isMainMenu = formValues.ismainmenu;
-      body[0].image = formValues.imageEn;
+      body[0].image.mediaId = formValues.imageEn;
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = parentValBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].image = formValues.imageBm;
+      body[1].image.mediaId = formValues.imageBm;
 
       console.log("TEST")
       console.log(JSON.stringify(body))
@@ -433,26 +508,28 @@ export class CategoryComponent implements OnInit {
       let body = [
         {
         
-          "categoryId": null,
-          "categoryCode": null,
-          "refCode": null,
+          "categoryId": this.getIdEn,
           "categoryName": null,
           "categoryDescription":null,
+          "categoryCode": this.catCode,
           "parentId":null,
           "isMainMenu": false,
-          "images": false,
+          "image": {
+            "mediaId": null
+           },
           "language": {
               "languageId": 1
           }
         },{
-          "categoryId": null,
-          "categoryCode": null,
-          "refCode": null,
+          "categoryId": this.getIdBm,
           "categoryName": null,
           "categoryDescription":null,
+          "categoryCode": this.catCode,
           "parentId":null,
           "isMainMenu": false,
-          "images": false,
+          "image": {
+            "mediaId": null
+           },
           "language": {
               "languageId": 2
           }
@@ -463,32 +540,26 @@ export class CategoryComponent implements OnInit {
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = formValues.parentsEn;
       body[0].isMainMenu = formValues.ismainmenu;
-      body[0].images = formValues.imageEn;
+      body[0].image.mediaId = formValues.imageEn;
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = formValues.parentsBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].images = formValues.imageBm;
-      
+      body[1].image.mediaId = formValues.imageBm;      
 
       console.log("UPDATE: ");
-      console.log(body);
+      console.log(JSON.stringify(body))
 
-      this.commonservice.updateRecordAccStatus(body).subscribe(
+      this.commonservice.updateCategory(body).subscribe(
         data => {
           
-          let errMsg = data.statusCode.toLowerCase();
+          this.commonservice.errorHandling(data, (function(){
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
+            this.toastr.success(this.translate.instant('common.updated.added'), ''); 
             this.router.navigate(['category']);
-          }  
+
+          }).bind(this));   
         },
         error => {
 

@@ -96,6 +96,28 @@
 
             <div class="example-header">
                 <div class="col-md-6">
+                    <mat-form-field class="example-full-width" >
+                        <input matInput placeholder="resultEn" formControlName="Parent" (click)="json_tree()"
+                        tabindex="5">
+                        <mat-error *ngIf="updateForm.controls.resultEn.hasError('required')">
+                            Category Title is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-6">
+                    <mat-form-field class="example-full-width" >
+                        <input matInput placeholder="resultBm" formControlName="Induk" (keyup)="checkReqValues()"
+                        tabindex="6">
+                        <mat-error *ngIf="updateForm.controls.resultBm.hasError('required')">
+                            Tajuk Kategori diperlukan
+                        </mat-error>
+                    </mat-form-field>
+                </div> -->
+            </div> 
+            <!-- <div id="result"></div> -->
+
+            <div class="example-header">
+                <div class="col-md-6">
                     <mat-form-field class="example-full-width">
                         <mat-select formControlName="imageEn" placeholder="Select Image" tabindex="7" (change)="selectedImage($event,1)">
                             <mat-option [value]=null>Select Image</mat-option>

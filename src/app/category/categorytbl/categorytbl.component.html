@@ -55,8 +55,8 @@
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
-                        <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
+                        <i *ngIf="element.list[0]?.isMainMenu == true" class="fa fa-check" style="color: green;"></i>
+                        <i *ngIf="element.list[0]?.isMainMenu == false" class="fa fa-times" style="color: red;"></i>
                     </mat-cell>
                 </ng-container>
 
