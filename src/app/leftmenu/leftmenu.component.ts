@@ -93,6 +93,11 @@ export class LeftmenuComponent implements OnInit {
     
   }
 
+  scrollTop(){
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+
   getMenuData() {
     this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;

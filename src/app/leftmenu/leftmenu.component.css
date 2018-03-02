@@ -9,15 +9,21 @@
     text-decoration: none;
     background: #dddddd;
     color: #000;
-}
-/* 
-.submenu_link:focus {
     text-decoration: none;
-    color: #000;
-} */
+}
+
+
+
+
 
 .submenu_link_active {
     text-decoration: none;
     color: #000;
     background: #dddddd;
+    text-decoration: none;
+}
+
+.submenu_link_active:focus{
+    text-decoration: none;
+    color: #000;
 }
