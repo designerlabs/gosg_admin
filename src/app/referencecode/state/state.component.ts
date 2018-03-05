@@ -342,30 +342,8 @@ export class StateComponent implements OnInit {
         });
     }
 
-    this.router.navigate(['slider']);
+    this.router.navigate(['state']);
 
-  }
-
-  myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
-      this.sliderForm.reset();
-    } else {
-      txt = "You pressed Cancel!";
-    }
-  }
-
-  deletePopup(enId, bmId) {
-    let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
-    if (r == true) {
-      txt = "Delete successful!";
-      this.sliderForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-    }
   }
 
   paginatorL(page) {

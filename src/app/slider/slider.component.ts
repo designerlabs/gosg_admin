@@ -44,6 +44,7 @@ export class SliderComponent implements OnInit {
   active: FormControl
   copyImg: FormControl
   resetMsg = this.resetMsg;
+  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -141,10 +142,12 @@ export class SliderComponent implements OnInit {
   // get, add, update, delete
   getRow(row) {
 
+    this.loading = true;
     // Update Slider Service
     return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
+        this.commonservice.errorHandling(Rdata, (function(){
 
         this.sliderData = Rdata;
         console.log(this.sliderData)
@@ -167,7 +170,15 @@ export class SliderComponent implements OnInit {
       this.isSameImg(dataEn.sliderImage,dataBm.sliderImage);
 
       this.checkReqValues();
-    });
+          
+    }).bind(this));
+    this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);  
+      this.loading = false;
+      });
     
   }
 
@@ -279,14 +290,21 @@ export class SliderComponent implements OnInit {
 
     console.log(body)
 
+    this.loading = true;
     // Add Slider Service
     this.commonservice.addSlider(body).subscribe(
       data => {
+        this.commonservice.errorHandling(data, (function(){
         this.toastr.success('Slider added successfully!', ''); 
         this.router.navigate(['slider']);
+
+      }).bind(this)); 
+      this.loading = false;
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
       });
 
     } else {
@@ -341,15 +359,22 @@ export class SliderComponent implements OnInit {
     body[1].language.languageId = 2;
 
     console.log(body);
+    this.loading = true;
 
     // Update Slider Service
     this.commonservice.updateSlider(body).subscribe(
       data => {
+        this.commonservice.errorHandling(data, (function(){
         this.toastr.success('Slider update successful!', '');   
         this.router.navigate(['slider']);
+
+      }).bind(this)); 
+      this.loading = false;
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
       });
     }
     

@@ -34,6 +34,7 @@ export class SlidertblComponent implements OnInit {
   seqPageSize = 0 ;
   lang:any;
   languageId: any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -96,9 +97,11 @@ export class SlidertblComponent implements OnInit {
     // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlSlides;
 
+    this.loading = true;
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
+        this.commonservice.errorHandling(data, (function(){
         this.sliderList = data;
         console.log(this.sliderList)
         this.dataSource.data = this.sliderList.list;
@@ -106,6 +109,14 @@ export class SlidertblComponent implements OnInit {
         this.seqPageSize = this.sliderList.pageSize;
         this.commonservice.recordTable = this.sliderList;
         this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+          
+      }).bind(this));
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);  
+        this.loading = false;
       });
   }
 
@@ -133,11 +144,6 @@ export class SlidertblComponent implements OnInit {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
     this.router.navigate(['slider', "add"]);
-    // this.viewSeq = 2;
-    // this.sliderForm.reset();
-    // this.sliderForm.get('active').setValue(true)
-    // console.log(this.viewSeq);
-    // this.router.navigate(['slider', "add"]);
   }
   
   updateRow(row) {
@@ -149,14 +155,22 @@ export class SlidertblComponent implements OnInit {
   deleteItem(enId,bmId) {
     let txt;
 
+    this.loading = true;
       this.commonservice.delSlider(enId,bmId).subscribe(
         data => {
+
+          this.commonservice.errorHandling(data, (function(){
           txt = "Slider deleted successfully!";
           this.toastr.success(txt, '');   
           this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+        }).bind(this)); 
+        this.loading = false;
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          console.log(error);
+          this.loading = false;
         });
 
   }

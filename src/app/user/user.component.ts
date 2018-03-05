@@ -138,6 +138,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     return this.http.get(this.appConfig.urlUserList + '/' + row + '?langId=' +this.languageId).subscribe(
       Rdata => {
 
+        this.commonservice.errorHandling(Rdata, (function(){
         this.userData = Rdata['user'];
         console.log(this.userData)
         
@@ -167,12 +168,20 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.userForm.get('accountStatus').setValue(this.accStatusId);
         // this.refCode = dataEn.agencyCode;
 
-      this.checkReqValues();
+        this.checkReqValues();
+      }).bind(this)); 
+      this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
+      this.loading = false;
     });
     
   }
 
   getAccountStatus() {
+    this.loading = true;
     return this.http.get(this.appConfig.urlAccountStatus + '/').subscribe(
         Rdata => {
 
@@ -220,16 +229,19 @@ export class UserComponent implements OnInit, AfterViewInit {
     console.log(this.userId)
     console.log(formValues.accountStatus)
     
+    this.loading = true;
     // Update User Status Service
     this.commonservice.updateUserStatus(this.userId, formValues.accountStatus).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
         }).bind(this));  
+        this.loading = false;       
         this.router.navigate(['userlist']);
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;       
     });
   }
 
