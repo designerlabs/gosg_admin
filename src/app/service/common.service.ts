@@ -306,6 +306,12 @@ export class CommonService {
     .catch(this.handleError);
   }
 
+  getAllUserList(){
+    return this.http.get(this.appConfig.urlCommon+'usermanagement')
+    .map((response: Response) => response.json().userList)
+    .catch(this.handleError);
+  }
+
   requestUrl(url){
     return this.http.post(this.appConfig.urlModuleRef+'?requestUrl='+url,'')
     .map((response: Response) => response.json())

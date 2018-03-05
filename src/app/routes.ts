@@ -10,6 +10,7 @@ import { UserComponent } from './user/user.component';
 import { RolesComponent } from './roles/roles.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
+import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
@@ -124,9 +125,9 @@ export const appRoutes: Routes = [
 {path: 'agencyapp/add', component: AgencyappComponent},
 {path: 'agencyapp/:id', component: AgencyappComponent},
 {path: 'agencyapp', component: AgencyapptblComponent},
-{path: 'user/:id', component: UserComponent},
 {path: 'roles', component: RolesComponent},
-{path: 'userlist', component: UsertblComponent},
+{path: 'userlist', component: UserdetailstblComponent},
+{path: 'userlist/:id', component: UserComponent},
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
