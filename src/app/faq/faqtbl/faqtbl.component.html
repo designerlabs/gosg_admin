@@ -20,11 +20,11 @@
             
     <div *ngIf="commonservice.isRead">
         <div class="example-container mat-elevation-z8">
-            <!-- <div class="col-md-12 paddingTop-10">
+            <div class="col-md-12 paddingTop-10">
                 <mat-form-field class="font-size-s">
-                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Keywords">
                 </mat-form-field>
-            </div> -->
+            </div>
 
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
                 <ng-container matColumnDef="no">

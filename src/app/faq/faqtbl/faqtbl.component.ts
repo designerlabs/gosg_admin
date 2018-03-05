@@ -48,10 +48,8 @@ export class FaqtblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -95,25 +93,25 @@ export class FaqtblComponent implements OnInit {
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
-      this.recordList = data;
+        this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+        console.log("data");
+        console.log(data);
 
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      
-      this.dataSource.data = this.recordList.list;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-    }).bind(this)); 
-    this.loading = false;
-  },
-  error => {
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        
+        this.dataSource.data = this.recordList.list;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      }).bind(this)); 
+      this.loading = false;
+    },
+    error => {
 
-    this.loading = false;
-    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
+      this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
 
     });
   }
