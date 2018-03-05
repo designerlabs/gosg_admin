@@ -39,6 +39,7 @@ export class IdentificationtypeComponent implements OnInit {
   public getUserTypeActive: any;
 
   complete: boolean;
+  public loading = false;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -98,6 +99,7 @@ export class IdentificationtypeComponent implements OnInit {
     // this.appConfig.urlRaceList
     this.dataUrl = this.appConfig.urlIdentificationTypeList + '/' +  _getRefID + "?language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -116,9 +118,10 @@ export class IdentificationtypeComponent implements OnInit {
       this.getIdentificationCodeMy = this.recordList.identificationType[0].identificationCode;
 
     }).bind(this));   
+    this.loading = false;
   },
   error => {
-
+    this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
 
@@ -176,6 +179,7 @@ export class IdentificationtypeComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
       this.commonservice.addIdentificationType(body).subscribe(
         data => {
 
@@ -183,11 +187,13 @@ export class IdentificationtypeComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['reference/identificationtype']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
+          this.loading = false;
 
         //   console.log(JSON.stringify(body))
         //   console.log(body)
@@ -244,18 +250,21 @@ export class IdentificationtypeComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
       this.commonservice.updateIdentificationType(body).subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['reference/identificationtype']);
-          }).bind(this));   
+          }).bind(this));
+          this.loading = false;   
         },
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
+          this.loading = false;
 
         //   console.log(JSON.stringify(body))
         //   console.log(body)

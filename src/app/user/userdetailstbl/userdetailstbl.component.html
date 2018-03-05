@@ -1,4 +1,5 @@
 <div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
       <div class="col-md-4 curdHeadingLeft">
           <h3>User Management</h3>
@@ -22,34 +23,29 @@
     
           <!-- slideTitle Column -->
           <ng-container matColumnDef="username">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> Fullname</mat-header-cell>
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;"> {{element.fullName}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 40%;"> Fullname</mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 40%;"> {{element.fullName}} </mat-cell>
           </ng-container>
     
-          <ng-container matColumnDef="icno">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> IC No.</mat-header-cell>
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;"> {{element.pid}} </mat-cell>
-          </ng-container>
-
           <ng-container matColumnDef="email">
-              <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Email</mat-header-cell>
-              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.email}} </mat-cell>
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Email</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 35%;"> {{element.email}} </mat-cell>
             </ng-container>
     
           
           <!-- slideActiveFlag Column -->
           <ng-container matColumnDef="activeFlag">
-            <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="statusColumn">Account Status</mat-header-cell>
             <mat-cell *matCellDef="let element" class="statusColumn">
-              <i [ngClass]="[element.isStaff ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+                {{ element.accountStatus.accountStatusDescription }}
             </mat-cell>
           </ng-container>
     
           <!-- Action Column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
-            <mat-cell *matCellDef="let element" class="actionColumn">
-                <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate"  (click)="updateRow(element.id)" title="Update">
+            <mat-header-cell *matHeaderCellDef class="statusColumn"> Action </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="statusColumn">
+                <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate"  (click)="updateRow(element.userId)" title="Update">
                   <i class="fa fa-edit" ></i>
                 </button>
                 <app-confirm-dialog  #deleteModal 

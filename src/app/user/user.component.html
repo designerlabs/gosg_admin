@@ -1,157 +1,101 @@
-<div *ngIf="viewSeq == 1" class="container right-content">
-  <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-    <h1 class="paddingTop-15 staticLabel">Admin User Management</h1>
-    <span class="pull-right editBtn">
-      <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;<i class="fa fa-plus font-size-l"></i></button>
-    </span>
-  </div>  
-  
-  <div class="example-container mat-elevation-z8">
-    <!-- <div class="example-header">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-    </div> -->
-  
-    <mat-table #table [dataSource]="dataSource">
-      <!-- fullName Column -->
-      <ng-container matColumnDef="userId">
-        <mat-header-cell *matHeaderCellDef>No.</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
-      </ng-container>
-  
-      <!-- fullName Column -->
-      <ng-container matColumnDef="fullName">
-        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-        <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
-      </ng-container>
-  
-      <!-- User Type Column -->
-      <ng-container matColumnDef="userTypeId">
-        <mat-header-cell *matHeaderCellDef> Group Module </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.userTypeId}} Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui nemo rerum eligendi molestiae quaerat deserunt autem commodi, ipsum aspernatur odit veritatis voluptatibus voluptatem, repudiandae optio. Quasi, dignissimos cumque. Facere, hic?</mat-cell>
-      </ng-container>
-  
-      <!-- Action Column -->
-      <ng-container matColumnDef="accountStatusId">
-        <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element"><button mat-mini-fab style="background: orange" title="Update {{ element.userId }}"><i class="fa fa-edit" (click)="updateRow(element.userId)"></i></button>&nbsp;<button mat-mini-fab style="background: red"><i class="fa fa-trash" (click)="deleteRow(element.userId)" title="Delete {{ element.userId }}"></i></button></mat-cell>
-      </ng-container>
-  
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  
-  </div>
-  
-  <div class="float-right paddingTop-15">
-    <mat-form-field style="width:50px; margin-top: -10px">
-      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.userTable?.totalPages)">
-        <mat-option value="5">5</mat-option>
-        <mat-option value="10">10</mat-option>
-        <mat-option value="25">25</mat-option>
-        <mat-option value="50">50</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <span class="float-right">
-      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-        <strong>{{commonservice.userTable?.pageNumber}}</strong> of
-        <strong>{{commonservice.userTable?.totalPages}}</strong> in
-        <strong>{{commonservice.userTable?.totalElements}}</strong> users</span>
-      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.userTable?.pageNumber)">
-        <i class="fa fa-angle-left" aria-hidden="true"></i>
-      </button>
-      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.userTable?.pageNumber, commonservice.userTable?.totalPages)">
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-      </button>
-    </span>
-  </div>
-  
+<!-- VIEW: ADD/EDIT ERROR -->
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+      <h3>{{ pageMode }} User Account Status</h3>
+    </div>
+
+    <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+        <button type="button" mat-fab color="accent" (click)="back()">
+          <i class="fa fa-arrow-left font-size-l"></i>
+        </button>
+      </span>
+    </div>
   </div>
 
-  <!-- VIEW SEQUENCE 2 -->
-  <div *ngIf="viewSeq == 2" class="container right-content">
-    <div class="col-md-12" style="padding: 10px 10px 10px 0px; border: 0px solid #000">
-      <h1 class="paddingTop-15 staticLabel">Admin Users</h1>
-      <span class="pull-right editBtn">
-        <button type="button" mat-fab color="warn" (click)="add()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">&nbsp;<i class="fa fa-plus font-size-l"></i></button>
-      </span>
-    </div>
-    
-    <div class="example-container mat-elevation-z8">
-      <div class="col-md-12">
-        <mat-form-field class="example-full-width">
-          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-        </mat-form-field>
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+  </div>
+
+  <form [formGroup]="userForm" *ngIf="commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+
+    <div class="example-container mat-elevation-z8 padding-10">
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>{{ fullname }}</h3>
+          <h5 *ngIf="email"><i class="fa fa-envelope"></i>&nbsp;{{ email }}</h5>
+        </div>
+        
       </div>
-    
-      <mat-table #table [dataSource]="dataSource">
-        <!-- fullName Column -->
-        <ng-container matColumnDef="userId">
-          <mat-header-cell *matHeaderCellDef>No.</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="text-align: left"> {{element.userId}} </mat-cell>
-        </ng-container>
-    
-        <!-- fullName Column -->
-        <ng-container matColumnDef="fullName">
-          <mat-header-cell *matHeaderCellDef style="width: 25%"> Name </mat-header-cell>
-          <mat-cell *matCellDef="let element" (click)="getRow(element)"> {{element.fullName}} </mat-cell>
-        </ng-container>
-    
-        <!-- ICNO Column -->
-        <ng-container matColumnDef="pid">
-          <mat-header-cell *matHeaderCellDef style="width: 10%"> ICNO </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.pid}} </mat-cell>
-        </ng-container>
-    
-        <!-- User Type Column -->
-        <ng-container matColumnDef="userTypeId">
-          <mat-header-cell *matHeaderCellDef style="width: 25%"> Email </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.email}}</mat-cell>
-        </ng-container>
-    
-        <!-- Account Status Column -->
-        <ng-container matColumnDef="isStaff">
-          <mat-header-cell *matHeaderCellDef style="text-align: center; width: 10%"> Account Status </mat-header-cell>
-          <mat-cell *matCellDef="let element" style="text-align: center">
-            <span *ngIf="element.isStaff == false" style="color: red">Inactive</span>
-            <span *ngIf="element.isStaff == true" style="color: green">Active</span>
-          </mat-cell>
-        </ng-container>
-  
-        <!-- Action Column -->
-        <ng-container matColumnDef="accountStatusId">
-          <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
-          <mat-cell *matCellDef="let element"><button mat-mini-fab style="background: orange" title="Update {{ element.userId }}"><i class="fa fa-edit" (click)="updateRow(element.userId)"></i></button>&nbsp;<button mat-mini-fab style="background: red"><i class="fa fa-trash" (click)="deleteRow(element.userId)" title="Delete {{ element.userId }}"></i></button></mat-cell>
-        </ng-container>
-    
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-    
+      <div class="row">&nbsp;</div>
+      <div class="row">
+        <div class="col-md-3">
+          <label class="font-size-s">Is Staff?</label><br /><span>{{ isStaff != null ? isStaff : '-' }}</span>
+        </div>
+        <div class="col-md-3">
+          <label class="font-size-s">Date of Birth</label><br /><span>{{ dob != null ? dob : '-' }}</span>
+        </div>
+        <div class="col-md-3">
+          <label class="font-size-s">Citizenship</label><br /><span>{{ isCitizen }}</span>
+        </div>
+        <div class="col-md-3">
+          <label class="font-size-s">Country</label><br /><span>{{ country != null ? country : '-' }}</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-3">
+          <label class="font-size-s">{{ isCitizen==true?'ICNO':'Passport Number' }}</label><br /><span>{{ isCitizen==true?icNo:passportNo }}0</span>
+        </div>
+        <div class="col-md-3">
+          <label class="font-size-s">Gender</label><br /><span>{{ gender != null ? gender : '-' }}</span>
+        </div>
+        <div class="col-md-3">
+          <label class="font-size-s">Race</label><br /><span>{{ race != null ? race : '-' }}</span>
+        </div>
+        <div class="col-md-3">
+          <label class="font-size-s">Religion</label><br /><span>{{ religion != null ? religion : '-' }}</span>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <label class="font-size-s">Address</label><br /><span>{{ address != null ? address : '-' }}</span>
+        </div>
+      </div>
+      <div class="row">&nbsp;</div>
+      <div class="row">
+        <div class="col-md-4">
+          <label class="font-size-s">Mobile Number</label><br /><span>{{ mobileno != null ? mobileno : '-' }}</span>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="" style="width:100%;" > 
+            <mat-select formControlName="accountStatus" placeholder="Select Account Status" (change)="checkReqValues()">
+                <mat-option *ngFor="let status of AccStatusData" [value]="status.accountStatusId">{{ status.accountStatusDescription }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">&nbsp;</div>
+      </div>
+
     </div>
-    
-    <div class="float-right paddingTop-15">
-      <mat-form-field style="width:50px; margin-top: -10px">
-        <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.userTable?.totalPages)">
-          <mat-option value="5">5</mat-option>
-          <mat-option value="10">10</mat-option>
-          <mat-option value="25">25</mat-option>
-          <mat-option value="50">50</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <span class="float-right">
-        <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-          <strong>{{commonservice.userTable?.pageNumber}}</strong> of
-          <strong>{{commonservice.userTable?.totalPages}}</strong> in
-          <strong>{{commonservice.userTable?.totalElements}}</strong> users</span>
-        <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.userTable?.pageNumber)">
-          <i class="fa fa-angle-left" aria-hidden="true"></i>
-        </button>
-        <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.userTable?.pageNumber, commonservice.userTable?.totalPages)">
-          <i class="fa fa-angle-right" aria-hidden="true"></i>
-        </button>
-      </span>
+
+    <div class="form-group paddingTop-20">
+      <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
+        (click)="updateAction(userForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        <i *ngIf="complete" class="fa fa-check"></i>
+        <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
+      <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
+        style="width: 100px; font-family: Roboto" (click)="myFunction()">
+        <i class="fa fa-refresh"></i>&nbsp;Reset</button>
     </div>
-    
-    </div>
+    <div class="col-md-12">&nbsp;</div>
+  </form>
+
+</div>

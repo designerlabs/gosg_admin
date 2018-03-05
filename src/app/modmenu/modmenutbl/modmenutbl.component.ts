@@ -34,6 +34,7 @@ export class ModmenutblComponent implements OnInit {
   seqPageSize = 0;
   lang:any;
   languageId: any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -91,15 +92,25 @@ export class ModmenutblComponent implements OnInit {
   // get module Data 
   getModuleData(count, size) {
 
+    this.loading = true;
     this.http.get(this.appConfig.urlModule + '?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(
       data => {
-        this.moduleList = data;
-        console.log(this.moduleList)
-        this.dataSource.data = this.moduleList['moduleList'];
-        this.seqPageNum = this.moduleList.pageNumber;
-        this.seqPageSize = this.moduleList.pageSize;
-        this.commonservice.recordTable = this.moduleList;
-        this.noNextData = this.moduleList.pageNumber === this.moduleList.totalPages;
+        this.commonservice.errorHandling(data, (function(){
+          this.moduleList = data;
+          console.log(this.moduleList)
+          this.dataSource.data = this.moduleList['moduleList'];
+          this.seqPageNum = this.moduleList.pageNumber;
+          this.seqPageSize = this.moduleList.pageSize;
+          this.commonservice.recordTable = this.moduleList;
+          this.noNextData = this.moduleList.pageNumber === this.moduleList.totalPages;
+            
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);  
+        this.loading = false;
       });
       
   }

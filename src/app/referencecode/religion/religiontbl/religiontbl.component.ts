@@ -41,6 +41,7 @@ export class ReligiontblComponent implements OnInit {
   public getRaceEng: any;
 
   public languageId: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -93,6 +94,7 @@ export class ReligiontblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlReligion + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -108,10 +110,11 @@ export class ReligiontblComponent implements OnInit {
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     }).bind(this)); 
+    this.loading = false;
   },
   error => {
-
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+    this.loading = false;
     console.log(error);
 
       //
@@ -154,6 +157,7 @@ export class ReligiontblComponent implements OnInit {
     let txt;
 
     console.log(refCode);
+    this.loading = true;
     this.commonservice.delReligion(refCode).subscribe(
       data => {
 
@@ -162,11 +166,12 @@ export class ReligiontblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
-                  
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
         console.log(error);
     });
 

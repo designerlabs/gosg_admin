@@ -41,6 +41,7 @@ export class IdentificationtypetblComponent implements OnInit {
   public getIdentificationTypeIdMy: any;
   public getIdentificationTypeMy: any;
   public getIdentificationTypeEng: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -91,13 +92,11 @@ export class IdentificationtypetblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + count + '&size=' + size + "?language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
-
-      console.log("data");
-      console.log(data);
 
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
@@ -106,9 +105,10 @@ export class IdentificationtypetblComponent implements OnInit {
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     }).bind(this)); 
+    this.loading = false;
   },
   error => {
-
+    this.loading = false;
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
     console.log(error);
 
@@ -146,6 +146,7 @@ export class IdentificationtypetblComponent implements OnInit {
 
     let txt;
 
+    this.loading = true;
     console.log(refCode);
     this.commonservice.delIdentificationType(refCode).subscribe(
       data => {
@@ -155,10 +156,10 @@ export class IdentificationtypetblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
-                  
+        this.loading = false;
       },
       error => {
-
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });

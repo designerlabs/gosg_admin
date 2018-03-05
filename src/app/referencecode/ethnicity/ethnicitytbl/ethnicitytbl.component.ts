@@ -41,6 +41,7 @@ export class EthnicitytblComponent implements OnInit {
   public getRaceMy: any;
   public getRaceEng: any;
   public languageId: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -100,6 +101,7 @@ export class EthnicitytblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -116,9 +118,10 @@ export class EthnicitytblComponent implements OnInit {
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
-
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         console.log(error);
 
@@ -162,6 +165,7 @@ export class EthnicitytblComponent implements OnInit {
     let txt;    
 
     console.log(refCode);
+    this.loading = true;
     this.commonservice.delRace(refCode).subscribe(
       data => {
 
@@ -170,10 +174,10 @@ export class EthnicitytblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
-                  
+        this.loading = false;
       },
       error => {
-
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });

@@ -38,6 +38,7 @@ export class MinistrytblComponent implements OnInit {
   languageId: any;
   collectModules:any;
   filterTypeVal: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -104,11 +105,11 @@ export class MinistrytblComponent implements OnInit {
   // get ministry Data 
   getMinistryData(count, size) {
     this.dataUrl = this.appConfig.urlGetMinistry;
-    console.log(this.dataUrl + '/?page=' + count + '&size=' + size)
 
+    this.loading = true;
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
-      // this.http.get(this.dataUrl).subscribe(
       data => {
+        this.commonservice.errorHandling(data, (function(){
         this.ministryList = data;
         console.log(this.ministryList)
         this.dataSource.data = this.ministryList.list;
@@ -116,7 +117,15 @@ export class MinistrytblComponent implements OnInit {
         this.seqPageSize = this.ministryList.pageSize;
         this.commonservice.recordTable = this.ministryList;
         this.noNextData = this.ministryList.pageNumber === this.ministryList.totalPages;
-      });
+          
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);  
+        this.loading = false;
+        });
   }
 
   getFilterList(count, size, keyword, filterkeyword) {
@@ -126,6 +135,7 @@ export class MinistrytblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
+      this.loading = true;
       this.http.get(this.dataUrl).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -141,10 +151,12 @@ export class MinistrytblComponent implements OnInit {
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         console.log(error);
+        this.loading = false;
       });
     }
   }
@@ -180,21 +192,25 @@ export class MinistrytblComponent implements OnInit {
     // this.changePageMode(this.isEdit);
     this.router.navigate(['ministry', row]);
   }
-
     
-
   deleteItem(refCode) {
     let txt;
+    this.loading = true;
 
       this.commonservice.delMinistry(refCode).subscribe(
         data => {
-          console.log(data)
-          txt = "Ministry deleted successfully!";
-          this.toastr.success(txt, '');   
-          this.getMinistryData(this.pageCount, this.pageSize);
+            this.commonservice.errorHandling(data, (function(){
+            console.log(data)
+            txt = "Ministry deleted successfully!";
+            this.toastr.success(txt, '');   
+            this.getMinistryData(this.pageCount, this.pageSize);
+          }).bind(this)); 
+          this.loading = false;
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          console.log(error);
+          this.loading = false;
         });
 
   }

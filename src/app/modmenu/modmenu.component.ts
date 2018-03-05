@@ -36,6 +36,7 @@ export class ModmenuComponent implements OnInit {
   moduleDesc: FormControl
   moduleUrl: FormControl
   active: FormControl
+  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -107,24 +108,34 @@ export class ModmenuComponent implements OnInit {
 
   // get, add, update, delete
   getRow(row) {
+    this.loading = true;
 
     // Update Slider Service
     return this.http.get(this.appConfig.urlModule + '/' + row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
+        this.commonservice.errorHandling(Rdata, (function(){
 
         this.moduleData = Rdata['module'];
         console.log(this.moduleData)
         // console.log(this.appConfig.urlMenu + "/" + row)
 
-      // populate data
-      this.modulesForm.get('moduleName').setValue(this.moduleData['moduleName']);
-      this.modulesForm.get('moduleDesc').setValue(this.moduleData['moduleDescription']);
-      this.modulesForm.get('moduleUrl').setValue(this.moduleData['moduleUrl']);
-      this.modulesForm.get('active').setValue(this.moduleData['active']);
-      this.moduleId = this.moduleData['moduleId'];
+        // populate data
+        this.modulesForm.get('moduleName').setValue(this.moduleData['moduleName']);
+        this.modulesForm.get('moduleDesc').setValue(this.moduleData['moduleDescription']);
+        this.modulesForm.get('moduleUrl').setValue(this.moduleData['moduleUrl']);
+        this.modulesForm.get('active').setValue(this.moduleData['active']);
+        this.moduleId = this.moduleData['moduleId'];
 
-      this.checkReqValues();
+        this.checkReqValues();
+              
+      }).bind(this));
+      this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);  
+      this.loading = false;
     });
     
   }

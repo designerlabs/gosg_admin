@@ -35,6 +35,7 @@ export class PollquestiontblComponent implements OnInit {
 
   dataUrl: any;  
   languageId: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -104,6 +105,7 @@ export class PollquestiontblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size + '&language=' +this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
       .subscribe(data => {
 
@@ -120,12 +122,13 @@ export class PollquestiontblComponent implements OnInit {
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
         }).bind(this)); 
+        this.loading = false;
     },
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
-
+      this.loading = false;
     });
 
   }

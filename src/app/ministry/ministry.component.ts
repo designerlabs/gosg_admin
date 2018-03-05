@@ -61,6 +61,7 @@ export class MinistryComponent implements OnInit {
   mdecStatus: FormControl
 
   resetMsg = this.resetMsg;
+  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -180,51 +181,56 @@ export class MinistryComponent implements OnInit {
   // get, add, update, delete
   getRow(row) {
 
-    // Update ErrorMsg Service
+
+    this.loading = true;
+    // Update Ministry Service
     return this.http.get(this.appConfig.urlGetMinistry + "/" + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + row + "/").subscribe(
       Rdata => {
+        this.commonservice.errorHandling(Rdata, (function(){
 
-        this.MinistryData = Rdata;
-        // console.log(JSON.stringify(this.MinistryData))
-        console.log(this.MinistryData)
-        let dataEn = this.MinistryData['ministryEntityList'][0];
-        let dataBm = this.MinistryData['ministryEntityList'][1];
+          this.MinistryData = Rdata;
+          // console.log(JSON.stringify(this.MinistryData))
+          console.log(this.MinistryData)
+          let dataEn = this.MinistryData['ministryEntityList'][0];
+          let dataBm = this.MinistryData['ministryEntityList'][1];
 
-      // populate data
-      this.ministryForm.get('ministryNameEn').setValue(dataEn.ministryName);
-      this.ministryForm.get('descEn').setValue(dataEn.ministryDescription);
-      this.ministryForm.get('ministryNameBm').setValue(dataBm.ministryName);
-      this.ministryForm.get('descBm').setValue(dataBm.ministryDescription);
-      this.ministryForm.get('active').setValue(dataBm.ministryStatus);
-      this.ministryForm.get('address').setValue(dataBm.ministryAddress);
-      this.ministryForm.get('contactperson').setValue(dataBm.ministryContactPerson);
-      this.ministryForm.get('agclat').setValue(dataBm.ministryLatitude);
-      this.ministryForm.get('agclong').setValue(dataBm.ministryLongitude);
-      this.ministryForm.get('phoneno').setValue(dataBm.ministryPhone);
-      this.ministryForm.get('faxno').setValue(dataBm.ministryFax);
-      this.ministryForm.get('email').setValue(dataBm.ministryEmail);
-      this.ministryForm.get('websiteUrl').setValue(dataBm.ministryWebsiteUrl);
-      this.ministryForm.get('rssUrl').setValue(dataBm.ministryRss);
-      this.ministryForm.get('youtubeUrl').setValue(dataBm.ministryYoutube);
-      this.ministryForm.get('twitterUrl').setValue(dataBm.ministryTwitter);
-      this.ministryForm.get('flickrUrl').setValue(dataBm.ministryFlickr);
-      this.ministryForm.get('blogUrl').setValue(dataBm.ministryBlog);
-      this.ministryForm.get('instagramUrl').setValue(dataBm.ministryInstagram);
-      this.ministryForm.get('fbUrl').setValue(dataBm.ministryFacebook);
-      this.ministryForm.get('mdecStatus').setValue(dataBm.ministryMdecstatus);
-      this.refCode = dataEn.ministryCode;
-      this.ministryIdEn = dataEn.ministryId;
-      this.ministryIdBm = dataBm.ministryId;
+        // populate data
+        this.ministryForm.get('ministryNameEn').setValue(dataEn.ministryName);
+        this.ministryForm.get('descEn').setValue(dataEn.ministryDescription);
+        this.ministryForm.get('ministryNameBm').setValue(dataBm.ministryName);
+        this.ministryForm.get('descBm').setValue(dataBm.ministryDescription);
+        this.ministryForm.get('active').setValue(dataBm.ministryStatus);
+        this.ministryForm.get('address').setValue(dataBm.ministryAddress);
+        this.ministryForm.get('contactperson').setValue(dataBm.ministryContactPerson);
+        this.ministryForm.get('agclat').setValue(dataBm.ministryLatitude);
+        this.ministryForm.get('agclong').setValue(dataBm.ministryLongitude);
+        this.ministryForm.get('phoneno').setValue(dataBm.ministryPhone);
+        this.ministryForm.get('faxno').setValue(dataBm.ministryFax);
+        this.ministryForm.get('email').setValue(dataBm.ministryEmail);
+        this.ministryForm.get('websiteUrl').setValue(dataBm.ministryWebsiteUrl);
+        this.ministryForm.get('rssUrl').setValue(dataBm.ministryRss);
+        this.ministryForm.get('youtubeUrl').setValue(dataBm.ministryYoutube);
+        this.ministryForm.get('twitterUrl').setValue(dataBm.ministryTwitter);
+        this.ministryForm.get('flickrUrl').setValue(dataBm.ministryFlickr);
+        this.ministryForm.get('blogUrl').setValue(dataBm.ministryBlog);
+        this.ministryForm.get('instagramUrl').setValue(dataBm.ministryInstagram);
+        this.ministryForm.get('fbUrl').setValue(dataBm.ministryFacebook);
+        this.ministryForm.get('mdecStatus').setValue(dataBm.ministryMdecstatus);
+        this.refCode = dataEn.ministryCode;
+        this.ministryIdEn = dataEn.ministryId;
+        this.ministryIdBm = dataBm.ministryId;
 
-      this.checkReqValues();
+        this.checkReqValues();
+            
+      }).bind(this));
+      this.loading = false;
     },
     error => {
-        this.toastr.error('Sorry, Server is down');
-        // this.toastr.error(this.translate.instant('common.err.servicedown'), '');
-        //this.alertService.error(error);
-        //this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);  
+      this.loading = false;
     });
     
   }
@@ -494,7 +500,8 @@ export class MinistryComponent implements OnInit {
         this.router.navigate(['ministry']);
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);  
       });
     }
     

@@ -36,6 +36,7 @@ export class EthnicityComponent implements OnInit {
 
   complete: boolean;
   public languageId: any;
+  public loading = false;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -96,6 +97,7 @@ export class EthnicityComponent implements OnInit {
     // this.appConfig.urlRaceList
     this.dataUrl = this.appConfig.urlRaceList + '/code/'+ _getRefID + "?language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -114,9 +116,10 @@ export class EthnicityComponent implements OnInit {
       this.getRaceActive = this.recordList.raceList[0].active;
 
     }).bind(this));   
+    this.loading = false;
   },
   error => {
-
+    this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
 
@@ -172,6 +175,7 @@ export class EthnicityComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
       this.commonservice.addRace(body).subscribe(
         data => {
 
@@ -179,9 +183,10 @@ export class EthnicityComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['reference/ethnicity']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
-
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
@@ -240,6 +245,7 @@ export class EthnicityComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
       this.commonservice.updateRace(body).subscribe(
         data => {
 
@@ -247,9 +253,10 @@ export class EthnicityComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['reference/ethnicity']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
-
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 

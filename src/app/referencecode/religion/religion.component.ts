@@ -36,6 +36,7 @@ export class ReligionComponent implements OnInit {
 
   complete: boolean;
   public languageId: any;
+  public loading = false;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -97,6 +98,7 @@ export class ReligionComponent implements OnInit {
     // this.dataUrl = this.appConfig.urlReligionList + '/code/'+ _getRefID;
     this.dataUrl = this.appConfig.urlReligion + '/'+ _getRefID + "?language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -116,12 +118,13 @@ export class ReligionComponent implements OnInit {
       // this.getRaceActive = this.recordList.raceList[0].active;
 
     }).bind(this));   
+    this.loading = false;
   },
   error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
-
+      this.loading = false;
 
     });
   }
@@ -175,6 +178,7 @@ export class ReligionComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
       this.commonservice.addReligion(body).subscribe(
         data => {
 
@@ -182,10 +186,12 @@ export class ReligionComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['reference/religion']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;
           console.log(error);
 
         //   console.log(JSON.stringify(body))
@@ -244,6 +250,7 @@ export class ReligionComponent implements OnInit {
       // body[1].active = formValues.active;
 
       console.log(body);
+      this.loading = true;
 
       this.commonservice.updateReligion(body).subscribe(
         data => {
@@ -252,10 +259,12 @@ export class ReligionComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['reference/religion']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;
           console.log(error);
 
         //   console.log(JSON.stringify(body))

@@ -41,6 +41,7 @@ export class CitizentypetblComponent implements OnInit {
   public getUserTypeIdMy: any;
   public getUserTypeMy: any;
   public getUserTypeEng: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -92,6 +93,7 @@ export class CitizentypetblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlUserTypeList + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -108,12 +110,13 @@ export class CitizentypetblComponent implements OnInit {
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
     }).bind(this)); 
+    this.loading = false;
   },
   error => {
 
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
     console.log(error);
-
+    this.loading = false;
       //
       // this.getRaceIdMy = this.recordList.raceList[0].raceId;
       // this.getRaceIdEng = this.recordList.raceList[1].raceId;
@@ -153,6 +156,7 @@ export class CitizentypetblComponent implements OnInit {
 
     let txt;
 
+    this.loading = true;
     console.log(refCode);
     this.commonservice.delUserType(refCode).subscribe(
       data => {
@@ -162,10 +166,11 @@ export class CitizentypetblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
+        this.loading = false;
                   
       },
       error => {
-
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });

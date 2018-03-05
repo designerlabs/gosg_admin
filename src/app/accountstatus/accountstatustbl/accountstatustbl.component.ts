@@ -20,7 +20,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 export class AccountstatustblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];
+  displayedColumns = ['num','accEng', 'status'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -85,7 +85,7 @@ export class AccountstatustblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    this.dataUrl = this.appConfig.urlAccountStatus+'/';
 
     this.http.get(this.dataUrl)
     .subscribe(data => {

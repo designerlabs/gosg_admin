@@ -239,3 +239,9 @@ label {
     display: inline-block;
     line-height: 24px;
 }
+    
+.bg-form-header {
+    padding: 10px;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+    }

@@ -29,6 +29,7 @@ export class MediafileuploadtblComponent implements OnInit {
   dataUrl;
   resultData = null;
   dataSource = new MatTableDataSource<object>(this.mediaList);
+  public loading = false;
 
   constructor(private commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
     /* LANGUAGE FUNC */
@@ -62,6 +63,7 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   getMediaList(count, size) {
+    this.loading = true;
     this.dataUrl = this.appConfig.urlMediaFileUpload + '/?page=' + count + '&size=' + size;
     return this.http.get(this.dataUrl)
        .subscribe(resData => {
@@ -74,10 +76,11 @@ export class MediafileuploadtblComponent implements OnInit {
           this.mediaList = resData['list'];  
           this.dataSource.data = this.mediaList; 
         }).bind(this));     
+        this.loading = false;
         },
-        Error => {
-        //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-        console.log('Error in State');
+        error => {
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
        });
   }
 

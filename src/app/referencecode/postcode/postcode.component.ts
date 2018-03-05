@@ -19,6 +19,7 @@ export class PostcodeComponent implements OnInit {
   selCityInfo: any;
   // public stateList: any;
   public languageId: any;
+  public loading = false;
 
   constructor(private commonservice: CommonService,
   private translate: TranslateService, private toastr: ToastrService) {
@@ -51,14 +52,16 @@ export class PostcodeComponent implements OnInit {
   }
     
   getState(id?){
+    this.loading = true;
     return this.commonservice.getStateData()
      .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function(){
         this.getStateData = resStateData["stateList"];        //.stateList
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
-  
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
      });
@@ -68,14 +71,16 @@ export class PostcodeComponent implements OnInit {
     this.getPostData = '';
     this.selStateInfo = e;
     if(e){
+      this.loading = true;
       return this.commonservice.getCitiesbyState(e.value.stateId)
       .subscribe(resCityData => {
         this.commonservice.errorHandling(resCityData, (function(){
         this.getCityData = resCityData["cityList"];          
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
-  
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);     
      });
@@ -86,14 +91,16 @@ export class PostcodeComponent implements OnInit {
     this.selCityInfo = e;
     console.log(e);
     if(e){
+      this.loading = true;
       return this.commonservice.getPostCodeData(e.value.cityCode)
       .subscribe(resPostCodeData => {
         this.commonservice.errorHandling(resPostCodeData, (function(){
         this.getPostData = resPostCodeData["postcodeList"];
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
-  
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);      
      });
