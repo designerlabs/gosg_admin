@@ -32,6 +32,7 @@ export class AccountstatusComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public loading = false;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -97,7 +98,7 @@ export class AccountstatusComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];
   
     this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID + '?language=' +this.languageId;
-
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -116,10 +117,12 @@ export class AccountstatusComponent implements OnInit {
 
         this.checkReqValues();
       }).bind(this));   
+      this.loading = false;
     },
     error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
         console.log(error);
       
     });
@@ -155,7 +158,7 @@ export class AccountstatusComponent implements OnInit {
 
       console.log("TEST")
       console.log(JSON.stringify(body))
-     
+      this.loading = true;
       this.commonservice.addRecordAccStatus(body).subscribe(
         data => {         
           
@@ -163,10 +166,12 @@ export class AccountstatusComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['account']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;
           console.log(error);
       });
     }
@@ -201,7 +206,7 @@ export class AccountstatusComponent implements OnInit {
 
       console.log("UPDATE: ");
       console.log(body);
-
+      this.loading = true;
       this.commonservice.updateRecordAccStatus(body).subscribe(
         data => {
           
@@ -209,11 +214,13 @@ export class AccountstatusComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['account']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
+          this.loading = false;
       });
     }
     

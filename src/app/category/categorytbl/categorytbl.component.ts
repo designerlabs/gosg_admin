@@ -33,6 +33,7 @@ export class CategorytblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -87,7 +88,7 @@ export class CategorytblComponent implements OnInit {
 
   
     this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
-
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -104,10 +105,12 @@ export class CategorytblComponent implements OnInit {
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this));
+      this.loading = false;
     },
     error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
         console.log(error);
     });
   }
@@ -140,6 +143,7 @@ export class CategorytblComponent implements OnInit {
   deleteRow(refcode) {
    
     console.log(refcode);
+    this.loading = true;
     this.commonservice.delRecordAccStatus(refcode).subscribe(
       data => {
         
@@ -149,10 +153,12 @@ export class CategorytblComponent implements OnInit {
           this.getRecordList(this.pageCount, this.pageSize);
         
         }).bind(this));    
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
         console.log(error);
     });    
   }

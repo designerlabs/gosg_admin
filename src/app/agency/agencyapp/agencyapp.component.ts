@@ -53,6 +53,7 @@ export class AgencyappComponent implements OnInit {
   agencyEn: FormControl
   agencyBm: FormControl
   websiteUrl: FormControl
+  public loading = false;
   isDoc: FormControl
   resetMsg = this.resetMsg;
 
@@ -136,12 +137,19 @@ export class AgencyappComponent implements OnInit {
 
   // get, add, update, delete
   getRow(row) {
-
+    
     // Update ErrorMsg Service
+    this.loading = true;
     return this.http.get(this.appConfig.urlGetAgencyApp + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
       Rdata => {
+      
+
+        this.commonservice.errorHandling(Rdata, (function(){
+
+    
+
 
         this.AgencyAppData = Rdata;
         // console.log(JSON.stringify(this.AgencyAppData))
@@ -150,31 +158,41 @@ export class AgencyappComponent implements OnInit {
         let dataBm = this.AgencyAppData['agencyApplicationList'][1];
 
       // populate data
-      this.agencyAppForm.get('agencyAppNameEn').setValue(dataEn.agencyApplicationName);
-      this.agencyAppForm.get('descEn').setValue(dataEn.agencyApplicationDescription);
-      this.agencyAppForm.get('agencyAppNameBm').setValue(dataBm.agencyApplicationName);
-      this.agencyAppForm.get('descBm').setValue(dataBm.agencyApplicationDescription);
-      this.agencyAppForm.get('agencyEn').setValue(dataEn.agencyName);
-      this.agencyAppForm.get('agencyBm').setValue(dataBm.agencyName);
-      this.agencyAppForm.get('websiteUrl').setValue(dataBm.agencyApplicationUrl);
-      this.agencyAppForm.get('isDoc').setValue(dataBm.isDocument);
-      this.refCode = dataEn.agencyApplicationCode;
-      this.agencyAppIdEn = dataEn.agencyApplicationId;
-      this.agencyAppIdBm = dataBm.agencyApplicationId;
-      this.agencyIdEn = dataEn.agencyId;
-      this.agencyIdBm = dataBm.agencyId;
-      this.ministryNameEn = dataEn.ministryName;
-      this.ministryNameBm = dataBm.ministryName;
-
-      this.checkReqValues();
+        this.agencyAppForm.get('agencyAppNameEn').setValue(dataEn.agencyApplicationName);
+        this.agencyAppForm.get('descEn').setValue(dataEn.agencyApplicationDescription);
+        this.agencyAppForm.get('agencyAppNameBm').setValue(dataBm.agencyApplicationName);
+        this.agencyAppForm.get('descBm').setValue(dataBm.agencyApplicationDescription);
+        this.agencyAppForm.get('agencyEn').setValue(dataEn.agencyName);
+        this.agencyAppForm.get('agencyBm').setValue(dataBm.agencyName);
+        this.agencyAppForm.get('websiteUrl').setValue(dataBm.agencyApplicationUrl);
+        this.agencyAppForm.get('isDoc').setValue(dataBm.isDocument);
+        this.refCode = dataEn.agencyApplicationCode;
+        this.agencyAppIdEn = dataEn.agencyApplicationId;
+        this.agencyAppIdBm = dataBm.agencyApplicationId;
+        this.agencyIdEn = dataEn.agencyId;
+        this.agencyIdBm = dataBm.agencyId;
+        this.ministryNameEn = dataEn.ministryName;
+        this.ministryNameBm = dataBm.ministryName;
+        this.checkReqValues();
+      }).bind(this));
+      this.loading = false;
+    }, err => {
+      this.loading = false;
     });
     
   }
 
   getAgency() {
+    this.loading = true;
     return this.http.get(this.appConfig.urlAgency + '/code'+ '?language='+this.languageId).subscribe(
         Rdata => {
-          this.AgencyData = Rdata['list'];
+
+        this.commonservice.errorHandling(Rdata, (function(){
+            this.AgencyData = Rdata['list'];
+        }).bind(this));
+          this.loading = false;
+      }, err => {
+        this.loading = false;
       });
   }
 
@@ -203,18 +221,24 @@ export class AgencyappComponent implements OnInit {
         this.isActiveListBm = true;
         this.isActiveListEn = false;
       }
-
+      this.loading = true;
       this.http.get(
         this.appConfig.urlSearchbyAgency+keyword+'?language='+langId).subscribe(
         data => {
-          console.log(this.appConfig.urlSearchbyAgency+keyword+'?language='+langId);
-          if(langId == 1) {
-            this.searchAgencyResultEn = data['agencyList'];
-            console.log(this.searchAgencyResultEn)
-          } else {
-            this.searchAgencyResultBm = data['agencyList'];
-            console.log(this.searchAgencyResultBm)
-          }
+
+        this.commonservice.errorHandling(data, (function(){
+            console.log(this.appConfig.urlSearchbyAgency+keyword+'?language='+langId);
+            if(langId == 1) {
+              this.searchAgencyResultEn = data['agencyList'];
+              console.log(this.searchAgencyResultEn)
+            } else {
+              this.searchAgencyResultBm = data['agencyList'];
+              console.log(this.searchAgencyResultBm)
+            }
+        }).bind(this));
+          this.loading = false;
+      },err => {
+        this.loading = false;
       });
     } else {
       this.isActiveListEn = false;
@@ -265,25 +289,31 @@ export class AgencyappComponent implements OnInit {
       langId = 1;
       selLangField = "agencyEn";
     }
-
+    this.loading = true;
     return this.http.get(this.appConfig.urlGetAgency + '/code/language/' + refCode+ '?language='+langId).subscribe(
       data => {
-        console.log('refCode Data');
-        console.log(data);
 
-        mName = data['agencyList'][0]['agencyMinistry']['ministryName'];
-        aName = data['agencyList'][0]['agencyName'];
-        aId = data['agencyList'][0]['agencyId'];
-        
-        this.agencyAppForm.get(selLangField).setValue(aName);
+        this.commonservice.errorHandling(data, (function(){
+          console.log('refCode Data');
+          console.log(data);
 
-        if(langId == 1) {
-          this.agencyIdEn = aId;
-          this.ministryNameEn = mName;
-        } else {
-          this.agencyIdBm = aId;
-          this.ministryNameBm = mName;
-        }
+          mName = data['agencyList'][0]['agencyMinistry']['ministryName'];
+          aName = data['agencyList'][0]['agencyName'];
+          aId = data['agencyList'][0]['agencyId'];
+          
+          this.agencyAppForm.get(selLangField).setValue(aName);
+
+          if(langId == 1) {
+            this.agencyIdEn = aId;
+            this.ministryNameEn = mName;
+          } else {
+            this.agencyIdBm = aId;
+            this.ministryNameBm = mName;
+          }
+        }).bind(this));
+        this.loading = false;
+    }, err => {
+      this.loading = false;
     });
   }
 
@@ -383,15 +413,18 @@ export class AgencyappComponent implements OnInit {
     console.log(body)
 
     // Add ErrorMsg Service
+    this.loading = true;
     this.commonservice.addAgencyApp(body).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
         }).bind(this));  
         this.router.navigate(['agencyapp']);
+        this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');       
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;       
       });
 
     } else {
@@ -444,15 +477,18 @@ export class AgencyappComponent implements OnInit {
     console.log(body);
 
     // Update AgencyApp Service
+    this.loading = true;
     this.commonservice.updateAgencyApp(body).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
         }).bind(this));  
         this.router.navigate(['agencyapp']);
+        this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
       });
     }
 
