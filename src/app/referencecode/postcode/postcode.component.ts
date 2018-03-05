@@ -84,8 +84,9 @@ export class PostcodeComponent implements OnInit {
 
   getPostcodeByCity(e){
     this.selCityInfo = e;
+    console.log(e);
     if(e){
-      return this.commonservice.getPostCodeData(e.value.cityId)
+      return this.commonservice.getPostCodeData(e.value.cityCode)
       .subscribe(resPostCodeData => {
         this.commonservice.errorHandling(resPostCodeData, (function(){
         this.getPostData = resPostCodeData["postcodeList"];

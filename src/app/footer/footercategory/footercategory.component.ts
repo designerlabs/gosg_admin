@@ -1,22 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-footercategory',
-//   templateUrl: './footercategory.component.html',
-//   styleUrls: ['./footercategory.component.css']
-// })
-// export class FootercategoryComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -41,24 +22,15 @@ export class FootercategoryComponent implements OnInit {
   
   public catEng: FormControl;
   public descEng: FormControl;
-
   public catMy: FormControl;
   public descMy: FormControl;
-
   public active: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
-
-  // public getIdentificationType: any;
-
   public getFooterIdEng: any;
   public getFooterIdMy: any;
-
   public getRefCode: any;
-
-
-
   complete: boolean;
   public languageId: any;
 
@@ -93,22 +65,17 @@ export class FootercategoryComponent implements OnInit {
     
     this.catEng = new FormControl();
     this.descEng = new FormControl();
-
     this.catMy = new FormControl();
     this.descMy = new FormControl();
-
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
       catEng: this.catEng,
       catMy: this.catMy,
-
       descEng: this.descEng,
       descMy: this.descMy,
-
       active: this.active,
-
       
     });     
     
@@ -122,48 +89,45 @@ export class FootercategoryComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+ // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
   }
 
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-    // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlFooterCategory + "/" + _getRefID + "?language=" + this.languageId;;
+    this.dataUrl = this.appConfig.urlFooterCategory + "/" + _getRefID + "?language=" + this.languageId;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      // this.commonservice.errorHandling(data, (function(){
-      this.recordList = data;
+      this.commonservice.errorHandling(data, (function(){
+        this.recordList = data;
 
-      console.log(data);
+        console.log(data);
 
-      this.updateForm.get('catEng').setValue(this.recordList.list[0].name);
-      this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
-      this.updateForm.get('active').setValue(this.recordList.active);
+        this.updateForm.get('catEng').setValue(this.recordList.list[0].name);
+        this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
+        this.updateForm.get('active').setValue(this.recordList.active);
 
-      this.updateForm.get('catMy').setValue(this.recordList.list[1].name);
-      this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
+        this.updateForm.get('catMy').setValue(this.recordList.list[1].name);
+        this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
 
-      this.getRefCode = this.recordList.refCode;
-      this.getFooterIdEng = this.recordList.list[0].id;
-      this.getFooterIdMy = this.recordList.list[1].id;
+        this.getRefCode = this.recordList.refCode;
+        this.getFooterIdEng = this.recordList.list[0].id;
+        this.getFooterIdMy = this.recordList.list[1].id;
 
-    // }).bind(this));   
-  },
-  error => {
+        this.checkReqValues();
+
+      }).bind(this));   
+    },
+    error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
-      
-      // this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
-      // this.getFaqIdEng = this.recordList.faqList[0].faqId;
-      
-      // this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
-      // this.getFaqIdMy = this.recordList.faqList[1].faqId;
-
-      this.checkReqValues();
-
+      console.log(error);   
     });
+    
   }
 
   back(){
@@ -172,17 +136,6 @@ export class FootercategoryComponent implements OnInit {
 
   submit(formValues: any) {
     
-    let flag = false;
-    let txt = "";
-
-    if(formValues.active == null){
-      flag = false;
-    }
-
-    else{
-      flag = formValues.active;
-    }
-
     let urlEdit = this.router.url.split('/')[3];
 
     // add form
@@ -315,18 +268,6 @@ export class FootercategoryComponent implements OnInit {
 
     this.updateForm.reset();
     this.checkReqValues(); 
-
-    // var txt;
-    // var r = confirm("Are you sure to reset the form?");
-    // if (r == true) {
-    //     txt = "You pressed OK!";
-    //     this.toastr.success(txt, ''); 
-    //     this.updateForm.reset();
-    //     this.checkReqValues();
-    // } else {
-    //     txt = "You pressed Cancel!";
-    //     this.toastr.success(txt, '');
-    // }
   }
 
 }
