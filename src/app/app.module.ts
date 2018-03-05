@@ -105,6 +105,8 @@ import { ColorComponent } from './color/color.component';
 import { ColortblComponent } from './color/colortbl/colortbl.component';
 import { FontComponent } from './font/font.component';
 import { FonttblComponent } from './font/fonttbl/fonttbl.component';
+import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
+import { LoadingModule } from 'ngx-loading';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -193,6 +195,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ColortblComponent,
     FontComponent,
     FonttblComponent,
+    UserdetailstblComponent,
   ],
   imports: [
     BrowserModule,
@@ -218,7 +221,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     NgxEditorModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    LoadingModule
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],

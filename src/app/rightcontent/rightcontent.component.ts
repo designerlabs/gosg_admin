@@ -19,7 +19,7 @@ import { environment } from '../../environments/environment';
 export class RightcontentComponent implements OnInit {
   menulst: any;
   menulist_non_admin: any;
-
+  public loading = false;
   applyFilter(filterValue: string) {
 
     filterValue = filterValue.trim(); // Remove whitespace
@@ -45,23 +45,29 @@ export class RightcontentComponent implements OnInit {
 
   getUserData(){
     if(!environment.staging){
+      this.loading = true;
       this.commonservice.getUsersDetails().subscribe(
         data => {
+      
           if(data['adminUser']){
             if(data['adminUser'].superAdmin){
               this.getMenuData();
             }else{
               this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
                 this.menulist_non_admin = data.data[1];
+                this.loading = false;
+              },
+              error => {
+                this.loading = false;
               });
             }
           }else{
             
           }
-          
+          this.loading = false;
         },
       error => {
-        
+          this.loading = false;
         }
       )
     }else{
@@ -71,23 +77,33 @@ export class RightcontentComponent implements OnInit {
   }
 
   getMenuData() {
+    this.loading = true;
     this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
       //debugger;
       console.log(this.menulst)
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
-    })
+      this.loading = false;
+    },
+    error => {
+        this.loading = false;
+      })
   }
 
   getMenuDataLocal() {
+    this.loading = true;
     this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       //debugger;
       console.log(this.menulst)
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
-    })
+      this.loading = false;
+    },
+    error => {
+        this.loading = false;
+      })
   }
 
 }

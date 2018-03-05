@@ -31,6 +31,7 @@ export class LeftmenuComponent implements OnInit {
   myControl = new FormControl();
   menulst: object;
   dataTbl: object;
+  public loading = false;
   mylst = 'Menu 1';
   options = [
     new User('Mary'),
@@ -60,31 +61,37 @@ export class LeftmenuComponent implements OnInit {
    
   }
 
+  
   @Input() state:string;
   @Input() getMail:string;
   @Input() superStatus:string;
 
   getUserData(){
     if(!environment.staging){
+      this.loading = true;
       this.commonservice.getUsersDetails().subscribe(
         data => {
           if(data['adminUser']){
             if(data['adminUser'].superAdmin){
               this.getMenuData();
             }else{
+              this.loading = true;
               this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
                 
                 this.menulist_non_admin = data.data[1];
-                debugger
-              });
+                this.loading = false;
+              },
+              error => {
+                this.loading = false;
+                });
             }
           }else{
             
           }
-          
+          this.loading = false;
         },
       error => {
-        
+        this.loading = false;
         }
       )
     }else{
@@ -99,22 +106,28 @@ export class LeftmenuComponent implements OnInit {
   }
 
   getMenuData() {
+    this.loading = true;
     this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
-      //debugger;
-      console.log(this.menulst)
-      // let myLangData =  getLang.filter(function(val) {
-      // }.bind(this));
+      this.loading = false;
+    }, err => {
+      this.loading = false;
+      //...
     })
   }
 
   getMenuDataLocal() {
+    this.loading = true;
     this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       //debugger;
-      console.log(this.menulst)
+      console.log(this.menulst);
+      this.loading = false;
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
+    }, err => {
+      this.loading = false;
+      //...
     })
   }
 
