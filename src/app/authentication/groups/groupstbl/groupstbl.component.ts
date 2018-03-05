@@ -25,7 +25,7 @@ export class GroupstblComponent implements OnInit {
   noPrevData = true;
   noNextData = false;
   displayedColumns = ['moduleGroupName', 'moduleName', 'isActive', 'action'];
-
+  public loading = false;
   dataSource = new MatTableDataSource<object>(this.groupList);
   @ViewChild(MatSort) sort: MatSort;
   // tslint:disable-next-line:max-line-length
@@ -78,6 +78,7 @@ export class GroupstblComponent implements OnInit {
   getGroupList(count, size) {
     
     this.dataUrl = this.appConfig.urlGroupList;
+    this.loading = true;
     this.http.get(this.dataUrl+'?page=' + count + '&size=' + size).subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -90,12 +91,13 @@ export class GroupstblComponent implements OnInit {
         this.noNextData = this.groupList.pageNumber === this.groupList.totalPages;
 
       }).bind(this));
-
+      this.loading = false;
 
       
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      this.loading = false;       
     });
   }
 
@@ -134,6 +136,7 @@ export class GroupstblComponent implements OnInit {
 
   
   deleteMail(msgId){
+    this.loading = true;
     this.commonservice.deleteModuleGroup(msgId).subscribe(
       data => {
 
@@ -142,10 +145,11 @@ export class GroupstblComponent implements OnInit {
           this.getGroupList(this.groupPageCount, this.groupPageSize);
         }).bind(this));
 
-
+        this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');            
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;         
       });
   }
 }

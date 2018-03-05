@@ -5,7 +5,7 @@
         <mat-icon>list</mat-icon>
     </button>
 </div>  [ngClass]="{'rightsdE':!side,'rightsdC':side}"-->
-
+<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 <app-nav [state]='getUserName' [getMail]='getEmail' [superStatus]='superAdmin'></app-nav>
 <app-leftmenu [state]='getUserName' [getMail]='getEmail' [superStatus]='superAdmin' class="leftsdE"></app-leftmenu>
 <div class="alnmt">

@@ -31,6 +31,7 @@ export class GroupsComponent implements OnInit {
   groupmodulename: FormControl;
   active: FormControl;
   groupmoduledesc: FormControl;
+  public loading = false;
   public languageId: any;
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
@@ -97,25 +98,36 @@ export class GroupsComponent implements OnInit {
     if(this.route.snapshot.params.id){
     this.statusTitle = "Update";
     this.isUpdate = true;
+    this.loading = true;
     this.commonservice.getModuleList( this.route.snapshot.params.id).subscribe(
       data => {
-        this.groupName = data.moduleGroupName;
-        this.groupDescription = data.moduleGroupDescription;
-        this.activeStatus = data.active;
-        this.moduleList = data.data[0];
-        this.selectedItems = data.data[1];
-        this.groupModule.get('groupmodulename').setValue(this.groupName);
-        this.groupModule.get('active').setValue(this.activeStatus);
-        this.groupModule.get('groupmoduledesc').setValue(this.groupDescription);
-        
+        this.commonservice.errorHandling(data, (function(){
+          this.groupName = data.moduleGroupName;
+          this.groupDescription = data.moduleGroupDescription;
+          this.activeStatus = data.active;
+          this.moduleList = data.data[0];
+          this.selectedItems = data.data[1];
+          this.groupModule.get('groupmodulename').setValue(this.groupName);
+          this.groupModule.get('active').setValue(this.activeStatus);
+          this.groupModule.get('groupmoduledesc').setValue(this.groupDescription);
+        }).bind(this));
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       });
     }else{
       this.statusTitle = "Add";
       this.isUpdate = false;
+      this.loading = true;
       this.commonservice.getModuleListAll().subscribe(
         data => {
-          this.moduleList = data.data[0];
-          this.selectedItems = data.data[1];
+          this.commonservice.errorHandling(data, (function(){
+            this.moduleList = data.data[0];
+            this.selectedItems = data.data[1];
+          }).bind(this));
+          this.loading = false;
+        }, err => {
+          this.loading = false;
         }
       )
     }
@@ -129,15 +141,17 @@ export class GroupsComponent implements OnInit {
       "active": this.groupModule.get('active').value ? true : false,
       "modules": this.selectedItems.items
     };
-
+    this.loading = true;
     this.commonservice.updateModuleList(this.updateData).subscribe(
       data => {
-        debugger;
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
           this.router.navigate(['groupmodule']);
         }).bind(this));
+        this.loading = false;
 
+      }, err => {
+        this.loading = false;
       }
     );
   }
@@ -150,15 +164,17 @@ export class GroupsComponent implements OnInit {
       "active": this.groupModule.get('active').value ? true : false,
       "modules": this.selectedItems.items
     };
-
+    this.loading = true;
     this.commonservice.addModuleGroup(this.addData).subscribe(
       data => {
-        debugger;
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
           this.router.navigate(['groupmodule']);
           
         }).bind(this));
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       }
     );
     

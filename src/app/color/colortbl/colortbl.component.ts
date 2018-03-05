@@ -34,6 +34,7 @@ export class ColortblComponent implements OnInit {
   seqPageSize = 0;
   lang:any;
   languageId: any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -90,16 +91,21 @@ export class ColortblComponent implements OnInit {
 
   // get color Data 
   getcolorData(count, size) {
-
+    this.loading = true;
     this.http.get(this.appConfig.urlGetColor + '?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(
       data => {
-        this.colorList = data;
-        console.log(this.colorList)
-        this.dataSource.data = this.colorList['list'];
-        this.seqPageNum = this.colorList.pageNumber;
-        this.seqPageSize = this.colorList.pageSize;
-        this.commonservice.recordTable = this.colorList;
-        this.noNextData = this.colorList.pageNumber === this.colorList.totalPages;
+        this.commonservice.errorHandling(data, (function(){
+          this.colorList = data;
+          console.log(this.colorList)
+          this.dataSource.data = this.colorList['list'];
+          this.seqPageNum = this.colorList.pageNumber;
+          this.seqPageSize = this.colorList.pageSize;
+          this.commonservice.recordTable = this.colorList;
+          this.noNextData = this.colorList.pageNumber === this.colorList.totalPages;
+        }).bind(this));
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       });
       
   }
@@ -135,16 +141,19 @@ export class ColortblComponent implements OnInit {
   }
 
   deleteItem(colorId) {
-
+      this.loading = true;
       this.commonservice.delColor(colorId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
+            this.getcolorData(this.pageCount, this.colorPageSize);
           }).bind(this));  
-          this.getcolorData(this.pageCount, this.colorPageSize);
+          this.loading = false;
+          
         },
         error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');    
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          this.loading = false;
         });
 
   }

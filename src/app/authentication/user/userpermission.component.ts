@@ -27,6 +27,7 @@ export class UserpermissionComponent implements OnInit {
   active: FormControl;
   groupmoduledesc: FormControl;
   statusTitle: any;
+  public loading = false;
   
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
@@ -85,15 +86,20 @@ export class UserpermissionComponent implements OnInit {
   getModuleData() {
     if(this.route.snapshot.params.id){
     this.statusTitle = "Update";
+    this.loading = true;
     this.commonservice.getUserList(this.route.snapshot.params.id).subscribe(
       data => {
-        this.username = data.username;
-        this.icno =data.icNo;
-        this.activeStatus = data.isActive;
-        this.moduleList = data.data[0];
-        this.selectedItems = data.data[1];
-        this.groupModule.get('active').setValue(this.active);
-        
+        this.commonservice.errorHandling(data, (function(){
+          this.username = data.username;
+          this.icno =data.icNo;
+          this.activeStatus = data.isActive;
+          this.moduleList = data.data[0];
+          this.selectedItems = data.data[1];
+          this.groupModule.get('active').setValue(this.active);
+        }).bind(this));
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       });
     }else{
       this.statusTitle = "Add";
@@ -164,10 +170,15 @@ export class UserpermissionComponent implements OnInit {
   }
 
   submit(){
-
+    this.loading = true;
     this.commonservice.updateUserPermission(this.route.snapshot.params.id, this.selectedItems.items).subscribe(
       data => {
-        this.toastr.success('updated successfully', '');   
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success('updated successfully', '');
+        }).bind(this));   
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       });
   }
 

@@ -48,6 +48,7 @@ export class CategoryComponent implements OnInit {
   public getImgEn: any;
   public getImgdBm: any;
   public catCode: any;
+  public loading = false;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -264,7 +265,7 @@ export class CategoryComponent implements OnInit {
   }
 
   getCategory(){
-
+    this.loading = true;
     return this.commonservice.getCategoryList()
      .subscribe(data => {
   
@@ -302,10 +303,12 @@ export class CategoryComponent implements OnInit {
           console.log(JSON.stringify(this.treeBm));
           
         }).bind(this));
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
         console.log(error);
     });
   }
@@ -367,7 +370,7 @@ export class CategoryComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];
   
     this.dataUrl = this.appConfig.urlCategory + '/'+_getRefID + '?language=' +this.languageId;
-
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -394,16 +397,18 @@ export class CategoryComponent implements OnInit {
 
         this.checkReqValues();
       }).bind(this));
+      this.loading = false;
     },
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.loading = false;
       console.log(error);      
     });
   }
 
   getImageList(){
-
+    this.loading = true;
     return this.commonservice.getImageList()
      .subscribe(resCatData => {
 
@@ -413,9 +418,11 @@ export class CategoryComponent implements OnInit {
         console.log(this.imageData);
 
       }).bind(this));
+      this.loading = false;
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.loading = false;
       console.log(error);
     });
   }
@@ -485,7 +492,7 @@ export class CategoryComponent implements OnInit {
 
       console.log("TEST")
       console.log(JSON.stringify(body))
-     
+      this.loading = true;
       this.commonservice.addCategory(body).subscribe(
         data => {         
           
@@ -494,11 +501,13 @@ export class CategoryComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['category']);
 
-          }).bind(this));   
+          }).bind(this)); 
+          this.loading = false;  
         },
         error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');    
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;   
           console.log(error);
       });
     }
@@ -550,7 +559,7 @@ export class CategoryComponent implements OnInit {
 
       console.log("UPDATE: ");
       console.log(JSON.stringify(body))
-
+      this.loading = true;
       this.commonservice.updateCategory(body).subscribe(
         data => {
           
@@ -560,10 +569,12 @@ export class CategoryComponent implements OnInit {
             this.router.navigate(['category']);
 
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;  
           console.log(error);
       });
     }

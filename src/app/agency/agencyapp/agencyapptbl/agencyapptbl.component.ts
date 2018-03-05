@@ -33,6 +33,7 @@ export class AgencyapptblComponent implements OnInit {
   lang:any;
   languageId: any;
   filterTypeVal: any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -97,17 +98,24 @@ export class AgencyapptblComponent implements OnInit {
 
   // get agencyapp Data 
   getAgencyAppData(count, size) {
-
+    this.loading = true;
     this.http.get(this.appConfig.urlGetAgencyApp + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
-        this.agencyAppList = data;
-        console.log(this.agencyAppList)
-        this.dataSource.data = this.agencyAppList.list;
-        this.seqPageNum = this.agencyAppList.pageNumber;
-        this.seqPageSize = this.agencyAppList.pageSize;
-        this.commonservice.recordTable = this.agencyAppList;
-        this.noNextData = this.agencyAppList.pageNumber === this.agencyAppList.totalPages;
+
+        this.commonservice.errorHandling(data, (function(){
+          this.agencyAppList = data;
+          console.log(this.agencyAppList)
+          this.dataSource.data = this.agencyAppList.list;
+          this.seqPageNum = this.agencyAppList.pageNumber;
+          this.seqPageSize = this.agencyAppList.pageSize;
+          this.commonservice.recordTable = this.agencyAppList;
+          this.noNextData = this.agencyAppList.pageNumber === this.agencyAppList.totalPages;
+        }).bind(this));
+     
+        this.loading = false;
+      }, err => {
+        this.loading = false;
       });
   }
 
@@ -116,7 +124,7 @@ export class AgencyapptblComponent implements OnInit {
     this.dataUrl = this.appConfig.urlGetAgencyApp+'/code?keyword='+keyword+'&language='+this.languageId;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-
+      this.loading = true;
       this.http.get(this.dataUrl).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -131,10 +139,12 @@ export class AgencyapptblComponent implements OnInit {
           this.commonservice.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-        }).bind(this)); 
+        }).bind(this));
+        this.loading = false; 
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
         console.log(error);
       });
     }
@@ -173,15 +183,17 @@ export class AgencyapptblComponent implements OnInit {
   }
 
   deleteItem(refCode) {
-
+    this.loading = true;
       this.commonservice.delAgencyApp(refCode).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
+            this.getAgencyAppData(this.pageCount, this.pageSize);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
-          this.getAgencyAppData(this.pageCount, this.pageSize);
+         this.loading = false;
         },
         error => {
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         });
 

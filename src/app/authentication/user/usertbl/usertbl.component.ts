@@ -28,7 +28,7 @@ export class UsertblComponent implements OnInit {
   showUserInput: boolean;
   showIC: boolean;
   showEmail: boolean;
-
+  public loading = false;
   seqPageNum = 0;
   seqPageSize = 0 ;
   userData: Object;
@@ -140,6 +140,7 @@ export class UsertblComponent implements OnInit {
   // get User Data 
   getUsersData(count, size) {
     this.dataUrl = this.appConfig.urlAdminUserList;
+    this.loading = true;
     this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
       
       this.commonservice.errorHandling(data, (function(){
@@ -153,11 +154,12 @@ export class UsertblComponent implements OnInit {
         this.noNextData = this.userList.pageNumber === this.userList.totalPages;
 
       }).bind(this));
-        
+      this.loading = false;
 
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      this.loading = false;       
     });
   }
 
@@ -169,6 +171,7 @@ export class UsertblComponent implements OnInit {
     if(!keyword.value){
       keyword == '-';
     }
+    this.loading = true;
     this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -178,10 +181,11 @@ export class UsertblComponent implements OnInit {
 
       }).bind(this));
 
-      
+      this.loading = false;
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');     
+      this.loading = false;     
     });
   }
 
@@ -214,6 +218,7 @@ export class UsertblComponent implements OnInit {
 
   
   deleteUser(msgId){
+    this.loading = true;
     this.commonservice.deleteUserList(msgId).subscribe(
       data => {
         
@@ -223,10 +228,11 @@ export class UsertblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
   
         }).bind(this));
-          
+        this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;         
       });
   }
 
@@ -246,7 +252,7 @@ export class UsertblComponent implements OnInit {
 
 
   addUserDetails(){
-
+    this.loading = true;
     this.commonservice.addUserList(this.userId).subscribe(
       data => {
 
@@ -257,10 +263,11 @@ export class UsertblComponent implements OnInit {
           
         this.checkReqValues();
         this.closeUser();
-          
+        this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');     
+        this.loading = false;     
       });
   
   }

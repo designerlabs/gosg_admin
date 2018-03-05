@@ -18,6 +18,7 @@ export class AppComponent {
   title = 'app';
   bTop = '15px';
   side = true;
+  public loading = false;
 
   constructor(private commonService:CommonService, router:Router) {
 
@@ -30,6 +31,7 @@ ngOnInit() {
 
   getUserData(){
     if(!environment.staging){
+      this.loading = true;
       this.commonService.getUsersDetails().subscribe(
         data => {
           if(data['adminUser']){
@@ -42,9 +44,10 @@ ngOnInit() {
           }else{
             
           }
-          
+          this.loading = false;
         },
       error => {
+        this.loading = false;
           //location.href = this.config.urlUAP +'uapsso/Logout';
           //location.href = this.config.urlUAP+'portal/index';
         }
