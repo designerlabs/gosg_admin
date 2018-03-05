@@ -172,6 +172,7 @@ export class UserdetailstblComponent implements OnInit {
     if(!keyword.value){
       keyword == '-';
     }
+    this.loading = true;
     this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -180,11 +181,12 @@ export class UserdetailstblComponent implements OnInit {
         this.checkStatus = data['statusCode'];
 
       }).bind(this));
-
+      this.loading = false;
       
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.loading = false;        
     });
   }
 
@@ -217,6 +219,7 @@ export class UserdetailstblComponent implements OnInit {
 
   
   deleteUser(msgId){
+    this.loading = true;
     this.commonservice.deleteUserList(msgId).subscribe(
       data => {
         
@@ -226,10 +229,11 @@ export class UserdetailstblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
   
         }).bind(this));
-          
+        this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;       
       });
   }
 
@@ -250,6 +254,7 @@ export class UserdetailstblComponent implements OnInit {
 
   addUserDetails(){
 
+    this.loading = true;
     this.commonservice.addUserList(this.userId).subscribe(
       data => {
 
@@ -257,6 +262,7 @@ export class UserdetailstblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
           this.getUsersData(this.pageCount, this.pageSize);
         }).bind(this));
+        this.loading = false;
           
         this.checkReqValues();
         this.closeUser();
@@ -264,6 +270,7 @@ export class UserdetailstblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+        this.loading = false;
       });
   
   }
