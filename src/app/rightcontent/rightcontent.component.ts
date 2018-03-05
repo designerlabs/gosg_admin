@@ -53,6 +53,7 @@ export class RightcontentComponent implements OnInit {
             if(data['adminUser'].superAdmin){
               this.getMenuData();
             }else{
+              this.loading = true;
               this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
                 this.menulist_non_admin = data.data[1];
                 this.loading = false;
