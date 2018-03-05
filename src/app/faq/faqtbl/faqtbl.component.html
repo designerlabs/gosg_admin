@@ -1,4 +1,6 @@
 <div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>FAQs List</h3>
@@ -12,21 +14,18 @@
         </div>
     </div>
 
-    <div class="example-container mat-elevation-z8">
-        
-        <!-- <div class="example-header">
-            <mat-form-field class="font-size-s" style="margin: 5px 0 0 10px;">
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-            </mat-form-field>
-        </div> -->
-
-        <!-- <mat-table #table [dataSource]="dataSource" style="min-height: 1px;" *ngIf="commonservice.isRead"> -->
-            <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-                {{'common.msg.unauthorized' | translate}}
-            </div>
-
+    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
+    </div>
+            
     <div *ngIf="commonservice.isRead">
         <div class="example-container mat-elevation-z8">
+            <!-- <div class="col-md-12 paddingTop-10">
+                <mat-form-field class="font-size-s">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                </mat-form-field>
+            </div> -->
+
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
                 <ng-container matColumnDef="no">
                     <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>

@@ -17,6 +17,7 @@ import { DialogsService } from './../dialogs/dialogs.service';
 })
 export class FontComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup;
   
   public fname: FormControl;  
@@ -98,6 +99,11 @@ export class FontComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
+
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
   }
 
   getData() {
@@ -105,6 +111,7 @@ export class FontComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];  
     this.dataUrl = this.appConfig.urlGetFont + '/id/'+_getRefID  + '?language=' +this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -123,9 +130,11 @@ export class FontComponent implements OnInit {
           this.checkReqValues();
 
         }).bind(this));   
+        this.loading = false;
       },
       error => {
 
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
       
@@ -154,16 +163,19 @@ export class FontComponent implements OnInit {
       console.log("TEST")
       console.log(JSON.stringify(body))
 
+      this.loading = true;
       this.commonservice.addFont(body).subscribe(
         data => {
                     
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['font']);
-          }).bind(this));            
+          }).bind(this));      
+          this.loading = false;      
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
@@ -189,6 +201,7 @@ export class FontComponent implements OnInit {
       console.log("UPDATE: ");     
       console.log(JSON.stringify(body))
 
+      this.loading = true;
       this.commonservice.updateFont(body).subscribe(
         data => {
                   
@@ -196,10 +209,11 @@ export class FontComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['font']);
           }).bind(this)); 
-
+          this.loading = false;
         },
         error => {
           
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
           console.log(error);
       });

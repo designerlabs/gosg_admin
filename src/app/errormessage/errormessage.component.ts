@@ -16,6 +16,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class ErrormessageComponent implements OnInit {
   
+  public loading = false;
   ErrorMsgData: Object;
   dataUrl: any;
   date = new Date();
@@ -39,6 +40,7 @@ export class ErrormessageComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  public urlEdit: any;
 
   constructor(
     private http: HttpClient, 
@@ -72,10 +74,8 @@ export class ErrormessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
 
-    let refMessageCode = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
 
     this.msgCodeEn = new FormControl()
@@ -90,19 +90,17 @@ export class ErrormessageComponent implements OnInit {
       descBm: this.descBm,
     });
 
-    if(refMessageCode == "add") {
+    if(this.urlEdit == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
-      this.getRow(refMessageCode);
+      this.getRow(this.urlEdit);
     }
   }
 
-  ngAfterViewInit() {
-  }
-
+ 
   back(){
     this.router.navigate(['errormessage']);
   }
@@ -110,30 +108,38 @@ export class ErrormessageComponent implements OnInit {
   // get, add, update, delete
   getRow(row) {
 
+    this.loading = true;
     // Update ErrorMsg Service
     return this.http.get(this.appConfig.urlErrorMsg + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlErrorMsg + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlErrorMsg + row + "/").subscribe(
       Rdata => {
 
-        this.ErrorMsgData = Rdata;
-        // console.log(JSON.stringify(this.ErrorMsgData))
-        console.log(this.ErrorMsgData)
-        let dataEn = this.ErrorMsgData['resourceList'][0];
-        let dataBm = this.ErrorMsgData['resourceList'][1];
+        this.commonservice.errorHandling(Rdata, (function(){
 
-      // populate data
-      this.errorMsgForm.get('msgCodeEn').setValue(dataEn.messagesCode);
-      this.errorMsgForm.get('descEn').setValue(dataEn.messagesDescription);
-      this.errorMsgForm.get('msgCodeBm').setValue(dataBm.messagesCode);
-      this.errorMsgForm.get('descBm').setValue(dataBm.messagesDescription);
-      this.refMessageCode = dataEn.refMessageCode;
-      this.msgIdEn = dataEn.messagesId;
-      this.msgIdBm = dataBm.messagesId;
+          this.ErrorMsgData = Rdata;
+          console.log(this.ErrorMsgData)
+          let dataEn = this.ErrorMsgData['resourceList'][0];
+          let dataBm = this.ErrorMsgData['resourceList'][1];
 
-      this.checkReqValues();
-    });
-    
+          // populate data
+          this.errorMsgForm.get('msgCodeEn').setValue(dataEn.messagesCode);
+          this.errorMsgForm.get('descEn').setValue(dataEn.messagesDescription);
+          this.errorMsgForm.get('msgCodeBm').setValue(dataBm.messagesCode);
+          this.errorMsgForm.get('descBm').setValue(dataBm.messagesDescription);
+          this.refMessageCode = dataEn.refMessageCode;
+          this.msgIdEn = dataEn.messagesId;
+          this.msgIdBm = dataBm.messagesId;
+
+          this.checkReqValues();
+
+        }).bind(this));   
+        this.loading = false;
+      },
+      error => {
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        console.log(error);
+      });    
   }
 
   checkReqValues() {
@@ -154,8 +160,6 @@ export class ErrormessageComponent implements OnInit {
         nullPointers.push(null)
       }
     }
-
-      // console.log(nullPointers)
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -186,130 +190,133 @@ export class ErrormessageComponent implements OnInit {
   }
 
   myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
-      this.errorMsgForm.reset();
-      this.checkReqValues();
-    } else {
-      txt = "You pressed Cancel!";
-    }
+
+    this.errorMsgForm.reset();
+    this.checkReqValues(); 
   }
 
   deleteRow(refCode) {
-    let txt;
-    let r = confirm("Are you sure to delete " + refCode + "?");
-    if (r == true) {
+    this.loading = true;
 
-      this.commonservice.delErrorMsg(refCode).subscribe(
-        data => {
-          txt = "Error Message deleted successfully!";
-          // this.router.navigate(['ErrorMsg']);
-          window.location.reload()
-        },
-        error => {
-          console.log("No Data")
-        });
-
-      // this.errorMsgForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      alert(txt)
-    }
+    this.commonservice.delErrorMsg(refCode).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getRecordList(this.pageCount, this.pageSize);
+        }).bind(this));   
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        console.log(error);
+      });
   }
   
   updateErrorMsg(formValues: any) {
     
     if(!this.isEdit) {
 
-    let body = [
-      {
-        "messagesId": null,
-        "messagesCode": null,
-        "messagesDescription": null,
-        "refMessageCode": null,
-        "language": {
-          "languageId": 1
+      let body = [
+        {
+          "messagesId": null,
+          "messagesCode": null,
+          "messagesDescription": null,
+          "refMessageCode": null,
+          "language": {
+            "languageId": 1
+          }
+        }, 
+        {
+          "messagesId": null,
+          "messagesCode": null,
+          "messagesDescription": null,
+          "refMessageCode": null,
+          "language": {
+            "languageId": 2
+          }
         }
-      }, 
-      {
-        "messagesId": null,
-        "messagesCode": null,
-        "messagesDescription": null,
-        "refMessageCode": null,
-        "language": {
-          "languageId": 2
-        }
-      }
-    ];
-    
-    // console.log(formValues)
-
-    body[0].messagesCode = formValues.msgCodeEn;
-    body[0].messagesDescription = formValues.descEn;
-
-    body[1].messagesCode = formValues.msgCodeBm;
-    body[1].messagesDescription = formValues.descBm;
-
-    console.log(body)
-
-    // Add ErrorMsg Service
-    this.commonservice.addErrorMsg(body).subscribe(
-      data => {
-        this.toastr.success('ErrorMsg added successfully!', ''); 
-        this.router.navigate(['errormessage']);
-      },
-      error => {
-        console.log("No Data")
-      });
-
-    } else {
+      ];
       
-    let body = [
-      {
-        "messagesId": null,
-        "messagesCode": null,
-        "messagesDescription": null,
-        "refMessageCode": null,
-        "language": {
-          "languageId": 1
-        }
-      }, 
-      {
-        "messagesId": null,
-        "messagesCode": null,
-        "messagesDescription": null,
-        "refMessageCode": null,
-        "language": {
-          "languageId": 2
-        }
-      }
-    ];
+
+      body[0].messagesCode = formValues.msgCodeEn;
+      body[0].messagesDescription = formValues.descEn;
+
+      body[1].messagesCode = formValues.msgCodeBm;
+      body[1].messagesDescription = formValues.descBm;
+
+      console.log(body)
+      this.loading = true;
+
+      // Add ErrorMsg Service
+      this.commonservice.addErrorMsg(body).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), ''); 
+            this.router.navigate(['errormessage']);
+          }).bind(this));   
+          this.loading = false;
+        },
+        error => {
+
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          console.log(error);
+        });
+
+    } 
+    else {
       
-    body[0].refMessageCode = this.refMessageCode;
-    body[0].messagesId = this.msgIdEn;
-    body[0].messagesCode = formValues.msgCodeEn;
-    body[0].messagesDescription = formValues.descEn;
-    
-    body[1].refMessageCode = this.refMessageCode;
-    body[1].messagesId = this.msgIdBm;
-    body[1].messagesCode = formValues.msgCodeBm;
-    body[1].messagesDescription = formValues.descBm;
+      let body = [
+        {
+          "messagesId": null,
+          "messagesCode": null,
+          "messagesDescription": null,
+          "refMessageCode": null,
+          "language": {
+            "languageId": 1
+          }
+        }, 
+        {
+          "messagesId": null,
+          "messagesCode": null,
+          "messagesDescription": null,
+          "refMessageCode": null,
+          "language": {
+            "languageId": 2
+          }
+        }
+      ];
+        
+      body[0].refMessageCode = this.refMessageCode;
+      body[0].messagesId = this.msgIdEn;
+      body[0].messagesCode = formValues.msgCodeEn;
+      body[0].messagesDescription = formValues.descEn;
+      
+      body[1].refMessageCode = this.refMessageCode;
+      body[1].messagesId = this.msgIdBm;
+      body[1].messagesCode = formValues.msgCodeBm;
+      body[1].messagesDescription = formValues.descBm;
 
-    console.log(body);
+      console.log(body);
+      this.loading = true;
 
-    // Update ErrorMsg Service
-    this.commonservice.updateErrorMsg(body).subscribe(
-      data => {
-        this.toastr.success('ErrorMsg update successful!', '');   
-        this.router.navigate(['errormessage']);
-      },
-      error => {
-        console.log("No Data")
-      });
-    }
-    
+      // Update ErrorMsg Service
+      this.commonservice.updateErrorMsg(body).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
+            this.router.navigate(['errormessage']);
+          }).bind(this));   
+          this.loading = false;
+        },
+        error => {
+
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          console.log(error);
+        });
+    }   
 
   }
 

@@ -18,6 +18,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class FeedbackvisitorComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup;
   
   public reply: FormControl;
@@ -95,6 +96,8 @@ export class FeedbackvisitorComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[4];
 
     this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID + '?language=' +this.languageId;
+    this.loading = true;
+
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -123,9 +126,11 @@ export class FeedbackvisitorComponent implements OnInit {
         this.checkReqValues();
 
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
       
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
       
@@ -161,6 +166,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
     console.log("UPDATE: ");
     console.log(JSON.stringify(body))
+    this.loading = true;
 
     this.commonservice.updateRecordFeedbackDraft(body).subscribe(
       data => {
@@ -169,9 +175,11 @@ export class FeedbackvisitorComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.feedbackdraft'), '');
           this.router.navigate(['feedback/message/visitor']);
         }).bind(this));  
+        this.loading = false;
       },
       error => {
 
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
         console.log(error);
     });    
@@ -207,6 +215,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
     console.log("UPDATE: ");
     console.log(JSON.stringify(body))
+    this.loading = true;
 
     this.commonservice.updateRecordFeedbackReply(body).subscribe(
       data => {
@@ -215,9 +224,11 @@ export class FeedbackvisitorComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.feedbacksummitted'), ''); 
           this.router.navigate(['feedback/message/visitor']);
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
 
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
         console.log(error);
     });    

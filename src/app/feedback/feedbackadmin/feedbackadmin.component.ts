@@ -18,6 +18,7 @@ import { DialogsService } from './../../dialogs/dialogs.service';
 })
 export class FeedbackadminComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup;
 
   public reply: FormControl;
@@ -95,6 +96,7 @@ export class FeedbackadminComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[4];  
     this.dataUrl = this.appConfig.urlFeedback + '/'+_getRefID + '?language=' +this.languageId;
+    this.loading = true;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -122,10 +124,12 @@ export class FeedbackadminComponent implements OnInit {
         this.getId = this.recordList.feedback.feedbackId;
         console.log(this.messages);   
 
-      }).bind(this));       
+      }).bind(this));     
+      this.loading = false;  
     },
     error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);      
     });
@@ -133,6 +137,7 @@ export class FeedbackadminComponent implements OnInit {
 
   delete(getId) {
     
+    this.loading = true;
     console.log(getId);
     this.commonservice.delRecordFeedback(getId).subscribe(
       data => {
@@ -142,8 +147,11 @@ export class FeedbackadminComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.router.navigate(['feedback/message/admin']);
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
+
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         console.log(error);
     });

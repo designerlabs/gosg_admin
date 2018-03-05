@@ -17,6 +17,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 })
 export class FeedbackvisitortblComponent implements OnInit {
 
+  public loading = false;
   recordList = null;
   displayedColumns = ['num','type', 'name','email', 'status', 'action'];
   pageSize = 10;
@@ -97,7 +98,7 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
@@ -105,6 +106,7 @@ export class FeedbackvisitortblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlFeedback + '/reply/0?page=' + count + '&size=' + size + '&language='+this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
       .subscribe(data => {
 
@@ -121,9 +123,11 @@ export class FeedbackvisitortblComponent implements OnInit {
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
     });
@@ -139,6 +143,7 @@ export class FeedbackvisitortblComponent implements OnInit {
       this.dataUrl = this.appConfig.urlFeedback + '/search/0/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
     }
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -155,9 +160,11 @@ export class FeedbackvisitortblComponent implements OnInit {
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
     });

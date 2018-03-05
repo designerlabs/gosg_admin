@@ -1,20 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-footercategorytbl',
-//   templateUrl: './footercategorytbl.component.html',
-//   styleUrls: ['./footercategorytbl.component.css']
-// })
-// export class FootercategorytblComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -36,10 +19,10 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
 
 export class FootercategorytblComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup
 
   recordList = null;
-  // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
   displayedColumns = ['no', 'catEng', 'catMy', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
@@ -75,6 +58,7 @@ export class FootercategorytblComponent implements OnInit {
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private dialogsService: DialogsService) {
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -100,7 +84,7 @@ export class FootercategorytblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
@@ -108,6 +92,7 @@ export class FootercategorytblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -124,9 +109,11 @@ export class FootercategorytblComponent implements OnInit {
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
     }).bind(this)); 
+    this.loading = false;
   },
   error => {
 
+    this.loading = false;
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
     console.log(error);
 
@@ -158,13 +145,11 @@ export class FootercategorytblComponent implements OnInit {
     this.router.navigate(['footer/footercategory', row]);
     this.commonservice.pageModeChange(true);
   }
-
   
   deleteRow(refCode) {
 
-    let txt;
-
     console.log(refCode);
+    this.loading = true;
     this.commonservice.delFooterCategory(refCode).subscribe(
       data => {
 
@@ -172,37 +157,17 @@ export class FootercategorytblComponent implements OnInit {
           
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
+          
         }).bind(this)); 
-                  
+        this.loading = false;          
       },
       error => {
 
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });
 
-    // let txt;
-    // let r = confirm("Are you sure to delete ?");
-
-    
-    // if (r == true) {
-    //   console.log(refCode);
-    //   this.commonservice.delFooterCategory(refCode).subscribe(
-    //     data => {
-    //       // alert('Record deleted successfully!')
-    //       txt = " record deleted successfully!";
-
-    //       this.toastr.success(txt, '');   
-    //       this.router.navigate(['footer/footercategory']);
-    //       this.getRecordList(this.pageCount, this.pageSize);
-    //     },
-    //     error => {
-    //       txt = "Delete Cancelled!";
-    //   });
-    // }
-    // else{
-    //   txt = "Delete Cancelled!";
-    // }
   }
 
   ngAfterViewInit() {

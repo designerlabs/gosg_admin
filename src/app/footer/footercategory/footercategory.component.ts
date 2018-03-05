@@ -31,13 +31,17 @@ export class FootercategoryComponent implements OnInit {
   public getFooterIdEng: any;
   public getFooterIdMy: any;
   public getRefCode: any;
-  complete: boolean;
+  public complete: boolean;
   public languageId: any;
+  public urlEdit: any;
+
+  public loading = false;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private dialogsService: DialogsService) {
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -53,11 +57,12 @@ export class FootercategoryComponent implements OnInit {
         })
       });
     });
+
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.commonservice.getModuleId();
     }
-   }
+  }
 
   ngOnInit() {
 
@@ -89,7 +94,8 @@ export class FootercategoryComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
- // #### for disable non update user ---1
+    
+    // #### for disable non update user ---1
     if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
@@ -99,6 +105,7 @@ export class FootercategoryComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     this.dataUrl = this.appConfig.urlFooterCategory + "/" + _getRefID + "?language=" + this.languageId;
+    this.loading = true;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -119,11 +126,13 @@ export class FootercategoryComponent implements OnInit {
         this.getFooterIdMy = this.recordList.list[1].id;
 
         this.checkReqValues();
-
       }).bind(this));   
+
+      this.loading = false;
     },
     error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);   
     });
@@ -171,16 +180,20 @@ export class FootercategoryComponent implements OnInit {
       body[1].language.languageId = 2;
 
       console.log(body);
-
+      this.loading = true;
       this.commonservice.addFooterCategory(body).subscribe(
         data => {
+
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['footer/footercategory']);
+
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
@@ -227,16 +240,21 @@ export class FootercategoryComponent implements OnInit {
       body[1].language.languageId = 2;
 
       console.log(body);
+      this.loading = true;
 
       this.commonservice.updateFooterCategory(body).subscribe(
         data => {
+
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['footer/footercategory']);
+            
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });

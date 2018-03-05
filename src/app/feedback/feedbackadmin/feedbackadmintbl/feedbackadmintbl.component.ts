@@ -18,6 +18,7 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
 })
 export class FeedbackadmintblComponent implements OnInit {
   
+  public loading = false;
   recordList = null;
   displayedColumns = ['num','feedbackEng', 'feedbackMalay','email', 'status', 'action'];
   pageSize = 10;
@@ -99,13 +100,14 @@ export class FeedbackadmintblComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {
   
     this.dataUrl = this.appConfig.urlFeedback + '/reply/1?page=' + count + '&size=' + size + '&language='+this.languageId;
+    this.loading = true;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -123,8 +125,11 @@ export class FeedbackadmintblComponent implements OnInit {
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
+
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
     });
@@ -140,6 +145,7 @@ export class FeedbackadmintblComponent implements OnInit {
       this.dataUrl = this.appConfig.urlFeedback + '/search/1/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
     }
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -156,8 +162,11 @@ export class FeedbackadmintblComponent implements OnInit {
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
+
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
     });
@@ -185,6 +194,8 @@ export class FeedbackadmintblComponent implements OnInit {
   deleteRow(getId) {
     
     console.log(getId);
+    this.loading = true;
+
     this.commonservice.delRecordFeedback(getId).subscribe(
       data => {
         
@@ -193,8 +204,11 @@ export class FeedbackadmintblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
+
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         console.log(error);
     });    

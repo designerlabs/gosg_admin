@@ -18,6 +18,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 
 export class FeedbacksubjectComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup;
   
   public subjectEn: FormControl;  
@@ -99,6 +100,7 @@ export class FeedbacksubjectComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];  
     this.dataUrl = this.appConfig.urlFeedbackSubjectGet+ '/'+_getRefID + '?language=' +this.languageId;
+    this.loading = true;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -120,9 +122,11 @@ export class FeedbacksubjectComponent implements OnInit {
 
         this.checkReqValues();
       }).bind(this));   
+      this.loading = false;
     },
     error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
       
@@ -155,6 +159,7 @@ export class FeedbacksubjectComponent implements OnInit {
       console.log("ADD: ");
       console.log(body)
 
+      this.loading = true;
       this.commonservice.addRecordFeedbackSubject(body).subscribe(
         data => {
           console.log(JSON.stringify(body))
@@ -163,9 +168,11 @@ export class FeedbacksubjectComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['feedback/subject']);
           }).bind(this)); 
+          this.loading = false;
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
@@ -196,6 +203,7 @@ export class FeedbacksubjectComponent implements OnInit {
 
       console.log("UPDATE: ");
       console.log(body);
+      this.loading = true;
 
       this.commonservice.updateRecordFeedbackSubject(body).subscribe(
         data => {
@@ -205,8 +213,11 @@ export class FeedbacksubjectComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['feedback/subject']);
           }).bind(this)); 
+          this.loading = false;
         },
         error => {
+
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
           console.log(error);
       });

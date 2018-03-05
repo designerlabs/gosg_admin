@@ -18,6 +18,7 @@ import { DialogsService } from '../dialogs/dialogs.service';
 
 export class FaqComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup;
   
   public faqQEng: FormControl;
@@ -28,8 +29,6 @@ export class FaqComponent implements OnInit {
 
   public dataUrl: any;  
   public recordList: any;
-
-  // public getIdentificationType: any;
 
   public getFaqIdEng: any;
   public getFaqIdMy: any;
@@ -79,9 +78,7 @@ export class FaqComponent implements OnInit {
       faqQMy: this.faqQMy,
       faqAEng: this.faqAEng,
       faqAMy: this.faqAMy,
-      active: this.active,
-
-      
+      active: this.active,      
     });     
     
     let urlEdit = this.router.url.split('/')[2];
@@ -99,38 +96,39 @@ export class FaqComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
-    // this.appConfig.urlRaceList
     this.dataUrl = this.appConfig.urlFaqList + '/code/' +  _getRefID + "?language=" + this.languageId;
+    this.loading = true;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
-      this.recordList = data;
+        this.recordList = data;
 
-      console.log(data);
+        console.log(data);
 
-      this.updateForm.get('faqQEng').setValue(this.recordList.faqList[0].facQuestion);
-      this.updateForm.get('faqAEng').setValue(this.recordList.faqList[0].facAnswer);
-      this.updateForm.get('active').setValue(this.recordList.faqList[0].faqActiveFlag);
+        this.updateForm.get('faqQEng').setValue(this.recordList.faqList[0].facQuestion);
+        this.updateForm.get('faqAEng').setValue(this.recordList.faqList[0].facAnswer);
+        this.updateForm.get('active').setValue(this.recordList.faqList[0].faqActiveFlag);
 
-      this.updateForm.get('faqQMy').setValue(this.recordList.faqList[1].facQuestion);
-      this.updateForm.get('faqAMy').setValue(this.recordList.faqList[1].facAnswer);
-      
-      this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
-      this.getFaqIdEng = this.recordList.faqList[0].faqId;
-      
-      this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
-      this.getFaqIdMy = this.recordList.faqList[1].faqId;
+        this.updateForm.get('faqQMy').setValue(this.recordList.faqList[1].facQuestion);
+        this.updateForm.get('faqAMy').setValue(this.recordList.faqList[1].facAnswer);
+        
+        this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
+        this.getFaqIdEng = this.recordList.faqList[0].faqId;
+        
+        this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
+        this.getFaqIdMy = this.recordList.faqList[1].faqId;
 
-      this.checkReqValues();
+        this.checkReqValues();
 
-    }).bind(this));   
-  },
-  error => {
+      }).bind(this));   
+      this.loading = false;
+    },
+    error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
-
     });
   }
 
@@ -140,17 +138,6 @@ export class FaqComponent implements OnInit {
 
   submit(formValues: any) {
     
-    let flag = false;
-    let txt = "";
-
-    if(formValues.active == null){
-      flag = false;
-    }
-
-    else{
-      flag = formValues.active;
-    }
-
     let urlEdit = this.router.url.split('/')[2];
 
     // add form
@@ -190,6 +177,7 @@ export class FaqComponent implements OnInit {
       body[1].language.languageId = 2;
 
       console.log(body);
+      this.loading = true;
 
       this.commonservice.addFaq(body).subscribe(
         data => {
@@ -197,27 +185,14 @@ export class FaqComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['faq']);
-          }).bind(this));   
+          }).bind(this));  
+          this.loading = false; 
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
-
-
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
-        //   // alert('Record added successfully!')
-
-        //   let txt = "Record added successfully!";
-        //   this.toastr.success(txt, '');  
-
-        //   this.router.navigate(['faq']);
-        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-        // },
-        // error => {
-        //   console.log("No Data")
-        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
 
@@ -262,6 +237,7 @@ export class FaqComponent implements OnInit {
       body[1].faqActiveFlag = formValues.active;
 
       console.log(body);
+      this.loading = true;
 
       this.commonservice.updateFaq(body).subscribe(
         data => {
@@ -270,26 +246,13 @@ export class FaqComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['faq']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
-
-
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
-        //   // alert('Record updated successfully!')
-
-        //   let txt = "Record updated successfully!";
-        //   this.toastr.success(txt, ''); 
-
-        //   this.router.navigate(['faq']);
-        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-        // },
-        // error => {
-        //   console.log("No Data")
-        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
   }
@@ -319,18 +282,6 @@ export class FaqComponent implements OnInit {
 
     this.updateForm.reset();
     this.checkReqValues(); 
-
-    // var txt;
-    // var r = confirm("Are you sure to reset the form?");
-    // if (r == true) {
-    //     txt = "You pressed OK!";
-    //     this.toastr.success(txt, ''); 
-    //     this.updateForm.reset();
-    //     this.checkReqValues();
-    // } else {
-    //     txt = "You pressed Cancel!";
-    //     this.toastr.success(txt, '');
-    // }
   }
 
 }

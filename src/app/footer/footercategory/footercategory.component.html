@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
@@ -27,7 +28,7 @@
                 </div>
             </div><br>
     
-            <div class="example-header">
+            <div class="example-header" *ngIf="urlEdit == 'add'">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width font-size-s" >
                         <input matInput placeholder="Category " formControlName="catEng" #catEng maxlength="100" 
@@ -35,7 +36,6 @@
                         <mat-error *ngIf="updateForm.controls.catEng.hasError('required')">
                                 Category is required
                         </mat-error>
-                        <mat-hint align="end">{{catEng.value?.length || 0}}/100</mat-hint>
                     </mat-form-field>
                 </div>
                 <div class="col-md-6">
@@ -45,11 +45,31 @@
                         <mat-error *ngIf="updateForm.controls.catMy.hasError('required')">
                             Kategori diperlukan
                         </mat-error>
-                        <mat-hint align="end">{{catMy.value?.length || 0}}/100</mat-hint>
                     </mat-form-field>
                 </div>
             </div>
 
+            <!-- can't update -->
+            <div class="example-header" *ngIf="urlEdit != 'add'">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Category " formControlName="catEng" #catEng maxlength="100" 
+                        (keyup)="checkReqValues()" required [attr.disabled]="complete">
+                        <mat-error *ngIf="updateForm.controls.catEng.hasError('required')">
+                                Category is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Kategori" formControlName="catMy" #catMy maxlength="100" 
+                        (keyup)="checkReqValues()" required [attr.disabled]="complete">
+                        <mat-error *ngIf="updateForm.controls.catMy.hasError('required')">
+                            Kategori diperlukan
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
 
             <div class="example-header">
                 <div class="col-md-6">
@@ -82,7 +102,7 @@
         
         </div>
         <!-- #### for disable non update user 2 -->
-        <div class="form-group paddingTop-10" *ngIf="commonservice.isUpdate">
+        <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate">
             <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
             (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>

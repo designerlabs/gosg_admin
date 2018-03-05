@@ -19,10 +19,10 @@ import { DialogsService } from './../../dialogs/dialogs.service';
 
 export class FaqtblComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup
 
   recordList = null;
-  // displayedColumns = ['no', 'raceEng', 'raceMy', 'status', 'action'];
   displayedColumns = ['no', 'faqEng', 'faqMy', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
@@ -83,13 +83,14 @@ export class FaqtblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {
   
     this.dataUrl = this.appConfig.urlFaqList + '/code?page=' + count + '&size=' + size + "?language=" + this.languageId;
+    this.loading = true;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -106,9 +107,11 @@ export class FaqtblComponent implements OnInit {
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     }).bind(this)); 
+    this.loading = false;
   },
   error => {
 
+    this.loading = false;
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
     console.log(error);
 
@@ -144,8 +147,7 @@ export class FaqtblComponent implements OnInit {
   
   deleteRow(refCode) {
 
-    let txt;
-
+    this.loading = true;
     console.log(refCode);
     this.commonservice.delFaq(refCode).subscribe(
       data => {
@@ -155,36 +157,15 @@ export class FaqtblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
-                  
+        this.loading = false;          
       },
       error => {
 
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });
     
-    // let txt;
-    // let r = confirm("Are you sure to delete ?");
-
-    
-    // if (r == true) {
-    //   console.log(refCode);
-    //   this.commonservice.delFaq(refCode).subscribe(
-    //     data => {
-    //       // alert('Record deleted successfully!')
-    //       txt = " record deleted successfully!";
-
-    //       this.toastr.success(txt, '');   
-    //       this.router.navigate(['faq']);
-    //       this.getRecordList(this.pageCount, this.pageSize);
-    //     },
-    //     error => {
-    //       txt = "Delete Cancelled!";
-    //   });
-    // }
-    // else{
-    //   txt = "Delete Cancelled!";
-    // }
   }
 
   ngAfterViewInit() {

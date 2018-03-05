@@ -17,6 +17,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 
 export class FeedbacktypeComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup;
   
   public typeEn: FormControl;  
@@ -98,6 +99,7 @@ export class FeedbacktypeComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];  
     this.dataUrl = this.appConfig.urlFeedbackTypeGet + '/'+_getRefID + '?language=' +this.languageId;
+    this.loading = true;
 
     this.http.get(this.dataUrl)
       .subscribe(data => {
@@ -117,9 +119,11 @@ export class FeedbacktypeComponent implements OnInit {
 
           this.checkReqValues();
         }).bind(this));   
+        this.loading = false;
     },
     error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
       
@@ -151,6 +155,7 @@ export class FeedbacktypeComponent implements OnInit {
 
       console.log("ADD: ")
       console.log(JSON.stringify(body));
+      this.loading = true;
 
       this.commonservice.addRecordFeedbackType(body).subscribe(
         data => {
@@ -158,10 +163,12 @@ export class FeedbacktypeComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), ''); 
             this.router.navigate(['feedback/type']);
-          }).bind(this));          
+          }).bind(this));         
+          this.loading = false; 
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
@@ -192,6 +199,7 @@ export class FeedbacktypeComponent implements OnInit {
 
       console.log("UPDATE: ");
       console.log(body);
+      this.loading = true;
 
       this.commonservice.updateRecordFeedbackType(body).subscribe(
         data => {
@@ -199,10 +207,12 @@ export class FeedbacktypeComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), ''); 
             this.router.navigate(['feedback/type']);
-          }).bind(this));         
+          }).bind(this));    
+          this.loading = false;     
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });

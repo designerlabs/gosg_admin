@@ -16,6 +16,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class ErrormessagetblComponent implements OnInit {
 
+  public loading = false;
   errMsgData: Object;
   errMsgList = null;
   displayedColumns: any;
@@ -97,20 +98,31 @@ export class ErrormessagetblComponent implements OnInit {
 
   // get errMsg Data 
   getErrMsgsData(count, size) {
-    // console.log(this.appConfig.urlerrMsgList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlErrorMsg;
+
+    this.loading = true;   
     
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-      // this.http.get(this.dataUrl).subscribe(
         data => {
-          console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
-        this.errMsgList = data;
-        console.log(this.errMsgList)
-        this.dataSource.data = this.errMsgList.list;
-        this.seqPageNum = this.errMsgList.pageNumber;
-        this.seqPageSize = this.errMsgList.pageSize;
-        this.commonservice.recordTable = this.errMsgList;
-        this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+
+          this.commonservice.errorHandling(data, (function(){
+            console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
+            this.errMsgList = data;
+            console.log(this.errMsgList)
+            this.dataSource.data = this.errMsgList.list;
+            this.seqPageNum = this.errMsgList.pageNumber;
+            this.seqPageSize = this.errMsgList.pageSize;
+            this.commonservice.recordTable = this.errMsgList;
+            this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+
+          }).bind(this)); 
+          this.loading = false;          
+        },
+      error => {
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);
       });
   }
 
@@ -142,23 +154,27 @@ export class ErrormessagetblComponent implements OnInit {
   
   updateRow(row) {
     this.isEdit = true;
-    // this.changePageMode(this.isEdit);
     this.router.navigate(['errormessage', row]);
   }
 
   deleteItem(refCode) {
 
-    let txt;
+    this.loading = true;   
+    this.commonservice.delErrorMsg(refCode).subscribe(
+      data => {
 
-      this.commonservice.delErrorMsg(refCode).subscribe(
-        data => {
-          txt = "Error Message deleted successfully!";
-          this.toastr.success(txt, '');   
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');  
           this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
-        },
-        error => {
-          console.log("No Data")
-        });
+        }).bind(this)); 
+        this.loading = false;          
+      },
+      error => {
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);
+    });
   }
 
   changePageMode(isEdit) {
