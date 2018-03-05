@@ -43,6 +43,7 @@ export class GalleryComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -140,32 +141,40 @@ export class GalleryComponent implements OnInit {
   // get, add, update, delete
   getRow(row) {
 
+    this.loading = true;
     // Update gallery Service
     return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
 
+        this.commonservice.errorHandling(Rdata, (function(){
         this.galleryData = Rdata;
         console.log(this.galleryData)
         console.log(this.appConfig.urlSlides + '/code/' + row)
         let dataEn = this.galleryData['list'][0];
         let dataBm = this.galleryData['list'][1];
 
-      // populate data
-      this.galleryForm.get('titleEn').setValue(dataEn.slideTitle);
-      this.galleryForm.get('descEn').setValue(dataEn.slideDescription);
-      this.galleryForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
-      this.galleryForm.get('titleBm').setValue(dataBm.slideTitle);
-      this.galleryForm.get('descBm').setValue(dataBm.slideDescription);
-      this.galleryForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
-      this.galleryForm.get('active').setValue(dataEn.slideActiveFlag);
-      this.galleryCode = dataEn.slideCode;
-      this.galleryIdEn = dataEn.slideId;
-      this.galleryIdBm = dataBm.slideId;
-      
-      this.isSameImg(dataEn.slideImage,dataBm.slideImage);
+        // populate data
+        this.galleryForm.get('titleEn').setValue(dataEn.slideTitle);
+        this.galleryForm.get('descEn').setValue(dataEn.slideDescription);
+        this.galleryForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
+        this.galleryForm.get('titleBm').setValue(dataBm.slideTitle);
+        this.galleryForm.get('descBm').setValue(dataBm.slideDescription);
+        this.galleryForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
+        this.galleryForm.get('active').setValue(dataEn.slideActiveFlag);
+        this.galleryCode = dataEn.slideCode;
+        this.galleryIdEn = dataEn.slideId;
+        this.galleryIdBm = dataBm.slideId;
+        
+        this.isSameImg(dataEn.slideImage,dataBm.slideImage);
 
-      this.checkReqValues();
+        this.checkReqValues();
+      }).bind(this));
+      this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      this.loading = false;       
     });
     
   }

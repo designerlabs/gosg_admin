@@ -17,6 +17,7 @@ export class AnnouncementtblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0;
+  public loading = false;
 
   displayedColumns = ['no', 'announcementTitle', 'announcementDescription', 'isActive', 'action'];
 
@@ -30,16 +31,21 @@ export class AnnouncementtblComponent implements OnInit {
 
   getAnnounceList(count, size) {
     // debugger;
+      this.loading = true;
       return this.commonservice.getAnnounceTblData()
        .subscribe(resStateData => {
+        this.commonservice.errorHandling(resStateData, (function(){
           this.seqPageNum = resStateData.pageNumber;
           this.seqPageSize = resStateData.pageSize;
           this.announceList = resStateData.list;  
           this.dataSource.data = this.announceList;      
+        }).bind(this));  
+        this.loading = false;
         },
         Error => {
         //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
         console.log('Error in Announcement');
+        this.loading = false;
        });
   }
 

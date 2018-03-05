@@ -46,6 +46,7 @@ export class PollquestionComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -138,6 +139,7 @@ export class PollquestionComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlPoll + '/question/same/' + _getRefID + '?language=' +this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -165,10 +167,11 @@ export class PollquestionComponent implements OnInit {
 
         this.checkReqValues();
       }).bind(this));  
+      this.loading = false;
 
     },
     error => {
-
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);  
     });

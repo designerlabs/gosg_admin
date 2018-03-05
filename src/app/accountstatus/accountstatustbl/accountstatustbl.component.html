@@ -1,14 +1,15 @@
 <div class="container-fluid">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>Account Status List</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
-            <span class="pull-right">
+            <!-- <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
                 <i class="fa fa-plus font-size-l"></i></button>
-            </span>
+            </span> -->
         </div> 
     </div>
 
@@ -37,31 +38,23 @@
             
                 <!-- Account Status en Column -->
                 <ng-container matColumnDef="accEng">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status (EN) </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.list[0].accountStatusDescription}} 
+                        {{element.accountStatusDescription}} 
                     </mat-cell>
                 </ng-container>
 
-                <!-- Account Status bm Column -->
-                <ng-container matColumnDef="accMalay">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status (BM) </mat-header-cell>
-                    <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.list[1].accountStatusDescription}}
-                    </mat-cell>
-                </ng-container>
-            
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
-                        <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
+                        <i *ngIf="element.enabled == true" class="fa fa-check" style="color: green;"></i>
+                        <i *ngIf="element.enabled == false" class="fa fa-times" style="color: red;"></i>
                     </mat-cell>
                 </ng-container>
 
                 <!-- action Column -->
-                <ng-container matColumnDef="action">
+                <!-- <ng-container matColumnDef="action">
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
@@ -77,7 +70,7 @@
                         (resetMethod)="deleteRow(element.refCode)">
                         </app-confirm-dialog>
                     </mat-cell>
-                </ng-container>
+                </ng-container> -->
             
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

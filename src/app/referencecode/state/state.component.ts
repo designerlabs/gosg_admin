@@ -41,6 +41,7 @@ export class StateComponent implements OnInit {
 
   dataUrl: any;
   languageId: any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -112,10 +113,7 @@ export class StateComponent implements OnInit {
 
     //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
     this.dataUrl = this.appConfig.urlStateList;
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-    //this.http.get(this.dataUrl)
-
-
+    this.loading = true;
 
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language=' + this.languageId)
       .subscribe(data => {
@@ -133,10 +131,12 @@ export class StateComponent implements OnInit {
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
         }).bind(this));
+        this.loading = false;
       },
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
           console.log(error);
         });
   }
@@ -224,13 +224,20 @@ export class StateComponent implements OnInit {
 
     // this.deletePopup(enId,bmId)
 
+    this.loading = true;
     this.commonservice.delSlider(enId, bmId).subscribe(
       data => {
-        alert('Slider deleted successfully!')
-        this.router.navigate(['slider']);
+          this.commonservice.errorHandling(data, (function(){
+          alert('Slider deleted successfully!')
+          this.router.navigate(['slider']);
+            
+        }).bind(this));
+        this.loading = false;
       },
       error => {
-        console.log("No Data")
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        console.log(error);  
+        this.loading = false;
       });
   }
 
@@ -295,13 +302,20 @@ export class StateComponent implements OnInit {
 
     if (!this.isEdit) {
 
+      this.loading = true;
       // Add Slider Service
       this.commonservice.addSlider(body).subscribe(
         data => {
+          this.commonservice.errorHandling(data, (function(){
           alert('Slider added successfully!')
+            
+        }).bind(this));
+        this.loading = false;
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          console.log(error);  
+          this.loading = false;
         });
 
     } else {
@@ -311,13 +325,20 @@ export class StateComponent implements OnInit {
       // body[0].slideCode = this.slideCode;
       // body[1].slideCode = this.slideCode;
 
+      this.loading = true;
       // Update Slider Service
       this.commonservice.updateSlider(body).subscribe(
         data => {
+          this.commonservice.errorHandling(data, (function(){
           alert('Slider update successful!')
+            
+        }).bind(this));
+        this.loading = false;
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          console.log(error);  
+          this.loading = false;
         });
     }
 

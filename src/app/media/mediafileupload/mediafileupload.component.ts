@@ -61,6 +61,7 @@ export class MediafileuploadComponent implements OnInit {
   // formdata: FileList;
   clientId;
   networkContract: any;
+  public loading = false;
 
   private sharedConfig: Ng4FilesConfig = {
     acceptExtensions: ['jpg'],
@@ -165,6 +166,7 @@ export class MediafileuploadComponent implements OnInit {
 
   fnLoadCateMediaType() {
     // Get MediaType
+      this.loading = true;
     this.commonservice.getMediaType()
       .subscribe(resStateData => {
         // this.commonservice.errorHandling(resStateData, (function () {
@@ -173,6 +175,7 @@ export class MediafileuploadComponent implements OnInit {
       },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
         });
          
     // Get Categories
@@ -182,9 +185,11 @@ export class MediafileuploadComponent implements OnInit {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
         }).bind(this));
+        this.loading = false;
       },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
         });
   }  
 

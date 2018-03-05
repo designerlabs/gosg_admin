@@ -31,6 +31,7 @@ export class LanguagetblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
   languageId:any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -88,8 +89,8 @@ export class LanguagetblComponent implements OnInit {
 
   // get language Data 
   getlanguagesData() {
-    // console.log(this.appConfig.urllanguageList + '/?page=' + count + '&size=' + size)
-    // this.dataUrl = this.appConfig.urlGetLanguage1;
+    
+    this.loading = true;
 
     this.http.get(this.appConfig.urlGetLanguage + '/all?language='+this.languageId).subscribe(
   
@@ -103,54 +104,31 @@ export class LanguagetblComponent implements OnInit {
           this.seqPageSize = 10;
           this.commonservice.recordTable = this.languageList;
           this.noNextData = this.languageList.pageNumber === this.languageList.totalPages;
-
-        }).bind(this));  
+          
+        }).bind(this));
+        this.loading = false;
     },
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);  
+      this.loading = false;
       });
   }
-
-  // paginatorL(page) {
-  //   this.getlanguagesData(this.languagePageCount, this.languagePageSize);
-  //   this.noPrevData = page <= 2 ? true : false;
-  //   this.noNextData = false;
-  // }
-
-  // paginatorR(page, totalPages) {
-  //   this.noPrevData = page >= 1 ? false : true;
-  //   let pageInc: any;
-  //   pageInc = page + 1;
-  //   // this.noNextData = pageInc === totalPages;
-  //   this.getlanguagesData(page + 1, this.languagePageSize);
-  // }
-
-  // pageChange(event, totalPages) {
-  //   this.getlanguagesData(this.languagePageCount, this.languagePageSize);
-  //   this.languagePageSize = event.value;
-  //   this.noPrevData = true;
-  // }
 
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
     this.router.navigate(['language', "add"]);
-    // this.viewSeq = 2;
-    // this.languageForm.reset();
-    // this.languageForm.get('active').setValue(true)
-    // console.log(this.viewSeq);
-    // this.router.navigate(['language', "add"]);
   }
   
   updateRow(row) {
     this.isEdit = true;
-    // this.changePageMode(this.isEdit);
     this.router.navigate(['language', row]);
   }
 
   deleteRow(langId) {
+    this.loading = true;
     this.commonservice.delLanguage(langId).subscribe(
       data => {
 
@@ -158,12 +136,15 @@ export class LanguagetblComponent implements OnInit {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');     
           this.getlanguagesData()
+          this.loading = false;
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
+      this.loading = false;
     });
   }
 

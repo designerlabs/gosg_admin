@@ -33,6 +33,8 @@ export class GallerytblComponent implements OnInit {
   seqPageSize = 0 ;
   lang:any;
   languageId: any;
+  
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -92,18 +94,28 @@ export class GallerytblComponent implements OnInit {
   getGalleryData(count, size) {
     // console.log(this.appConfig.urlgalleryList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlSlides;
+    this.loading = true;
 
     this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
-        this.galleryList = data;
-        console.log(this.galleryList)
-        // console.log(JSON.stringify(this.galleryList))
-        this.dataSource.data = this.galleryList.list;
-        this.seqPageNum = this.galleryList.pageNumber;
-        this.seqPageSize = this.galleryList.pageSize;
-        this.commonservice.recordTable = this.galleryList;
-        this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
+        
+          this.commonservice.errorHandling(data, (function(){
+          this.galleryList = data;
+          console.log(this.galleryList)
+          // console.log(JSON.stringify(this.galleryList))
+          this.dataSource.data = this.galleryList.list;
+          this.seqPageNum = this.galleryList.pageNumber;
+          this.seqPageSize = this.galleryList.pageSize;
+          this.commonservice.recordTable = this.galleryList;
+          this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
+          
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       });
   }
 
@@ -139,23 +151,20 @@ export class GallerytblComponent implements OnInit {
   }
 
   deleteRow(enId,bmId) {
-    let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
-    if (r == true) {
 
+    this.loading = true;
       this.commonservice.delGallery(enId,bmId).subscribe(
         data => {
-          txt = "gallery deleted successfully!";
-          this.toastr.success(txt, '');   
           this.getGalleryData(this.pageCount, this.galleryPageSize);
+          this.loading = false;
         },
         error => {
-          console.log("No Data")
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          console.log(error);
+          this.loading = false;
         });
 
-    } else {
-      txt = "Delete Cancelled!";
-    }
+    
   }
 
   changePageMode(isEdit) {

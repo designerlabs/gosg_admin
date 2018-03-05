@@ -35,6 +35,7 @@ export class CitizentypeComponent implements OnInit {
 
   complete: boolean;
   public languageId: any;
+  public loading = false;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -93,6 +94,7 @@ export class CitizentypeComponent implements OnInit {
     // this.appConfig.urlRaceList
     this.dataUrl = this.appConfig.urlUserTypeList + '/code/' +  _getRefID + "?language=" + this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
@@ -116,12 +118,13 @@ export class CitizentypeComponent implements OnInit {
       this.checkReqValues();
 
     }).bind(this));   
+    this.loading = false;
   },
   error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       console.log(error);
-
+      this.loading = false;
     });
   }
 
@@ -174,6 +177,7 @@ export class CitizentypeComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
       this.commonservice.addUserType(body).subscribe(
         data => {
 
@@ -181,9 +185,10 @@ export class CitizentypeComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['reference/citizentype']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
-
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
@@ -242,6 +247,7 @@ export class CitizentypeComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
       this.commonservice.updateUserType(body).subscribe(
         data => {
 
@@ -249,10 +255,10 @@ export class CitizentypeComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['reference/citizentype']);
           }).bind(this)); 
-                  
+          this.loading = false;
         },
         error => {
-  
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           console.log(error);
 

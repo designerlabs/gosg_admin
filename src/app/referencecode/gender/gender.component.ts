@@ -41,6 +41,7 @@ export class GenderComponent implements OnInit {
   public getRaceIdMy: any;
   public getRaceMy: any;
   public getRaceEng: any;
+  public loading = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,7 +50,8 @@ export class GenderComponent implements OnInit {
   selection = new SelectionModel<Element>(true, []);
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router,private dialogsService: DialogsService, private translate: TranslateService) {
+  private commonservice: CommonService, private router: Router,private dialogsService: DialogsService, private translate: TranslateService,
+  private toastr: ToastrService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -84,26 +86,25 @@ export class GenderComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlGenderList;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
+
+      this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
-
-      console.log("data");
-      console.log(data);
-
-      // this.seqPageNum = this.recordList.pageNumber;
-      // this.seqPageSize = this.recordList.pageSize;
       
       this.dataSource.data = this.recordList.list;
       this.commonservice.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-      //
-      // this.getRaceIdMy = this.recordList.raceList[0].raceId;
-      // this.getRaceIdEng = this.recordList.raceList[1].raceId;
-      // this.getRaceMy = this.recordList.raceList[0].refCode;
-      // this.getRaceEng = this.recordList.raceList[1].refCode;
-    });
+          
+      }).bind(this));
+      this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);  
+      this.loading = false;
+      });
   }
 
   

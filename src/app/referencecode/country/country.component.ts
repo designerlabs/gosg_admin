@@ -30,6 +30,7 @@ export class CountryComponent implements OnInit {
 
   dataUrl: any;
   languageId: any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -84,8 +85,7 @@ export class CountryComponent implements OnInit {
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     //this.http.get(this.dataUrl)
 
-
-
+    this.loading = true;
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language='+this.languageId)
       .subscribe(data => {
 
@@ -100,9 +100,10 @@ export class CountryComponent implements OnInit {
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this)); 
+      this.loading = false;
       },
       error => {
-
+        this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
       });

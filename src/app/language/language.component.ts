@@ -30,6 +30,7 @@ export class LanguageComponent implements OnInit {
   languageCode: FormControl
   languageDescription: FormControl
   resetMsg = this.resetMsg;
+  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -101,6 +102,7 @@ export class LanguageComponent implements OnInit {
 
   // get, add, update, delete
   getRow(code) {
+    this.loading = true;
 
     // Update Language Service
     return this.http.get(this.appConfig.urlGetLanguage + '/' + code + '?language='+this.languageId).subscribe(
@@ -120,9 +122,10 @@ export class LanguageComponent implements OnInit {
         this.checkReqValues();
 
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
-
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
     });    

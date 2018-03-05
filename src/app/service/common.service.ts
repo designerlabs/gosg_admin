@@ -162,10 +162,14 @@ export class CommonService {
 
   updateUser(user) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(user)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     return this.http.put(this.appConfig.urlUserList + '/' + user.userId + '?language='+this.languageId, user)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateUserStatus(userId, accStatusId) {
+
+    return this.http.put(this.appConfig.urlUserList + '/status/' + userId + '/'+accStatusId, null)
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
@@ -699,7 +703,7 @@ getCategoryList1() {
   }
   // AGENCY END
 
-  // AGENCY APP TYPE
+  // AGENCY APP
   getAgencyApp(code) {
     // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
     return this.http.get(this.appConfig.urlAgencyApp + '/' + code+ '?language='+this.languageId).subscribe(
@@ -1176,7 +1180,7 @@ getCategoryList1() {
 
   getStateData(): Observable<any[]> {
     //  console.log(this.countryUrl);
-    return this.http.get(this.stateUrl + '?language='+this.languageId)
+    return this.http.get(this.stateUrl + '/all?language='+this.languageId)
       .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);

@@ -50,6 +50,7 @@ export class UserdetailstblComponent implements OnInit {
   icFld:FormControl;
   userType: FormControl;
   isMailContainerShow = 'block';
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -97,14 +98,12 @@ export class UserdetailstblComponent implements OnInit {
     /* LANGUAGE FUNC */
     
   }
-
-  
   
   ngOnInit() {
     
     this.isActiveList = false;
     this.isActive = true;
-    this.displayedColumns = ['no', 'username', 'icno', 'email', 'activeFlag', 'action'];
+    this.displayedColumns = ['no', 'username', 'email', 'activeFlag', 'action'];
     this.emailFld = new FormControl();
     this.addUserBtn = true;
     this.closeUserBtn = false;
@@ -140,6 +139,7 @@ export class UserdetailstblComponent implements OnInit {
 
   // get User Data 
   getUsersData(count, size) {
+    this.loading = true;
     this.dataUrl = this.appConfig.urlUserList;
     this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
       
@@ -155,10 +155,12 @@ export class UserdetailstblComponent implements OnInit {
 
       }).bind(this));
         
+      this.loading = false;
 
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      this.loading = false;       
     });
   }
 
@@ -269,7 +271,7 @@ export class UserdetailstblComponent implements OnInit {
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['admin/permission', row]);
+    this.router.navigate(['userlist', row]);
   }
 
 

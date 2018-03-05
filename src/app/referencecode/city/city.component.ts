@@ -30,6 +30,7 @@ export class CityComponent implements OnInit {
 
   dataUrl: any;
   languageId: any;
+  public loading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -84,6 +85,7 @@ export class CityComponent implements OnInit {
     this.dataUrl = this.appConfig.urlCityList;
     //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
     //this.http.get(this.dataUrl)
+    this.loading = true;
     this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + "&language=" + this.languageId)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
@@ -99,9 +101,10 @@ export class CityComponent implements OnInit {
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
-
+      this.loading = false;
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
     console.log(error);
       });

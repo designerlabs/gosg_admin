@@ -31,7 +31,7 @@ export class AddresstypetblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
-
+  public loading = false;
   filteredArray: any;
   public languageId: any;
   
@@ -88,7 +88,7 @@ export class AddresstypetblComponent implements OnInit {
   getRecordList(count, size) {
   
     this.dataUrl = this.appConfig.urlAddressTypeGet + '?page=' + count + '&size=' + size + '&language=' +this.languageId;
-
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -104,10 +104,12 @@ export class AddresstypetblComponent implements OnInit {
           this.commonservice.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
         console.log(error);
     });
   }
@@ -141,6 +143,7 @@ export class AddresstypetblComponent implements OnInit {
     let txt;
     
     console.log(refcode);
+    this.loading = true;
     this.commonservice.delRecordAddType(refcode).subscribe(
       data => {
         
@@ -149,11 +152,13 @@ export class AddresstypetblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
+        this.loading = false;
                   
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;
         console.log(error);
     }); 
   }

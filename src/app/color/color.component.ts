@@ -40,6 +40,7 @@ export class ColorComponent implements OnInit {
   active: FormControl
 
   defStatus: any;
+  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -119,23 +120,28 @@ export class ColorComponent implements OnInit {
   getRow(row) {
 
     // Update Slider Service
+    this.loading = true;
     return this.http.get(this.appConfig.urlGetColor + '/id/' + row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
+        this.commonservice.errorHandling(Rdata, (function(){
+          this.colorData = Rdata['color'];
+          console.log(this.colorData)
+          // console.log(this.appConfig.urlMenu + "/" + row)
 
-        this.colorData = Rdata['color'];
-        console.log(this.colorData)
-        // console.log(this.appConfig.urlMenu + "/" + row)
+        // populate data
+          this.colorForm.get('colorName').setValue(this.colorData['colorName']);
+          this.colorForm.get('colorCode').setValue(this.colorData['colorCode']);
+          this.colorForm.get('default').setValue(this.colorData['defaultColor']);
+          this.colorForm.get('active').setValue(this.colorData['enabled']);
+          this.colorId = this.colorData['colorId'];
 
-      // populate data
-      this.colorForm.get('colorName').setValue(this.colorData['colorName']);
-      this.colorForm.get('colorCode').setValue(this.colorData['colorCode']);
-      this.colorForm.get('default').setValue(this.colorData['defaultColor']);
-      this.colorForm.get('active').setValue(this.colorData['enabled']);
-      this.colorId = this.colorData['colorId'];
-
-      this.checkReqValues();
-    });
+          this.checkReqValues();
+        }).bind(this));  
+        this.loading = false;
+      }, err => {
+        this.loading = false;
+      });
     
   }
 
@@ -210,15 +216,18 @@ export class ColorComponent implements OnInit {
     console.log(body)
 
     // Add Color Service
+    this.loading = true;
     this.commonservice.addColor(body).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
         }).bind(this));  
         this.router.navigate(['color']);
+        this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;
       });
 
     } else {
@@ -242,15 +251,18 @@ export class ColorComponent implements OnInit {
     console.log(JSON.stringify(body));
 
     // Update ErrorMsg Service
+    this.loading = true;
     this.commonservice.updateColor(body).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
         }).bind(this));  
         this.router.navigate(['color']);
+        this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
       });
     }
     

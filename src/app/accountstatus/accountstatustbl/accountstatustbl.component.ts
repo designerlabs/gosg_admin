@@ -20,11 +20,12 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 export class AccountstatustblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];
+  displayedColumns = ['num','accEng', 'status'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
+  public loading = false;
   rerender = false;
 
   seqNo = 0;
@@ -56,6 +57,7 @@ export class AccountstatustblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
+        this.loading = true;
         this.commonservice.getAllLanguage().subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
@@ -66,6 +68,9 @@ export class AccountstatustblComponent implements OnInit {
               this.commonservice.getModuleId();
             }
           }.bind(this));
+          this.loading = false;
+        }, err => {
+          this.loading = false;
         })
       });
     });
@@ -84,7 +89,7 @@ export class AccountstatustblComponent implements OnInit {
   }
 
   getRecordList(count, size) {
-  
+    this.loading = true;
     this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
 
     this.http.get(this.dataUrl)
@@ -102,10 +107,12 @@ export class AccountstatustblComponent implements OnInit {
           this.commonservice.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
         console.log(error);
     });
   }
@@ -138,6 +145,7 @@ export class AccountstatustblComponent implements OnInit {
   deleteRow(refcode) {
   
     console.log(refcode);
+    this.loading = true;
     this.commonservice.delRecordAccStatus(refcode).subscribe(
       data => {
         
@@ -146,11 +154,13 @@ export class AccountstatustblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
+        this.loading = false;
                   
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
         console.log(error);
     });    
   }
