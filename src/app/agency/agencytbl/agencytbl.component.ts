@@ -19,7 +19,7 @@ export class AgencytblComponent implements OnInit {
   agencyTypeData: Object;
   agencyTypeList = null;
   displayedColumns: any;
-  agencyTypePageSize = 10;
+  pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -33,16 +33,24 @@ export class AgencytblComponent implements OnInit {
   seqPageSize = 0 ;
   lang:any;
   languageId: any;
+  filterTypeVal: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.agencyTypeList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(val) {   
+
+    console.log(val);
+    
+    if(val){
+      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+    }
+    else{
+      this.getAgencyTypesData(this.pageCount, this.pageSize);
+    }
+  
   }
 
   constructor(
@@ -64,7 +72,7 @@ export class AgencytblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+              this.getAgencyTypesData(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -73,7 +81,7 @@ export class AgencytblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+      this.getAgencyTypesData(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
     }
 
@@ -106,8 +114,37 @@ export class AgencytblComponent implements OnInit {
       });
   }
 
+  getFilterList(count, size, keyword, filterkeyword) {
+
+    this.dataUrl = this.appConfig.urlGetAgency+'/code?keyword='+keyword+'&language='+this.languageId;
+
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+
+      this.http.get(this.dataUrl).subscribe(data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.list;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+        }).bind(this)); 
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+    }
+  }
+
   paginatorL(page) {
-    this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+    this.getAgencyTypesData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -117,12 +154,12 @@ export class AgencytblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getAgencyTypesData(page + 1, this.agencyTypePageSize);
+    this.getAgencyTypesData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {
     this.getAgencyTypesData(this.pageCount, event.value);
-    this.agencyTypePageSize = event.value;
+    this.pageSize = event.value;
     this.noPrevData = true;
   }
 
@@ -130,11 +167,6 @@ export class AgencytblComponent implements OnInit {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
     this.router.navigate(['agency', "add"]);
-    // this.viewSeq = 2;
-    // this.agencyTypeForm.reset();
-    // this.agencyTypeForm.get('active').setValue(true)
-    // console.log(this.viewSeq);
-    // this.router.navigate(['agency', "add"]);
   }
   
   updateRow(row) {
@@ -153,7 +185,7 @@ export class AgencytblComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
-          this.getAgencyTypesData(this.pageCount, this.agencyTypePageSize);
+          this.getAgencyTypesData(this.pageCount, this.pageSize);
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');

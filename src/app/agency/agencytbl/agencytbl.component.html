@@ -28,11 +28,25 @@
 
 <div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
-    <!-- <div class="example-header">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-    </div> -->
+            
+    <div class="row">
+        <!-- <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
+            <mat-form-field class="example-full-width">
+                <mat-select  placeholder="Filter By" (change)="filterType($event)">
+                    <mat-option [value]="1">All</mat-option>
+                    <mat-option [value]="2">Email</mat-option>
+                    <mat-option [value]="3">Keyword</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> -->
+
+        <div class="col-md-9 paddingTop-10" style="padding-left:30px;" *ngIf="filterTypeVal != 1">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Keywords">
+            </mat-form-field>
+        </div>
+    </div>
+
 
     <mat-table #table [dataSource]="dataSource">
       <!-- slideId Column -->

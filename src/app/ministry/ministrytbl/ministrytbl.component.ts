@@ -22,7 +22,7 @@ export class MinistrytblComponent implements OnInit {
   agencyData: Object;
   ministryList = null;
   displayedColumns: any;
-  agencyPageSize = 10;
+  pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -37,16 +37,24 @@ export class MinistrytblComponent implements OnInit {
   lang:any;
   languageId: any;
   collectModules:any;
+  filterTypeVal: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.ministryList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(val) {   
+
+    console.log(val);
+    
+    if(val){
+      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+    }
+    else{
+      this.getMinistryData(this.pageCount, this.pageSize);
+    }
+  
   }
 
   constructor(
@@ -68,7 +76,7 @@ export class MinistrytblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getMinistryData(this.pageCount, this.agencyPageSize);
+              this.getMinistryData(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -77,7 +85,7 @@ export class MinistrytblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getMinistryData(this.pageCount, this.agencyPageSize);
+      this.getMinistryData(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
@@ -111,8 +119,38 @@ export class MinistrytblComponent implements OnInit {
       });
   }
 
+  getFilterList(count, size, keyword, filterkeyword) {
+
+    this.dataUrl = this.appConfig.urlGetMinistry+'?keyword='+keyword+'&language='+this.languageId;
+    // this.dataUrl = this.appConfig.urlSearchbyMinistry+'?keyword='+keyword +'&page=' + count + '&size=' + size + '&language='+this.languageId;
+
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+
+      this.http.get(this.dataUrl).subscribe(data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.list;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+        }).bind(this)); 
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+    }
+  }
+
   paginatorL(page) {
-    this.getMinistryData(this.pageCount, this.agencyPageSize);
+    this.getMinistryData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -122,12 +160,12 @@ export class MinistrytblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getMinistryData(page + 1, this.agencyPageSize);
+    this.getMinistryData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {
     this.getMinistryData(this.pageCount, event.value);
-    this.agencyPageSize = event.value;
+    this.pageSize = event.value;
     this.noPrevData = true;
   }
 
@@ -153,7 +191,7 @@ export class MinistrytblComponent implements OnInit {
           console.log(data)
           txt = "Ministry deleted successfully!";
           this.toastr.success(txt, '');   
-          this.getMinistryData(this.pageCount, this.agencyPageSize);
+          this.getMinistryData(this.pageCount, this.pageSize);
         },
         error => {
           console.log("No Data")
