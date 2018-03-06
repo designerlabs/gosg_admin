@@ -1,5 +1,11 @@
 <form class="example-form">
 	<ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+            
+	<div class="row">
+			<mat-form-field class="example-full-width">
+				<input matInput (keyup)="applyFilter($event.target.value)" placeholder="Keywords">
+			</mat-form-field>
+	</div>
     
 	<div *ngIf='menulst'>
 		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">

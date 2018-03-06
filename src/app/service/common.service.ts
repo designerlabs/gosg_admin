@@ -225,7 +225,17 @@ export class CommonService {
   // FONT END
 
   // MODULE
+  getModMenuBySearch(keyword) {
+    return this.http.get(this.appConfig.urlModule+'/menu/search?keyword='+keyword+'&language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
+  getModMenuLocalBySearch(keyword) {
+    return this.http.get(this.appConfig.urlModule+'/menu/localhost/search?keyword='+keyword+'&language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
   getModMenu() {
     return this.http.get(this.appConfig.urlModule+'/menu?language='+this.languageId)
     .map((response: Response) => response.json())
