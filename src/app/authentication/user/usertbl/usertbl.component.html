@@ -2,7 +2,7 @@
   <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
     <div class="col-md-4 curdHeadingLeft">
-        <h3>User Admin Management</h3>
+        <h3>{{ 'module.adminManagement' | translate }}</h3>
     </div>
 
 
@@ -95,7 +95,7 @@
   
           <!-- No Column -->
         <ng-container matColumnDef="no">
-          <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+          <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'table.no' | translate }} </mat-header-cell>
           <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
@@ -103,18 +103,18 @@
   
         <!-- slideTitle Column -->
         <ng-container matColumnDef="username">
-          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> Username</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'table.username' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;"> {{element.username}} </mat-cell>
         </ng-container>
   
         <ng-container matColumnDef="icno">
-          <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> IC No.</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'table.icno' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;"> {{element.icNo}} </mat-cell>
         </ng-container>
   
         <!-- slideDescription Column -->
         <ng-container matColumnDef="moduleGroupName">
-          <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> Modules Group List </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'table.moduleGroupName' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" style="flex: 0 0 30%;" > 
               <mat-chip-list >
                   <mat-chip color="primary" selected="true" *ngFor="let ele of (element.items.length > 3 ? element.items.slice(0,3):  element.items)">{{ele.moduleGroupName}}</mat-chip> 
@@ -125,7 +125,7 @@
         
         <!-- slideActiveFlag Column -->
         <ng-container matColumnDef="activeFlag">
-          <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'table.activeFlag' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
             <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
           </mat-cell>
@@ -133,7 +133,7 @@
   
         <!-- Action Column -->
         <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'table.action' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="actionColumn">
               <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate"  (click)="updateRow(element.id)" title="Update">
                 <i class="fa fa-edit" ></i>
@@ -171,9 +171,9 @@
         </mat-select>
       </mat-form-field>
       <span class="float-right">
-        <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-          <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-          <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+        <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'table.pages' | translate }}
+          <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'table.of' | translate }}
+          <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'table.in' |translate }}
           <strong>{{commonservice.recordTable?.totalElements}}</strong> sliders</span>
         <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
           <i class="fa fa-angle-left" aria-hidden="true"></i>

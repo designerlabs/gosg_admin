@@ -3,7 +3,7 @@
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-        <h3>Error Message Management</h3>
+        <h3>{{ 'errormsg.header' | translate }}</h3>
     </div>
     
     <!-- <div class="col-md-2 curdHeadingRight">
@@ -31,7 +31,7 @@
       
         <!-- No Column -->
         <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'errormsg.tableHeader.num' | translate }} </mat-header-cell>
             <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
               {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
             </mat-cell>
@@ -39,7 +39,7 @@
 
         <!-- errMsgCodeEn Column -->
         <ng-container matColumnDef="errMsgCodeEn">
-          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> Error Message Code</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'errormsg.tableHeader.code' | translate }}</mat-header-cell>
             <mat-cell *matCellDef="let element" style="flex: 0 0 25%;">
               {{element.list[0].messagesCode}}
             </mat-cell>
@@ -47,19 +47,19 @@
 
         <!-- slideTitle Column -->
         <ng-container matColumnDef="messagesDescriptionEn">
-          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> Description (EN)</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'errormsg.tableHeader.descriptionEn' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" style="flex: 0 0 25%;"> {{element.list[0].messagesDescription}} </mat-cell>
         </ng-container>
 
         <!-- slideDescription Column -->
         <ng-container matColumnDef="messagesDescriptionBm">
-          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> Description (BM) </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'errormsg.tableHeader.descriptionBm' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" style="flex: 0 0 25%;"> {{element.list[1].messagesDescription}} </mat-cell>
         </ng-container>
         
         <!-- Action Column -->
         <ng-container matColumnDef="errMsgAction">
-          <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'errormsg.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="actionColumn">
               <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
                 <i class="fa fa-edit" ></i>
@@ -94,11 +94,11 @@
         </mat-select>
       </mat-form-field>
       <span class="float-right">
-        <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
+        <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'errormsg.tablebottom.page' | translate }}
           <!-- <strong>{{commonservice.errMsgTable?.pageNumber}}</strong> of -->
-          <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-          <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-          <strong>{{commonservice.recordTable?.totalElements}}</strong> error messages</span>
+          <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'errormsg.tablebottom.of' | translate }}
+          <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'errormsg.tablebottom.in' | translate }}
+          <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'errormsg.tablebottom.errmsg' | translate }}</span>
         <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
           <i class="fa fa-angle-left" aria-hidden="true"></i>
         </button>

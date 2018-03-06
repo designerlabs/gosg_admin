@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Feedback Visitor List</h3>
+            <h3>{{ 'feedbackvisitortbl.header' | translate }}</h3>
         </div>
     </div>
 
@@ -18,9 +18,9 @@
                 <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
                     <mat-form-field class="example-full-width">
                         <mat-select  placeholder="Filter By" (change)="filterType($event)">
-                            <mat-option [value]="1">All</mat-option>
-                            <mat-option [value]="2">Email</mat-option>
-                            <mat-option [value]="3">Keyword</mat-option>
+                            <mat-option [value]="1">{{ 'feedbackvisitortbl.filterby.all' | translate }}</mat-option>
+                            <mat-option [value]="2">{{ 'feedbackvisitortbl.filterby.email' | translate }}</mat-option>
+                            <mat-option [value]="3">{{ 'feedbackvisitortbl.filterby.keyword' | translate }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -36,7 +36,7 @@
             
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -44,7 +44,7 @@
             
                 <!-- type Column -->
                 <ng-container matColumnDef="type">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Feedback Type </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.feedbacktype' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.feedbackType.feedbackTypeDescription}} 
                     </mat-cell>
@@ -52,7 +52,7 @@
 
                 <!-- name Column -->
                 <ng-container matColumnDef="name">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.name' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.feedbackName}}
                     </mat-cell>
@@ -60,7 +60,7 @@
 
                 <!-- Email Column -->
                 <ng-container matColumnDef="email">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Email </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.email' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.feedbackEmail}}
                     </mat-cell>
@@ -68,7 +68,7 @@
             
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Draft Status </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.status' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.feedbackDraftFlag == true" class="fa fa-check" style="color: green;"></i>
                         <i *ngIf="element.feedbackDraftFlag == false" class="fa fa-times" style="color: red;"></i>
@@ -77,7 +77,7 @@
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.feedbackId)">
                         <i class="fa fa-eye" title="View {{ element.feedbackId }}"></i></button>
@@ -103,10 +103,10 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> feedback message
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'feedbackvisitortbl.tablebottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'feedbackvisitortbl.tablebottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'feedbackvisitortbl.tablebottom.in' | translate }}
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'feedbackvisitortbl.tablebottom.feedback' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>

@@ -3,10 +3,10 @@
     
 	<div *ngIf='menulst'>
 		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
-			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['admin']">Admin Management</a>
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['admin']">{{ 'home.content.adminManagement' | translate }}</a>
 		</div>
 		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
-			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">Grouping Management</a>
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">{{ 'home.content.groupingManagement' | translate }}</a>
 		</div>
 		<div *ngFor="let menu of menulst.moduleList" style="padding-bottom: 0px; border-bottom: 1px solid #e6e6e6;">
 			<a class="submenu_link" routerLinkActive="submenu_link_active" (click)="scrollTop()" [routerLink]=[menu.moduleUrl] >{{menu.moduleName}}</a>

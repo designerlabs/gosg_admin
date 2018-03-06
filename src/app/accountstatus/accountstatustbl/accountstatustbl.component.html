@@ -2,7 +2,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Account Status List</h3>
+            <h3>{{ 'accstatuslist.header' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -30,7 +30,7 @@
             
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'accstatuslist.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -38,7 +38,7 @@
             
                 <!-- Account Status en Column -->
                 <ng-container matColumnDef="accEng">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Account Status </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'accstatuslist.tableHeader.accStatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.accountStatusDescription}} 
                     </mat-cell>
@@ -46,7 +46,7 @@
 
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'accstatuslist.tableHeader.activeStatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.enabled == true" class="fa fa-check" style="color: green;"></i>
                         <i *ngIf="element.enabled == false" class="fa fa-times" style="color: red;"></i>
@@ -88,10 +88,10 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> account status
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'accstatuslist.tablebottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'accstatuslist.tablebottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'accstatuslist.tablebottom.in' | translate }}
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'accstatuslist.tablebottom.accStatus' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>

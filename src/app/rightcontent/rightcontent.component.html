@@ -3,21 +3,21 @@
   
 
   <h1>
-    Grouping and Permission Modules
+    {{ 'home.content.groupingPermisionModules' | translate }}
   </h1>
 
   <div>
       <a class="card" routerLink="/groupmodule">
           <div class="card-body">
-            <h5 class="card-title">Grouping Management</h5>
-            <p class="card-text">Sorting and Grouping from isolate module</p>
+            <h5 class="card-title">{{ 'home.content.groupingManagement' | translate }}</h5>
+            <p class="card-text">{{ 'home.content.groupingDetails' | translate }}</p>
           </div>
       </a>
 
       <a class="card" routerLink="/admin">
         <div class="card-body">
-          <h5 class="card-title">Admin Management</h5>
-          <p class="card-text">Assign Admin user and providing permission</p>
+          <h5 class="card-title">{{ 'home.content.adminManagement' | translate }}</h5>
+          <p class="card-text">{{ 'home.content.adminDetails' | translate }}</p>
         </div>
       </a>
   
@@ -27,7 +27,7 @@
 </div>
 
 <h1>
-  Modules <mat-chip-list *ngIf="menulst"><mat-chip color="primary" selected="true">{{menulst?.moduleList?.length }}</mat-chip></mat-chip-list>
+  {{ 'home.content.modules' | translate }} <mat-chip-list *ngIf="menulst"><mat-chip color="primary" selected="true">{{menulst?.moduleList?.length }}</mat-chip></mat-chip-list>
   <mat-chip-list *ngIf="menulist_non_admin"><mat-chip color="primary" selected="true">{{menulist_non_admin?.items?.length }}</mat-chip></mat-chip-list>
 </h1>
 
