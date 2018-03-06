@@ -178,19 +178,18 @@ export class MediafileuploadComponent implements OnInit {
           this.loading = false;
         });
          
-    // Get Categories
-    this.commonservice.getCategoryData()
-      // this.http.get('./app/apidata/category.json')
-      .subscribe(resStateData => {
-        this.commonservice.errorHandling(resStateData, (function () {
-          this.AllobjCategory = resStateData['list'];
-        }).bind(this));
-        this.loading = false;
-      },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          this.loading = false;
-        });
+    // Get Categories // no need to load first
+    // this.commonservice.getCategoryData()
+    //   .subscribe(resStateData => {
+    //     this.commonservice.errorHandling(resStateData, (function () {
+    //       this.objCategory = resStateData['list'];
+    //     }).bind(this));
+    //     this.loading = false;
+    //   },
+    //     error => {
+    //       this.toastr.error(JSON.parse(error._body).statusDesc, '');
+    //       this.loading = false;
+    //     });
   }  
 
   getRow(row) {
@@ -323,15 +322,15 @@ export class MediafileuploadComponent implements OnInit {
     this.chkUploadFile.maxH = fileConfig[0].maxH;
     this.chkUploadFile.minW = fileConfig[0].minW;
     this.chkUploadFile.maxW = fileConfig[0].maxW;
-    
+    debugger;
     this.sharedConfig.acceptExtensions =  filextnLCase.split(',');
     this.sharedConfig.maxFileSize = maxFileSize;
-    if(!this.addconfig){
-      this.ng4FilesService.addConfig(this.sharedConfig); 
-      this.addconfig = true;
-    } else{
-      // this.ng4FilesService.configs.shared.acceptExtensions = this.sharedConfig.acceptExtensions;
-    }
+    // if(!this.addconfig){
+    //   this.ng4FilesService.addConfig(this.sharedConfig); 
+    //   this.addconfig = true;
+    // } else{
+    //   // this.ng4FilesService.configs.shared.acceptExtensions = this.sharedConfig.acceptExtensions;
+    // }
   }
  
   //dev server path: opt/media
@@ -353,7 +352,13 @@ export class MediafileuploadComponent implements OnInit {
           this.checkReqValues();
         }else{
           this.toastr.error('File Size Exceed maximum file size');
-        }        
+        } 
+        // Check File extn
+let fileExtn = selectedFiles.files[0].name.split('.')[1];
+        // if(){
+
+        // }
+        
       }
     }else if(selectedFiles.status === Ng4FilesStatus.STATUS_MAX_FILES_COUNT_EXCEED){
       this.toastr.error('Maximum files count exceed.Please upload one file');

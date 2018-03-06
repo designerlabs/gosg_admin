@@ -416,7 +416,7 @@ export class CommonService {
   // Media Ends
 // Media Types starts
 getMediaType() {
-  console.log(this.appConfig.urlMediaType);
+  console.log(this.appConfig.urlMediaType + '?language='+this.languageId);
   return this.http.get(this.appConfig.urlMediaType)
   .map((response: Response) => response.json())
   .catch(this.handleError);
@@ -464,6 +464,12 @@ addMediaFileUpload(mediaFile) {
 
 delMediaFileUpload(mediaFile) {
   return this.http.delete(this.appConfig.urlMediaFileUpload + "/id/" + mediaFile)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+getMediaByCateId(id){
+  return this.http.delete(this.appConfig.urlMediaFileUpload + "/category/id/" + id)
   .map((response: Response) => response.json())
   .catch(this.handleError);
 }
