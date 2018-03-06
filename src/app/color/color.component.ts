@@ -199,38 +199,39 @@ export class ColorComponent implements OnInit {
     
     if(!this.isEdit) {
 
-    let body = {
-        "colorName": null,
-        "colorCode": null,
-        "enabled": false,
-        "defaultColor": false
-    };
-    
-    // console.log(formValues)
+      let body = {
+          "colorName": null,
+          "colorCode": null,
+          "enabled": false,
+          "defaultColor": false
+      };
+      
+      // console.log(formValues)
 
-    body.colorName = formValues.colorName;
-    body.colorCode = formValues.colorCode;
-    body.enabled = formValues.active;
-    body.defaultColor = formValues.default;
+      body.colorName = formValues.colorName;
+      body.colorCode = formValues.colorCode;
+      body.enabled = formValues.active;
+      body.defaultColor = formValues.default;
 
-    console.log(body)
+      console.log(body)
 
-    // Add Color Service
-    this.loading = true;
-    this.commonservice.addColor(body).subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.added'), 'success');
-        }).bind(this));  
-        this.router.navigate(['color']);
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        this.loading = false;
-      });
+      // Add Color Service
+      this.loading = true;
+      this.commonservice.addColor(body).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), 'success');
+          }).bind(this));  
+          this.router.navigate(['color']);
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;
+        });
 
-    } else {
+    } 
+    else {
 
       let body = {
           "colorId": null,
@@ -248,24 +249,31 @@ export class ColorComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultColor = formValues.default;
 
-    console.log(JSON.stringify(body));
+      console.log(JSON.stringify(body));
 
-    // Update ErrorMsg Service
-    this.loading = true;
-    this.commonservice.updateColor(body).subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-        }).bind(this));  
-        this.router.navigate(['color']);
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        this.loading = false;
-      });
+      // Update ErrorMsg Service
+      this.loading = true;
+      this.commonservice.updateColor(body).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+          }).bind(this));  
+          this.router.navigate(['color']);
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+        });
     }
-    
-    }
+      
+  }
+
+  myFunction() {
+    this.colorForm.reset();
+    this.checkReqValues();   
+  }
 
 }
+
+
