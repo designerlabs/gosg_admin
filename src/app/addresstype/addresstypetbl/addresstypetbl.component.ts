@@ -19,7 +19,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 export class AddresstypetblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','addEng', 'addMalay', 'status', 'action'];
+  displayedColumns = ['num','addEng', 'addMalay', 'status'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;

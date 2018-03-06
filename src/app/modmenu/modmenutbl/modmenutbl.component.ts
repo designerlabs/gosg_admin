@@ -41,11 +41,18 @@ export class ModmenutblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.moduleList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
+  // applyFilter(val) {   
+
+  //   console.log(val);
+    
+  //   if(val){
+  //     this.getModuleData(this.pageCount, this.pageSize, val, this.filterTypeVal);
+  //   }
+  //   else{
+  //     this.getModuleData(this.pageCount, this.pageSize);
+  //   }
+  
+  // }
 
   constructor(
     private http: HttpClient, 
