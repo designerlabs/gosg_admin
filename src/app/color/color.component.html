@@ -68,10 +68,18 @@
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning  pull-right"
-            style="width: 100px; font-family: Roboto">
+            style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
             <i class="fa fa-refresh"></i>&nbsp;Reset</button>
         </div>
       <div class="col-md-12">&nbsp;</div>
     <!-- </div> -->
   </form>
 </div>
+
+<app-confirm-dialog  #resetModal 
+    [title]="'common.icon.warn'" 
+    [content]="'common.msg.reset'"
+    [state]="'bg_header bg_warn_header'"
+    [isReset]="'true'"
+    (resetMethod)="myFunction()">
+</app-confirm-dialog>
