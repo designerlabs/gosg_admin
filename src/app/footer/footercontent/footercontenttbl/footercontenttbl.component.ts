@@ -1,21 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-footercontenttbl',
-//   templateUrl: './footercontenttbl.component.html',
-//   styleUrls: ['./footercontenttbl.component.css']
-// })
-// export class FootercontenttblComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-
 import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -36,6 +18,8 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
 })
 
 export class FootercontenttblComponent implements OnInit {
+
+  public loading = false;
 
   updateForm: FormGroup
 
@@ -66,10 +50,14 @@ export class FootercontenttblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.pageSize, e);
+    }
+    else{
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -107,30 +95,64 @@ export class FootercontenttblComponent implements OnInit {
   getRecordList(count, size) {
   
     this.dataUrl = this.appConfig.urlFooterContent + '?page=' + count + '&size=' + size +"?language=" + this.languageId;
-
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
-      this.recordList = data;
+        this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+        console.log("data");
+        console.log(data);
 
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      
-      this.dataSource.data = this.recordList.list;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        
+        this.dataSource.data = this.recordList.list;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-    }).bind(this)); 
-  },
-  error => {
+      }).bind(this)); 
+      this.loading = false;
+    },
+    error => {
 
-    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
-
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
+      this.loading = false;
     });
+  }
+
+  getFilterList(count, size, val) {
+  
+    this.dataUrl = this.appConfig.urlFooterContent + '?filter=' +val+  '&page=' + count + '&size=' + size +"?language=" + this.languageId;
+    
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
+      this.loading = true;
+      this.http.get(this.dataUrl)
+      .subscribe(data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.recordList = data;
+
+          console.log("data");
+          console.log(data);
+
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          
+          this.dataSource.data = this.recordList.list;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });
+    }
   }
 
   paginatorL(page) {
@@ -162,7 +184,7 @@ export class FootercontenttblComponent implements OnInit {
   
   deleteRow(refCode) {
 
-    let txt;
+    this.loading = true;
 
     console.log(refCode);
     this.commonservice.delFooterContent(refCode).subscribe(
@@ -173,44 +195,14 @@ export class FootercontenttblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
-                  
+        this.loading = false;          
       },
       error => {
 
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });
-
-    // let txt;
-    // let r = confirm("Are you sure to delete ?");
-
-    
-    // if (r == true) {
-    //   console.log(refCode);
-    //   this.commonservice.delFooterContent(refCode).subscribe(
-    //     data => {
-    //       // alert('Record deleted successfully!')
-    //       if(data.statusCode == "ERROR"){
-    //         this.commonservice.errorResponse(data);
-    //       }
-          
-    //       else{
-    //         txt = "Record Deletde Successfully!"
-    //         this.toastr.success(txt, '');  
-    //         // this.router.navigate(['footer/footercontent']);
-    //         this.getRecordList(this.pageCount, this.pageSize);
-    //       }               
-    //     },
-    //     error => {
-
-    //       txt = "Server is down."
-    //       this.toastr.error(txt, '');  
-    //       console.log(error);
-    //   });
-    // }
-    // else{
-    //   txt = "Delete Cancelled!";
-    // }
   }
 
   ngAfterViewInit() {

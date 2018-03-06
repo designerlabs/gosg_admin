@@ -125,32 +125,35 @@ export class FaqtblComponent implements OnInit {
   getFilterList(count, size, val) {
   
     this.dataUrl = this.appConfig.urlFaqGetList + '/search?keyword=' + val + '&page=' + count + '&size=' + size + "&language=" + this.languageId;
-    this.loading = true;
+    
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
+      this.loading = true;
 
-    this.http.get(this.dataUrl)
-    .subscribe(data => {
-      this.commonservice.errorHandling(data, (function(){
-        this.recordList = data;
+      this.http.get(this.dataUrl)
+      .subscribe(data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+          console.log("data");
+          console.log(data);
 
-        this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
-        
-        this.dataSource.data = this.recordList.list;
-        this.commonservice.recordTable = this.recordList;
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-      }).bind(this)); 
-      this.loading = false;
-    },
-    error => {
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          
+          this.dataSource.data = this.recordList.list;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
 
-      this.loading = false;
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
 
-    });
+      });
+    }
   }
 
   paginatorL(page) {
