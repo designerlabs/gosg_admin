@@ -74,7 +74,7 @@
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab style="background: orange" (click)="updateRow(element.moduleId)" title="Update {{ element.moduleName }}">
                 <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.fullName }}" ></i>
-                <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fullName }}" ></i>
+                <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fullName }}" ></i> -->
             </button>
             &nbsp;
             <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.moduleName }}">

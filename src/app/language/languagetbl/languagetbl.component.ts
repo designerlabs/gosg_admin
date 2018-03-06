@@ -78,7 +78,7 @@ export class LanguagetblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','languageCode', 'languageName', 'languageDescription', 'languageAction'];
+    this.displayedColumns = ['no','languageCode', 'languageName', 'languageDescription'];
     this.commonservice.getModuleId();    
   }
 
