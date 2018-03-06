@@ -181,17 +181,17 @@ export class MediafileuploadComponent implements OnInit {
         });
          
     // Get Categories // no need to load first
-    // this.commonservice.getCategoryData()
-    //   .subscribe(resStateData => {
-    //     this.commonservice.errorHandling(resStateData, (function () {
-    //       this.objCategory = resStateData['list'];
-    //     }).bind(this));
-    //     this.loading = false;
-    //   },
-    //     error => {
-    //       this.toastr.error(JSON.parse(error._body).statusDesc, '');
-    //       this.loading = false;
-    //     });
+    this.commonservice.getCategoryData()
+      .subscribe(resStateData => {
+        this.commonservice.errorHandling(resStateData, (function () {
+          this.AllobjCategory = resStateData['list'];
+        }).bind(this));
+        this.loading = false;
+      },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+        });
   }  
 
   getRow(row) {

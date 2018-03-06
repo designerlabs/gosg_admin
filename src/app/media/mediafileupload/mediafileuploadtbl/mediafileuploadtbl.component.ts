@@ -30,6 +30,8 @@ export class MediafileuploadtblComponent implements OnInit {
   resultData = null;
   dataSource = new MatTableDataSource<object>(this.mediaList);
   showNoData = false;
+  fileName:string;
+  cateSelect;
   public loading = false;
 
   constructor(private commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
@@ -54,8 +56,6 @@ export class MediafileuploadtblComponent implements OnInit {
       this.getMediaList(this.PageCount, this.PageSize);
       this.commonservice.getModuleId();
     }
-
-    
   }
 
   ngOnInit() {
@@ -99,11 +99,11 @@ export class MediafileuploadtblComponent implements OnInit {
             this.seqPageSize = this.resultData.pageSize;
             this.noNextData = this.resultData.pageNumber === this.resultData.totalPages;
             this.mediaPage = resData;
-            if(dataBy === "byFileName"){
-            this.mediaList = resData; 
-            }else {
+            // if(dataBy === "byFileName"){
+            // this.mediaList = resData; 
+            // }else {
               this.mediaList = resData['list']; 
-            } 
+            // } 
             this.showNoData = false;
             this.dataSource.data = this.mediaList; 
           }else{
@@ -122,14 +122,15 @@ export class MediafileuploadtblComponent implements OnInit {
   searchByFileName(val){
     debugger;
     this.PageCount = 0;
-    this.PageSize = 10;
-    this.getMediaList(this.PageCount, this.PageSize, "byFileName", val); 
-    
+    this.PageSize = 10; 
+    this.cateSelect = 0;   //Reset Category search
+    this.getMediaList(this.PageCount, this.PageSize, "byFileName", val);     
   }
 
   selCateType(val){
     this.PageCount = 0;
     this.PageSize = 10;
+    this.fileName = ""; // Reset File name Search
     if(val.value === "0" ){
       this.getMediaList(this.PageCount, this.PageSize);
     } else{
@@ -138,8 +139,11 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   reset(){
+    debugger;
     this.PageCount = 0;
     this.PageSize = 10;
+    this.fileName = "";
+    this.cateSelect = 0;
     this.getMediaList(this.PageCount, this.PageSize);
   }
 

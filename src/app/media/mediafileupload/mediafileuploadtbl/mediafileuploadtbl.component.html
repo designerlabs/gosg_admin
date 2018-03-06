@@ -19,7 +19,7 @@
   <div *ngIf="commonservice.isRead">
     <div class="row" style="padding: 20px;">
       <div class="col-md-4">
-            <mat-select placeholder="Search By Category" (change)="selCateType($event)" required>
+            <mat-select placeholder="Search By Category" (change)="selCateType($event)" [(ngModel)]="cateSelect" required>
                 <mat-option value="0">All Category</mat-option>
               <mat-option *ngFor="let obj of objCategory" [value]="obj.list[0].categoryId">{{obj.list[0].categoryName}}</mat-option>
             </mat-select>            
