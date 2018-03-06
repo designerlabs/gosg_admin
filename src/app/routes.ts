@@ -89,9 +89,9 @@ export const appRoutes: Routes = [
 {path: 'mediatype', component: MediatypetblComponent},
 {path: 'mediatype/add', component: MediatypeComponent},
 {path: 'mediatype/:id', component: MediatypeComponent},
-{path: 'media', component: MediafileuploadtblComponent},
-{path: 'media/add', component: MediafileuploadComponent},
-{path: 'media/:id', component: MediafileuploadComponent},
+{path: 'media/upload', component: MediafileuploadtblComponent},
+{path: 'media/upload/add', component: MediafileuploadComponent},
+{path: 'media/upload/:id', component: MediafileuploadComponent},
 {path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 
 //Feedback: N

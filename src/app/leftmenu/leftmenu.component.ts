@@ -9,6 +9,7 @@ import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 // import { Router } from '@angular/router/src/router';
 
@@ -41,10 +42,27 @@ export class LeftmenuComponent implements OnInit {
   panelOpenState: false;
   filteredOptions: Observable<User[]>;
   value = 'Clear me';
+  dataUrl: any;
+  languageId: any;
 //   public objMenu: object;
 
+
+applyFilter(keyword) {   
+
+  console.log(keyword);
+  
+  if(keyword){
+    this.getFilterList(keyword);
+  }
+  else{
+    this.getUserData();
+  }
+
+}
+
   // tslint:disable-next-line:max-line-length
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router ) { 
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router,
+  private toastr: ToastrService ) { 
     
     this.getUserData();
   }
@@ -67,6 +85,7 @@ export class LeftmenuComponent implements OnInit {
   @Input() superStatus:string;
 
   getUserData(){
+    this.languageId = localStorage.getItem('langID');
     if(!environment.staging){
       this.loading = true;
       this.commonservice.getUsersDetails().subscribe(
@@ -103,6 +122,30 @@ export class LeftmenuComponent implements OnInit {
   scrollTop(){
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
+  }
+
+  getFilterList(keyword) {
+
+    this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId;
+
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.loading = true;
+      this.http.get(this.dataUrl).subscribe(data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          this.menulst = data;
+          // this.getUserData();
+
+        }).bind(this));
+        this.loading = false; 
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+        console.log(error);
+      });
+    }
   }
 
   getMenuData() {
