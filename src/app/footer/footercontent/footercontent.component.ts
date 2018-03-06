@@ -20,6 +20,7 @@ import { ValidateService } from '../../common/validate.service';
 
 export class FootercontentComponent implements OnInit {
 
+  public loading = false;
   updateForm: FormGroup;
 
   patternAlphaOnly: string;
@@ -58,10 +59,7 @@ export class FootercontentComponent implements OnInit {
   public dataUrl: any;  
   public recordList: any;
   public resCatData: any;
-  // public category: any;
   public categoryData: any;
-  // public categoryDataEng: any;
-  // public categoryDataMy: any;
 
   public getCatValueEng: any;
   public getCatValueMy: any;
@@ -76,20 +74,12 @@ export class FootercontentComponent implements OnInit {
   complete: boolean;
 
   public imageData: any;
-  // public imageData: any;
 
   public imejEng: any;
   public imejMy: any;
 
   public flagErrIcon: any;
 
-  // public min: any;
-  // public max: any;
-
-  // patternIconEng: string;
-
-  // public selectedImgMy = 'Sila Pilih';
-  // public selectedImgEng = 'Please Select';
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -171,7 +161,6 @@ export class FootercontentComponent implements OnInit {
 
       active: this.active,
       copyImg: this.copyImg,    
-
       
     });     
     
@@ -186,21 +175,26 @@ export class FootercontentComponent implements OnInit {
       this.getData();
     }
 
-    // this.isSameImg(this.imgEng,this.imgMy);
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
     
   }
 
   
 
   getCategory(){
+    this.loading = true;
     return this.commonservice.getFooterCategoryList()
      .subscribe(resCatData => {
         this.categoryData = resCatData;   
-        // this.categoryDataMy = resCatData;       
+        // this.categoryDataMy = resCatData;  
+        this.loading = false;     
       },
       Error => {
-      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-      console.log('Error in State');
+        this.loading = false;
+        console.log('Error in State');
      });
   }
 
@@ -246,14 +240,16 @@ export class FootercontentComponent implements OnInit {
   }
 
   getImageList(){
+
+    this.loading = true;
     return this.commonservice.getImageList()
      .subscribe(resCatData => {
         this.imageData = resCatData.list;   
-        // this.imageData = resCatData.list;      
+        this.loading = false;    
       },
       Error => {
-      //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-      console.log('Error in State');
+        this.loading = false;  
+        console.log('Error in State');
      });
   }
 
@@ -367,23 +363,7 @@ export class FootercontentComponent implements OnInit {
       elemTwo.setValue(elemOne.value)
     else
       elemOne.setValue(elemTwo.value)
-      
-    // this.onlyAlpha(elemOne)
-    // this.onlyAlpha(elemTwo)
-
   }
-
-  // onlyAlpha(text)
-  // {
-  //   if(text.value !== text){
-  //     text.value = text.value.replace(/[^a-zA-Z]/g, '');
-  //   return true;
-  //   }
-  //   else{
-  //     return false;
-  //   }
-    
-  // }
 
 
   copyValue(type) {
@@ -417,66 +397,67 @@ export class FootercontentComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-    // this.appConfig.urlRaceList
     this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID + "?language=" + this.languageId;
 
     this.getCategory();
+    this.loading = true;
 
     this.http.get(this.dataUrl)
     .subscribe(data => {
-      // this.commonservice.errorHandling(data, (function(){
-      this.recordList = data;
+      this.commonservice.errorHandling(data, (function(){
+        this.recordList = data;
 
-      console.log(data);
+        console.log(data);
 
-      this.updateForm.get('catEng').setValue(this.recordList.list[0].footer.name);
-      this.updateForm.get('catMy').setValue(this.recordList.list[0].footer.name);
+        this.updateForm.get('catEng').setValue(this.recordList.list[0].footer.name);
+        this.updateForm.get('catMy').setValue(this.recordList.list[0].footer.name);
 
-      this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
-      this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
-      this.updateForm.get('iconEng').setValue(this.recordList.list[0].icon);
-      this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].mediaId));
-      // this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
-      this.updateForm.get('urlEng').setValue(this.recordList.list[0].url);
-      this.updateForm.get('seqEng').setValue(this.recordList.list[0].sortingOrder);
+        this.updateForm.get('nameEng').setValue(this.recordList.list[0].name);
+        this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
+        this.updateForm.get('iconEng').setValue(this.recordList.list[0].icon);
+        this.updateForm.get('imgEng').setValue(parseInt(this.recordList.list[0].mediaId));
+        // this.updateForm.get('imgEng').setValue(this.recordList.list[0].image);
+        this.updateForm.get('urlEng').setValue(this.recordList.list[0].url);
+        this.updateForm.get('seqEng').setValue(this.recordList.list[0].sortingOrder);
 
-      this.updateForm.get('active').setValue(this.recordList.list[0].enabled);
-      // this.updateForm.get('copyImg').setValue(this.recordList.list[0].faqActiveFlag);
-      // this.updateForm.get('isSameImg').setValue(this.recordList.list[0].faqActiveFlag);
+        this.updateForm.get('active').setValue(this.recordList.list[0].enabled);
+        // this.updateForm.get('copyImg').setValue(this.recordList.list[0].faqActiveFlag);
+        // this.updateForm.get('isSameImg').setValue(this.recordList.list[0].faqActiveFlag);
 
-      this.updateForm.get('nameMy').setValue(this.recordList.list[1].name);
-      this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
-      this.updateForm.get('iconMy').setValue(this.recordList.list[1].icon);
-      this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].mediaId));
-      // this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
-      this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
-      this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
-      
-      this.getRefCode = this. recordList.refCode;
-      this.getCatValueEng = this.recordList.list[0].footer.name;
-      this.getCatValueMy = this.recordList.list[1].footer.name;
+        this.updateForm.get('nameMy').setValue(this.recordList.list[1].name);
+        this.updateForm.get('descMy').setValue(this.recordList.list[1].description);
+        this.updateForm.get('iconMy').setValue(this.recordList.list[1].icon);
+        this.updateForm.get('imgMy').setValue(parseInt(this.recordList.list[1].mediaId));
+        // this.updateForm.get('imgMy').setValue(this.recordList.list[1].image);
+        this.updateForm.get('urlMy').setValue(this.recordList.list[1].url);
+        this.updateForm.get('seqMy').setValue(this.recordList.list[1].sortingOrder);
+        
+        this.getRefCode = this. recordList.refCode;
+        this.getCatValueEng = this.recordList.list[0].footer.name;
+        this.getCatValueMy = this.recordList.list[1].footer.name;
 
-      this.getIdEng = this.recordList.list[0].id;
-      this.getContentCodeEng = this.recordList.list[0].contentCode;
-      this.getFooterNameEng = this.recordList.list[0].footer.name;
-      this.getFooterIdEng = this.recordList.list[0].footer.id;
+        this.getIdEng = this.recordList.list[0].id;
+        this.getContentCodeEng = this.recordList.list[0].contentCode;
+        this.getFooterNameEng = this.recordList.list[0].footer.name;
+        this.getFooterIdEng = this.recordList.list[0].footer.id;
 
 
-      this.getIdMy = this.recordList.list[1].id;
-      this.getContentCodeMy = this.recordList.list[0].contentCode;
-      this.getFooterNameMy = this.recordList.list[0].footer.name;
-      this.getFooterIdMy = this.recordList.list[0].footer.id;
+        this.getIdMy = this.recordList.list[1].id;
+        this.getContentCodeMy = this.recordList.list[0].contentCode;
+        this.getFooterNameMy = this.recordList.list[0].footer.name;
+        this.getFooterIdMy = this.recordList.list[0].footer.id;
 
-      // this.isSameImg(this.recordList.list[0].image,this.recordList.list[1].image);
+        // this.isSameImg(this.recordList.list[0].image,this.recordList.list[1].image);
 
-      this.checkReqValues();
-      // }).bind(this));   
+        this.checkReqValues();
+      }).bind(this));   
+      this.loading = false;
     },
     error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
-
+      this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      console.log(error);
     });
   }
 
@@ -571,6 +552,8 @@ export class FootercontentComponent implements OnInit {
 
       console.log(body);
 
+      this.loading = true;
+
       this.commonservice.addFooterContent(body).subscribe(
         data => {
 
@@ -578,25 +561,14 @@ export class FootercontentComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['footer/footercontent']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
-        //   // alert('Record added successfully!')
-
-        //   let txt = "Record added successfully!";
-        //   this.toastr.success(txt, '');  
-
-        //   this.router.navigate(['footer/footercontent']);
-        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-        // },
-        // error => {
-        //   console.log("No Data")
-        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
 
@@ -671,6 +643,7 @@ export class FootercontentComponent implements OnInit {
       // body[1].footer.name = this.getFooterNameMy;
 
       console.log(body);
+      this.loading = true;
 
       this.commonservice.updateFooterContent(body).subscribe(
         data => {
@@ -679,25 +652,14 @@ export class FootercontentComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['footer/footercontent']);
           }).bind(this));   
+          this.loading = false;
         },
         error => {
 
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
-        //   // alert('Record updated successfully!')
-
-        //   let txt = "Record updated successfully!";
-        //   this.toastr.success(txt, ''); 
-
-        //   this.router.navigate(['footer/footercontent']);
-        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-        // },
-        // error => {
-        //   console.log("No Data")
-        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
   }
@@ -729,45 +691,7 @@ export class FootercontentComponent implements OnInit {
 
     this.updateForm.reset();
     this.checkReqValues(); 
-
-    // var txt;
-    // var r = confirm("Are you sure to reset the form?");
-    // if (r == true) {
-    //     txt = "You pressed OK!";
-    //     this.toastr.success(txt, ''); 
-    //     this.updateForm.reset();
-    //     this.checkReqValues();
-    // } else {
-    //     txt = "You pressed Cancel!";
-    //     this.toastr.success(txt, '');
-    // }
   }
-
-  // getCategory(){
-  //   return this.commonservice.getFooterCategoryList()
-  //    .subscribe(resCatData => {
-  //       this.getCat = resCatData.list;        
-  //     },
-  //     Error => {
-  //     //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-  //     console.log('Error in State');
-  //    });
-  // }
-
-  // selectedCat(e){
-  //   // this.getPostData = '';
-  //   // this.selStateInfo = e;
-  //   if(e){
-  //     return this.commonservice.getCitiesbyState(e.value.stateId)
-  //     .subscribe(resCityData => {
-  //       this.getCityData = resCityData;          
-  //     },
-  //     Error => {
-  //   //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');      
-  //   console.log('Error in City');      
-  //    });
-  //   }
-  // }
 
 }
 

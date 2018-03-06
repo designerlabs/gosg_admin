@@ -113,33 +113,34 @@ export class CountryComponent implements OnInit {
   getFilterList(count, size, val) {
 
     this.dataUrl = this.appConfig.urlCountryList;
+    
     if(val != "" && val != null && val.length != null && val.length >= 3) {
-    this.loading = true;
+      this.loading = true;
 
-    this.http.get(this.dataUrl + '?filter='+ val +'&page=' + count + '&size=' + size + '&language='+this.languageId)
-      .subscribe(data => {
+      this.http.get(this.dataUrl + '?filter='+ val +'&page=' + count + '&size=' + size + '&language='+this.languageId)
+        .subscribe(data => {
 
-        this.commonservice.errorHandling(data, (function(){
-          this.recordList = data;
+          this.commonservice.errorHandling(data, (function(){
+            this.recordList = data;
 
-          console.log("data");
-          console.log(data);
+            console.log("data");
+            console.log(data);
 
-          // this.recordList.countryList.push(this.translate.instant('common.msg.notfound'));
-          
-          this.dataSource.data = this.recordList.countryList;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            // this.recordList.countryList.push(this.translate.instant('common.msg.notfound'));
+            
+            this.dataSource.data = this.recordList.countryList;
+            this.commonservice.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-        }).bind(this)); 
-        this.loading = false;
-      },
-      error => {
+          }).bind(this)); 
+          this.loading = false;
+        },
+        error => {
 
-        this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-      });     
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          console.log(error);
+        });     
     } 
   }
 

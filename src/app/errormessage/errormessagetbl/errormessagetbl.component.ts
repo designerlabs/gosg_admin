@@ -40,10 +40,14 @@ export class ErrormessagetblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.errMsgList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.errMsgPageSize, e);
+    }
+    else{
+      this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+    }
   }
 
   constructor(
@@ -124,6 +128,37 @@ export class ErrormessagetblComponent implements OnInit {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
       });
+  }
+
+  getFilterList(count, size, val) {
+    this.dataUrl = this.appConfig.urlErrorMsg;
+
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
+      this.loading = true;   
+      
+      this.http.get(this.dataUrl + '/search/'  + val + '?page=' + count + '&size=' + size).subscribe(
+          data => {
+
+            this.commonservice.errorHandling(data, (function(){
+              console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
+              this.errMsgList = data;
+              console.log(this.errMsgList)
+              this.dataSource.data = this.errMsgList.list;
+              this.seqPageNum = this.errMsgList.pageNumber;
+              this.seqPageSize = this.errMsgList.pageSize;
+              this.commonservice.recordTable = this.errMsgList;
+              this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+
+            }).bind(this)); 
+            this.loading = false;          
+          },
+        error => {
+
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          console.log(error);
+        });
+    }
   }
 
   paginatorL(page) {
