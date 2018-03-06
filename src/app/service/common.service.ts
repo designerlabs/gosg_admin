@@ -1201,6 +1201,8 @@ getCategoryList1() {
       }else{
         callback()
       }
+   }else{
+     callback()
     }
   }
 
