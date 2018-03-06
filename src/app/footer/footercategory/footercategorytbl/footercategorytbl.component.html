@@ -59,7 +59,7 @@
                     <mat-cell class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
                         <!-- #### for disable non update user 3 -->
-                        <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="View {{ element.refCode }}" ></i>
+                        <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.refCode }}" ></i>
                         <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.refCode }}" ></i></button>
                         &nbsp;
                         <button mat-mini-fab style="background: red" (click)="deleteModal.show()" *ngIf="commonservice.isDelete">

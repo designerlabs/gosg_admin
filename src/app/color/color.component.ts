@@ -105,6 +105,11 @@ export class ColorComponent implements OnInit {
       this.pageMode = "Update";
       this.getRow(refId);
     }
+    
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.colorForm.disable();
+    }
 
   }
 

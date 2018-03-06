@@ -86,7 +86,7 @@ export class CityComponent implements OnInit {
     this.dataUrl = this.appConfig.urlCityList;
     this.loading = true;
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + "&language=" + this.languageId)
+    this.http.get(this.dataUrl + '?page=' + count + '&size=' + size + "&language=" + this.languageId)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -113,30 +113,33 @@ export class CityComponent implements OnInit {
   getFilterList(count, size, val) {
 
     this.dataUrl = this.appConfig.urlCityList;
-    this.loading = true;
+    
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
+      this.loading = true;
+      
+      this.http.get(this.dataUrl + '/search/' + val + '?page=' + count + '&size=' + size + "&language=" + this.languageId)
+        .subscribe(data => {
+          this.commonservice.errorHandling(data, (function(){
+          this.recordList = data;
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + "&language=" + this.languageId)
-      .subscribe(data => {
-        this.commonservice.errorHandling(data, (function(){
-        this.recordList = data;
+          console.log("data");
+          console.log(data);
 
-        console.log("data");
-        console.log(data);
+          this.dataSource.data = this.recordList.cityList;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-        this.dataSource.data = this.recordList.cityList;
-        this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
-        this.commonservice.recordTable = this.recordList;
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-      }).bind(this)); 
-      this.loading = false;
-    },
-    error => {
-      this.loading = false;
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
-    });
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+    }
   }
 
   paginatorL(page) {

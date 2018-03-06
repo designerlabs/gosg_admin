@@ -59,8 +59,9 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'faq.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
-                        <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
-                            <i class="fa fa-edit"></i>
+                        <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">                           
+                            <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.refCode }}"></i>
+                            <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.refCode }}"></i>
                         </button>
                         &nbsp;
                         <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()" >

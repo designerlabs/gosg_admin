@@ -1,244 +1,226 @@
-<!-- <p>
-  footercontent works!
-</p> -->
-
-
-<!-- <p>
-  footercategory works!
-</p> -->
-
-
-<!-- <p>Faq Component page</p> -->
-
-<!-- <p>
-  identificationtype works!
-</p> -->
-
-
-
 <div class="container-fluid">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 
-  <div class="curdHeader">
-      <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ commonservice.pageMode }} Footer Content</h3>
-          <!-- <h3>FAQ</h3> -->
-      </div>
-      
-      <div class="col-md-2 curdHeadingRight">
-          <span class="pull-right">
-              <button type="button" mat-fab color="accent" (click)="back()" >
-              <i class="fa fa-arrow-left font-size-l"></i></button>
-          </span>
-      </div> 
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>{{ commonservice.pageMode }} Footer Content</h3>
+            <!-- <h3>FAQ</h3> -->
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="accent" (click)="back()" >
+                <i class="fa fa-arrow-left font-size-l"></i></button>
+            </span>
+        </div> 
+    </div>
 
-  </div>
-
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
         {{'common.msg.unauthorized' | translate}}
     </div>
 
-  <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isWrite || commonservice.isUpdate" novalidate>       
-      <div class="example-container mat-elevation-z8 paddingBottom-10">
+    <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" novalidate>       
+        <div class="example-container mat-elevation-z8 paddingBottom-10">
 
-            
-
-            <div class="bg-form-header col-md-12" *ngIf = "commonservice.pageMode == 'Add'">
-                <!-- <div class="col-md-4"></div> -->
-                <div class="col-md-6">
-                    <mat-form-field class="font-size-s" style="width:100%;" >
-                        <mat-select formControlName="catEng"  placeholder="Select Category" (change)="selectedCat($event,1)" required>
-                            <mat-option *ngFor="let category of categoryData" [value]="category.list[0].id">{{ category.list[0].name }}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="updateForm.controls.catEng.hasError('required')">
-                                Footer Category is required
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field class="font-size-s" style="width:100%;" >
-                        <mat-select formControlName="catMy"  placeholder="Pilih Kategori" (change)="selectedCat($event,2)" required>
-                            <mat-option *ngFor="let category of categoryData" [value]="category.list[1].id">{{ category?.list[1].name }}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="updateForm.controls.catMy.hasError('required')">
-                                Kategori Footer diperlukan
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            
-            
-            <div class="bg-form-header col-md-12">
-                <div class="row">
-                    <label class="col-md-6">English</label>
-                    <label class="col-md-6">Bahasa Malaysia</label>
-                </div>
-            </div><br>
-             
-            <div class="example-header"  *ngIf = "commonservice.pageMode == 'Update'">
-                <div class="col-md-6">
-                    <label>{{getCatValueEng}}</label>
-                </div>
-                <div class="col-md-6">
-                    <label>{{getCatValueMy}}</label>
-                </div>
-                <br>
-            </div>
-            
-  
-          <div class="example-header">
-              <div class="col-md-6">
-                  <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Name" formControlName="nameEng" #nameEng maxlength="100" 
-                      (keyup)="checkReqValues()" required>
-                      <mat-error *ngIf="updateForm.controls.nameEng.hasError('required')">
-                              Name is required
-                      </mat-error>
-                      <!-- <mat-hint align="end">{{nameEng.value?.length || 0}}/100</mat-hint> -->
-                  </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                  <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Nama" formControlName="nameMy" #nameMy maxlength="100" 
-                      (keyup)="checkReqValues()" required>
-                      <mat-error *ngIf="updateForm.controls.nameMy.hasError('required')">
-                        Nama diperlukan
-                      </mat-error>
-                      <!-- <mat-hint align="end">{{nameMy.value?.length || 0}}/100</mat-hint> -->
-                  </mat-form-field>
-              </div>
-          </div>
-
-
-          <div class="example-header">
-              <div class="col-md-6">
-                  <mat-form-field class="example-full-width font-size-s" >
-                      <textarea matInput placeholder="Description" formControlName="descEng" #descEng maxlength="500"></textarea>
-                      <mat-hint align="end">{{descEng.value?.length || 0}}/500</mat-hint>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                  <mat-form-field class="example-full-width font-size-s" >
-                      <textarea matInput placeholder="Penerangan" formControlName="descMy" #descMy maxlength="500"></textarea>
-                      <mat-hint align="end">{{descMy.value?.length || 0}}/500</mat-hint>
-                  </mat-form-field>
-              </div>
-          </div>
-
-          <div class="example-header">
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s">
-                    <input matInput placeholder="Icon" formControlName="iconEng" (keyup)="copyIcon(1)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
-                    <mat-error *ngIf="!validateCtrlChk(iconEng) &&  updateForm.controls.iconEng.errors.pattern">
-                        Icon Pattern not valid
-                    </mat-error>
-                </mat-form-field>
                 
-            </div>
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s">
-                    <input matInput placeholder="Icon" formControlName="iconMy" (keyup)="copyIcon(2)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
-                    <mat-error *ngIf="!validateCtrlChk(iconMy) &&  updateForm.controls.iconMy.errors.pattern">
-                        Corak Ikon tidak sah
-                    </mat-error>
-                </mat-form-field>
-            </div>
-          </div>
 
-          <div class="example-header">
-            <div class="col-md-6" style="border: 0px solid #000">
-                <mat-form-field class="font-size-s" style="width:100%;" > 
-                        <mat-select formControlName="imgEng"  placeholder="Select Image" (change)="selectedImg($event, 1)">
-                            <mat-option [value]=null>Select Image</mat-option>
-                            <mat-option *ngFor="let imageEng of imageData" [value]="imageEng.list[0].mediaId">{{ imageEng.list[0].mediaFile }}</mat-option>
+                <div class="bg-form-header col-md-12" *ngIf = "commonservice.pageMode == 'Add'">
+                    <!-- <div class="col-md-4"></div> -->
+                    <div class="col-md-6">
+                        <mat-form-field class="font-size-s" style="width:100%;" >
+                            <mat-select formControlName="catEng"  placeholder="Select Category" (change)="selectedCat($event,1)" required>
+                                <mat-option *ngFor="let category of categoryData" [value]="category.list[0].id">{{ category.list[0].name }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="updateForm.controls.catEng.hasError('required')">
+                                    Footer Category is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field class="font-size-s" style="width:100%;" >
+                            <mat-select formControlName="catMy"  placeholder="Pilih Kategori" (change)="selectedCat($event,2)" required>
+                                <mat-option *ngFor="let category of categoryData" [value]="category.list[1].id">{{ category?.list[1].name }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="updateForm.controls.catMy.hasError('required')">
+                                    Kategori Footer diperlukan
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                
+                
+                <div class="bg-form-header col-md-12">
+                    <div class="row">
+                        <label class="col-md-6">English</label>
+                        <label class="col-md-6">Bahasa Malaysia</label>
+                    </div>
+                </div><br>
+                
+                <div class="example-header"  *ngIf = "commonservice.pageMode == 'Update'">
+                    <div class="col-md-6">
+                        <label>{{getCatValueEng}}</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label>{{getCatValueMy}}</label>
+                    </div>
+                    <br>
+                </div>
+                
+    
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Name" formControlName="nameEng" #nameEng maxlength="100" 
+                        (keyup)="checkReqValues()" required>
+                        <mat-error *ngIf="updateForm.controls.nameEng.hasError('required')">
+                                Name is required
+                        </mat-error>
+                        <!-- <mat-hint align="end">{{nameEng.value?.length || 0}}/100</mat-hint> -->
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="Nama" formControlName="nameMy" #nameMy maxlength="100" 
+                        (keyup)="checkReqValues()" required>
+                        <mat-error *ngIf="updateForm.controls.nameMy.hasError('required')">
+                            Nama diperlukan
+                        </mat-error>
+                        <!-- <mat-hint align="end">{{nameMy.value?.length || 0}}/100</mat-hint> -->
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <textarea matInput placeholder="Description" formControlName="descEng" #descEng maxlength="500"></textarea>
+                        <mat-hint align="end">{{descEng.value?.length || 0}}/500</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <textarea matInput placeholder="Penerangan" formControlName="descMy" #descMy maxlength="500"></textarea>
+                        <mat-hint align="end">{{descMy.value?.length || 0}}/500</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s">
+                        <input matInput placeholder="Icon" formControlName="iconEng" (keyup)="copyIcon(1)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
+                        <mat-error *ngIf="!validateCtrlChk(iconEng) &&  updateForm.controls.iconEng.errors.pattern">
+                            Icon Pattern not valid
+                        </mat-error>
+                    </mat-form-field>
+                    
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s">
+                        <input matInput placeholder="Icon" formControlName="iconMy" (keyup)="copyIcon(2)" maxlength="100" matTooltip="EX: HOME, PHONE, FAX" matTooltipPosition="above">
+                        <mat-error *ngIf="!validateCtrlChk(iconMy) &&  updateForm.controls.iconMy.errors.pattern">
+                            Corak Ikon tidak sah
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
+                <div class="col-md-6" style="border: 0px solid #000">
+                    <mat-form-field class="font-size-s" style="width:100%;" > 
+                            <mat-select formControlName="imgEng"  placeholder="Select Image" (change)="selectedImg($event, 1)">
+                                <mat-option [value]=null>Select Image</mat-option>
+                                <mat-option *ngFor="let imageEng of imageData" [value]="imageEng.list[0].mediaId">{{ imageEng.list[0].mediaFile }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                <!-- <mat-form-field class="example-full-width font-size-s">
+                        <mat-select formControlName="imgEng"  placeholder="Select Image">
+                            <mat-option>Select Image</mat-option>
+                            <mat-option [value]="647">image1.png</mat-option>
+                            <mat-option [value]="648">image2.jpg</mat-option>
+                        </mat-select>
+                </mat-form-field> -->
+                </div>
+                <!-- <div class="col-md-2" style="text-align: center; padding-top: 15px;">
+                    <mat-checkbox formControlName="copyImg" (change)="isChecked($event, imgEng)"></mat-checkbox><span>&nbsp;Copy</span>
+                </div> -->
+                <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+                    <mat-form-field class="font-size-s" style="width:100%;" >
+                        <mat-select formControlName="imgMy"  placeholder="Pilih Gambar" (change)="selectedImg($event, 2)">
+                            <mat-option [value]=null>Pilih Gambar</mat-option>
+                            <mat-option *ngFor="let imageMy of imageData" [value]="imageMy.list[1].mediaId">{{ imageMy.list[1].mediaFile}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-              <!-- <mat-form-field class="example-full-width font-size-s">
-                    <mat-select formControlName="imgEng"  placeholder="Select Image">
-                        <mat-option>Select Image</mat-option>
+                <!-- <mat-form-field class="example-full-width font-size-s">
+                    <mat-select formControlName="imgMy" placeholder="Pilih Gambar">
+                        <mat-option>Sila Pilih</mat-option>
                         <mat-option [value]="647">image1.png</mat-option>
                         <mat-option [value]="648">image2.jpg</mat-option>
                     </mat-select>
-              </mat-form-field> -->
+                </mat-form-field> -->
+                </div>
+                <div class="col-md-1">
+                &nbsp;
+                </div>
             </div>
-            <!-- <div class="col-md-2" style="text-align: center; padding-top: 15px;">
-                <mat-checkbox formControlName="copyImg" (change)="isChecked($event, imgEng)"></mat-checkbox><span>&nbsp;Copy</span>
-            </div> -->
-            <div class="col-md-6" style="border: 0px solid #000; text-align: left">
-                <mat-form-field class="font-size-s" style="width:100%;" >
-                    <mat-select formControlName="imgMy"  placeholder="Pilih Gambar" (change)="selectedImg($event, 2)">
-                        <mat-option [value]=null>Pilih Gambar</mat-option>
-                        <mat-option *ngFor="let imageMy of imageData" [value]="imageMy.list[1].mediaId">{{ imageMy.list[1].mediaFile}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-              <!-- <mat-form-field class="example-full-width font-size-s">
-                <mat-select formControlName="imgMy" placeholder="Pilih Gambar">
-                    <mat-option>Sila Pilih</mat-option>
-                    <mat-option [value]="647">image1.png</mat-option>
-                    <mat-option [value]="648">image2.jpg</mat-option>
-                </mat-select>
-              </mat-form-field> -->
-            </div>
-            <div class="col-md-1">
-              &nbsp;
-            </div>
-          </div>
 
-          <div class="example-header">
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="URL" formControlName="urlEng" #urlEng maxlength="100">
-                    <!-- <mat-hint align="end">{{urlEng.value?.length || 0}}/100</mat-hint> -->
-                </mat-form-field>
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="URL" formControlName="urlEng" #urlEng maxlength="100">
+                        <!-- <mat-hint align="end">{{urlEng.value?.length || 0}}/100</mat-hint> -->
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput placeholder="URL" formControlName="urlMy" #urlMy maxlength="100">
+                        <!-- <mat-hint align="end">{{urlMy.value?.length || 0}}/100</mat-hint> -->
+                    </mat-form-field>
+                </div>
             </div>
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput placeholder="URL" formControlName="urlMy" #urlMy maxlength="100">
-                    <!-- <mat-hint align="end">{{urlMy.value?.length || 0}}/100</mat-hint> -->
-                </mat-form-field>
-            </div>
-          </div>
 
-          <div class="example-header">
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
-                    <!-- <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint> -->
-                    <!-- <mat-error *ngIf="updateForm.controls.seqEng.hasError('required')">
-                            Sequence Number is required
-                    </mat-error> -->
-                </mat-form-field>
+            <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+                        <!-- <mat-hint align="end">{{seqEng.value?.length || 0}}/100</mat-hint> -->
+                        <!-- <mat-error *ngIf="updateForm.controls.seqEng.hasError('required')">
+                                Sequence Number is required
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width font-size-s" >
+                        <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+                        <!-- <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint> -->
+                        <!-- <mat-error *ngIf="updateForm.controls.seqMy.hasError('required')">
+                                Nombor Urutan Diperlukan
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
             </div>
-            <div class="col-md-6">
-                <mat-form-field class="example-full-width font-size-s" >
-                    <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
-                    <!-- <mat-hint align="end">{{seqMy.value?.length || 0}}/100</mat-hint> -->
-                    <!-- <mat-error *ngIf="updateForm.controls.seqMy.hasError('required')">
-                            Nombor Urutan Diperlukan
-                    </mat-error> -->
-                </mat-form-field>
+
+            <div class="example-header">
+                <div class="col-md-12">
+                    <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="13">Active</mat-checkbox>
+                </div>
             </div>
-          </div>
+        
+        </div>
+    
+        <div class="form-group paddingTop-10" *ngIf="commonservice.isUpdate">
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
+            (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete || ((!validateCtrlChk(iconEng)|| !validateCtrlChk(iconEng)) &&  updateForm.controls.iconEng.errors.pattern)">
+            <i *ngIf="complete" class="fa fa-check"></i>
+            <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
+            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
+            style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
+            <i class="fa fa-refresh"></i> Reset</button>
+        </div>      
 
-          <div class="example-header">
-              <div class="col-md-12">
-                  <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="13">Active</mat-checkbox>
-              </div>
-          </div>
-      
-      </div>
-  
-      <div class="form-group paddingTop-10">
-          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-          (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete || ((!validateCtrlChk(iconEng)|| !validateCtrlChk(iconEng)) &&  updateForm.controls.iconEng.errors.pattern)">
-          <i *ngIf="complete" class="fa fa-check"></i>
-          <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
-          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
-          style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
-          <i class="fa fa-refresh"></i> Reset</button>
-      </div>      
-
-  </form>
+    </form>
 </div>
 
 <app-confirm-dialog  #resetModal 

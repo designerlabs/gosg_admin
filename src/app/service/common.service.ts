@@ -225,7 +225,17 @@ export class CommonService {
   // FONT END
 
   // MODULE
+  getModMenuBySearch(keyword) {
+    return this.http.get(this.appConfig.urlModule+'/menu/search?keyword='+keyword+'&language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
 
+  getModMenuLocalBySearch(keyword) {
+    return this.http.get(this.appConfig.urlModule+'/menu/localhost/search?keyword='+keyword+'&language='+this.languageId)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
   getModMenu() {
     return this.http.get(this.appConfig.urlModule+'/menu?language='+this.languageId)
     .map((response: Response) => response.json())
@@ -416,7 +426,7 @@ export class CommonService {
   // Media Ends
 // Media Types starts
 getMediaType() {
-  console.log(this.appConfig.urlMediaType);
+  console.log(this.appConfig.urlMediaType + '?language='+this.languageId);
   return this.http.get(this.appConfig.urlMediaType)
   .map((response: Response) => response.json())
   .catch(this.handleError);
@@ -464,6 +474,12 @@ addMediaFileUpload(mediaFile) {
 
 delMediaFileUpload(mediaFile) {
   return this.http.delete(this.appConfig.urlMediaFileUpload + "/id/" + mediaFile)
+  .map((response: Response) => response.json())
+  .catch(this.handleError);
+}
+
+getMediaByCateId(id){
+  return this.http.delete(this.appConfig.urlMediaFileUpload + "/category/id/" + id)
   .map((response: Response) => response.json())
   .catch(this.handleError);
 }
@@ -1188,11 +1204,15 @@ getCategoryList1() {
   }
 
   errorHandling(err, callback){
-    let statusCode = err.statusCode.toLowerCase();
-    if(statusCode == 'error'){
-      this.toastr.error(err.statusDesc, 'Error');
-    }else{
-      callback()
+    if(err.statusCode){
+      let statusCode = err.statusCode.toLowerCase();
+      if(statusCode == 'error'){
+        this.toastr.error(err.statusDesc, 'Error');
+      }else{
+        callback()
+      }
+   }else{
+     callback()
     }
   }
 

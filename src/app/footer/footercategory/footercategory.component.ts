@@ -84,9 +84,9 @@ export class FootercategoryComponent implements OnInit {
       
     });     
     
-    let urlEdit = this.router.url.split('/')[3];
+    this.urlEdit = this.router.url.split('/')[3];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
     }

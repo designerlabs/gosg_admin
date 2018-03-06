@@ -6,10 +6,10 @@
         </div>
         
         <div class="col-md-2 curdHeadingRight">
-            <span class="pull-right">
+            <!-- <span class="pull-right">
                 <button type="button" mat-fab color="warn" (click)="add()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
                 <i class="fa fa-plus font-size-l"></i></button>
-            </span>
+            </span> -->
         </div> 
     </div>
     <div *ngIf="!commonservice.isRead" class="alert alert-danger">
@@ -50,7 +50,7 @@
                 </ng-container> -->
 
                 <!-- action Column -->
-                <ng-container matColumnDef="action">
+                <!-- <ng-container matColumnDef="action">
                     <mat-header-cell class="statusColumn" *matHeaderCellDef> Action </mat-header-cell>
                     <mat-cell class="statusColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
@@ -66,7 +66,7 @@
                                     (resetMethod)="deleteRow(element.refCode)">
                                 </app-confirm-dialog>
                     </mat-cell>
-                </ng-container>
+                </ng-container> -->
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

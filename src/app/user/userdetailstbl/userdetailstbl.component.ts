@@ -195,8 +195,7 @@ export class UserdetailstblComponent implements OnInit {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
-      this.http.get(this.dataUrl)
-      .subscribe(data => {
+      this.http.get(this.dataUrl).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;

@@ -16,11 +16,13 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class ModmenutblComponent implements OnInit {
 
+  filterTypeVal(arg0: any, arg1: any, arg2: any, arg3: any): any {
+    throw new Error("Method not implemented.");
+  }
   moduleData: Object;
   moduleList = null;
   displayedColumns: any;
-  modulePageSize = 10;
-  modulePageCount = 1;
+  pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -41,10 +43,17 @@ export class ModmenutblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.moduleList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(val) {   
+
+    console.log(val);
+    
+    if(val){
+      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+    }
+    else{
+      this.getModuleData(this.pageCount, this.pageSize);
+    }
+  
   }
 
   constructor(
@@ -64,7 +73,7 @@ export class ModmenutblComponent implements OnInit {
               if(val.languageCode == translate.currentLang){
                 this.lang = val.languageCode;
                 this.languageId = val.languageId;
-                this.getModuleData(this.pageCount, this.modulePageSize);
+                this.getModuleData(this.pageCount, this.pageSize);
                 this.commonservice.getModuleId();
               }
             }.bind(this));
@@ -73,7 +82,7 @@ export class ModmenutblComponent implements OnInit {
       });
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
-        this.getModuleData(this.pageCount, this.modulePageSize);
+        this.getModuleData(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
   
@@ -115,8 +124,39 @@ export class ModmenutblComponent implements OnInit {
       
   }
 
+  getFilterList(count, size, keyword, filterkeyword) {
+
+    this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId+ '&page=' + count + '&size=' + size;
+
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.loading = true;
+      this.http.get(this.dataUrl).subscribe(data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.moduleList;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+        }).bind(this));
+        this.loading = false; 
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+        console.log(error);
+      });
+    }
+  }
+
   paginatorL(page) {
-    this.getModuleData(this.pageCount, this.modulePageSize);
+    this.getModuleData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -125,12 +165,12 @@ export class ModmenutblComponent implements OnInit {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    this.getModuleData(page + 1, this.modulePageSize);
+    this.getModuleData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {
     this.getModuleData(this.pageCount, event.value);
-    this.modulePageSize = event.value;
+    this.pageSize = event.value;
     this.noPrevData = true;
   }
 
@@ -152,7 +192,7 @@ export class ModmenutblComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
-          this.getModuleData(this.pageCount, this.modulePageSize);
+          this.getModuleData(this.pageCount, this.pageSize);
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');    

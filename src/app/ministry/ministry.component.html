@@ -15,11 +15,11 @@
     </div>
   </div>
   
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
       {{'common.msg.unauthorized' | translate}}
   </div>
 
-  <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
+  <form [formGroup]="ministryForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite">
 
     <div class="example-container mat-elevation-z8 padding-10">
 
@@ -228,7 +228,7 @@
 
     </div>
 
-    <div class="form-group paddingTop-20">
+    <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate">
       <button mat-raised-button type="button" tabindex="23" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
         (click)="updateAction(ministryForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
         <i *ngIf="complete" class="fa fa-check"></i>

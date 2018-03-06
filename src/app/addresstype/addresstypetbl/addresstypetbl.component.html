@@ -6,10 +6,10 @@
         </div>
         
         <div class="col-md-2 curdHeadingRight">
-            <span class="pull-right">
+            <!-- <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
                 <i class="fa fa-plus font-size-l"></i></button>
-            </span>
+            </span> -->
         </div> 
     </div>
 
@@ -62,8 +62,8 @@
                 </ng-container>
 
                 <!-- action Column -->
-                <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'addresstype.tableHeader.action' | translate }} </mat-header-cell>
+                <!-- <ng-container matColumnDef="action">
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
                         <i class="fa fa-eye" title="View {{ element.refCode }}"></i></button>
@@ -78,7 +78,7 @@
                         (resetMethod)="deleteRow(element.refCode)">
                         </app-confirm-dialog>
                     </mat-cell>
-                </ng-container>
+                </ng-container> -->
             
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

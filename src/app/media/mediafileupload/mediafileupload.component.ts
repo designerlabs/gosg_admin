@@ -62,6 +62,7 @@ export class MediafileuploadComponent implements OnInit {
   clientId;
   networkContract: any;
   public loading = false;
+  resFileExtn = [];
 
   private sharedConfig: Ng4FilesConfig = {
     acceptExtensions: ['jpg'],
@@ -101,7 +102,7 @@ export class MediafileuploadComponent implements OnInit {
   ngOnInit() {
     this.commonservice.getModuleId();
     this.addconfig = false;
-    let refCode = this.router.url.split('/')[2];
+    let refCode = this.router.url.split('/')[3];
  
     this.mediatype = new FormControl();
     this.catType = new FormControl();
@@ -124,7 +125,7 @@ export class MediafileuploadComponent implements OnInit {
       mediaFileUploadEn: this.mediaFileUploadEn,
       mediaFileUploadMy: this.mediaFileUploadMy,
     });
-    this.fnLoadCateMediaType();
+    this.fnLoadCateMediaType(refCode);
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
@@ -132,7 +133,7 @@ export class MediafileuploadComponent implements OnInit {
     } else {
       this.isEdit = true;
       this.pageMode = "Update"; 
-      this.getRow(refCode);  
+      // this.getRow(refCode);  
       // this.mediatype = new FormControl({disabled: true});
     }
     
@@ -160,30 +161,33 @@ export class MediafileuploadComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['media']);
+    this.router.navigate(['media/upload']);
   }
   
 
-  fnLoadCateMediaType() {
+  fnLoadCateMediaType(refCode) {
     // Get MediaType
       this.loading = true;
     this.commonservice.getMediaType()
       .subscribe(resStateData => {
         // this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
-        // }).bind(this));        
+        // }).bind(this));    
+        this.loading = false;    
       },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
           this.loading = false;
         });
          
-    // Get Categories
+    // Get Categories // no need to load first
     this.commonservice.getCategoryData()
-      // this.http.get('./app/apidata/category.json')
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
+          if(this.refCode !== "add"){
+            this.getRow(refCode);
+          }
         }).bind(this));
         this.loading = false;
       },
@@ -269,6 +273,8 @@ export class MediafileuploadComponent implements OnInit {
   selCateType(event) {   
       this.checkFileSize();
       this.checkReqValues();
+      this.selFilesMy = [];
+      this.selFilesEn = [];
   }
 
   checkReqValues() {
@@ -323,15 +329,15 @@ export class MediafileuploadComponent implements OnInit {
     this.chkUploadFile.maxH = fileConfig[0].maxH;
     this.chkUploadFile.minW = fileConfig[0].minW;
     this.chkUploadFile.maxW = fileConfig[0].maxW;
-    
-    this.sharedConfig.acceptExtensions =  filextnLCase.split(',');
+    this.sharedConfig.acceptExtensions =  filextnLCase.split(',');   
     this.sharedConfig.maxFileSize = maxFileSize;
-    if(!this.addconfig){
-      this.ng4FilesService.addConfig(this.sharedConfig); 
-      this.addconfig = true;
-    } else{
-      // this.ng4FilesService.configs.shared.acceptExtensions = this.sharedConfig.acceptExtensions;
-    }
+    this.resFileExtn = filextnLCase.split(',');
+    // if(!this.addconfig){
+    //   this.ng4FilesService.addConfig(this.sharedConfig); 
+    //   this.addconfig = true;
+    // } else{
+    //   // this.ng4FilesService.configs.shared.acceptExtensions = this.sharedConfig.acceptExtensions;
+    // }
   }
  
   //dev server path: opt/media
@@ -339,21 +345,26 @@ export class MediafileuploadComponent implements OnInit {
     this.el.nativeElement.offsetHeight;
     this.el.nativeElement.offsetWidth;
     let mFileSize = this.chkUploadFile.maxSize;
+    let fileExtn = selectedFiles.files[0].name.split('.')[1];
+      let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn);
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {
         if (selectedFiles.files[0].size <= mFileSize) {
-          this.filesResult.my.size = selectedFiles.files[0].size;
-          this.selectedFilesMy = selectedFiles.files[0].name;      
-      // if(!this.isEdit){
-          this.mediaFileUpForm.controls.mediaFileMy.setValue(this.selectedFilesMy);
-      // }
-          console.log(this.selectedFilesMy);
-          this.selFilesMy = [];
-          this.selFilesMy.push(selectedFiles);
-          this.checkReqValues();
+          // Check File extn
+          if (chkFileExtn.length > 0){
+            this.filesResult.my.size = selectedFiles.files[0].size;
+            this.selectedFilesMy = selectedFiles.files[0].name; 
+            this.mediaFileUpForm.controls.mediaFileMy.setValue(this.selectedFilesMy);
+            console.log(this.selectedFilesMy);
+            this.selFilesMy = [];
+            this.selFilesMy.push(selectedFiles);
+            this.checkReqValues();
+           } else{
+            this.toastr.error('File Extension not match');
+           }          
         }else{
           this.toastr.error('File Size Exceed maximum file size');
-        }        
+        }         
       }
     }else if(selectedFiles.status === Ng4FilesStatus.STATUS_MAX_FILES_COUNT_EXCEED){
       this.toastr.error('Maximum files count exceed.Please upload one file');
@@ -380,19 +391,23 @@ export class MediafileuploadComponent implements OnInit {
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {    
     let mFileSize = this.chkUploadFile.maxSize;
     console.log(this.el.nativeElement);
-    if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {
-      
+    let fileExtn = selectedFiles.files[0].name.split('.')[1];
+    let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn);
+    if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {        
         if (selectedFiles.files[0].size <= mFileSize) {
-          this.filesResult.en.size = selectedFiles.files[0].size;
-          this.selectedFilesEn = selectedFiles.files[0].name;
-          // if(!this.isEdit){
+          // Check File extn  
+          if (chkFileExtn.length > 0){
+            this.filesResult.en.size = selectedFiles.files[0].size;
+            this.selectedFilesEn = selectedFiles.files[0].name;
             this.mediaFileUpForm.controls.mediaFileEn.setValue(this.selectedFilesEn);
-          // }
-          console.log(this.selectedFilesEn);
-          this.selFilesEn = [];
-          this.selFilesEn.push(selectedFiles);
-          this.checkReqValues();
+            console.log(this.selectedFilesEn);
+            this.selFilesEn = [];
+            this.selFilesEn.push(selectedFiles);
+            this.checkReqValues();
+           }else {
+            this.toastr.error('File Extension not match');
+           }    
         }else{
           this.toastr.error('File Size Exceed maximum file size');
         }
@@ -433,7 +448,6 @@ export class MediafileuploadComponent implements OnInit {
      
       // for (var selCate of formValues.catType) {
       //   let filtrData = this.objCategory.filter(fdata => fdata.list[0].categoryId === selCate);
-      //   debugger;
       //   mediaCate.push(filtrData);
       // }
       

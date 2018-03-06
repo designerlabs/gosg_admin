@@ -77,8 +77,8 @@
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" (click)="updateRow(element.fontId)">
                         <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.fontId }}"></i>
-                        <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fontId }}"></i></button>
-                        &nbsp;
+                        <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fontId }}"></i>
+                        &nbsp; --></button>
                         <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                         <i class="fa fa-trash" title="Delete {{ element.fontId}}"></i></button>
                         <app-confirm-dialog  #deleteModal 

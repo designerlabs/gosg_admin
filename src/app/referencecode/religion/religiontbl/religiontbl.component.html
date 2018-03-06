@@ -47,10 +47,10 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
-                        <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
+                        <!-- <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
                             <i class="fa fa-eye" title="View {{ element.refCode }}"></i>
                         </button>
-                        &nbsp;
+                        &nbsp; -->
                         <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                             <i class="fa fa-trash" title="Delete {{element.refCode}}"></i>
                         </button>

@@ -126,6 +126,11 @@ export class AgencyappComponent implements OnInit {
       this.pageMode = "Update";
       this.getRow(refCode);
     }
+    
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.agencyAppForm.disable();
+    }
   }
 
   ngAfterViewInit() {

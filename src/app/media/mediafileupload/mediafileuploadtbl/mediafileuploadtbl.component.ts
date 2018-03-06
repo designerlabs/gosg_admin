@@ -29,6 +29,9 @@ export class MediafileuploadtblComponent implements OnInit {
   dataUrl;
   resultData = null;
   dataSource = new MatTableDataSource<object>(this.mediaList);
+  showNoData = false;
+  fileName:string;
+  cateSelect;
   public loading = false;
 
   constructor(private commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
@@ -53,28 +56,60 @@ export class MediafileuploadtblComponent implements OnInit {
       this.getMediaList(this.PageCount, this.PageSize);
       this.commonservice.getModuleId();
     }
-
-    
   }
 
   ngOnInit() {
     this.getMediaList(this.PageCount, this.PageSize);
     this.commonservice.getModuleId();
+    this.fnLoadCateMediaType();
   }
 
-  getMediaList(count, size) {
+  fnLoadCateMediaType() {
+      this.loading = true;          
+    // Get Categories
+    this.commonservice.getCategoryData()
+      .subscribe(resStateData => {
+          this.commonservice.errorHandling(resStateData, (function () {
+          this.objCategory = resStateData['list'];
+        }).bind(this));
+        this.loading = false;
+      },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+        });
+  }  
+
+  getMediaList(count, size, dataBy?: string, val?: string) {
     this.loading = true;
-    this.dataUrl = this.appConfig.urlMediaFileUpload + '/?page=' + count + '&size=' + size;
+    if (dataBy === undefined){
+      this.dataUrl = this.appConfig.urlMediaFileUpload + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    }else if(dataBy === "byCateId"){
+      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/category/id/" + val +'/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    }else if(dataBy === "byFileName"){
+      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/file/name/" + val +'/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    }
+    
     return this.http.get(this.dataUrl)
        .subscribe(resData => {
         this.commonservice.errorHandling(resData, (function(){
-          this.resultData = resData;
-        this.seqPageNum = this.resultData.pageNumber;
-        this.seqPageSize = this.resultData.pageSize;
-        // this.noNextData = this.resultData.pageSize >= this.resultData.totalElements;
-        this.mediaPage = resData;
-          this.mediaList = resData['list'];  
-          this.dataSource.data = this.mediaList; 
+        this.resultData = resData;
+          if(this.resultData.list.length > 0){
+            this.seqPageNum = this.resultData.pageNumber;
+            this.seqPageSize = this.resultData.pageSize;
+            this.noNextData = this.resultData.pageNumber === this.resultData.totalPages;
+            this.mediaPage = resData;
+            // if(dataBy === "byFileName"){
+            // this.mediaList = resData; 
+            // }else {
+              this.mediaList = resData['list']; 
+            // } 
+            this.showNoData = false;
+            this.dataSource.data = this.mediaList; 
+          }else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }        
         }).bind(this));     
         this.loading = false;
         },
@@ -84,14 +119,41 @@ export class MediafileuploadtblComponent implements OnInit {
        });
   }
 
+  searchByFileName(val){
+    this.PageCount = 0;
+    this.PageSize = 10; 
+    this.cateSelect = 0;   //Reset Category search
+    this.getMediaList(this.PageCount, this.PageSize, "byFileName", val);     
+  }
+
+  selCateType(val){
+    this.PageCount = 0;
+    this.PageSize = 10;
+    this.fileName = ""; // Reset File name Search
+    if(val.value === "0" ){
+      this.getMediaList(this.PageCount, this.PageSize);
+    } else{
+      this.getMediaList(this.PageCount, this.PageSize, "byCateId", val.value); 
+    }   
+  }
+
+  reset(){
+    this.PageCount = 0;
+    this.PageSize = 10;
+    this.fileName = "";
+    this.cateSelect = 0;
+    this.getMediaList(this.PageCount, this.PageSize);
+  }
+
+
   add(){    
-      this.router.navigate(['media/' , 'add']);
+      this.router.navigate(['media/upload' , 'add']);
   }
 
   
   paginatorL(page) {
     this.getMediaList(page - 2, this.PageSize);
-    this.noPrevData = page <= 0 ? true : false;
+    this.noPrevData = page <= 3 ? true : false; // page count is zero based so use 3. (page-2 = 0 first page)
     this.noNextData = false;
   }
 
@@ -99,8 +161,8 @@ export class MediafileuploadtblComponent implements OnInit {
     this.noPrevData = page >= 0 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    this.noNextData = pageInc === totalPages;
-    this.getMediaList(page, this.PageSize);
+    // this.noNextData = pageInc === totalPages;
+    this.getMediaList(page , this.PageSize);
   }
 
   pageChange(event, totalPages) {
@@ -110,36 +172,22 @@ export class MediafileuploadtblComponent implements OnInit {
   }
   editGroup(mtId) {
     console.log(mtId);
-    this.router.navigate(['media/', mtId]);
+    this.router.navigate(['media/upload', mtId]);
   }
 
-  deleteRow(id) {
-    let txt;
-    // this.commonservice.delMediaFileUpload(id).subscribe(
-    //   data => {
-    //     txt = "Media Type deleted successfully!";
-    //     this.toastr.success(txt, '');   
-    //     this.getMediaList(this.PageCount, this.PageSize);
-    //   },
-    //   error => {
-    //     console.log("No Data")
-    //   });
-
-    let r = confirm("Are you sure to delete " + id + "?");
-    if (r == true) {
+  deleteRow(id) {    
        this.commonservice.delMediaFileUpload(id).subscribe(
         data => {
-          txt = "Media Type deleted successfully!";
-          this.toastr.success(txt, '');   
+           
+        this.commonservice.errorHandling(data, (function(){          
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getMediaList(this.PageCount, this.PageSize);
+        }).bind(this)); 
         },
       error => {
-        console.log("No Data")
-      });
-    } else {
-      txt = "Delete Cancelled!";
-      // alert(txt)
-    }
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });    
   }
 
   searchByCate(evnt){
