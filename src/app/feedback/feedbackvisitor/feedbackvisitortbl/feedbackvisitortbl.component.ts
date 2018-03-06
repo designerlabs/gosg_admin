@@ -143,6 +143,7 @@ export class FeedbackvisitortblComponent implements OnInit {
       this.dataUrl = this.appConfig.urlFeedback + '/search/0/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
     }
 
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
     this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -168,6 +169,7 @@ export class FeedbackvisitortblComponent implements OnInit {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
     });
+  }
   }
 
   paginatorL(page) {
