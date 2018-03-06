@@ -115,6 +115,11 @@ export class SliderComponent implements OnInit {
       this.pageMode = "Update";
       this.getRow(refCode);
     }
+    
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.sliderForm.disable();
+    }
   }
 
   ngAfterViewInit() {

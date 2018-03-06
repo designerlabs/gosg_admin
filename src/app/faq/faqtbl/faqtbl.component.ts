@@ -50,6 +50,12 @@ export class FaqtblComponent implements OnInit {
 
   applyFilter(e) {
     console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.pageSize, e);
+    }
+    else{
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -87,7 +93,38 @@ export class FaqtblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFaqList + '/code?page=' + count + '&size=' + size + "?language=" + this.languageId;
+    this.dataUrl = this.appConfig.urlFaqList + '/code?page=' + count + '&size=' + size + "&language=" + this.languageId;
+    this.loading = true;
+
+    this.http.get(this.dataUrl)
+    .subscribe(data => {
+      this.commonservice.errorHandling(data, (function(){
+        this.recordList = data;
+
+        console.log("data");
+        console.log(data);
+
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        
+        this.dataSource.data = this.recordList.list;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      }).bind(this)); 
+      this.loading = false;
+    },
+    error => {
+
+      this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
+
+    });
+  }
+
+  getFilterList(count, size, val) {
+  
+    this.dataUrl = this.appConfig.urlFaqGetList + '/search?keyword=' + val + '&page=' + count + '&size=' + size + "&language=" + this.languageId;
     this.loading = true;
 
     this.http.get(this.dataUrl)

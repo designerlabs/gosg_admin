@@ -38,55 +38,55 @@ export class CityComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.pageSize, e);
+    }
+    else{
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
   }
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-              private commonservice: CommonService, private router: Router,
-              private translate: TranslateService,
-              private toastr: ToastrService) {
+      private commonservice: CommonService, private router: Router,
+      private translate: TranslateService,
+      private toastr: ToastrService) {
 
-                /* LANGUAGE FUNC */
-              translate.onLangChange.subscribe((event: LangChangeEvent) => {
-                translate.get('HOME').subscribe((res: any) => {
-                  this.commonservice.getAllLanguage().subscribe((data:any) => {
-                    let getLang = data.list;
-                    let myLangData =  getLang.filter(function(val) {
-                      if(val.languageCode == translate.currentLang){
-                        this.lang = val.languageCode;
-                        this.languageId = val.languageId;
-                        this.getRecordList(this.pageCount, this.pageSize);
-                        this.commonservice.getModuleId();
-                      }
-                    }.bind(this));
-                  })
-                });
-              });
-              if(!this.languageId){
-                this.languageId = localStorage.getItem('langID');
+        /* LANGUAGE FUNC */
+      translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        translate.get('HOME').subscribe((res: any) => {
+          this.commonservice.getAllLanguage().subscribe((data:any) => {
+            let getLang = data.list;
+            let myLangData =  getLang.filter(function(val) {
+              if(val.languageCode == translate.currentLang){
+                this.lang = val.languageCode;
+                this.languageId = val.languageId;
                 this.getRecordList(this.pageCount, this.pageSize);
                 this.commonservice.getModuleId();
               }
-
-    
+            }.bind(this));
+          })
+        });
+      });
+      if(!this.languageId){
+        this.languageId = localStorage.getItem('langID');
+        this.getRecordList(this.pageCount, this.pageSize);
+        this.commonservice.getModuleId();
+      }    
   }
 
   ngOnInit() {
-    this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId(); 
   }
 
   getRecordList(count, size) {
 
-    //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
     this.dataUrl = this.appConfig.urlCityList;
-    //this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size)
-    //this.http.get(this.dataUrl)
     this.loading = true;
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + "&language=" + this.languageId)
+
+    this.http.get(this.dataUrl + '?page=' + count + '&size=' + size + "&language=" + this.languageId)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -105,9 +105,41 @@ export class CityComponent implements OnInit {
     },
     error => {
       this.loading = false;
-    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
+    });
+  }
+
+  getFilterList(count, size, val) {
+
+    this.dataUrl = this.appConfig.urlCityList;
+    
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
+      this.loading = true;
+      
+      this.http.get(this.dataUrl + '/search/' + val + '?page=' + count + '&size=' + size + "&language=" + this.languageId)
+        .subscribe(data => {
+          this.commonservice.errorHandling(data, (function(){
+          this.recordList = data;
+
+          console.log("data");
+          console.log(data);
+
+          this.dataSource.data = this.recordList.cityList;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
       });
+    }
   }
 
   paginatorL(page) {

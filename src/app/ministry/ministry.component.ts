@@ -164,6 +164,11 @@ export class MinistryComponent implements OnInit {
       this.pageMode = "Update";
       this.getRow(refCode);
     }
+    
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.ministryForm.disable();
+    }
   }
 
   ngAfterViewInit() {

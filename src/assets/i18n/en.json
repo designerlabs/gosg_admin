@@ -241,6 +241,7 @@
       "info":"fa fa-info-circle"
     },
     "msg":{
+      "notfound":"Not Found.",
       "reset":"Reset this form?",
       "delete":"Are you sure to delete the record?",
       "unauthorized": "You are not authorized to access this page!"

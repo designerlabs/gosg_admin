@@ -58,9 +58,16 @@
               <i class="fa fa-edit"></i>
             </button>&nbsp;
             <!-- Delete option not required for Media Type -->
-            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete"  (click)="deleteRow(element.mediaTypeId)">
+            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete"  (click)="deleteModal.show()">
               <i class="fa fa-trash" title="Delete {{ element.mediaTypeId }}"></i>
             </button>
+            <app-confirm-dialog  #deleteModal 
+                        [title]="'common.icon.warn'" 
+                        [content]="'common.msg.delete'"
+                        [state]="'bg_header bg_warn_header'"
+                        [isReset]="'true'"
+                        (resetMethod)="deleteRow(element.mediaTypeId)">
+                        </app-confirm-dialog>
           </mat-cell>
         </ng-container>
 
