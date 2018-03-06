@@ -125,10 +125,7 @@ export class CountryComponent implements OnInit {
           console.log("data");
           console.log(data);
 
-          if(this.recordList.totalElements != 0)
-            this.recordList.countryList
-          else
-            this.recordList.countryList.push('common.msg.notfound');
+          // this.recordList.countryList.push(this.translate.instant('common.msg.notfound'));
           
           this.dataSource.data = this.recordList.countryList;
           this.commonservice.recordTable = this.recordList;
