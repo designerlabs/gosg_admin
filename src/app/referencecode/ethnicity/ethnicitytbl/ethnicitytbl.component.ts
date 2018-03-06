@@ -181,29 +181,6 @@ export class EthnicitytblComponent implements OnInit {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         console.log(error);
     });
-
-    // let txt;
-    // let r = confirm("Are you sure to delete ?");
-
-    
-    // if (r == true) {
-    //   console.log(refCode);
-    //   this.commonservice.delRace(refCode).subscribe(
-    //     data => {
-    //       // alert('Record deleted successfully!')
-    //       txt = " record deleted successfully!";
-
-    //       this.toastr.success(txt, '');   
-    //       // this.router.navigate(['reference/ethnicity']);
-    //       this.getRecordList(this.pageCount, this.pageSize);
-    //     },
-    //     error => {
-    //       txt = "Delete Cancelled!";
-    //   });
-    // }
-    // else{
-    //   txt = "Delete Cancelled!";
-    // }
   }
 
   ngAfterViewInit() {

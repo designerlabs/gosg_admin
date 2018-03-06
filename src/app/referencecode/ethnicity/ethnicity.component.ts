@@ -89,6 +89,11 @@ export class EthnicityComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+    
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
   }
 
   getData() {
