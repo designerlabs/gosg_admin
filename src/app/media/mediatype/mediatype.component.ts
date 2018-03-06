@@ -162,7 +162,7 @@ export class MediatypeComponent implements OnInit {
 
     this.commonservice.getMediaType()
     .subscribe(resStateData => {
-     // this.commonservice.errorHandling(resStateData, (function(){            
+    //  this.commonservice.errorHandling(resStateData, (function(){            
          this.objMediaType = resStateData['mediaTypes'];    
          this.http.get(this.appConfig.urlMediaType + '/id/' + row).subscribe(
           Rdata => {
@@ -206,6 +206,7 @@ export class MediatypeComponent implements OnInit {
                 this.checkReqValues();
               }
             }).bind(this));
+            
           },
           error => {
             this.toastr.error(JSON.parse(error._body).statusDesc, '');          

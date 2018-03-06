@@ -82,24 +82,19 @@ export class MediatypetblComponent implements OnInit {
     this.router.navigate(['mediatype', mtId]);
   }
 
-  deleteRow(id) {
-    let txt;
-    let r = confirm("Are you sure to delete " + id + "?");
-    if (r == true) {
+  deleteRow(id) {    
       this.commonservice.delMediaType(id).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-            txt = "Media Type deleted successfully!";
-            this.toastr.success(txt, '');   
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
             this.getMediaList();
           }).bind(this));
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');    
+          console.log(error);
         });
-    } else {
-      txt = "Delete Cancelled!";
-    }
+   
   }
 
 }
