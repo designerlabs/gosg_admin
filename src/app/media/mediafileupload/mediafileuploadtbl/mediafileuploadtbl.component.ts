@@ -120,7 +120,6 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   searchByFileName(val){
-    debugger;
     this.PageCount = 0;
     this.PageSize = 10; 
     this.cateSelect = 0;   //Reset Category search
@@ -139,7 +138,6 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   reset(){
-    debugger;
     this.PageCount = 0;
     this.PageSize = 10;
     this.fileName = "";

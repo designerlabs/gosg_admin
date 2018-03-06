@@ -270,6 +270,8 @@ export class MediafileuploadComponent implements OnInit {
   selCateType(event) {   
       this.checkFileSize();
       this.checkReqValues();
+      this.selFilesMy = [];
+      this.selFilesEn = [];
   }
 
   checkReqValues() {
@@ -324,7 +326,6 @@ export class MediafileuploadComponent implements OnInit {
     this.chkUploadFile.maxH = fileConfig[0].maxH;
     this.chkUploadFile.minW = fileConfig[0].minW;
     this.chkUploadFile.maxW = fileConfig[0].maxW;
-    debugger;
     this.sharedConfig.acceptExtensions =  filextnLCase.split(',');   
     this.sharedConfig.maxFileSize = maxFileSize;
     this.resFileExtn = filextnLCase.split(',');
@@ -444,7 +445,6 @@ export class MediafileuploadComponent implements OnInit {
      
       // for (var selCate of formValues.catType) {
       //   let filtrData = this.objCategory.filter(fdata => fdata.list[0].categoryId === selCate);
-      //   debugger;
       //   mediaCate.push(filtrData);
       // }
       
