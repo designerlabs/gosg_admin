@@ -241,6 +241,7 @@
       "info":"fa fa-info-circle"
     },
     "msg":{
+      "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
       "delete":"Padam mesej ini?",
       "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!"

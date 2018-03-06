@@ -10,6 +10,24 @@
     </div>
   <div *ngIf="commonservice.isRead">
       <div class="example-container mat-elevation-z8">
+
+        <div class="row">
+            <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
+                <mat-form-field class="example-full-width">
+                    <mat-select  placeholder="Filter By" (change)="filterType($event)">
+                        <mat-option [value]="1">All</mat-option>
+                        <mat-option [value]="2">Email</mat-option>
+                        <mat-option [value]="3">ICNO</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1">
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Keywords">
+                </mat-form-field>
+            </div>      
+        </div>
     
         <mat-table #table [dataSource]="dataSource">
     
@@ -45,8 +63,9 @@
           <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef class="statusColumn"> Action </mat-header-cell>
             <mat-cell *matCellDef="let element" class="statusColumn">
-                <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate"  (click)="updateRow(element.userId)" title="Update">
-                  <i class="fa fa-edit" ></i>
+                <button mat-mini-fab style="background: orange" (click)="updateRow(element.userId)" title="Update">
+                  <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.fullName }}" ></i>
+                  <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fullName }}" ></i>
                 </button>
                 <app-confirm-dialog  #deleteModal 
                   [title]="'common.icon.warn'" 

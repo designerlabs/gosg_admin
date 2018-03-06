@@ -19,22 +19,22 @@
         <div class="example-container mat-elevation-z8">
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
                 <ng-container matColumnDef="no">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
-                    <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+                    <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="identificationEng">
-                        <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Identification Type (English) </mat-header-cell>
-                        <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
+                        <mat-header-cell class="text-align-left" *matHeaderCellDef> Identification Type (English) </mat-header-cell>
+                        <mat-cell class="text-align-left" *matCellDef="let element">
                             {{element.list[1].identificationType}}
                         </mat-cell>
                     </ng-container>
 
                 <ng-container matColumnDef="identificationMy">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 30%;" *matHeaderCellDef> Identification Type (Malay) </mat-header-cell>
-                    <mat-cell class="text-align-left" style="flex: 0 0 30%;" *matCellDef="let element">
+                    <mat-header-cell class="text-align-left" *matHeaderCellDef> Identification Type (Malay) </mat-header-cell>
+                    <mat-cell class="text-align-left" *matCellDef="let element">
                         {{element.list[0].identificationType}}
                     </mat-cell>
                 </ng-container>
@@ -51,10 +51,10 @@
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
-                    <mat-cell class="actionColumn" *matCellDef="let element">
+                    <mat-header-cell class="statusColumn" *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-cell class="statusColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
-                        <i class="fa fa-edit" ></i></button>
+                            <i class="fa fa-eye" title="View {{ element.refCode }}"></i></button>
                         &nbsp;
                         <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                                 <i class="fa fa-trash" title="Delete {{element.refCode}}"></i></button>

@@ -124,7 +124,7 @@ export class FaqtblComponent implements OnInit {
 
   getFilterList(count, size, val) {
   
-    this.dataUrl = this.appConfig.urlFaqGetList + '/search/' + val + '?page=' + count + '&size=' + size + "&language=" + this.languageId;
+    this.dataUrl = this.appConfig.urlFaqGetList + '/search?keyword=' + val + '&page=' + count + '&size=' + size + "&language=" + this.languageId;
     this.loading = true;
 
     this.http.get(this.dataUrl)

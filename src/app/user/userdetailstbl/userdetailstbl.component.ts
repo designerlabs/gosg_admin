@@ -16,6 +16,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class UserdetailstblComponent implements OnInit {
 
+  filterTypeVal: any;
   checkStatus: any;
   userId: any;
   lang:any;
@@ -57,10 +58,27 @@ export class UserdetailstblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.userList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(val) {   
+
+    console.log(val  + "TEST" + this.filterTypeVal);
+    
+    if(val){
+      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+    }
+    else{
+      this.getUsersData(this.pageCount, this.pageSize);
+    }
+  
+  }
+
+  filterType(filterVal) {
+
+    this.filterTypeVal = filterVal.value; 
+
+    if(this.filterTypeVal == 1){
+      this.getUsersData(this.pageCount, this.pageSize);
+    }
+ 
   }
 
   constructor(
@@ -164,30 +182,44 @@ export class UserdetailstblComponent implements OnInit {
     });
   }
 
+  getFilterList(count, size, keyword, filterVal) {
 
-
-  getSearchData(findby,type,keyword){
-    this.isActive = true;
-    this.isActiveList = true;
-    if(!keyword.value){
-      keyword == '-';
+    if(filterVal == 2){  // by Email
+      this.dataUrl = this.appConfig.urlUserList + '?email='+ keyword + '&language='+this.languageId;
     }
-    this.loading = true;
-    this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
 
-      this.commonservice.errorHandling(data, (function(){
-        
-        this.searchUserResult = data['userList'];
-        this.checkStatus = data['statusCode'];
+    else if (filterVal == 3){ // by keywords
+      this.dataUrl = this.appConfig.urlUserList + '/ic='+ keyword + '&language='+this.languageId;
+    }
 
-      }).bind(this));
-      this.loading = false;
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
-    },
-    error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      this.loading = false;        
-    });
+      this.loading = true;
+      this.http.get(this.dataUrl)
+      .subscribe(data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.recordList = data;
+
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.userList;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+    }
   }
 
   paginatorL(page) {
