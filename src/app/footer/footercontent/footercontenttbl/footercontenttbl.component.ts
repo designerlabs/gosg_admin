@@ -94,7 +94,7 @@ export class FootercontenttblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFooterContent + '?page=' + count + '&size=' + size +"?language=" + this.languageId;
+    this.dataUrl = this.appConfig.urlFooterContent + '?page=' + count + '&size=' + size +"&language=" + this.languageId;
     this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
@@ -124,7 +124,7 @@ export class FootercontenttblComponent implements OnInit {
 
   getFilterList(count, size, val) {
   
-    this.dataUrl = this.appConfig.urlFooterContent + '?filter=' +val+  '&page=' + count + '&size=' + size +"?language=" + this.languageId;
+    this.dataUrl = this.appConfig.urlFooterContent + '?filter=' +val+  '&page=' + count + '&size=' + size +"&language=" + this.languageId;
     
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
