@@ -14,10 +14,26 @@
 		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
 			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">Grouping Management</a>
 		</div>
-		<div *ngFor="let menu of menulst.moduleList" style="padding-bottom: 0px; border-bottom: 1px solid #e6e6e6;">
+		<mat-accordion>
+			<mat-expansion-panel >
+				<mat-expansion-panel-header>
+					<mat-panel-title style="font-weight: bold;">
+						All Modules <span class="module_counts" *ngIf="menulst">{{menulst?.moduleList?.length }}</span>
+					</mat-panel-title>
+				</mat-expansion-panel-header>
+				<div style="padding-bottom: 0px;" *ngFor="let menu of menulst.moduleList">
+						<a class="submenu_link" routerLinkActive="submenu_link_active" (click)="scrollTop()" [routerLink]=[menu.moduleUrl] >{{menu.moduleName}}</a>
+				</div>
+			</mat-expansion-panel>
+		</mat-accordion>
+		<!-- <div *ngFor="let menu of menulst.moduleList" style="padding-bottom: 0px; border-bottom: 1px solid #e6e6e6;">
 			<a class="submenu_link" routerLinkActive="submenu_link_active" (click)="scrollTop()" [routerLink]=[menu.moduleUrl] >{{menu.moduleName}}</a>
-		</div>
+		</div> -->
 	</div>
+
+	
+
+
 
 	<mat-accordion *ngIf='menulist_non_admin'>
 		<mat-expansion-panel *ngFor="let menu of menulist_non_admin.items">
@@ -27,7 +43,7 @@
 			</mat-panel-title>
 			</mat-expansion-panel-header>
 			<div *ngFor="let sub of menu.modules" style="padding-bottom: 0px;">
-			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]=[sub.moduleUrl] >{{sub.moduleName}}</a>
+			<a class="submenu_link" routerLinkActive="submenu_link_active" (click)="scrollTop()" [routerLink]=[sub.moduleUrl] >{{sub.moduleName}}</a>
 			</div>
 
 		</mat-expansion-panel>

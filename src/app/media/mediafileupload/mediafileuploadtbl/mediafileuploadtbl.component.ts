@@ -147,7 +147,7 @@ export class MediafileuploadtblComponent implements OnInit {
 
 
   add(){    
-      this.router.navigate(['media/' , 'add']);
+      this.router.navigate(['media/upload' , 'add']);
   }
 
   
@@ -172,7 +172,7 @@ export class MediafileuploadtblComponent implements OnInit {
   }
   editGroup(mtId) {
     console.log(mtId);
-    this.router.navigate(['media/', mtId]);
+    this.router.navigate(['media/upload', mtId]);
   }
 
   deleteRow(id) {    
