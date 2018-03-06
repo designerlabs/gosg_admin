@@ -7,10 +7,10 @@
       </div>
       
       <div class="col-md-2 curdHeadingRight">
-          <span class="pull-right">
+          <!-- <span class="pull-right">
               <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
               <i class="fa fa-plus font-size-l"></i></button>
-          </span>
+          </span> -->
       </div> 
   </div>
 
@@ -46,18 +46,18 @@
 
           <!-- languageName Column -->
           <ng-container matColumnDef="languageName">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> Language Name</mat-header-cell>
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;"> {{element.languageName}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef > Language Name</mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="getRow(element)" > {{element.languageName}} </mat-cell>
           </ng-container>
 
           <!-- languageDescription Column -->
           <ng-container matColumnDef="languageDescription">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 45%;">Language Description</mat-header-cell>
-            <mat-cell *matCellDef="let element" style="flex: 0 0 45%;"> {{element.languageDescription}} </mat-cell>
+            <mat-header-cell *matHeaderCellDef >Language Description</mat-header-cell>
+            <mat-cell *matCellDef="let element" > {{element.languageDescription}} </mat-cell>
           </ng-container>
           
           <!-- Action Column -->
-          <ng-container matColumnDef="languageAction">
+          <!-- <ng-container matColumnDef="languageAction">
             <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
             <mat-cell *matCellDef="let element" class="actionColumn">
                 <button mat-mini-fab style="background: orange" (click)="updateRow(element.languageCode)" title="Update {{ element.languageCode }}">
@@ -76,7 +76,7 @@
                 (resetMethod)="deleteRow(element.languageId)">
                 </app-confirm-dialog>
             </mat-cell>
-          </ng-container>
+          </ng-container> -->
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
