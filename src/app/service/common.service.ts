@@ -1194,11 +1194,15 @@ getCategoryList1() {
   }
 
   errorHandling(err, callback){
-    let statusCode = err.statusCode.toLowerCase();
-    if(statusCode == 'error'){
-      this.toastr.error(err.statusDesc, 'Error');
-    }else{
-      callback()
+    if(err.statusCode){
+      let statusCode = err.statusCode.toLowerCase();
+      if(statusCode == 'error'){
+        this.toastr.error(err.statusDesc, 'Error');
+      }else{
+        callback()
+      }
+   }else{
+     callback()
     }
   }
 

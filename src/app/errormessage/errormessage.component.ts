@@ -98,6 +98,11 @@ export class ErrormessageComponent implements OnInit {
       this.pageMode = "Update";
       this.getRow(this.urlEdit);
     }
+
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate){
+      this.errorMsgForm.disable();
+    }
   }
 
  
