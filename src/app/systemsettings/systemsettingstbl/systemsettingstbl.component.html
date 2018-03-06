@@ -1,4 +1,6 @@
 <div class="container-fluid">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>System Settings List</h3>
@@ -73,8 +75,9 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                        <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.settings_id)">
-                        <i class="fa fa-edit" title="Update {{ element.settings_id }}"></i></button>
+                        <button mat-mini-fab style="background: orange" (click)="updateRow(element.settings_id)">                
+                        <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.settings_id }}"></i>
+                        <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.settings_id }}"></i></button>
                         &nbsp;
                         <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                         <i class="fa fa-trash" title="Delete {{ element.settings_id}}"></i></button>

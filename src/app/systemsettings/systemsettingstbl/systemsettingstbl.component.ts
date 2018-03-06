@@ -18,6 +18,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class SystemsettingstblComponent implements OnInit {
 
+  public loading = false;
   recordList = null;
   displayedColumns = ['num','entities', 'key', 'value', 'status', 'action'];
   pageSize = 10;
@@ -87,6 +88,7 @@ export class SystemsettingstblComponent implements OnInit {
   
     this.dataUrl = this.appConfig.urlSystemSettings + '/?page=' + count + '&size=' + size  + '&language=' +this.languageId;
 
+    this.loading = true;
     this.http.get(this.dataUrl)
     .subscribe(data => {
 
@@ -102,9 +104,11 @@ export class SystemsettingstblComponent implements OnInit {
         this.commonservice.recordTable = this.recordList;
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
       }).bind(this)); 
+      this.loading = false;
     },
     error => {
 
+      this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       console.log(error);
     });
@@ -138,6 +142,7 @@ export class SystemsettingstblComponent implements OnInit {
   deleteRow(id) {
 
     console.log(id);
+    this.loading = true;
     this.commonservice.delRecordSysSettings(id).subscribe(
       data => {
 
@@ -146,9 +151,11 @@ export class SystemsettingstblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
         }).bind(this)); 
+        this.loading = false;
       },
       error => {
 
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         console.log(error);
     });

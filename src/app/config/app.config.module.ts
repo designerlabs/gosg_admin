@@ -91,6 +91,7 @@ export class AppConfig {
     urlModuleGroupList:string;
 
     urlFaqList:string;
+    urlFaqGetList:string;
     urlAdminUserPermission:string;
 
     urlFooterCategory: string;
@@ -162,6 +163,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlIdentificationType: commonURL + 'identificationtype',
 
     urlFaqList: commonURL + 'faq',
+    urlFaqGetList: serviceURL + 'faq',
+    
     urlFooterCategory: commonURL + 'footer',
     urlFooterContent: commonURL + 'footercontent',
     
