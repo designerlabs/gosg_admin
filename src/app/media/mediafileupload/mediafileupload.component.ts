@@ -102,7 +102,7 @@ export class MediafileuploadComponent implements OnInit {
   ngOnInit() {
     this.commonservice.getModuleId();
     this.addconfig = false;
-    let refCode = this.router.url.split('/')[2];
+    let refCode = this.router.url.split('/')[3];
  
     this.mediatype = new FormControl();
     this.catType = new FormControl();
@@ -125,7 +125,7 @@ export class MediafileuploadComponent implements OnInit {
       mediaFileUploadEn: this.mediaFileUploadEn,
       mediaFileUploadMy: this.mediaFileUploadMy,
     });
-    this.fnLoadCateMediaType();
+    this.fnLoadCateMediaType(refCode);
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
@@ -133,7 +133,7 @@ export class MediafileuploadComponent implements OnInit {
     } else {
       this.isEdit = true;
       this.pageMode = "Update"; 
-      this.getRow(refCode);  
+      // this.getRow(refCode);  
       // this.mediatype = new FormControl({disabled: true});
     }
     
@@ -161,11 +161,11 @@ export class MediafileuploadComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['media']);
+    this.router.navigate(['media/upload']);
   }
   
 
-  fnLoadCateMediaType() {
+  fnLoadCateMediaType(refCode) {
     // Get MediaType
       this.loading = true;
     this.commonservice.getMediaType()
@@ -185,6 +185,9 @@ export class MediafileuploadComponent implements OnInit {
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
+          if(this.refCode !== "add"){
+            this.getRow(refCode);
+          }
         }).bind(this));
         this.loading = false;
       },
