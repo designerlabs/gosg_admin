@@ -62,6 +62,7 @@ export class MediafileuploadComponent implements OnInit {
   clientId;
   networkContract: any;
   public loading = false;
+  resFileExtn = [];
 
   private sharedConfig: Ng4FilesConfig = {
     acceptExtensions: ['jpg'],
@@ -171,7 +172,8 @@ export class MediafileuploadComponent implements OnInit {
       .subscribe(resStateData => {
         // this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
-        // }).bind(this));        
+        // }).bind(this));    
+        this.loading = false;    
       },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
@@ -323,8 +325,9 @@ export class MediafileuploadComponent implements OnInit {
     this.chkUploadFile.minW = fileConfig[0].minW;
     this.chkUploadFile.maxW = fileConfig[0].maxW;
     debugger;
-    this.sharedConfig.acceptExtensions =  filextnLCase.split(',');
+    this.sharedConfig.acceptExtensions =  filextnLCase.split(',');   
     this.sharedConfig.maxFileSize = maxFileSize;
+    this.resFileExtn = filextnLCase.split(',');
     // if(!this.addconfig){
     //   this.ng4FilesService.addConfig(this.sharedConfig); 
     //   this.addconfig = true;
@@ -338,27 +341,26 @@ export class MediafileuploadComponent implements OnInit {
     this.el.nativeElement.offsetHeight;
     this.el.nativeElement.offsetWidth;
     let mFileSize = this.chkUploadFile.maxSize;
+    let fileExtn = selectedFiles.files[0].name.split('.')[1];
+      let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn);
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {
         if (selectedFiles.files[0].size <= mFileSize) {
-          this.filesResult.my.size = selectedFiles.files[0].size;
-          this.selectedFilesMy = selectedFiles.files[0].name;      
-      // if(!this.isEdit){
-          this.mediaFileUpForm.controls.mediaFileMy.setValue(this.selectedFilesMy);
-      // }
-          console.log(this.selectedFilesMy);
-          this.selFilesMy = [];
-          this.selFilesMy.push(selectedFiles);
-          this.checkReqValues();
+          // Check File extn
+          if (chkFileExtn.length > 0){
+            this.filesResult.my.size = selectedFiles.files[0].size;
+            this.selectedFilesMy = selectedFiles.files[0].name; 
+            this.mediaFileUpForm.controls.mediaFileMy.setValue(this.selectedFilesMy);
+            console.log(this.selectedFilesMy);
+            this.selFilesMy = [];
+            this.selFilesMy.push(selectedFiles);
+            this.checkReqValues();
+           } else{
+            this.toastr.error('File Extension not match');
+           }          
         }else{
           this.toastr.error('File Size Exceed maximum file size');
-        } 
-        // Check File extn
-let fileExtn = selectedFiles.files[0].name.split('.')[1];
-        // if(){
-
-        // }
-        
+        }         
       }
     }else if(selectedFiles.status === Ng4FilesStatus.STATUS_MAX_FILES_COUNT_EXCEED){
       this.toastr.error('Maximum files count exceed.Please upload one file');
@@ -385,19 +387,23 @@ let fileExtn = selectedFiles.files[0].name.split('.')[1];
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {    
     let mFileSize = this.chkUploadFile.maxSize;
     console.log(this.el.nativeElement);
-    if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {
-      
+    let fileExtn = selectedFiles.files[0].name.split('.')[1];
+    let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn);
+    if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {        
         if (selectedFiles.files[0].size <= mFileSize) {
-          this.filesResult.en.size = selectedFiles.files[0].size;
-          this.selectedFilesEn = selectedFiles.files[0].name;
-          // if(!this.isEdit){
+          // Check File extn  
+          if (chkFileExtn.length > 0){
+            this.filesResult.en.size = selectedFiles.files[0].size;
+            this.selectedFilesEn = selectedFiles.files[0].name;
             this.mediaFileUpForm.controls.mediaFileEn.setValue(this.selectedFilesEn);
-          // }
-          console.log(this.selectedFilesEn);
-          this.selFilesEn = [];
-          this.selFilesEn.push(selectedFiles);
-          this.checkReqValues();
+            console.log(this.selectedFilesEn);
+            this.selFilesEn = [];
+            this.selFilesEn.push(selectedFiles);
+            this.checkReqValues();
+           }else {
+            this.toastr.error('File Extension not match');
+           }    
         }else{
           this.toastr.error('File Size Exceed maximum file size');
         }
