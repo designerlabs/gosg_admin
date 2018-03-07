@@ -3,8 +3,8 @@
             
 	<div class="searchMod">
 		<mat-form-field class="example-full-width">
-			<input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
-			<button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+			<input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" placeholder="Keywords">
+			<button mat-button *ngIf="value" matSuffix mat-icon-button (click)="value='';resetSearch()">
 				<mat-icon>close</mat-icon>
 			</button>
 		</mat-form-field>
@@ -18,7 +18,7 @@
 			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">{{ 'home.content.groupingManagement' | translate }}</a>
 		</div>
 		<mat-accordion>
-			<mat-expansion-panel >
+			<mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" >
 				<mat-expansion-panel-header>
 					<mat-panel-title style="font-weight: bold;">
 						All Modules <span class="module_counts" *ngIf="menulst">{{menulst?.moduleList?.length }}</span>
