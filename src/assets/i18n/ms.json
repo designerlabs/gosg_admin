@@ -537,6 +537,12 @@
       "of": "daripada",
       "in": "dalam",
       "feedback": "mesej maklum balas"
+    },
+    "filterby": {
+      "filterby": "Tapisan Mengikut",
+      "all": "Semua",
+      "email": "Emel",
+      "keyword": "Mesej"
     }
   },
   "feedbackvisitortbl": {
@@ -559,7 +565,7 @@
       "filterby": "Tapisan Mengikut",
       "all": "Semua",
       "email": "Emel",
-      "keyword": "Kata Kunci"
+      "keyword": "Mesej"
     }
   },
   "feedbackmsg": {
@@ -694,7 +700,8 @@
       "num": "Bil.",
       "code": "Kod",
       "name": "Nama Bahasa",
-      "description": "Keterangan Bahasa"
+      "description": "Keterangan Bahasa",
+      "default": "Default"
     }
   },
   "mediauploadtbl": {
@@ -855,6 +862,51 @@
     "component": {
       "sys": "Tetapan Sistem",
       "active": "Aktif"
+    }
+  },
+  "usermgmt": {
+    "header": "Pengurusan Pengguna",
+    "tableHeader":{
+      "num": "Bil.",
+      "fullname": "Nama Penuh",
+      "email": "Emel",
+      "accstatus": "Status Akaun",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "users": "pengguna"
+    },
+    "component": {
+      "users": "Status Akaun Pengguna",
+      "isstaff": "Kakitangan?",
+      "dob": "Tarikh Lahir",
+      "citizenship": "Kewarganegaraan",
+      "country": "Negara",
+      "gender": "Jantina",
+      "race": "Bangsa",
+      "religion": "Agama",
+      "address": "Alamat",
+      "mobilenum": "No. Telefon"
+    },
+    "filterby": {
+      "all": "Semua",
+      "email": "Emel",
+      "icno": "No. KP"
+    }
+  },
+  "mediatype": {
+    "header": "Pengurusan Media",
+    "tableHeader":{
+      "num": "Bil.",
+      "name": "Nama",
+      "category": "Kategori",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "component": {
     }
   }
 }
