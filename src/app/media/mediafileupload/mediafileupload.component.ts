@@ -40,6 +40,8 @@ export class MediafileuploadComponent implements OnInit {
   chkUploadFile : any;
   addconfig: boolean;
   showMediaTypeName: string;
+  showImgEn = false;
+  showImgMy = false;
   mediaPath: string;
 
   catType: FormControl;
@@ -129,10 +131,14 @@ export class MediafileuploadComponent implements OnInit {
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
+      this.showImgEn = false;
+      this.showImgMy = false;
       // this.mediatype = new FormControl();
     } else {
       this.isEdit = true;
       this.pageMode = "Update"; 
+      this.showImgEn = true;
+      this.showImgMy = true;
       // this.getRow(refCode);  
       // this.mediatype = new FormControl({disabled: true});
     }
@@ -358,7 +364,8 @@ export class MediafileuploadComponent implements OnInit {
             console.log(this.selectedFilesMy);
             this.selFilesMy = [];
             this.selFilesMy.push(selectedFiles);
-            this.checkReqValues();
+            this.checkReqValues();            
+            this.showImgMy = false;
            } else{
             this.toastr.error('File Extension not match');
            }          
@@ -405,6 +412,7 @@ export class MediafileuploadComponent implements OnInit {
             this.selFilesEn = [];
             this.selFilesEn.push(selectedFiles);
             this.checkReqValues();
+            this.showImgEn = false;
            }else {
             this.toastr.error('File Extension not match');
            }    
@@ -569,7 +577,7 @@ export class MediafileuploadComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success('Media Type Updated successfully!', '');
-            this.router.navigate(['media']);
+            this.router.navigate(['media/upload']);
           }).bind(this));
         },
         error => {
@@ -692,7 +700,7 @@ export class MediafileuploadComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success('Media Type Updated successfully!', '');
-            this.router.navigate(['media']);
+            this.router.navigate(['media/upload']);
           }).bind(this));
         },
         error => {

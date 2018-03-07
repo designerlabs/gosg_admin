@@ -23,7 +23,7 @@ export class MediatypetblComponent implements OnInit {
   seqPageSize = 0;
   lang:any;
   languageId: any;
-
+  public loading = false;
   displayedColumns = ['no', 'mediaType', 'catName',  'status', 'action'];
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
@@ -59,6 +59,7 @@ export class MediatypetblComponent implements OnInit {
   }
 
   getMediaList() {
+    this.loading = true;
     return this.commonservice.getMediaType()
        .subscribe(resStateData => {
         // this.commonservice.errorHandling(resStateData, (function(){
@@ -67,8 +68,10 @@ export class MediatypetblComponent implements OnInit {
             this.mediaList = resStateData['mediaTypes'];  
             this.dataSource.data = this.mediaList;      
           // }).bind(this));
+          this.loading = false;
         },
         error => {
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');          
        });
   }
@@ -83,14 +86,17 @@ export class MediatypetblComponent implements OnInit {
   }
 
   deleteRow(id) {    
+    this.loading = true;
       this.commonservice.delMediaType(id).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
             this.getMediaList();
           }).bind(this));
+          this.loading = false;
         },
         error => {
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');    
           console.log(error);
         });

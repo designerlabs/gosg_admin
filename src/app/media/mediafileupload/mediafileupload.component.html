@@ -111,7 +111,7 @@
             <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> File Upload</span>
           </ng4-files-click>
           <div *ngIf="selectedFilesEn">
-            <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFilesEn" style="width:200px">
+            <img *ngIf="showImgEn" [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFilesEn" style="width:200px">
         </div>
           
         </div>
@@ -121,7 +121,7 @@
               <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> File Upload</span>
             </ng4-files-click>
             <div *ngIf="selectedFilesMy">
-                <img [src]="appConfig.externalMediaURL+'/'+mediaPath+'/'+selectedFilesMy" style="width:200px">
+                <img *ngIf="showImgMy" [src]="appConfig.externalMediaURL+'/'+mediaPath+'/'+selectedFilesMy" style="width:200px">
             </div>
           </div>
       </div>
