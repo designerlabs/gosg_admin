@@ -201,7 +201,7 @@ export class UserdetailstblComponent implements OnInit {
     }
 
     else if (filterVal == 3){ // by keywords
-      this.dataUrl = this.appConfig.urlUserList + '/ic='+ keyword + '&language='+this.languageId;
+      this.dataUrl = this.appConfig.urlUserList + '?ic='+ keyword + '&language='+this.languageId;
     }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
