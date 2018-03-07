@@ -34,7 +34,6 @@ export class MediafileuploadtblComponent implements OnInit {
   fileName:string;
   cateSelect;
   public loading = false;
-  firstTimeLoad = true;
 
   constructor(private commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
     /* LANGUAGE FUNC */
@@ -63,41 +62,63 @@ export class MediafileuploadtblComponent implements OnInit {
   ngOnInit() {
     this.getMediaList(this.PageCount, this.PageSize);
     this.commonservice.getModuleId();
-    this.firstTimeLoad = true;
+    this.fnLoadCateMediaType();
   }
 
-  fnLoadCateMediaType(rdata) {
-    if(this.firstTimeLoad){
-      this.firstTimeLoad = false;
-      let objCate: Object;            
-      this.objCategory = [];
-      for (let reqData of rdata) {
-        objCate = new Object;
-        objCate = {
-          categoryName:reqData.list[0].mediaCategories[0].categoryName,
-          categoryId:reqData.list[0].mediaCategories[0].categoryId
-        };
-        let duplicateData = this.objCategory.filter(fData=>fData.categoryId === reqData.list[0].mediaCategories[0].categoryId);
-        if(duplicateData.length === 0){
-          this.objCategory.push(objCate);
-        } 
-      }                 
-    }
+  fnLoadCateMediaType() {
+    // if(this.firstTimeLoad){
+    //   this.firstTimeLoad = false;
+    //   let objCate: Object;            
+    //   this.objCategory = [];
+    //   for (let reqData of rdata) {
+    //     objCate = new Object;
+    //     objCate = {
+    //       categoryName:reqData.list[0].mediaCategories[0].categoryName,
+    //       categoryId:reqData.list[0].mediaCategories[0].categoryId
+    //     };
+    //     let duplicateData = this.objCategory.filter(fData=>fData.categoryId === reqData.list[0].mediaCategories[0].categoryId);
+    //     if(duplicateData.length === 0){
+    //       this.objCategory.push(objCate);
+    //     } 
+    //   }                 
+    // }
    
     
-    //   this.loading = true;          
-    // // Get Categories
-    // this.commonservice.getCategoryData()
-    //   .subscribe(resStateData => {
-    //       this.commonservice.errorHandling(resStateData, (function () {
-    //       this.objCategory = resStateData['list'];
-    //     }).bind(this));
-    //     this.loading = false;
-    //   },
-    //     error => {
-    //       this.toastr.error(JSON.parse(error._body).statusDesc, '');
-    //       this.loading = false;
-    //     });
+      this.loading = true;          
+    // Get Categories
+    let dUrl = this.appConfig.urlMediaFileUpload + '?page=0&size=999999&language=' + this.languageId;
+    this.http.get(dUrl)
+      .subscribe(resStateData => {
+          this.commonservice.errorHandling(resStateData, (function () {
+            let objCate: Object;            
+            this.objCategory = [];
+            for (let reqData of resStateData['list']) {
+              objCate = new Object;
+              let duplicateData;
+              if(this.languageId.toString() === "1"){
+                objCate = {
+                  categoryName:reqData.list[0].mediaCategories[0].categoryName,
+                  categoryId:reqData.list[0].mediaCategories[0].categoryId
+                };
+                duplicateData = this.objCategory.filter(fData=>fData.categoryId === reqData.list[0].mediaCategories[0].categoryId);
+              }else{
+                objCate = {
+                  categoryName:reqData.list[1].mediaCategories[0].categoryName,
+                  categoryId:reqData.list[1].mediaCategories[0].categoryId
+                };
+                duplicateData = this.objCategory.filter(fData=>fData.categoryId === reqData.list[1].mediaCategories[0].categoryId);
+              } 
+              if(duplicateData.length === 0){
+                this.objCategory.push(objCate);
+              } 
+            }              
+        }).bind(this));
+        this.loading = false;
+      },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+        });
 
   }  
 
@@ -127,7 +148,6 @@ export class MediafileuploadtblComponent implements OnInit {
             // } 
             this.showNoData = false;
             this.dataSource.data = this.mediaList; 
-            this.fnLoadCateMediaType(this.mediaList);
           }else{
             this.dataSource.data = []; 
             this.showNoData = true;

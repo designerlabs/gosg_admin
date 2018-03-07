@@ -103,7 +103,7 @@ export class UsertblComponent implements OnInit {
     
     this.isActiveList = false;
     this.isActive = true;
-    this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'superAdminStatus', 'activeFlag', 'action'];
+    this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'superAdminStatus', 'action'];
     this.emailFld = new FormControl();
     this.addUserBtn = true;
     this.closeUserBtn = false;

@@ -70,16 +70,15 @@ export class UserdetailstblComponent implements OnInit {
   
   }
 
-  resetSearch(keyword) {
+  resetSearch() {
     this.getUsersData(this.pageCount, this.pageSize);
-    keyword = ''
   }
-
+  
   filterType(filterVal) {
     
     this.filterTypeVal = filterVal.value; 
     
-    this.resetSearch(null);
+    // keyword = ''
     
     if(this.filterTypeVal == 1){
       this.getUsersData(this.pageCount, this.pageSize);
