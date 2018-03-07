@@ -155,6 +155,10 @@ export class FootercontenttblComponent implements OnInit {
     }
   }
 
+  resetSearch() {
+    this.getRecordList(this.pageCount, this.pageSize);
+  }
+
   paginatorL(page) {
     this.getRecordList(page - 1, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;

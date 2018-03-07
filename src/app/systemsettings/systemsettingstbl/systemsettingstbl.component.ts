@@ -49,6 +49,10 @@ export class SystemsettingstblComponent implements OnInit {
     }
   }
 
+  resetSearch() {
+    this.getRecordList(this.pageCount, this.pageSize);
+  }
+
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 

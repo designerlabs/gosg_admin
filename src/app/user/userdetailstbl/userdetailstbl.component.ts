@@ -71,6 +71,10 @@ export class UserdetailstblComponent implements OnInit {
   
   }
 
+  resetSearch() {
+    this.getUsersData(this.pageCount, this.pageSize);
+  }
+
   filterType(filterVal) {
 
     this.filterTypeVal = filterVal.value; 
