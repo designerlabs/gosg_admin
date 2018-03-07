@@ -91,8 +91,10 @@ export class EthnicityComponent implements OnInit {
     }
     
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate || !this.commonservice.isWrite){
+    if(!this.commonservice.isUpdate){
       this.updateForm.disable();
+    } else if(this.commonservice.isWrite) {
+      this.updateForm.enable();
     }
   }
 
