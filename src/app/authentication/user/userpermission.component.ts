@@ -27,7 +27,7 @@ export class UserpermissionComponent implements OnInit {
   groupmodulename: FormControl;
   active: FormControl;
   superAdmin: FormControl;
-  isAdminSuper: any;
+  isAdminSuper =  false;
   groupmoduledesc: FormControl;
   statusTitle: any;
   public loading = false;
@@ -190,28 +190,8 @@ export class UserpermissionComponent implements OnInit {
 
 
   updateAsSuperAdmin(){
-    
     this.loading = true;
-    this.http.put(this.appConfig.urlAdminUserFind+'/'+this.route.snapshot.params.id+'?isSuperAdmin='+this.isAdminSuper+'&language='+localStorage.getItem('langID'),'').subscribe(data => {
-      
-      this.commonservice.errorHandling(data, (function(){
-        
-        this.loading = false;
-      }).bind(this));
-
-        this.loading = false;
-    },
-    error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');     
-      this.loading = false;     
-    });
-  }
-
-
-  submit(){
-
-      this.loading = true;
-      this.commonservice.updateUserPermission(this.route.snapshot.params.id, this.selectedItems.items).subscribe(
+    this.commonservice.updateSuperAdmin(this.isAdminSuper).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success('updated successfully', '');
@@ -220,7 +200,20 @@ export class UserpermissionComponent implements OnInit {
       }, err => {
         this.loading = false;
       });
-    
+  }
+
+
+  submit(){
+      this.loading = true;
+      this.commonservice.updateUserPermission(this.route.snapshot.params.id, this.selectedItems.items, this.isAdminSuper).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success('updated successfully', '');
+        }).bind(this));   
+        this.loading = false;
+      }, err => {
+        this.loading = false;
+      });
   }
 
   back(){

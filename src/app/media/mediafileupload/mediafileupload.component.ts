@@ -171,7 +171,7 @@ export class MediafileuploadComponent implements OnInit {
   }
   
 
-  fnLoadCateMediaType(refCode) {
+  fnLoadCateMediaType(refData) {
     // Get MediaType
       this.loading = true;
     this.commonservice.getMediaType()
@@ -191,8 +191,8 @@ export class MediafileuploadComponent implements OnInit {
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
-          if(this.refCode !== "add"){
-            this.getRow(refCode);
+          if(this.router.url.split('/')[3] !== "add"){
+            this.getRow(refData);
           }
         }).bind(this));
         this.loading = false;
