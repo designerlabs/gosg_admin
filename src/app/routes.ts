@@ -86,9 +86,9 @@ import { ColorComponent } from './color/color.component';
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
-{path: 'mediatype', component: MediatypetblComponent},
-{path: 'mediatype/add', component: MediatypeComponent},
-{path: 'mediatype/:id', component: MediatypeComponent},
+{path: 'media/type', component: MediatypetblComponent},
+{path: 'media/type/add', component: MediatypeComponent},
+{path: 'media/type/:id', component: MediatypeComponent},
 {path: 'media/upload', component: MediafileuploadtblComponent},
 {path: 'media/upload/add', component: MediafileuploadComponent},
 {path: 'media/upload/:id', component: MediafileuploadComponent},

@@ -83,11 +83,11 @@ export class MediafileuploadtblComponent implements OnInit {
   getMediaList(count, size, dataBy?: string, val?: string) {
     this.loading = true;
     if (dataBy === undefined){
-      this.dataUrl = this.appConfig.urlMediaFileUpload + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+      this.dataUrl = this.appConfig.urlMediaFileUpload + '?page=' + count + '&size=' + size + '&language=' + this.languageId;
     }else if(dataBy === "byCateId"){
-      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/category/id/" + val +'/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/category/id/" + val +'?page=' + count + '&size=' + size + '&language=' + this.languageId;
     }else if(dataBy === "byFileName"){
-      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/file/name/" + val +'/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/file/name/" + val +'?page=' + count + '&size=' + size + '&language=' + this.languageId;
     }
     
     return this.http.get(this.dataUrl)
