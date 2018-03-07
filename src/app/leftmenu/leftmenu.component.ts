@@ -172,6 +172,7 @@ resetSearch() {
       this.menulst = data;
       this.loading = false;
     }, err => {
+      this.toastr.error(JSON.parse(err._body).statusDesc, '');  
       this.loading = false;
       //...
     })
@@ -187,6 +188,7 @@ resetSearch() {
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
     }, err => {
+      this.toastr.error(JSON.parse(err._body).statusDesc, '');  
       this.loading = false;
       //...
     })
