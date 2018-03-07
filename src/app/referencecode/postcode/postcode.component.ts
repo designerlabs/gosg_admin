@@ -57,6 +57,9 @@ export class PostcodeComponent implements OnInit {
      .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function(){
         this.getStateData = resStateData["stateList"];        //.stateList
+        this.getCityData = [];
+        this.selStateInfo = '';
+        this.getPostData = '';
       }).bind(this)); 
       this.loading = false;
     },
