@@ -101,7 +101,9 @@ export class FontComponent implements OnInit {
     this.commonservice.getModuleId();
 
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
   }

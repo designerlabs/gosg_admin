@@ -7,7 +7,7 @@
 
 
     <div class="col-md-6 curdHeadingRight">
-      <form [ngClass]="animateClass" style="display: inline-table;" [formGroup]="addUserForm" autocomplete="off" role="form" novalidate *ngIf="showUserInput" >
+      <form [ngClass]="animateClass" style="display: inline-table;" [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="showUserInput" >
           <table class="example-full-width" cellspacing="0"><tr>
             <td style="width:25%">
               <mat-form-field>
@@ -15,7 +15,7 @@
                   <mat-option [value]="1">{{ 'admin.addby.email' | translate }}</mat-option>
                   <mat-option [value]="2">{{ 'admin.addby.icno' | translate }}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="addUserForm.controls.userType.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.userType.hasError('required')">
                   Please select the type
                 </mat-error>
               </mat-form-field>
@@ -23,7 +23,7 @@
             <td style="width:25%; padding-left:10px;" *ngIf="showEmail">
               <mat-form-field class="example-full-width">
                 <input (keyup)="getSearchData('findByEmail','email', emailFld)" matInput placeholder="Email" #emailFld formControlName="emailFld" required>
-                <mat-error *ngIf="addUserForm.controls.emailFld.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.emailFld.hasError('required')">
                   Email is required
                 </mat-error>
               </mat-form-field>
@@ -31,7 +31,7 @@
               <td style="width:25%; padding-left:10px;" *ngIf="showIC">
               <mat-form-field class="example-full-width">
                 <input (keyup)="getSearchData('findByIcNo','icno', icFld)" matInput placeholder="IC No." #icFld formControlName="icFld" required>
-                <mat-error *ngIf="addUserForm.controls.icFld.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.icFld.hasError('required')">
                   IC No. is required
                 </mat-error>
               </mat-form-field>

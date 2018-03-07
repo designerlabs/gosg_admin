@@ -19,7 +19,7 @@
         {{'common.msg.unauthorized' | translate}}
     </div>
   
-    <form [formGroup]="agencyForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+    <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 padding-10">
   
@@ -28,14 +28,14 @@
             <label>English</label>
             <mat-form-field class="example-full-width">
               <input matInput tabindex="1" placeholder="Agency Name" formControlName="agencyNameEn" (change)="checkReqValues()" required>
-              <mat-error *ngIf="agencyForm.controls.agencyNameEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agencyNameEn.hasError('required')">
                 Agency Name is required
               </mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="agencyForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
@@ -45,14 +45,14 @@
             <label>Bahasa Malaysia</label>
             <mat-form-field class="example-full-width">
               <input matInput tabindex="2" placeholder="Agency Name" formControlName="agencyNameBm" (change)="checkReqValues()" required>
-              <mat-error *ngIf="agencyForm.controls.agencyNameBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agencyNameBm.hasError('required')">
                 Agency Name is required
               </mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
               <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="agencyForm.controls.descBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
@@ -61,7 +61,7 @@
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryEn (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
-                <mat-error *ngIf="agencyForm.controls.ministryEn.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.ministryEn.hasError('required')">
                   Ministry is required
                 </mat-error>
               </mat-form-field>
@@ -77,7 +77,7 @@
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="6" placeholder="Ministry" formControlName="ministryBm" #ministryBm (keyup)="getSearchData(ministryBm.value, 2)" (change)="checkReqValues()" required>
-                <mat-error *ngIf="agencyForm.controls.ministryBm.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.ministryBm.hasError('required')">
                   Ministry is required
                 </mat-error>
               </mat-form-field>
@@ -94,7 +94,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <input matInput placeholder="Agency Unique Code" formControlName="uniqueCode" #UniqueCode (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyForm.controls.uniqueCode.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.uniqueCode.hasError('required')">
                 Agency Unique Code required
               </mat-error>
             </mat-form-field>
@@ -109,7 +109,7 @@
           <div class="col-md-12">
             <mat-form-field class="example-full-width">
               <textarea matInput tabindex="6" placeholder="Address" formControlName="address" #address maxLength="10000" required></textarea>
-              <mat-error *ngIf="agencyForm.controls.address.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.address.hasError('required')">
                 Address is required
               </mat-error>
               <mat-hint align="end">{{address.value?.length || 0}}/10000</mat-hint>
@@ -118,10 +118,10 @@
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
               <input matInput tabindex="7" placeholder="Latitude" formControlName="agclat">
-              <mat-error *ngIf="agencyForm.controls.agclat.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agclat.hasError('required')">
                 Latitude is required
               </mat-error>
-              <mat-error *ngIf="!validateCtrlChk(agclat) &&  agencyForm.controls.agclat.errors.pattern">
+              <mat-error *ngIf="!validateCtrlChk(agclat) &&  updateForm.controls.agclat.errors.pattern">
                 Latitude Pattern not valid
               </mat-error>
             </mat-form-field>
@@ -129,7 +129,7 @@
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
               <input matInput tabindex="8" placeholder="Longitude" formControlName="agclong">
-              <mat-error *ngIf="agencyForm.controls.agclong.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agclong.hasError('required')">
                 Longitude is required
               </mat-error>
             </mat-form-field>
@@ -144,7 +144,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="9" placeholder="Contact Person" formControlName="contactperson" (change)="checkReqValues()" required>
-                <mat-error *ngIf="agencyForm.controls.contactperson.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.contactperson.hasError('required')">
                   Contact Person is required
                 </mat-error>
               </mat-form-field>
@@ -152,10 +152,10 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="10" placeholder="Email" formControlName="email" (change)="checkReqValues()" required>
-                <mat-error *ngIf="agencyForm.controls.email.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.email.hasError('required')">
                   Email is required
                 </mat-error>
-                <mat-error *ngIf="!validateCtrlChk(email) &&  agencyForm.controls.email.errors.pattern">
+                <mat-error *ngIf="!validateCtrlChk(email) &&  updateForm.controls.email.errors.pattern">
                   Email Pattern not valid
                 </mat-error>
               </mat-form-field>
@@ -163,7 +163,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="11" placeholder="Phone Number" formControlName="phoneno" #phoneno [textMask]="{mask: maskPhoneNo}" (change)="checkReqValues()" required>
-                <mat-error *ngIf="agencyForm.controls.phoneno.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.phoneno.hasError('required')">
                   Phone Number is required
                 </mat-error>
               </mat-form-field>
@@ -171,7 +171,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="12" placeholder="Fax Number" formControlName="faxno" #faxno [textMask]="{mask: maskFaxNo}" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.faxno.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.faxno.hasError('required')">
                   Fax Number is required
                 </mat-error>
               </mat-form-field>
@@ -186,7 +186,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="13" placeholder="Website URL" formControlName="websiteUrl" (change)="checkReqValues()" >
-                <mat-error *ngIf="agencyForm.controls.websiteUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.websiteUrl.hasError('required')">
                   Website URL is required
                 </mat-error>
               </mat-form-field>
@@ -194,7 +194,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="14" placeholder="RSS URL" formControlName="rssUrl" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.rssUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.rssUrl.hasError('required')">
                   Rss URL is required
                 </mat-error>
               </mat-form-field>
@@ -202,7 +202,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="15" placeholder="Blog URL" formControlName="blogUrl" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.blogUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.blogUrl.hasError('required')">
                   Blog URL is required
                 </mat-error>
               </mat-form-field>
@@ -220,7 +220,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="16" placeholder="Facebook URL" formControlName="fbUrl" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.fbUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.fbUrl.hasError('required')">
                   Facebook URL is required
                 </mat-error>
               </mat-form-field>
@@ -228,7 +228,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="17" placeholder="Twitter URL" formControlName="twitterUrl" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.twitterUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.twitterUrl.hasError('required')">
                   Twitter URL is required
                 </mat-error>
               </mat-form-field>
@@ -236,7 +236,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="18" placeholder="Youtube URL" formControlName="youtubeUrl" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.youtubeUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.youtubeUrl.hasError('required')">
                   Youtube URL is required
                 </mat-error>
               </mat-form-field>
@@ -244,7 +244,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="19" placeholder="Instagram URL" formControlName="instagramUrl" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.instagramUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.instagramUrl.hasError('required')">
                   Instagram URL is required
                 </mat-error>
               </mat-form-field>
@@ -252,7 +252,7 @@
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
                 <input matInput tabindex="20" placeholder="Flickr URL" formControlName="flickrUrl" (change)="checkReqValues()">
-                <mat-error *ngIf="agencyForm.controls.flickrUrl.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.flickrUrl.hasError('required')">
                   Flickr URL is required
                 </mat-error>
               </mat-form-field>
@@ -274,7 +274,7 @@
   
       <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate">
         <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
-          (click)="updateAction(agencyForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          (click)="updateAction(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
           <i *ngIf="complete" class="fa fa-check"></i>
           <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
         <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="form-control btn btn-md btn-warning pull-right"

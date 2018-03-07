@@ -101,7 +101,9 @@ export class ModmenuComponent implements OnInit {
     }
     
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.modulesForm.enable();
+    }else if(!this.commonservice.isUpdate){
       this.modulesForm.disable();
     }
 

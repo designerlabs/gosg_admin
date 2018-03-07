@@ -20,7 +20,7 @@
       {{'common.msg.unauthorized' | translate}}
   </div>
 
-  <form [formGroup]="errorMsgForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
@@ -38,7 +38,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <input matInput placeholder="Message Code" formControlName="msgCodeEn" #msgCodeEn (keyup)="copyValue(1)" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="errorMsgForm.controls.msgCodeEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.msgCodeEn.hasError('required')">
                 Message code required
               </mat-error>
               <mat-hint align="end">Format: xxxx.xxxx.xxxx</mat-hint>
@@ -48,7 +48,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <input matInput placeholder="Kod Mesej" formControlName="msgCodeBm" #msgCodeBm (keyup)="copyValue(2)" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="errorMsgForm.controls.msgCodeBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.msgCodeBm.hasError('required')">
                   Kod Mesej diperlukan
               </mat-error>
               <mat-hint align="end">Format: xxxx.xxxx.xxxx</mat-hint>
@@ -62,7 +62,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <input matInput placeholder="Message Code" formControlName="msgCodeEn" #msgCodeEn (keyup)="copyValue(1)" (change)="checkReqValues()"
                 required [attr.disabled]="complete">
-              <mat-error *ngIf="errorMsgForm.controls.msgCodeEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.msgCodeEn.hasError('required')">
                 Message code required
               </mat-error>
               <mat-hint align="end">Format: xxxx.xxxx.xxxx</mat-hint>
@@ -72,7 +72,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <input matInput placeholder="Kod Mesej" formControlName="msgCodeBm" #msgCodeBm (keyup)="copyValue(2)" value="" (change)="checkReqValues()"
                 required [attr.disabled]="complete">
-              <mat-error *ngIf="errorMsgForm.controls.msgCodeBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.msgCodeBm.hasError('required')">
                   Kod Mesej diperlukan
               </mat-error>
               <mat-hint align="end">Format: xxxx.xxxx.xxxx</mat-hint>
@@ -85,7 +85,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="errorMsgForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
@@ -95,7 +95,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="errorMsgForm.controls.descBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
                 Keterangan diperlukan
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
@@ -112,7 +112,7 @@
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group" *ngIf="commonservice.isUpdate">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="updateErrorMsg(errorMsgForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            (click)="updateErrorMsg(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"

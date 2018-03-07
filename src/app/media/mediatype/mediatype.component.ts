@@ -31,7 +31,7 @@ export class MediatypeComponent implements OnInit {
   displaymediaTypeName;
   languageId: any;
   mediaTypeData: any;
-  mediaTypeForm: FormGroup;
+  updateForm: FormGroup;
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
@@ -102,7 +102,7 @@ export class MediatypeComponent implements OnInit {
     this.maxheigth = new FormControl();
     this.active = new FormControl();
     
-    this.mediaTypeForm = new FormGroup({
+    this.updateForm = new FormGroup({
       catType: this.catType,
       mediatype: this.mediatype,
       filetype: this.filetype,
@@ -120,12 +120,19 @@ export class MediatypeComponent implements OnInit {
       this.pageMode = "Add";
       this.loadCate();
        // Add media type will have all category
-      // this.mediaTypeForm.get('imgchkactive').setValue(false);     
+      // this.updateForm.get('imgchkactive').setValue(false);     
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
       this.getRow(refCode); // Edit media type will have only selected category
       }
+
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
+    
   }//10.1.22.50:8080/mediatype
 
 
@@ -180,7 +187,7 @@ export class MediatypeComponent implements OnInit {
               // populate data
               if (data) {
                 // this.mediaTypeId = data.mediaTypeId;
-                this.mediaTypeForm.get('mediatype').setValue(data.mediaTypeId);
+                this.updateForm.get('mediatype').setValue(data.mediaTypeId);
     
                 // if (data.mediaTypeName == "Images") {
                 //   this.objFileExtn = this.objImage;
@@ -198,17 +205,17 @@ export class MediatypeComponent implements OnInit {
     
                 this.selCategory = data.mediaTypeCategories[0].category;
                 this.selmediaTypeCategoryId = data.mediaTypeCategories[0].mediaTypeCategoryId;
-                this.mediaTypeForm.get('catType').setValue(data.mediaTypeCategories[0].category.categoryId);
-                this.mediaTypeForm.get('filetype').setValue(data.mediaTypeCategories[0].fileExtensions.split(','));
+                this.updateForm.get('catType').setValue(data.mediaTypeCategories[0].category.categoryId);
+                this.updateForm.get('filetype').setValue(data.mediaTypeCategories[0].fileExtensions.split(','));
     
-                this.mediaTypeForm.get('filesize').setValue(data.mediaTypeCategories[0].fileThresholdSize);
-                this.mediaTypeForm.get('fileunit').setValue(data.mediaTypeCategories[0].fileThresholdSizeUnits);
-                this.mediaTypeForm.get('minheigth').setValue(data.mediaTypeCategories[0].minH);
-                this.mediaTypeForm.get('minwidth').setValue(data.mediaTypeCategories[0].minW);
-                this.mediaTypeForm.get('maxheigth').setValue(data.mediaTypeCategories[0].maxH);
-                this.mediaTypeForm.get('maxwidth').setValue(data.mediaTypeCategories[0].maxW);
+                this.updateForm.get('filesize').setValue(data.mediaTypeCategories[0].fileThresholdSize);
+                this.updateForm.get('fileunit').setValue(data.mediaTypeCategories[0].fileThresholdSizeUnits);
+                this.updateForm.get('minheigth').setValue(data.mediaTypeCategories[0].minH);
+                this.updateForm.get('minwidth').setValue(data.mediaTypeCategories[0].minW);
+                this.updateForm.get('maxheigth').setValue(data.mediaTypeCategories[0].maxH);
+                this.updateForm.get('maxwidth').setValue(data.mediaTypeCategories[0].maxW);
     
-                this.mediaTypeForm.get('active').setValue(data.enabled);
+                this.updateForm.get('active').setValue(data.enabled);
                 this.checkReqValues();
               }
             }).bind(this));
@@ -252,20 +259,20 @@ export class MediatypeComponent implements OnInit {
         this.selmediaTypeCategoryId = filtrData[0].mediaTypeCategoryId;
       console.log(this.getData);      
       if (filtrData.length > 0) {
-        this.mediaTypeForm.get('filesize').setValue(filtrData[0].fileThresholdSize);
-        this.mediaTypeForm.get('fileunit').setValue(filtrData[0].fileThresholdSizeUnits);
-        this.mediaTypeForm.get('minheigth').setValue(filtrData[0].minH);
-        this.mediaTypeForm.get('minwidth').setValue(filtrData[0].minW);
-        this.mediaTypeForm.get('maxheigth').setValue(filtrData[0].maxH);
-        this.mediaTypeForm.get('maxwidth').setValue(filtrData[0].maxW);
+        this.updateForm.get('filesize').setValue(filtrData[0].fileThresholdSize);
+        this.updateForm.get('fileunit').setValue(filtrData[0].fileThresholdSizeUnits);
+        this.updateForm.get('minheigth').setValue(filtrData[0].minH);
+        this.updateForm.get('minwidth').setValue(filtrData[0].minW);
+        this.updateForm.get('maxheigth').setValue(filtrData[0].maxH);
+        this.updateForm.get('maxwidth').setValue(filtrData[0].maxW);
       } else {
         
-        this.mediaTypeForm.controls.filesize.reset();
-        this.mediaTypeForm.controls.fileunit.reset();
-        this.mediaTypeForm.controls.minheigth.reset();
-        this.mediaTypeForm.controls.minwidth.reset();
-        this.mediaTypeForm.controls.maxheigth.reset();
-        this.mediaTypeForm.controls.maxwidth.reset();
+        this.updateForm.controls.filesize.reset();
+        this.updateForm.controls.fileunit.reset();
+        this.updateForm.controls.minheigth.reset();
+        this.updateForm.controls.minwidth.reset();
+        this.updateForm.controls.maxheigth.reset();
+        this.updateForm.controls.maxwidth.reset();
       }
     }else {
       let filtrData = this.objCategory.filter(
@@ -291,7 +298,7 @@ export class MediatypeComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.mediaTypeForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)

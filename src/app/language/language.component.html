@@ -18,7 +18,7 @@
       {{'common.msg.unauthorized' | translate}}
   </div>
 
-  <form [formGroup]="languageForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
   
       <div class="example-container mat-elevation-z8 col-md-12">
 
@@ -27,7 +27,7 @@
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
               <input matInput placeholder="Language Code" formControlName="languageCode" (keyup)="checkReqValues()"
                 required>
-              <mat-error *ngIf="languageForm.controls.languageCode.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.languageCode.hasError('required')">
                 Language code required
               </mat-error>
             </mat-form-field>
@@ -40,7 +40,7 @@
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="Language Name" formControlName="languageName" (keyup)="checkReqValues()"
                   required>
-                <mat-error *ngIf="languageForm.controls.languageName.hasError('required')">
+                <mat-error *ngIf="updateForm.controls.languageName.hasError('required')">
                   Language code required
                 </mat-error>
               </mat-form-field>
@@ -52,7 +52,7 @@
             <mat-form-field class="example-full-width font-size-s">
               <textarea matInput placeholder="Description" formControlName="languageDescription" #languageDescription maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="languageForm.controls.languageDescription.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.languageDescription.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{languageDescription.value?.length || 0}}/10000</mat-hint>
@@ -69,7 +69,7 @@
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group" *ngIf="commonservice.isUpdate">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="updateLanguage(languageForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            (click)="updateLanguage(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"

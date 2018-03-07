@@ -35,7 +35,7 @@ export class AgencyComponent implements OnInit {
   AgencyTypeData: Object;
   dataUrl: any;
   date = new Date();
-  agencyForm: FormGroup
+  updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -150,7 +150,7 @@ export class AgencyComponent implements OnInit {
     this.ministryEn = new FormControl()
     this.ministryBm = new FormControl()
 
-    this.agencyForm = new FormGroup({
+    this.updateForm = new FormGroup({
       agencyNameEn: this.agencyNameEn,
       descEn: this.descEn,
       agencyNameBm: this.agencyNameBm,
@@ -187,8 +187,10 @@ export class AgencyComponent implements OnInit {
     }
     
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
-      this.agencyForm.disable();
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
     }
   }
 
@@ -218,30 +220,30 @@ export class AgencyComponent implements OnInit {
           let dataBm = this.AgencyTypeData['agencyList'][1];
           
           // populate data
-          this.agencyForm.get('agencyNameEn').setValue(dataEn.agencyName);
-          this.agencyForm.get('descEn').setValue(dataEn.agencyDescription);
-          this.agencyForm.get('agencyNameBm').setValue(dataBm.agencyName);
-          this.agencyForm.get('descBm').setValue(dataBm.agencyDescription);
-          this.agencyForm.get('ministryEn').setValue(dataEn.agencyMinistry.ministryName);
-          this.agencyForm.get('ministryBm').setValue(dataBm.agencyMinistry.ministryName);
-          this.agencyForm.get('uniqueCode').setValue(dataBm.agencyUniqueCode);
-          this.agencyForm.get('active').setValue(dataBm.agencyStatus);
-          this.agencyForm.get('address').setValue(dataBm.agencyAddress);
-          this.agencyForm.get('agclat').setValue(dataBm.agencyLatitude);
-          this.agencyForm.get('agclong').setValue(dataBm.agencyLongitude);
-          this.agencyForm.get('phoneno').setValue(dataBm.agencyPhone);
-          this.agencyForm.get('faxno').setValue(dataBm.agencyFax);
-          this.agencyForm.get('email').setValue(dataBm.agencyEmail);
-          this.agencyForm.get('contactperson').setValue(dataBm.agencyContactPerson);
-          this.agencyForm.get('websiteUrl').setValue(dataBm.agencyWebsiteUrl);
-          this.agencyForm.get('rssUrl').setValue(dataBm.agencyRss);
-          this.agencyForm.get('youtubeUrl').setValue(dataBm.agencyYoutube);
-          this.agencyForm.get('twitterUrl').setValue(dataBm.agencyTwitter);
-          this.agencyForm.get('flickrUrl').setValue(dataBm.agencyFlickr);
-          this.agencyForm.get('blogUrl').setValue(dataBm.agencyBlog);
-          this.agencyForm.get('instagramUrl').setValue(dataBm.agencyInstagram);
-          this.agencyForm.get('fbUrl').setValue(dataBm.agencyFacebook);
-          this.agencyForm.get('mdecStatus').setValue(dataBm.agencyMdecStatus);
+          this.updateForm.get('agencyNameEn').setValue(dataEn.agencyName);
+          this.updateForm.get('descEn').setValue(dataEn.agencyDescription);
+          this.updateForm.get('agencyNameBm').setValue(dataBm.agencyName);
+          this.updateForm.get('descBm').setValue(dataBm.agencyDescription);
+          this.updateForm.get('ministryEn').setValue(dataEn.agencyMinistry.ministryName);
+          this.updateForm.get('ministryBm').setValue(dataBm.agencyMinistry.ministryName);
+          this.updateForm.get('uniqueCode').setValue(dataBm.agencyUniqueCode);
+          this.updateForm.get('active').setValue(dataBm.agencyStatus);
+          this.updateForm.get('address').setValue(dataBm.agencyAddress);
+          this.updateForm.get('agclat').setValue(dataBm.agencyLatitude);
+          this.updateForm.get('agclong').setValue(dataBm.agencyLongitude);
+          this.updateForm.get('phoneno').setValue(dataBm.agencyPhone);
+          this.updateForm.get('faxno').setValue(dataBm.agencyFax);
+          this.updateForm.get('email').setValue(dataBm.agencyEmail);
+          this.updateForm.get('contactperson').setValue(dataBm.agencyContactPerson);
+          this.updateForm.get('websiteUrl').setValue(dataBm.agencyWebsiteUrl);
+          this.updateForm.get('rssUrl').setValue(dataBm.agencyRss);
+          this.updateForm.get('youtubeUrl').setValue(dataBm.agencyYoutube);
+          this.updateForm.get('twitterUrl').setValue(dataBm.agencyTwitter);
+          this.updateForm.get('flickrUrl').setValue(dataBm.agencyFlickr);
+          this.updateForm.get('blogUrl').setValue(dataBm.agencyBlog);
+          this.updateForm.get('instagramUrl').setValue(dataBm.agencyInstagram);
+          this.updateForm.get('fbUrl').setValue(dataBm.agencyFacebook);
+          this.updateForm.get('mdecStatus').setValue(dataBm.agencyMdecStatus);
           this.refCode = dataEn.agencyCode;
           this.agencyIdEn = dataEn.agencyId;
           this.agencyIdBm = dataBm.agencyId;
@@ -270,7 +272,7 @@ export class AgencyComponent implements OnInit {
       selLangField = "ministryEn";
       this.ministryNameEn = "";
     }
-    this.agencyForm.get(selLangField).reset();
+    this.updateForm.get(selLangField).reset();
     // console.log(selLangField)
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
@@ -305,19 +307,19 @@ export class AgencyComponent implements OnInit {
   getValue(mId,mName, refCode, langId){
 
     if(langId == 1) {
-      this.ministryEn = this.agencyForm.get('ministryEn').value;
+      this.ministryEn = this.updateForm.get('ministryEn').value;
       this.isActiveListEn = false;
       this.searchMinistryResultEn = [''];
-      this.agencyForm.get('ministryEn').setValue(mName);
+      this.updateForm.get('ministryEn').setValue(mName);
       this.ministryIdEn = mId;
 
       this.getMinistryByRefCode(refCode,langId);
       
     } else {
-      this.ministryBm = this.agencyForm.get('ministryBm').value;
+      this.ministryBm = this.updateForm.get('ministryBm').value;
       this.isActiveListBm = false;
       this.searchMinistryResultBm = [''];
-      this.agencyForm.get('ministryBm').setValue(mName);
+      this.updateForm.get('ministryBm').setValue(mName);
       this.ministryIdBm = mId;
 
       this.getMinistryByRefCode(refCode,langId);
@@ -350,7 +352,7 @@ export class AgencyComponent implements OnInit {
           mName = data['ministryEntityList'][0]['ministryName'];
           mId = data['ministryEntityList'][0]['ministryId'];
           
-          this.agencyForm.get(selLangField).setValue(mName);
+          this.updateForm.get(selLangField).setValue(mName);
 
           if(langId == 1)
             this.ministryIdEn = mId;
@@ -374,7 +376,7 @@ export class AgencyComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.agencyForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -397,7 +399,7 @@ export class AgencyComponent implements OnInit {
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
-      this.agencyForm.reset();
+      this.updateForm.reset();
       this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";

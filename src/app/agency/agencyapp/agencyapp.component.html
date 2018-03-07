@@ -18,7 +18,7 @@
     {{'common.msg.unauthorized' | translate}}
   </div>
   
-  <form [formGroup]="agencyAppForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
@@ -36,7 +36,7 @@
             <mat-form-field class="example-full-width ">
               <input matInput tabindex="1" placeholder="Agency Application Name" formControlName="agencyAppNameEn" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyAppForm.controls.agencyAppNameEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agencyAppNameEn.hasError('required')">
                 Agency Application Name is required
               </mat-error>
             </mat-form-field>
@@ -45,7 +45,7 @@
             <mat-form-field class="example-full-width ">
               <input matInput tabindex="2" placeholder="Agency Application Name" formControlName="agencyAppNameBm" value="" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="agencyAppForm.controls.agencyAppNameBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agencyAppNameBm.hasError('required')">
                 Agency Application Name is required
               </mat-error>
             </mat-form-field>
@@ -57,7 +57,7 @@
             <mat-form-field class="example-full-width ">
               <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="agencyAppForm.controls.descEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
@@ -67,7 +67,7 @@
             <mat-form-field class="example-full-width ">
               <textarea matInput tabindex="4" placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="agencyAppForm.controls.descBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
@@ -81,7 +81,7 @@
           <div class="col-md-6" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
               <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (keyup)="getSearchData(agencyEn.value, 1)" (change)="checkReqValues()" required>
-              <mat-error *ngIf="agencyAppForm.controls.agencyEn.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agencyEn.hasError('required')">
                 Agency is required
               </mat-error>
             </mat-form-field>
@@ -97,7 +97,7 @@
           <div class="col-md-6" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
               <input matInput tabindex="5" placeholder="Agency" formControlName="agencyBm" #agencyBm (keyup)="getSearchData(agencyBm.value, 2)" (change)="checkReqValues()" required>
-              <mat-error *ngIf="agencyAppForm.controls.agencyBm.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.agencyBm.hasError('required')">
                 Agency is required
               </mat-error>
             </mat-form-field>
@@ -131,7 +131,7 @@
           <div class="col-md-10">
             <mat-form-field class="example-full-width">
               <input matInput tabindex="6" placeholder="Website URL" formControlName="websiteUrl" (keyup)="checkReqValues()" required>
-              <mat-error *ngIf="agencyAppForm.controls.websiteUrl.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.websiteUrl.hasError('required')">
                 Website URL is required
               </mat-error>
             </mat-form-field>
@@ -148,7 +148,7 @@
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group" *ngIf="commonservice.isUpdate">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success  pull-right"
-            (click)="updateAgencyApp(agencyAppForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            (click)="updateAgencyApp(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning  pull-right"
