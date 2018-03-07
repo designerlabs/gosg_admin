@@ -191,7 +191,7 @@ export class UserpermissionComponent implements OnInit {
 
   updateAsSuperAdmin(){
     this.loading = true;
-    this.commonservice.updateSuperAdmin(this.isAdminSuper).subscribe(
+    this.commonservice.updateSuperAdmin(this.route.snapshot.params.id, this.isAdminSuper).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success('updated successfully', '');
