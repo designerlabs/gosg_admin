@@ -11,7 +11,7 @@
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-        <h3>Ministry Management</h3>
+        <h3>{{ 'ministrytbl.header' | translate }}</h3>
     </div>
     
     <div class="col-md-2 curdHeadingRight">
@@ -56,7 +56,7 @@
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
+        <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'ministrytbl.tableHeader.num' | translate }} </mat-header-cell>
         <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
@@ -64,19 +64,19 @@
 
       <!-- ministryNameEn Column -->
       <ng-container matColumnDef="ministryNameEn">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Ministry Name (EN)</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> {{ 'ministrytbl.tableHeader.nameEn' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[0].ministryName}} </mat-cell>
       </ng-container>
 
       <!-- ministryNameBm Column -->
       <ng-container matColumnDef="ministryNameBm">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> Ministry Name (BM) </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> {{ 'ministrytbl.tableHeader.nameBm' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].ministryName}} </mat-cell>
       </ng-container>
 
       <!-- Action Column -->
       <ng-container matColumnDef="ministryAction">
-        <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'ministrytbl.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
                 <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.refCode }}" ></i>
@@ -112,9 +112,9 @@
       </mat-select>
     </mat-form-field>
     <span class="float-right">
-      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-        <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-        <strong>{{commonservice.recordTable?.totalPages}}</strong> in
+      <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'ministrytbl.tablebottom.page' | translate }}
+        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'ministrytbl.tablebottom.of' | translate }}
+        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'ministrytbl.tablebottom.in' | translate }}
         <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'Ministries' : 'Ministry'}}</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i class="fa fa-angle-left" aria-hidden="true"></i>

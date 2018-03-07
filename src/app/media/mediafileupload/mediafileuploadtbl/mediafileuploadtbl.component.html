@@ -2,7 +2,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-      <h3>Media File Upload Management</h3>
+      <h3>{{ 'mediauploadtbl.header' | translate }}</h3>
     </div>
     <!-- Add option not required for Media Type -->
     <div class="col-md-2 curdHeadingRight">
@@ -20,7 +20,7 @@
     <div class="row" style="padding: 20px;">
       <div class="col-md-4">
             <mat-select placeholder="Search By Category" (change)="selCateType($event)" [(ngModel)]="cateSelect" required>
-                <mat-option value="0">All Category</mat-option>
+                <mat-option value="0">{{ 'mediauploadtbl.filter.all' | translate }}</mat-option>
               <mat-option *ngFor="let obj of objCategory" [value]="obj.list[0].categoryId">{{obj.list[0].categoryName}}</mat-option>
             </mat-select>            
         </div>
@@ -30,10 +30,10 @@
       <div class="col-md-4">
           <button mat-raised-button color="warn" type="button" class="form-control btn btn-md btn-warning pull-right"
           style="width: 100px; font-family: Roboto" (click)="reset()">
-          <i class="fa fa-refresh"></i>&nbsp;Reset</button>
+          <i class="fa fa-refresh"></i>&nbsp;{{ 'mediauploadtbl.button.reset' | translate }}</button>
           <button mat-raised-button color="primary" type="button" class="form-control btn btn-md btn-warning pull-right"
           style="width: 100px; font-family: Roboto" (click)="searchByFileName(fileName)">
-          <i class="fa fa-search"></i>&nbsp;Search</button>         
+          <i class="fa fa-search"></i>&nbsp;{{ 'mediauploadtbl.button.search' | translate }}</button>         
 
       </div>
     </div>
@@ -41,21 +41,21 @@
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
         <ng-container matColumnDef="no">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> No </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> {{ 'mediauploadtbl.tableHeader.num' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
         </ng-container>
         <!-- Media File Column -->
         <ng-container matColumnDef="mediaFile">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 35%'"> Name </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 35%'"> {{ 'mediauploadtbl.tableHeader.name' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" [style.flex]="'0 0 35%'">
             {{element.list[0].mediaFile}}
           </mat-cell>
         </ng-container>
         <!-- Title (EN) Column -->
         <ng-container matColumnDef="catName">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> Category </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> {{ 'mediauploadtbl.tableHeader.category' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 25%'">
             <mat-chip-list>
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.list[0].mediaCategories">
@@ -65,14 +65,14 @@
         </ng-container>
         <!-- ActiveFlag Column -->
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'mediauploadtbl.tableHeader.status' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
             <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
           </mat-cell>
         </ng-container>
         <!-- action Column -->
         <ng-container matColumnDef="action">
-          <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+          <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'mediauploadtbl.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell class="actionColumn padding5" *matCellDef="let element">
             <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.refCode)" title="Update {{ element.refCode }}">
               <i class="fa fa-edit"></i>
@@ -94,7 +94,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <div *ngIf="showNoData" class="row" style="text-align: center; padding: 20px;">No Data Found</div>
+      <div *ngIf="showNoData" class="row" style="text-align: center; padding: 20px;">{{ 'mediauploadtbl.nodata' | translate }}</div>
     </div>
     <div class="float-right paddingTop-15">
       <mat-form-field style="width:50px;">
@@ -106,10 +106,10 @@
         </mat-select>
       </mat-form-field>
       <span class="float-right">
-        <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-          <strong>{{mediaPage?.pageNumber}}</strong> of
-          <strong>{{mediaPage?.totalPages}}</strong> in
-          <strong>{{mediaPage?.totalElements}}</strong> users</span>
+        <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'mediauploadtbl.tablebottom.page' | translate }}
+          <strong>{{mediaPage?.pageNumber}}</strong> {{ 'mediauploadtbl.tablebottom.of' | translate }}
+          <strong>{{mediaPage?.totalPages}}</strong> {{ 'mediauploadtbl.tablebottom.in' | translate }}
+          <strong>{{mediaPage?.totalElements}}</strong> {{ 'mediauploadtbl.tablebottom.media' | translate }}</span>
         <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(mediaPage?.pageNumber)">
           <i class="fa fa-angle-left" aria-hidden="true"></i>
         </button>

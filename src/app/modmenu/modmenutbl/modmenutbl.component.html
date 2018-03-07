@@ -3,7 +3,7 @@
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-        <h3>Module Management</h3>
+        <h3>{{ 'modulemgmttbl.header' | translate }}</h3>
     </div>
     
     <div class="col-md-2 curdHeadingRight">
@@ -34,7 +34,7 @@
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+        <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'modulemgmttbl.tableHeader.num' | translate }} </mat-header-cell>
         <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
@@ -42,7 +42,7 @@
 
       <!-- moduleName Column -->
       <ng-container matColumnDef="moduleName">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">Module Name</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">{{ 'modulemgmttbl.tableHeader.name' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" style="flex: 0 0 20%;">
             {{element.moduleName}}
           </mat-cell>
@@ -50,19 +50,19 @@
 
       <!-- moduleDesc Column -->
       <ng-container matColumnDef="moduleDesc">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;">Module Description</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;">{{ 'modulemgmttbl.tableHeader.description' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 25%;"> {{element.moduleDescription}} </mat-cell>
       </ng-container>
 
       <!-- moduleUrl Column -->
       <ng-container matColumnDef="moduleUrl">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">Module Url</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">{{ 'modulemgmttbl.tableHeader.url' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" style="flex: 0 0 20%;"> {{element.moduleUrl}} </mat-cell>
       </ng-container>
 
       <!-- moduleActiveFlag Column -->
       <ng-container matColumnDef="moduleActiveStatus">
-        <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'modulemgmttbl.tableHeader.status' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
           <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
         </mat-cell>
@@ -70,7 +70,7 @@
       
       <!-- Action Column -->
       <ng-container matColumnDef="moduleAction">
-        <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'modulemgmttbl.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab style="background: orange" (click)="updateRow(element.moduleId)" title="Update {{ element.moduleName }}">
                 <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.fullName }}" ></i>
@@ -106,10 +106,10 @@
       </mat-select>
     </mat-form-field>
     <span class="float-right">
-      <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-        <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-        <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-        <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'Modules' : 'Module'}}</span>
+      <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'modulemgmttbl.tablebottom.page' | translate }}
+        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'modulemgmttbl.tablebottom.of' | translate }}
+        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'modulemgmttbl.tablebottom.in' | translate }}
+        <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'modulemgmttbl.tablebottom.modules' | translate }}</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i class="fa fa-angle-left" aria-hidden="true"></i>
       </button>

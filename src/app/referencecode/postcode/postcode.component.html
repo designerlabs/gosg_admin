@@ -2,7 +2,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-      <h3>Postcode</h3>
+      <h3>{{ 'postcode.header' | translate }}</h3>
     </div>
   </div>
   <div *ngIf="!commonservice.isRead" class="alert alert-danger">
@@ -30,10 +30,10 @@
 
     <h3>
       <span *ngIf="selStateInfo">
-        {{selStateInfo?.value.stateName}} (State ID: {{selStateInfo?.value.stateId}})
+        {{selStateInfo?.value.stateName}} ({{ 'postcode.stateid' | translate }}: {{selStateInfo?.value.stateId}})
       </span>
       <span *ngIf="getPostData">
-        ,{{selCityInfo?.value.cityName}} (City Code: {{selCityInfo?.value.cityCode}})
+        ,{{selCityInfo?.value.cityName}} ({{ 'postcode.citycode' | translate }}: {{selCityInfo?.value.cityCode}})
       </span>
     </h3>
     <div *ngIf="getPostData">
