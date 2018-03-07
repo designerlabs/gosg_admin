@@ -35,8 +35,8 @@
         </ng-container>
         <!-- categoryName Column -->
         <ng-container matColumnDef="catName">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 30%'"> Category </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 30%'">
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 45%'"> Category </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 45%'">
             <mat-chip-list>
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories.length > 3 ? element.mediaTypeCategories.slice(0,3): element.mediaTypeCategories">
                 {{ele.category.categoryName}}</mat-chip>
