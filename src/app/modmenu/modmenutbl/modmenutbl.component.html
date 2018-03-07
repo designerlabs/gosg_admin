@@ -45,22 +45,22 @@
 
       <!-- moduleName Column -->
       <ng-container matColumnDef="moduleName">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">Module Name</mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 20%;">
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;">Module Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" style="flex: 0 0 30%;">
             {{element.moduleName}}
           </mat-cell>
       </ng-container>
 
       <!-- moduleDesc Column -->
       <ng-container matColumnDef="moduleDesc">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;">Module Description</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 25%;"> {{element.moduleDescription}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;">Module Description</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 30%;"> {{element.moduleDescription}} </mat-cell>
       </ng-container>
 
       <!-- moduleUrl Column -->
       <ng-container matColumnDef="moduleUrl">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;">Module Url</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 20%;"> {{element.moduleUrl}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef style="flex: 0 0 15%;">Module Url</mat-header-cell>
+        <mat-cell *matCellDef="let element" style="flex: 0 0 15%;"> {{element.moduleUrl}} </mat-cell>
       </ng-container>
 
       <!-- moduleActiveFlag Column -->
@@ -73,16 +73,16 @@
       
       <!-- Action Column -->
       <ng-container matColumnDef="moduleAction">
-        <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="actionColumn">
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> Action </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="statusColumn">
             <button mat-mini-fab style="background: orange" (click)="updateRow(element.moduleId)" title="Update {{ element.moduleName }}">
                 <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.fullName }}" ></i>
                 <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fullName }}" ></i> -->
             </button>
-            &nbsp;
+            <!-- &nbsp;
             <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.moduleName }}">
               <i class="fa fa-trash"  title="Delete {{ element.moduleName }}"></i>
-            </button>
+            </button> -->
             <app-confirm-dialog  #deleteRow 
             [title]="'common.icon.warn'" 
             [content]="'common.msg.delete'"

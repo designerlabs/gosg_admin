@@ -58,6 +58,10 @@
               <mat-hint align="end">{{languageDescription.value?.length || 0}}/10000</mat-hint>
             </mat-form-field>
           </div>
+          <div class="col-md-2 paddingTop-20">
+            <mat-checkbox tabindex="7" formControlName="isDefault" [checked]="false" [value]="false"></mat-checkbox>
+            <span>&nbsp;is Default</span>
+          </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
       </div>
