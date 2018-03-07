@@ -121,31 +121,34 @@ export class CategorytblComponent implements OnInit {
   getFilterList(count, size, val) {
   
     this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
-    this.loading = true;
-    this.http.get(this.dataUrl)
-    .subscribe(data => {
+    
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
+      this.loading = true;
+      this.http.get(this.dataUrl)
+      .subscribe(data => {
 
-      this.commonservice.errorHandling(data, (function(){
+        this.commonservice.errorHandling(data, (function(){
 
-        this.recordList = data;
-        console.log("data");
-        console.log(data);
-        
-        this.dataSource.data = this.recordList.list;
-        this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
-        this.commonservice.recordTable = this.recordList;
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.list;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-      }).bind(this));
-      this.loading = false;
-    },
-    error => {
-
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        }).bind(this));
         this.loading = false;
-        console.log(error);
-    });
+      },
+      error => {
+
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          this.loading = false;
+          console.log(error);
+      });
+    }
   }
 
   resetSearch() {
