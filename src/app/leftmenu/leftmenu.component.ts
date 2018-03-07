@@ -39,9 +39,9 @@ export class LeftmenuComponent implements OnInit {
     new User('Shelley'),
     new User('Igor')
   ];
-  panelOpenState: false;
+  panelOpenState: boolean = false;
   filteredOptions: Observable<User[]>;
-  value = 'Clear me';
+  value = '';
   dataUrl: any;
   languageId: any;
 //   public objMenu: object;
@@ -58,6 +58,10 @@ applyFilter(keyword) {
     this.getUserData();
   }
 
+}
+
+resetSearch() {
+  this.getUserData()
 }
 
   // tslint:disable-next-line:max-line-length
@@ -135,7 +139,7 @@ applyFilter(keyword) {
         this.commonservice.errorHandling(data, (function(){
 
           this.menulst = data;
-          // this.getUserData();
+          this.panelOpenState = true;
 
         }).bind(this));
         this.loading = false; 
