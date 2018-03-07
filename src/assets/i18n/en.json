@@ -34,7 +34,8 @@
       "groupingManagement": "Grouping Management",
       "groupingDetails": "Sorting and Grouping from isolate module",
       "adminDetails": "Assign Admin user and providing permission",
-      "modules": "Modules"
+      "modules": "Modules",
+      "allmodules": "All Modules"
     },
     "check": "Review",
     "readmore": "Read More",

@@ -34,7 +34,8 @@
       "groupingManagement": "Pengurusan Pengumpulan",
       "groupingDetails": "Penyusun dan Pengumpulan dari modul yang berasingan",
       "adminDetails": "Menetapkan pengguna Admin dan memberikan kebenaran",
-      "modules": "Modul"
+      "modules": "Modul",
+      "allmodules": "Semua Modul"
     },
     "check": "Semak",
     "readmore": "Seterusnya",
