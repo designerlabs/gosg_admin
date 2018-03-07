@@ -2,7 +2,7 @@
         <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Identification Type</h3>
+            <h3>{{ 'identificationtypetbl.header' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -19,21 +19,21 @@
         <div class="example-container mat-elevation-z8">
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
                 <ng-container matColumnDef="no">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'identificationtypetbl.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="identificationEng">
-                        <mat-header-cell class="text-align-left" *matHeaderCellDef> Identification Type (English) </mat-header-cell>
+                        <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'identificationtypetbl.tableHeader.idtypeEn' | translate }} </mat-header-cell>
                         <mat-cell class="text-align-left" *matCellDef="let element">
                             {{element.list[1].identificationType}}
                         </mat-cell>
                     </ng-container>
 
                 <ng-container matColumnDef="identificationMy">
-                    <mat-header-cell class="text-align-left" *matHeaderCellDef> Identification Type (Malay) </mat-header-cell>
+                    <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'identificationtypetbl.tableHeader.idtypeBm' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" *matCellDef="let element">
                         {{element.list[0].identificationType}}
                     </mat-cell>
@@ -84,10 +84,10 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> Identification Type list
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'identificationtypetbl.tablebottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'identificationtypetbl.tablebottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'identificationtypetbl.tablebottom.in' | translate }}
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'identificationtypetbl.tablebottom.idtype' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>

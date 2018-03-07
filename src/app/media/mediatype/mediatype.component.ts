@@ -90,7 +90,7 @@ export class MediatypeComponent implements OnInit {
   ngOnInit() {
     // debugger;
     this.commonservice.getModuleId();
-    let refCode = this.router.url.split('/')[2];
+    let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
     this.catType = new FormControl();
     this.filetype = new FormControl();
@@ -130,7 +130,7 @@ export class MediatypeComponent implements OnInit {
 
 
   back() {
-    this.router.navigate(['mediatype']);
+    this.router.navigate(['media/type']);
   }
 
   loadMedia() {

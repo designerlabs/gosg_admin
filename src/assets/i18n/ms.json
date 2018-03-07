@@ -10,7 +10,8 @@
       "manual": "Manual",
       "aboutus": "Mengenai Kami",
       "onlineservice": "Perkhidmatan Digital",
-      "logout":"Log keluar"
+      "logout":"Log keluar",
+      "viewsite":"Lihat Laman"
     },
     "search": {
       "label": "Bagaimana Kami Boleh Membantu Anda?"
@@ -26,6 +27,14 @@
     "expandButton": {
       "less": "Lihat Ringkasan",
       "more": "Lihat Selanjutnya"
+    },
+    "content": {
+      "groupingPermisionModules": "Modul Pengumpulan dan Kebenaran",
+      "adminManagement": "Pengurusan Pentadbiran",
+      "groupingManagement": "Pengurusan Pengumpulan",
+      "groupingDetails": "Penyusun dan Pengumpulan dari modul yang berasingan",
+      "adminDetails": "Menetapkan pengguna Admin dan memberikan kebenaran",
+      "modules": "Modul"
     },
     "check": "Semak",
     "readmore": "Seterusnya",
@@ -292,5 +301,400 @@
     "title":"Sorotan Terkini",
     "description":"Semua Sorotan Terkini",
     "message":"Tiada maklumat terkini."
+  },
+  "module":{
+    "adminManagement": "Pengurusan pengguna Admin",
+    "groupList": "Senarai Kumpulan",
+    "accountStatusList": "Senarai Status Akaun"
+  },
+  "table": {
+    "no": "Bil",
+    "username": "Nama Pengguna",
+    "icno": "No. KP",
+    "moduleGroupName": "Senarai Kumpulan Modul",
+    "activeFlag": "Status",
+    "action": "Tindakan",
+    "pages": "Halaman",
+    "of": "daripada",
+    "in": "dalam",
+    "user": {
+      "username": "Username",
+      "icno": "IC No.",
+      "moduleGroupName": "Senarai Kumpulan Modul",
+      "users": "Pengguna"
+    },
+    "addUser" : {
+      "byEmail": "Emel",
+      "byICNo": "No KP",
+      "add": "Add User By"
+    },
+    "group": {
+      "moduleGroupName": "Nama Kumpulan",
+      "moduleName": "Modul"
+    }
+  },
+  "accstatuslist": {
+    "header": "Senarai Status Akaun",
+    "tableHeader":{
+      "num": "Bil.",
+      "accStatus": "Status Akaun",
+      "activeStatus": "Status Aktif"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "accStatus": "status akaun"
+    }
+  },
+  "addresstype": {
+    "header": "Senarai Jenis Alamat",
+    "tableHeader":{
+      "num": "Bil.",
+      "addresstypeEn": "Jenis Alamat (EN)",
+      "addresstypeBm": "Jenis Alamat (BM)",
+      "activestatus": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "addrtype": "jenis alamat"
+    }
+  },
+  "agency": {
+    "header": "Pengurusan Agensi",
+    "tableHeader":{
+      "num": "Bil.",
+      "agencytypeEn": "Nama Jenis Agensi (EN)",
+      "agencytypeBm": "Nama Jenis Agensi (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "agency": "agensi"
+    }
+  },
+  "agencyapp": {
+    "header": "Pengurusan Aplikasi Agensi",
+    "tableHeader":{
+      "num": "Bil.",
+      "appnameEn": "Nama Aplikasi (EN)",
+      "appnameBm": "Nama Aplikasi (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "agency": "aplikasi"
+    }
+  },
+  "category": {
+    "header": "Pengurusan Kategori",
+    "tableHeader":{
+      "num": "Bil.",
+      "categoryEn": "Kategori (EN)",
+      "categoryBm": "Kategori (BM)",
+      "activestatus": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "category": "pengurusan kategori"
+    }
+  },
+  "city": {
+    "header": "Bandar",
+    "tableHeader":{
+      "num": "Bil.",
+      "cityname": "Nama Bandar",
+      "cityid": "Id Bandar",
+      "citycode": "Kod Bandar",
+      "statename": "Nama Negeri",
+      "stateid": "Id Negeri"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "citylist": "senarai bandar"
+    }
+  },
+  "citizentypes": {
+    "header": "Jenis Penduduk / Pengguna",
+    "tableHeader":{
+      "num": "Bil.",
+      "usertypeEn": "Jenis Pengguna (English)",
+      "usertypeBm": "Jenis Pengguna (Malay)",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "usertypelist": "senarai Jenis Pengguna"
+    }
+  },
+  "color": {
+    "header": "Pengurusan Warna",
+    "tableHeader":{
+      "num": "Bil.",
+      "colortitle": "Tajuk Warna",
+      "colorcode": "Kod Warna",
+      "status": "Status",
+      "default": "Default",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "colors": "warna"
+    }
+  },
+  "contentmgmt": {
+    "header": "Pengurusan Kandungan",
+    "tableHeader":{
+      "num": "No.",
+      "categoryEn": "Kategori (EN)",
+      "categoryBm": "Kategori (BM)",
+      "activestatus": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "contentmgmt": "pengurusan kandungan"
+    }
+  },
+  "country": {
+    "header": "Negara",
+    "tableHeader":{
+      "num": "Bil.",
+      "countryname": "Nama Negara",
+      "countrycode": "Kod Negara",
+      "dialcode": "Dial Kod"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "country": "senarai negara"
+    }
+  },
+  "errormsg": {
+    "header": "Pengurusan Mesej Error",
+    "tableHeader":{
+      "num": "Bil.",
+      "code": "Kod Mesej Error",
+      "descriptionEn": "Keterangan (EN)",
+      "descriptionBm": "Keterangan (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "errmsg": "mesej error"
+    }
+  },
+  "faq": {
+    "header": "Senarai Soalan Lazim",
+    "tableHeader":{
+      "num": "Bil.",
+      "questionEn": "Soalan (EN)",
+      "questionBm": "Soalan (BM)",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "question": "soalan"
+    }
+  },
+  "feedbacktbl": {
+    "header": "Senarai Maklum Balas Admin",
+    "tableHeader":{
+      "num": "No.",
+      "feedbacktype": "Jenis Maklum Balas",
+      "name": "Nama",
+      "email": "Emel",
+      "status": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "feedback": "mesej maklum balas"
+    }
+  },
+  "feedbackvisitortbl": {
+    "header": "Senarai Maklum Balas Pelawat",
+    "tableHeader":{
+      "num": "No.",
+      "feedbacktype": "Jenis Maklum Balas",
+      "name": "Nama",
+      "email": "Emel",
+      "status": "Status Draf",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "feedback": "mesej maklum balas"
+    },
+    "filterby": {
+      "filterby": "Tapisan Mengikut",
+      "all": "Semua",
+      "email": "Emel",
+      "keyword": "Kata Kunci"
+    }
+  },
+  "feedbackmsg": {
+    "header": "Mesej Maklum Balas",
+    "feedbackinfo": "Informasi Maklum Balas",
+    "name": "Nama",
+    "type": "Jenis",
+    "subject": "Subjek",
+    "msg": "Mesej",
+    "replysection": "Bahagian Balasan"
+  },
+  "feedbacksubjecttbl": {
+    "header": "Senarai Subjek Maklum Balas",
+    "tableHeader":{
+      "num": "Bil.",
+      "subjectEn": "Subjek (EN)",
+      "subjectBm": "Subjek (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "feedbacksubject": "subjek maklum balas"
+    }
+  },
+  "feedbacktypetbl": {
+    "header": "Senarai Jenis Maklum Balas",
+    "tableHeader":{
+      "num": "No.",
+      "typeEn": "Jenis (EN)",
+      "typeBm": "Jenis (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "feedbacktype": "jenis maklum balas"
+    }
+  },
+  "fonttbl": {
+    "header": "Senarai Tetapan Fon",
+    "tableHeader":{
+      "num": "Bil.",
+      "name": "Nama",
+      "url": "Url",
+      "defaultstatus": "Status Default",
+      "activestatus": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "font": "tetapan fon"
+    }
+  },
+  "footercategorytbl": {
+    "header": "Kategori Footer",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Kategori Footer (EN)",
+      "footercategoryBm": "Kategori Footer (BM)",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "footer": "senarai kategori footer"
+    }
+  },
+  "footercontenttbl": {
+    "header": "Kandungan Footer",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Kategori Footer (EN)",
+      "nameEn": "Nama (EN)",
+      "nameBm": "Nama (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "footer": "senarai kandungan footer"
+    }
+  },
+  "gallerytbl": {
+    "header": "Pengurusan Galeri",
+    "tableHeader":{
+      "num": "Bil.",
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "gallery": "senarai galeri"
+    }
+  },
+  "gender": {
+    "header": "Jantina",
+    "tableHeader":{
+      "num": "Bil.",
+      "genderEn": "Jantina (EN)",
+      "genderBm": "Jantina (BM)"
+    }
+  },
+  "identificationtypetbl": {
+    "header": "Jenis Pengenalan",
+    "tableHeader":{
+      "num": "No.",
+      "idtypeEn": "Jenis Pengenalan (EN)",
+      "idtypeBm": "Jenis Pengenalan (BM)"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "idtype": "senarai jenis pengenalan"
+    }
+  },
+  "langtbl": {
+    "header": "Pengurusan Bahasa",
+    "tableHeader":{
+      "num": "Bil.",
+      "code": "Kod",
+      "name": "Nama Bahasa",
+      "description": "Keterangan Bahasa"
+    }
   }
 }

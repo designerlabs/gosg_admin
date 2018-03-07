@@ -10,7 +10,8 @@
       "manual": "User Manual",
       "aboutus": "About Us",
       "onlineservice": "Digital Services",
-      "logout":"Logout"
+      "logout":"Logout",
+      "viewsite":"View Site"
     },
     "search": {
       "label": "How Can We Help You?"
@@ -26,6 +27,14 @@
     "expandButton": {
       "less": "Show Less",
       "more": "Show More"
+    },
+    "content": {
+      "groupingPermisionModules": "Grouping and Permission Modules",
+      "adminManagement": "Admin Management",
+      "groupingManagement": "Grouping Management",
+      "groupingDetails": "Sorting and Grouping from isolate module",
+      "adminDetails": "Assign Admin user and providing permission",
+      "modules": "Modules"
     },
     "check": "Review",
     "readmore": "Read More",
@@ -252,17 +261,18 @@
       "warn":"bg_header bg_warn_header",
       "info":"bg_header bg_info_header"
     }
-    
   },
   "appmngt":{
     "setSearch":{
       "moreOpt": "More Search Options",
       "appNumber": "Application Number",
       "agency": "Agency",
+      "chooseAgency": "Choose Agency",
       "startDate": "Start Date",
       "endDate": "End Date",
       "appStatus": "Application Status",
-      "search": "Search"
+      "search": "Search",
+      "chooseStatus": "Choose Status"
     },
     "tableHeader":{
       "num": "No.",
@@ -291,5 +301,400 @@
     "title":"Highlights",
     "description":"All Highlight",
     "message":"No latest information."
+  },
+  "module":{
+    "adminManagement": "User Admin Management",
+    "groupList": "Groups List",
+    "accountStatusList": "Account Status List"
+  },
+  "table": {
+    "no": "No",
+    "username": "Username",
+    "icno": "IC No.",
+    "moduleGroupName": "Modules Group List",
+    "activeFlag": "Status",
+    "action": "Action",
+    "pages": "Pages",
+    "of": "of",
+    "in": "in",
+    "user": {
+      "username": "Username",
+      "icno": "IC No.",
+      "moduleGroupName": "Modules Group List",
+      "users": "Users"
+    },
+    "addUser" : {
+      "byEmail": "by Email",
+      "byICNo": "by IC No.",
+      "add": "Add User By"
+    },
+    "group": {
+      "moduleGroupName": "Group Name",
+      "moduleName": "Modules"
+    }
+  },
+  "accstatuslist": {
+    "header": "Account Status List",
+    "tableHeader":{
+      "num": "No.",
+      "accStatus": "Account Status",
+      "activeStatus": "Active Status"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "accStatus": "account status"
+    }
+  },
+  "addresstype": {
+    "header": "Address Type List",
+    "tableHeader":{
+      "num": "No.",
+      "addresstypeEn": "Address Type (EN)",
+      "addresstypeBm": "Address Type (BM)",
+      "activestatus": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "addrtype": "address type"
+    }
+  },
+  "agency": {
+    "header": "Agency Management",
+    "tableHeader":{
+      "num": "No.",
+      "agencytypeEn": "Agency Type Name (EN)",
+      "agencytypeBm": "Agency Type Name (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "agency": "agencies"
+    }
+  },
+  "agencyapp": {
+    "header": "Agency Application Management",
+    "tableHeader":{
+      "num": "No.",
+      "appnameEn": "Application Name (EN)",
+      "appnameBm": "Application Name (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "agency": "applications"
+    }
+  },
+  "category": {
+    "header": "Category Management",
+    "tableHeader":{
+      "num": "No.",
+      "categoryEn": "Category (EN)",
+      "categoryBm": "Category (BM)",
+      "activestatus": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "category": "category management"
+    }
+  },
+  "city": {
+    "header": "City",
+    "tableHeader":{
+      "num": "No.",
+      "cityname": "City Name",
+      "cityid": "City Id",
+      "citycode": "City Code",
+      "statename": "State Name",
+      "stateid": "State Id"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "citylist": "city lists"
+    }
+  },
+  "citizentypes": {
+    "header": "Citizen / User Type",
+    "tableHeader":{
+      "num": "No.",
+      "usertypeEn": "User Type (English)",
+      "usertypeBm": "User Type (Malay)",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "usertypelist": "User Type list"
+    }
+  },
+  "color": {
+    "header": "Color Management",
+    "tableHeader":{
+      "num": "No.",
+      "colortitle": "Color Title",
+      "colorcode": "Color Code",
+      "status": "Status",
+      "default": "Default",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "colors": "colors"
+    }
+  },
+  "contentmgmt": {
+    "header": "Content Management",
+    "tableHeader":{
+      "num": "No.",
+      "categoryEn": "Category (EN)",
+      "categoryBm": "Category (BM)",
+      "activestatus": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "contentmgmt": "content management"
+    }
+  },
+  "country": {
+    "header": "Country",
+    "tableHeader":{
+      "num": "No.",
+      "countryname": "Country Name",
+      "countrycode": "Country Code",
+      "dialcode": "Dial Code"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "country": "country list"
+    }
+  },
+  "errormsg": {
+    "header": "Error Message Management",
+    "tableHeader":{
+      "num": "No.",
+      "code": "Error Message Code",
+      "descriptionEn": "Description (EN)",
+      "descriptionBm": "Description (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "errmsg": "error messages"
+    }
+  },
+  "faq": {
+    "header": "FAQs List",
+    "tableHeader":{
+      "num": "No.",
+      "questionEn": "Question (EN)",
+      "questionBm": "Question (BM)",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "question": "questions"
+    }
+  },
+  "feedbacktbl": {
+    "header": "Feedback Admin List",
+    "tableHeader":{
+      "num": "No.",
+      "feedbacktype": "Feedback Type",
+      "name": "Name",
+      "email": "Email",
+      "status": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "feedback": "feedback message"
+    }
+  },
+  "feedbackvisitortbl": {
+    "header": "Feedback Visitor List",
+    "tableHeader":{
+      "num": "No.",
+      "feedbacktype": "Feedback Type",
+      "name": "Name",
+      "email": "Email",
+      "status": "Draft Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "feedback": "feedback message"
+    },
+    "filterby": {
+      "filterby": "Filter By",
+      "all": "All",
+      "email": "Email",
+      "keyword": "Keywords"
+    }
+  },
+  "feedbackmsg": {
+    "header": "Feedback Message",
+    "feedbackinfo": "Feedback Information",
+    "name": "Name",
+    "type": "Type",
+    "subject": "Subject",
+    "msg": "Message",
+    "replysection": "Reply Section"
+  },
+  "feedbacksubjecttbl": {
+    "header": "Feedback Subject List",
+    "tableHeader":{
+      "num": "No.",
+      "subjectEn": "Subject (EN)",
+      "subjectBm": "Subject (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "feedbacksubject": "feedback subject"
+    }
+  },
+  "feedbacktypetbl": {
+    "header": "Feedback Type List",
+    "tableHeader":{
+      "num": "No.",
+      "typeEn": "Type (EN)",
+      "typeBm": "Type (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "feedbacktype": "feedback type"
+    }
+  },
+  "fonttbl": {
+    "header": "Font Settings List",
+    "tableHeader":{
+      "num": "No.",
+      "name": "Name",
+      "url": "Url",
+      "defaultstatus": "Default Status",
+      "activestatus": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "font": "font setting"
+    }
+  },
+  "footercategorytbl": {
+    "header": "Footer Category",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Footer Category (EN)",
+      "footercategoryBm": "Footer Category (BM)",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "footer": "footer category list"
+    }
+  },
+  "footercontenttbl": {
+    "header": "Footer Content",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Footer Category (EN)",
+      "nameEn": "Name (EN)",
+      "nameBm": "Name (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "footer": "footer content list"
+    }
+  },
+  "gallerytbl": {
+    "header": "Gallery Management",
+    "tableHeader":{
+      "num": "No.",
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "gallery": "gallery list"
+    }
+  },
+  "gender": {
+    "header": "Gender",
+    "tableHeader":{
+      "num": "No.",
+      "genderEn": "Gender (EN)",
+      "genderBm": "Gender (BM)"
+    }
+  },
+  "identificationtypetbl": {
+    "header": "Identification Type",
+    "tableHeader":{
+      "num": "No.",
+      "idtypeEn": "Identification Type (EN)",
+      "idtypeBm": "Identification Type (BM)"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "idtype": "identification type list"
+    }
+  },
+  "langtbl": {
+    "header": "Language Management",
+    "tableHeader":{
+      "num": "No.",
+      "code": "Code",
+      "name": "Language Name",
+      "description": "Language Description"
+    }
   }
 }

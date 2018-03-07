@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Feedback Type List</h3>
+            <h3>{{ 'feedbacktypetbl.header' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -31,7 +31,7 @@
             
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'feedbacktypetbl.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -39,7 +39,7 @@
         
                 <!-- type en Column -->
                 <ng-container matColumnDef="feedbackEng">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (EN) </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'feedbacktypetbl.tableHeader.typeEn' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.list[1].feedbackTypeDescription}} 
                     </mat-cell>
@@ -47,7 +47,7 @@
 
                 <!-- type bm Column -->
                 <ng-container matColumnDef="feedbackMalay">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Type (BM) </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'feedbacktypetbl.tableHeader.typeBm' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.list[0].feedbackTypeDescription}}
                     </mat-cell>
@@ -55,7 +55,7 @@
         
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'feedbacktypetbl.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
                         <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.refCode }}" ></i>
@@ -90,10 +90,10 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> feedback type
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'feedbacktypetbl.tablebottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'feedbacktypetbl.tablebottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'feedbacktypetbl.tablebottom.in' | translate }}
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'feedbacktypetbl.tablebottom.feedbacktype' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
