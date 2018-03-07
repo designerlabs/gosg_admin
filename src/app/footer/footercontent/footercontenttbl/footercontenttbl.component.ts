@@ -38,6 +38,7 @@ export class FootercontenttblComponent implements OnInit {
 
   dataUrl: any;  
   languageId: any;
+  showNoData = false;
 
   public getIdentificationTypeIdEng: any;
   public getIdentificationTypeIdMy: any;
@@ -101,15 +102,24 @@ export class FootercontenttblComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+        if(this.recordList.list.length > 0){
+          console.log("data");
+          console.log(data);
 
-        this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
-        
-        this.dataSource.data = this.recordList.list;
-        this.commonservice.recordTable = this.recordList;
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          
+          this.dataSource.data = this.recordList.list;
+          this.commonservice.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+          this.showNoData = false;
+        }
+
+        else{
+          this.dataSource.data = []; 
+          this.showNoData = true;
+        }
 
       }).bind(this)); 
       this.loading = false;
@@ -133,15 +143,25 @@ export class FootercontenttblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
 
-          console.log("data");
-          console.log(data);
+          if(this.recordList.list.length > 0){
 
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          
-          this.dataSource.data = this.recordList.list;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            console.log("data");
+            console.log(data);
+
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            
+            this.dataSource.data = this.recordList.list;
+            this.commonservice.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
 
         }).bind(this)); 
         this.loading = false;

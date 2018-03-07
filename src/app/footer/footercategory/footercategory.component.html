@@ -102,7 +102,7 @@
         
         </div>
         <!-- #### for disable non update user 2 -->
-        <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate">
+        <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
             <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
             (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
