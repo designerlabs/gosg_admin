@@ -36,3 +36,10 @@
     text-decoration: none;
     color: #000;
 }
+
+.searchMod{
+    display: block;
+    padding: 10px 5px;
+    font-size: 14px;
+    color: #000;
+}
