@@ -2,7 +2,7 @@
         <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Polls Results List</h3>
+            <h3>{{ 'pollresult.header' | translate }}</h3>
         </div>
     </div>
 
@@ -23,7 +23,7 @@
 
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -31,7 +31,7 @@
 
                 <!-- Question 1 Column -->
                 <ng-container matColumnDef="question">
-                    <mat-header-cell class="text-align-Left" style="flex: 0 0 21%;" *matHeaderCellDef> Question </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 21%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.question' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left padding5" style="flex: 0 0 21%;" *matCellDef="let element">
                         {{element.en[0].pollquestion}} 
                     </mat-cell>
@@ -39,7 +39,7 @@
             
                 <!-- Option 1 Column -->
                 <ng-container matColumnDef="opt1">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 1 </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt1' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[0].option != null" class="col-md-12">
                             {{element.en[0].options[0].option}} <br>
@@ -51,7 +51,7 @@
 
                 <!-- Option 2 Column -->
                 <ng-container matColumnDef="opt2">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 2 </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt2' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[1].option != null" class="col-md-12">
                             {{element.en[0].options[1].option}} <br>
@@ -63,7 +63,7 @@
             
                 <!-- Option 3 Column -->
                 <ng-container matColumnDef="opt3">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 3 </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt3' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[2].option != null" class="col-md-12">
                             {{element.en[0].options[2].option}} <br>
@@ -75,7 +75,7 @@
 
                 <!-- Option 4 Column -->
                 <ng-container matColumnDef="opt4">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 4 </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef>{{ 'pollresult.tableHeader.opt4' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[3].option != null" class="col-md-12">
                             {{element.en[0].options[3].option}} <br>
@@ -87,7 +87,7 @@
 
                 <!-- Option 5 Column -->
                 <ng-container matColumnDef="opt5">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> Option 5 </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt5' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[4].option != null" class="col-md-12">
                             {{element.en[0].options[4].option}} <br>
@@ -113,10 +113,10 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> polls results
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'pollresult.tablebottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'pollresult.tablebottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'pollresult.tablebottom.in' | translate }}
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'pollresult.tablebottom.pollresults' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>
