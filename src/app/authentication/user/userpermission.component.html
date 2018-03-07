@@ -31,13 +31,13 @@
 
         <div class="row">
             <div class="col-md-12">
-                <mat-checkbox formControlName="superAdmin" (change)="isSuperAdmin($event)"></mat-checkbox><span class="font-size-s">&nbsp;Super Admin</span>
+                <mat-checkbox formControlName="superAdmin" (change)="isSuperAdmin($event)"></mat-checkbox><span class="font-size-s">&nbsp;{{ 'admin.component.superadmin' | translate }}</span>
             </div>
         </div>
         <div class="row">&nbsp;</div>
         <div *ngIf="!isAdminSuper">
         <ul  class="dragdrop_container">
-            <li><b>Group Module Name</b></li>
+            <li><b>{{ 'admin.component.groupmodule' | translate }}</b></li>
             <li *ngFor='let group of moduleList?.items' (click)="moveItem(group)">
                  {{group.moduleGroupName}}
             </li>
@@ -45,7 +45,7 @@
         
         <div class="middle_icon"><img src="assets/images/switch.png" alt=""></div>
         <ul class="drop_container" style="width:500px;">
-            <li><div class="grouping_container">Group Modules and Permission</div><div class="permission_container"><span>R</span><span>W</span><span>U</span><span>D</span></div></li>
+            <li><div class="grouping_container">{{ 'admin.component.modpermision' | translate }}</div><div class="permission_container"><span>R</span><span>W</span><span>U</span><span>D</span></div></li>
             <li *ngFor='let group of selectedItems?.items' >
                 
                 <ul (click)="moveItemR(group, $event)">
@@ -69,7 +69,7 @@
 
         <div class="row">
         <div class="col-md-12">
-            <mat-checkbox formControlName="active"></mat-checkbox><span class="font-size-s">&nbsp;Active</span>
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="font-size-s">&nbsp;{{ 'admin.component.active' | translate }}</span>
         </div>
         </div>
         <div class="row"></div>
@@ -77,11 +77,11 @@
             
             <button *ngIf="!isAdminSuper" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1))" color="primary" #updateBtn id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
             (click)="submit();false" style="width: 100px; font-family: Roboto; margin-left: 5px;">
-            <i class="fa fa-check"></i> Update</button>
+            <i class="fa fa-check"></i> {{ 'admin.component.update' | translate }}</button>
 
             <button *ngIf="isAdminSuper" mat-raised-button type="button" color="primary" #updateBtn id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
             (click)="updateAsSuperAdmin();false" style="width: 100px; font-family: Roboto; margin-left: 5px;">
-            <i class="fa fa-check"></i> Update</button>
+            <i class="fa fa-check"></i> {{ 'admin.component.update' | translate }}</button>
         </div>
        
        

@@ -122,7 +122,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.checkReqValues();
     
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
+    if(!this.commonservice.isUpdate || !this.commonservice.isWrite){
       this.userForm.disable();
     }
   }

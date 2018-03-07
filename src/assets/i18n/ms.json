@@ -32,7 +32,7 @@
       "groupingPermisionModules": "Modul Pengumpulan dan Kebenaran",
       "adminManagement": "Pengurusan Pentadbiran",
       "groupingManagement": "Pengurusan Pengumpulan",
-      "groupingDetails": "Penyusun dan Pengumpulan dari modul yang berasingan",
+      "groupingDetails": "Penyusunan dan Pengumpulan dari modul yang berasingan",
       "adminDetails": "Menetapkan pengguna Admin dan memberikan kebenaran",
       "modules": "Modul",
       "allmodules": "Semua Modul"
@@ -304,7 +304,7 @@
     "message":"Tiada maklumat terkini."
   },
   "module":{
-    "adminManagement": "Pengurusan pengguna Admin",
+    "adminManagement": "Pengurusan Pengguna Admin",
     "groupList": "Senarai Kumpulan",
     "accountStatusList": "Senarai Status Akaun"
   },
@@ -314,6 +314,7 @@
     "icno": "No. KP",
     "moduleGroupName": "Senarai Kumpulan Modul",
     "activeFlag": "Status",
+    "isSuperAdmin": "Is Super Admin",
     "action": "Tindakan",
     "pages": "Halaman",
     "of": "daripada",
@@ -702,7 +703,7 @@
       "code": "Kod",
       "name": "Nama Bahasa",
       "description": "Keterangan Bahasa",
-      "default": "Default"
+      "isDefault": "Default"
     }
   },
   "mediauploadtbl": {
@@ -911,8 +912,17 @@
     }
   },
   "admin": {
-    "header": "Pengurusan Admin",
+    "header": "Pengurusan Pengguna Admin",
+    "tablebottom": {
+      "users": "pengguna"
+    },
     "component": {
+      "permision": "Pengurusan Peranan dan Kebenaran",
+      "superadmin": "Super Admin",
+      "groupmodule": "Nama Kumpulan Modul",
+      "modpermision": "Kumpulan Modul dan Kebenaran",
+      "active": "Aktif",
+      "update": "Kemaskini"
     },
     "addby": {
       "email": "mengikut Emel",
