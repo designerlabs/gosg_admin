@@ -20,7 +20,7 @@
       {{'common.msg.unauthorized' | translate}}
   </div>
 
-  <form [formGroup]="userForm" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" autocomplete="off" role="form" novalidate>
 
     <div class="example-container mat-elevation-z8 padding-10">
 
@@ -88,7 +88,7 @@
 
     <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
       <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
-        (click)="updateAction(userForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        (click)="updateAction(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
         <i *ngIf="complete" class="fa fa-check"></i>
         <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
       <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="form-control btn btn-md btn-warning pull-right"

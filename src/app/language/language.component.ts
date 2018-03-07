@@ -18,7 +18,7 @@ export class LanguageComponent implements OnInit {
   
   LanguageData: Object;
   date = new Date();
-  languageForm: FormGroup
+  updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -77,7 +77,7 @@ export class LanguageComponent implements OnInit {
     this.languageDescription = new FormControl()
     this.isDefault = new FormControl()
 
-    this.languageForm = new FormGroup({
+    this.updateForm = new FormGroup({
       languageName: this.languageName,
       languageDescription: this.languageDescription,
       languageCode: this.languageCode,
@@ -96,8 +96,10 @@ export class LanguageComponent implements OnInit {
     this.commonservice.getModuleId();
     
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
-      this.languageForm.disable();
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
     }
   }
 
@@ -123,15 +125,15 @@ export class LanguageComponent implements OnInit {
           this.languageId = langData.languageId;
 
         // populate data
-        this.languageForm.get('languageName').setValue(langData.languageName);
-        this.languageForm.get('languageDescription').setValue(langData.languageDescription);
-        this.languageForm.get('languageCode').setValue(langData.languageCode);
-        this.languageForm.get('isDefault').setValue(langData.isDefault);
+        this.updateForm.get('languageName').setValue(langData.languageName);
+        this.updateForm.get('languageDescription').setValue(langData.languageDescription);
+        this.updateForm.get('languageCode').setValue(langData.languageCode);
+        this.updateForm.get('isDefault').setValue(langData.isDefault);
         this.langName = langData.languageName;
         this.langCode = langData.languageCode;
 
-        this.languageForm.get('languageName').disable();
-        this.languageForm.get('languageCode').disable();
+        this.updateForm.get('languageName').disable();
+        this.updateForm.get('languageCode').disable();
         
         this.checkReqValues();
 
@@ -148,9 +150,9 @@ export class LanguageComponent implements OnInit {
   // isChecked(e) {
 
   //   if (e.checked) {
-  //     this.languageForm.get("imgBm").setValue(this.imgEn.value);
+  //     this.updateForm.get("imgBm").setValue(this.imgEn.value);
   //   } else {
-  //     this.languageForm.get("imgBm").setValue("");
+  //     this.updateForm.get("imgBm").setValue("");
   //   }
   //   this.copyImg = e.checked;
   //   this.checkReqValues();
@@ -171,7 +173,7 @@ export class LanguageComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.languageForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -188,7 +190,7 @@ export class LanguageComponent implements OnInit {
   }
 
   myFunction() {
-      this.languageForm.reset();
+      this.updateForm.reset();
       this.checkReqValues();
   }
  

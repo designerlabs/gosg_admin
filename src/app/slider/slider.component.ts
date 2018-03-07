@@ -20,7 +20,7 @@ export class SliderComponent implements OnInit {
   sliderData: Object;
   dataUrl: any;
   date = new Date();
-  sliderForm: FormGroup
+  updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -95,7 +95,7 @@ export class SliderComponent implements OnInit {
     this.active = new FormControl()
     this.copyImg = new FormControl()
 
-    this.sliderForm = new FormGroup({
+    this.updateForm = new FormGroup({
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
@@ -109,7 +109,7 @@ export class SliderComponent implements OnInit {
     if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
-      this.sliderForm.get('active').setValue(true);
+      this.updateForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
@@ -117,8 +117,10 @@ export class SliderComponent implements OnInit {
     }
     
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
-      this.sliderForm.disable();
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
     }
   }
 
@@ -129,9 +131,9 @@ export class SliderComponent implements OnInit {
 
     console.log(enImg)
     if(enImg != null && enImg == bmImg) {
-      this.sliderForm.get('copyImg').setValue(true);
+      this.updateForm.get('copyImg').setValue(true);
     } else {
-      this.sliderForm.get('copyImg').setValue(false);
+      this.updateForm.get('copyImg').setValue(false);
     }
   }
 
@@ -161,13 +163,13 @@ export class SliderComponent implements OnInit {
         let dataBm = this.sliderData['list'][1];
 
       // populate data
-      this.sliderForm.get('titleEn').setValue(dataEn.sliderTitle);
-      this.sliderForm.get('descEn').setValue(dataEn.sliderDescription);
-      this.sliderForm.get('imgEn').setValue(parseInt(dataEn.sliderImage));
-      this.sliderForm.get('titleBm').setValue(dataBm.sliderTitle);
-      this.sliderForm.get('descBm').setValue(dataBm.sliderDescription);
-      this.sliderForm.get('imgBm').setValue(parseInt(dataBm.sliderImage));
-      this.sliderForm.get('active').setValue(dataEn.sliderActiveFlag);
+      this.updateForm.get('titleEn').setValue(dataEn.sliderTitle);
+      this.updateForm.get('descEn').setValue(dataEn.sliderDescription);
+      this.updateForm.get('imgEn').setValue(parseInt(dataEn.sliderImage));
+      this.updateForm.get('titleBm').setValue(dataBm.sliderTitle);
+      this.updateForm.get('descBm').setValue(dataBm.sliderDescription);
+      this.updateForm.get('imgBm').setValue(parseInt(dataBm.sliderImage));
+      this.updateForm.get('active').setValue(dataEn.sliderActiveFlag);
       this.sliderCode = dataEn.sliderCode;
       this.sliderIdEn = dataEn.sliderId;
       this.sliderIdBm = dataBm.sliderId;
@@ -190,9 +192,9 @@ export class SliderComponent implements OnInit {
   isChecked(e) {
 
     if (e.checked) {
-      this.sliderForm.get("imgBm").setValue(this.imgEn.value);
+      this.updateForm.get("imgBm").setValue(this.imgEn.value);
     } else {
-      this.sliderForm.get("imgBm").setValue("");
+      this.updateForm.get("imgBm").setValue("");
     }
     this.copyImg = e.checked;
     this.checkReqValues();
@@ -212,7 +214,7 @@ export class SliderComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.sliderForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -220,7 +222,7 @@ export class SliderComponent implements OnInit {
       }
     }
 
-    this.isSameImg(this.sliderForm.get(imgEn).value,this.sliderForm.get(imgBm).value);
+    this.isSameImg(this.updateForm.get(imgEn).value,this.updateForm.get(imgBm).value);
 
       // console.log(nullPointers)
 
@@ -237,8 +239,8 @@ export class SliderComponent implements OnInit {
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
-      this.sliderForm.reset();
-      this.sliderForm.get('active').setValue(true);
+      this.updateForm.reset();
+      this.updateForm.get('active').setValue(true);
     } else {
       txt = "You pressed Cancel!";
     }

@@ -20,7 +20,7 @@ export class ErrormessageComponent implements OnInit {
   ErrorMsgData: Object;
   dataUrl: any;
   date = new Date();
-  errorMsgForm: FormGroup
+  updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -83,7 +83,7 @@ export class ErrormessageComponent implements OnInit {
     this.descEn = new FormControl()
     this.descBm = new FormControl()
 
-    this.errorMsgForm = new FormGroup({
+    this.updateForm = new FormGroup({
       msgCodeEn: this.msgCodeEn,
       descEn: this.descEn,
       msgCodeBm: this.msgCodeBm,
@@ -100,8 +100,10 @@ export class ErrormessageComponent implements OnInit {
     }
 
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
-      this.errorMsgForm.disable();
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
     }
   }
 
@@ -126,10 +128,10 @@ export class ErrormessageComponent implements OnInit {
           let dataBm = this.ErrorMsgData['resourceList'][1];
 
           // populate data
-          this.errorMsgForm.get('msgCodeEn').setValue(dataEn.messagesCode);
-          this.errorMsgForm.get('descEn').setValue(dataEn.messagesDescription);
-          this.errorMsgForm.get('msgCodeBm').setValue(dataBm.messagesCode);
-          this.errorMsgForm.get('descBm').setValue(dataBm.messagesDescription);
+          this.updateForm.get('msgCodeEn').setValue(dataEn.messagesCode);
+          this.updateForm.get('descEn').setValue(dataEn.messagesDescription);
+          this.updateForm.get('msgCodeBm').setValue(dataBm.messagesCode);
+          this.updateForm.get('descBm').setValue(dataBm.messagesDescription);
           this.refMessageCode = dataEn.refMessageCode;
           this.msgIdEn = dataEn.messagesId;
           this.msgIdBm = dataBm.messagesId;
@@ -158,7 +160,7 @@ export class ErrormessageComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.errorMsgForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -175,8 +177,8 @@ export class ErrormessageComponent implements OnInit {
   }
 
   copyValue(type) {
-    let elemOne = this.errorMsgForm.get('msgCodeEn');
-    let elemTwo = this.errorMsgForm.get('msgCodeBm');
+    let elemOne = this.updateForm.get('msgCodeEn');
+    let elemTwo = this.updateForm.get('msgCodeBm');
 
     if(type == 1)
       elemTwo.setValue(elemOne.value)
@@ -196,7 +198,7 @@ export class ErrormessageComponent implements OnInit {
 
   myFunction() {
 
-    this.errorMsgForm.reset();
+    this.updateForm.reset();
     this.checkReqValues(); 
   }
 

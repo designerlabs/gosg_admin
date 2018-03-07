@@ -18,7 +18,7 @@
       {{'common.msg.unauthorized' | translate}}
   </div>
 
-  <form [formGroup]="colorForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 col-md-12">
   
@@ -28,7 +28,7 @@
             <mat-form-field class="example-full-width ">
               <input matInput tabindex="1" placeholder="Color Name" formControlName="colorName" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="colorForm.controls.colorName.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.colorName.hasError('required')">
                 Name is required
               </mat-error>
             </mat-form-field>
@@ -37,10 +37,10 @@
             <mat-form-field class="example-full-width ">
               <input matInput tabindex="2" placeholder="Color Code" formControlName="colorCode" [textMask]="{mask: maskColorCode}" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="colorForm.controls.colorCode.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.colorCode.hasError('required')">
                 Color Code is required
               </mat-error>
-              <mat-error *ngIf="!validateCtrlChk(colorCode) &&  colorForm.controls.colorCode.errors.pattern">
+              <mat-error *ngIf="!validateCtrlChk(colorCode) &&  updateForm.controls.colorCode.errors.pattern">
                 Color Code Pattern not valid
               </mat-error>
             </mat-form-field>
@@ -62,9 +62,9 @@
         
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
-        <div class="form-group" *ngIf="commonservice.isUpdate">
+        <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success  pull-right"
-            (click)="updateColor(colorForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            (click)="updateColor(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning  pull-right"

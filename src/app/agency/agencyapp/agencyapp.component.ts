@@ -26,7 +26,7 @@ export class AgencyappComponent implements OnInit {
   AgencyData: Object;
   dataUrl: any;
   date = new Date();
-  agencyAppForm: FormGroup
+  updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   isDocument: boolean;
@@ -106,7 +106,7 @@ export class AgencyappComponent implements OnInit {
     this.websiteUrl = new FormControl()
     this.isDoc = new FormControl()
 
-    this.agencyAppForm = new FormGroup({
+    this.updateForm = new FormGroup({
       agencyAppNameEn: this.agencyAppNameEn,
       descEn: this.descEn,
       agencyAppNameBm: this.agencyAppNameBm,
@@ -128,8 +128,10 @@ export class AgencyappComponent implements OnInit {
     }
     
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate){
-      this.agencyAppForm.disable();
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
     }
   }
 
@@ -163,14 +165,14 @@ export class AgencyappComponent implements OnInit {
         let dataBm = this.AgencyAppData['agencyApplicationList'][1];
 
       // populate data
-        this.agencyAppForm.get('agencyAppNameEn').setValue(dataEn.agencyApplicationName);
-        this.agencyAppForm.get('descEn').setValue(dataEn.agencyApplicationDescription);
-        this.agencyAppForm.get('agencyAppNameBm').setValue(dataBm.agencyApplicationName);
-        this.agencyAppForm.get('descBm').setValue(dataBm.agencyApplicationDescription);
-        this.agencyAppForm.get('agencyEn').setValue(dataEn.agencyName);
-        this.agencyAppForm.get('agencyBm').setValue(dataBm.agencyName);
-        this.agencyAppForm.get('websiteUrl').setValue(dataBm.agencyApplicationUrl);
-        this.agencyAppForm.get('isDoc').setValue(dataBm.isDocument);
+        this.updateForm.get('agencyAppNameEn').setValue(dataEn.agencyApplicationName);
+        this.updateForm.get('descEn').setValue(dataEn.agencyApplicationDescription);
+        this.updateForm.get('agencyAppNameBm').setValue(dataBm.agencyApplicationName);
+        this.updateForm.get('descBm').setValue(dataBm.agencyApplicationDescription);
+        this.updateForm.get('agencyEn').setValue(dataEn.agencyName);
+        this.updateForm.get('agencyBm').setValue(dataBm.agencyName);
+        this.updateForm.get('websiteUrl').setValue(dataBm.agencyApplicationUrl);
+        this.updateForm.get('isDoc').setValue(dataBm.isDocument);
         this.refCode = dataEn.agencyApplicationCode;
         this.agencyAppIdEn = dataEn.agencyApplicationId;
         this.agencyAppIdBm = dataBm.agencyApplicationId;
@@ -212,7 +214,7 @@ export class AgencyappComponent implements OnInit {
       selLangField = "agencyEn";
       this.ministryNameEn = "";
     }
-    this.agencyAppForm.get(selLangField).setValue("");
+    this.updateForm.get(selLangField).setValue("");
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       console.log(keyword)
@@ -254,10 +256,10 @@ export class AgencyappComponent implements OnInit {
   getValue(aId,aName,mName, refCode, langId){
 
     if(langId == 1) {
-      this.agencyEn = this.agencyAppForm.get('agencyEn').value;
+      this.agencyEn = this.updateForm.get('agencyEn').value;
       this.isActiveListEn = false;
       this.searchAgencyResultEn = [''];
-      this.agencyAppForm.get('agencyEn').setValue(aName);
+      this.updateForm.get('agencyEn').setValue(aName);
       this.agencyEn = aId;
       this.agencyIdEn = aId;
       this.ministryNameEn = mName;
@@ -265,10 +267,10 @@ export class AgencyappComponent implements OnInit {
       this.getAgencyByRefCode(refCode,langId);
 
     } else {
-      this.agencyBm = this.agencyAppForm.get('agencyBm').value;
+      this.agencyBm = this.updateForm.get('agencyBm').value;
       this.isActive = false;
       this.isActiveListBm = false;
-      this.agencyAppForm.get('agencyBm').setValue(aName);
+      this.updateForm.get('agencyBm').setValue(aName);
       this.agencyBm = aId;
       this.agencyIdBm = aId;
       this.ministryNameBm = mName;
@@ -306,7 +308,7 @@ export class AgencyappComponent implements OnInit {
           aName = data['agencyList'][0]['agencyName'];
           aId = data['agencyList'][0]['agencyId'];
           
-          this.agencyAppForm.get(selLangField).setValue(aName);
+          this.updateForm.get(selLangField).setValue(aName);
 
           if(langId == 1) {
             this.agencyIdEn = aId;
@@ -336,7 +338,7 @@ export class AgencyappComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.agencyAppForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -356,7 +358,7 @@ export class AgencyappComponent implements OnInit {
   }
 
   checkAgencyVal() {
-    let agc = this.agencyAppForm.get('agency').value;
+    let agc = this.updateForm.get('agency').value;
     if(agc == "" || agc == null) {
       this.ministryNameEn = "";
     }
@@ -367,7 +369,7 @@ export class AgencyappComponent implements OnInit {
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
-      this.agencyAppForm.reset();
+      this.updateForm.reset();
       this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";

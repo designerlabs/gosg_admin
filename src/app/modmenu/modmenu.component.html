@@ -14,11 +14,11 @@
       </div> 
   </div>
   
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
       {{'common.msg.unauthorized' | translate}}
   </div>
 
-  <form [formGroup]="modulesForm" *ngIf="commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="updateForm" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 col-md-12">
   
@@ -28,7 +28,7 @@
             <mat-form-field class="example-full-width ">
               <input matInput tabindex="1" placeholder="Module Name" formControlName="moduleName" (change)="checkReqValues()"
                 required>
-              <mat-error *ngIf="modulesForm.controls.moduleName.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.moduleName.hasError('required')">
                 Module Name is required
               </mat-error>
             </mat-form-field>
@@ -37,7 +37,7 @@
             <mat-form-field class="example-full-width ">
               <textarea matInput tabindex="2" placeholder="Description" formControlName="moduleDesc" #moduleDesc maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
-              <mat-error *ngIf="modulesForm.controls.moduleDesc.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.moduleDesc.hasError('required')">
                 Description is required
               </mat-error>
               <mat-hint align="end">{{moduleDesc.value?.length || 0}}/10000</mat-hint>
@@ -50,7 +50,7 @@
           <div class="col-md-10">
             <mat-form-field class="example-full-width">
               <input matInput tabindex="3" placeholder="Module URL" formControlName="moduleUrl" (keyup)="checkReqValues()" required>
-              <mat-error *ngIf="modulesForm.controls.moduleUrl.hasError('required')">
+              <mat-error *ngIf="updateForm.controls.moduleUrl.hasError('required')">
                 Module URL is required
               </mat-error>
             </mat-form-field>
@@ -65,9 +65,9 @@
         
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
-        <div class="form-group" *ngIf="commonservice.isUpdate">
+        <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success  pull-right"
-            (click)="updateModule(modulesForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            (click)="updateModule(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" class="fa fa-check"></i>
             <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning  pull-right"
