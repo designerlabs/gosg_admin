@@ -56,6 +56,10 @@ export class ModmenutblComponent implements OnInit {
   
   }
 
+  resetSearch() {
+    this.getModuleData(this.pageCount, this.pageSize);
+  }
+
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
