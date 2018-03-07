@@ -105,7 +105,6 @@ export class UserpermissionComponent implements OnInit {
           this.isAdminSuper = data.isSuperAdmin;
           this.moduleList = data.data[0];
           this.selectedItems = data.data[1];
-          debugger;
           this.groupModule.get('active').setValue(this.active);
           this.groupModule.get('superAdmin').setValue(data.isSuperAdmin);
         }).bind(this));
