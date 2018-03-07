@@ -15,6 +15,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./mediafileuploadtbl.component.css']
 })
 export class MediafileuploadtblComponent implements OnInit {
+  objCategory: any[];
   PageCount = 0;
   PageSize = 10;
   mediaList = null;
@@ -33,6 +34,7 @@ export class MediafileuploadtblComponent implements OnInit {
   fileName:string;
   cateSelect;
   public loading = false;
+  firstTimeLoad = true;
 
   constructor(private commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
     /* LANGUAGE FUNC */
@@ -61,33 +63,52 @@ export class MediafileuploadtblComponent implements OnInit {
   ngOnInit() {
     this.getMediaList(this.PageCount, this.PageSize);
     this.commonservice.getModuleId();
-    this.fnLoadCateMediaType();
+    this.firstTimeLoad = true;
   }
 
-  fnLoadCateMediaType() {
-      this.loading = true;          
-    // Get Categories
-    this.commonservice.getCategoryData()
-      .subscribe(resStateData => {
-          this.commonservice.errorHandling(resStateData, (function () {
-          this.objCategory = resStateData['list'];
-        }).bind(this));
-        this.loading = false;
-      },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          this.loading = false;
-        });
+  fnLoadCateMediaType(rdata) {
+    if(this.firstTimeLoad){
+      this.firstTimeLoad = false;
+      let objCate: Object;            
+      this.objCategory = [];
+      for (let reqData of rdata) {
+        objCate = new Object;
+        objCate = {
+          categoryName:reqData.list[0].mediaCategories[0].categoryName,
+          categoryId:reqData.list[0].mediaCategories[0].categoryId
+        };
+        let duplicateData = this.objCategory.filter(fData=>fData.categoryId === reqData.list[0].mediaCategories[0].categoryId);
+        if(duplicateData.length === 0){
+          this.objCategory.push(objCate);
+        } 
+      }                 
+    }
+   
+    
+    //   this.loading = true;          
+    // // Get Categories
+    // this.commonservice.getCategoryData()
+    //   .subscribe(resStateData => {
+    //       this.commonservice.errorHandling(resStateData, (function () {
+    //       this.objCategory = resStateData['list'];
+    //     }).bind(this));
+    //     this.loading = false;
+    //   },
+    //     error => {
+    //       this.toastr.error(JSON.parse(error._body).statusDesc, '');
+    //       this.loading = false;
+    //     });
+
   }  
 
   getMediaList(count, size, dataBy?: string, val?: string) {
     this.loading = true;
     if (dataBy === undefined){
-      this.dataUrl = this.appConfig.urlMediaFileUpload + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+      this.dataUrl = this.appConfig.urlMediaFileUpload + '?page=' + count + '&size=' + size + '&language=' + this.languageId;
     }else if(dataBy === "byCateId"){
-      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/category/id/" + val +'/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/category/id/" + val +'?page=' + count + '&size=' + size + '&language=' + this.languageId;
     }else if(dataBy === "byFileName"){
-      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/file/name/" + val +'/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+      this.dataUrl = this.appConfig.urlMediaFileUpload +  "/file/name/" + val +'?page=' + count + '&size=' + size + '&language=' + this.languageId;
     }
     
     return this.http.get(this.dataUrl)
@@ -106,6 +127,7 @@ export class MediafileuploadtblComponent implements OnInit {
             // } 
             this.showNoData = false;
             this.dataSource.data = this.mediaList; 
+            this.fnLoadCateMediaType(this.mediaList);
           }else{
             this.dataSource.data = []; 
             this.showNoData = true;
@@ -118,6 +140,7 @@ export class MediafileuploadtblComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
        });
   }
+
 
   searchByFileName(val){
     this.PageCount = 0;

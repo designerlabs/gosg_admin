@@ -57,7 +57,7 @@ export class MediatypeComponent implements OnInit {
   docreqVal = [];
   audioreqVal = [];
   videoreqVal = [];
-
+  public loading = false;
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -90,7 +90,7 @@ export class MediatypeComponent implements OnInit {
   ngOnInit() {
     // debugger;
     this.commonservice.getModuleId();
-    let refCode = this.router.url.split('/')[2];
+    let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
     this.catType = new FormControl();
     this.filetype = new FormControl();
@@ -130,36 +130,42 @@ export class MediatypeComponent implements OnInit {
 
 
   back() {
-    this.router.navigate(['mediatype']);
+    this.router.navigate(['media/type']);
   }
 
   loadMedia() {
+    this.loading = true;
     //Get Media Type
     this.commonservice.getMediaType()
     .subscribe(resStateData => {
      // this.commonservice.errorHandling(resStateData, (function(){            
-         this.objMediaType = resStateData['mediaTypes'];              
+         this.objMediaType = resStateData['mediaTypes'];   
+         this.loading = false;           
      },
      error => {
+      this.loading = false;
        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
     });
   }
 
   loadCate(){
+    this.loading = true;
     // Get Categories
     this.commonservice.getCategoryData()
     .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function () {
         this.objCategory = resStateData['list'];
       }).bind(this));
+      this.loading = false;
     },
       error => {
+        this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
       });
       
 }  // get, add, update, delete
   getRow(row) {
-
+    this.loading = true;
     this.commonservice.getMediaType()
     .subscribe(resStateData => {
     //  this.commonservice.errorHandling(resStateData, (function(){            
@@ -206,13 +212,15 @@ export class MediatypeComponent implements OnInit {
                 this.checkReqValues();
               }
             }).bind(this));
-            
+            this.loading = false;
           },
           error => {
+            this.loading = false;
             this.toastr.error(JSON.parse(error._body).statusDesc, '');          
           });              
      },
      error => {
+      this.loading = false;
        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
     });   
     
@@ -299,18 +307,6 @@ export class MediatypeComponent implements OnInit {
 
   }
 
-  myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
-      this.mediaTypeForm.reset();
-      this.mediaTypeForm.get('active').setValue(true);
-    } else {
-      txt = "You pressed Cancel!";
-    }
-  }
-
   // updateMediaType
   updateMediaType(formValues: any) {
     if (this.isEdit) {
@@ -384,7 +380,7 @@ export class MediatypeComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
-            this.router.navigate(['mediatype']);
+            this.router.navigate(['media/type']);
           }).bind(this));
         },
         error => {
@@ -459,7 +455,7 @@ export class MediatypeComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
-            this.router.navigate(['mediatype']);
+            this.router.navigate(['media/type']);
           }).bind(this));
         },
         error => {

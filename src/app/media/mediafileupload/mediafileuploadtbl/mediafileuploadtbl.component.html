@@ -17,27 +17,33 @@
     {{'common.msg.unauthorized' | translate}}
   </div>
   <div *ngIf="commonservice.isRead">
-    <div class="row" style="padding: 20px;">
-      <div class="col-md-4">
-            <mat-select placeholder="Search By Category" (change)="selCateType($event)" [(ngModel)]="cateSelect" required>
-                <mat-option value="0">{{ 'mediauploadtbl.filter.all' | translate }}</mat-option>
-              <mat-option *ngFor="let obj of objCategory" [value]="obj.list[0].categoryId">{{obj.list[0].categoryName}}</mat-option>
-            </mat-select>            
-        </div>
-      <div class="col-md-4">
-          <input matInput id="txtFileName" [(ngModel)]="fileName" placeholder="Search By File Name">          
-      </div>
-      <div class="col-md-4">
-          <button mat-raised-button color="warn" type="button" class="form-control btn btn-md btn-warning pull-right"
-          style="width: 100px; font-family: Roboto" (click)="reset()">
-          <i class="fa fa-refresh"></i>&nbsp;{{ 'mediauploadtbl.button.reset' | translate }}</button>
-          <button mat-raised-button color="primary" type="button" class="form-control btn btn-md btn-warning pull-right"
-          style="width: 100px; font-family: Roboto" (click)="searchByFileName(fileName)">
-          <i class="fa fa-search"></i>&nbsp;{{ 'mediauploadtbl.button.search' | translate }}</button>         
-
-      </div>
-    </div>
+    
     <div class="example-container mat-elevation-z8">
+        <div class="row" style="padding: 20px;">
+            <mat-form-field class="example-full-width font-size-s paddingTop-10 col-md-4">
+                <mat-select placeholder="Search By Category" (change)="selCateType($event)" [(ngModel)]="cateSelect">
+                    <mat-option value="0">All Category</mat-option>
+                  <mat-option *ngFor="let obj of objCategory" [value]="obj.categoryId">{{obj.categoryName}}</mat-option>
+                </mat-select> 
+            </mat-form-field>
+            <!-- <mat-form-field class="example-full-width font-size-s paddingTop-10 col-md-4">
+                <input matInput id="txtFileName" [(ngModel)]="fileName" placeholder="Search By File Name">   
+              </mat-form-field> -->
+              <mat-form-field class="example-form-field paddingTop-10 col-md-4">
+                  <input matInput type="text" placeholder="Search By File Name" [(ngModel)]="fileName" (keyup)="searchByFileName(fileName)"/>
+                  <button mat-button *ngIf="fileName" matSuffix mat-icon-button aria-label="Clear" (click)="reset()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+                </mat-form-field>
+            <!-- <div class="col-md-4">
+                <button mat-raised-button color="warn" type="button" class="form-control btn btn-md btn-warning pull-right"
+                style="width: 100px; font-family: Roboto" (click)="reset()">
+                <i class="fa fa-refresh"></i>&nbsp;Reset</button>
+                <button mat-raised-button color="primary" type="button" class="form-control btn btn-md btn-warning pull-right"
+                style="width: 100px; font-family: Roboto" (click)="searchByFileName(fileName)">
+                <i class="fa fa-search"></i>&nbsp;Search</button>  
+            </div> -->
+          </div>
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
         <ng-container matColumnDef="no">

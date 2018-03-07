@@ -39,25 +39,42 @@ export class LeftmenuComponent implements OnInit {
     new User('Shelley'),
     new User('Igor')
   ];
-  panelOpenState: false;
+  panelOpenState: boolean;
   filteredOptions: Observable<User[]>;
-  value = 'Clear me';
+  value = '';
   dataUrl: any;
   languageId: any;
 //   public objMenu: object;
 
+step = 0;
+
+setStep(index: number) {
+  this.step = index;
+}
+
+nextStep() {
+  this.step++;
+}
+
+prevStep() {
+  this.step--;
+}
 
 applyFilter(keyword) {   
-
-  console.log(keyword);
   
   if(keyword){
     this.getFilterList(keyword);
   }
   else{
     this.getUserData();
+    this.step = 0;
   }
 
+}
+
+resetSearch() {
+  this.getUserData();
+  this.step = 0;
 }
 
   // tslint:disable-next-line:max-line-length
@@ -129,13 +146,14 @@ applyFilter(keyword) {
     this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      console.log(keyword);
       this.loading = true;
       this.http.get(this.dataUrl).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
           this.menulst = data;
-          // this.getUserData();
+          this.step = 1;
 
         }).bind(this));
         this.loading = false; 

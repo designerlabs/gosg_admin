@@ -20,7 +20,7 @@ export class ErrormessagetblComponent implements OnInit {
   errMsgData: Object;
   errMsgList = null;
   displayedColumns: any;
-  errMsgPageSize = 10;
+  pageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -43,11 +43,15 @@ export class ErrormessagetblComponent implements OnInit {
   applyFilter(e) {
     console.log(e);
     if(e){
-      this.getFilterList(this.pageCount, this.errMsgPageSize, e);
+      this.getFilterList(this.pageCount, this.pageSize, e);
     }
     else{
-      this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+      this.getErrMsgsData(this.pageCount, this.pageSize);
     }
+  }
+
+  resetSearch() {
+    this.getErrMsgsData(this.pageCount, this.pageSize);
   }
 
   constructor(
@@ -69,7 +73,7 @@ export class ErrormessagetblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+              this.getErrMsgsData(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -78,7 +82,7 @@ export class ErrormessagetblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+      this.getErrMsgsData(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
     }
 
@@ -162,7 +166,7 @@ export class ErrormessagetblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+    this.getErrMsgsData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -172,12 +176,12 @@ export class ErrormessagetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getErrMsgsData(page + 1, this.errMsgPageSize);
+    this.getErrMsgsData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {
     this.getErrMsgsData(this.pageCount, event.value);
-    this.errMsgPageSize = event.value;
+    this.pageSize = event.value;
     this.noPrevData = true;
   }
 
@@ -200,7 +204,7 @@ export class ErrormessagetblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');  
-          this.getErrMsgsData(this.pageCount, this.errMsgPageSize);
+          this.getErrMsgsData(this.pageCount, this.pageSize);
         }).bind(this)); 
         this.loading = false;          
       },

@@ -67,7 +67,12 @@ export class CommonService {
       });
     });
     if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
+      if(localStorage.getItem('langID')){
+        this.languageId = localStorage.getItem('langID');
+      }else{
+        this.languageId = 1;
+      }
+      
     }
 
     /* LANGUAGE FUNC */

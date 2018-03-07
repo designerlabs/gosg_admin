@@ -22,7 +22,10 @@
         <div class="example-container mat-elevation-z8">
             <div class="col-md-12 paddingTop-10">
                 <mat-form-field class="font-size-s">
-                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Keywords">
+                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
+                    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+                        <mat-icon>close</mat-icon>
+                    </button>
                 </mat-form-field>
             </div>
 

@@ -91,6 +91,8 @@ export class FaqtblComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
+  
+
   getRecordList(count, size) {
   
     this.dataUrl = this.appConfig.urlFaqList + '/code?page=' + count + '&size=' + size + "&language=" + this.languageId;
@@ -154,6 +156,10 @@ export class FaqtblComponent implements OnInit {
 
       });
     }
+  }
+
+  resetSearch() {
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   paginatorL(page) {
