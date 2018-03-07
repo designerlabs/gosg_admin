@@ -58,6 +58,10 @@ export class MinistrytblComponent implements OnInit {
   
   }
 
+  resetSearch() {
+    this.getMinistryData(this.pageCount, this.pageSize);
+  }
+
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
