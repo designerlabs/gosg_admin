@@ -14,11 +14,11 @@
       </div> 
   </div>
   
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
     {{'common.msg.unauthorized' | translate}}
   </div>
   
-  <form [formGroup]="agencyAppForm" *ngIf="commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+  <form [formGroup]="agencyAppForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off" role="form" novalidate>
   
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">

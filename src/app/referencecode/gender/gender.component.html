@@ -2,7 +2,7 @@
         <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Gender</h3>
+            <h3>{{ 'gender.header' | translate }}</h3>
         </div>
     </div>
     <div *ngIf="!commonservice.isRead" class="alert alert-danger">
@@ -12,14 +12,14 @@
     <div class="example-container mat-elevation-z8" *ngIf="commonservice.isRead">
         <mat-table #table [dataSource]="dataSource" style="display: initial;">
             <ng-container matColumnDef="no">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> No </mat-header-cell>
+                <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'gender.tableHeader.num' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
                     {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="genderEng">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 40%;" *matHeaderCellDef> Gender </mat-header-cell>
+                <mat-header-cell class="text-align-left" style="flex: 0 0 40%;" *matHeaderCellDef> {{ 'gender.tableHeader.genderEn' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 40%;" *matCellDef="let element">
                     {{element.list[0].gender}}
                 </mat-cell>
@@ -27,7 +27,7 @@
 
             <!-- question en Column -->
             <ng-container matColumnDef="genderMy">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 40%;" *matHeaderCellDef> Jantina </mat-header-cell>
+                <mat-header-cell class="text-align-left" style="flex: 0 0 40%;" *matHeaderCellDef> {{ 'gender.tableHeader.genderBm' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" style="flex: 0 0 40%;" *matCellDef="let element">
                     {{element.list[1].gender}}
                 </mat-cell>
