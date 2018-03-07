@@ -702,7 +702,7 @@
       "code": "Kod",
       "name": "Nama Bahasa",
       "description": "Keterangan Bahasa",
-      "default": "Default"
+      "isDefault": "Default"
     }
   },
   "mediauploadtbl": {
