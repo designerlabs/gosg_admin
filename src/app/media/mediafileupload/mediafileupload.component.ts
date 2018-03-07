@@ -352,7 +352,7 @@ export class MediafileuploadComponent implements OnInit {
     this.el.nativeElement.offsetWidth;
     let mFileSize = this.chkUploadFile.maxSize;
     let fileExtn = selectedFiles.files[0].name.split('.')[1];
-      let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn);
+      let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn.toLowerCase());
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {
         if (selectedFiles.files[0].size <= mFileSize) {
@@ -399,7 +399,7 @@ export class MediafileuploadComponent implements OnInit {
     let mFileSize = this.chkUploadFile.maxSize;
     console.log(this.el.nativeElement);
     let fileExtn = selectedFiles.files[0].name.split('.')[1];
-    let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn);
+    let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn.toLowerCase());
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {        
         if (selectedFiles.files[0].size <= mFileSize) {
