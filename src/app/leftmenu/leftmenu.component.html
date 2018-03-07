@@ -18,7 +18,7 @@
 			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">{{ 'home.content.groupingManagement' | translate }}</a>
 		</div>
 		<mat-accordion>
-			<mat-expansion-panel>
+			<mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" >
 				<mat-expansion-panel-header>
 					<mat-panel-title style="font-weight: bold;">
 						All Modules <span class="module_counts" *ngIf="menulst">{{menulst?.moduleList?.length }}</span>
