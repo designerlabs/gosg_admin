@@ -31,7 +31,7 @@ export class ModmenuComponent implements OnInit {
   languageId: any;
   moduleId: any;
   
-  modulesForm: FormGroup
+  updateForm: FormGroup
   moduleName: FormControl
   moduleDesc: FormControl
   moduleUrl: FormControl
@@ -81,7 +81,7 @@ export class ModmenuComponent implements OnInit {
     this.moduleUrl = new FormControl()
     this.active = new FormControl()
 
-    this.modulesForm = new FormGroup({
+    this.updateForm = new FormGroup({
 
       moduleName: this.moduleName,
       moduleDesc: this.moduleDesc,
@@ -93,7 +93,7 @@ export class ModmenuComponent implements OnInit {
     if(refId == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
-      this.modulesForm.get('active').setValue(true);
+      this.updateForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
@@ -102,9 +102,9 @@ export class ModmenuComponent implements OnInit {
     
     // #### for disable non update user ---1
     if(!this.commonservice.isUpdate && this.commonservice.isWrite){
-      this.modulesForm.enable();
+      this.updateForm.enable();
     }else if(!this.commonservice.isUpdate){
-      this.modulesForm.disable();
+      this.updateForm.disable();
     }
 
   }
@@ -128,14 +128,14 @@ export class ModmenuComponent implements OnInit {
         // console.log(this.appConfig.urlMenu + "/" + row)
 
         // populate data
-        this.modulesForm.get('moduleName').setValue(this.moduleData['moduleName']);
-        this.modulesForm.get('moduleDesc').setValue(this.moduleData['moduleDescription']);
-        this.modulesForm.get('moduleUrl').setValue(this.moduleData['moduleUrl']);
-        this.modulesForm.get('active').setValue(this.moduleData['active']);
+        this.updateForm.get('moduleName').setValue(this.moduleData['moduleName']);
+        this.updateForm.get('moduleDesc').setValue(this.moduleData['moduleDescription']);
+        this.updateForm.get('moduleUrl').setValue(this.moduleData['moduleUrl']);
+        this.updateForm.get('active').setValue(this.moduleData['active']);
         this.moduleId = this.moduleData['moduleId'];
 
-        this.modulesForm.get('moduleName').disable();
-        this.modulesForm.get('moduleUrl').disable();
+        this.updateForm.get('moduleName').disable();
+        this.updateForm.get('moduleUrl').disable();
 
         this.checkReqValues();
               
@@ -165,7 +165,7 @@ export class ModmenuComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.modulesForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)

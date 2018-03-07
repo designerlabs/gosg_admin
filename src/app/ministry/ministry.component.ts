@@ -24,7 +24,7 @@ export class MinistryComponent implements OnInit {
   MinistryData: Object;
   dataUrl: any;
   date = new Date();
-  ministryForm: FormGroup
+  updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -131,7 +131,7 @@ export class MinistryComponent implements OnInit {
     this.flickrUrl = new FormControl()
     this.mdecStatus = new FormControl()
 
-    this.ministryForm = new FormGroup({
+    this.updateForm = new FormGroup({
       ministryNameEn: this.ministryNameEn,
       descEn: this.descEn,
       ministryNameBm: this.ministryNameBm,
@@ -167,9 +167,9 @@ export class MinistryComponent implements OnInit {
     
     // #### for disable non update user ---1
     if(!this.commonservice.isUpdate && this.commonservice.isWrite){
-      this.ministryForm.enable();
+      this.updateForm.enable();
     }else if(!this.commonservice.isUpdate){
-      this.ministryForm.disable();
+      this.updateForm.disable();
     }
   }
 
@@ -204,27 +204,27 @@ export class MinistryComponent implements OnInit {
           let dataBm = this.MinistryData['ministryEntityList'][1];
 
         // populate data
-        this.ministryForm.get('ministryNameEn').setValue(dataEn.ministryName);
-        this.ministryForm.get('descEn').setValue(dataEn.ministryDescription);
-        this.ministryForm.get('ministryNameBm').setValue(dataBm.ministryName);
-        this.ministryForm.get('descBm').setValue(dataBm.ministryDescription);
-        this.ministryForm.get('active').setValue(dataBm.ministryStatus);
-        this.ministryForm.get('address').setValue(dataBm.ministryAddress);
-        this.ministryForm.get('contactperson').setValue(dataBm.ministryContactPerson);
-        this.ministryForm.get('agclat').setValue(dataBm.ministryLatitude);
-        this.ministryForm.get('agclong').setValue(dataBm.ministryLongitude);
-        this.ministryForm.get('phoneno').setValue(dataBm.ministryPhone);
-        this.ministryForm.get('faxno').setValue(dataBm.ministryFax);
-        this.ministryForm.get('email').setValue(dataBm.ministryEmail);
-        this.ministryForm.get('websiteUrl').setValue(dataBm.ministryWebsiteUrl);
-        this.ministryForm.get('rssUrl').setValue(dataBm.ministryRss);
-        this.ministryForm.get('youtubeUrl').setValue(dataBm.ministryYoutube);
-        this.ministryForm.get('twitterUrl').setValue(dataBm.ministryTwitter);
-        this.ministryForm.get('flickrUrl').setValue(dataBm.ministryFlickr);
-        this.ministryForm.get('blogUrl').setValue(dataBm.ministryBlog);
-        this.ministryForm.get('instagramUrl').setValue(dataBm.ministryInstagram);
-        this.ministryForm.get('fbUrl').setValue(dataBm.ministryFacebook);
-        this.ministryForm.get('mdecStatus').setValue(dataBm.ministryMdecstatus);
+        this.updateForm.get('ministryNameEn').setValue(dataEn.ministryName);
+        this.updateForm.get('descEn').setValue(dataEn.ministryDescription);
+        this.updateForm.get('ministryNameBm').setValue(dataBm.ministryName);
+        this.updateForm.get('descBm').setValue(dataBm.ministryDescription);
+        this.updateForm.get('active').setValue(dataBm.ministryStatus);
+        this.updateForm.get('address').setValue(dataBm.ministryAddress);
+        this.updateForm.get('contactperson').setValue(dataBm.ministryContactPerson);
+        this.updateForm.get('agclat').setValue(dataBm.ministryLatitude);
+        this.updateForm.get('agclong').setValue(dataBm.ministryLongitude);
+        this.updateForm.get('phoneno').setValue(dataBm.ministryPhone);
+        this.updateForm.get('faxno').setValue(dataBm.ministryFax);
+        this.updateForm.get('email').setValue(dataBm.ministryEmail);
+        this.updateForm.get('websiteUrl').setValue(dataBm.ministryWebsiteUrl);
+        this.updateForm.get('rssUrl').setValue(dataBm.ministryRss);
+        this.updateForm.get('youtubeUrl').setValue(dataBm.ministryYoutube);
+        this.updateForm.get('twitterUrl').setValue(dataBm.ministryTwitter);
+        this.updateForm.get('flickrUrl').setValue(dataBm.ministryFlickr);
+        this.updateForm.get('blogUrl').setValue(dataBm.ministryBlog);
+        this.updateForm.get('instagramUrl').setValue(dataBm.ministryInstagram);
+        this.updateForm.get('fbUrl').setValue(dataBm.ministryFacebook);
+        this.updateForm.get('mdecStatus').setValue(dataBm.ministryMdecstatus);
         this.refCode = dataEn.ministryCode;
         this.ministryIdEn = dataEn.ministryId;
         this.ministryIdBm = dataBm.ministryId;
@@ -253,7 +253,7 @@ export class MinistryComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.ministryForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -276,7 +276,7 @@ export class MinistryComponent implements OnInit {
     let r = confirm("Are you sure to reset the form?");
     if (r == true) {
       txt = "You pressed OK!";
-      this.ministryForm.reset();
+      this.updateForm.reset();
       this.checkReqValues();
     } else {
       txt = "You pressed Cancel!";
