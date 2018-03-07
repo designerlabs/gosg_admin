@@ -358,8 +358,8 @@ export class CommonService {
   }
 
 
-  updateSuperAdmin(val){
-    return this.http.put(this.appConfig.urlAdminUserFind+'/'+this.route.snapshot.params.id+'?isSuperAdmin='+val+'&language='+this.languageId,'')
+  updateSuperAdmin(id,val){
+    return this.http.put(this.appConfig.urlAdminUserFind+'/'+id+'?isSuperAdmin='+val+'&language='+this.languageId,'')
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
