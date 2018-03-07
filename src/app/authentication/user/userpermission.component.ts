@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 
 @Component({
   selector: 'app-userpermission',
@@ -25,6 +26,8 @@ export class UserpermissionComponent implements OnInit {
   groupModule: FormGroup;
   groupmodulename: FormControl;
   active: FormControl;
+  superAdmin: FormControl;
+  isAdminSuper: any;
   groupmoduledesc: FormControl;
   statusTitle: any;
   public loading = false;
@@ -36,7 +39,8 @@ export class UserpermissionComponent implements OnInit {
     private router:Router,
     private toastr: ToastrService,
     private route:ActivatedRoute,
-    private translate:TranslateService
+    private translate:TranslateService,
+    @Inject(APP_CONFIG) private appConfig: AppConfig
   ) {
 
         /* LANGUAGE FUNC */
@@ -69,10 +73,12 @@ export class UserpermissionComponent implements OnInit {
     this.route.snapshot.params.id;
     this.groupmodulename = new FormControl()
     this.active = new FormControl();
+    this.superAdmin = new FormControl();
     this.groupmoduledesc = new FormControl();
     this.groupModule = new FormGroup({
       groupmodulename: this.groupmodulename,
       active: this.active,
+      superAdmin: this.superAdmin,
       groupmoduledesc: this.groupmoduledesc
     });
 
@@ -82,6 +88,8 @@ export class UserpermissionComponent implements OnInit {
   ngAfterContentChecked(){
 
   }
+
+
 
   getModuleData() {
     if(this.route.snapshot.params.id){
@@ -169,9 +177,41 @@ export class UserpermissionComponent implements OnInit {
     return false;
   }
 
-  submit(){
+
+  isSuperAdmin(e) {
+
+    if(e.checked){
+      this.isAdminSuper = true;
+    }else{
+      this.isAdminSuper = false;
+    }
+  }
+
+
+
+  updateAsSuperAdmin(){
+    
     this.loading = true;
-    this.commonservice.updateUserPermission(this.route.snapshot.params.id, this.selectedItems.items).subscribe(
+    this.http.put(this.appConfig.urlAdminUserFind+'/'+this.route.snapshot.params.id+'?isSuperAdmin='+this.isAdminSuper+'&language='+localStorage.getItem('langID'),'').subscribe(data => {
+      
+      this.commonservice.errorHandling(data, (function(){
+        
+        this.loading = false;
+      }).bind(this));
+
+        this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');     
+      this.loading = false;     
+    });
+  }
+
+
+  submit(){
+
+      this.loading = true;
+      this.commonservice.updateUserPermission(this.route.snapshot.params.id, this.selectedItems.items).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success('updated successfully', '');
@@ -180,6 +220,7 @@ export class UserpermissionComponent implements OnInit {
       }, err => {
         this.loading = false;
       });
+    
   }
 
   back(){
