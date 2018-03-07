@@ -12,10 +12,10 @@
             </span>
         </div>
     </div>
-    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
         {{'common.msg.unauthorized' | translate}}
     </div>
-    <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isWrite || commonservice.isUpdate" novalidate>
+    <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" novalidate>
         <div class="example-container mat-elevation-z8 paddingBottom-10">
 
             <div class="bg-form-header col-md-12">

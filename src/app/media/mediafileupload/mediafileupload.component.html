@@ -14,11 +14,11 @@
       </span>
     </div>
   </div>
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate" class="alert alert-danger">
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
         {{'common.msg.unauthorized' | translate}}
     </div>
 
-  <form [formGroup]="mediaFileUpForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate">
+  <form [formGroup]="mediaFileUpForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead">
     <div class="example-container mat-elevation-z8 paddingBottom-10" style="padding-left: 20px;">
       <div class="col-md-12">&nbsp;</div>
       <div class="row">
@@ -138,7 +138,7 @@
       <div class="col-md-12">&nbsp;</div>
     </div>
 
-    <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;">
+    <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;" *ngIf="commonservice.isUpdate || commonservice.isWrite">
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
         (click)="updateMediaFileUpload(mediaFileUpForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
         <i *ngIf="complete" class="fa fa-check"></i>
