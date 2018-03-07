@@ -34,7 +34,8 @@
       "groupingManagement": "Grouping Management",
       "groupingDetails": "Sorting and Grouping from isolate module",
       "adminDetails": "Assign Admin user and providing permission",
-      "modules": "Modules"
+      "modules": "Modules",
+      "allmodules": "All Modules"
     },
     "check": "Review",
     "readmore": "Read More",
@@ -701,7 +702,7 @@
       "code": "Code",
       "name": "Language Name",
       "description": "Language Description",
-      "default": "Default"
+      "isDefault": "Default"
     }
   },
   "mediauploadtbl": {
@@ -911,7 +912,16 @@
   },
   "admin": {
     "header": "Admin Management",
+    "tablebottom": {
+      "users": "users"
+    },
     "component": {
+      "permision": "Role and Permission Management",
+      "superadmin": "Super Admin",
+      "groupmodule": "Group Module Name",
+      "modpermision": "Group Modules and Permission",
+      "active": "Active",
+      "update": "Update"
     },
     "addby": {
       "email": "by Email",

@@ -174,7 +174,7 @@
         <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'table.pages' | translate }}
           <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'table.of' | translate }}
           <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'table.in' |translate }}
-          <strong>{{commonservice.recordTable?.totalElements}}</strong> sliders</span>
+          <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'admin.tablebottom.users' | translate }}</span>
         <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
           <i class="fa fa-angle-left" aria-hidden="true"></i>
         </button>
