@@ -314,6 +314,7 @@
     "icno": "No. KP",
     "moduleGroupName": "Senarai Kumpulan Modul",
     "activeFlag": "Status",
+    "isSuperAdmin": "Is Super Admin",
     "action": "Tindakan",
     "pages": "Halaman",
     "of": "daripada",

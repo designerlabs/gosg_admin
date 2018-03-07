@@ -101,9 +101,13 @@ export class UserpermissionComponent implements OnInit {
           this.username = data.username;
           this.icno =data.icNo;
           this.activeStatus = data.isActive;
+          this.superAdminStatus = data.isSuperAdmin;
+          this.isAdminSuper = data.isSuperAdmin;
           this.moduleList = data.data[0];
           this.selectedItems = data.data[1];
+          debugger;
           this.groupModule.get('active').setValue(this.active);
+          this.groupModule.get('superAdmin').setValue(data.isSuperAdmin);
         }).bind(this));
         this.loading = false;
       }, err => {

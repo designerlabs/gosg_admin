@@ -123,6 +123,13 @@
           </mat-cell>
         </ng-container>
         
+        <ng-container matColumnDef="superAdminStatus">
+          <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'table.isSuperAdmin' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element" class="statusColumn">
+            <i [ngClass]="[element.isSuperAdmin ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+          </mat-cell>
+        </ng-container>
+
         <!-- slideActiveFlag Column -->
         <ng-container matColumnDef="activeFlag">
           <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'table.activeFlag' | translate }}</mat-header-cell>
@@ -130,6 +137,8 @@
             <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
           </mat-cell>
         </ng-container>
+
+       
   
         <!-- Action Column -->
         <ng-container matColumnDef="action">

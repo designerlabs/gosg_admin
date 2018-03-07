@@ -314,6 +314,7 @@
     "icno": "IC No.",
     "moduleGroupName": "Modules Group List",
     "activeFlag": "Status",
+    "isSuperAdmin": "Is Super Admin",
     "action": "Action",
     "pages": "Pages",
     "of": "of",
