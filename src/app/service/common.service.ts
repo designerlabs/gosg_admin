@@ -1262,6 +1262,23 @@ getCategoryList1() {
       this.toastr.error(data.statusDesc, ''); 
   }
 
+  getLanguageId() {
+    this.getAllLanguage().subscribe((data:any) => {
+      let getLang = data.list;
+      let myLangData =  getLang.filter(function(val) {
+        if(val.isDefault == true){
+          if(!localStorage.getItem('langID')) {
+            debugger;
+            // return val.languageId
+          } else {
+            debugger;
+            // return localStorage.getItem('langID');
+          }
+        }
+      }.bind(this));
+    })
+  }
+
 
   getModuleId(){
 
