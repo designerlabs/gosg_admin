@@ -25,7 +25,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   AccStatusData: any;
   date= new Date();
   
-  userForm: FormGroup;
+  updateForm: FormGroup;
   userData:any;
   isRead: boolean;
   isCreate: boolean;
@@ -106,7 +106,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
     this.accountStatus = new FormControl()
 
-    this.userForm = new FormGroup({
+    this.updateForm = new FormGroup({
       accountStatus: this.accountStatus
     });
 
@@ -123,9 +123,9 @@ export class UserComponent implements OnInit, AfterViewInit {
     
     // #### for disable non update user ---1
     if(!this.commonservice.isUpdate && this.commonservice.isWrite){
-      this.userForm.enable();
+      this.updateForm.enable();
     }else if(!this.commonservice.isUpdate){
-      this.userForm.disable();
+      this.updateForm.disable();
     }
   }
 
@@ -172,7 +172,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.accStatusCode = this.userData.accountStatus.accountStatusCode
         this.accStatusDesc = this.userData.accountStatus.accountStatusDescription
         
-        this.userForm.get('accountStatus').setValue(this.accStatusId);
+        this.updateForm.get('accountStatus').setValue(this.accStatusId);
         // this.refCode = dataEn.agencyCode;
 
         this.checkReqValues();
@@ -213,7 +213,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.userForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
