@@ -171,7 +171,7 @@ export class MediafileuploadComponent implements OnInit {
   }
   
 
-  fnLoadCateMediaType(refCode) {
+  fnLoadCateMediaType(refData) {
     // Get MediaType
       this.loading = true;
     this.commonservice.getMediaType()
@@ -191,8 +191,8 @@ export class MediafileuploadComponent implements OnInit {
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
-          if(this.refCode !== "add"){
-            this.getRow(refCode);
+          if(this.router.url.split('/')[3] !== "add"){
+            this.getRow(refData);
           }
         }).bind(this));
         this.loading = false;
@@ -458,7 +458,7 @@ export class MediafileuploadComponent implements OnInit {
       //   let filtrData = this.objCategory.filter(fdata => fdata.list[0].categoryId === selCate);
       //   mediaCate.push(filtrData);
       // }
-      
+      this.loading = true;
       let body = [                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
         {
           "mediaId": null,
@@ -579,8 +579,10 @@ export class MediafileuploadComponent implements OnInit {
             this.toastr.success('Media Type Updated successfully!', '');
             this.router.navigate(['media/upload']);
           }).bind(this));
+          this.loading = false;
         },
         error => {
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
         });
 
@@ -591,7 +593,7 @@ export class MediafileuploadComponent implements OnInit {
       //   let filtrData = this.objCategory.filter(fdata => fdata.list[0].categoryId === selCate);
       //   mediaCate.push(filtrData);
       // }
-    
+      this.loading = true;
       let body = [
         {          
           "rootCategoryId": null,
@@ -702,8 +704,10 @@ export class MediafileuploadComponent implements OnInit {
             this.toastr.success('Media Type Updated successfully!', '');
             this.router.navigate(['media/upload']);
           }).bind(this));
+          this.loading = false;
         },
         error => {
+          this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
         });
     }

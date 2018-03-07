@@ -351,8 +351,15 @@ export class CommonService {
   }
 
 
-  updateUserPermission(id, data){
-    return this.http.put(this.appConfig.urlAdminUserPermission+'/'+id+'?language='+this.languageId, data)
+  updateUserPermission(id, data, val){
+    return this.http.put(this.appConfig.urlAdminUserPermission+'/'+id+'?language='+this.languageId+'&isSuperAdmin='+val, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+
+  updateSuperAdmin(id,val){
+    return this.http.put(this.appConfig.urlAdminUserFind+'/'+id+'?isSuperAdmin='+val+'&language='+this.languageId,'')
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }

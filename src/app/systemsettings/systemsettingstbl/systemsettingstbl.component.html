@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>System Settings List</h3>
+            <h3>{{ 'systemsetting.header' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -35,7 +35,7 @@
             
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'systemsetting.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -43,7 +43,7 @@
             
                 <!-- Entities Status en Column -->
                 <ng-container matColumnDef="entities">
-                    <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> Entities </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'systemsetting.tableHeader.entities' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
                         {{element.settingsEntities}} 
                     </mat-cell>
@@ -51,7 +51,7 @@
 
                 <!-- Key Column -->
                 <ng-container matColumnDef="key">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Key </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'systemsetting.tableHeader.key' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.settingsKey}}
                     </mat-cell>
@@ -59,7 +59,7 @@
 
                 <!-- Value Column -->
                 <ng-container matColumnDef="value">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> Value </mat-header-cell>
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'systemsetting.tableHeader.value' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
                         {{element.settingsValue}}
                     </mat-cell>
@@ -67,7 +67,7 @@
             
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Active Status </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'systemsetting.tableHeader.activestatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.isActive == true" class="fa fa-check" style="color: green;"></i>
                         <i *ngIf="element.isActive == false" class="fa fa-times" style="color: red;"></i>
@@ -76,7 +76,7 @@
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'systemsetting.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" (click)="updateRow(element.settings_id)">                
                         <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.settings_id }}"></i>
@@ -110,10 +110,10 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> system settings
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'systemsetting.tablebottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'systemsetting.tablebottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'systemsetting.tablebottom.in' | translate }}
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'systemsetting.tablebottom.sys' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>

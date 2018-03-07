@@ -57,10 +57,14 @@ export class PollquestiontblComponent implements OnInit {
   //       this.dataSource.data.forEach(row => this.selection.select(row));
   // }
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.pageSize, e);
+    }
+    else{
+      this.getRecordList(this.pageCount, this.pageSize);
+    }
   }
   
   constructor(
@@ -131,6 +135,43 @@ export class PollquestiontblComponent implements OnInit {
       this.loading = false;
     });
 
+  }
+
+  getFilterList(count, size, val) {
+  
+    this.dataUrl = this.appConfig.urlPoll + '/question/search/all?keyword=' +val+ '&page=' + count + '&size=' + size + '&language=' +this.languageId;
+
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
+      this.loading = true;
+      this.http.get(this.dataUrl)
+        .subscribe(data => {
+
+          this.commonservice.errorHandling(data, (function(){
+
+            this.recordList = data;
+            console.log("data");
+            console.log(data);
+
+            this.dataSource.data = this.recordList.pollQuestionFormatList;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.commonservice.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+          }).bind(this)); 
+          this.loading = false;
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });
+    }
+  }
+
+  resetSearch() {
+    this.getRecordList(this.pageCount, this.pageSize);
   }
 
   paginatorL(page) {

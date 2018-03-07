@@ -537,6 +537,12 @@
       "of": "of",
       "in": "in",
       "feedback": "feedback message"
+    },
+    "filterby": {
+      "filterby": "Filter By",
+      "all": "All",
+      "email": "Email",
+      "keyword": "Keywords"
     }
   },
   "feedbackvisitortbl": {
@@ -694,7 +700,222 @@
       "num": "No.",
       "code": "Code",
       "name": "Language Name",
-      "description": "Language Description"
+      "description": "Language Description",
+      "default": "Default"
+    }
+  },
+  "mediauploadtbl": {
+    "header": "Media File Upload Management",
+    "tableHeader":{
+      "num": "No.",
+      "name": "Name",
+      "category": "Category",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "media": "media upload list"
+    },
+    "filter": {
+      "all": "All Category"
+    },
+    "button": {
+      "search": "Search",
+      "reset": "Reset"
+    },
+    "nodata": "No Data Found"
+  },
+  "ministrytbl": {
+    "header": "Ministry Management",
+    "tableHeader":{
+      "num": "No.",
+      "nameEn": "Ministry Name (EN)",
+      "nameBm": "Ministry Name (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "minstry": "ministries"
+    }
+  },
+  "modulemgmttbl": {
+    "header": "Module Management",
+    "tableHeader":{
+      "num": "No.",
+      "name": "Module Name",
+      "description": "Module Description",
+      "url": "Module Url",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "modules": "modules"
+    }
+  },
+  "pollquestiontbl": {
+    "header": "Polls Questions List",
+    "tableHeader":{
+      "num": "No.",
+      "pollquestionEn": "Poll Question (EN)",
+      "pollquestionBm": "Poll Question (BM)",
+      "status": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "pollquestion": "polls questions"
+    }
+  },
+  "pollresult": {
+    "header": "Polls Results List",
+    "tableHeader":{
+      "num": "No.",
+      "question": "Question",
+      "opt1": "Option 1",
+      "opt2": "Option 2",
+      "opt3": "Option 3",
+      "opt4": "Option 4",
+      "opt5": "Option 5"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "pollresults": "polls results"
+    }
+  },
+  "postcode": {
+    "header": "Postcode",
+    "stateid": "State ID",
+    "citycode": "City Code"
+  },
+  "racetbl": {
+    "header": "Race / Ethnic",
+    "tableHeader":{
+      "num": "No.",
+      "raceEn": "Race/Ethnic (EN)",
+      "raceBm": "Race/Ethnic (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "race": "race/ethnic list"
+    }
+  },
+  "religiontbl": {
+    "header": "Religion",
+    "tableHeader":{
+      "num": "No.",
+      "religionEn": "Religion (EN)",
+      "religionBm": "Religion (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "religion": "religion list"
+    }
+  },
+  "state": {
+    "header": "State",
+    "tableHeader":{
+      "num": "No.",
+      "name": "State Name",
+      "id": "State Id"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "state": "state list"
+    }
+  },
+  "systemsetting": {
+    "header": "System Settings List",
+    "tableHeader":{
+      "num": "No.",
+      "entities": "Entities",
+      "key": "Key",
+      "value": "Value",
+      "activestatus": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "sys": "system settings"
+    },
+    "component": {
+      "sys": "System Settings",
+      "active": "Active"
+    }
+  },
+  "usermgmt": {
+    "header": "User Management",
+    "tableHeader":{
+      "num": "No.",
+      "fullname": "Fullname",
+      "email": "Email",
+      "accstatus": "Account Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "users": "users"
+    },
+    "component": {
+      "users": "User Account Status",
+      "isstaff": "Is Staff?",
+      "dob": "Date of Birth",
+      "citizenship": "Citizenship",
+      "country": "Country",
+      "gender": "Gender",
+      "race": "Race",
+      "religion": "Religion",
+      "address": "Address",
+      "mobilenum": "Mobile Number"
+    },
+    "filterby": {
+      "all": "All",
+      "email": "Email",
+      "icno": "IC No."
+    }
+  },
+  "mediatype": {
+    "header": "Media Management",
+    "tableHeader":{
+      "num": "No.",
+      "name": "Name",
+      "category": "Category",
+      "status": "Status",
+      "action": "Action"
+    },
+    "component": {
+    }
+  },
+  "admin": {
+    "header": "Admin Management",
+    "component": {
+    },
+    "addby": {
+      "email": "by Email",
+      "icno": "by IC No."
     }
   }
 }

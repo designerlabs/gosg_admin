@@ -537,6 +537,12 @@
       "of": "daripada",
       "in": "dalam",
       "feedback": "mesej maklum balas"
+    },
+    "filterby": {
+      "filterby": "Tapisan Mengikut",
+      "all": "Semua",
+      "email": "Emel",
+      "keyword": "Mesej"
     }
   },
   "feedbackvisitortbl": {
@@ -559,7 +565,7 @@
       "filterby": "Tapisan Mengikut",
       "all": "Semua",
       "email": "Emel",
-      "keyword": "Kata Kunci"
+      "keyword": "Mesej"
     }
   },
   "feedbackmsg": {
@@ -694,7 +700,222 @@
       "num": "Bil.",
       "code": "Kod",
       "name": "Nama Bahasa",
-      "description": "Keterangan Bahasa"
+      "description": "Keterangan Bahasa",
+      "default": "Default"
+    }
+  },
+  "mediauploadtbl": {
+    "header": "Pengurusan Muat Naik Fail Media",
+    "tableHeader":{
+      "num": "Bil.",
+      "name": "Nama",
+      "category": "Kategori",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "media": "senarai muat naik media"
+    },
+    "filter": {
+      "all": "Semua Kategori"
+    },
+    "button": {
+      "search": "Cari",
+      "reset": "Reset"
+    },
+    "nodata": "Tiada Data Dijumpai"
+  },
+  "ministrytbl": {
+    "header": "Pengurusan Kementerian",
+    "tableHeader":{
+      "num": "Bil.",
+      "nameEn": "Nama Kementerian (EN)",
+      "nameBm": "Nama Kementerian (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "minstry": "kementerian"
+    }
+  },
+  "modulemgmttbl": {
+    "header": "Pengurusan Modul",
+    "tableHeader":{
+      "num": "Bil.",
+      "name": "Nama Modul",
+      "description": "Keterangan Modul",
+      "url": "Url Modul",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "modules": "modul"
+    }
+  },
+  "pollquestiontbl": {
+    "header": "Senarai Soalan Soal Selidik",
+    "tableHeader":{
+      "num": "Bil.",
+      "pollquestionEn": "Soalan Soal Selidik (EN)",
+      "pollquestionBm": "Soalan Soal Selidik (BM)",
+      "status": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "pollquestion": "soalan soal selidik"
+    }
+  },
+  "pollresult": {
+    "header": "Senarai Keputusan Soal Selidik",
+    "tableHeader":{
+      "num": "Bil.",
+      "question": "Soalan",
+      "opt1": "Pilihan 1",
+      "opt2": "Pilihan 2",
+      "opt3": "Pilihan 3",
+      "opt4": "Pilihan 4",
+      "opt5": "Pilihan 5"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "pollresults": "keputusan soal selidik"
+    }
+  },
+  "postcode": {
+    "header": "Poskod",
+    "stateid": "ID Negeri",
+    "citycode": "Kod Bandar"
+  },
+  "racetbl": {
+    "header": "Bangsa/Etnik",
+    "tableHeader":{
+      "num": "Bil.",
+      "raceEn": "Bangsa/Etnik (EN)",
+      "raceBm": "Bangsa/Etnik (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "race": "senarai bangsa/etnik"
+    }
+  },
+  "religiontbl": {
+    "header": "Agama",
+    "tableHeader":{
+      "num": "Bil.",
+      "religionEn": "Agama (EN)",
+      "religionBm": "Agama (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "religion": "senarai agama"
+    }
+  },
+  "state": {
+    "header": "Negeri",
+    "tableHeader":{
+      "num": "Bil.",
+      "name": "Nama Negeri",
+      "id": "Id Negeri"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "state": "senarai negeri"
+    }
+  },
+  "systemsetting": {
+    "header": "Senarai Tetapan Sistem",
+    "tableHeader":{
+      "num": "Bil.",
+      "entities": "Entiti",
+      "key": "Kunci",
+      "value": "Nilai",
+      "activestatus": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "sys": "tetapan sistem"
+    },
+    "component": {
+      "sys": "Tetapan Sistem",
+      "active": "Aktif"
+    }
+  },
+  "usermgmt": {
+    "header": "Pengurusan Pengguna",
+    "tableHeader":{
+      "num": "Bil.",
+      "fullname": "Nama Penuh",
+      "email": "Emel",
+      "accstatus": "Status Akaun",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "users": "pengguna"
+    },
+    "component": {
+      "users": "Status Akaun Pengguna",
+      "isstaff": "Kakitangan?",
+      "dob": "Tarikh Lahir",
+      "citizenship": "Kewarganegaraan",
+      "country": "Negara",
+      "gender": "Jantina",
+      "race": "Bangsa",
+      "religion": "Agama",
+      "address": "Alamat",
+      "mobilenum": "No. Telefon"
+    },
+    "filterby": {
+      "all": "Semua",
+      "email": "Emel",
+      "icno": "No. KP"
+    }
+  },
+  "mediatype": {
+    "header": "Pengurusan Media",
+    "tableHeader":{
+      "num": "Bil.",
+      "name": "Nama",
+      "category": "Kategori",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "component": {
+    }
+  },
+  "admin": {
+    "header": "Pengurusan Admin",
+    "component": {
+    },
+    "addby": {
+      "email": "mengikut Emel",
+      "icno": "mengikut No. KP"
     }
   }
 }

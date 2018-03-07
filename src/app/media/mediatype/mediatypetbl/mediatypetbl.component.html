@@ -2,7 +2,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-      <h3>Media Management</h3>
+      <h3>{{ 'mediatype.header' | translate }}</h3>
     </div>
     <!-- Add option not required for Media Type -->
     <div class="col-md-2 curdHeadingRight">
@@ -21,21 +21,21 @@
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
         <ng-container matColumnDef="no">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> No </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> {{ 'mediatype.tableHeader.num' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
         </ng-container>
         <!-- mediaType Column -->
         <ng-container matColumnDef="mediaType">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 20%'"> Name </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 20%'"> {{ 'mediatype.tableHeader.name' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" [style.flex]="'0 0 20%'">
             {{element.mediaTypeName}}
           </mat-cell>
         </ng-container>
         <!-- categoryName Column -->
         <ng-container matColumnDef="catName">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 30%'"> Category </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 30%'"> {{ 'mediatype.tableHeader.category' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 30%'">
             <mat-chip-list>
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories.length > 3 ? element.mediaTypeCategories.slice(0,3): element.mediaTypeCategories">
@@ -46,14 +46,14 @@
         </ng-container>
         <!-- ActiveFlag Column -->
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'mediatype.tableHeader.status' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
             <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
           </mat-cell>
         </ng-container>
         <!-- action Column -->
         <ng-container matColumnDef="action">
-          <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+          <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'mediatype.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell class="actionColumn padding5" *matCellDef="let element">
             <button mat-mini-fab style="background: orange" (click)="editGroup(element.mediaTypeId)" *ngIf="commonservice.isUpdate" title="Update {{ element.mediaTypeId }}">
               <i class="fa fa-edit"></i>
