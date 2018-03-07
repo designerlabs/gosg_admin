@@ -24,11 +24,12 @@ export class LanguageComponent implements OnInit {
   complete: boolean;
   pageMode: String;
   languageId: any;
-  
+  langName: any;
   langCode: any;
   languageName: FormControl
   languageCode: FormControl
   languageDescription: FormControl
+  isDefault: FormControl
   resetMsg = this.resetMsg;
   public loading = false;
 
@@ -74,11 +75,13 @@ export class LanguageComponent implements OnInit {
     this.languageName = new FormControl()
     this.languageCode = new FormControl()
     this.languageDescription = new FormControl()
+    this.isDefault = new FormControl()
 
     this.languageForm = new FormGroup({
       languageName: this.languageName,
       languageDescription: this.languageDescription,
-      languageCode: this.languageCode
+      languageCode: this.languageCode,
+      isDefault: this.isDefault
     });
 
     if(this.langCode == "add") {
@@ -123,6 +126,12 @@ export class LanguageComponent implements OnInit {
         this.languageForm.get('languageName').setValue(langData.languageName);
         this.languageForm.get('languageDescription').setValue(langData.languageDescription);
         this.languageForm.get('languageCode').setValue(langData.languageCode);
+        this.languageForm.get('isDefault').setValue(langData.isDefault);
+        this.langName = langData.languageName;
+        this.langCode = langData.languageCode;
+
+        this.languageForm.get('languageName').disable();
+        this.languageForm.get('languageCode').disable();
         
         this.checkReqValues();
 
@@ -147,13 +156,18 @@ export class LanguageComponent implements OnInit {
   //   this.checkReqValues();
   // }
 
-  checkReqValues() {
-
+  checkReqValues() 
+  {
+    let reqVal: any;
     let languageName = "languageName";
     let langDesc = "languageDescription";
     let languageCode = "languageCode";
 
-    let reqVal: any = [languageName, langDesc, languageCode];
+    if(this.isEdit == true)
+      reqVal = [langDesc];
+    else
+      reqVal = [languageName, langDesc, languageCode];
+
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -179,7 +193,7 @@ export class LanguageComponent implements OnInit {
   }
  
   updateLanguage(formValues: any) {
-    
+
     if(!this.isEdit) {
 
     let body = 
@@ -187,14 +201,17 @@ export class LanguageComponent implements OnInit {
         "languageId": null,
         "languageCode": null,
         "languageName": null,
+        "isDefault": null,
         "languageDescription": null
       };
     
-    // console.log(formValues)
+    console.log(formValues)
+
 
     body.languageCode = formValues.languageCode;
     body.languageName = formValues.languageName;
     body.languageDescription = formValues.languageDescription;
+    body.isDefault = formValues.isDefault;
 
     console.log(body)
 
@@ -220,12 +237,14 @@ export class LanguageComponent implements OnInit {
           "languageId": this.languageId,
           "languageCode": null,
           "languageName": null,
+          "isDefault": null,
           "languageDescription": null
         };
 
-        body.languageCode = formValues.languageCode;
-        body.languageName = formValues.languageName;
+        body.languageCode = this.langCode;
+        body.languageName = this.langName;
         body.languageDescription = formValues.languageDescription;
+        body.isDefault = formValues.isDefault;
 
     console.log(body);
 

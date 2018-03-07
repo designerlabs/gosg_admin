@@ -132,6 +132,9 @@ export class ModmenuComponent implements OnInit {
         this.modulesForm.get('active').setValue(this.moduleData['active']);
         this.moduleId = this.moduleData['moduleId'];
 
+        this.modulesForm.get('moduleName').disable();
+        this.modulesForm.get('moduleUrl').disable();
+
         this.checkReqValues();
               
       }).bind(this));
@@ -147,11 +150,16 @@ export class ModmenuComponent implements OnInit {
 
   checkReqValues() {
 
+    let reqVal: any;
     let moduleName = "moduleName";
     let moduleDesc = "moduleDesc";
     let moduleUrl = "moduleUrl";
 
-    let reqVal: any = [moduleName, moduleDesc, moduleUrl];
+    if(this.isEdit == true)
+      reqVal = [moduleDesc];
+    else
+      reqVal = [moduleName, moduleDesc, moduleUrl];
+
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {

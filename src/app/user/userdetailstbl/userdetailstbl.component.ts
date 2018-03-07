@@ -52,6 +52,7 @@ export class UserdetailstblComponent implements OnInit {
   userType: FormControl;
   isMailContainerShow = 'block';
   public loading = false;
+  showNoData = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -60,8 +61,6 @@ export class UserdetailstblComponent implements OnInit {
 
   applyFilter(val) {   
 
-    console.log(val  + "TEST" + this.filterTypeVal);
-    
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
@@ -71,14 +70,17 @@ export class UserdetailstblComponent implements OnInit {
   
   }
 
-  resetSearch() {
+  resetSearch(keyword) {
     this.getUsersData(this.pageCount, this.pageSize);
+    keyword = ''
   }
 
   filterType(filterVal) {
-
+    
     this.filterTypeVal = filterVal.value; 
-
+    
+    this.resetSearch(null);
+    
     if(this.filterTypeVal == 1){
       this.getUsersData(this.pageCount, this.pageSize);
     }
@@ -168,12 +170,19 @@ export class UserdetailstblComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
         
         this.userList = data;
-        console.log(this.userList)
-        this.dataSource.data = this.userList.userList;
-        this.seqPageNum = this.userList.pageNumber;
-        this.seqPageSize = this.userList.pageSize;
-        this.commonservice.recordTable = this.userList;
-        this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+        if(this.userList.userList.length > 0){
+          console.log(this.userList)
+          this.dataSource.data = this.userList.userList;
+          this.seqPageNum = this.userList.pageNumber;
+          this.seqPageSize = this.userList.pageSize;
+          this.commonservice.recordTable = this.userList;
+          this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+          
+          this.showNoData = false;
+        }else{
+          this.dataSource.data = []; 
+          this.showNoData = true;
+        }  
 
       }).bind(this));
         
@@ -203,15 +212,24 @@ export class UserdetailstblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
+          console.log(this.recordList.userList.length)
 
-          console.log("data");
-          console.log(data);
-          
-          this.dataSource.data = this.recordList.userList;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          if(this.recordList.userList.length > 0){
+
+            console.log("data");
+            console.log(data);
+            
+            this.dataSource.data = this.recordList.userList;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.commonservice.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            
+            this.showNoData = false;
+          }else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }  
 
         }).bind(this)); 
         this.loading = false;

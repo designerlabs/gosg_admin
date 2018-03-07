@@ -34,7 +34,8 @@
       "groupingManagement": "Grouping Management",
       "groupingDetails": "Sorting and Grouping from isolate module",
       "adminDetails": "Assign Admin user and providing permission",
-      "modules": "Modules"
+      "modules": "Modules",
+      "allmodules": "All Modules"
     },
     "check": "Review",
     "readmore": "Read More",
@@ -313,6 +314,7 @@
     "icno": "IC No.",
     "moduleGroupName": "Modules Group List",
     "activeFlag": "Status",
+    "isSuperAdmin": "Is Super Admin",
     "action": "Action",
     "pages": "Pages",
     "of": "of",
@@ -537,6 +539,12 @@
       "of": "of",
       "in": "in",
       "feedback": "feedback message"
+    },
+    "filterby": {
+      "filterby": "Filter By",
+      "all": "All",
+      "email": "Email",
+      "keyword": "Keywords"
     }
   },
   "feedbackvisitortbl": {
@@ -694,7 +702,8 @@
       "num": "No.",
       "code": "Code",
       "name": "Language Name",
-      "description": "Language Description"
+      "description": "Language Description",
+      "isDefault": "Default"
     }
   },
   "mediauploadtbl": {
@@ -855,6 +864,69 @@
     "component": {
       "sys": "System Settings",
       "active": "Active"
+    }
+  },
+  "usermgmt": {
+    "header": "User Management",
+    "tableHeader":{
+      "num": "No.",
+      "fullname": "Fullname",
+      "email": "Email",
+      "accstatus": "Account Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "users": "users"
+    },
+    "component": {
+      "users": "User Account Status",
+      "isstaff": "Is Staff?",
+      "dob": "Date of Birth",
+      "citizenship": "Citizenship",
+      "country": "Country",
+      "gender": "Gender",
+      "race": "Race",
+      "religion": "Religion",
+      "address": "Address",
+      "mobilenum": "Mobile Number"
+    },
+    "filterby": {
+      "all": "All",
+      "email": "Email",
+      "icno": "IC No."
+    }
+  },
+  "mediatype": {
+    "header": "Media Management",
+    "tableHeader":{
+      "num": "No.",
+      "name": "Name",
+      "category": "Category",
+      "status": "Status",
+      "action": "Action"
+    },
+    "component": {
+    }
+  },
+  "admin": {
+    "header": "Admin Management",
+    "tablebottom": {
+      "users": "users"
+    },
+    "component": {
+      "permision": "Role and Permission Management",
+      "superadmin": "Super Admin",
+      "groupmodule": "Group Module Name",
+      "modpermision": "Group Modules and Permission",
+      "active": "Active",
+      "update": "Update"
+    },
+    "addby": {
+      "email": "by Email",
+      "icno": "by IC No."
     }
   }
 }

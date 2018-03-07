@@ -12,16 +12,16 @@
     
 	<div *ngIf='menulst'>
 		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
-			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['admin']">{{ 'home.content.adminManagement' | translate }}</a>
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['admin']">Admin Management</a>
 		</div>
 		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
-			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">{{ 'home.content.groupingManagement' | translate }}</a>
+			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">Grouping Management</a>
 		</div>
 		<mat-accordion>
 			<mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" >
 				<mat-expansion-panel-header>
 					<mat-panel-title style="font-weight: bold;">
-						All Modules <span class="module_counts" *ngIf="menulst">{{menulst?.moduleList?.length }}</span>
+						{{ 'home.content.allmodules' | translate }} <span class="module_counts" *ngIf="menulst">{{menulst?.moduleList?.length }}</span>
 					</mat-panel-title>
 				</mat-expansion-panel-header>
 				<div style="padding-bottom: 0px;" *ngFor="let menu of menulst.moduleList">
