@@ -163,6 +163,12 @@ export class MediafileuploadComponent implements OnInit {
       maxW: null
     }
 
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.mediaFileUpForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.mediaFileUpForm.disable();
+    }
 
   }
 
