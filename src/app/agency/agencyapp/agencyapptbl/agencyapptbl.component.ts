@@ -34,6 +34,7 @@ export class AgencyapptblComponent implements OnInit {
   languageId: any;
   filterTypeVal: any;
   public loading = false;
+  showNoData = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -109,12 +110,22 @@ export class AgencyapptblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.agencyAppList = data;
-          console.log(this.agencyAppList)
-          this.dataSource.data = this.agencyAppList.list;
-          this.seqPageNum = this.agencyAppList.pageNumber;
-          this.seqPageSize = this.agencyAppList.pageSize;
-          this.commonservice.recordTable = this.agencyAppList;
-          this.noNextData = this.agencyAppList.pageNumber === this.agencyAppList.totalPages;
+
+          if(this.agencyAppList.list.length > 0){
+            console.log(this.agencyAppList)
+            this.dataSource.data = this.agencyAppList.list;
+            this.seqPageNum = this.agencyAppList.pageNumber;
+            this.seqPageSize = this.agencyAppList.pageSize;
+            this.commonservice.recordTable = this.agencyAppList;
+            this.noNextData = this.agencyAppList.pageNumber === this.agencyAppList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
         }).bind(this));
      
         this.loading = false;
@@ -134,14 +145,24 @@ export class AgencyapptblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
-          
-          this.dataSource.data = this.recordList.list;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+          if(this.recordList.list.length > 0){
+            console.log("data");
+            console.log(data);
+            
+            this.dataSource.data = this.recordList.list;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.commonservice.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
 
         }).bind(this));
         this.loading = false; 

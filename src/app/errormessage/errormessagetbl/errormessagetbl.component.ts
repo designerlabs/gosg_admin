@@ -34,6 +34,7 @@ export class ErrormessagetblComponent implements OnInit {
   seqPageSize = 0 ;
   lang:any;
   languageId: any;
+  showNoData = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -116,12 +117,22 @@ export class ErrormessagetblComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
             this.errMsgList = data;
-            console.log(this.errMsgList)
-            this.dataSource.data = this.errMsgList.list;
-            this.seqPageNum = this.errMsgList.pageNumber;
-            this.seqPageSize = this.errMsgList.pageSize;
-            this.commonservice.recordTable = this.errMsgList;
-            this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+
+            if(this.errMsgList.list.length > 0){
+              console.log(this.errMsgList)
+              this.dataSource.data = this.errMsgList.list;
+              this.seqPageNum = this.errMsgList.pageNumber;
+              this.seqPageSize = this.errMsgList.pageSize;
+              this.commonservice.recordTable = this.errMsgList;
+              this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+
+              this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
 
           }).bind(this)); 
           this.loading = false;          
@@ -146,12 +157,22 @@ export class ErrormessagetblComponent implements OnInit {
             this.commonservice.errorHandling(data, (function(){
               console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
               this.errMsgList = data;
-              console.log(this.errMsgList)
-              this.dataSource.data = this.errMsgList.list;
-              this.seqPageNum = this.errMsgList.pageNumber;
-              this.seqPageSize = this.errMsgList.pageSize;
-              this.commonservice.recordTable = this.errMsgList;
-              this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+
+              if(this.errMsgList.list.length > 0){
+                console.log(this.errMsgList)
+                this.dataSource.data = this.errMsgList.list;
+                this.seqPageNum = this.errMsgList.pageNumber;
+                this.seqPageSize = this.errMsgList.pageSize;
+                this.commonservice.recordTable = this.errMsgList;
+                this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
+
+                this.showNoData = false;
+            }
+
+            else{
+              this.dataSource.data = []; 
+              this.showNoData = true;
+            }
 
             }).bind(this)); 
             this.loading = false;          

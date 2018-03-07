@@ -36,6 +36,8 @@ export class SlidertblComponent implements OnInit {
   languageId: any;
   public loading = false;
 
+  showNoData = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -104,11 +106,21 @@ export class SlidertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
         this.sliderList = data;
         console.log(this.sliderList)
-        this.dataSource.data = this.sliderList.list;
-        this.seqPageNum = this.sliderList.pageNumber;
-        this.seqPageSize = this.sliderList.pageSize;
-        this.commonservice.recordTable = this.sliderList;
-        this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+
+        if(this.sliderList.list.length > 0){
+          this.dataSource.data = this.sliderList.list;
+          this.seqPageNum = this.sliderList.pageNumber;
+          this.seqPageSize = this.sliderList.pageSize;
+          this.commonservice.recordTable = this.sliderList;
+          this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+
+          this.showNoData = false;
+        }
+
+        else{
+          this.dataSource.data = []; 
+          this.showNoData = true;
+        }
           
       }).bind(this));
       this.loading = false;

@@ -36,6 +36,8 @@ export class AgencytblComponent implements OnInit {
   filterTypeVal: any;
   public loading = false;
 
+  showNoData = false
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -111,12 +113,22 @@ export class AgencytblComponent implements OnInit {
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.agencyTypeList = data;
-          console.log(this.agencyTypeList)
-          this.dataSource.data = this.agencyTypeList.list;
-          this.seqPageNum = this.agencyTypeList.pageNumber;
-          this.seqPageSize = this.agencyTypeList.pageSize;
-          this.commonservice.recordTable = this.agencyTypeList;
-          this.noNextData = this.agencyTypeList.pageNumber === this.agencyTypeList.totalPages;
+
+          if(this.agencyTypeList.list.length > 0){
+            console.log(this.agencyTypeList)
+            this.dataSource.data = this.agencyTypeList.list;
+            this.seqPageNum = this.agencyTypeList.pageNumber;
+            this.seqPageSize = this.agencyTypeList.pageSize;
+            this.commonservice.recordTable = this.agencyTypeList;
+            this.noNextData = this.agencyTypeList.pageNumber === this.agencyTypeList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
         }).bind(this)); 
         this.loading = false;
       }, err => {
@@ -135,6 +147,8 @@ export class AgencytblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
+
+          if(this.recordList.list.length > 0){
           console.log("data");
           console.log(data);
           
@@ -143,6 +157,14 @@ export class AgencytblComponent implements OnInit {
           this.seqPageSize = this.recordList.pageSize;
           this.commonservice.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+          this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
 
         }).bind(this)); 
         this.loading = false;

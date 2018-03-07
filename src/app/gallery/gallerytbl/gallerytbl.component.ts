@@ -33,6 +33,8 @@ export class GallerytblComponent implements OnInit {
   seqPageSize = 0 ;
   lang:any;
   languageId: any;
+
+  showNoData = false;
   
   public loading = false;
 
@@ -102,13 +104,23 @@ export class GallerytblComponent implements OnInit {
         
           this.commonservice.errorHandling(data, (function(){
           this.galleryList = data;
-          console.log(this.galleryList)
-          // console.log(JSON.stringify(this.galleryList))
-          this.dataSource.data = this.galleryList.list;
-          this.seqPageNum = this.galleryList.pageNumber;
-          this.seqPageSize = this.galleryList.pageSize;
-          this.commonservice.recordTable = this.galleryList;
-          this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
+
+          if(this.galleryList.list.length > 0){
+            console.log(this.galleryList)
+            // console.log(JSON.stringify(this.galleryList))
+            this.dataSource.data = this.galleryList.list;
+            this.seqPageNum = this.galleryList.pageNumber;
+            this.seqPageSize = this.galleryList.pageSize;
+            this.commonservice.recordTable = this.galleryList;
+            this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
           
         }).bind(this));
         this.loading = false;

@@ -32,6 +32,8 @@ export class CountryComponent implements OnInit {
   languageId: any;
   public loading = false;
 
+  showNoData = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -94,10 +96,18 @@ export class CountryComponent implements OnInit {
 
           console.log("data");
           console.log(data);
+          if(this.recordList.countryList.length > 0){
+            this.dataSource.data = this.recordList.countryList;
+            this.commonservice.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-          this.dataSource.data = this.recordList.countryList;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
 
         }).bind(this)); 
         this.loading = false;
@@ -125,12 +135,20 @@ export class CountryComponent implements OnInit {
 
             console.log("data");
             console.log(data);
-
+            if(this.recordList.countryList.length > 0){
             // this.recordList.countryList.push(this.translate.instant('common.msg.notfound'));
             
-            this.dataSource.data = this.recordList.countryList;
-            this.commonservice.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+              this.dataSource.data = this.recordList.countryList;
+              this.commonservice.recordTable = this.recordList;
+              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+              this.showNoData = false;
+            }
+    
+            else{
+              this.dataSource.data = []; 
+              this.showNoData = true;
+            }
 
           }).bind(this)); 
           this.loading = false;

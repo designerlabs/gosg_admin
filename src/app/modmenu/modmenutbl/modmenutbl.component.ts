@@ -38,6 +38,8 @@ export class ModmenutblComponent implements OnInit {
   languageId: any;
   public loading = false;
 
+  showNoData = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -110,12 +112,22 @@ export class ModmenutblComponent implements OnInit {
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.moduleList = data;
-          console.log(this.moduleList)
-          this.dataSource.data = this.moduleList['moduleList'];
-          this.seqPageNum = this.moduleList.pageNumber;
-          this.seqPageSize = this.moduleList.pageSize;
-          this.commonservice.recordTable = this.moduleList;
-          this.noNextData = this.moduleList.pageNumber === this.moduleList.totalPages;
+
+          if(this.moduleList['moduleList'].length > 0){
+            console.log(this.moduleList)
+            this.dataSource.data = this.moduleList['moduleList'];
+            this.seqPageNum = this.moduleList.pageNumber;
+            this.seqPageSize = this.moduleList.pageSize;
+            this.commonservice.recordTable = this.moduleList;
+            this.noNextData = this.moduleList.pageNumber === this.moduleList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+          }
             
         }).bind(this));
         this.loading = false;
@@ -141,12 +153,19 @@ export class ModmenutblComponent implements OnInit {
           this.recordList = data;
           console.log("data");
           console.log(data);
+          if(this.recordList.moduleList.length > 0){
           
-          this.dataSource.data = this.recordList.moduleList;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            this.dataSource.data = this.recordList.moduleList;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.commonservice.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
 
         }).bind(this));
         this.loading = false; 
