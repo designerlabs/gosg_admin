@@ -908,5 +908,14 @@
     },
     "component": {
     }
+  },
+  "admin": {
+    "header": "Pengurusan Admin",
+    "component": {
+    },
+    "addby": {
+      "email": "mengikut Emel",
+      "icno": "mengikut No. KP"
+    }
   }
 }

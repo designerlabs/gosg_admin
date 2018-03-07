@@ -908,5 +908,14 @@
     },
     "component": {
     }
+  },
+  "admin": {
+    "header": "Admin Management",
+    "component": {
+    },
+    "addby": {
+      "email": "by Email",
+      "icno": "by IC No."
+    }
   }
 }

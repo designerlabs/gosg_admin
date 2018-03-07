@@ -12,8 +12,8 @@
             <td style="width:25%">
               <mat-form-field>
                 <mat-select formControlName="userType" #userType placeholder="Add User By" (change)="checkReqValues()" required>
-                  <mat-option [value]="1">by Email</mat-option>
-                  <mat-option [value]="2">by IC No.</mat-option>
+                  <mat-option [value]="1">{{ 'admin.addby.email' | translate }}</mat-option>
+                  <mat-option [value]="2">{{ 'admin.addby.icno' | translate }}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="addUserForm.controls.userType.hasError('required')">
                   Please select the type
