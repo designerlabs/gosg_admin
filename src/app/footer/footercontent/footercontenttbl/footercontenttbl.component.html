@@ -3,7 +3,7 @@
     
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Footer Content</h3>
+            <h3>{{ 'footercontenttbl.header' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -30,28 +30,28 @@
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
 
                 <ng-container matColumnDef="no">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="catEng">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 21%;" *matHeaderCellDef> Footer Category (English) </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 21%;" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.footercategoryEn' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 21%;" *matCellDef="let element">
                         {{element.list[0].footer.name}}
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nameEng">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 27%;" *matHeaderCellDef> Name (English) </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 27%;" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.nameEn' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 27%;" *matCellDef="let element">
                         {{element.list[0].name}}
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nameMy">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 27%;" *matHeaderCellDef> Name (Malay) </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 27%;" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.nameBm' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 27%;" *matCellDef="let element">
                         {{element.list[1].name}}
                     </mat-cell>
@@ -59,7 +59,7 @@
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
+                    <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
                         <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="View {{ element.refCode }}" ></i>
@@ -95,10 +95,10 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">Pages
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> Identification Type list
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'footercontenttbl.tablebottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'footercontenttbl.tablebottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'footercontenttbl.tablebottom.in' | translate }}
+                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'footercontenttbl.tablebottom.footer' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
                 <i class="fa fa-angle-left" aria-hidden="true"></i>

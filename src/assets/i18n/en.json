@@ -572,26 +572,129 @@
     "replysection": "Reply Section"
   },
   "feedbacksubjecttbl": {
-    "header": "Feedback Visitor List",
+    "header": "Feedback Subject List",
     "tableHeader":{
       "num": "No.",
-      "feedbacktype": "Feedback Type",
-      "name": "Name",
-      "email": "Email",
-      "status": "Draft Status",
+      "subjectEn": "Subject (EN)",
+      "subjectBm": "Subject (BM)",
       "action": "Action"
     },
     "tablebottom":{
       "page": "Pages",
       "of": "of",
       "in": "in",
-      "feedback": "feedback message"
+      "feedbacksubject": "feedback subject"
+    }
+  },
+  "feedbacktypetbl": {
+    "header": "Feedback Type List",
+    "tableHeader":{
+      "num": "No.",
+      "typeEn": "Type (EN)",
+      "typeBm": "Type (BM)",
+      "action": "Action"
     },
-    "filterby": {
-      "filterby": "Filter By",
-      "all": "All",
-      "email": "Email",
-      "keyword": "Keywords"
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "feedbacktype": "feedback type"
+    }
+  },
+  "fonttbl": {
+    "header": "Font Settings List",
+    "tableHeader":{
+      "num": "No.",
+      "name": "Name",
+      "url": "Url",
+      "defaultstatus": "Default Status",
+      "activestatus": "Active Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "font": "font setting"
+    }
+  },
+  "footercategorytbl": {
+    "header": "Footer Category",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Footer Category (EN)",
+      "footercategoryBm": "Footer Category (BM)",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "footer": "footer category list"
+    }
+  },
+  "footercontenttbl": {
+    "header": "Footer Content",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Footer Category (EN)",
+      "nameEn": "Name (EN)",
+      "nameBm": "Name (BM)",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "footer": "footer content list"
+    }
+  },
+  "gallerytbl": {
+    "header": "Gallery Management",
+    "tableHeader":{
+      "num": "No.",
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "status": "Status",
+      "action": "Action"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "gallery": "gallery list"
+    }
+  },
+  "gender": {
+    "header": "Gender",
+    "tableHeader":{
+      "num": "No.",
+      "genderEn": "Gender (EN)",
+      "genderBm": "Gender (BM)"
+    }
+  },
+  "identificationtypetbl": {
+    "header": "Identification Type",
+    "tableHeader":{
+      "num": "No.",
+      "idtypeEn": "Identification Type (EN)",
+      "idtypeBm": "Identification Type (BM)"
+    },
+    "tablebottom":{
+      "page": "Pages",
+      "of": "of",
+      "in": "in",
+      "idtype": "identification type list"
+    }
+  },
+  "langtbl": {
+    "header": "Language Management",
+    "tableHeader":{
+      "num": "No.",
+      "code": "Code",
+      "name": "Language Name",
+      "description": "Language Description"
     }
   }
 }

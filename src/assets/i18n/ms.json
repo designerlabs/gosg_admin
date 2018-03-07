@@ -570,5 +570,131 @@
     "subject": "Subjek",
     "msg": "Mesej",
     "replysection": "Bahagian Balasan"
+  },
+  "feedbacksubjecttbl": {
+    "header": "Senarai Subjek Maklum Balas",
+    "tableHeader":{
+      "num": "Bil.",
+      "subjectEn": "Subjek (EN)",
+      "subjectBm": "Subjek (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "feedbacksubject": "subjek maklum balas"
+    }
+  },
+  "feedbacktypetbl": {
+    "header": "Senarai Jenis Maklum Balas",
+    "tableHeader":{
+      "num": "No.",
+      "typeEn": "Jenis (EN)",
+      "typeBm": "Jenis (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "feedbacktype": "jenis maklum balas"
+    }
+  },
+  "fonttbl": {
+    "header": "Senarai Tetapan Fon",
+    "tableHeader":{
+      "num": "Bil.",
+      "name": "Nama",
+      "url": "Url",
+      "defaultstatus": "Status Default",
+      "activestatus": "Status Aktif",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "font": "tetapan fon"
+    }
+  },
+  "footercategorytbl": {
+    "header": "Kategori Footer",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Kategori Footer (EN)",
+      "footercategoryBm": "Kategori Footer (BM)",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "footer": "senarai kategori footer"
+    }
+  },
+  "footercontenttbl": {
+    "header": "Kandungan Footer",
+    "tableHeader":{
+      "num": "No.",
+      "footercategoryEn": "Kategori Footer (EN)",
+      "nameEn": "Nama (EN)",
+      "nameBm": "Nama (BM)",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "footer": "senarai kandungan footer"
+    }
+  },
+  "gallerytbl": {
+    "header": "Pengurusan Galeri",
+    "tableHeader":{
+      "num": "Bil.",
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "status": "Status",
+      "action": "Tindakan"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "gallery": "senarai galeri"
+    }
+  },
+  "gender": {
+    "header": "Jantina",
+    "tableHeader":{
+      "num": "Bil.",
+      "genderEn": "Jantina (EN)",
+      "genderBm": "Jantina (BM)"
+    }
+  },
+  "identificationtypetbl": {
+    "header": "Jenis Pengenalan",
+    "tableHeader":{
+      "num": "No.",
+      "idtypeEn": "Jenis Pengenalan (EN)",
+      "idtypeBm": "Jenis Pengenalan (BM)"
+    },
+    "tablebottom":{
+      "page": "Halaman",
+      "of": "daripada",
+      "in": "dalam",
+      "idtype": "senarai jenis pengenalan"
+    }
+  },
+  "langtbl": {
+    "header": "Pengurusan Bahasa",
+    "tableHeader":{
+      "num": "Bil.",
+      "code": "Kod",
+      "name": "Nama Bahasa",
+      "description": "Keterangan Bahasa"
+    }
   }
 }

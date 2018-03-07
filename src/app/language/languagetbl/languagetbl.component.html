@@ -3,7 +3,7 @@
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>Language Management</h3>
+          <h3>{{ 'langtbl.header' | translate }}</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -30,7 +30,7 @@
 
           <!-- No Column -->
           <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> No </mat-header-cell>
+            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'langtbl.tableHeader.num' | translate }} </mat-header-cell>
             <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
               {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
             </mat-cell>
@@ -38,7 +38,7 @@
 
           <!-- languageCode Column -->
           <ng-container matColumnDef="languageCode">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 5%;">Code</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 5%;">{{ 'langtbl.tableHeader.code' | translate }}</mat-header-cell>
               <mat-cell *matCellDef="let element" style="flex: 0 0 5%;">
                 {{element.languageCode}}
               </mat-cell>
@@ -46,13 +46,13 @@
 
           <!-- languageName Column -->
           <ng-container matColumnDef="languageName">
-            <mat-header-cell *matHeaderCellDef > Language Name</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef > {{ 'langtbl.tableHeader.name' | translate }}</mat-header-cell>
             <mat-cell *matCellDef="let element" (click)="getRow(element)" > {{element.languageName}} </mat-cell>
           </ng-container>
 
           <!-- languageDescription Column -->
           <ng-container matColumnDef="languageDescription">
-            <mat-header-cell *matHeaderCellDef >Language Description</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef >{{ 'langtbl.tableHeader.description' | translate }}</mat-header-cell>
             <mat-cell *matCellDef="let element" > {{element.languageDescription}} </mat-cell>
           </ng-container>
           
