@@ -54,6 +54,10 @@ export class AgencytblComponent implements OnInit {
   
   }
 
+  resetSearch() {
+    this.getAgencyTypesData(this.pageCount, this.pageSize);
+  }
+
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 

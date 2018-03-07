@@ -59,7 +59,11 @@ export class AccountstatusComponent implements OnInit {
       });
     });
     if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
+      if(localStorage.getItem('langID')){
+        this.languageId = localStorage.getItem('langID');
+      }else{
+        this.languageId = 1;
+      }
       this.commonservice.getModuleId();
       //this.getData();
     }
