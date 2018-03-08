@@ -107,6 +107,7 @@ import { FontComponent } from './font/font.component';
 import { FonttblComponent } from './font/fonttbl/fonttbl.component';
 import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
 import { LoadingModule } from 'ngx-loading';
+import { TruncatePipe } from './pipe/truncate.pipe';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -196,6 +197,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FontComponent,
     FonttblComponent,
     UserdetailstblComponent,
+    TruncatePipe,
   ],
   imports: [
     BrowserModule,

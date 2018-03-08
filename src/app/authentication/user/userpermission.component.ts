@@ -89,8 +89,6 @@ export class UserpermissionComponent implements OnInit {
 
   }
 
-
-
   getModuleData() {
     if(this.route.snapshot.params.id){
     this.statusTitle = "Update";

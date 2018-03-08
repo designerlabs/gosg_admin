@@ -44,7 +44,7 @@ export class UsertblComponent implements OnInit {
   pageMode: String;
   isEdit: boolean;
   seqNo = 0;
-  addUserForm: FormGroup;
+  updateForm: FormGroup;
   emailFld: FormControl;
   icFld:FormControl;
   userType: FormControl;
@@ -109,7 +109,7 @@ export class UsertblComponent implements OnInit {
     this.closeUserBtn = false;
     this.icFld = new FormControl();
     this.userType = new FormControl();
-    this.addUserForm = new FormGroup({
+    this.updateForm = new FormGroup({
       emailFld: this.emailFld,
       icFld:this.icFld,
       userType: this.userType
@@ -123,8 +123,8 @@ export class UsertblComponent implements OnInit {
   }
 
   checkReqValues(){
-    this.addUserForm.get('emailFld').setValue('');
-    this.addUserForm.get('icFld').setValue('');
+    this.updateForm.get('emailFld').setValue('');
+    this.updateForm.get('icFld').setValue('');
     this.isActive = true;
     this.isActiveList = false;
     if(this.userType.value == 1){
@@ -299,9 +299,9 @@ export class UsertblComponent implements OnInit {
     this.isActiveList = false;
     this.searchUserResult = [''];
     if(type == 'email'){
-      this.addUserForm.get('emailFld').setValue(val);
+      this.updateForm.get('emailFld').setValue(val);
     }else{
-      this.addUserForm.get('icFld').setValue(val);
+      this.updateForm.get('icFld').setValue(val);
     }
   }
 
