@@ -92,7 +92,8 @@ export class LanguagetblComponent implements OnInit {
     
     this.loading = true;
 
-    this.http.get(this.appConfig.urlGetLanguage + '/all?language='+this.languageId).subscribe(
+    // this.http.get(this.appConfig.urlGetLanguage + '/all?language='+this.languageId).subscribe(
+    this.commonservice.readPortal('language/all').subscribe(
   
       data => {
 
@@ -127,26 +128,26 @@ export class LanguagetblComponent implements OnInit {
     this.router.navigate(['language', row]);
   }
 
-  deleteRow(langId) {
-    this.loading = true;
-    this.commonservice.delLanguage(langId).subscribe(
-      data => {
+  // deleteRow(langId) {
+  //   this.loading = true;
+  //   this.commonservice.delLanguage(langId).subscribe(
+  //     data => {
 
-        this.commonservice.errorHandling(data, (function(){
+  //       this.commonservice.errorHandling(data, (function(){
 
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');     
-          this.getlanguagesData()
-          this.loading = false;
-      }).bind(this)); 
-      this.loading = false;
-    },
-    error => {
+  //         this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');     
+  //         this.getlanguagesData()
+  //         this.loading = false;
+  //     }).bind(this)); 
+  //     this.loading = false;
+  //   },
+  //   error => {
 
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
-      this.loading = false;
-    });
-  }
+  //     this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+  //     console.log(error);
+  //     this.loading = false;
+  //   });
+  // }
 
   changePageMode(isEdit) {
     if (isEdit == false) {
