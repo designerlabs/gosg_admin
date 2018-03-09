@@ -282,6 +282,11 @@ export class MediatypeComponent implements OnInit {
     this.checkReqValues();
   }
 
+  myFunction() {
+    this.updateForm.reset();
+    this.checkReqValues();   
+  }
+
   checkReqValues() {
     let mediatype = "mediatype";
     let catType = "catType";

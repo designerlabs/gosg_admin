@@ -364,16 +364,9 @@ export class AgencyappComponent implements OnInit {
     }
   }
 
-  myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
-      this.updateForm.reset();
-      this.checkReqValues();
-    } else {
-      txt = "You pressed Cancel!";
-    }
+  myFunction() {  
+    this.updateForm.reset();
+    this.checkReqValues();
   }
 
   updateAgencyApp(formValues: any) {

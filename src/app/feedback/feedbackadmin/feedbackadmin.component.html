@@ -9,7 +9,7 @@
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" mat-fab color="accent" (click)="back()" >
-                <i class="fa fa-arrow-left font-size-l"></i></button>
+                <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
             </span>
         </div> 
     </div>
@@ -86,9 +86,9 @@
 
         <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
             <button mat-raised-button type="button" color="primary" id="btnsubmit"
-            class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="deleteModal.show()" style="width: 100px; font-family: Roboto; margin-left: 5px;">
-            <i class="fa fa-times"></i> Delete </button>
+            class="form-control btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px"
+            (click)="deleteModal.show()" >
+            <i [ngClass]="commonservice.icon.times"></i> Delete </button>
             <!-- <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i> Reset</button> -->
