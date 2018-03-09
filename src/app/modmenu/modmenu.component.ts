@@ -149,6 +149,10 @@ export class ModmenuComponent implements OnInit {
     });
     
   }
+  myFunction() {
+    this.updateForm.reset();
+    this.checkReqValues();   
+  }
 
   checkReqValues() {
 

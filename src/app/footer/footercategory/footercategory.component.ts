@@ -106,10 +106,10 @@ export class FootercategoryComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-    this.dataUrl = this.appConfig.urlFooterCategory + "/" + _getRefID + "?language=" + this.languageId;
+    // this.dataUrl = this.appConfig.urlFooterCategory + "/" + _getRefID + "?language=" + this.languageId;
     this.loading = true;
 
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('footer/', _getRefID)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -183,7 +183,7 @@ export class FootercategoryComponent implements OnInit {
 
       console.log(body);
       this.loading = true;
-      this.commonservice.addFooterCategory(body).subscribe(
+      this.commonservice.create(body,'footer').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -244,7 +244,7 @@ export class FootercategoryComponent implements OnInit {
       console.log(body);
       this.loading = true;
 
-      this.commonservice.updateFooterCategory(body).subscribe(
+      this.commonservice.update(body, 'footer').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

@@ -394,16 +394,9 @@ export class AgencyComponent implements OnInit {
 
   }
 
-  myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
+  myFunction() {    
       this.updateForm.reset();
-      this.checkReqValues();
-    } else {
-      txt = "You pressed Cancel!";
-    }
+      this.checkReqValues();    
   }
 
   validateCtrlChk(ctrl: FormControl) {

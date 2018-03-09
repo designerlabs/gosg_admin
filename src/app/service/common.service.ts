@@ -977,32 +977,32 @@ getCategoryList1() {
     .catch(this.handleError);
   }
 
-  addFooterCategory(record) {
-    let fullUrl = this.appConfig.urlFooterCategory + "?language=" + this.languageId ;
+  // addFooterCategory(record) {
+  //   let fullUrl = this.appConfig.urlFooterCategory + "?language=" + this.languageId ;
     // let fullUrl = this.appConfig.urlFooterCategory + "?" + this.lang ;
-    console.log(fullUrl)
-    console.log(record)
+  //   console.log(fullUrl)
+  //   console.log(record)
 
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateFooterCategory(record) {
-    let fullUrl = this.appConfig.urlFooterCategory + "?language=" + this.languageId;
+  // updateFooterCategory(record) {
+  //   let fullUrl = this.appConfig.urlFooterCategory + "?language=" + this.languageId;
     
-    return this.http.put(fullUrl, record)
-        .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(fullUrl, record)
+  //       .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
     
-  delFooterCategory(refCode) {
-    let fullUrl = this.appConfig.urlFooterCategory + '/' + refCode + "?language=" + this.languageId;
+  // delFooterCategory(refCode) {
+  //   let fullUrl = this.appConfig.urlFooterCategory + '/' + refCode + "?language=" + this.languageId;
     
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(fullUrl, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
   getFooterCategoryList(){
     let fullUrl = this.appConfig.urlFooterCategory + '?active=true' + "&language=" + this.languageId;
@@ -1281,16 +1281,28 @@ getCategoryList1() {
 
   // NEW
   
-  readPortal(moduleName, page, size): Observable<any[]> {
-    let readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+  readPortal(moduleName, page?, size?): Observable<any[]> {
+    let readUrl;
+    
+    if(page && size)
+      readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+    else
+      readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)
       .catch(this.handleError);
   }
   
-  readProtected(moduleName, page, size): Observable<any[]> {
-    let readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+  readProtected(moduleName, page?, size?): Observable<any[]> {
+    let readUrl;
+    
+    if(page && size)
+      readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+    else
+      readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)
@@ -1328,8 +1340,10 @@ getCategoryList1() {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
+
   delete(id,moduleName) {
-    let deleteUrl = this.appConfig.urlCommon  + moduleName + '/id/' + id+ '?language='+this.languageId;
+    let deleteUrl = this.appConfig.urlCommon  + moduleName + id+ '?language='+this.languageId;
+    console.log(deleteUrl)
 
     return this.http.delete(deleteUrl, null)
     .map((response: Response) => response.json())

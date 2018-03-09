@@ -9,7 +9,7 @@
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" mat-fab color="accent" (click)="back()" >
-                <i class="fa fa-arrow-left font-size-l"></i></button>
+                <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l">asdfasdfasdf</i></button>
             </span>
         </div> 
     </div>
@@ -76,17 +76,14 @@
         <div class="row"></div>
         <div class="form-group" style="float: right;">
             
-            <button *ngIf="!isAdminSuper" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1))" color="primary" #updateBtn id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
-            (click)="submit();false" style="width: 100px; font-family: Roboto; margin-left: 5px;">
-            <i class="fa fa-check"></i> {{ 'admin.component.update' | translate }}</button>
+            <button *ngIf="!isAdminSuper" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1))" color="primary" #updateBtn id="btnsubmit" class="form-control btn btn-md btn-success font-size-s width_100px mgn_L_5px"
+            (click)="submit();false" >
+            <i [ngClass]="commonservice.icon.check"></i> {{ 'admin.component.update' | translate }}</button>
 
-            <button *ngIf="isAdminSuper" mat-raised-button type="button" color="primary" #updateBtn id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
-            (click)="updateAsSuperAdmin();false" style="width: 100px; font-family: Roboto; margin-left: 5px;">
-            <i class="fa fa-check"></i> {{ 'admin.component.update' | translate }}</button>
+            <button *ngIf="isAdminSuper" mat-raised-button type="button" color="primary" #updateBtn id="btnsubmit" class="form-control btn btn-md btn-success font-size-s width_100px "
+            (click)="updateAsSuperAdmin();false">
+            <i [ngClass]="commonservice.icon.check"></i> {{ 'admin.component.update' | translate }}</button>
+            
         </div>
-       
-       
     </form>
-
 </div>
-  
