@@ -288,7 +288,12 @@ export class MediafileuploadComponent implements OnInit {
       this.selFilesMy = [];
       this.selFilesEn = [];
   }
-
+  myFunction() {
+    this.mediaFileUpForm.reset();
+    this.selectedFilesEn ="";
+    this.selectedFilesMy ="";
+    this.checkReqValues();   
+  }
   checkReqValues() {
     let mediatype = "mediatype";
     let catType = "catType";

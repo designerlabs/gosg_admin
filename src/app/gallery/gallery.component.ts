@@ -19,7 +19,7 @@ export class GalleryComponent implements OnInit {
   galleryData: Object;
   dataUrl: any;
   date = new Date();
-  galleryForm: FormGroup
+  updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
   complete: boolean;
@@ -94,7 +94,7 @@ export class GalleryComponent implements OnInit {
     this.active = new FormControl()
     this.copyImg = new FormControl()
 
-    this.galleryForm = new FormGroup({
+    this.updateForm = new FormGroup({
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
@@ -108,7 +108,7 @@ export class GalleryComponent implements OnInit {
     if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
-      this.galleryForm.get('active').setValue(true);
+      this.updateForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
@@ -123,9 +123,9 @@ export class GalleryComponent implements OnInit {
 
     console.log(enImg)
     if(enImg != null && enImg == bmImg) {
-      this.galleryForm.get('copyImg').setValue(true);
+      this.updateForm.get('copyImg').setValue(true);
     } else {
-      this.galleryForm.get('copyImg').setValue(false);
+      this.updateForm.get('copyImg').setValue(false);
     }
   }
 
@@ -155,13 +155,13 @@ export class GalleryComponent implements OnInit {
         let dataBm = this.galleryData['list'][1];
 
         // populate data
-        this.galleryForm.get('titleEn').setValue(dataEn.slideTitle);
-        this.galleryForm.get('descEn').setValue(dataEn.slideDescription);
-        this.galleryForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
-        this.galleryForm.get('titleBm').setValue(dataBm.slideTitle);
-        this.galleryForm.get('descBm').setValue(dataBm.slideDescription);
-        this.galleryForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
-        this.galleryForm.get('active').setValue(dataEn.slideActiveFlag);
+        this.updateForm.get('titleEn').setValue(dataEn.slideTitle);
+        this.updateForm.get('descEn').setValue(dataEn.slideDescription);
+        this.updateForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
+        this.updateForm.get('titleBm').setValue(dataBm.slideTitle);
+        this.updateForm.get('descBm').setValue(dataBm.slideDescription);
+        this.updateForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
+        this.updateForm.get('active').setValue(dataEn.slideActiveFlag);
         this.galleryCode = dataEn.slideCode;
         this.galleryIdEn = dataEn.slideId;
         this.galleryIdBm = dataBm.slideId;
@@ -182,9 +182,9 @@ export class GalleryComponent implements OnInit {
   isChecked(e) {
 
     if (e.checked) {
-      this.galleryForm.get("imgBm").setValue(this.imgEn.value);
+      this.updateForm.get("imgBm").setValue(this.imgEn.value);
     } else {
-      this.galleryForm.get("imgBm").setValue("");
+      this.updateForm.get("imgBm").setValue("");
     }
     this.copyImg = e.checked;
     this.checkReqValues();
@@ -204,7 +204,7 @@ export class GalleryComponent implements OnInit {
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
-      let elem = this.galleryForm.get(reqData);
+      let elem = this.updateForm.get(reqData);
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -212,7 +212,7 @@ export class GalleryComponent implements OnInit {
       }
     }
 
-    this.isSameImg(this.galleryForm.get(imgEn).value,this.galleryForm.get(imgBm).value);
+    this.isSameImg(this.updateForm.get(imgEn).value,this.updateForm.get(imgBm).value);
 
       // console.log(nullPointers)
 
@@ -225,15 +225,9 @@ export class GalleryComponent implements OnInit {
   }
 
   myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
-      this.galleryForm.reset();
-      this.galleryForm.get('active').setValue(true);
-    } else {
-      txt = "You pressed Cancel!";
-    }
+    this.updateForm.reset();
+    this.updateForm.get('active').setValue(true);
+    this.checkReqValues();
   }
 
   updateGallery(formValues: any) {

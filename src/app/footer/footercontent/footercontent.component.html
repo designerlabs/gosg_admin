@@ -10,7 +10,7 @@
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" mat-fab color="accent" (click)="back()" >
-                <i class="fa fa-arrow-left font-size-l"></i></button>
+                <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
             </span>
         </div> 
     </div>
@@ -21,9 +21,6 @@
 
     <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" novalidate>       
         <div class="example-container mat-elevation-z8 paddingBottom-10">
-
-                
-
                 <div class="bg-form-header col-md-12" *ngIf = "commonservice.pageMode == 'Add'">
                     <!-- <div class="col-md-4"></div> -->
                     <div class="col-md-6">
@@ -207,19 +204,14 @@
                     <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="13">Active</mat-checkbox>
                 </div>
             </div>
-        
         </div>
-    
         <div class="form-group paddingTop-10" *ngIf="commonservice.isUpdate || commonservice.isWrite">
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right"
-            (click)="submit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete || ((!validateCtrlChk(iconEng)|| !validateCtrlChk(iconEng)) &&  updateForm.controls.iconEng.errors.pattern)">
-            <i *ngIf="complete" class="fa fa-check"></i>
-            <i *ngIf="!complete" class="fa fa-times"></i> {{commonservice.pageMode}} </button>
-            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
-            style="width: 100px; font-family: Roboto" (click)="resetModal.show()">
-            <i class="fa fa-refresh"></i> Reset</button>
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px" (click)="submit(updateForm.value)" [disabled]="!complete || ((!validateCtrlChk(iconEng)|| !validateCtrlChk(iconEng)) &&  updateForm.controls.iconEng.errors.pattern)">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
+            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right width_100px" (click)="resetModal.show()">
+            <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
         </div>      
-
     </form>
 </div>
 

@@ -88,36 +88,36 @@ export class FootercategorytblComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size + "&language=" + this.languageId;
+    // this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
-    .subscribe(data => {
-      this.commonservice.errorHandling(data, (function(){
-      this.recordList = data;
+    this.commonservice.readProtected('footer', page, size).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+        this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+        console.log("data");
+        console.log(data);
 
-      this.seqPageNum = this.recordList.pageNumber;
-      this.seqPageSize = this.recordList.pageSize;
-      
-      this.dataSource.data = this.recordList.list;
-      this.commonservice.recordTable = this.recordList;
-      this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        
+        this.dataSource.data = this.recordList.list;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-    }).bind(this)); 
-    this.loading = false;
-  },
-  error => {
+      }).bind(this)); 
+      this.loading = false;
+    },
+    error => {
 
-    this.loading = false;
-    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
+      this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      console.log(error);
 
-    });
+      });
   }
 
   paginatorL(page) {
@@ -150,7 +150,7 @@ export class FootercategorytblComponent implements OnInit {
 
     console.log(refCode);
     this.loading = true;
-    this.commonservice.delFooterCategory(refCode).subscribe(
+    this.commonservice.delete(refCode,'footer/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

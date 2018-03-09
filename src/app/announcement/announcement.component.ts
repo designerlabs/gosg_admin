@@ -184,15 +184,15 @@ debugger;
   }
 
   myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
+    // let txt;
+    // let r = confirm("Are you sure to reset the form?");
+    // if (r == true) {
+    //   txt = "You pressed OK!";
       this.announceForm.reset();
       this.announceForm.get('active').setValue(true);
-    } else {
-      txt = "You pressed Cancel!";
-    }
+    // } else {
+    //   txt = "You pressed Cancel!";
+    // }
   }
 
   deleteRow(enId,bmId) {

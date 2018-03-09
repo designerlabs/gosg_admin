@@ -195,7 +195,6 @@ export class GroupsComponent implements OnInit {
     this.remove(this.selectedItems.items, e);
   }
 
-
   submit(){
       
   }

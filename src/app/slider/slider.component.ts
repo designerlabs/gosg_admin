@@ -235,15 +235,8 @@ export class SliderComponent implements OnInit {
   }
 
   myFunction() {
-    let txt;
-    let r = confirm("Are you sure to reset the form?");
-    if (r == true) {
-      txt = "You pressed OK!";
-      this.updateForm.reset();
-      this.updateForm.get('active').setValue(true);
-    } else {
-      txt = "You pressed Cancel!";
-    }
+    this.updateForm.reset();
+    this.updateForm.get('active').setValue(true);
   }
 
   updateSlider(formValues: any) {
