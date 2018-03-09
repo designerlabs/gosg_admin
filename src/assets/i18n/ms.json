@@ -268,6 +268,7 @@
         "action": "Tindakan",
         "status": "Status",
         "activestatus": "Status Aktif",
+        "default": "Default",
         "icno": "No. KP",
         "bm": "BM",
         "en": "EN"
@@ -429,9 +430,7 @@
     "header": "Jenis Penduduk / Pengguna",
     "tableHeader":{
       "usertypeEn": "Jenis Pengguna (English)",
-      "usertypeBm": "Jenis Pengguna (Malay)",
-      "status": "Status",
-      "action": "Tindakan"
+      "usertypeBm": "Jenis Pengguna (Malay)"
     },
     "tablebottom":{
       "usertypelist": "senarai Jenis Pengguna"
@@ -441,10 +440,7 @@
     "header": "Pengurusan Warna",
     "tableHeader":{
       "colortitle": "Tajuk Warna",
-      "colorcode": "Kod Warna",
-      "status": "Status",
-      "default": "Default",
-      "action": "Tindakan"
+      "colorcode": "Kod Warna"
     },
     "tablebottom":{
       "colors": "warna"
@@ -454,9 +450,7 @@
     "header": "Pengurusan Kandungan",
     "tableHeader":{
       "categoryEn": "Kategori (EN)",
-      "categoryBm": "Kategori (BM)",
-      "activestatus": "Status Aktif",
-      "action": "Tindakan"
+      "categoryBm": "Kategori (BM)"
     },
     "tablebottom":{
       "contentmgmt": "pengurusan kandungan"
@@ -478,8 +472,7 @@
     "tableHeader":{
       "code": "Kod Mesej Error",
       "descriptionEn": "Keterangan (EN)",
-      "descriptionBm": "Keterangan (BM)",
-      "action": "Tindakan"
+      "descriptionBm": "Keterangan (BM)"
     },
     "tablebottom":{
       "errmsg": "mesej error"
@@ -489,9 +482,7 @@
     "header": "Senarai Soalan Lazim",
     "tableHeader":{
       "questionEn": "Soalan (EN)",
-      "questionBm": "Soalan (BM)",
-      "status": "Status",
-      "action": "Tindakan"
+      "questionBm": "Soalan (BM)"
     },
     "tablebottom":{
       "question": "soalan"
@@ -502,9 +493,7 @@
     "tableHeader":{
       "feedbacktype": "Jenis Maklum Balas",
       "name": "Nama",
-      "email": "Emel",
-      "status": "Status Aktif",
-      "action": "Tindakan"
+      "email": "Emel"
     },
     "tablebottom":{
       "feedback": "mesej maklum balas"
@@ -512,8 +501,7 @@
     "filterby": {
       "filterby": "Tapisan Mengikut",
       "all": "Semua",
-      "email": "Emel",
-      "keyword": "Mesej"
+      "email": "Emel"
     }
   },
   "feedbackvisitortbl": {

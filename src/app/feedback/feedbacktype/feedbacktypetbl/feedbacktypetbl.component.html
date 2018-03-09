@@ -31,7 +31,7 @@
             
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'feedbacktypetbl.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -55,7 +55,7 @@
         
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'feedbacktypetbl.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
                             <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
@@ -90,9 +90,9 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span class="table_footer_pagination">{{ 'feedbacktypetbl.tablebottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'feedbacktypetbl.tablebottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'feedbacktypetbl.tablebottom.in' | translate }}
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'feedbacktypetbl.tablebottom.feedbacktype' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">

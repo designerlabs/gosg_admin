@@ -268,6 +268,7 @@
         "action": "Action",
         "status": "Status",
         "activestatus": "Active Status",
+        "default": "Default",
         "icno": "IC No.",
         "bm": "BM",
         "en": "EN"
@@ -429,9 +430,7 @@
     "header": "Citizen / User Type",
     "tableHeader":{
       "usertypeEn": "User Type (English)",
-      "usertypeBm": "User Type (Malay)",
-      "status": "Status",
-      "action": "Action"
+      "usertypeBm": "User Type (Malay)"
     },
     "tablebottom":{
       "usertypelist": "User Type list"
@@ -441,10 +440,7 @@
     "header": "Color Management",
     "tableHeader":{
       "colortitle": "Color Title",
-      "colorcode": "Color Code",
-      "status": "Status",
-      "default": "Default",
-      "action": "Action"
+      "colorcode": "Color Code"
     },
     "tablebottom":{
       "colors": "colors"
@@ -454,9 +450,7 @@
     "header": "Content Management",
     "tableHeader":{
       "categoryEn": "Category (EN)",
-      "categoryBm": "Category (BM)",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "categoryBm": "Category (BM)"
     },
     "tablebottom":{
       "contentmgmt": "content management"
@@ -478,8 +472,7 @@
     "tableHeader":{
       "code": "Error Message Code",
       "descriptionEn": "Description (EN)",
-      "descriptionBm": "Description (BM)",
-      "action": "Action"
+      "descriptionBm": "Description (BM)"
     },
     "tablebottom":{
       "errmsg": "error messages"
@@ -489,9 +482,7 @@
     "header": "FAQs List",
     "tableHeader":{
       "questionEn": "Question (EN)",
-      "questionBm": "Question (BM)",
-      "status": "Status",
-      "action": "Action"
+      "questionBm": "Question (BM)"
     },
     "tablebottom":{
       "question": "questions"
@@ -502,9 +493,7 @@
     "tableHeader":{
       "feedbacktype": "Feedback Type",
       "name": "Name",
-      "email": "Email",
-      "status": "Active Status",
-      "action": "Action"
+      "email": "Email"
     },
     "tablebottom":{
       "feedback": "feedback message"
@@ -512,8 +501,7 @@
     "filterby": {
       "filterby": "Filter By",
       "all": "All",
-      "email": "Email",
-      "keyword": "Keywords"
+      "email": "Email"
     }
   },
   "feedbackvisitortbl": {
