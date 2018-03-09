@@ -1296,6 +1296,22 @@ getCategoryList1() {
       .retry(5)
       .catch(this.handleError);
   }
+  
+  readPortalById(moduleName, id): Observable<any[]> {
+    let readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+  
+  readProtectedById(moduleName, id): Observable<any[]> {
+    let readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
     
   create(data, moduleName) {
     let createUrl = this.appConfig.urlCommon   + moduleName + '?language='+this.languageId;
