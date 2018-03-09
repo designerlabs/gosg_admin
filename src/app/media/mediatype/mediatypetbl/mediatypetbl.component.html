@@ -8,7 +8,7 @@
     <div class="col-md-2 curdHeadingRight">
       <span class="pull-right">
         <button type="button" mat-fab color="warn" (click)="add()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
-          <i class="fa fa-plus font-size-l"></i>
+          <i [ngClass]="commonservice.icon.plus"></i>
         </button>
       </span>
     </div>
@@ -21,8 +21,8 @@
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
         <ng-container matColumnDef="no">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> {{ 'mediatype.tableHeader.num' | translate }} </mat-header-cell>
-          <mat-cell *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">
+          <mat-header-cell *matHeaderCellDef class="text-align-left noColumn"> {{ 'mediatype.tableHeader.num' | translate }} </mat-header-cell>
+          <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
         </ng-container>
@@ -35,8 +35,8 @@
         </ng-container>
         <!-- categoryName Column -->
         <ng-container matColumnDef="catName">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 30%'"> {{ 'mediatype.tableHeader.category' | translate }} </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 30%'">
+          <mat-header-cell *matHeaderCellDef > {{ 'mediatype.tableHeader.category' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element" >
             <mat-chip-list>
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories.length > 3 ? element.mediaTypeCategories.slice(0,3): element.mediaTypeCategories">
                 {{ele.category.categoryName}}</mat-chip>
@@ -48,19 +48,22 @@
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'mediatype.tableHeader.status' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
-            <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+            <!-- <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
+            <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+            <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
           </mat-cell>
         </ng-container>
         <!-- action Column -->
         <ng-container matColumnDef="action">
           <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'mediatype.tableHeader.action' | translate }} </mat-header-cell>
-          <mat-cell class="actionColumn padding5" *matCellDef="let element">
-            <button mat-mini-fab style="background: orange" (click)="editGroup(element.mediaTypeId)" *ngIf="commonservice.isUpdate" title="Update {{ element.mediaTypeId }}">
-              <i class="fa fa-edit"></i>
+          <mat-cell class="actionColumn" *matCellDef="let element">
+            <button mat-mini-fab class="bg_orange" (click)="editGroup(element.mediaTypeId)" *ngIf="commonservice.isUpdate" title="Update {{ element.mediaTypeId }}">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.mediaTypeId }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.mediaTypeId }}" ></i>
             </button>&nbsp;
             <!-- Delete option not required for Media Type -->
-            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete"  (click)="deleteModal.show()">
-              <i class="fa fa-trash" title="Delete {{ element.mediaTypeId }}"></i>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete"  (click)="deleteModal.show()">
+              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.mediaTypeId }}"></i>
             </button>
             <app-confirm-dialog  #deleteModal 
                         [title]="'common.icon.warn'" 
