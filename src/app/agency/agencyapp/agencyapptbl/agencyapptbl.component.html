@@ -45,7 +45,7 @@
     
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'agencyapp.tableHeader.num' | translate }} </mat-header-cell>
+        <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
         <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
@@ -65,7 +65,7 @@
 
       <!-- Action Column -->
       <ng-container matColumnDef="agencyAppAction">
-        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'agencyapp.tableHeader.action' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
               <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
@@ -89,7 +89,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'mediauploadtbl.nodata' | translate }} </div>
+    <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
   </div>
 
   <div class="float-right paddingTop-15">
@@ -102,9 +102,9 @@
       </mat-select>
     </mat-form-field>
     <span class="float-right">
-      <span class="table_footer_pagination">{{ 'agencyapp.tablebottom.page' | translate }}
-        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'agencyapp.tablebottom.of' | translate }}
-        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'agencyapp.tablebottom.in' | translate }}
+      <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
         <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'Applications' : 'Application'}}</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>

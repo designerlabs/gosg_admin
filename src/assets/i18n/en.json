@@ -254,13 +254,30 @@
       "notfound":"Not Found.",
       "reset":"Reset this form?",
       "delete":"Are you sure to delete the record?",
-      "unauthorized": "You are not authorized to access this page!"
+      "unauthorized": "You are not authorized to access this page!",
+      "nodata": "No Data Found"
     },
     "state":{
       "success":"bg_header bg_success_header",
       "error":"bg_header bg_error_header",
       "warn":"bg_header bg_warn_header",
       "info":"bg_header bg_info_header"
+    },
+    "tableHeader": {
+        "num": "No.",
+        "action": "Action",
+        "status": "Status",
+        "activestatus": "Active Status",
+        "bm": "BM",
+        "en": "EN"
+    },
+    "tableBottom": {
+        "page": "Page",
+        "of": "of",
+        "in": "in"
+    },
+    "tablecomp": {
+      "isrequired": "is required"
     }
   },
   "appmngt":{
@@ -338,76 +355,56 @@
   "accstatuslist": {
     "header": "Account Status List",
     "tableHeader":{
-      "num": "No.",
-      "accStatus": "Account Status",
-      "activeStatus": "Active Status"
+      "accStatus": "Account Status"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "accStatus": "account status"
     }
   },
   "addresstype": {
     "header": "Address Type List",
     "tableHeader":{
-      "num": "No.",
       "addresstypeEn": "Address Type (EN)",
-      "addresstypeBm": "Address Type (BM)",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "addresstypeBm": "Address Type (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "addrtype": "address type"
     }
   },
   "agency": {
     "header": "Agency Management",
     "tableHeader":{
-      "num": "No.",
       "agencytypeEn": "Agency Type Name (EN)",
-      "agencytypeBm": "Agency Type Name (BM)",
-      "action": "Action"
+      "agencytypeBm": "Agency Type Name (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "agency": "agencies"
+    },
+    "component":{
+      
     }
   },
   "agencyapp": {
     "header": "Agency Application Management",
     "tableHeader":{
-      "num": "No.",
       "appnameEn": "Application Name (EN)",
-      "appnameBm": "Application Name (BM)",
-      "action": "Action"
+      "appnameBm": "Application Name (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "agency": "applications"
+    },
+    "component": {
+      "isdoc": "is Document",
+      "websiteURL": "Website URL"
     }
   },
   "category": {
     "header": "Category Management",
     "tableHeader":{
-      "num": "No.",
       "categoryEn": "Category (EN)",
-      "categoryBm": "Category (BM)",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "categoryBm": "Category (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "category": "category management"
     }
   },
@@ -727,8 +724,7 @@
     "button": {
       "search": "Search",
       "reset": "Reset"
-    },
-    "nodata": "No Data Found"
+    }
   },
   "ministrytbl": {
     "header": "Ministry Management",
