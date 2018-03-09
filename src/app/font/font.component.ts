@@ -25,7 +25,7 @@ export class FontComponent implements OnInit {
   public default_status: FormControl;
   public active: FormControl;
 
-  public dataUrl: any;  
+  public readByIdUrl: any;  
   public recordList: any;
 
   public getId: any;
@@ -111,10 +111,8 @@ export class FontComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];  
-    this.dataUrl = this.appConfig.urlGetFont + '/id/'+_getRefID  + '?language=' +this.languageId;
-
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortalById('font/id/', _getRefID)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -254,14 +252,14 @@ export class FontComponent implements OnInit {
     // end get new url without space
 
     //active is auto check when default status is true
-    if(this.updateForm.controls.default_status.value == true){
-      this.updateForm.get('active').setValue(true);
-      this.defStatus = true;
-    }
+    // if(this.updateForm.controls.default_status.value == true){
+    //   this.updateForm.get('active').setValue(true);
+    //   this.defStatus = true;
+    // }
 
-    else{
-      this.defStatus = false;
-    }
+    // else{
+    //   this.defStatus = false;
+    // }
     // end active is auto check when default status is true
     
     //capitalize font name
