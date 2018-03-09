@@ -79,7 +79,7 @@
         </div>
 
         <div class="float-right paddingTop-15">
-            <mat-form-field style="width:50px; margin-top: -10px">
+            <mat-form-field class="table_footer_pagecount">
                 <mat-select class="font-size-s" [(ngModel)]="commonservice.defaultPageSize" class="text-align-Center" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
                 <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
                 <!-- <mat-option value="10">10</mat-option>
@@ -88,7 +88,7 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'accstatuslist.tablebottom.page' | translate }}
+                <span class="table_footer_pagination">{{ 'accstatuslist.tablebottom.page' | translate }}
                     <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'accstatuslist.tablebottom.of' | translate }}
                     <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'accstatuslist.tablebottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'accstatuslist.tablebottom.accStatus' | translate }}
