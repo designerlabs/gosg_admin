@@ -17,17 +17,17 @@
             <div class="row">
                 <div class="col-md-3 paddingTop-10 pdg_L_30px">
                     <mat-form-field class="example-full-width">
-                        <mat-select  placeholder="Filter By" (change)="filterType($event)">
-                            <mat-option [value]="1">{{ 'feedbackvisitortbl.filterby.all' | translate }}</mat-option>
-                            <mat-option [value]="2">{{ 'feedbackvisitortbl.filterby.email' | translate }}</mat-option>
-                            <mat-option [value]="3">{{ 'feedbackvisitortbl.filterby.keyword' | translate }}</mat-option>
+                        <mat-select  placeholder="{{ 'common.filterby.all' | translate }}" (change)="filterType($event)">
+                            <mat-option [value]="1">{{ 'common.filterby.all' | translate }}</mat-option>
+                            <mat-option [value]="2">{{ 'common.filterby.email' | translate }}</mat-option>
+                            <mat-option [value]="3">{{ 'common.placeholder.keywords' | translate }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
 
                 <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1">
                     <mat-form-field>
-                        <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
+                        <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
                         <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                             <mat-icon>close</mat-icon>
                         </button>
@@ -39,7 +39,7 @@
             
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -71,7 +71,7 @@
             
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.status' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.draftstatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.feedbackDraftFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
                         <i *ngIf="element.feedbackDraftFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
@@ -80,7 +80,7 @@
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'feedbackvisitortbl.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.feedbackId)">
                             <i *ngIf="commonservice.isRead" [ngClass]="commonservice.icon.view" title="View {{ element.feedbackId }}"></i></button>
@@ -108,9 +108,9 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span class="table_footer_pagination">{{ 'feedbackvisitortbl.tablebottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'feedbackvisitortbl.tablebottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'feedbackvisitortbl.tablebottom.in' | translate }}
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'feedbackvisitortbl.tablebottom.feedback' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
