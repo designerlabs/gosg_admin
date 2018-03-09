@@ -227,26 +227,26 @@ export class CommonService {
 
   // FONT
 
-  addFont(font) {
+  // addFont(font) {
     
-    return this.http.post(this.appConfig.urlFont + '?language='+this.languageId, font)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlFont + '?language='+this.languageId, font)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateFont(font) {
+  // updateFont(font) {
 
-    return this.http.put(this.appConfig.urlFont + '?language='+this.languageId, font)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(this.appConfig.urlFont + '?language='+this.languageId, font)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delFont(fontId) {
+  // delFont(fontId) {
    
-    return this.http.delete(this.appConfig.urlFont + '/id/' + fontId+ '?language='+this.languageId, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlFont + '/id/' + fontId+ '?language='+this.languageId, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // FONT END
 
   // MODULE
