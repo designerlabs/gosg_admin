@@ -254,13 +254,30 @@
       "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
       "delete":"Padam mesej ini?",
-      "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!"
+      "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!",
+      "nodata": "No Data Found"
     },
     "state":{
       "success":"bg_header bg_success_header",
       "error":"bg_header bg_error_header",
       "warn":"bg_header bg_warn_header",
       "info":"bg_header bg_info_header"
+    },
+    "tableHeader": {
+        "num": "Bil.",
+        "action": "Tindakan",
+        "status": "Status",
+        "activestatus": "Status Aktif",
+        "bm": "BM",
+        "en": "EN"
+    },
+    "tableBottom": {
+        "page": "Halaman",
+        "of": "daripada",
+        "in": "dalam"
+    },
+    "tablecomp": {
+      "isrequired": "diperlukan"
     }
   },
   "appmngt":{
@@ -338,76 +355,56 @@
   "accstatuslist": {
     "header": "Senarai Status Akaun",
     "tableHeader":{
-      "num": "Bil.",
-      "accStatus": "Status Akaun",
-      "activeStatus": "Status Aktif"
+      "accStatus": "Status Akaun"
     },
     "tablebottom":{
-      "page": "Halaman",
-      "of": "daripada",
-      "in": "dalam",
       "accStatus": "status akaun"
     }
   },
   "addresstype": {
     "header": "Senarai Jenis Alamat",
     "tableHeader":{
-      "num": "Bil.",
       "addresstypeEn": "Jenis Alamat (EN)",
-      "addresstypeBm": "Jenis Alamat (BM)",
-      "activestatus": "Status Aktif",
-      "action": "Tindakan"
+      "addresstypeBm": "Jenis Alamat (BM)"
     },
     "tablebottom":{
-      "page": "Halaman",
-      "of": "daripada",
-      "in": "dalam",
       "addrtype": "jenis alamat"
     }
   },
   "agency": {
     "header": "Pengurusan Agensi",
     "tableHeader":{
-      "num": "Bil.",
       "agencytypeEn": "Nama Jenis Agensi (EN)",
-      "agencytypeBm": "Nama Jenis Agensi (BM)",
-      "action": "Tindakan"
+      "agencytypeBm": "Nama Jenis Agensi (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "agency": "agensi"
+    },
+    "component":{
+      
     }
   },
   "agencyapp": {
-    "header": "Pengurusan Aplikasi Agensi",
+    "header": "Pengurusan Permohonan Agensi",
     "tableHeader":{
-      "num": "Bil.",
-      "appnameEn": "Nama Aplikasi (EN)",
-      "appnameBm": "Nama Aplikasi (BM)",
-      "action": "Tindakan"
+      "appnameEn": "Nama Permohonan (EN)",
+      "appnameBm": "Nama Permohonan (BM)"
     },
     "tablebottom":{
-      "page": "Halaman",
-      "of": "daripada",
-      "in": "dalam",
-      "agency": "aplikasi"
+      "agency": "permohonan"
+    },
+    "component": {
+      "isdoc": "adalah dokumen",
+      "websiteURL": "URL Laman Web"
     }
   },
   "category": {
     "header": "Pengurusan Kategori",
     "tableHeader":{
-      "num": "Bil.",
       "categoryEn": "Kategori (EN)",
-      "categoryBm": "Kategori (BM)",
-      "activestatus": "Status Aktif",
-      "action": "Tindakan"
+      "categoryBm": "Kategori (BM)"
     },
     "tablebottom":{
-      "page": "Halaman",
-      "of": "daripada",
-      "in": "dalam",
       "category": "pengurusan kategori"
     }
   },
