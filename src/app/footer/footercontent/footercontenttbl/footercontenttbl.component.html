@@ -9,7 +9,7 @@
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
-                <i class="fa fa-plus font-size-l"></i></button>
+                    <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
             </span>
         </div> 
     </div>
@@ -22,7 +22,7 @@
         <div class="example-container mat-elevation-z8">
 
             <div class="col-md-12 paddingTop-10">
-                <mat-form-field class="font-size-s">
+                <mat-form-field>
                     <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
                     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                         <mat-icon>close</mat-icon>
@@ -64,12 +64,12 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
-                        <button mat-mini-fab style="background: orange" (click)="updateRow(element.refCode)">
-                        <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="View {{ element.refCode }}" ></i>
-                        <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.refCode }}" ></i>
+                        <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
+                            <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
+                            <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
                         </button>&nbsp;
-                        <button mat-mini-fab style="background: red" (click)="deleteModal.show()" *ngIf="commonservice.isDelete">
-                                <i class="fa fa-trash" title="Delete {{element.refCode}}"></i></button>
+                        <button mat-mini-fab class="bg_red" (click)="deleteModal.show()" *ngIf="commonservice.isDelete">
+                            <i [ngClass]="commonservice.icon.trash" title="Delete {{element.refCode}}"></i></button>
                                 <app-confirm-dialog  #deleteModal 
                                     [title]="'common.icon.warn'" 
                                     [content]="'common.msg.delete'"
@@ -84,32 +84,32 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
 
-            <div *ngIf="showNoData" class="row" style="text-align: center; padding: 20px;">{{ 'mediauploadtbl.nodata' | translate }} </div>
+            <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
 
         </div>
 
         
 
         <div class="float-right paddingTop-15">
-            <mat-form-field style="width:50px; margin-top: -10px">
-                <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-                <mat-option value="5">5</mat-option>
-                <mat-option value="10">10</mat-option>
+            <mat-form-field class="table_footer_pagecount">
+                <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
                 <mat-option value="25">25</mat-option>
-                <mat-option value="50">50</mat-option>
+                <mat-option value="50">50</mat-option> -->
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'footercontenttbl.tablebottom.page' | translate }}
+                <span class="table_footer_pagination">{{ 'footercontenttbl.tablebottom.page' | translate }}
                     <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'footercontenttbl.tablebottom.of' | translate }}
                     <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'footercontenttbl.tablebottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'footercontenttbl.tablebottom.footer' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
                 </button>
                 <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
                 </button>
             </span>
         </div>
