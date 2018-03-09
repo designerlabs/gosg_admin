@@ -52,7 +52,7 @@ export class MinistrytblComponent implements OnInit {
     console.log(val);
     
     if(val){
-      this.getFilterList(this.pagepage, this.pageSize, val, this.filterTypeVal);
+      this.getFilterList(this.pagepage, this.pageSize, val);
     }
     else{
       this.getMinistryData(this.pagepage, this.pageSize);
@@ -143,15 +143,14 @@ export class MinistrytblComponent implements OnInit {
         });
   }
 
-  getFilterList(page, size, keyword, filterkeyword) {
+  getFilterList(page, size, keyword) {
 
-    this.dataUrl = this.appConfig.urlGetMinistry+'?keyword='+keyword+'&language='+this.languageId;
     // this.dataUrl = this.appConfig.urlSearchbyMinistry+'?keyword='+keyword +'&page=' + page + '&size=' + size + '&language='+this.languageId;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
       this.loading = true;
-      this.http.get(this.dataUrl).subscribe(data => {
+      this.commonservice.readPortal('ministry',page, size, keyword).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 

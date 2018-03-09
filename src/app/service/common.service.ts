@@ -1271,13 +1271,16 @@ getCategoryList1() {
 
   // NEW
   
-  readPortal(moduleName, page?, size?): Observable<any[]> {
+  readPortal(moduleName, page?, size?, keyword?): Observable<any[]> {
     let readUrl;
     
-    if(page && size)
+    if(!keyword && page) {
       readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
-    else
+    } else if(keyword) {
+      readUrl = this.appConfig.urlService + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
+    } else {
       readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+    }
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
@@ -1285,13 +1288,16 @@ getCategoryList1() {
       .catch(this.handleError);
   }
   
-  readProtected(moduleName, page?, size?): Observable<any[]> {
+  readProtected(moduleName, page?, size?, keyword?): Observable<any[]> {
     let readUrl;
     
-    if(page && size)
+    if(!keyword && page) {
       readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
-    else
+    } else if(keyword) {
+      readUrl = this.appConfig.urlCommon + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
+    } else {
       readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
+    }
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
