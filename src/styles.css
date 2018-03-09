@@ -226,9 +226,9 @@ mat-header-cell{
     }
 
     .width_100px {
-        width: 100px;
+        width: 100px !important;
     }
 
     .mgn_L_5px {
-        margin-left: 5px;
+        margin-left: 5px !important;
     }
