@@ -9,7 +9,7 @@
       <div class="col-md-2 curdHeadingRight">
           <!-- <span class="pull-right">
               <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
-              <i class="fa fa-plus font-size-l"></i></button>
+              <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
           </span> -->
       </div> 
   </div>
@@ -30,8 +30,8 @@
 
           <!-- No Column -->
           <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'langtbl.tableHeader.num' | translate }} </mat-header-cell>
-            <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+            <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef> {{ 'langtbl.tableHeader.num' | translate }} </mat-header-cell>
+            <mat-cell class="text-align-left noColumn"  *matCellDef="let element; let i = index;">
               {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
             </mat-cell>
           </ng-container>
@@ -58,10 +58,10 @@
 
           <!-- isDefault Column -->
           <ng-container matColumnDef="isDefault">
-            <mat-header-cell *matHeaderCellDef >{{ 'langtbl.tableHeader.isDefault' | translate }}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="statusColumn" >{{ 'langtbl.tableHeader.isDefault' | translate }}</mat-header-cell>
             <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-              <i *ngIf="element.isDefault == true" class="fa fa-check" style="color: green;"></i>
-              <i *ngIf="element.isDefault == false" class="fa fa-times" style="color: red;"></i>
+              <i *ngIf="element.isDefault == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+              <i *ngIf="element.isDefault == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
             </mat-cell>
           </ng-container>
           
@@ -69,8 +69,8 @@
           <ng-container matColumnDef="languageAction">
             <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
             <mat-cell *matCellDef="let element" class="actionColumn">
-                <button mat-mini-fab style="background: orange" (click)="updateRow(element.languageCode)" title="Update {{ element.languageCode }}">
-                    <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.fullName }}" ></i>
+                <button mat-mini-fab class="bg_orange" (click)="updateRow(element.languageCode)" title="Update {{ element.languageCode }}">
+                  <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.languageCode }}" ></i>
                     <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fullName }}" ></i> -->
                 </button>
                 <!-- &nbsp;
