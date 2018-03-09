@@ -586,9 +586,7 @@
     "header": "Pengurusan Galeri",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
-      "titleBm": "Tajuk (BM)",
-      "status": "Status",
-      "action": "Tindakan"
+      "titleBm": "Tajuk (BM)"
     },
     "tablebottom":{
       "gallery": "senarai galeri"
@@ -616,23 +614,22 @@
     "tableHeader":{
       "code": "Kod",
       "name": "Nama Bahasa",
-      "description": "Keterangan Bahasa",
-      "isDefault": "Default"
+      "description": "Keterangan Bahasa"
     }
   },
   "mediauploadtbl": {
     "header": "Pengurusan Muat Naik Fail Media",
     "tableHeader":{
       "name": "Nama",
-      "category": "Kategori",
-      "status": "Status",
-      "action": "Tindakan"
+      "category": "Kategori"
     },
     "tablebottom":{
       "media": "senarai muat naik media"
     },
     "filter": {
-      "all": "Semua Kategori"
+      "all": "Semua Kategori",
+      "searchcat": "Carian Mengikut Kategori",
+      "searchfile": "Carian Mengikut Nama Fail"
     },
     "button": {
       "search": "Cari",
@@ -643,8 +640,7 @@
     "header": "Pengurusan Kementerian",
     "tableHeader":{
       "nameEn": "Nama Kementerian (EN)",
-      "nameBm": "Nama Kementerian (BM)",
-      "action": "Tindakan"
+      "nameBm": "Nama Kementerian (BM)"
     },
     "tablebottom":{
       "minstry": "kementerian"

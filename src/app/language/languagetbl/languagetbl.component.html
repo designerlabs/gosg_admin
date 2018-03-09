@@ -30,7 +30,7 @@
 
           <!-- No Column -->
           <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef> {{ 'langtbl.tableHeader.num' | translate }} </mat-header-cell>
+            <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
             <mat-cell class="text-align-left noColumn"  *matCellDef="let element; let i = index;">
               {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
             </mat-cell>
@@ -58,7 +58,7 @@
 
           <!-- isDefault Column -->
           <ng-container matColumnDef="isDefault">
-            <mat-header-cell *matHeaderCellDef class="statusColumn" >{{ 'langtbl.tableHeader.isDefault' | translate }}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="statusColumn" >{{ 'common.tableHeader.default' | translate }}</mat-header-cell>
             <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
               <i *ngIf="element.isDefault == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
               <i *ngIf="element.isDefault == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
@@ -67,7 +67,7 @@
           
           <!-- Action Column -->
           <ng-container matColumnDef="languageAction">
-            <mat-header-cell *matHeaderCellDef class="actionColumn"> Action </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let element" class="actionColumn">
                 <button mat-mini-fab class="bg_orange" (click)="updateRow(element.languageCode)" title="Update {{ element.languageCode }}">
                   <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.languageCode }}" ></i>
