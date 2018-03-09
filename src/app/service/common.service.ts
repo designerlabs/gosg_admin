@@ -48,8 +48,18 @@ export class CommonService {
     trash: 'fa fa-trash',
     plus: 'fa fa-plus',
     arrLeft: 'fa fa-angle-left',
-    arrRight: 'fa fa-angle-right'
+    arrRight: 'fa fa-angle-right',
+    refresh: 'fa fa-refresh',
+    view: 'fa fa-eye'
   }
+
+
+  pageSize =  [
+    {"id": 1, "size": 10},
+    {"id": 2, "size": 25},
+    {"id": 3, "size": 50}
+  ];
+  defaultPageSize = this.pageSize[0].size;
 
   // tslint:disable-next-line:max-line-length
   constructor(
