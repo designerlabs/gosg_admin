@@ -1268,6 +1268,50 @@ getCategoryList1() {
       .catch(this.handleError);
   }
 
+
+  // NEW
+  
+  readPortal(moduleName, page, size): Observable<any[]> {
+    let readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+  
+  readProtected(moduleName, page, size): Observable<any[]> {
+    let readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+    
+  create(data, moduleName) {
+    let createUrl = this.appConfig.urlCommon   + moduleName + '?language='+this.languageId;
+  
+    return this.http.post(createUrl, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  update(data,moduleName) {
+    let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId;
+
+    return this.http.put(updateUrl, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  delete(id,moduleName) {
+    let deleteUrl = this.appConfig.urlCommon  + moduleName + '/id/' + id+ '?language='+this.languageId;
+
+    return this.http.delete(deleteUrl, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  // END NEW
+
   errorResponse(data){
       this.toastr.error(data.statusDesc, ''); 
   }

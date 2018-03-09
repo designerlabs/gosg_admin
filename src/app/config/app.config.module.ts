@@ -104,6 +104,7 @@ export class AppConfig {
     urlGetUser: string;
     urlModuleRef: string;
     externalMediaURL: string;
+    urlService: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -114,6 +115,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlFont: commonURL + 'font',
     urlGetFont: serviceURL + 'font',
     urlCommon: commonURL,
+    urlService: serviceURL,
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',
