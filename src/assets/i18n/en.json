@@ -283,6 +283,11 @@
     },
     "placeholder": {
       "keywords": "Keywords"
+    },
+    "filterby": {
+      "filterby": "Filter By",
+      "all": "All",
+      "email": "Email"
     }
   },
   "appmngt":{
@@ -510,17 +515,10 @@
       "feedbacktype": "Feedback Type",
       "name": "Name",
       "email": "Email",
-      "status": "Draft Status",
-      "action": "Action"
+      "draftstatus": "Draft Status"
     },
     "tablebottom":{
       "feedback": "feedback message"
-    },
-    "filterby": {
-      "filterby": "Filter By",
-      "all": "All",
-      "email": "Email",
-      "keyword": "Keywords"
     }
   },
   "feedbackmsg": {
@@ -536,8 +534,7 @@
     "header": "Feedback Subject List",
     "tableHeader":{
       "subjectEn": "Subject (EN)",
-      "subjectBm": "Subject (BM)",
-      "action": "Action"
+      "subjectBm": "Subject (BM)"
     },
     "tablebottom":{
       "feedbacksubject": "feedback subject"
@@ -547,8 +544,7 @@
     "header": "Feedback Type List",
     "tableHeader":{
       "typeEn": "Type (EN)",
-      "typeBm": "Type (BM)",
-      "action": "Action"
+      "typeBm": "Type (BM)"
     },
     "tablebottom":{
       "feedbacktype": "feedback type"
@@ -559,9 +555,7 @@
     "tableHeader":{
       "name": "Name",
       "url": "Url",
-      "defaultstatus": "Default Status",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "defaultstatus": "Default Status"
     },
     "tablebottom":{
       "font": "font setting"
@@ -571,9 +565,7 @@
     "header": "Footer Category",
     "tableHeader":{
       "footercategoryEn": "Footer Category (EN)",
-      "footercategoryBm": "Footer Category (BM)",
-      "status": "Status",
-      "action": "Action"
+      "footercategoryBm": "Footer Category (BM)"
     },
     "tablebottom":{
       "footer": "footer category list"
@@ -584,8 +576,7 @@
     "tableHeader":{
       "footercategoryEn": "Footer Category (EN)",
       "nameEn": "Name (EN)",
-      "nameBm": "Name (BM)",
-      "action": "Action"
+      "nameBm": "Name (BM)"
     },
     "tablebottom":{
       "footer": "footer content list"

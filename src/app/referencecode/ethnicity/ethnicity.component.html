@@ -64,7 +64,7 @@
                     (click)="submit(updateForm.value)" [disabled]="!complete">
                     <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
                     <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
-                    <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right" (click)="resetModal.show()">
+                    <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right width_100px" (click)="resetModal.show()">
                     <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
                 </div>      
             </form>

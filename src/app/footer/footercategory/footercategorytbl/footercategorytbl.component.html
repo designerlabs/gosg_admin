@@ -24,7 +24,7 @@
             <mat-table #table [dataSource]="dataSource">
 
                 <ng-container matColumnDef="no">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'footercategorytbl.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -46,7 +46,7 @@
                 
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="statusColumn" *matHeaderCellDef> {{ 'footercategorytbl.tableHeader.status' | translate }} </mat-header-cell>
+                    <mat-header-cell class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.status' | translate }} </mat-header-cell>
                     <mat-cell class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
                         <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
@@ -55,7 +55,7 @@
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'footercategorytbl.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
                         <!-- #### for disable non update user 3 -->
@@ -90,9 +90,9 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span class="table_footer_pagination">{{ 'footercategorytbl.tablebottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'footercategorytbl.tablebottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'footercategorytbl.tablebottom.in' | translate }}
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'footercategorytbl.tablebottom.footer' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
