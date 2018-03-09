@@ -9,7 +9,7 @@
       <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
           <button type="button" mat-fab color="accent" (click)="back()">
-            <i class="fa fa-arrow-left font-size-l"></i>
+            <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i>
           </button>
         </span>
       </div>
@@ -273,14 +273,21 @@
       </div>
   
       <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
-        <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right"
-          (click)="updateAction(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-          <i *ngIf="complete" class="fa fa-check"></i>
-          <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
-        <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="form-control btn btn-md btn-warning pull-right"
-          style="width: 100px; font-family: Roboto" (click)="myFunction()">
-          <i class="fa fa-refresh"></i>&nbsp;Reset</button>
+        <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right width_100px mgn_L_5px"
+          (click)="updateAction(updateForm.value)" [disabled]="!complete">
+          <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+          <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode }}</button>
+        <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="form-control btn btn-md btn-warning width_100px pull-right"
+         (click)="resetModal.show()">
+          <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
       </div>
       <div class="col-md-12">&nbsp;</div>
     </form>
   </div>
+  <app-confirm-dialog  #resetModal 
+  [title]="'common.icon.warn'" 
+  [content]="'common.msg.reset'"
+  [state]="'bg_header bg_warn_header'"
+  [isReset]="'true'"
+  (resetMethod)="myFunction()">
+  </app-confirm-dialog>

@@ -9,7 +9,7 @@
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" mat-fab color="accent" (click)="back()" >
-                <i class="fa fa-arrow-left font-size-l"></i></button>
+                    <i  [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
             </span>
         </div> 
     </div>
@@ -57,9 +57,9 @@
         <div class="form-group" style="float: right;">
             <button *ngIf="!isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
             (click)="addModuleData();false">
-            <i class="fa fa-check"></i> Submit</button>
+            <i [ngClass]="commonservice.icon.check"></i> Submit</button>
 
-            <button *ngIf="isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnupdate" class="form-control btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i class="fa fa-check"></i> Update</button>
+            <button *ngIf="isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnupdate" class="form-control btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i [ngClass]="commonservice.icon.check"></i> Update</button>           
         </div>
        
     </form>
