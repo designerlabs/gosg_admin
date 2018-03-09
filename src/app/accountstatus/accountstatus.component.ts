@@ -107,10 +107,8 @@ export class AccountstatusComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
-  
-    this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID + '?language=' +this.languageId;
-    this.loading = true;
-    this.http.get(this.dataUrl)
+    
+    this.commonservice.readProtectedById('accountstatus/code', _getRefID)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -170,7 +168,7 @@ export class AccountstatusComponent implements OnInit {
       console.log("TEST")
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.addRecordAccStatus(body).subscribe(
+      this.commonservice.create(body, 'accountstatus').subscribe(
         data => {         
           
           this.commonservice.errorHandling(data, (function(){
@@ -218,7 +216,7 @@ export class AccountstatusComponent implements OnInit {
       console.log("UPDATE: ");
       console.log(body);
       this.loading = true;
-      this.commonservice.updateRecordAccStatus(body).subscribe(
+      this.commonservice.update(body, 'accountstatus').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){
