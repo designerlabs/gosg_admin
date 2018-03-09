@@ -586,9 +586,7 @@
     "header": "Gallery Management",
     "tableHeader":{
       "titleEn": "Title (EN)",
-      "titleBm": "Title (BM)",
-      "status": "Status",
-      "action": "Action"
+      "titleBm": "Title (BM)"
     },
     "tablebottom":{
       "gallery": "gallery list"
@@ -616,23 +614,22 @@
     "tableHeader":{
       "code": "Code",
       "name": "Language Name",
-      "description": "Language Description",
-      "isDefault": "Default"
+      "description": "Language Description"
     }
   },
   "mediauploadtbl": {
     "header": "Media File Upload Management",
     "tableHeader":{
       "name": "Name",
-      "category": "Category",
-      "status": "Status",
-      "action": "Action"
+      "category": "Category"
     },
     "tablebottom":{
       "media": "media upload list"
     },
     "filter": {
-      "all": "All Category"
+      "all": "All Category",
+      "searchcat": "Search By Category",
+      "searchfile": "Search By File Name"
     },
     "button": {
       "search": "Search",
@@ -643,8 +640,7 @@
     "header": "Ministry Management",
     "tableHeader":{
       "nameEn": "Ministry Name (EN)",
-      "nameBm": "Ministry Name (BM)",
-      "action": "Action"
+      "nameBm": "Ministry Name (BM)"
     },
     "tablebottom":{
       "minstry": "ministries"

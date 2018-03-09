@@ -31,7 +31,7 @@
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'gallerytbl.tableHeader.num' | translate }} </mat-header-cell>
+        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
         <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
@@ -51,7 +51,7 @@
 
       <!-- galleryActiveFlag Column -->
       <ng-container matColumnDef="galleryActiveFlag">
-        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'gallerytbl.tableHeader.status' | translate }}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.status' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
           <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
           <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
@@ -61,7 +61,7 @@
       
       <!-- Action Column -->
       <ng-container matColumnDef="galleryAction">
-        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'gallerytbl.tableHeader.action' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
               <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
@@ -91,9 +91,9 @@
       </mat-select>
     </mat-form-field>
     <span class="float-right">
-      <span class="table_footer_pagination">{{ 'gallerytbl.tablebottom.page' | translate }}
-        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'gallerytbl.tablebottom.of' | translate }}
-        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'gallerytbl.tablebottom.in' | translate }}
+      <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
         <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'gallerytbl.tablebottom.gallery' | translate }}</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>

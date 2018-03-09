@@ -45,7 +45,7 @@
       
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'ministrytbl.tableHeader.num' | translate }} </mat-header-cell>
+        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
         <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
@@ -65,7 +65,7 @@
 
       <!-- Action Column -->
       <ng-container matColumnDef="ministryAction">
-        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'ministrytbl.tableHeader.action' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
               <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
@@ -103,9 +103,9 @@
       </mat-select>
     </mat-form-field>
     <span class="float-right">
-      <span class="table_footer_pagination">{{ 'ministrytbl.tablebottom.page' | translate }}
-        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'ministrytbl.tablebottom.of' | translate }}
-        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'ministrytbl.tablebottom.in' | translate }}
+      <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
         <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'Ministries' : 'Ministry'}}</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
