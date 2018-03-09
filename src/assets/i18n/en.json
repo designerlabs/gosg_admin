@@ -411,7 +411,6 @@
   "city": {
     "header": "City",
     "tableHeader":{
-      "num": "No.",
       "cityname": "City Name",
       "cityid": "City Id",
       "citycode": "City Code",
@@ -419,9 +418,6 @@
       "stateid": "State Id"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "citylist": "city lists"
     }
   },

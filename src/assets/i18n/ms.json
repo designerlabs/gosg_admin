@@ -411,7 +411,6 @@
   "city": {
     "header": "Bandar",
     "tableHeader":{
-      "num": "Bil.",
       "cityname": "Nama Bandar",
       "cityid": "Id Bandar",
       "citycode": "Kod Bandar",
@@ -419,9 +418,6 @@
       "stateid": "Id Negeri"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "citylist": "senarai bandar"
     }
   },
