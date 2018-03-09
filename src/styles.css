@@ -88,27 +88,31 @@ mat-header-cell{
 }
 
 .paddingBottom-10 {
-    padding-bottom: 10px;
+    padding-bottom: 10px !important;
 }
 
 .paddingTop-10 {
-    padding-top: 10px;
+    padding-top: 10px !important;
 }
 
 .paddingTop-15 {
-    padding-top: 15px;
+    padding-top: 15px !important;
 }
 
 .paddingTop-20 {
-    padding-top: 20px;
+    padding-top: 20px !important;
 }
 
 .paddingTop-25 {
-    padding-top: 25px;
+    padding-top: 25px !important;
 }
 
 .padding-10 {
-    padding:  10px;
+    padding:  10px !important;
+}
+
+.padding-20 {
+    padding:  20px !important;
 }
 
 .right-content {
@@ -130,6 +134,14 @@ mat-header-cell{
     display:flex;
     justify-content:center;
 }
+
+.noColumn {
+    flex: 0 0 5%  !important;
+    display:flex;
+    justify-content:left;
+}
+
+
 .padding5 {
     padding:5px;
 }
@@ -231,4 +243,8 @@ mat-header-cell{
 
     .mgn_L_5px {
         margin-left: 5px !important;
+    }
+
+    .pdg_L_30px {
+        padding-left:30px !important;
     }

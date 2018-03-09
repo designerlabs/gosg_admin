@@ -227,26 +227,26 @@ export class CommonService {
 
   // FONT
 
-  addFont(font) {
+  // addFont(font) {
     
-    return this.http.post(this.appConfig.urlFont + '?language='+this.languageId, font)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlFont + '?language='+this.languageId, font)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateFont(font) {
+  // updateFont(font) {
 
-    return this.http.put(this.appConfig.urlFont + '?language='+this.languageId, font)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(this.appConfig.urlFont + '?language='+this.languageId, font)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delFont(fontId) {
+  // delFont(fontId) {
    
-    return this.http.delete(this.appConfig.urlFont + '/id/' + fontId+ '?language='+this.languageId, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlFont + '/id/' + fontId+ '?language='+this.languageId, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // FONT END
 
   // MODULE
@@ -1277,6 +1277,66 @@ getCategoryList1() {
       .retry(5)
       .catch(this.handleError);
   }
+
+
+  // NEW
+  
+  readPortal(moduleName, page, size): Observable<any[]> {
+    let readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+  
+  readProtected(moduleName, page, size): Observable<any[]> {
+    let readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+  
+  readPortalById(moduleName, id): Observable<any[]> {
+    let readUrl = this.appConfig.urlService + moduleName + id + '?language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+  
+  readProtectedById(moduleName, id): Observable<any[]> {
+    let readUrl = this.appConfig.urlCommon + moduleName + id + '?language='+this.languageId;
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+    
+  create(data, moduleName) {
+    let createUrl = this.appConfig.urlCommon   + moduleName + '?language='+this.languageId;
+  
+    return this.http.post(createUrl, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  update(data,moduleName) {
+    let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId;
+
+    return this.http.put(updateUrl, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+  delete(id,moduleName) {
+    let deleteUrl = this.appConfig.urlCommon  + moduleName + '/id/' + id+ '?language='+this.languageId;
+
+    return this.http.delete(deleteUrl, null)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  // END NEW
 
   errorResponse(data){
       this.toastr.error(data.statusDesc, ''); 

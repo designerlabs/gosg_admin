@@ -254,13 +254,35 @@
       "notfound":"Not Found.",
       "reset":"Reset this form?",
       "delete":"Are you sure to delete the record?",
-      "unauthorized": "You are not authorized to access this page!"
+      "unauthorized": "You are not authorized to access this page!",
+      "nodata": "No Data Found"
     },
     "state":{
       "success":"bg_header bg_success_header",
       "error":"bg_header bg_error_header",
       "warn":"bg_header bg_warn_header",
       "info":"bg_header bg_info_header"
+    },
+    "tableHeader": {
+        "num": "No.",
+        "action": "Action",
+        "status": "Status",
+        "activestatus": "Active Status",
+        "default": "Default",
+        "icno": "IC No.",
+        "bm": "BM",
+        "en": "EN"
+    },
+    "tableBottom": {
+        "page": "Page",
+        "of": "of",
+        "in": "in"
+    },
+    "tablecomp": {
+      "isrequired": "is required"
+    },
+    "placeholder": {
+      "keywords": "Keywords"
     }
   },
   "appmngt":{
@@ -338,83 +360,62 @@
   "accstatuslist": {
     "header": "Account Status List",
     "tableHeader":{
-      "num": "No.",
-      "accStatus": "Account Status",
-      "activeStatus": "Active Status"
+      "accStatus": "Account Status"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "accStatus": "account status"
     }
   },
   "addresstype": {
     "header": "Address Type List",
     "tableHeader":{
-      "num": "No.",
       "addresstypeEn": "Address Type (EN)",
-      "addresstypeBm": "Address Type (BM)",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "addresstypeBm": "Address Type (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "addrtype": "address type"
     }
   },
   "agency": {
     "header": "Agency Management",
     "tableHeader":{
-      "num": "No.",
       "agencytypeEn": "Agency Type Name (EN)",
-      "agencytypeBm": "Agency Type Name (BM)",
-      "action": "Action"
+      "agencytypeBm": "Agency Type Name (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "agency": "agencies"
+    },
+    "component":{
+      
     }
   },
   "agencyapp": {
     "header": "Agency Application Management",
     "tableHeader":{
-      "num": "No.",
       "appnameEn": "Application Name (EN)",
-      "appnameBm": "Application Name (BM)",
-      "action": "Action"
+      "appnameBm": "Application Name (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "agency": "applications"
+    },
+    "component": {
+      "isdoc": "is Document",
+      "websiteURL": "Website URL"
     }
   },
   "category": {
     "header": "Category Management",
     "tableHeader":{
-      "num": "No.",
       "categoryEn": "Category (EN)",
-      "categoryBm": "Category (BM)",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "categoryBm": "Category (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "category": "category management"
     }
   },
   "city": {
     "header": "City",
     "tableHeader":{
-      "num": "No.",
       "cityname": "City Name",
       "cityid": "City Id",
       "citycode": "City Code",
@@ -422,135 +423,90 @@
       "stateid": "State Id"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "citylist": "city lists"
     }
   },
   "citizentypes": {
     "header": "Citizen / User Type",
     "tableHeader":{
-      "num": "No.",
       "usertypeEn": "User Type (English)",
-      "usertypeBm": "User Type (Malay)",
-      "status": "Status",
-      "action": "Action"
+      "usertypeBm": "User Type (Malay)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "usertypelist": "User Type list"
     }
   },
   "color": {
     "header": "Color Management",
     "tableHeader":{
-      "num": "No.",
       "colortitle": "Color Title",
-      "colorcode": "Color Code",
-      "status": "Status",
-      "default": "Default",
-      "action": "Action"
+      "colorcode": "Color Code"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "colors": "colors"
     }
   },
   "contentmgmt": {
     "header": "Content Management",
     "tableHeader":{
-      "num": "No.",
       "categoryEn": "Category (EN)",
-      "categoryBm": "Category (BM)",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "categoryBm": "Category (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "contentmgmt": "content management"
     }
   },
   "country": {
     "header": "Country",
     "tableHeader":{
-      "num": "No.",
       "countryname": "Country Name",
       "countrycode": "Country Code",
       "dialcode": "Dial Code"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "country": "country list"
     }
   },
   "errormsg": {
     "header": "Error Message Management",
     "tableHeader":{
-      "num": "No.",
       "code": "Error Message Code",
       "descriptionEn": "Description (EN)",
-      "descriptionBm": "Description (BM)",
-      "action": "Action"
+      "descriptionBm": "Description (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "errmsg": "error messages"
     }
   },
   "faq": {
     "header": "FAQs List",
     "tableHeader":{
-      "num": "No.",
       "questionEn": "Question (EN)",
-      "questionBm": "Question (BM)",
-      "status": "Status",
-      "action": "Action"
+      "questionBm": "Question (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "question": "questions"
     }
   },
   "feedbacktbl": {
     "header": "Feedback Admin List",
     "tableHeader":{
-      "num": "No.",
       "feedbacktype": "Feedback Type",
       "name": "Name",
-      "email": "Email",
-      "status": "Active Status",
-      "action": "Action"
+      "email": "Email"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "feedback": "feedback message"
     },
     "filterby": {
       "filterby": "Filter By",
       "all": "All",
-      "email": "Email",
-      "keyword": "Keywords"
+      "email": "Email"
     }
   },
   "feedbackvisitortbl": {
     "header": "Feedback Visitor List",
     "tableHeader":{
-      "num": "No.",
       "feedbacktype": "Feedback Type",
       "name": "Name",
       "email": "Email",
@@ -558,9 +514,6 @@
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "feedback": "feedback message"
     },
     "filterby": {
@@ -582,37 +535,28 @@
   "feedbacksubjecttbl": {
     "header": "Feedback Subject List",
     "tableHeader":{
-      "num": "No.",
       "subjectEn": "Subject (EN)",
       "subjectBm": "Subject (BM)",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "feedbacksubject": "feedback subject"
     }
   },
   "feedbacktypetbl": {
     "header": "Feedback Type List",
     "tableHeader":{
-      "num": "No.",
       "typeEn": "Type (EN)",
       "typeBm": "Type (BM)",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "feedbacktype": "feedback type"
     }
   },
   "fonttbl": {
     "header": "Font Settings List",
     "tableHeader":{
-      "num": "No.",
       "name": "Name",
       "url": "Url",
       "defaultstatus": "Default Status",
@@ -620,64 +564,48 @@
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "font": "font setting"
     }
   },
   "footercategorytbl": {
     "header": "Footer Category",
     "tableHeader":{
-      "num": "No.",
       "footercategoryEn": "Footer Category (EN)",
       "footercategoryBm": "Footer Category (BM)",
       "status": "Status",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "footer": "footer category list"
     }
   },
   "footercontenttbl": {
     "header": "Footer Content",
     "tableHeader":{
-      "num": "No.",
       "footercategoryEn": "Footer Category (EN)",
       "nameEn": "Name (EN)",
       "nameBm": "Name (BM)",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "footer": "footer content list"
     }
   },
   "gallerytbl": {
     "header": "Gallery Management",
     "tableHeader":{
-      "num": "No.",
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
       "status": "Status",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "gallery": "gallery list"
     }
   },
   "gender": {
     "header": "Gender",
     "tableHeader":{
-      "num": "No.",
       "genderEn": "Gender (EN)",
       "genderBm": "Gender (BM)"
     }
@@ -685,21 +613,16 @@
   "identificationtypetbl": {
     "header": "Identification Type",
     "tableHeader":{
-      "num": "No.",
       "idtypeEn": "Identification Type (EN)",
       "idtypeBm": "Identification Type (BM)"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "idtype": "identification type list"
     }
   },
   "langtbl": {
     "header": "Language Management",
     "tableHeader":{
-      "num": "No.",
       "code": "Code",
       "name": "Language Name",
       "description": "Language Description",
@@ -709,16 +632,12 @@
   "mediauploadtbl": {
     "header": "Media File Upload Management",
     "tableHeader":{
-      "num": "No.",
       "name": "Name",
       "category": "Category",
       "status": "Status",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "media": "media upload list"
     },
     "filter": {
@@ -727,28 +646,22 @@
     "button": {
       "search": "Search",
       "reset": "Reset"
-    },
-    "nodata": "No Data Found"
+    }
   },
   "ministrytbl": {
     "header": "Ministry Management",
     "tableHeader":{
-      "num": "No.",
       "nameEn": "Ministry Name (EN)",
       "nameBm": "Ministry Name (BM)",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "minstry": "ministries"
     }
   },
   "modulemgmttbl": {
     "header": "Module Management",
     "tableHeader":{
-      "num": "No.",
       "name": "Module Name",
       "description": "Module Description",
       "url": "Module Url",
@@ -756,32 +669,24 @@
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "modules": "modules"
     }
   },
   "pollquestiontbl": {
     "header": "Polls Questions List",
     "tableHeader":{
-      "num": "No.",
       "pollquestionEn": "Poll Question (EN)",
       "pollquestionBm": "Poll Question (BM)",
       "status": "Active Status",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "pollquestion": "polls questions"
     }
   },
   "pollresult": {
     "header": "Polls Results List",
     "tableHeader":{
-      "num": "No.",
       "question": "Question",
       "opt1": "Option 1",
       "opt2": "Option 2",
@@ -790,9 +695,6 @@
       "opt5": "Option 5"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "pollresults": "polls results"
     }
   },
@@ -804,51 +706,38 @@
   "racetbl": {
     "header": "Race / Ethnic",
     "tableHeader":{
-      "num": "No.",
       "raceEn": "Race/Ethnic (EN)",
       "raceBm": "Race/Ethnic (BM)",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "race": "race/ethnic list"
     }
   },
   "religiontbl": {
     "header": "Religion",
     "tableHeader":{
-      "num": "No.",
       "religionEn": "Religion (EN)",
       "religionBm": "Religion (BM)",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "religion": "religion list"
     }
   },
   "state": {
     "header": "State",
     "tableHeader":{
-      "num": "No.",
       "name": "State Name",
       "id": "State Id"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "state": "state list"
     }
   },
   "systemsetting": {
     "header": "System Settings List",
     "tableHeader":{
-      "num": "No.",
       "entities": "Entities",
       "key": "Key",
       "value": "Value",
@@ -856,9 +745,6 @@
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "sys": "system settings"
     },
     "component": {
@@ -869,16 +755,12 @@
   "usermgmt": {
     "header": "User Management",
     "tableHeader":{
-      "num": "No.",
       "fullname": "Fullname",
       "email": "Email",
       "accstatus": "Account Status",
       "action": "Action"
     },
     "tablebottom":{
-      "page": "Pages",
-      "of": "of",
-      "in": "in",
       "users": "users"
     },
     "component": {
@@ -902,7 +784,6 @@
   "mediatype": {
     "header": "Media Management",
     "tableHeader":{
-      "num": "No.",
       "name": "Name",
       "category": "Category",
       "status": "Status",

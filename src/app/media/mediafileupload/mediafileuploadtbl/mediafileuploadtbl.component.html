@@ -8,7 +8,7 @@
     <div class="col-md-2 curdHeadingRight">
       <span class="pull-right">
         <button type="button" mat-fab color="warn" (click)="add()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
-          <i class="fa fa-plus font-size-l"></i>
+          <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i>
         </button>
       </span>
     </div>
@@ -19,8 +19,8 @@
   <div *ngIf="commonservice.isRead">
     
     <div class="example-container mat-elevation-z8">
-        <div class="row" style="padding: 20px;">
-            <mat-form-field class="example-full-width font-size-s paddingTop-10 col-md-4">
+        <div class="row paddingTop-10 pdg_L_30px">
+            <mat-form-field class="example-full-width paddingTop-10 col-md-4">
                 <mat-select placeholder="Search By Category" (change)="selCateType($event)" [(ngModel)]="cateSelect">
                     <mat-option value="0">All Category</mat-option>
                   <mat-option *ngFor="let obj of objCategory" [value]="obj.categoryId">{{obj.categoryName}}</mat-option>
@@ -36,8 +36,8 @@
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
         <ng-container matColumnDef="no">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 5%'"> {{ 'mediauploadtbl.tableHeader.num' | translate }} </mat-header-cell>
-          <mat-cell *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">
+          <mat-header-cell *matHeaderCellDef class="text-align-left noColumn" > {{ 'mediauploadtbl.tableHeader.num' | translate }} </mat-header-cell>
+          <mat-cell class="text-align-left noColumn"  *matCellDef="let element; let i = index;" >
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
         </ng-container>
@@ -50,8 +50,8 @@
         </ng-container>
         <!-- Title (EN) Column -->
         <ng-container matColumnDef="catName">
-          <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 25%'"> {{ 'mediauploadtbl.tableHeader.category' | translate }} </mat-header-cell>
-          <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 25%'">
+          <mat-header-cell *matHeaderCellDef > {{ 'mediauploadtbl.tableHeader.category' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element" >
             <mat-chip-list>
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.list[0].mediaCategories">
                 {{ele.categoryName}}</mat-chip>
@@ -62,19 +62,22 @@
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'mediauploadtbl.tableHeader.status' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
-            <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+            <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
+            <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+            <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
           </mat-cell>
         </ng-container>
         <!-- action Column -->
         <ng-container matColumnDef="action">
           <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'mediauploadtbl.tableHeader.action' | translate }} </mat-header-cell>
-          <mat-cell class="actionColumn padding5" *matCellDef="let element">
-            <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.refCode)" title="Update {{ element.refCode }}">
-              <i class="fa fa-edit"></i>
+          <mat-cell class="actionColumn" *matCellDef="let element">
+            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.refCode)" title="Update {{ element.refCode }}">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
             </button>&nbsp;
             <!-- Delete option not required for Media Type -->
-            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-              <i class="fa fa-trash" title="Delete {{ element.refCode }}"></i>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
+              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode }}"></i>
             </button>
             <app-confirm-dialog  #deleteModal 
                         [title]="'common.icon.warn'" 
@@ -89,27 +92,27 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      <div *ngIf="showNoData" class="row" style="text-align: center; padding: 20px;">{{ 'mediauploadtbl.nodata' | translate }}</div>
+      <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'mediauploadtbl.nodata' | translate }} </div>
     </div>
     <div class="float-right paddingTop-15">
-      <mat-form-field style="width:50px;">
-        <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, mediaList?.totalPages)">
-          <mat-option value="5">5</mat-option>
-          <mat-option value="10">10</mat-option>
+      <mat-form-field class="table_footer_pagecount">
+        <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, mediaList?.totalPages)">
+          <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+          <!-- <mat-option value="10">10</mat-option>
           <mat-option value="25">25</mat-option>
-          <mat-option value="50">50</mat-option>
+          <mat-option value="50">50</mat-option> -->
         </mat-select>
       </mat-form-field>
       <span class="float-right">
-        <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'mediauploadtbl.tablebottom.page' | translate }}
+        <span class="table_footer_pagination">{{ 'mediauploadtbl.tablebottom.page' | translate }}
           <strong>{{mediaPage?.pageNumber}}</strong> {{ 'mediauploadtbl.tablebottom.of' | translate }}
           <strong>{{mediaPage?.totalPages}}</strong> {{ 'mediauploadtbl.tablebottom.in' | translate }}
           <strong>{{mediaPage?.totalElements}}</strong> {{ 'mediauploadtbl.tablebottom.media' | translate }}</span>
         <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(mediaPage?.pageNumber)">
-          <i class="fa fa-angle-left" aria-hidden="true"></i>
+          <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
         </button>
         <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(mediaPage?.pageNumber, mediaPage?.totalPages)">
-          <i class="fa fa-angle-right" aria-hidden="true"></i>
+          <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
         </button>
       </span>
     </div>

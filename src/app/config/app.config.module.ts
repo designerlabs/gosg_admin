@@ -36,7 +36,7 @@ export class AppConfig {
     baseURL: string;
     urlColor: string;
     urlGetColor: string;
-    urlFont: string;
+    // urlFont: string;
     urlGetFont: string;
     urlUsers: string;
     urlSlides: string;
@@ -104,16 +104,20 @@ export class AppConfig {
     urlGetUser: string;
     urlModuleRef: string;
     externalMediaURL: string;
+    urlService: string;
 }
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
+    urlCommon: commonURL,
+    urlService: serviceURL,
+    
     urlMenu: commonURL + 'menu',
     urlColor: commonURL + 'color',
     urlGetColor: serviceURL + 'color',
-    urlFont: commonURL + 'font',
+    // urlFont: commonURL + 'font',
     urlGetFont: serviceURL + 'font',
-    urlCommon: commonURL,
+    
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',

@@ -16,7 +16,7 @@
         <div class="example-container mat-elevation-z8">
             
             <div class="row">
-                <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
+                <div class="col-md-3 paddingTop-10 pdg_L_30px">
                     <mat-form-field class="example-full-width">
                         <mat-select  placeholder="Filter By" (change)="filterType($event)">
                             <mat-option [value]="1">All</mat-option>
@@ -28,7 +28,7 @@
 
                 <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1">
                     <mat-form-field>
-                        <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
+                        <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
                         <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                             <mat-icon>close</mat-icon>
                         </button>
@@ -40,7 +40,7 @@
             
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'feedbacktbl.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 4%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 4%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -72,22 +72,23 @@
             
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'feedbacktbl.tableHeader.status' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.feedbackReplyFlag == true" class="fa fa-check" style="color: green;"></i>
-                        <i *ngIf="element.feedbackReplyFlag == false" class="fa fa-times" style="color: red;"></i>
+                        <i *ngIf="element.feedbackReplyFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.feedbackReplyFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
                     </mat-cell>
                 </ng-container>
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'feedbacktbl.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                        <button mat-mini-fab style="background: orange" *ngIf="commonservice.isDelete" (click)="updateRow(element.feedbackId)">
-                        <i class="fa fa-eye" title="View {{ element.feedbackId }}"></i></button>
+                        <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isRead" (click)="updateRow(element.feedbackId)">
+                        <!-- <i class="fa fa-eye" title="View {{ element.feedbackId }}"></i> -->
+                        <i *ngIf="commonservice.isRead" [ngClass]="commonservice.icon.view" title="View {{ element.feedbackId }}" ></i></button>
                         &nbsp;
-                        <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()"> 
-                        <i class="fa fa-trash" title="Delete {{ element.feedbackId }}"></i></button>
+                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()"> 
+                            <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.feedbackId }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'common.icon.warn'" 
                         [content]="'common.msg.delete'"
@@ -102,30 +103,30 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
 
-            <div *ngIf="showNoData" class="row" style="text-align: center; padding: 20px;">{{ 'mediauploadtbl.nodata' | translate }} </div>
+            <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
             
         </div>
 
         <div class="float-right paddingTop-15">
-            <mat-form-field style="width:50px; margin-top: -10px">
-                <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-                <mat-option value="5">5</mat-option>
-                <mat-option value="10">10</mat-option>
+            <mat-form-field class="table_footer_pagecount">
+                <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                    <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
                 <mat-option value="25">25</mat-option>
-                <mat-option value="50">50</mat-option>
+                <mat-option value="50">50</mat-option> -->
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'feedbacktbl.tablebottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'feedbacktbl.tablebottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'feedbacktbl.tablebottom.in' | translate }}
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'feedbacktbl.tablebottom.feedback' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
                 </button>
                 <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
                 </button>
             </span>
         </div>
