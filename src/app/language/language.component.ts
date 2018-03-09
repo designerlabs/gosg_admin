@@ -115,9 +115,8 @@ export class LanguageComponent implements OnInit {
     this.loading = true;
 
     // Update Language Service
-    return this.http.get(this.appConfig.urlGetLanguage + '/' + code + '?language='+this.languageId).subscribe(
-    // return this.http.get(this.appConfig.urlLanguage + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlLanguage + row + "/").subscribe(
+    // return this.http.get(this.appConfig.urlGetLanguage + '/' + code + '?language='+this.languageId).subscribe(
+    return this.commonservice.readPortalById('language/', code).subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.LanguageData = Rdata;
