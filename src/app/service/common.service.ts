@@ -49,7 +49,8 @@ export class CommonService {
     plus: 'fa fa-plus',
     arrLeft: 'fa fa-angle-left',
     arrRight: 'fa fa-angle-right',
-    refresh: 'fa fa-refresh'
+    refresh: 'fa fa-refresh',
+    view: 'fa fa-eye'
   }
 
 
