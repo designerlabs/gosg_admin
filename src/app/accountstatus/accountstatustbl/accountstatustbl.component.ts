@@ -90,31 +90,25 @@ export class AccountstatustblComponent implements OnInit {
 
   getRecordList(count, size) {
     this.loading = true;
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    this.commonservice.readProtected('accountstatus', count, size).subscribe(data => {
 
-    this.http.get(this.dataUrl)
-    .subscribe(data => {
-
-        this.commonservice.errorHandling(data, (function(){
-
-          this.recordList = data;
-          console.log("data");
-          console.log(data);
-          
-          this.dataSource.data = this.recordList.list;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-        }).bind(this)); 
-        this.loading = false;
-      },
+      this.commonservice.errorHandling(data, (function(){
+        this.recordList = data;
+        this.dataSource.data = this.recordList.list;
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      }).bind(this)); 
+      this.loading = false;
+    },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
         console.log(error);
-    });
+      });
+    
   }
 
   paginatorL(page) {
@@ -143,10 +137,8 @@ export class AccountstatustblComponent implements OnInit {
   }
 
   deleteRow(refcode) {
-  
-    console.log(refcode);
     this.loading = true;
-    this.commonservice.delRecordAccStatus(refcode).subscribe(
+    this.commonservice.delete(refcode, 'accountstatus').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){
