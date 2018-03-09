@@ -1298,7 +1298,7 @@ getCategoryList1() {
   }
   
   readPortalById(moduleName, id): Observable<any[]> {
-    let readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+    let readUrl = this.appConfig.urlService + moduleName + id + '?language='+this.languageId;
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)
@@ -1306,7 +1306,7 @@ getCategoryList1() {
   }
   
   readProtectedById(moduleName, id): Observable<any[]> {
-    let readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
+    let readUrl = this.appConfig.urlCommon + moduleName + id + '?language='+this.languageId;
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)

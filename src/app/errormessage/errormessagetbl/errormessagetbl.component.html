@@ -23,7 +23,7 @@
 
       <div class="col-md-12 paddingTop-10">
           <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
+            <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
             <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
               <mat-icon>close</mat-icon>
             </button>
@@ -34,7 +34,7 @@
       
         <!-- No Column -->
         <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'errormsg.tableHeader.num' | translate }} </mat-header-cell>
+            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
             <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
               {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
             </mat-cell>
@@ -62,7 +62,7 @@
         
         <!-- Action Column -->
         <ng-container matColumnDef="errMsgAction">
-          <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'errormsg.tableHeader.action' | translate }} </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="actionColumn">
               <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
                 <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}"></i>
@@ -86,7 +86,7 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
 
-      <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'mediauploadtbl.nodata' | translate }} </div>
+      <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
     </div>
 
     <div class="float-right paddingTop-15">
@@ -99,10 +99,10 @@
         </mat-select>
       </mat-form-field>
       <span class="float-right">
-        <span class="table_footer_pagination">{{ 'errormsg.tablebottom.page' | translate }}
+        <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
           <!-- <strong>{{commonservice.errMsgTable?.pageNumber}}</strong> of -->
-          <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'errormsg.tablebottom.of' | translate }}
-          <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'errormsg.tablebottom.in' | translate }}
+          <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+          <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
           <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'errormsg.tablebottom.errmsg' | translate }}</span>
         <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
           <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>

@@ -22,7 +22,7 @@
         <div class="example-container mat-elevation-z8">
             <div class="col-md-12 paddingTop-10">
                 <mat-form-field>
-                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
+                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
                     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                         <mat-icon>close</mat-icon>
                     </button>
@@ -31,7 +31,7 @@
 
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
                 <ng-container matColumnDef="no">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'faq.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -52,7 +52,7 @@
                 </ng-container>
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="statusColumn" *matHeaderCellDef> {{ 'faq.tableHeader.status' | translate }} </mat-header-cell>
+                    <mat-header-cell class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.status' | translate }} </mat-header-cell>
                     <mat-cell class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
                         <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
@@ -60,7 +60,7 @@
                 </ng-container>
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'faq.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">                           
                             <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}"></i>
@@ -80,7 +80,7 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
 
-            <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'mediauploadtbl.nodata' | translate }} </div>
+            <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
         </div>
         <div class="float-right paddingTop-15">
             <mat-form-field class="table_footer_pagecount">
@@ -92,9 +92,9 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span class="table_footer_pagination">{{ 'faq.tablebottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'faq.tablebottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'faq.tablebottom.in' | translate }}
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'faq.tablebottom.question' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">

@@ -22,7 +22,7 @@ export class FontComponent implements OnInit {
   
   public fname: FormControl;  
   public furl: FormControl;
-  public default_status: FormControl;
+  public default: FormControl;
   public active: FormControl;
 
   public readByIdUrl: any;  
@@ -35,7 +35,7 @@ export class FontComponent implements OnInit {
   public urlVal: any;
   public languageId: any;
 
-  public defStatus: any;
+  public refId: any;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -71,16 +71,18 @@ export class FontComponent implements OnInit {
 
   ngOnInit() {
 
+    // this.refId = this.router.url.split('/')[2];
+
     this.fname = new FormControl();
     this.furl = new FormControl();
-    this.default_status = new FormControl();
+    this.default = new FormControl();
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
       fname: this.fname,
       furl: this.furl,
-      default_status: this.default_status,
+      default: this.default,
       active: this.active     
 
     });
@@ -90,12 +92,11 @@ export class FontComponent implements OnInit {
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
-      this.defStatus = false;
 
     }
     else{
       this.commonservice.pageModeChange(true);      
-      this.getData();
+      this.getData(this.urlEdit);
     }
 
     this.commonservice.getModuleId();
@@ -108,11 +109,10 @@ export class FontComponent implements OnInit {
     }
   }
 
-  getData() {
+  getData(id) {
 
-    let _getRefID = this.router.url.split('/')[2];  
     this.loading = true;
-    this.commonservice.readPortalById('font/id/', _getRefID)
+    this.commonservice.readPortalById('font/id/', id)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -123,7 +123,7 @@ export class FontComponent implements OnInit {
 
           this.updateForm.get('fname').setValue(this.recordList.font.fontName);
           this.updateForm.get('furl').setValue(this.recordList.font.fontUrl); 
-          this.updateForm.get('default_status').setValue(this.recordList.font.defaultFont);       
+          this.updateForm.get('default').setValue(this.recordList.font.defaultFont);       
           this.updateForm.get('active').setValue(this.recordList.font.enabled);      
 
           this.getId = this.recordList.font.fontId;
@@ -158,7 +158,7 @@ export class FontComponent implements OnInit {
       body.fontName = formValues.fname;
       body.fontUrl = formValues.furl;
       body.enabled = formValues.active;
-      body.defaultFont = formValues.default_status;
+      body.defaultFont = formValues.default;
 
       // console.log("TEST")
       // console.log(JSON.stringify(body))
@@ -196,7 +196,7 @@ export class FontComponent implements OnInit {
       body.fontName = formValues.fname;
       body.fontUrl = formValues.furl;
       body.enabled = formValues.active;
-      body.defaultFont = formValues.default_status;
+      body.defaultFont = formValues.default;
 
       // console.log("UPDATE: ");     
       // console.log(JSON.stringify(body))
@@ -252,7 +252,7 @@ export class FontComponent implements OnInit {
     // end get new url without space
 
     //active is auto check when default status is true
-    // if(this.updateForm.controls.default_status.value == true){
+    // if(this.updateForm.controls.default.value == true){
     //   this.updateForm.get('active').setValue(true);
     //   this.defStatus = true;
     // }
@@ -271,6 +271,21 @@ export class FontComponent implements OnInit {
       if(capFname)
         this.updateForm.get('fname').setValue(capFname);
 
+    }
+  }
+
+  checkDefaultStatus() {
+    let def = this.updateForm.get('default');
+    let active = this.updateForm.get('active');
+
+    if(def.value == true) {
+      active.setValue(true)
+    } else if(def.value == true && active.value == true) {
+      def.setValue(false)
+      active.setValue(false)
+    } else if(def.value == true && active.value == false) {
+      def.setValue(false)
+      active.setValue(false)
     }
   }
 
