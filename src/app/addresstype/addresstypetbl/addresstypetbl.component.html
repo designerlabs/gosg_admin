@@ -8,7 +8,7 @@
         <div class="col-md-2 curdHeadingRight">
             <!-- <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
-                <i class="fa fa-plus font-size-l"></i></button>
+                <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
             </span> -->
         </div> 
     </div>
@@ -56,8 +56,8 @@
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'addresstype.tableHeader.activestatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.active == true" class="fa fa-check" style="color: green;"></i>
-                        <i *ngIf="element.active == false" class="fa fa-times" style="color: red;"></i>
+                        <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
                     </mat-cell>
                 </ng-container>
 
@@ -88,11 +88,11 @@
 
         <div class="float-right paddingTop-15">
             <mat-form-field style="width:50px; margin-top: -10px">
-                <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-                <mat-option value="5">5</mat-option>
-                <mat-option value="10">10</mat-option>
+                <mat-select class="font-size-s" [(ngModel)]="commonservice.defaultPageSize" class="text-align-Center" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
                 <mat-option value="25">25</mat-option>
-                <mat-option value="50">50</mat-option>
+                <mat-option value="50">50</mat-option> -->
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
