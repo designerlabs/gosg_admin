@@ -224,3 +224,11 @@ mat-header-cell{
     .text-align-Center {
         text-align: center !important;
     }
+
+    .width_100px {
+        width: 100px;
+    }
+
+    .mgn_L_5px {
+        margin-left: 5px;
+    }
