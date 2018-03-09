@@ -283,6 +283,11 @@
     },
     "placeholder": {
       "keywords": "Kata Kunci"
+    },
+    "filterby": {
+      "filterby": "Tapisan Mengikut",
+      "all": "Semua",
+      "email": "Emel"
     }
   },
   "appmngt":{
@@ -510,17 +515,10 @@
       "feedbacktype": "Jenis Maklum Balas",
       "name": "Nama",
       "email": "Emel",
-      "status": "Status Draf",
-      "action": "Tindakan"
+      "draftstatus": "Status Draf"
     },
     "tablebottom":{
       "feedback": "mesej maklum balas"
-    },
-    "filterby": {
-      "filterby": "Tapisan Mengikut",
-      "all": "Semua",
-      "email": "Emel",
-      "keyword": "Mesej"
     }
   },
   "feedbackmsg": {
@@ -536,8 +534,7 @@
     "header": "Senarai Subjek Maklum Balas",
     "tableHeader":{
       "subjectEn": "Subjek (EN)",
-      "subjectBm": "Subjek (BM)",
-      "action": "Tindakan"
+      "subjectBm": "Subjek (BM)"
     },
     "tablebottom":{
       "feedbacksubject": "subjek maklum balas"
@@ -547,8 +544,7 @@
     "header": "Senarai Jenis Maklum Balas",
     "tableHeader":{
       "typeEn": "Jenis (EN)",
-      "typeBm": "Jenis (BM)",
-      "action": "Tindakan"
+      "typeBm": "Jenis (BM)"
     },
     "tablebottom":{
       "feedbacktype": "jenis maklum balas"
@@ -559,9 +555,7 @@
     "tableHeader":{
       "name": "Nama",
       "url": "Url",
-      "defaultstatus": "Status Default",
-      "activestatus": "Status Aktif",
-      "action": "Tindakan"
+      "defaultstatus": "Status Default"
     },
     "tablebottom":{
       "font": "tetapan fon"
@@ -571,9 +565,7 @@
     "header": "Kategori Footer",
     "tableHeader":{
       "footercategoryEn": "Kategori Footer (EN)",
-      "footercategoryBm": "Kategori Footer (BM)",
-      "status": "Status",
-      "action": "Tindakan"
+      "footercategoryBm": "Kategori Footer (BM)"
     },
     "tablebottom":{
       "footer": "senarai kategori footer"
@@ -584,8 +576,7 @@
     "tableHeader":{
       "footercategoryEn": "Kategori Footer (EN)",
       "nameEn": "Nama (EN)",
-      "nameBm": "Nama (BM)",
-      "action": "Tindakan"
+      "nameBm": "Nama (BM)"
     },
     "tablebottom":{
       "footer": "senarai kandungan footer"

@@ -23,7 +23,7 @@
 
             <div class="col-md-12 paddingTop-10">
                 <mat-form-field>
-                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
+                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
                     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                         <mat-icon>close</mat-icon>
                     </button>
@@ -33,7 +33,7 @@
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
 
                 <ng-container matColumnDef="no">
-                    <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -62,7 +62,7 @@
 
                 <!-- action Column -->
                 <ng-container matColumnDef="action">
-                    <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'footercontenttbl.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
                             <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
@@ -100,9 +100,9 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span class="table_footer_pagination">{{ 'footercontenttbl.tablebottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'footercontenttbl.tablebottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'footercontenttbl.tablebottom.in' | translate }}
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'footercontenttbl.tablebottom.footer' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
