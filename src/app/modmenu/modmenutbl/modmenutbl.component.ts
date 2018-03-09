@@ -23,7 +23,7 @@ export class ModmenutblComponent implements OnInit {
   moduleList = null;
   displayedColumns: any;
   pageSize = 10;
-  pageCount = 1;
+  pagepage = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -50,16 +50,16 @@ export class ModmenutblComponent implements OnInit {
     console.log(val);
     
     if(val){
-      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+      this.getFilterList(this.pagepage, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getModuleData(this.pageCount, this.pageSize);
+      this.getModuleData(this.pagepage, this.pageSize);
     }
   
   }
 
   resetSearch() {
-    this.getModuleData(this.pageCount, this.pageSize);
+    this.getModuleData(this.pagepage, this.pageSize);
   }
 
   constructor(
@@ -79,7 +79,7 @@ export class ModmenutblComponent implements OnInit {
               if(val.languageCode == translate.currentLang){
                 this.lang = val.languageCode;
                 this.languageId = val.languageId;
-                this.getModuleData(this.pageCount, this.pageSize);
+                this.getModuleData(this.pagepage, this.pageSize);
                 this.commonservice.getModuleId();
               }
             }.bind(this));
@@ -88,7 +88,7 @@ export class ModmenutblComponent implements OnInit {
       });
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
-        this.getModuleData(this.pageCount, this.pageSize);
+        this.getModuleData(this.pagepage, this.pageSize);
         this.commonservice.getModuleId();
       }
   
@@ -105,10 +105,10 @@ export class ModmenutblComponent implements OnInit {
   }
 
   // get module Data 
-  getModuleData(count, size) {
+  getModuleData(page, size) {
 
     this.loading = true;
-    this.http.get(this.appConfig.urlModule + '?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(
+    this.commonservice.readProtected('authorization/module', page, size).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.moduleList = data;
@@ -140,13 +140,14 @@ export class ModmenutblComponent implements OnInit {
       
   }
 
-  getFilterList(count, size, keyword, filterkeyword) {
+  getFilterList(page, size, keyword, filterkeyword) {
 
-    this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId+ '&page=' + count + '&size=' + size;
+    // this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId+ '&page=' + page + '&size=' + size;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.http.get(this.dataUrl).subscribe(data => {
+      this.commonservice.readProtected('authorization/module', page, size, keyword).subscribe(
+        data => {
 
         this.commonservice.errorHandling(data, (function(){
 
@@ -179,7 +180,7 @@ export class ModmenutblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getModuleData(this.pageCount, this.pageSize);
+    this.getModuleData(this.pagepage, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -192,7 +193,7 @@ export class ModmenutblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getModuleData(this.pageCount, event.value);
+    this.getModuleData(this.pagepage, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -210,12 +211,12 @@ export class ModmenutblComponent implements OnInit {
 
   deleteItem(moduleId) {
 
-      this.commonservice.delModMenu(moduleId).subscribe(
+      this.commonservice.delete('authorization/module/',moduleId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
-          this.getModuleData(this.pageCount, this.pageSize);
+          this.getModuleData(this.pagepage, this.pageSize);
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');    

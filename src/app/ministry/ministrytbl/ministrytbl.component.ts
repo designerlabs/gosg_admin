@@ -221,7 +221,7 @@ export class MinistrytblComponent implements OnInit {
     let txt;
     this.loading = true;
 
-      this.commonservice.delMinistry(refCode).subscribe(
+      this.commonservice.delete(refCode, 'ministry/delete/code/').subscribe(
         data => {
             this.commonservice.errorHandling(data, (function(){
             console.log(data)

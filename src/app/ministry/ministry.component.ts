@@ -191,7 +191,7 @@ export class MinistryComponent implements OnInit {
 
     this.loading = true;
     // Update Ministry Service
-    return this.http.get(this.appConfig.urlGetMinistry + "/" + row).subscribe(
+    return this.commonservice.readPortalById("ministry/", row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + row + "/").subscribe(
       Rdata => {
@@ -381,13 +381,21 @@ export class MinistryComponent implements OnInit {
     console.log(body)
 
     // Add ErrorMsg Service
-    this.commonservice.addMinistry(body).subscribe(
+    this.commonservice.create(body,'ministry/add/multiple').subscribe(
       data => {
-        this.toastr.success('Ministry added successfully!', ''); 
+                    
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), '');
+          this.router.navigate(['font']);
+        }).bind(this));      
+        this.loading = false;      
         this.router.navigate(['ministry']);
       },
       error => {
-        console.log("No Data")
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        console.log(error);
       });
 
     } else {
@@ -494,14 +502,21 @@ export class MinistryComponent implements OnInit {
     console.log(body);
 
     // Update ErrorMsg Service
-    this.commonservice.updateMinistry(body).subscribe(
+    this.commonservice.update(body,'ministry/update/multiple').subscribe(
       data => {
-        this.toastr.success('Ministry update successful!', '');   
+                    
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), '');
+          this.router.navigate(['font']);
+        }).bind(this));      
+        this.loading = false;      
         this.router.navigate(['ministry']);
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        console.log(error);
       });
     }
     
