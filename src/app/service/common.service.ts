@@ -1299,9 +1299,9 @@ getCategoryList1() {
     let readUrl;
     
     if(page && size)
-      readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+      readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
     else
-      readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+      readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())

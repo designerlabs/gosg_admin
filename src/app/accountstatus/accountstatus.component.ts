@@ -108,9 +108,7 @@ export class AccountstatusComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[2];
     
-    this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID + '?language=' +this.languageId;
-    this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('accountstatus/code', _getRefID)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
