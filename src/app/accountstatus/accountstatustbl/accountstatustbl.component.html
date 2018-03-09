@@ -8,7 +8,7 @@
         <div class="col-md-2 curdHeadingRight">
             <!-- <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
-                <i class="fa fa-plus font-size-l"></i></button>
+                <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
             </span> -->
         </div> 
     </div>
@@ -48,8 +48,8 @@
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.enabled == true" class="fa fa-check" style="color: green;"></i>
-                        <i *ngIf="element.enabled == false" class="fa fa-times" style="color: red;"></i>
+                        <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
                     </mat-cell>
                 </ng-container>
 
@@ -79,25 +79,25 @@
         </div>
 
         <div class="float-right paddingTop-15">
-            <mat-form-field style="width:50px; margin-top: -10px">
-                <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-                <mat-option value="5">5</mat-option>
-                <mat-option value="10">10</mat-option>
+            <mat-form-field class="table_footer_pagecount">
+                <mat-select class="font-size-s" [(ngModel)]="commonservice.defaultPageSize" class="text-align-Center" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
                 <mat-option value="25">25</mat-option>
-                <mat-option value="50">50</mat-option>
+                <mat-option value="50">50</mat-option> -->
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'common.tableBottom.page' | translate }}
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
                     <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
                     <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'accstatuslist.tablebottom.accStatus' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
                 </button>
                 <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
                 </button>
             </span>
         </div>

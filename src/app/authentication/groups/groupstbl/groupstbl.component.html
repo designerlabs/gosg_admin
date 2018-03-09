@@ -8,7 +8,7 @@
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
-              <i class="fa fa-plus font-size-l"></i></button>
+                <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
           </span>
       </div> 
   </div>
@@ -46,17 +46,18 @@
       <ng-container matColumnDef="isActive" >
           <mat-header-cell mat-sort-header *matHeaderCellDef class="statusColumn"> Status </mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
-            <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+            <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+            <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
           </mat-cell>
         </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action" >
         <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef class="actionColumn"> {{ 'table.action' | translate }} </mat-header-cell>
         <mat-cell class="text-align-Center padding5" *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
-            <i class="fa fa-edit" ></i></button>&nbsp;
-            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-            <i class="fa fa-trash"  title="Delete {{ element.moduleGroupId }}"></i></button>
+            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update"></i></button>&nbsp;
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
+              <i [ngClass]="commonservice.icon.trash"  title="Delete {{ element.moduleGroupId }}"></i></button>
 
             <app-confirm-dialog  #deleteModal 
               [title]="'common.icon.warn'" 
@@ -84,24 +85,24 @@
   </div>
 
   <div class="float-right paddingTop-15">
-      <mat-form-field style="width:50px;">
-        <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, groupList?.totalPages)">
-          <mat-option value="5">5</mat-option>
-          <mat-option value="10">10</mat-option>
+      <mat-form-field class="table_footer_pagecount">
+        <mat-select class="font-size-s" [(ngModel)]="commonservice.defaultPageSize" class="text-align-Center" (change)="pageChange($event, groupList?.totalPages)">
+          <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+          <!-- <mat-option value="10">10</mat-option>
           <mat-option value="25">25</mat-option>
-          <mat-option value="50">50</mat-option>
+          <mat-option value="50">50</mat-option> -->
         </mat-select>
       </mat-form-field>
       <span class="float-right">
-        <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'table.pages' | translate }}
+        <span class="table_footer_pagination">{{ 'table.pages' | translate }}
           <strong>{{groupList?.pageNumber}}</strong> {{ 'table.of' | translate }}
           <strong>{{groupList?.totalPages}}</strong> {{ 'table.in' |translate }}
           <strong>{{groupList?.totalElements}}</strong> {{ 'table.user.users' |translate }}</span>
         <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(groupList?.pageNumber)">
-          <i class="fa fa-angle-left" aria-hidden="true"></i>
+          <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
         </button>
         <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(groupList?.pageNumber, groupList?.totalPages)">
-          <i class="fa fa-angle-right" aria-hidden="true"></i>
+          <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
         </button>
       </span>
     </div>

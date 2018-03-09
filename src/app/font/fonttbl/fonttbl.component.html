@@ -9,7 +9,7 @@
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
-                <i [ngClass]="commonservice.icon.plus" class="font-size-l"></i></button>
+                <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
             </span>
         </div> 
     </div>
@@ -96,14 +96,14 @@
             </mat-table>
             
         </div>
-
+        
         <div class="float-right paddingTop-15">
             <mat-form-field class="table_footer_pagecount">
-                <mat-select class="font-size-s" value="10" class="text-align-Center" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-                <mat-option value="5">5</mat-option>
-                <mat-option value="10">10</mat-option>
+                <mat-select class="font-size-s" [(ngModel)]="commonservice.defaultPageSize" class="text-align-Center" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
                 <mat-option value="25">25</mat-option>
-                <mat-option value="50">50</mat-option>
+                <mat-option value="50">50</mat-option> -->
                 </mat-select>
             </mat-form-field>
             <span class="float-right">

@@ -162,11 +162,11 @@ export class FontComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultFont = formValues.default_status;
 
-      console.log("TEST")
-      console.log(JSON.stringify(body))
+      // console.log("TEST")
+      // console.log(JSON.stringify(body))
 
       this.loading = true;
-      this.commonservice.addFont(body).subscribe(
+      this.commonservice.create(body, 'font').subscribe(
         data => {
                     
           this.commonservice.errorHandling(data, (function(){
@@ -200,11 +200,11 @@ export class FontComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultFont = formValues.default_status;
 
-      console.log("UPDATE: ");     
-      console.log(JSON.stringify(body))
+      // console.log("UPDATE: ");     
+      // console.log(JSON.stringify(body))
 
       this.loading = true;
-      this.commonservice.updateFont(body).subscribe(
+      this.commonservice.update(body, 'font').subscribe(
         data => {
                   
           this.commonservice.errorHandling(data, (function(){
@@ -265,12 +265,13 @@ export class FontComponent implements OnInit {
     // end active is auto check when default status is true
     
     //capitalize font name
-    if(this.updateForm.controls.fname.value != ""){
-
+    if(this.updateForm.controls.fname.value != null){
       let capFname = this.updateForm.controls.fname.value;
 
       capFname = capFname.replace(/(^|\s)[a-z]/g,function(f){return f.toUpperCase();})
-      this.updateForm.get('fname').setValue(capFname);
+
+      if(capFname)
+        this.updateForm.get('fname').setValue(capFname);
 
     }
   }
