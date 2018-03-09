@@ -107,10 +107,10 @@
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'category.tablebottom.category' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
                 </button>
                 <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
                 </button>
             </span>
         </div>
