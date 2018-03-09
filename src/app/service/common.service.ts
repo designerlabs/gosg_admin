@@ -789,36 +789,26 @@ getCategoryList1() {
     .catch(this.handleError);
   }
 
-  addLanguage(language) {
+  // addLanguage(language) {
 
-    // console.log(this.appConfig.urlSlides)
-    // console.log(Agency)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    
-    return this.http.post(this.appConfig.urlLanguage + '?language='+this.languageId, language)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlLanguage + '?language='+this.languageId, language)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateLanguage(language) {
+  // updateLanguage(language) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(Agency)
-    // debugger;
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlLanguage + '?language='+this.languageId, language)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(this.appConfig.urlLanguage + '?language='+this.languageId, language)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delLanguage(langId) {
+  // delLanguage(langId) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    
-    return this.http.delete(this.appConfig.urlLanguage + "/" + langId + "?language="+this.languageId, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlLanguage + "/" + langId + "?language="+this.languageId, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // LANGUAGE END
 
   // Start Poll Question - N

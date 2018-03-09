@@ -217,7 +217,7 @@ export class LanguageComponent implements OnInit {
     console.log(body)
 
     // Add Language Service
-    this.commonservice.addLanguage(body).subscribe(
+    this.commonservice.create(body, 'language').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -250,7 +250,7 @@ export class LanguageComponent implements OnInit {
     console.log(body);
 
     // Update Language Service
-    this.commonservice.updateLanguage(body).subscribe(
+    this.commonservice.update(body, 'language').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), '');
