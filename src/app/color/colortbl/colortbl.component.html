@@ -8,7 +8,7 @@
     <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
             <button type="button" mat-fab color="warn" (click)="addBtn()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
-            <i class="fa fa-plus font-size-l"></i></button>
+              <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
         </span>
     </div> 
 </div>
@@ -49,7 +49,9 @@
       <ng-container matColumnDef="colorActiveStatus">
         <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'color.tableHeader.status' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
-          <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+          <!-- <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
+          <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+          <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
         </mat-cell>
       </ng-container>
 
@@ -57,7 +59,9 @@
       <ng-container matColumnDef="colorDefaultFlag">
         <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'color.tableHeader.default' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
-          <i [ngClass]="[element.defaultColor ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i>
+          <!-- <i [ngClass]="[element.defaultColor ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
+          <i *ngIf="element.defaultColor == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+          <i *ngIf="element.defaultColor == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
         </mat-cell>
       </ng-container>
       
@@ -65,13 +69,13 @@
       <ng-container matColumnDef="colorAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'color.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.colorId)" title="Update {{ element.colorName }}">
-              <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.colorName }}" ></i>
-              <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.colorName }}" ></i>
+            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.colorId)" title="Update {{ element.colorName }}">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.colorName }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.colorName }}" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.colorName }}">
-              <i class="fa fa-trash"  title="Delete {{ element.colorName }}"></i>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.colorName }}">
+              <i [ngClass]="commonservice.icon.trash"  title="Delete {{ element.colorName }}"></i>
             </button>
             <app-confirm-dialog  #deleteRow 
             [title]="'common.icon.warn'" 
@@ -90,16 +94,16 @@
   </div>
 
   <div class="float-right paddingTop-15">
-    <mat-form-field style="width:50px; margin-top: -10px">
-      <mat-select class="font-size-s" value="10" style="text-align: center;" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-        <mat-option value="5">5</mat-option>
-        <mat-option value="10">10</mat-option>
+    <mat-form-field class="table_footer_pagecount">
+      <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+        <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+        <!-- <mat-option value="10">10</mat-option>
         <mat-option value="25">25</mat-option>
-        <mat-option value="50">50</mat-option>
+        <mat-option value="50">50</mat-option> -->
       </mat-select>
     </mat-form-field>
     <span class="float-right">
-      <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'color.tablebottom.page' | translate }}
+      <span class="table_footer_pagination">{{ 'color.tablebottom.page' | translate }}
         <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'color.tablebottom.of' | translate }}
         <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'color.tablebottom.in' | translate }}
         <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'colors' : 'color'}}</span>
