@@ -206,7 +206,7 @@ export class CategorytblComponent implements OnInit {
    
     console.log(refcode);
     this.loading = true;
-    this.commonservice.delRecordAccStatus(refcode).subscribe(
+    this.commonservice.delete(refcode, 'accountstatus').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

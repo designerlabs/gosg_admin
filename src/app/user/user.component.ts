@@ -189,7 +189,8 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   getAccountStatus() {
     this.loading = true;
-    return this.http.get(this.appConfig.urlAccountStatus + '/').subscribe(
+    this.commonservice.readProtected('accountstatus')
+    .subscribe(
         Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function(){

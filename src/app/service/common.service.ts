@@ -1029,56 +1029,56 @@ getCategoryList1() {
   }
 
   // Start Address Type - N
-  addRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
+  // addRecordAddType(record) {
+  //   let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
 
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delRecordAddType(refCode) {
-    let fullUrl = this.appConfig.urlAddressType  + "/" + refCode + '?language='+this.languageId;
+  // delRecordAddType(refCode) {
+  //   let fullUrl = this.appConfig.urlAddressType  + "/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(fullUrl, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
+  // updateRecordAddType(record) {
+  //   let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
 
-    return this.http.put(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // End Address Type - N
 
   // Start Account Status - N
-  addRecordAccStatus(record) {
-    let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
+  // addRecordAccStatus(record) {
+  //   let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
  
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delRecordAccStatus(refCode) {
-    let fullUrl = this.appConfig.urlAccountStatus + "/" + refCode + '?language='+this.languageId;
+  // delRecordAccStatus(refCode) {
+  //   let fullUrl = this.appConfig.urlAccountStatus + "/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(fullUrl, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateRecordAccStatus(record) {
-    let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
+  // updateRecordAccStatus(record) {
+  //   let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
 
-    return this.http.put(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-  // End Account Status - N
+  //   return this.http.put(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
+  // // End Account Status - N
 
   // Start Feedback Type - N
   addRecordFeedbackType(record) {
