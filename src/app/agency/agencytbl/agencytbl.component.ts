@@ -108,7 +108,7 @@ export class AgencytblComponent implements OnInit {
   // get agencyType Data 
   getAgencyTypesData(count, size) {
     this.loading = true;
-    this.commonservice.readProtected('agency/type/code', count, size).subscribe(
+    this.commonservice.readPortal('agency/type/code', count, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -141,7 +141,7 @@ export class AgencytblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('agency/type/code',count, size, keyword)
+      this.commonservice.readPortal('agency/type/code',count, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

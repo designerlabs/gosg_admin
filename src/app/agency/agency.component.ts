@@ -208,7 +208,7 @@ export class AgencyComponent implements OnInit {
 
     this.loading = true;
     // Update ErrorMsg Service
-    this.commonservice.readProtected('agency/type/code/').subscribe(
+    this.commonservice.readPortalById('agency/type/code/',row).subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AgencyTypeData = Rdata;

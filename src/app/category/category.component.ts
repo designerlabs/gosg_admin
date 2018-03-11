@@ -266,7 +266,7 @@ export class CategoryComponent implements OnInit {
 
   getCategory(){
     this.loading = true;
-    return this.commonservice.getCategoryList()
+    return this.commonservice.readProtected('content/category')
      .subscribe(data => {
   
       console.log("GET CATEGORY: ");
