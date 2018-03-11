@@ -290,7 +290,7 @@ export class CommonService {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
-
+  
   delModMenu(modmenuId) {
 
     // return this.http.put(this.appConfig.urlUsers + user.userId, user)
@@ -307,11 +307,11 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  deleteModuleList(id){
-    return this.http.delete(this.appConfig.urlModule+'/'+id+'?language='+this.languageId)
-    .map((response: Response) => response.json()[0])
-    .catch(this.handleError);
-  }
+  // deleteModuleList(id){
+  //   return this.http.delete(this.appConfig.urlModule+'/'+id+'?language='+this.languageId)
+  //   .map((response: Response) => response.json()[0])
+  //   .catch(this.handleError);
+  // }
 
   getModuleListAll(){
     return this.http.get(this.appConfig.urlModuleList+'/all?language='+this.languageId)
@@ -319,25 +319,25 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  updateModuleList(data){
-    return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  // updateModuleList(data){
+  //   return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
 
-  addModuleGroup(data){
-    return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  // addModuleGroup(data){
+  //   return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
 
-  deleteModuleGroup(id){
-    return this.http.delete(this.appConfig.urlModuleGroupList+'/'+id+'?language='+this.languageId)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  // deleteModuleGroup(id){
+  //   return this.http.delete(this.appConfig.urlModuleGroupList+'/'+id+'?language='+this.languageId)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
   getUserList(id){
     return this.http.get(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId)
@@ -722,33 +722,33 @@ getCategoryList1() {
     });
   }
 
-  addAgency(agency) {
+  // addAgency(agency) {
 
-    return this.http.post(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateAgency(agency) {
+  // updateAgency(agency) {
 
-    console.log(this.appConfig.urlAgency)
-    console.log(agency)
+  //   console.log(this.appConfig.urlAgency)
+  //   console.log(agency)
     
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+  //   return this.http.put(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delAgency(refCode) {
+  // delAgency(refCode) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    console.log(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId)
+  //   // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+  //   console.log(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId)
     
-    return this.http.delete(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // AGENCY END
 
   // AGENCY APP

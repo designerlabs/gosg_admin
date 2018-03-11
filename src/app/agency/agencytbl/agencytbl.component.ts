@@ -108,7 +108,7 @@ export class AgencytblComponent implements OnInit {
   // get agencyType Data 
   getAgencyTypesData(count, size) {
     this.loading = true;
-    this.http.get(this.appConfig.urlGetAgency + '/code/?page=' + count + '&size=' + size).subscribe(
+    this.commonservice.readProtected('agency/type/code', count, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -138,11 +138,11 @@ export class AgencytblComponent implements OnInit {
 
   getFilterList(count, size, keyword, filterkeyword) {
 
-    this.dataUrl = this.appConfig.urlGetAgency+'/code?keyword='+keyword+'&language='+this.languageId;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.http.get(this.dataUrl).subscribe(data => {
+      this.commonservice.readProtected('agency/type/code',count, size, keyword)
+      .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
@@ -214,7 +214,7 @@ export class AgencytblComponent implements OnInit {
     console.log(refCode)
     let txt;
       this.loading = true;
-      this.commonservice.delAgency(refCode).subscribe(
+      this.commonservice.delete(refCode, 'agency/type').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getAgencyTypesData(this.pageCount, this.pageSize);

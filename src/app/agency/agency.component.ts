@@ -208,9 +208,7 @@ export class AgencyComponent implements OnInit {
 
     this.loading = true;
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlGetAgency + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlAgencyType + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlAgencyType + row + "/").subscribe(
+    this.commonservice.readProtected('agency/type/code/').subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AgencyTypeData = Rdata;
@@ -285,8 +283,7 @@ export class AgencyComponent implements OnInit {
         this.isActiveListEn = false;
       }
       this.loading = true;
-      this.http.get(this.appConfig.urlSearchbyMinistry+keyword+'?language='+langId).subscribe(
-          data => {
+      this.commonservice.readPortal('ministry', '', '' , keyword).subscribe(data => {
             this.commonservice.errorHandling(data, (function(){
               if(langId == 1) {
                 this.searchMinistryResultEn = data['ministryList'];
@@ -342,7 +339,8 @@ export class AgencyComponent implements OnInit {
       selLangField = "ministryEn";
     }
     this.loading = true;
-    return this.http.get(this.appConfig.urlGetMinistry + '/refcode/language/' + refCode+ '?language='+langId).subscribe(
+    this.commonservice.readPortalById('ministry/refcode/language/', refCode)
+    .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           console.log('refCode Data');
@@ -517,7 +515,7 @@ export class AgencyComponent implements OnInit {
 
     // Add Agency Service
     this.loading = true;
-    this.commonservice.addAgency(body).subscribe(
+    this.commonservice.create(body,'agency/type').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
@@ -648,7 +646,7 @@ export class AgencyComponent implements OnInit {
 
     // // Update Agency Service
     this.loading = true;
-    this.commonservice.updateAgency(body).subscribe(
+    this.commonservice.update(body,'agency/type').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');

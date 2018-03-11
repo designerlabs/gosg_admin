@@ -104,7 +104,8 @@ export class AgencyapptblComponent implements OnInit {
   // get agencyapp Data 
   getAgencyAppData(count, size) {
     this.loading = true;
-    this.http.get(this.appConfig.urlGetAgencyApp + '/code/?page=' + count + '&size=' + size).subscribe(
+    this.commonservice.readPortal('agency/application/code/',count, size)
+    .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
 
@@ -136,11 +137,10 @@ export class AgencyapptblComponent implements OnInit {
 
   getFilterList(count, size, keyword, filterkeyword) {
 
-    this.dataUrl = this.appConfig.urlGetAgencyApp+'/code?keyword='+keyword+'&language='+this.languageId;
-
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.http.get(this.dataUrl).subscribe(data => {
+      this.commonservice.readPortal('agency/application/code/', count, size, keyword)
+      .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
@@ -209,7 +209,7 @@ export class AgencyapptblComponent implements OnInit {
 
   deleteItem(refCode) {
     this.loading = true;
-      this.commonservice.delAgencyApp(refCode).subscribe(
+      this.commonservice.delete(refCode,'agency/application').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getAgencyAppData(this.pageCount, this.pageSize);
