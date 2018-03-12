@@ -16,12 +16,10 @@ import { LeftmenuComponent } from './leftmenu/leftmenu.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
-import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
-import { RolesComponent } from './roles/roles.component';
 import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
 import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
@@ -76,8 +74,6 @@ import { SystemsettingsComponent } from './systemsettings/systemsettings.compone
 import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
 import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
 import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
-import { ExtlinksComponent } from './extlinks/extlinks.component';
-import { ExtlinkstblComponent } from './extlinks/extlinkstbl/extlinkstbl.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
 import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
@@ -119,11 +115,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     LeftmenuComponent,
     RightcontentComponent,
     ErrorComponent,
-    ArticletblComponent,
     UserComponent,
     UsertblComponent,
     GroupstblComponent,
-    RolesComponent,    
     PollquestiontblComponent,
     PollquestionComponent,
     PollresultComponent,
@@ -174,8 +168,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     SystemsettingstblComponent,
     IdentificationtypeComponent,
     IdentificationtypetblComponent,
-    ExtlinksComponent,
-    ExtlinkstblComponent,
     MinistryComponent,
     MinistrytblComponent,
     FootercategoryComponent,

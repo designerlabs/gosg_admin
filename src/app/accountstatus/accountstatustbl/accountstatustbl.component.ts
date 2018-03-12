@@ -58,7 +58,7 @@ export class AccountstatustblComponent implements OnInit {
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
         this.loading = true;
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -138,7 +138,7 @@ export class AccountstatustblComponent implements OnInit {
 
   deleteRow(refcode) {
     this.loading = true;
-    this.commonservice.delete(refcode, 'accountstatus').subscribe(
+    this.commonservice.delete(refcode, 'accountstatus/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

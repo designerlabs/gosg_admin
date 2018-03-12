@@ -57,7 +57,7 @@ export class FeedbacktypetblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -86,10 +86,8 @@ export class FeedbacktypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlFeedbackTypeGet + '?page=' + count + '&size=' + size + '&language=' +this.languageId;
     this.loading = true;
-
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortal('feedback/type', count, size)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -144,7 +142,7 @@ export class FeedbacktypetblComponent implements OnInit {
     console.log(refcode);
     this.loading = true;
 
-    this.commonservice.delRecordFeedbackType(refcode).subscribe(
+    this.commonservice.delete(refcode, 'feedback/type/code/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

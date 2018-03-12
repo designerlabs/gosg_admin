@@ -47,7 +47,7 @@ export class FeedbacksubjectComponent implements OnInit {
       /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -106,10 +106,9 @@ export class FeedbacksubjectComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];  
-    this.dataUrl = this.appConfig.urlFeedbackSubjectGet+ '/'+_getRefID + '?language=' +this.languageId;
     this.loading = true;
 
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortal('feedback/subject/', _getRefID)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -167,7 +166,7 @@ export class FeedbacksubjectComponent implements OnInit {
       console.log(body)
 
       this.loading = true;
-      this.commonservice.addRecordFeedbackSubject(body).subscribe(
+      this.commonservice.create(body,'feedback/subject').subscribe(
         data => {
           console.log(JSON.stringify(body))
 
@@ -212,7 +211,7 @@ export class FeedbacksubjectComponent implements OnInit {
       console.log(body);
       this.loading = true;
 
-      this.commonservice.updateRecordFeedbackSubject(body).subscribe(
+      this.commonservice.update(body,'feedback/subject').subscribe(
         data => {
           console.log(JSON.stringify(body))
 

@@ -74,7 +74,7 @@ export class UsertblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -219,7 +219,7 @@ export class UsertblComponent implements OnInit {
   
   deleteUser(msgId){
     this.loading = true;
-    this.commonservice.deleteUserList(msgId).subscribe(
+    this.commonservice.delete(msgId,'adminuser/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

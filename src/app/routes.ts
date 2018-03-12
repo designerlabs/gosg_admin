@@ -4,10 +4,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ErrorComponent } from './error/error.component';
 import { AppComponent } from './app.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
-import { ArticletblComponent } from './articletbl/articletbl.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
-import { RolesComponent } from './roles/roles.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
@@ -92,7 +90,6 @@ export const appRoutes: Routes = [
 {path: 'media/upload', component: MediafileuploadtblComponent},
 {path: 'media/upload/add', component: MediafileuploadComponent},
 {path: 'media/upload/:id', component: MediafileuploadComponent},
-{path: 'articletbl/:id', component: ArticletblComponent, canActivate: [NavRouterActivatorService]},
 
 //Feedback: N
 {path: 'feedback/message/visitor', component: FeedbackvisitortblComponent},
@@ -125,7 +122,6 @@ export const appRoutes: Routes = [
 {path: 'agencyapp/add', component: AgencyappComponent},
 {path: 'agencyapp/:id', component: AgencyappComponent},
 {path: 'agencyapp', component: AgencyapptblComponent},
-{path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UserdetailstblComponent},
 {path: 'userlist/:id', component: UserComponent},
 {path: 'groupmodule' , component: GroupstblComponent},

@@ -95,8 +95,8 @@
   
           <!-- No Column -->
         <ng-container matColumnDef="no">
-          <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'table.no' | translate }} </mat-header-cell>
-          <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
+          <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'table.no' | translate }} </mat-header-cell>
+          <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
         </ng-container>
@@ -173,7 +173,7 @@
     
     <div class="float-right paddingTop-15">
       <mat-form-field class="table_footer_pagecount">
-        <mat-select class="font-size-s"[(ngModel)]="commonservice.defaultPageSize" class="text-align-Center" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+        <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
           <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
           <!-- <mat-option value="10">10</mat-option>
           <mat-option value="25">25</mat-option>

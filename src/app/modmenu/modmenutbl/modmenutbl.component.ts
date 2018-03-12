@@ -73,7 +73,7 @@ export class ModmenutblComponent implements OnInit {
       /* LANGUAGE FUNC */
       translate.onLangChange.subscribe((event: LangChangeEvent) => {
         translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.getAllLanguage().subscribe((data:any) => {
+          this.commonservice.readPortal('language/all').subscribe((data:any) => {
             let getLang = data.list;
             let myLangData =  getLang.filter(function(val) {
               if(val.languageCode == translate.currentLang){
@@ -146,7 +146,7 @@ export class ModmenutblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('authorization/module', page, size, keyword).subscribe(
+      this.commonservice.readProtected('authorization/module/search/', page, size, keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -212,7 +212,7 @@ export class ModmenutblComponent implements OnInit {
   deleteItem(moduleId) {
 
     this.loading = true;
-      this.commonservice.delete('authorization/module/',moduleId).subscribe(
+      this.commonservice.delete(moduleId, 'authorization/module/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');

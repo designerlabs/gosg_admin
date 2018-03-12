@@ -58,7 +58,7 @@ export class ColortblComponent implements OnInit {
       /* LANGUAGE FUNC */
       translate.onLangChange.subscribe((event: LangChangeEvent) => {
         translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.getAllLanguage().subscribe((data:any) => {
+          this.commonservice.readPortal('language/all').subscribe((data:any) => {
             let getLang = data.list;
             let myLangData =  getLang.filter(function(val) {
               if(val.languageCode == translate.currentLang){
@@ -142,7 +142,7 @@ export class ColortblComponent implements OnInit {
 
   deleteItem(colorId) {
       this.loading = true;
-      this.commonservice.delete(colorId,'color').subscribe(
+      this.commonservice.delete(colorId,'color/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');

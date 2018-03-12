@@ -73,7 +73,7 @@ export class AgencytblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -214,7 +214,7 @@ export class AgencytblComponent implements OnInit {
     console.log(refCode)
     let txt;
       this.loading = true;
-      this.commonservice.delete(refCode, 'agency/type').subscribe(
+      this.commonservice.delete(refCode, 'agency/type/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getAgencyTypesData(this.pageCount, this.pageSize);

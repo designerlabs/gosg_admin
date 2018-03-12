@@ -69,7 +69,7 @@ export class AgencyapptblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -209,7 +209,7 @@ export class AgencyapptblComponent implements OnInit {
 
   deleteItem(refCode) {
     this.loading = true;
-      this.commonservice.delete(refCode,'agency/application').subscribe(
+      this.commonservice.delete(refCode,'agency/application/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getAgencyAppData(this.pageCount, this.pageSize);

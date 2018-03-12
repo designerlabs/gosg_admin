@@ -32,7 +32,7 @@ ngOnInit() {
   getUserData(){
     if(!environment.staging){
       this.loading = true;
-      this.commonService.getUsersDetails().subscribe(
+      this.commonService.readProtected('adminuser/detail').subscribe(
         data => {
           if(data['adminUser']){
             this.getUserName = data['adminUser'].fullName;

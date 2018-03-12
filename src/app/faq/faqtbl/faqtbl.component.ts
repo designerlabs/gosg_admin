@@ -66,7 +66,7 @@ export class FaqtblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -132,7 +132,7 @@ export class FaqtblComponent implements OnInit {
   
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
-      this.commonservice.readPortal('faq/search', count, size, val)
+      this.commonservice.readPortal('faq', count, size, val)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
@@ -204,7 +204,7 @@ export class FaqtblComponent implements OnInit {
 
     this.loading = true;
     console.log(refCode);
-    this.commonservice.delete(refCode,'faq').subscribe(
+    this.commonservice.delete(refCode,'faq/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

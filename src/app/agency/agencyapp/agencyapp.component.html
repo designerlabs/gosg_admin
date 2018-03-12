@@ -9,7 +9,7 @@
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" mat-fab color="accent" (click)="back()" >
-              <i class="fa fa-arrow-left font-size-l"></i></button>
+                  <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
           </span>
       </div> 
   </div>
@@ -149,11 +149,11 @@
         <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success  pull-right"
             (click)="updateAgencyApp(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
-            <i *ngIf="complete" class="fa fa-check"></i>
-            <i *ngIf="!complete" class="fa fa-times"></i>&nbsp;{{ pageMode }}</button>
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode }}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning  pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
-            <i class="fa fa-refresh"></i>&nbsp;Reset</button>
+            <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
         </div>
       <div class="col-md-12">&nbsp;</div>
     <!-- </div> -->

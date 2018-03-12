@@ -143,12 +143,11 @@ resetSearch() {
 
   getFilterList(keyword) {
 
-    this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId;
-
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       console.log(keyword);
       this.loading = true;
-      this.http.get(this.dataUrl).subscribe(data => {
+      this.commonservice.readProtected('authorization/module/search', '','', keyword)
+      .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 

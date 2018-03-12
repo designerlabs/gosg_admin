@@ -56,7 +56,7 @@ export class ContenttblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -136,7 +136,7 @@ export class ContenttblComponent implements OnInit {
     let txt;
   
     console.log(refcode);
-    this.commonservice.delete(refcode,'accountstatus').subscribe(
+    this.commonservice.delete(refcode,'accountstatus/').subscribe(
       data => {
         
         let errMsg = data.statusCode.toLowerCase();

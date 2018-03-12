@@ -80,7 +80,7 @@ export class PollquestiontblComponent implements OnInit {
       /* LANGUAGE FUNC */
       translate.onLangChange.subscribe((event: LangChangeEvent) => {
         translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.getAllLanguage().subscribe((data:any) => {
+          this.commonservice.readPortal('language/all').subscribe((data:any) => {
             let getLang = data.list;
             let myLangData =  getLang.filter(function(keyword) {
               if(keyword.languageCode == translate.currentLang){
@@ -111,14 +111,14 @@ export class PollquestiontblComponent implements OnInit {
     // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
 
     this.loading = true;
-    this.commonservice.readProtected('polls/question', page, size)
+    this.commonservice.readProtected('polls/question/all', page, size)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-
-          if(this.recordList.pollQuestionFormatList.length > 0){
+        
+          if(this.recordList.length > 0){
             console.log("data");
             console.log(data);
 
