@@ -228,7 +228,8 @@
       "no":"No",
       "ok":"Ok",
       "cancel":"Cancel",
-      "home":"Home"
+      "home":"Home",
+      "active": "Active"
     },
     "err":{
       "servicedown": "Sorry, Server is down",
@@ -292,7 +293,11 @@
     "component":{
       "email":"Email",
       "icno": "IC No."
-    }
+    },
+    "agency": "Agency",
+    "isrequired": "is required",
+    "patternisnotvalid": "pattern is not valid",
+    "email": "Email"
   },
   "appmngt":{
     "setSearch":{
@@ -394,8 +399,36 @@
     "tablebottom":{
       "agency": "agencies"
     },
-    "component":{
-      
+    "name":"Agency Name",
+    "uniquecode": "Agency Unique Code",
+    "mdecstatus": "MDEC Status",
+    "location": {
+      "header": "Location Details",
+      "address": "Address",
+      "lat": "Latitude",
+      "long": "Longitude",
+      "latpattern": "Latitude Pattern"
+    },
+    "contact": {
+      "header": "Contact Details",
+      "person": "Contact Person",
+      "email": "Email",
+      "phone": "Phone Number",
+      "fax": "Fax Number"
+    },
+    "publishing": {
+      "header": "Publishing",
+      "website": "Website URL",
+      "rss": "RSS URL",
+      "blog": "Blog URL"
+    },
+    "socmed": {
+      "header": "Social Media",
+      "facebook": "Facebook URL",
+      "twitter": "Twitter URL",
+      "youtube": "Youtube URL",
+      "instagram": "Instagram URL",
+      "flickr": "Filckr URL"
     }
   },
   "agencyapp": {
@@ -785,6 +818,13 @@
       "email": "by Email",
       "icno": "by IC No.",
       "add": "Add User By"
+    }
+  },
+  "grouping": {
+    "management": {
+      "header": "Grouping Management",
+      "name": "Grouping Name",
+      "description": "Grouping Description"
     }
   }
 }
