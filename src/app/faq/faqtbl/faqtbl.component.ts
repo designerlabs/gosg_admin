@@ -132,7 +132,7 @@ export class FaqtblComponent implements OnInit {
   
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
-      this.commonservice.readPortal('faq/search', count, size, val)
+      this.commonservice.readPortal('faq', count, size, val)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;

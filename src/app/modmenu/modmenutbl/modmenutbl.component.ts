@@ -146,7 +146,7 @@ export class ModmenutblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('authorization/module', page, size, keyword).subscribe(
+      this.commonservice.readProtected('authorization/module/search/', page, size, keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){

@@ -129,7 +129,7 @@ export class CityComponent implements OnInit {
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
       
-      this.commonservice.readPortal(this.dataUrl + 'city/search/', page, size)
+      this.commonservice.readPortal('city/', page, size, val)
         .subscribe(data => {
           this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
