@@ -154,7 +154,7 @@ export class PollquestiontblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('polls/question',page, size, keyword)
+      this.commonservice.readProtected('polls/question/search/all',page, size, keyword)
         .subscribe(data => {
 
           this.commonservice.errorHandling(data, (function(){
