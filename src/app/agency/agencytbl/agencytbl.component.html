@@ -24,7 +24,7 @@
             
     <div class="row">
 
-        <div class="col-md-9 paddingTop-10" style="padding-left:30px;" *ngIf="filterTypeVal != 1">
+        <div class="col-md-9 paddingTop-10 pdg_L_30px" *ngIf="filterTypeVal != 1">
             <mat-form-field>
               <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate}}">
               <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
@@ -39,22 +39,22 @@
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-        <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
+        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+        <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
       </ng-container>
 
       <!-- agencyTypeNameEn Column -->
       <ng-container matColumnDef="agencyTypeNameEn">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> {{ 'agency.tableHeader.agencytypeEn' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[0].agencyName}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'agency.tableHeader.agencytypeEn' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[0].agencyName}} </mat-cell>
       </ng-container>
 
       <!-- agencyTypeNameBm Column -->
       <ng-container matColumnDef="agencyTypeNameBm">
-        <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> {{ 'agency.tableHeader.agencytypeBm' | translate }} </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex: 0 0 35%;"> {{element.list[1].agencyName}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'agency.tableHeader.agencytypeBm' | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1].agencyName}} </mat-cell>
       </ng-container>
 
       <!-- Action Column -->
@@ -83,12 +83,12 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'mediauploadtbl.nodata' | translate }} </div>
+    <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
   </div>
 
   <div class="float-right paddingTop-15">
     <mat-form-field class="table_footer_pagecount">
-      <mat-select class="font-size-s" [(ngModel)]="commonservice.defaultPageSize" class="text-align-Center" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+      <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
         <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
         <!-- <mat-option value="10">10</mat-option>
         <mat-option value="25">25</mat-option>
@@ -99,7 +99,7 @@
       <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
         <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
         <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-        <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'Agencies' : 'Agency'}}</span>
+        <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'agencies' : 'agency'}}</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
       </button>

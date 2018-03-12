@@ -106,7 +106,7 @@
       <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
         <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
         <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-        <strong>{{commonservice.recordTable?.totalElements}}</strong> {{commonservice.recordTable?.totalElements > 1 ? 'colors' : 'color'}}</span>
+        <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'color.tablebottom.colors' | translate }}</span>
       <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
         <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
       </button>
