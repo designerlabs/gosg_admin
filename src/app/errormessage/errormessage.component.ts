@@ -54,7 +54,7 @@ export class ErrormessageComponent implements OnInit {
      /* LANGUAGE FUNC */
      translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.getAllLanguage().subscribe((data:any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){

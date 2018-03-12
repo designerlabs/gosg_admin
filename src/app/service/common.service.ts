@@ -74,7 +74,7 @@ export class CommonService {
        /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.getAllLanguage().subscribe((data:any) => {
+        this.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
@@ -1353,7 +1353,7 @@ getCategoryList1() {
   }
 
   getLanguageId() {
-    this.getAllLanguage().subscribe((data:any) => {
+    this.readPortal('language/all').subscribe((data:any) => {
       let getLang = data.list;
       let myLangData =  getLang.filter(function(val) {
         if(val.isDefault == true){

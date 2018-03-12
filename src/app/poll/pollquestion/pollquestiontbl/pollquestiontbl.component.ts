@@ -80,7 +80,7 @@ export class PollquestiontblComponent implements OnInit {
       /* LANGUAGE FUNC */
       translate.onLangChange.subscribe((event: LangChangeEvent) => {
         translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.getAllLanguage().subscribe((data:any) => {
+          this.commonservice.readPortal('language/all').subscribe((data:any) => {
             let getLang = data.list;
             let myLangData =  getLang.filter(function(keyword) {
               if(keyword.languageCode == translate.currentLang){
