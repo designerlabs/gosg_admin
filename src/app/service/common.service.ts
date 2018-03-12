@@ -103,7 +103,7 @@ export class CommonService {
   private slidersUrl: string = this.appConfig.urlSlides;
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
-  private postcodeUrl:string = this.appConfig.urlPostcode;
+  // private postcodeUrl:string = this.appConfig.urlPostcode;
   private getUserUrl: string = this.appConfig.urlGetUser;
 
   
@@ -397,12 +397,12 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getFaqData() {
-    console.log(this.appConfig.urlFaq);
-    return this.http.get(this.appConfig.urlFaq)
-    .map((response: Response) => response.json().faqCodeList)
-    .catch(this.handleError);
-  }
+  // getFaqData() {
+  //   console.log(this.appConfig.urlFaq);
+  //   return this.http.get(this.appConfig.urlFaq)
+  //   .map((response: Response) => response.json().faqCodeList)
+  //   .catch(this.handleError);
+  // }
 
   getCategoryData() {
     console.log(this.appConfig.urlCategory);
