@@ -109,7 +109,6 @@ export class PollquestiontblComponent implements OnInit {
   getRecordList(page, size) {
   
     // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
-    let keyword = '';
     this.loading = true;
     this.commonservice.readProtected('polls/question', page, size)
       .subscribe(data => {
@@ -118,7 +117,7 @@ export class PollquestiontblComponent implements OnInit {
 
           this.recordList = data;
         
-          if(this.recordList.length > 0){
+          if(this.recordList.pollQuestionFormatList.length > 0){
             console.log("data");
             console.log(data);
 
