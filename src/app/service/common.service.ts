@@ -789,36 +789,26 @@ getCategoryList1() {
     .catch(this.handleError);
   }
 
-  addLanguage(language) {
+  // addLanguage(language) {
 
-    // console.log(this.appConfig.urlSlides)
-    // console.log(Agency)
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    
-    return this.http.post(this.appConfig.urlLanguage + '?language='+this.languageId, language)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlLanguage + '?language='+this.languageId, language)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateLanguage(language) {
+  // updateLanguage(language) {
 
-    // console.log(this.appConfig.urlUsers + user.userId)
-    // console.log(Agency)
-    // debugger;
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlLanguage + '?language='+this.languageId, language)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(this.appConfig.urlLanguage + '?language='+this.languageId, language)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delLanguage(langId) {
+  // delLanguage(langId) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    
-    return this.http.delete(this.appConfig.urlLanguage + "/" + langId + "?language="+this.languageId, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlLanguage + "/" + langId + "?language="+this.languageId, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // LANGUAGE END
 
   // Start Poll Question - N
@@ -1281,13 +1271,16 @@ getCategoryList1() {
 
   // NEW
   
-  readPortal(moduleName, page?, size?): Observable<any[]> {
+  readPortal(moduleName, page?, size?, keyword?): Observable<any[]> {
     let readUrl;
     
-    if(page && size)
+    if(!keyword && page) {
       readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
-    else
+    } else if(keyword) {
+      readUrl = this.appConfig.urlService + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
+    } else {
       readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+    }
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
@@ -1295,13 +1288,16 @@ getCategoryList1() {
       .catch(this.handleError);
   }
   
-  readProtected(moduleName, page?, size?): Observable<any[]> {
+  readProtected(moduleName, page?, size?, keyword?): Observable<any[]> {
     let readUrl;
     
-    if(page && size)
+    if(!keyword && page) {
       readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
-    else
+    } else if(keyword) {
+      readUrl = this.appConfig.urlCommon + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
+    } else {
       readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
+    }
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())

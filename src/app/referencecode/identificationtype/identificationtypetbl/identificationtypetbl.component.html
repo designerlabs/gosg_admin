@@ -19,7 +19,7 @@
         <div class="example-container mat-elevation-z8">
             <mat-table #table [dataSource]="dataSource" style="min-height: 1px;">
                 <ng-container matColumnDef="no">
-                    <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'identificationtypetbl.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
@@ -84,9 +84,9 @@
                 </mat-select>
             </mat-form-field>
             <span class="float-right">
-                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'identificationtypetbl.tablebottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'identificationtypetbl.tablebottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'identificationtypetbl.tablebottom.in' | translate }}
+                <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
                     <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'identificationtypetbl.tablebottom.idtype' | translate }}
                 </span>
                 <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">

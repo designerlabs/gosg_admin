@@ -23,7 +23,7 @@ export class MinistrytblComponent implements OnInit {
   ministryList = null;
   displayedColumns: any;
   pageSize = 10;
-  pageCount = 1;
+  pagepage = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -52,16 +52,16 @@ export class MinistrytblComponent implements OnInit {
     console.log(val);
     
     if(val){
-      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+      this.getFilterList(this.pagepage, this.pageSize, val);
     }
     else{
-      this.getMinistryData(this.pageCount, this.pageSize);
+      this.getMinistryData(this.pagepage, this.pageSize);
     }
   
   }
 
   resetSearch() {
-    this.getMinistryData(this.pageCount, this.pageSize);
+    this.getMinistryData(this.pagepage, this.pageSize);
   }
 
   constructor(
@@ -83,7 +83,7 @@ export class MinistrytblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getMinistryData(this.pageCount, this.pageSize);
+              this.getMinistryData(this.pagepage, this.pageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -92,7 +92,7 @@ export class MinistrytblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getMinistryData(this.pageCount, this.pageSize);
+      this.getMinistryData(this.pagepage, this.pageSize);
       this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
@@ -109,11 +109,10 @@ export class MinistrytblComponent implements OnInit {
   }
 
   // get ministry Data 
-  getMinistryData(count, size) {
-    this.dataUrl = this.appConfig.urlGetMinistry;
+  getMinistryData(page, size) {
 
     this.loading = true;
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size).subscribe(
+    this.commonservice.readPortal('ministry', page, size).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
         this.ministryList = data;
@@ -144,15 +143,14 @@ export class MinistrytblComponent implements OnInit {
         });
   }
 
-  getFilterList(count, size, keyword, filterkeyword) {
+  getFilterList(page, size, keyword) {
 
-    this.dataUrl = this.appConfig.urlGetMinistry+'?keyword='+keyword+'&language='+this.languageId;
-    // this.dataUrl = this.appConfig.urlSearchbyMinistry+'?keyword='+keyword +'&page=' + count + '&size=' + size + '&language='+this.languageId;
+    // this.dataUrl = this.appConfig.urlSearchbyMinistry+'?keyword='+keyword +'&page=' + page + '&size=' + size + '&language='+this.languageId;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
       this.loading = true;
-      this.http.get(this.dataUrl).subscribe(data => {
+      this.commonservice.readPortal('ministry',page, size, keyword).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
@@ -188,7 +186,7 @@ export class MinistrytblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getMinistryData(this.pageCount, this.pageSize);
+    this.getMinistryData(this.pagepage, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -202,7 +200,7 @@ export class MinistrytblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getMinistryData(this.pageCount, event.value);
+    this.getMinistryData(this.pagepage, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -229,7 +227,7 @@ export class MinistrytblComponent implements OnInit {
             console.log(data)
             txt = "Ministry deleted successfully!";
             this.toastr.success(txt, '');   
-            this.getMinistryData(this.pageCount, this.pageSize);
+            this.getMinistryData(this.pagepage, this.pageSize);
           }).bind(this)); 
           this.loading = false;
         },
