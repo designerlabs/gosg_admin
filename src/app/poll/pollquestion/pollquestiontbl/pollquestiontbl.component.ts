@@ -109,9 +109,9 @@ export class PollquestiontblComponent implements OnInit {
   getRecordList(page, size) {
   
     // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
-
+    let keyword = '';
     this.loading = true;
-    this.commonservice.readProtected('polls/question/all', page, size)
+    this.commonservice.readProtected('polls/question', page, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

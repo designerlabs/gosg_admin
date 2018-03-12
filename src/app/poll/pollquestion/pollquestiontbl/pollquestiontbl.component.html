@@ -21,7 +21,7 @@
         <div class="example-container mat-elevation-z8">
     
             <div class="col-md-12 paddingTop-10">
-                <mat-form-field class="font-size-s">
+                <mat-form-field>
                     <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
                     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                         <mat-icon>close</mat-icon>
