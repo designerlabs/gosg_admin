@@ -146,7 +146,7 @@ export class ErrormessagetblComponent implements OnInit {
   getFilterList(count, size, keyword) {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;   
-      this.commonservice.readProtected('errormessage', count, size, keyword)
+      this.commonservice.readProtected('errormessage/code', count, size, keyword)
       .subscribe(
           data => {
 

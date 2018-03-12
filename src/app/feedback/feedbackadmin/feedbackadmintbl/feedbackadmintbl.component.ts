@@ -44,7 +44,7 @@ export class FeedbackadmintblComponent implements OnInit {
   applyFilter(val) {   
 
     console.log(val  + " TEST123 " + this.filterTypeVal);
-    debugger;
+  
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
@@ -142,7 +142,7 @@ export class FeedbackadmintblComponent implements OnInit {
   }
 
   getFilterList(count, size, val, filterVal) {
-    debugger;
+   
     if(filterVal == 2){  // by Email
       this.dataUrl = 'feedback/search/email/1/';
     }
@@ -152,7 +152,7 @@ export class FeedbackadmintblComponent implements OnInit {
     }
 
     if((val != "") && (val != null) && (val.length != 0) && (val.length >= 3)) {
-      debugger;
+     
       this.loading = true;
       this.commonservice.readProtected(this.dataUrl, count, size, val)
       .subscribe(data => {
