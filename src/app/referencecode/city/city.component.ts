@@ -84,8 +84,6 @@ export class CityComponent implements OnInit {
   }
 
   getRecordList(page, size) {
-
-    this.dataUrl = this.appConfig.urlCityList;
     this.loading = true;
 
     this.commonservice.readPortal('city', page, size)
@@ -123,9 +121,6 @@ export class CityComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword) {
-
-    this.dataUrl = this.appConfig.urlCityList;
-    
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
       

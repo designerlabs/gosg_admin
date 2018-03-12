@@ -244,9 +244,9 @@ export class FootercontentComponent implements OnInit {
   getImageList(){
 
     this.loading = true;
-    return this.commonservice.getImageList()
+    return this.commonservice.readProtected('media/category/name/Article')
      .subscribe(resCatData => {
-        this.imageData = resCatData.list;   
+        this.imageData = resCatData['list'];   
         this.loading = false;    
       },
       Error => {
@@ -399,12 +399,10 @@ export class FootercontentComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-    this.dataUrl = this.appConfig.urlFooterContent + '/' +  _getRefID + "?language=" + this.languageId;
-
+    
     this.getCategory();
     this.loading = true;
-
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('footercontent/', _getRefID)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -556,7 +554,7 @@ export class FootercontentComponent implements OnInit {
 
       this.loading = true;
 
-      this.commonservice.addFooterContent(body).subscribe(
+      this.commonservice.create(body,'footercontent').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -647,7 +645,7 @@ export class FootercontentComponent implements OnInit {
       console.log(body);
       this.loading = true;
 
-      this.commonservice.updateFooterContent(body).subscribe(
+      this.commonservice.update(body,'footercontent').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

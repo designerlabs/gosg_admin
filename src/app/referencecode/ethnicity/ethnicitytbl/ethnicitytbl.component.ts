@@ -98,9 +98,6 @@ export class EthnicitytblComponent implements OnInit {
   }
 
   getRecordList(page, size) {
-  
-    // this.dataUrl = this.appConfig.urlRaceList + '/?page=' + page + '&size=' + size + "&language=" + this.languageId;
-
     this.loading = true;
     this.commonservice.readPortal('race', page, size)
     .subscribe(data => {

@@ -38,8 +38,6 @@ export class StateComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0;
-
-  dataUrl: any;
   languageId: any;
   public loading = false;
 
@@ -111,8 +109,6 @@ export class StateComponent implements OnInit {
 
   getRecordList(page, size) {
 
-    //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
-    this.dataUrl = this.appConfig.urlStateList;
     this.loading = true;
 
     this.commonservice.readPortal('state', page, size)

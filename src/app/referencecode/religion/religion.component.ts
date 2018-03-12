@@ -101,10 +101,7 @@ export class ReligionComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-    // this.appConfig.urlRaceList
-    // this.dataUrl = this.appConfig.urlReligionList + '/code/'+ _getRefID;
-    this.dataUrl = this.appConfig.urlReligion + '/'+ _getRefID + "?language=" + this.languageId;
-
+    
     this.loading = true;
     this.commonservice.readPortalById('religion/', _getRefID)
     .subscribe(data => {

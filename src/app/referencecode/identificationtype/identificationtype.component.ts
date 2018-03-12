@@ -103,9 +103,6 @@ export class IdentificationtypeComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-    // this.appConfig.urlRaceList
-    // this.dataUrl = this.appConfig.urlIdentificationTypeList + '/' +  _getRefID + "?language=" + this.languageId;
-
     this.loading = true;
     this.commonservice.readProtectedById('identificationtype/code', _getRefID)
     .subscribe(data => {

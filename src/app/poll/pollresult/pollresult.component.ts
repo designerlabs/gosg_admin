@@ -28,8 +28,6 @@ export class PollresultComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
-
-  dataUrl: any;  
   languageId: any;
   public loading = false;
 
@@ -84,9 +82,6 @@ export class PollresultComponent implements OnInit {
   }
 
   getRecordList(page, size) {
-    
-    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
-
     this.loading = true;
     this.commonservice.readProtected('polls/question', page, size)
     .subscribe(data => {

@@ -145,8 +145,7 @@ export class MinistrytblComponent implements OnInit {
 
   getFilterList(page, size, keyword) {
 
-    // this.dataUrl = this.appConfig.urlSearchbyMinistry+'?keyword='+keyword +'&page=' + page + '&size=' + size + '&language='+this.languageId;
-
+    
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
       this.loading = true;

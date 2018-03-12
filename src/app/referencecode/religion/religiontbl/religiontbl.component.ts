@@ -91,9 +91,6 @@ export class ReligiontblComponent implements OnInit {
   }
 
   getRecordList(page, size) {
-  
-    // this.dataUrl = this.appConfig.urlReligion + '/?page=' + page + '&size=' + size + "&language=" + this.languageId;
-
     this.loading = true;
     this.commonservice.readPortal('religion', page, size)
     .subscribe(data => {

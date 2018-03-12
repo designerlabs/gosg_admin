@@ -225,7 +225,6 @@ export class AgencyappComponent implements OnInit {
         data => {
 
         this.commonservice.errorHandling(data, (function(){
-            console.log(this.appConfig.urlSearchbyAgency+keyword+'?language='+langId);
             if(langId == 1) {
               this.searchAgencyResultEn = data['agencyList'];
               console.log(this.searchAgencyResultEn)
