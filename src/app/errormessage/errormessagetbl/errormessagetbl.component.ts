@@ -106,14 +106,14 @@ export class ErrormessagetblComponent implements OnInit {
   }
 
   // get errMsg Data 
-  getErrMsgsData(count, size) {
+  getErrMsgsData(page, size) {
     this.loading = true;   
-    this.commonservice.readProtected('errormessage/code', count, size)
+    this.commonservice.readProtected('errormessage/code', page, size)
       .subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
-            console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
+            // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
             this.errMsgList = data;
 
             if(this.errMsgList.list.length > 0){
@@ -143,20 +143,20 @@ export class ErrormessagetblComponent implements OnInit {
       });
   }
 
-  getFilterList(count, size, keyword) {
+  getFilterList(page, size, keyword) {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;   
-      this.commonservice.readProtected('errormessage', count, size, keyword)
+      this.commonservice.readProtected('errormessage/code', page, size, keyword)
       .subscribe(
           data => {
 
             this.commonservice.errorHandling(data, (function(){
-              // console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
+              // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
               this.errMsgList = data;
 
-              if(this.errMsgList.list.length > 0){
+              if(this.errMsgList.resourceList.length > 0){
                 console.log(this.errMsgList)
-                this.dataSource.data = this.errMsgList.list;
+                this.dataSource.data = this.errMsgList.resourceList;
                 this.seqPageNum = this.errMsgList.pageNumber;
                 this.seqPageSize = this.errMsgList.pageSize;
                 this.commonservice.recordTable = this.errMsgList;
