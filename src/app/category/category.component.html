@@ -97,7 +97,7 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Parent" formControlName="resultEn" (click)="json_tree()"
+                        <input matInput placeholder="Parent" formControlName="resultEn" id="result" (click)="json_tree(this.treeEn)"
                         tabindex="5">
                         <mat-error *ngIf="updateForm.controls.resultEn.hasError('required')">
                             Category Title is required

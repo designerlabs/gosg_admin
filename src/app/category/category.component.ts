@@ -125,6 +125,7 @@ export class CategoryComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
+    document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
 
   }
 
@@ -285,6 +286,25 @@ export class CategoryComponent implements OnInit {
   //   }
   //   return json;
   // }
+
+  json_tree(data) {
+    var json = "<ul class = \""+ parent +"\">";
+
+    //alert( this.treeEn.length);
+    
+    for(var i = 0; i < this.treeEn.length; ++i) {
+        json = json + "<li>";
+        var className = "categoryCheckbox";
+        json = json + "<input class=\"categoryCheckbox\" type=\"checkbox\" name=\"" + this.treeEn[i].categoryName + "\" value=\""+ this.treeEn[i].id +"\">";
+        json = json + this.treeEn[i].categoryName;
+        
+        if(this.treeEn[i].children.length) {
+            json = json + this.json_tree (this.treeEn[i].children);
+        }
+        json = json + "</li>";
+    }
+    return json + "</ul>";
+  }
 
 
   getNestedChildrenEn(arr, parent) {
