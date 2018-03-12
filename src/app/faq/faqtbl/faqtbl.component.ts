@@ -204,7 +204,7 @@ export class FaqtblComponent implements OnInit {
 
     this.loading = true;
     console.log(refCode);
-    this.commonservice.delete(refCode,'faq').subscribe(
+    this.commonservice.delete(refCode,'faq/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

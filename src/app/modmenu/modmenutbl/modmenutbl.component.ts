@@ -212,7 +212,7 @@ export class ModmenutblComponent implements OnInit {
   deleteItem(moduleId) {
 
     this.loading = true;
-      this.commonservice.delete('authorization/module/',moduleId).subscribe(
+      this.commonservice.delete(moduleId, 'authorization/module/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');

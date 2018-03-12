@@ -217,7 +217,7 @@ export class FeedbackadmintblComponent implements OnInit {
     console.log(getId);
     this.loading = true;
 
-    this.commonservice.delete(getId,'feedback').subscribe(
+    this.commonservice.delete(getId,'feedback/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

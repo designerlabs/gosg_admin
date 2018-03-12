@@ -214,7 +214,7 @@ export class AgencytblComponent implements OnInit {
     console.log(refCode)
     let txt;
       this.loading = true;
-      this.commonservice.delete(refCode, 'agency/type').subscribe(
+      this.commonservice.delete(refCode, 'agency/type/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getAgencyTypesData(this.pageCount, this.pageSize);

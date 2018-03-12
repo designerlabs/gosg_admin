@@ -136,7 +136,7 @@ export class ContenttblComponent implements OnInit {
     let txt;
   
     console.log(refcode);
-    this.commonservice.delete(refcode,'accountstatus').subscribe(
+    this.commonservice.delete(refcode,'accountstatus/').subscribe(
       data => {
         
         let errMsg = data.statusCode.toLowerCase();

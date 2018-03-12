@@ -144,7 +144,7 @@ export class AddresstypetblComponent implements OnInit {
     
     console.log(refcode);
     this.loading = true;
-    this.commonservice.delete(refcode, 'addresstype').subscribe(
+    this.commonservice.delete(refcode, 'addresstype/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

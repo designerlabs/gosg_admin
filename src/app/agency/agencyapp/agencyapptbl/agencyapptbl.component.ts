@@ -209,7 +209,7 @@ export class AgencyapptblComponent implements OnInit {
 
   deleteItem(refCode) {
     this.loading = true;
-      this.commonservice.delete(refCode,'agency/application').subscribe(
+      this.commonservice.delete(refCode,'agency/application/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getAgencyAppData(this.pageCount, this.pageSize);

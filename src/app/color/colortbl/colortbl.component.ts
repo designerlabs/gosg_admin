@@ -142,7 +142,7 @@ export class ColortblComponent implements OnInit {
 
   deleteItem(colorId) {
       this.loading = true;
-      this.commonservice.delete(colorId,'color').subscribe(
+      this.commonservice.delete(colorId,'color/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');

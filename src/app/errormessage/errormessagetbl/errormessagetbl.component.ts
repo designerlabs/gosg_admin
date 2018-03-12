@@ -216,7 +216,7 @@ export class ErrormessagetblComponent implements OnInit {
   deleteItem(refCode) {
 
     this.loading = true;   
-    this.commonservice.delete(refCode,'errormessage/delete').subscribe(
+    this.commonservice.delete(refCode,'errormessage/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

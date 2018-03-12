@@ -138,7 +138,7 @@ export class AccountstatustblComponent implements OnInit {
 
   deleteRow(refcode) {
     this.loading = true;
-    this.commonservice.delete(refcode, 'accountstatus').subscribe(
+    this.commonservice.delete(refcode, 'accountstatus/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

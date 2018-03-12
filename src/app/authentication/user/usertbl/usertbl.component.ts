@@ -219,7 +219,7 @@ export class UsertblComponent implements OnInit {
   
   deleteUser(msgId){
     this.loading = true;
-    this.commonservice.deleteUserList(msgId).subscribe(
+    this.commonservice.delete(msgId,'adminuser/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

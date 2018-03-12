@@ -206,7 +206,7 @@ export class ErrormessageComponent implements OnInit {
   deleteRow(refCode) {
     this.loading = true;
 
-    this.commonservice.delete(refCode,'errormessage/delete').subscribe(
+    this.commonservice.delete(refCode,'errormessage/delete/').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
