@@ -288,7 +288,8 @@
     "filterby": {
       "filterby": "Tapisan Mengikut",
       "all": "Semua",
-      "email": "Emel"
+      "email": "Emel",
+      "icno": "No. KP"
     },
     "component":{
       "email":"Emel",

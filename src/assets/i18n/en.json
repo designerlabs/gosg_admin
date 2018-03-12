@@ -288,7 +288,8 @@
     "filterby": {
       "filterby": "Filter By",
       "all": "All",
-      "email": "Email"
+      "email": "Email",
+      "icno": "IC No."
     },
     "component":{
       "email":"Email",
