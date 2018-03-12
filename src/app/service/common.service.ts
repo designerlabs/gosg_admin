@@ -391,7 +391,6 @@ getMediaByCateId(id){
 
   // LANGUAGE
   getAllLanguage() {
-    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
     return this.http.get(this.appConfig.urlGetLanguage + '/all')
     .map((response: Response) => response.json())
     .catch(this.handleError);
