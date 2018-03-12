@@ -11,7 +11,7 @@
           <table class="example-full-width" cellspacing="0"><tr>
             <td style="width:25%">
               <mat-form-field>
-                <mat-select formControlName="userType" #userType placeholder="Add User By" (change)="checkReqValues()" required>
+                <mat-select formControlName="userType" #userType placeholder="{{ 'admin.addby.add' | translate }}" (change)="checkReqValues()" required>
                   <mat-option [value]="1">{{ 'admin.addby.email' | translate }}</mat-option>
                   <mat-option [value]="2">{{ 'admin.addby.icno' | translate }}</mat-option>
                 </mat-select>
@@ -22,23 +22,23 @@
             </td>
             <td style="width:25%; padding-left:10px;" *ngIf="showEmail">
               <mat-form-field class="example-full-width">
-                <input (keyup)="getSearchData('findByEmail','email', emailFld)" matInput placeholder="Email" #emailFld formControlName="emailFld" required>
+                <input (keyup)="getSearchData('findByEmail','email', emailFld)" matInput placeholder="{{ 'common.component.email' | translate }}" #emailFld formControlName="emailFld" required>
                 <mat-error *ngIf="updateForm.controls.emailFld.hasError('required')">
-                  Email is required
+                  {{ 'common.component.email' | translate }} {{ 'common.tablecomp.isrequired' | translate }}
                 </mat-error>
               </mat-form-field>
               </td>
               <td style="width:25%; padding-left:10px;" *ngIf="showIC">
               <mat-form-field class="example-full-width">
-                <input (keyup)="getSearchData('findByIcNo','icno', icFld)" matInput placeholder="IC No." #icFld formControlName="icFld" required>
+                <input (keyup)="getSearchData('findByIcNo','icno', icFld)" matInput placeholder="{{ 'common.component.icno' | translate }}" #icFld formControlName="icFld" required>
                 <mat-error *ngIf="updateForm.controls.icFld.hasError('required')">
-                  IC No. is required
+                  {{ 'common.component.icno' | translate }} {{ 'common.tablecomp.isrequired' | translate }}
                 </mat-error>
               </mat-form-field>
 
             </td>
             <td style="width:25%; padding-left:10px;">
-              <div> <button [disabled]="isActive" mat-raised-button color="primary" (click)="addUserDetails(icFld)">Add User</button> </div>
+              <div> <button [disabled]="isActive" mat-raised-button color="primary" (click)="addUserDetails(icFld)">{{ 'admin.component.adduser' | translate }}</button> </div>
             </td>
           </tr>
         </table>
@@ -167,7 +167,7 @@
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
   
-      <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'mediauploadtbl.nodata' | translate }} </div>
+      <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
   
     </div>
     

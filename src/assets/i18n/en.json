@@ -288,6 +288,10 @@
       "filterby": "Filter By",
       "all": "All",
       "email": "Email"
+    },
+    "component":{
+      "email":"Email",
+      "icno": "IC No."
     }
   },
   "appmngt":{
@@ -774,11 +778,13 @@
       "groupmodule": "Group Module Name",
       "modpermision": "Group Modules and Permission",
       "active": "Active",
-      "update": "Update"
+      "update": "Update",
+      "adduser": "Add User"
     },
     "addby": {
       "email": "by Email",
-      "icno": "by IC No."
+      "icno": "by IC No.",
+      "add": "Add User By"
     }
   }
 }
