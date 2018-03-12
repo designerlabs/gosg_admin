@@ -87,31 +87,31 @@ export class AddresstypetblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlAddressTypeGet + '?page=' + count + '&size=' + size + '&language=' +this.languageId;
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortal('addresstype', count, size)
     .subscribe(data => {
 
-        this.commonservice.errorHandling(data, (function(){
+      this.commonservice.errorHandling(data, (function(){
 
-          this.recordList = data;
-          console.log("data");
-          console.log(data);
-          
-          this.dataSource.data = this.recordList.list;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-        }).bind(this)); 
-        this.loading = false;
-      },
-      error => {
+        this.recordList = data;
+        console.log("data");
+        console.log(data);
+        
+        this.dataSource.data = this.recordList.list;
+        this.seqPageNum = this.recordList.pageNumber;
+        this.seqPageSize = this.recordList.pageSize;
+        this.commonservice.recordTable = this.recordList;
+        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+      }).bind(this)); 
+      this.loading = false;
+    },
+    error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        this.loading = false;
-        console.log(error);
-    });
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.loading = false;
+      console.log(error);
+  });
+    
   }
 
   paginatorL(page) {
@@ -144,7 +144,7 @@ export class AddresstypetblComponent implements OnInit {
     
     console.log(refcode);
     this.loading = true;
-    this.commonservice.delRecordAddType(refcode).subscribe(
+    this.commonservice.delete(refcode, 'addresstype').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

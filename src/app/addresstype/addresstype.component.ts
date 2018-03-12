@@ -103,37 +103,36 @@ export class AddresstypeComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-  
-    this.dataUrl = this.appConfig.urlAddressTypeGet + '/code/'+_getRefID + '?language=' +this.languageId;
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortalById('addresstype/code/', _getRefID)
     .subscribe(data => {
 
-        this.commonservice.errorHandling(data, (function(){
+      this.commonservice.errorHandling(data, (function(){
 
-          this.recordList = data;
-          console.log("data");
-          console.log(data);
+        this.recordList = data;
+        console.log("data");
+        console.log(data);
 
-          this.updateForm.get('addTypeEn').setValue(this.recordList.list[0].addressType);
-          this.updateForm.get('addTypeBm').setValue(this.recordList.list[1].addressType);      
-          this.updateForm.get('active').setValue(this.recordList.list[1].enabled);      
+        this.updateForm.get('addTypeEn').setValue(this.recordList.list[0].addressType);
+        this.updateForm.get('addTypeBm').setValue(this.recordList.list[1].addressType);      
+        this.updateForm.get('active').setValue(this.recordList.list[1].enabled);      
 
-          this.getIdEn = this.recordList.list[0].addressTypeId;
-          this.getIdBm = this.recordList.list[1].addressTypeId;
-          this.getRefId = this.recordList.list[0].refCode;
+        this.getIdEn = this.recordList.list[0].addressTypeId;
+        this.getIdBm = this.recordList.list[1].addressTypeId;
+        this.getRefId = this.recordList.list[0].refCode;
 
-          this.checkReqValues();
-        }).bind(this));
-        this.loading = false;  
-      },
-      error => {
+        this.checkReqValues();
+      }).bind(this));
+      this.loading = false;  
+    },
+    error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        this.loading = false;
-        console.log(error);
-      
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      this.loading = false;
+      console.log(error);
+    
     });
+
   }
 
 
@@ -169,7 +168,7 @@ export class AddresstypeComponent implements OnInit {
       console.log("TEST")
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.addRecordAddType(body).subscribe(
+      this.commonservice.create(body, 'addresstype').subscribe(
         data => {
                     
           this.commonservice.errorHandling(data, (function(){
@@ -217,7 +216,7 @@ export class AddresstypeComponent implements OnInit {
       console.log("UPDATE: ");
       console.log(body);
       this.loading = true;
-      this.commonservice.updateRecordAddType(body).subscribe(
+      this.commonservice.update(body, 'addresstype').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){
