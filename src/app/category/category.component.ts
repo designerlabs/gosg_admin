@@ -126,47 +126,6 @@ export class CategoryComponent implements OnInit {
 
     this.commonservice.getModuleId();
 
-    var data = [
-      // {
-      //   "id": 3,
-      //   "parent": 1,
-      //   "categoryName": "Article",
-      //   "children": []
-      // },
-      // {
-      //   "id": 13,
-      //   "parent": 1,
-      //   "categoryName": "Media",
-      //   "children": [
-      //     {
-      //       "id": 4,
-      //       "parent": 13,
-      //       "categoryName": "Slider",
-      //       "children": []
-      //     },
-      //     {
-      //       "id": 2,
-      //       "parent": 13,
-      //       "categoryName": "Gallery",
-      //       "children": []
-      //     }
-      //   ]
-      // },
-      // {
-      //   "id": 5,
-      //   "parent": 1,
-      //   "categoryName": "Promotion",
-      //   "children": []
-      // },
-      // {
-      //   "id": 7,
-      //   "parent": 1,
-      //   "categoryName": "Tender",
-      //   "children": []
-      // }
-    ]
-    //document.getElementById("result").innerHTML = this.json_tree(data);
-
   }
 
 
@@ -299,8 +258,8 @@ export class CategoryComponent implements OnInit {
           this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
           console.log(arrCatEn);
-          console.log(JSON.stringify(this.treeEn));
-          console.log(JSON.stringify(this.treeBm));
+          // console.log(JSON.stringify(this.treeEn));
+          // console.log(JSON.stringify(this.treeBm));
           
         }).bind(this));
         this.loading = false;
@@ -313,19 +272,19 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  json_tree(a) {
-    var json = "";
+  // json_tree(a) {
+  //   var json = "";
 
     
-    for(var i = 0; i < this.treeEn.length; ++i) {
-        json = json  + this.treeEn[i].categoryName;
-        if(this.treeEn[i].children.length) {
-            json = json + this.json_tree (this.treeEn[i].children);
-        }
-        json = json;
-    }
-    return json;
-  }
+  //   for(var i = 0; i < this.treeEn.length; ++i) {
+  //       json = json  + this.treeEn[i].categoryName;
+  //       if(this.treeEn[i].children.length) {
+  //           json = json + this.json_tree (this.treeEn[i].children);
+  //       }
+  //       json = json;
+  //   }
+  //   return json;
+  // }
 
 
   getNestedChildrenEn(arr, parent) {
@@ -492,7 +451,7 @@ export class CategoryComponent implements OnInit {
       console.log("TEST")
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.create(body,'content/category').subscribe(
+      this.commonservice.create(body,'content/category/post').subscribe(
         data => {         
           
           this.commonservice.errorHandling(data, (function(){
@@ -559,12 +518,12 @@ export class CategoryComponent implements OnInit {
       console.log("UPDATE: ");
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.update(body,'content/category').subscribe(
+      this.commonservice.update(body,'content/category/update/').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){
 
-            this.toastr.success(this.translate.instant('common.updated.added'), ''); 
+            this.toastr.success(this.translate.instant('common.success.updated'), ''); 
             this.router.navigate(['category']);
 
           }).bind(this));   
