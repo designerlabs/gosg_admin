@@ -369,9 +369,8 @@ export class CategoryComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[2];
   
-    this.dataUrl = this.appConfig.urlCategory + '/'+_getRefID + '?language=' +this.languageId;
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('content/category/',_getRefID)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -409,12 +408,12 @@ export class CategoryComponent implements OnInit {
 
   getImageList(){
     this.loading = true;
-    return this.commonservice.getImageList()
+    this.commonservice.readProtected('media/category/name/Article')
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){
 
-        this.imageData = resCatData.list;       
+        this.imageData = resCatData['list'];       
         console.log(this.imageData);
 
       }).bind(this));
@@ -493,7 +492,7 @@ export class CategoryComponent implements OnInit {
       console.log("TEST")
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.addCategory(body).subscribe(
+      this.commonservice.create(body,'content/category').subscribe(
         data => {         
           
           this.commonservice.errorHandling(data, (function(){
@@ -560,7 +559,7 @@ export class CategoryComponent implements OnInit {
       console.log("UPDATE: ");
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.updateCategory(body).subscribe(
+      this.commonservice.update(body,'content/category').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){

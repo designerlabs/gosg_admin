@@ -92,9 +92,8 @@ export class CategorytblComponent implements OnInit {
 
   getRecordList(count, size) {
   
-    this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('content/category/code',count, size)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -136,6 +135,7 @@ export class CategorytblComponent implements OnInit {
     
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
+      // this.commonservice.readProtected('content/category/code', count, size)
       this.http.get(this.dataUrl)
       .subscribe(data => {
 

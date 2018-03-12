@@ -107,11 +107,9 @@ export class ErrormessagetblComponent implements OnInit {
 
   // get errMsg Data 
   getErrMsgsData(count, size) {
-    this.dataUrl = this.appConfig.urlErrorMsg;
-
     this.loading = true;   
-    
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    this.commonservice.readProtected('errormessage/code', count, size)
+      .subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -146,12 +144,10 @@ export class ErrormessagetblComponent implements OnInit {
   }
 
   getFilterList(count, size, val) {
-    this.dataUrl = this.appConfig.urlErrorMsg;
-
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;   
-      
-      this.http.get(this.dataUrl + '/search/'  + val + '?page=' + count + '&size=' + size).subscribe(
+      this.commonservice.readProtected('errormessage', count, size, val)
+      .subscribe(
           data => {
 
             this.commonservice.errorHandling(data, (function(){
@@ -220,7 +216,7 @@ export class ErrormessagetblComponent implements OnInit {
   deleteItem(refCode) {
 
     this.loading = true;   
-    this.commonservice.delErrorMsg(refCode).subscribe(
+    this.commonservice.delete(refCode,'errormessage/delete').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

@@ -95,17 +95,11 @@ export class FaqtblComponent implements OnInit {
   
 
   getRecordList(count, size) {
-  
-    this.dataUrl = this.appConfig.urlFaqList + '/code?page=' + count + '&size=' + size + "&language=" + this.languageId;
     this.loading = true;
-
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('faq/code', count, size)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
-
-        console.log("data");
-        console.log(data);
         if(this.recordList.list.length > 0){
 
           this.seqPageNum = this.recordList.pageNumber;
@@ -136,12 +130,9 @@ export class FaqtblComponent implements OnInit {
 
   getFilterList(count, size, val) {
   
-    this.dataUrl = this.appConfig.urlFaqGetList + '/search?keyword=' + val + '&page=' + count + '&size=' + size + "&language=" + this.languageId;
-    
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
-
-      this.http.get(this.dataUrl)
+      this.commonservice.readPortal('faq/search', count, size, val)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
@@ -213,7 +204,7 @@ export class FaqtblComponent implements OnInit {
 
     this.loading = true;
     console.log(refCode);
-    this.commonservice.delFaq(refCode).subscribe(
+    this.commonservice.delete(refCode,'faq').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
