@@ -82,24 +82,6 @@ mat-header-cell{
     color:red;
 }
 
-.curdHeadingLeft{
-    text-align: left;
-    padding-left:0px !important;
-}
-
-.curdHeadingRight{
-    text-align: right;
-    padding-right: 0px !important;
-}
-
-.align_right{
-    text-align: right;
-}
-
-.curdHeader{
-    padding-bottom:10px;
-    display: flex;
-}
 
 .float-right{
     float: right;
@@ -180,3 +162,65 @@ mat-header-cell{
   
   .font-size-xxl {
     font-size: 52px; }
+
+
+    /* Reusable classes */
+
+    .curdHeader{
+        padding-bottom:10px;
+        display: flex;
+    }
+    
+    .curdHeadingLeft{
+        text-align: left;
+        padding-left:0px !important;
+    }
+    
+    .curdHeadingRight{
+        text-align: right;
+        padding-right: 0px !important;
+    }
+    
+    .align_right{
+        text-align: right;
+    }
+
+
+    .color_green{
+        color: green !important;
+    }
+
+    .color_red{
+        color: red !important;
+    }
+
+    .bg_green{
+        background: green !important;
+    }
+
+    .bg_orange{
+        background: orange !important;
+    }
+
+    .bg_red{
+        background: red !important;
+    }
+
+    .table_footer_pagecount{
+        width:50px !important; 
+        margin-top: -10px !important;
+    }
+
+    .table_footer_pagination{
+        color:#000 !important;
+        padding-left:20px !important;
+        padding-right:20px !important;
+    }
+
+    .text-align-Left {
+        text-align: left !important;
+    }
+
+    .text-align-Center {
+        text-align: center !important;
+    }

@@ -41,6 +41,16 @@ export class CommonService {
   isWrite:boolean;
   isUpdate:boolean;
 
+  icon = {
+    update: 'fa fa-edit',
+    check: 'fa fa-check',
+    times: 'fa fa-times',
+    trash: 'fa fa-trash',
+    plus: 'fa fa-plus',
+    arrLeft: 'fa fa-angle-left',
+    arrRight: 'fa fa-angle-right'
+  }
+
   // tslint:disable-next-line:max-line-length
   constructor(
     public http: Http,
