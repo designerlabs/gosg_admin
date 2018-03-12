@@ -379,6 +379,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryYoutube = formValues.youtubeUrl;
 
     console.log(body)
+    this.loading = true;
 
     // Add ErrorMsg Service
     this.commonservice.create(body,'ministry/add/multiple').subscribe(

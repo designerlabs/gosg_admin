@@ -106,7 +106,7 @@ export class ReligionComponent implements OnInit {
     this.dataUrl = this.appConfig.urlReligion + '/'+ _getRefID + "?language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortalById('religion/', _getRefID)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -186,7 +186,7 @@ export class ReligionComponent implements OnInit {
       console.log(body);
 
       this.loading = true;
-      this.commonservice.addReligion(body).subscribe(
+      this.commonservice.create(body,'religion').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -259,7 +259,7 @@ export class ReligionComponent implements OnInit {
       console.log(body);
       this.loading = true;
 
-      this.commonservice.updateReligion(body).subscribe(
+      this.commonservice.update(body,'religion').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

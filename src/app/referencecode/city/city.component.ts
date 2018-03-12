@@ -83,12 +83,12 @@ export class CityComponent implements OnInit {
     this.commonservice.getModuleId(); 
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
 
     this.dataUrl = this.appConfig.urlCityList;
     this.loading = true;
 
-    this.http.get(this.dataUrl + '?page=' + count + '&size=' + size + "&language=" + this.languageId)
+    this.commonservice.readPortal('city', page, size)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -122,14 +122,14 @@ export class CityComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(page, size, val) {
 
     this.dataUrl = this.appConfig.urlCityList;
     
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
       
-      this.http.get(this.dataUrl + '/search/' + val + '?page=' + count + '&size=' + size + "&language=" + this.languageId)
+      this.commonservice.readPortal(this.dataUrl + 'city/search/', page, size)
         .subscribe(data => {
           this.commonservice.errorHandling(data, (function(){
           this.recordList = data;

@@ -97,12 +97,12 @@ export class EthnicitytblComponent implements OnInit {
     // this.getRecordList(this.pageCount, this.pageSize);
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlRaceList + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
+    // this.dataUrl = this.appConfig.urlRaceList + '/?page=' + page + '&size=' + size + "&language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortal('race', page, size)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -166,7 +166,7 @@ export class EthnicitytblComponent implements OnInit {
 
     console.log(refCode);
     this.loading = true;
-    this.commonservice.delRace(refCode).subscribe(
+    this.commonservice.delete(refCode,'race/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

@@ -53,7 +53,7 @@ export class PostcodeComponent implements OnInit {
     
   getState(id?){
     this.loading = true;
-    return this.commonservice.getStateData()
+    return this.commonservice.readPortal('state/all')
      .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function(){
         this.getStateData = resStateData["stateList"];        //.stateList
@@ -75,7 +75,7 @@ export class PostcodeComponent implements OnInit {
     this.selStateInfo = e;
     if(e){
       this.loading = true;
-      return this.commonservice.getCitiesbyState(e.value.stateId)
+      return this.commonservice.readPortalById('city/state/',e.value.stateId)
       .subscribe(resCityData => {
         this.commonservice.errorHandling(resCityData, (function(){
         this.getCityData = resCityData["cityList"];          
@@ -95,7 +95,7 @@ export class PostcodeComponent implements OnInit {
     console.log(e);
     if(e){
       this.loading = true;
-      return this.commonservice.getPostCodeData(e.value.cityCode)
+      return this.commonservice.readPortal('postcode/city/'+e.value.cityCode)
       .subscribe(resPostCodeData => {
         this.commonservice.errorHandling(resPostCodeData, (function(){
         this.getPostData = resPostCodeData["postcodeList"];

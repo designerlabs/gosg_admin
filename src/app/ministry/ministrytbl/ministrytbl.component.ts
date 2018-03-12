@@ -23,7 +23,7 @@ export class MinistrytblComponent implements OnInit {
   ministryList = null;
   displayedColumns: any;
   pageSize = 10;
-  pagepage = 1;
+  pageCount = 1;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -52,16 +52,16 @@ export class MinistrytblComponent implements OnInit {
     console.log(val);
     
     if(val){
-      this.getFilterList(this.pagepage, this.pageSize, val);
+      this.getFilterList(this.pageCount, this.pageSize, val);
     }
     else{
-      this.getMinistryData(this.pagepage, this.pageSize);
+      this.getMinistryData(this.pageCount, this.pageSize);
     }
   
   }
 
   resetSearch() {
-    this.getMinistryData(this.pagepage, this.pageSize);
+    this.getMinistryData(this.pageCount, this.pageSize);
   }
 
   constructor(
@@ -83,7 +83,7 @@ export class MinistrytblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getMinistryData(this.pagepage, this.pageSize);
+              this.getMinistryData(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -92,7 +92,7 @@ export class MinistrytblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getMinistryData(this.pagepage, this.pageSize);
+      this.getMinistryData(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
@@ -186,7 +186,7 @@ export class MinistrytblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getMinistryData(this.pagepage, this.pageSize);
+    this.getMinistryData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -200,7 +200,7 @@ export class MinistrytblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getMinistryData(this.pagepage, event.value);
+    this.getMinistryData(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -227,7 +227,7 @@ export class MinistrytblComponent implements OnInit {
             console.log(data)
             txt = "Ministry deleted successfully!";
             this.toastr.success(txt, '');   
-            this.getMinistryData(this.pagepage, this.pageSize);
+            this.getMinistryData(this.pageCount, this.pageSize);
           }).bind(this)); 
           this.loading = false;
         },

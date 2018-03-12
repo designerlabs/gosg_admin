@@ -83,12 +83,12 @@ export class PollresultComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
     
-    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size + '&language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('polls/question', page, size)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
