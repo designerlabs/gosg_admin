@@ -89,12 +89,12 @@ export class CitizentypetblComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlUserTypeList + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
+    // this.dataUrl = this.appConfig.urlUserTypeList + '/?page=' + page + '&size=' + size + "&language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('usertype', page, size)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -158,7 +158,7 @@ export class CitizentypetblComponent implements OnInit {
 
     this.loading = true;
     console.log(refCode);
-    this.commonservice.delUserType(refCode).subscribe(
+    this.commonservice.delete(refCode,'usertype/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

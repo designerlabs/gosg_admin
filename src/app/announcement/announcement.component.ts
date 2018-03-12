@@ -195,128 +195,128 @@ debugger;
     // }
   }
 
-  deleteRow(enId,bmId) {
-    let txt;
-    let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
-    if (r == true) {
+  // deleteRow(enId,bmId) {
+  //   let txt;
+  //   let r = confirm("Are you sure to delete " + enId + " & " + bmId + "?");
+  //   if (r == true) {
 
-      this.commonservice.delSlider(enId,bmId).subscribe(
-        data => {
-          txt = "Announcement deleted successfully!";
-          window.location.reload()
-        },
-        error => {
-          console.log("No Data")
-        });
+  //     this.commonservice.delSlider(enId,bmId).subscribe(
+  //       data => {
+  //         txt = "Announcement deleted successfully!";
+  //         window.location.reload()
+  //       },
+  //       error => {
+  //         console.log("No Data")
+  //       });
 
-      // this.announceForm.reset();
-    } else {
-      txt = "Delete Cancelled!";
-      alert(txt)
-    }
-  }
+  //     // this.announceForm.reset();
+  //   } else {
+  //     txt = "Delete Cancelled!";
+  //     alert(txt)
+  //   }
+  // }
   
-  updateAnnounce(formValues: any) {
+  // updateAnnounce(formValues: any) {
     
-    if(!this.isEdit) {
+  //   if(!this.isEdit) {
 
-    let body = [
-      {
-        "announcementTitle": null,
-        "announcementDescription": null,
-        "announcementText": null,
-        "announcementActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      }, 
-      {
-        "announcementTitle": null,
-        "announcementDescription": null,
-        "announcementText": null,
-        "announcementActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      }
-    ];
+  //   let body = [
+  //     {
+  //       "announcementTitle": null,
+  //       "announcementDescription": null,
+  //       "announcementText": null,
+  //       "announcementActiveFlag": false,
+  //       "language": {
+  //         "languageId": null
+  //       }
+  //     }, 
+  //     {
+  //       "announcementTitle": null,
+  //       "announcementDescription": null,
+  //       "announcementText": null,
+  //       "announcementActiveFlag": false,
+  //       "language": {
+  //         "languageId": null
+  //       }
+  //     }
+  //   ];
     
-    // console.log(formValues)
+  //   // console.log(formValues)
 
-    body[0].announcementTitle = formValues.titleEn;
-    body[0].announcementDescription = formValues.descEn;
-    body[0].announcementText = formValues.htmlContentEn;
-    body[0].announcementActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
+  //   body[0].announcementTitle = formValues.titleEn;
+  //   body[0].announcementDescription = formValues.descEn;
+  //   body[0].announcementText = formValues.htmlContentEn;
+  //   body[0].announcementActiveFlag = formValues.active;
+  //   body[0].language.languageId = 1;
 
-    body[1].announcementTitle = formValues.titleBm;
-    body[1].announcementDescription = formValues.descBm;
-    body[1].announcementText = formValues.htmlContentBm;
-    body[1].announcementActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+  //   body[1].announcementTitle = formValues.titleBm;
+  //   body[1].announcementDescription = formValues.descBm;
+  //   body[1].announcementText = formValues.htmlContentBm;
+  //   body[1].announcementActiveFlag = formValues.active;
+  //   body[1].language.languageId = 2;
 
-    console.log(body)
+  //   console.log(body)
 
-    // Add Slider Service
-    this.commonservice.addSlider(body).subscribe(
-      data => {
-        this.toastr.success('Announcement added successfully!', ''); 
-        this.router.navigate(['announcement']);
-      },
-      error => {
-        console.log("No Data")
-      });
+  //   // Add Slider Service
+  //   this.commonservice.addSlider(body).subscribe(
+  //     data => {
+  //       this.toastr.success('Announcement added successfully!', ''); 
+  //       this.router.navigate(['announcement']);
+  //     },
+  //     error => {
+  //       console.log("No Data")
+  //     });
 
-    } else {
+  //   } else {
       
-    let body = [
-      {
-        "announcementID": null,
-        "announcementTitle": null,
-        "announcementDescription": null,
-        "announcementText": null,
-        "announcementActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      }, 
-      {
-        "announcementID": null,
-        "announcementTitle": null,
-        "announcementDescription": null,
-        "announcementText": null,
-        "announcementActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      }
-    ];
+  //   let body = [
+  //     {
+  //       "announcementID": null,
+  //       "announcementTitle": null,
+  //       "announcementDescription": null,
+  //       "announcementText": null,
+  //       "announcementActiveFlag": false,
+  //       "language": {
+  //         "languageId": null
+  //       }
+  //     }, 
+  //     {
+  //       "announcementID": null,
+  //       "announcementTitle": null,
+  //       "announcementDescription": null,
+  //       "announcementText": null,
+  //       "announcementActiveFlag": false,
+  //       "language": {
+  //         "languageId": null
+  //       }
+  //     }
+  //   ];
       
-    body[0].announcementID = this.announcementIDEn;
-    body[0].announcementTitle = formValues.titleEn;
-    body[0].announcementDescription = formValues.descEn;
-    body[0].announcementText = formValues.htmlContentEn;
-    body[0].announcementActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
+  //   body[0].announcementID = this.announcementIDEn;
+  //   body[0].announcementTitle = formValues.titleEn;
+  //   body[0].announcementDescription = formValues.descEn;
+  //   body[0].announcementText = formValues.htmlContentEn;
+  //   body[0].announcementActiveFlag = formValues.active;
+  //   body[0].language.languageId = 1;
     
-    body[1].announcementID = this.announcementIDBm;
-    body[1].announcementTitle = formValues.titleBm;
-    body[1].announcementDescription = formValues.descBm;
-    body[1].announcementText = formValues.htmlContentBm;
-    body[1].announcementActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+  //   body[1].announcementID = this.announcementIDBm;
+  //   body[1].announcementTitle = formValues.titleBm;
+  //   body[1].announcementDescription = formValues.descBm;
+  //   body[1].announcementText = formValues.htmlContentBm;
+  //   body[1].announcementActiveFlag = formValues.active;
+  //   body[1].language.languageId = 2;
 
-    console.log(body);
+  //   console.log(body);
 
-    // Update Slider Service
-    this.commonservice.updateAnnounce(body).subscribe(
-      data => {
-        this.toastr.success('Announcement update successful!', '');   
-        this.router.navigate(['announcement']);
-      },
-      error => {
-        console.log("No Data")
-      });
-    }
-  }
+  //   // Update Slider Service
+  //   this.commonservice.updateAnnounce(body).subscribe(
+  //     data => {
+  //       this.toastr.success('Announcement update successful!', '');   
+  //       this.router.navigate(['announcement']);
+  //     },
+  //     error => {
+  //       console.log("No Data")
+  //     });
+  //   }
+  // }
 }

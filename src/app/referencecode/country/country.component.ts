@@ -83,12 +83,12 @@ export class CountryComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
 
-    this.dataUrl = this.appConfig.urlCountryList;
+    // this.dataUrl = this.appConfig.urlCountryList;
 
     this.loading = true;
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language='+this.languageId)
+    this.commonservice.readPortal('country', page, size)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -120,14 +120,14 @@ export class CountryComponent implements OnInit {
       });      
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(page, size, keyword) {
 
-    this.dataUrl = this.appConfig.urlCountryList;
+    // this.dataUrl = this.appConfig.urlCountryList;
     
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
 
-      this.http.get(this.dataUrl + '?filter='+ val +'&page=' + count + '&size=' + size + '&language='+this.languageId)
+      this.commonservice.readPortal('country?keyword=', page, size, keyword)
         .subscribe(data => {
 
           this.commonservice.errorHandling(data, (function(){

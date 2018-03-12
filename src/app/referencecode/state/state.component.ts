@@ -109,13 +109,13 @@ export class StateComponent implements OnInit {
 
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
 
     //this.dataUrl = this.appConfig.urlCommon + '/announcement/category/list';
     this.dataUrl = this.appConfig.urlStateList;
     this.loading = true;
 
-    this.http.get(this.dataUrl + '/?page=' + count + '&size=' + size + '&language=' + this.languageId)
+    this.commonservice.readPortal('state', page, size)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function () {
           this.recordList = data;
@@ -173,7 +173,7 @@ export class StateComponent implements OnInit {
       this.complete = false;
     } else {
       this.complete = true;
-      // this.toastr.error(this.translate.instant('Country error!'), '');
+      // this.toastr.error(this.translate.instant('pagery error!'), '');
     }
 
   }
@@ -217,133 +217,12 @@ export class StateComponent implements OnInit {
 
   }
 
-  deleteRow(enId, bmId) {
-    // console.log(enId);
-    alert("Delete Slider id: " + enId + " & " + bmId);
-    // this.commonservice.GetUser(row.userId);
-
-    // this.deletePopup(enId,bmId)
-
-    this.loading = true;
-    this.commonservice.delSlider(enId, bmId).subscribe(
-      data => {
-          this.commonservice.errorHandling(data, (function(){
-          alert('Slider deleted successfully!')
-          this.router.navigate(['slider']);
-            
-        }).bind(this));
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
-        this.loading = false;
-      });
-  }
-
   changePageMode(isEdit) {
     if (isEdit == false) {
       this.pageMode = "Add";
     } else if (isEdit == true) {
       this.pageMode = "Update";
     }
-  }
-
-  updateSlider(formValues: any) {
-    // console.log(this.viewSeq);
-
-    let body = [
-      {
-        "slideId": null,
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": null,
-        "slideSort": null,
-        "slideActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      },
-      {
-        "slideId": null,
-        "slideTitle": null,
-        "slideDescription": null,
-        "slideImage": null,
-        "slideCode": null,
-        "slideSort": null,
-        "slideActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
-      }
-    ];
-
-    // console.log(formValues)
-
-    body[0].slideTitle = formValues.titleEn;
-    // body[0].slideDescription = formValues.descEn;
-    body[0].slideImage = "enImg.png";
-    body[0].slideCode = null;
-    body[0].slideSort = null;
-    body[0].slideActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
-
-    body[1].slideTitle = formValues.titleBm;
-    // body[1].slideDescription = formValues.descBm;
-    body[1].slideImage = "bmImg.jpg";
-    body[1].slideCode = null;
-    body[1].slideSort = null;
-    body[1].slideActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
-
-    console.log(body)
-    // console.log(JSON.stringify(body))
-
-    if (!this.isEdit) {
-
-      this.loading = true;
-      // Add Slider Service
-      this.commonservice.addSlider(body).subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function(){
-          alert('Slider added successfully!')
-            
-        }).bind(this));
-        this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);  
-          this.loading = false;
-        });
-
-    } else {
-
-      // body[0].slideId = this.slideIdEn;
-      // body[1].slideId = this.slideIdBm;
-      // body[0].slideCode = this.slideCode;
-      // body[1].slideCode = this.slideCode;
-
-      this.loading = true;
-      // Update Slider Service
-      this.commonservice.updateSlider(body).subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function(){
-          alert('Slider update successful!')
-            
-        }).bind(this));
-        this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);  
-          this.loading = false;
-        });
-    }
-
-    this.router.navigate(['state']);
-
   }
 
   paginatorL(page) {

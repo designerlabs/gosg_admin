@@ -142,7 +142,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     // Get User By Id Service
-    return this.http.get(this.appConfig.urlUserList + '/' + row + '?langId=' +this.languageId).subscribe(
+    return this.commonservice.readProtectedById('usermanagement/', row).subscribe(
       Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function(){
@@ -189,8 +189,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   getAccountStatus() {
     this.loading = true;
-    this.commonservice.readProtected('accountstatus')
-    .subscribe(
+    return this.commonservice.readProtected('accountstatus/').subscribe(
         Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function(){
@@ -239,7 +238,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     
     this.loading = true;
     // Update User Status Service
-    this.commonservice.updateUserStatus(this.userId, formValues.accountStatus).subscribe(
+    this.commonservice.update('accountstatus/', formValues.accountStatus).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');

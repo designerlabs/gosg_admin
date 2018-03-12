@@ -102,7 +102,7 @@ export class CitizentypeComponent implements OnInit {
     this.dataUrl = this.appConfig.urlUserTypeList + '/code/' +  _getRefID + "?language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('usertype/code/',_getRefID)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -185,7 +185,7 @@ export class CitizentypeComponent implements OnInit {
       console.log(body);
 
       this.loading = true;
-      this.commonservice.addUserType(body).subscribe(
+      this.commonservice.create(body,'usertype').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -255,7 +255,7 @@ export class CitizentypeComponent implements OnInit {
       console.log(body);
 
       this.loading = true;
-      this.commonservice.updateUserType(body).subscribe(
+      this.commonservice.update(body,'usertype').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

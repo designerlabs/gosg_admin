@@ -88,12 +88,12 @@ export class IdentificationtypetblComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + count + '&size=' + size + "?language=" + this.languageId;
+    // this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + page + '&size=' + size + "?language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('identificationtype/code/add/multiple', page, size)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -148,7 +148,7 @@ export class IdentificationtypetblComponent implements OnInit {
 
     this.loading = true;
     console.log(refCode);
-    this.commonservice.delIdentificationType(refCode).subscribe(
+    this.commonservice.delete(refCode,'identificationtype/delete/multiple/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

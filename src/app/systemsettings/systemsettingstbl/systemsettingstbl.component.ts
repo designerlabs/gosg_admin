@@ -94,12 +94,12 @@ export class SystemsettingstblComponent implements OnInit {
     this.commonservice.getModuleId();    
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlSystemSettings + '/?page=' + count + '&size=' + size  + '&language=' +this.languageId;
+    this.dataUrl = this.appConfig.urlSystemSettings + '/?page=' + page + '&size=' + size  + '&language=' +this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('systemsettings', page, size)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -134,14 +134,14 @@ export class SystemsettingstblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(page, size, keyword) {
   
-    this.dataUrl = this.appConfig.urlSystemSettings + '/search/' + val + '?page=' + count + '&size=' + size  + '&language=' +this.languageId;
+    // this.dataUrl = this.appConfig.urlSystemSettings + '/search/' + keyword + '?page=' + page + '&size=' + size  + '&language=' +this.languageId;
 
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
-      this.http.get(this.dataUrl)
+      this.commonservice.readProtected('systemsettings/search/', page, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -207,7 +207,7 @@ export class SystemsettingstblComponent implements OnInit {
 
     console.log(id);
     this.loading = true;
-    this.commonservice.delRecordSysSettings(id).subscribe(
+    this.commonservice.delete(id, 'systemsettings/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

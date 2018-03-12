@@ -104,10 +104,10 @@ export class IdentificationtypeComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlIdentificationTypeList + '/' +  _getRefID + "?language=" + this.languageId;
+    // this.dataUrl = this.appConfig.urlIdentificationTypeList + '/' +  _getRefID + "?language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('identificationtype/code', _getRefID)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -187,7 +187,7 @@ export class IdentificationtypeComponent implements OnInit {
       console.log(body);
 
       this.loading = true;
-      this.commonservice.addIdentificationType(body).subscribe(
+      this.commonservice.create(body,'identificationtype/add/multiple/').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -258,7 +258,7 @@ export class IdentificationtypeComponent implements OnInit {
       console.log(body);
 
       this.loading = true;
-      this.commonservice.updateIdentificationType(body).subscribe(
+      this.commonservice.update(body,'identificationtype/update/multiple/').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
