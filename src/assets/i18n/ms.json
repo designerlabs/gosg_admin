@@ -228,7 +228,8 @@
       "no":"Tidak",
       "ok":"OK",
       "cancel":"Batal",
-      "home":"Laman Utama"
+      "home":"Laman Utama",
+      "active": "Aktif"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
@@ -292,7 +293,11 @@
     "component":{
       "email":"Emel",
       "icno": "No. KP"
-    }
+    },
+    "agency": "Agensi",
+    "isrequired": "diperlukan",
+    "patternisnotvalid": "corak tidak sah",
+    "email": "Emel"
   },
   "appmngt":{
     "setSearch":{
@@ -345,7 +350,7 @@
     "icno": "No. KP",
     "moduleGroupName": "Senarai Kumpulan Modul",
     "activeFlag": "Status",
-    "isSuperAdmin": "Is Super Admin",
+    "isSuperAdmin": "Adalah Super Admin",
     "action": "Tindakan",
     "pages": "Halaman",
     "of": "daripada",
@@ -394,8 +399,36 @@
     "tablebottom":{
       "agency": "agensi"
     },
-    "component":{
-      
+    "name":"Agency Name",
+    "uniquecode": "Agency Unique Code",
+    "mdecstatus": "MDEC Status",
+    "location": {
+      "header": "Maklumat Lokasi",
+      "address": "Alamat",
+      "lat": "Latitud",
+      "long": "Longitud",
+      "latpattern": "Corak Latitud"
+    },
+    "contact": {
+      "header": "Maklumat untuk dihubungi",
+      "person": "Orang untuk dihubungi",
+      "email": "Emel",
+      "phone": "Nombor Telefon",
+      "fax": "Nombor Faks"
+    },
+    "publishing": {
+      "header": "Penerbitan",
+      "website": "URL Laman Web",
+      "rss": "URL RSS",
+      "blog": "URL Blog"
+    },
+    "socmed": {
+      "header": "Media Sosial",
+      "facebook": "Facebook URL",
+      "twitter": "Twitter URL",
+      "youtube": "Youtube URL",
+      "instagram": "Instagram URL",
+      "flickr": "Filckr URL"
     }
   },
   "agencyapp": {
@@ -785,6 +818,13 @@
       "email": "mengikut Emel",
       "icno": "mengikut No. KP",
       "add": "Tambah Pengguna Mengikut"
+    }
+  },
+  "grouping": {
+    "management": {
+      "header": "Pengurusan Pengumpulan",
+      "name": "Nama Pengumpulan",
+      "description": "Keterangan Pengumpulan"
     }
   }
 }
