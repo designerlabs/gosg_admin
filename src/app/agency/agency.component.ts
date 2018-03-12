@@ -101,7 +101,7 @@ export class AgencyComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getAgency();
+              // this.getAgency();
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -286,9 +286,9 @@ export class AgencyComponent implements OnInit {
       this.commonservice.readPortal('ministry', '', '' , keyword).subscribe(data => {
             this.commonservice.errorHandling(data, (function(){
               if(langId == 1) {
-                this.searchMinistryResultEn = data['ministryList'];
+                this.searchMinistryResultEn = data['list'];
               } else {
-                this.searchMinistryResultBm = data['ministryList'];
+                this.searchMinistryResultBm = data['list'];
               }
             }).bind(this)); 
             this.loading = false; 
