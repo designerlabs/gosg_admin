@@ -14,17 +14,17 @@
         <div class="row">
             <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
                 <mat-form-field class="example-full-width">
-                    <mat-select  placeholder="Filter By" (change)="filterType($event)">
-                        <mat-option [value]="1">{{ 'usermgmt.filterby.all' | translate }}</mat-option>
-                        <mat-option [value]="2">{{ 'usermgmt.filterby.email' | translate }}</mat-option>
-                        <mat-option [value]="3">{{ 'usermgmt.filterby.icno' | translate }}</mat-option>
+                    <mat-select  placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="filterType($event)">
+                        <mat-option [value]="1">{{ 'common.filterby.all' | translate }}</mat-option>
+                        <mat-option [value]="2">{{ 'common.filterby.email' | translate }}</mat-option>
+                        <mat-option [value]="3">{{ 'common.filterby.icno' | translate }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
 
             <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1">
                 <mat-form-field>
-                  <input #keyword matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keywords">
+                  <input #keyword matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
                   <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                     <mat-icon>close</mat-icon>
                   </button>
@@ -36,7 +36,7 @@
     
             <!-- No Column -->
           <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'usermgmt.tableHeader.num' | translate }} </mat-header-cell>
+            <mat-header-cell class="text-align-left" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
             <mat-cell class="text-align-left" style="flex: 0 0 5%;" *matCellDef="let element; let i = index;">
               {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
             </mat-cell>
@@ -64,7 +64,7 @@
     
           <!-- Action Column -->
           <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'usermgmt.tableHeader.action' | translate }} </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let element" class="statusColumn">
                 <button mat-mini-fab style="background: orange" (click)="updateRow(element.userId)" title="Update">
                   <i [ngClass]="{ 'fa fa-edit': commonservice.isUpdate}" title="Update {{ element.fullName }}" ></i>
@@ -83,7 +83,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div *ngIf="showNoData" class="row" style="text-align: center; padding: 20px;">{{ 'mediauploadtbl.nodata' | translate }}</div>
+        <div *ngIf="showNoData" class="row" style="text-align: center; padding: 20px;">{{ 'common.msg.nodata' | translate }}</div>
         
     
       </div>
@@ -98,9 +98,9 @@
           </mat-select>
         </mat-form-field>
         <span class="float-right">
-          <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'usermgmt.tablebottom.page' | translate }}
-            <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'usermgmt.tablebottom.of' | translate }}
-            <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'usermgmt.tablebottom.in' | translate }}
+          <span style="color:#000; padding-left:20px; padding-right:20px;">{{ 'common.tableBottom.page' | translate }}
+            <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+            <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
             <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'usermgmt.tablebottom.users' | translate }}</span>
           <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
             <i class="fa fa-angle-left" aria-hidden="true"></i>
