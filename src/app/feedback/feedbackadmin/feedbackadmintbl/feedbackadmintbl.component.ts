@@ -151,7 +151,7 @@ export class FeedbackadmintblComponent implements OnInit {
       this.dataUrl = 'feedback/search/1/';
     }
 
-    if((val != "") && (val != null) && (val.length != 0) && (val.length >= 3)) {
+    if(val != "" && val != null && val.length != null && val.length >= 3) {
      
       this.loading = true;
       this.commonservice.readProtected(this.dataUrl, count, size, val)
