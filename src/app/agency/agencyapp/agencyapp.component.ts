@@ -147,17 +147,10 @@ export class AgencyappComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    return this.http.get(this.appConfig.urlGetAgencyApp + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlAgencyApp + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlAgencyApp + row + "/").subscribe(
+    this.commonservice.readPortalById('agency/application/code/', row)
+    .subscribe(
       Rdata => {
-      
-
         this.commonservice.errorHandling(Rdata, (function(){
-
-    
-
-
         this.AgencyAppData = Rdata;
         // console.log(JSON.stringify(this.AgencyAppData))
         console.log(this.AgencyAppData)
@@ -191,9 +184,8 @@ export class AgencyappComponent implements OnInit {
 
   getAgency() {
     this.loading = true;
-    return this.http.get(this.appConfig.urlAgency + '/code'+ '?language='+this.languageId).subscribe(
+    this.commonservice.readPortal('agency/application/code').subscribe(
         Rdata => {
-
         this.commonservice.errorHandling(Rdata, (function(){
             this.AgencyData = Rdata['list'];
         }).bind(this));
@@ -229,8 +221,7 @@ export class AgencyappComponent implements OnInit {
         this.isActiveListEn = false;
       }
       this.loading = true;
-      this.http.get(
-        this.appConfig.urlSearchbyAgency+keyword+'?language='+langId).subscribe(
+      this.commonservice.readPortal('agency/type/','','', keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -297,9 +288,9 @@ export class AgencyappComponent implements OnInit {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    return this.http.get(this.appConfig.urlGetAgency + '/code/language/' + refCode+ '?language='+langId).subscribe(
+    this.commonservice.readPortalById('agency/type', refCode)
+    .subscribe(
       data => {
-
         this.commonservice.errorHandling(data, (function(){
           console.log('refCode Data');
           console.log(data);
@@ -414,7 +405,7 @@ export class AgencyappComponent implements OnInit {
 
     // Add ErrorMsg Service
     this.loading = true;
-    this.commonservice.addAgencyApp(body).subscribe(
+    this.commonservice.create(body, 'agency/application/add').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
@@ -478,7 +469,7 @@ export class AgencyappComponent implements OnInit {
 
     // Update AgencyApp Service
     this.loading = true;
-    this.commonservice.updateAgencyApp(body).subscribe(
+    this.commonservice.update(body, 'agency/application/update').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');

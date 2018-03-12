@@ -234,31 +234,30 @@ export class ContentComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
-  
-    this.dataUrl = this.appConfig.urlAccountStatus + '/code/'+_getRefID + '?language=' +this.languageId;
+     this.commonservice.readPortalById('accountstatus/code/', _getRefID)
+      .subscribe(data => {
+        this.recordList = data;
 
-    this.http.get(this.dataUrl)
-    .subscribe(data => {
-      this.recordList = data;
+        console.log("data");
+        console.log(data);
 
-      console.log("data");
-      console.log(data);
+        this.updateForm.get('titleEn').setValue(this.recordList[0].accountStatusDescription);
+        this.updateForm.get('titleBm').setValue(this.recordList[1].accountStatusDescription);   
+        this.updateForm.get('descEn').setValue(this.recordList[0].accountStatusDescription);
+        this.updateForm.get('descBm').setValue(this.recordList[1].accountStatusDescription);  
+        this.updateForm.get('parents').setValue(this.recordList[0].enabled);    
+        this.updateForm.get('active').setValue(this.recordList[0].enabled);      
+        this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
 
-      this.updateForm.get('titleEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('titleBm').setValue(this.recordList[1].accountStatusDescription);   
-      this.updateForm.get('descEn').setValue(this.recordList[0].accountStatusDescription);
-      this.updateForm.get('descBm').setValue(this.recordList[1].accountStatusDescription);  
-      this.updateForm.get('parents').setValue(this.recordList[0].enabled);    
-      this.updateForm.get('active').setValue(this.recordList[0].enabled);      
-      this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
+        this.getIdEn = this.recordList[0].accountStatusId;
+        this.getIdBm = this.recordList[1].accountStatusId;
+        this.getRefCode = this.recordList[0].accountStatusCode;
 
-      this.getIdEn = this.recordList[0].accountStatusId;
-      this.getIdBm = this.recordList[1].accountStatusId;
-      this.getRefCode = this.recordList[0].accountStatusCode;
+        this.checkReqValues();
+        
+      });
 
-      this.checkReqValues();
-      
-    });
+    
   }
 
   submit(formValues: any) {
@@ -293,7 +292,7 @@ export class ContentComponent implements OnInit {
       console.log("TEST")
       console.log(JSON.stringify(body))
      
-      this.commonservice.addRecordAccStatus(body).subscribe(
+      this.commonservice.create(body, 'accountstatus').subscribe(
         data => {         
           
           let errMsg = data.statusCode.toLowerCase();
@@ -347,7 +346,7 @@ export class ContentComponent implements OnInit {
       console.log("UPDATE: ");
       console.log(body);
 
-      this.commonservice.updateRecordAccStatus(body).subscribe(
+      this.commonservice.update(body,'accountstatus').subscribe(
         data => {
           
           let errMsg = data.statusCode.toLowerCase();

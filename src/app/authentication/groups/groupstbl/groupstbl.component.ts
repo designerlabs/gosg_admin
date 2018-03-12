@@ -79,7 +79,8 @@ export class GroupstblComponent implements OnInit {
     
     this.dataUrl = this.appConfig.urlGroupList;
     this.loading = true;
-    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size).subscribe(data => {
+    this.commonservice.readProtected('authorization/module/groupListView',count, size)
+    .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
         
@@ -137,7 +138,7 @@ export class GroupstblComponent implements OnInit {
   
   deleteMail(msgId){
     this.loading = true;
-    this.commonservice.deleteModuleGroup(msgId).subscribe(
+    this.commonservice.delete(msgId,'authorization/module/group/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

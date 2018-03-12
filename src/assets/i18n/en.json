@@ -651,9 +651,7 @@
     "tableHeader":{
       "name": "Module Name",
       "description": "Module Description",
-      "url": "Module Url",
-      "status": "Status",
-      "action": "Action"
+      "url": "Module Url"
     },
     "tablebottom":{
       "modules": "modules"
@@ -663,9 +661,7 @@
     "header": "Polls Questions List",
     "tableHeader":{
       "pollquestionEn": "Poll Question (EN)",
-      "pollquestionBm": "Poll Question (BM)",
-      "status": "Active Status",
-      "action": "Action"
+      "pollquestionBm": "Poll Question (BM)"
     },
     "tablebottom":{
       "pollquestion": "polls questions"
@@ -694,8 +690,7 @@
     "header": "Race / Ethnic",
     "tableHeader":{
       "raceEn": "Race/Ethnic (EN)",
-      "raceBm": "Race/Ethnic (BM)",
-      "action": "Action"
+      "raceBm": "Race/Ethnic (BM)"
     },
     "tablebottom":{
       "race": "race/ethnic list"
@@ -705,8 +700,7 @@
     "header": "Religion",
     "tableHeader":{
       "religionEn": "Religion (EN)",
-      "religionBm": "Religion (BM)",
-      "action": "Action"
+      "religionBm": "Religion (BM)"
     },
     "tablebottom":{
       "religion": "religion list"
@@ -727,9 +721,7 @@
     "tableHeader":{
       "entities": "Entities",
       "key": "Key",
-      "value": "Value",
-      "activestatus": "Active Status",
-      "action": "Action"
+      "value": "Value"
     },
     "tablebottom":{
       "sys": "system settings"
@@ -744,8 +736,7 @@
     "tableHeader":{
       "fullname": "Fullname",
       "email": "Email",
-      "accstatus": "Account Status",
-      "action": "Action"
+      "accstatus": "Account Status"
     },
     "tablebottom":{
       "users": "users"
@@ -761,20 +752,13 @@
       "religion": "Religion",
       "address": "Address",
       "mobilenum": "Mobile Number"
-    },
-    "filterby": {
-      "all": "All",
-      "email": "Email",
-      "icno": "IC No."
     }
   },
   "mediatype": {
     "header": "Media Management",
     "tableHeader":{
       "name": "Name",
-      "category": "Category",
-      "status": "Status",
-      "action": "Action"
+      "category": "Category"
     },
     "component": {
     }

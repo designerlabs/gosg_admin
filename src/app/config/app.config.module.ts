@@ -62,9 +62,9 @@ export class AppConfig {
     urlGenderList: string;
     urlAnnounceList: string;
     urlCategoryList: string;
-    urlAddressType: string;
+    // urlAddressType: string;
     urlAddressTypeGet: string;
-    urlAccountStatus: string;
+    // urlAccountStatus: string;
     urlLanguage: string;
     urlGetLanguage: string;
     urlAdminUserList:string;
@@ -182,9 +182,9 @@ export const APP_DI_CONFIG: AppConfig = {
     // urlCategoryList: './app/apidata/category.json',
     urlCategoryList: commonURL + 'announcement/category',
     urlCategory: commonURL + 'content/category',
-    urlAddressType: commonURL + 'addresstype',
+    // urlAddressType: commonURL + 'addresstype',
     urlAddressTypeGet: serviceURL + 'addresstype',
-    urlAccountStatus: commonURL + 'accountstatus',
+    // urlAccountStatus: commonURL + 'accountstatus',
     urlFeedbackType: commonURL + 'feedback/type',
     urlFeedbackSubject: commonURL + 'feedback/subject',
     urlFeedbackTypeGet: serviceURL + 'feedback/type',

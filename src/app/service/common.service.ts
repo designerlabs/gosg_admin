@@ -307,11 +307,11 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  deleteModuleList(id){
-    return this.http.delete(this.appConfig.urlModule+'/'+id+'?language='+this.languageId)
-    .map((response: Response) => response.json()[0])
-    .catch(this.handleError);
-  }
+  // deleteModuleList(id){
+  //   return this.http.delete(this.appConfig.urlModule+'/'+id+'?language='+this.languageId)
+  //   .map((response: Response) => response.json()[0])
+  //   .catch(this.handleError);
+  // }
 
   getModuleListAll(){
     return this.http.get(this.appConfig.urlModuleList+'/all?language='+this.languageId)
@@ -319,25 +319,25 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  updateModuleList(data){
-    return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  // updateModuleList(data){
+  //   return this.http.put(this.appConfig.urlModuleList+'/update?language='+this.languageId, data)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
 
-  addModuleGroup(data){
-    return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  // addModuleGroup(data){
+  //   return this.http.post(this.appConfig.urlModuleGroupList+'?language='+this.languageId, data)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
 
-  deleteModuleGroup(id){
-    return this.http.delete(this.appConfig.urlModuleGroupList+'/'+id+'?language='+this.languageId)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  // deleteModuleGroup(id){
+  //   return this.http.delete(this.appConfig.urlModuleGroupList+'/'+id+'?language='+this.languageId)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
   getUserList(id){
     return this.http.get(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId)
@@ -722,33 +722,33 @@ getCategoryList1() {
     });
   }
 
-  addAgency(agency) {
+  // addAgency(agency) {
 
-    return this.http.post(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateAgency(agency) {
+  // updateAgency(agency) {
 
-    console.log(this.appConfig.urlAgency)
-    console.log(agency)
+  //   console.log(this.appConfig.urlAgency)
+  //   console.log(agency)
     
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
-    return this.http.put(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   // return this.http.put(this.appConfig.urlUsers + user.userId, user) 
+  //   return this.http.put(this.appConfig.urlAgency+ '?language='+this.languageId, agency)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delAgency(refCode) {
+  // delAgency(refCode) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
-    console.log(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId)
+  //   // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+  //   console.log(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId)
     
-    return this.http.delete(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlAgency + "/" + refCode+ '?language='+this.languageId, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // AGENCY END
 
   // AGENCY APP
@@ -1029,56 +1029,56 @@ getCategoryList1() {
   }
 
   // Start Address Type - N
-  addRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
+  // addRecordAddType(record) {
+  //   let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
 
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delRecordAddType(refCode) {
-    let fullUrl = this.appConfig.urlAddressType  + "/" + refCode + '?language='+this.languageId;
+  // delRecordAddType(refCode) {
+  //   let fullUrl = this.appConfig.urlAddressType  + "/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(fullUrl, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateRecordAddType(record) {
-    let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
+  // updateRecordAddType(record) {
+  //   let fullUrl = this.appConfig.urlAddressType + '?language='+this.languageId;
 
-    return this.http.put(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // End Address Type - N
 
   // Start Account Status - N
-  addRecordAccStatus(record) {
-    let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
+  // addRecordAccStatus(record) {
+  //   let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
  
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delRecordAccStatus(refCode) {
-    let fullUrl = this.appConfig.urlAccountStatus + "/" + refCode + '?language='+this.languageId;
+  // delRecordAccStatus(refCode) {
+  //   let fullUrl = this.appConfig.urlAccountStatus + "/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(fullUrl, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateRecordAccStatus(record) {
-    let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
+  // updateRecordAccStatus(record) {
+  //   let fullUrl = this.appConfig.urlAccountStatus + '?language='+this.languageId;
 
-    return this.http.put(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-  // End Account Status - N
+  //   return this.http.put(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
+  // // End Account Status - N
 
   // Start Feedback Type - N
   addRecordFeedbackType(record) {

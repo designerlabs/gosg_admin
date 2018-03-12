@@ -142,7 +142,7 @@ export class GroupsComponent implements OnInit {
       "modules": this.selectedItems.items
     };
     this.loading = true;
-    this.commonservice.updateModuleList(this.updateData).subscribe(
+    this.commonservice.update(this.updateData, 'authorization/module/moduleList/update').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
@@ -165,7 +165,7 @@ export class GroupsComponent implements OnInit {
       "modules": this.selectedItems.items
     };
     this.loading = true;
-    this.commonservice.addModuleGroup(this.addData).subscribe(
+    this.commonservice.create(this.addData,'authorization/module/group').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');

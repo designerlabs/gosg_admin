@@ -81,10 +81,7 @@ export class ContenttblComponent implements OnInit {
   }
 
   getRecordList(count, size) {
-  
-    this.dataUrl = this.appConfig.urlAccountStatus + '/?page=' + count + '&size=' + size + '&language=' + this.languageId;
-
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('accountstatus',count, size)
     .subscribe(data => {
       this.recordList = data;
 
@@ -139,7 +136,7 @@ export class ContenttblComponent implements OnInit {
     let txt;
   
     console.log(refcode);
-    this.commonservice.delRecordAccStatus(refcode).subscribe(
+    this.commonservice.delete(refcode,'accountstatus').subscribe(
       data => {
         
         let errMsg = data.statusCode.toLowerCase();
