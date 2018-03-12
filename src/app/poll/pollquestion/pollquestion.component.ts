@@ -144,10 +144,10 @@ export class PollquestionComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
   
-    this.dataUrl = this.appConfig.urlPoll + '/question/same/' + _getRefID + '?language=' +this.languageId;
+    // this.dataUrl = this.appConfig.urlPoll + '/question/same/' + _getRefID + '?language=' +this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('polls/question/same/', _getRefID)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -249,7 +249,7 @@ export class PollquestionComponent implements OnInit {
       console.log("ADD BODY: ");
       console.log(JSON.stringify(body))
 
-      this.commonservice.addRecord(body).subscribe(
+      this.commonservice.create(body,'polls/question').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){
@@ -328,7 +328,7 @@ export class PollquestionComponent implements OnInit {
       console.log("UPDATE DELETE: ");
       console.log(body);
 
-      this.commonservice.updateRecord(body).subscribe(
+      this.commonservice.update(body,'/question/multiple/update').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){

@@ -111,7 +111,7 @@ export class SystemsettingsComponent implements OnInit {
     this.dataUrl = this.appConfig.urlSystemSettings + '/'+_getRefID  + '?language=' +this.languageId;
     this.loading = true;
 
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('systemsettings/', _getRefID)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -163,7 +163,7 @@ export class SystemsettingsComponent implements OnInit {
       console.log(JSON.stringify(body))
       this.loading = true;
 
-      this.commonservice.addRecordSysSettings(body).subscribe(
+      this.commonservice.create(body,'systemsettings').subscribe(
         data => {
                     
           this.commonservice.errorHandling(data, (function(){
@@ -201,7 +201,7 @@ export class SystemsettingsComponent implements OnInit {
       console.log(JSON.stringify(body))
       this.loading = true;
 
-      this.commonservice.updateRecordSysSettings(body).subscribe(
+      this.commonservice.update(body,'systemsettings').subscribe(
         data => {
                   
           this.commonservice.errorHandling(data, (function(){

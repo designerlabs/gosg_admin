@@ -161,10 +161,10 @@ export class UserdetailstblComponent implements OnInit {
   }
 
   // get User Data 
-  getUsersData(count, size) {
+  getUsersData(page, size) {
     this.loading = true;
     this.dataUrl = this.appConfig.urlUserList;
-    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
+    this.commonservice.readProtected(this.dataUrl, page, size).subscribe(data => {
       
       this.commonservice.errorHandling(data, (function(){
         
@@ -194,20 +194,20 @@ export class UserdetailstblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, keyword, filterVal) {
+  getFilterList(page, size, keyword, filterVal) {
 
     if(filterVal == 2){  // by Email
-      this.dataUrl = this.appConfig.urlUserList + '?email='+ keyword + '&language='+this.languageId;
+      this.dataUrl = 'usermanagement?email=';
     }
 
     else if (filterVal == 3){ // by keywords
-      this.dataUrl = this.appConfig.urlUserList + '?ic='+ keyword + '&language='+this.languageId;
+      this.dataUrl = 'usermanagement?ic=';
     }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
-      this.http.get(this.dataUrl).subscribe(data => {
+      this.commonservice.readProtected(this.dataUrl, page, size, keyword).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
@@ -263,31 +263,31 @@ export class UserdetailstblComponent implements OnInit {
     this.noPrevData = true;
   }
 
-  resetMethod(event, msgId) {
-    debugger;
-    this.isMailContainerShow = 'none';
-    this.deleteUser(msgId);
-  }
+  // resetMethod(event, msgId) {
+  //   debugger;
+  //   this.isMailContainerShow = 'none';
+  //   this.deleteUser(msgId);
+  // }
 
   
-  deleteUser(msgId){
-    this.loading = true;
-    this.commonservice.deleteUserList(msgId).subscribe(
-      data => {
+  // deleteUser(msgId){
+  //   this.loading = true;
+  //   this.commonservice.delete(msgId,'usermanagement').subscribe(
+  //     data => {
         
-        this.commonservice.errorHandling(data, (function(){
+  //       this.commonservice.errorHandling(data, (function(){
         
-          this.getUsersData(this.pageCount, this.pageSize);
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+  //         this.getUsersData(this.pageCount, this.pageSize);
+  //         this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
   
-        }).bind(this));
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        this.loading = false;       
-      });
-  }
+  //       }).bind(this));
+  //       this.loading = false;
+  //     },
+  //     error => {
+  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+  //       this.loading = false;       
+  //     });
+  // }
 
 
   closeUser(){

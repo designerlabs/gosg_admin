@@ -90,12 +90,12 @@ export class ReligiontblComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlReligion + '/?page=' + count + '&size=' + size + "&language=" + this.languageId;
+    // this.dataUrl = this.appConfig.urlReligion + '/?page=' + page + '&size=' + size + "&language=" + this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readPortal('religion', page, size)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -158,7 +158,7 @@ export class ReligiontblComponent implements OnInit {
 
     console.log(refCode);
     this.loading = true;
-    this.commonservice.delReligion(refCode).subscribe(
+    this.commonservice.delete(refCode,'religion/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

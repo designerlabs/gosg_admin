@@ -95,12 +95,12 @@ export class SlidertblComponent implements OnInit {
   }
 
   // get Slider Data 
-  getSlidersData(count, size) {
-    // console.log(this.appConfig.urlsliderList + '/?page=' + count + '&size=' + size)
+  getSlidersData(page, size) {
+    // console.log(this.appConfig.urlsliderList + '/?page=' + page + '&size=' + size)
     this.dataUrl = this.appConfig.urlSlides;
 
     this.loading = true;
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    this.commonservice.readPortal('slide/code/',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -168,7 +168,7 @@ export class SlidertblComponent implements OnInit {
     let txt;
 
     this.loading = true;
-      this.commonservice.delSlider(enId,bmId).subscribe(
+      this.commonservice.delete('/delete/selected?id=', enId+','+bmId).subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

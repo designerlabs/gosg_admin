@@ -82,10 +82,10 @@ export class PollquestiontblComponent implements OnInit {
         translate.get('HOME').subscribe((res: any) => {
           this.commonservice.getAllLanguage().subscribe((data:any) => {
             let getLang = data.list;
-            let myLangData =  getLang.filter(function(val) {
-              if(val.languageCode == translate.currentLang){
-                this.lang = val.languageCode;
-                this.languageId = val.languageId;
+            let myLangData =  getLang.filter(function(keyword) {
+              if(keyword.languageCode == translate.currentLang){
+                this.lang = keyword.languageCode;
+                this.languageId = keyword.languageId;
                 this.getRecordList(this.pageCount, this.pageSize);
                 this.commonservice.getModuleId();
               }
@@ -106,12 +106,12 @@ export class PollquestiontblComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlPoll + '/question?page=' + count + '&size=' + size + '&language=' +this.languageId;
+    // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
 
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('polls/question', page, size)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -148,13 +148,13 @@ export class PollquestiontblComponent implements OnInit {
 
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(page, size, keyword) {
   
-    this.dataUrl = this.appConfig.urlPoll + '/question/search/all?keyword=' +val+ '&page=' + count + '&size=' + size + '&language=' +this.languageId;
+    // this.dataUrl = this.appConfig.urlPoll + '/question/search/all?keyword=' +keyword+ '&page=' + page + '&size=' + size + '&language=' +this.languageId;
 
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.http.get(this.dataUrl)
+      this.commonservice.readProtected('polls/question',page, size, keyword)
         .subscribe(data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -224,8 +224,8 @@ export class PollquestiontblComponent implements OnInit {
 
   deleteRow(enId, bmId) {
   
-    this.commonservice.delRecord(enId, bmId).subscribe(
-      data => {         
+    this.commonservice.delete(enId+','+bmId, 'polls/question/delete/selected?id=').subscribe(
+      data => {
         
         this.commonservice.errorHandling(data, (function(){
           
@@ -246,8 +246,8 @@ export class PollquestiontblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
-    this.pageSize = event.value;
+    this.getRecordList(this.pageCount, event.keywordue);
+    this.pageSize = event.keywordue;
     this.noPrevData = true;
   }
 

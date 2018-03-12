@@ -151,7 +151,7 @@ export class SliderComponent implements OnInit {
 
     this.loading = true;
     // Update Slider Service
-    return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
+    return this.commonservice.readPortalById('slide/code/', row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
@@ -292,7 +292,7 @@ export class SliderComponent implements OnInit {
 
     this.loading = true;
     // Add Slider Service
-    this.commonservice.addSlider(body).subscribe(
+    this.commonservice.create(body,'slide').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
         this.toastr.success('Slider added successfully!', ''); 
@@ -362,7 +362,7 @@ export class SliderComponent implements OnInit {
     this.loading = true;
 
     // Update Slider Service
-    this.commonservice.updateSlider(body).subscribe(
+    this.commonservice.update(body,'slide').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
         this.toastr.success('Slider update successful!', '');   

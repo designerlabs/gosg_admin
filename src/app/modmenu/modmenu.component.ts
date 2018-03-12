@@ -207,17 +207,20 @@ export class ModmenuComponent implements OnInit {
 
 
     console.log(body)
+    this.loading = true;
 
     // Add ErrorMsg Service
-    this.commonservice.addModMenu(body).subscribe(
+    this.commonservice.create(body,'authorization/module/').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
         }).bind(this));  
         this.router.navigate(['modmenu']);
+        this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;
       });
 
     } else {
@@ -239,17 +242,20 @@ export class ModmenuComponent implements OnInit {
       body.moduleUrl = formValues.moduleUrl;
 
     console.log(JSON.stringify(body));
+    this.loading = true;
 
     // Update ErrorMsg Service
-    this.commonservice.updateModMenu(body).subscribe(
+    this.commonservice.update(body,'authorization/module/').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
         }).bind(this));  
         this.router.navigate(['modmenu']);
+        this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
       });
     }
     
