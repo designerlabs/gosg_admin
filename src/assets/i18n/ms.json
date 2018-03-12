@@ -255,7 +255,7 @@
       "reset":"Set semula borang ini?",
       "delete":"Padam mesej ini?",
       "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!",
-      "nodata": "No Data Found"
+      "nodata": "Tiada Data Ditemui"
     },
     "state":{
       "success":"bg_header bg_success_header",
