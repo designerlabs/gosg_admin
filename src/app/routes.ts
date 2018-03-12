@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
-import { RolesComponent } from './roles/roles.component';
 import { GroupsComponent } from './authentication/groups/groups.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
 import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
@@ -123,7 +122,6 @@ export const appRoutes: Routes = [
 {path: 'agencyapp/add', component: AgencyappComponent},
 {path: 'agencyapp/:id', component: AgencyappComponent},
 {path: 'agencyapp', component: AgencyapptblComponent},
-{path: 'roles', component: RolesComponent},
 {path: 'userlist', component: UserdetailstblComponent},
 {path: 'userlist/:id', component: UserComponent},
 {path: 'groupmodule' , component: GroupstblComponent},

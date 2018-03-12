@@ -20,7 +20,6 @@ import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
-import { RolesComponent } from './roles/roles.component';
 import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
 import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
@@ -121,7 +120,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserComponent,
     UsertblComponent,
     GroupstblComponent,
-    RolesComponent,    
     PollquestiontblComponent,
     PollquestionComponent,
     PollresultComponent,
