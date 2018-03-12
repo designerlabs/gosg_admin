@@ -26,7 +26,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          <h3>{{ fullname }}</h3>
+          <h3>{{ fullName }}</h3>
           <h5 *ngIf="email"><i class="fa fa-envelope"></i>&nbsp;{{ email }}</h5>
         </div>
         
@@ -37,7 +37,7 @@
           <label class="font-size-s">{{ 'usermgmt.component.isstaff' | translate }}</label><br /><span>{{ isStaff != null ? isStaff : '-' }}</span>
         </div>
         <div class="col-md-3">
-          <label class="font-size-s">{{ 'usermgmt.component.dob' | translate }}</label><br /><span>{{ dob != null ? dob : '-' }}</span>
+          <label class="font-size-s">{{ 'usermgmt.component.dateOfBirth' | translate }}</label><br /><span>{{ dateOfBirth != null ? dateOfBirth : '-' }}</span>
         </div>
         <div class="col-md-3">
           <label class="font-size-s">{{ 'usermgmt.component.citizenship' | translate }}</label><br /><span>{{ isCitizen }}</span>
@@ -72,11 +72,11 @@
       <div class="row">&nbsp;</div>
       <div class="row">
         <div class="col-md-4">
-          <label class="font-size-s">{{ 'usermgmt.component.mobilenum' | translate }}</label><br /><span>{{ mobileno != null ? mobileno : '-' }}</span>
+          <label class="font-size-s">{{ 'usermgmt.component.mobilenum' | translate }}</label><br /><span>{{ mobilePhoneNo != null ? mobilePhoneNo : '-' }}</span>
         </div>
         <div class="col-md-4">
           <mat-form-field class="" style="width:100%;" > 
-            <mat-select formControlName="accountStatus" placeholder="Select Account Status" (change)="checkReqValues()">
+            <mat-select formControlName="accountStatusSel" placeholder="Select Account Status" (change)="checkReqValues()">
                 <mat-option *ngFor="let status of AccStatusData" [value]="status.accountStatusId">{{ status.accountStatusDescription }}</mat-option>
             </mat-select>
           </mat-form-field>

@@ -93,11 +93,11 @@ export class FootercontenttblComponent implements OnInit {
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlFooterContent + '?page=' + count + '&size=' + size +"&language=" + this.languageId;
+    this.dataUrl = 'footercontent';
     this.loading = true;
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtected('footercontent', page, size)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -132,13 +132,11 @@ export class FootercontenttblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(page, size, keyword) {
   
-    this.dataUrl = this.appConfig.urlFooterContent + '?filter=' +val+  '&page=' + count + '&size=' + size +"&language=" + this.languageId;
-    
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.http.get(this.dataUrl)
+      this.commonservice.readProtected('footercontent', page, size, keyword)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;

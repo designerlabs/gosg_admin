@@ -1299,6 +1299,8 @@ getCategoryList1() {
       readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
     }
 
+    console.log(readUrl)
+
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)

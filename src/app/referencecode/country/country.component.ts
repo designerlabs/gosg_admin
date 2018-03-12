@@ -127,7 +127,7 @@ export class CountryComponent implements OnInit {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
 
-      this.commonservice.readPortal('country?keyword=', page, size, keyword)
+      this.commonservice.readPortal('country', page, size, keyword)
         .subscribe(data => {
 
           this.commonservice.errorHandling(data, (function(){

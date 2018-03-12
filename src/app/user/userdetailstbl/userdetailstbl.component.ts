@@ -164,7 +164,7 @@ export class UserdetailstblComponent implements OnInit {
   getUsersData(page, size) {
     this.loading = true;
     this.dataUrl = this.appConfig.urlUserList;
-    this.commonservice.readProtected(this.dataUrl, page, size).subscribe(data => {
+    this.commonservice.readProtected('usermanagement', page, size).subscribe(data => {
       
       this.commonservice.errorHandling(data, (function(){
         
@@ -207,7 +207,7 @@ export class UserdetailstblComponent implements OnInit {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
-      this.commonservice.readProtected(this.dataUrl, page, size, keyword).subscribe(data => {
+      this.commonservice.readProtected(this.dataUrl+keyword+'&page='+page+'&size='+size).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
