@@ -52,18 +52,18 @@ export class AppConfig {
     urlReligionList: string;
     urlModuleList: string;
     urlGroupModuleList: string;
-    urlPostcode:string;
+    // urlPostcode:string;
     urlPoll: string;
     urlFeedback: string;
-    urlFaq: string;
+    // urlFaq: string;
     urlRaceList: string;
     urlRace: string;
     urlRaceDelete: string;
     urlGenderList: string;
     urlAnnounceList: string;
-    urlCategoryList: string;
+    // urlCategoryList: string;
     // urlAddressType: string;
-    urlAddressTypeGet: string;
+    // urlAddressTypeGet: string;
     // urlAccountStatus: string;
     // urlLanguage: string;
     urlGetLanguage: string;
@@ -174,16 +174,16 @@ export const APP_DI_CONFIG: AppConfig = {
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
-    urlPostcode: serviceURL + 'postcode/city/',
-    urlFaq: './app/apidata/faq.json',
+    // urlPostcode: serviceURL + 'postcode/city/',
+    // urlFaq: './app/apidata/faq.json',
     urlImageList: commonURL + 'media/category/name/Article',
     // urlAnnounceList: './app/apidata/announce.json',
     urlAnnounceList: commonURL + 'announcement/code',
     // urlCategoryList: './app/apidata/category.json',
-    urlCategoryList: commonURL + 'announcement/category',
+    // urlCategoryList: commonURL + 'announcement/category',
     urlCategory: commonURL + 'content/category',
     // urlAddressType: commonURL + 'addresstype',
-    urlAddressTypeGet: serviceURL + 'addresstype',
+    // urlAddressTypeGet: serviceURL + 'addresstype',
     // urlAccountStatus: commonURL + 'accountstatus',
     // urlFeedbackType: commonURL + 'feedback/type',
     // urlFeedbackSubject: commonURL + 'feedback/subject',
