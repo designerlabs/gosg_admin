@@ -12,8 +12,8 @@
     <div class="example-container mat-elevation-z8" *ngIf="commonservice.isRead">
         <mat-table #table [dataSource]="dataSource" style="display: initial;">
             <ng-container matColumnDef="no">
-                <mat-header-cell class="text-align-left" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-                <mat-cell class="text-align-left" style="flex: 0 0 10%;" *matCellDef="let element; let i = index;">
+                <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+                <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
                     {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
             </ng-container>
