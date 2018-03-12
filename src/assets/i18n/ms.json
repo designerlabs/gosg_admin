@@ -288,6 +288,10 @@
       "filterby": "Tapisan Mengikut",
       "all": "Semua",
       "email": "Emel"
+    },
+    "component":{
+      "email":"Emel",
+      "icno": "No. KP"
     }
   },
   "appmngt":{
@@ -774,11 +778,13 @@
       "groupmodule": "Nama Kumpulan Modul",
       "modpermision": "Kumpulan Modul dan Kebenaran",
       "active": "Aktif",
-      "update": "Kemaskini"
+      "update": "Kemaskini",
+      "adduser": "Tambah Pengguna"
     },
     "addby": {
       "email": "mengikut Emel",
-      "icno": "mengikut No. KP"
+      "icno": "mengikut No. KP",
+      "add": "Tambah Pengguna Mengikut"
     }
   }
 }
