@@ -388,30 +388,6 @@ getMediaByCateId(id){
     .catch(this.handleError);
   }
 
-  getAnnounce(code) {
-    return this.http.get(this.appConfig.urlAnnounceList + '/' + code).subscribe(
-      Rdata => {
-      this.dataTbl = Rdata;
-    });
-  }
-
-  addAnnounce(ValAnnounce) {
-    return this.http.post(this.appConfig.urlAnnounceList +'/add/all', ValAnnounce)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-
-  updateAnnounce(ValAnnounce) {
-    return this.http.put(this.appConfig.urlAnnounceList + '/multiple/update', ValAnnounce)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-
-  delAnnounce(refCode) {
-    return this.http.delete(this.appConfig.urlAnnounceList + '/' + refCode)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
 
   // LANGUAGE
   getAllLanguage() {
@@ -429,32 +405,6 @@ getMediaByCateId(id){
     .catch(this.handleError);
   }
 
-  
-  // Start Category - N
-  addCategory(record) {
-    let fullUrl = this.appConfig.urlCategory + '/post?language='+this.languageId;
- 
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-
-  delCategory(id) {
-    let fullUrl = this.appConfig.urlCategory + "/delete/selected/" + id + '?language='+this.languageId;
-
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-
-  updateCategory(record) {
-    let fullUrl = this.appConfig.urlCategory + '/update?language='+this.languageId;
-
-    return this.http.put(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
-  // End Start Category - N
 
   
   public handleError = (error: Response) => {
