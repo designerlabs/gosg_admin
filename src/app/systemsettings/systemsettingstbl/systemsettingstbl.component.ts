@@ -31,7 +31,6 @@ export class SystemsettingstblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
-  dataUrl: any;  
   public languageId: any;
 
   showNoData = false;
@@ -96,8 +95,6 @@ export class SystemsettingstblComponent implements OnInit {
 
   getRecordList(page, size) {
   
-    this.dataUrl = this.appConfig.urlSystemSettings + '/?page=' + page + '&size=' + size  + '&language=' +this.languageId;
-
     this.loading = true;
     this.commonservice.readProtected('systemsettings', page, size)
     .subscribe(data => {
@@ -136,8 +133,6 @@ export class SystemsettingstblComponent implements OnInit {
 
   getFilterList(page, size, keyword) {
   
-    // this.dataUrl = this.appConfig.urlSystemSettings + '/search/' + keyword + '?page=' + page + '&size=' + size  + '&language=' +this.languageId;
-
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
