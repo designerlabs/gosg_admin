@@ -128,8 +128,8 @@ export class ColorComponent implements OnInit {
 
     // Update Slider Service
     this.loading = true;
-    return this.http.get(this.appConfig.urlGetColor + '/id/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
+    this.commonservice.readPortalById('color/id/',row)
+    .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.colorData = Rdata['color'];
@@ -224,7 +224,7 @@ export class ColorComponent implements OnInit {
 
       // Add Color Service
       this.loading = true;
-      this.commonservice.addColor(body).subscribe(
+      this.commonservice.create(body,'color').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), 'success');
@@ -260,7 +260,7 @@ export class ColorComponent implements OnInit {
 
       // Update ErrorMsg Service
       this.loading = true;
-      this.commonservice.updateColor(body).subscribe(
+      this.commonservice.update(body,'color').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), 'success');

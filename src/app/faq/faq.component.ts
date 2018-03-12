@@ -103,10 +103,8 @@ export class FaqComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
-    this.dataUrl = this.appConfig.urlFaqList + '/code/' +  _getRefID + "?language=" + this.languageId;
     this.loading = true;
-
-    this.http.get(this.dataUrl)
+    this.commonservice.readProtectedById('faq/code/', _getRefID)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -186,7 +184,7 @@ export class FaqComponent implements OnInit {
       console.log(body);
       this.loading = true;
 
-      this.commonservice.addFaq(body).subscribe(
+      this.commonservice.create(body, 'faq').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
@@ -246,7 +244,7 @@ export class FaqComponent implements OnInit {
       console.log(body);
       this.loading = true;
 
-      this.commonservice.updateFaq(body).subscribe(
+      this.commonservice.update(body,'faq').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

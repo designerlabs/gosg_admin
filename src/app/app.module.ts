@@ -16,7 +16,6 @@ import { LeftmenuComponent } from './leftmenu/leftmenu.component';
 import { RightcontentComponent } from './rightcontent/rightcontent.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
-import { ArticletblComponent } from './articletbl/articletbl.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
 import { UserComponent } from './user/user.component';
@@ -119,7 +118,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     LeftmenuComponent,
     RightcontentComponent,
     ErrorComponent,
-    ArticletblComponent,
     UserComponent,
     UsertblComponent,
     GroupstblComponent,

@@ -117,7 +117,8 @@ export class ErrormessageComponent implements OnInit {
 
     this.loading = true;
     // Update ErrorMsg Service
-    return this.http.get(this.appConfig.urlErrorMsg + '/code/' + row).subscribe(
+    this.commonservice.readProtectedById('errormessage/code/', row)
+    .subscribe(
       Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function(){
@@ -205,7 +206,7 @@ export class ErrormessageComponent implements OnInit {
   deleteRow(refCode) {
     this.loading = true;
 
-    this.commonservice.delErrorMsg(refCode).subscribe(
+    this.commonservice.delete(refCode,'errormessage/delete').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
@@ -256,7 +257,7 @@ export class ErrormessageComponent implements OnInit {
       this.loading = true;
 
       // Add ErrorMsg Service
-      this.commonservice.addErrorMsg(body).subscribe(
+      this.commonservice.create(body,'errormessage').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), ''); 
@@ -309,7 +310,7 @@ export class ErrormessageComponent implements OnInit {
       this.loading = true;
 
       // Update ErrorMsg Service
-      this.commonservice.updateErrorMsg(body).subscribe(
+      this.commonservice.update(body,'errormessage/multiple/update').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), '');
