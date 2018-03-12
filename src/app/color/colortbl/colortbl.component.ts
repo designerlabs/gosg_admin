@@ -92,7 +92,7 @@ export class ColortblComponent implements OnInit {
   // get color Data 
   getcolorData(count, size) {
     this.loading = true;
-    this.http.get(this.appConfig.urlGetColor + '?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(
+    this.commonservice.readPortal('color',count,size).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.colorList = data;
@@ -142,7 +142,7 @@ export class ColortblComponent implements OnInit {
 
   deleteItem(colorId) {
       this.loading = true;
-      this.commonservice.delColor(colorId).subscribe(
+      this.commonservice.delete(colorId,'color').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
