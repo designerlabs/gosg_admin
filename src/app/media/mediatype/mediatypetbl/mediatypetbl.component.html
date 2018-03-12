@@ -21,7 +21,7 @@
       <mat-table #table [dataSource]="dataSource">
         <!-- No Column -->
         <ng-container matColumnDef="no">
-          <mat-header-cell *matHeaderCellDef class="text-align-left noColumn"> {{ 'mediatype.tableHeader.num' | translate }} </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="text-align-left noColumn"> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
           <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;" [style.flex]="'0 0 5%'">
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
@@ -46,7 +46,7 @@
         </ng-container>
         <!-- ActiveFlag Column -->
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'mediatype.tableHeader.status' | translate }}</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.status' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
             <!-- <i [ngClass]="[element.enabled ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
             <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
@@ -55,7 +55,7 @@
         </ng-container>
         <!-- action Column -->
         <ng-container matColumnDef="action">
-          <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'mediatype.tableHeader.action' | translate }} </mat-header-cell>
+          <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell class="actionColumn" *matCellDef="let element">
             <button mat-mini-fab class="bg_orange" (click)="editGroup(element.mediaTypeId)" *ngIf="commonservice.isUpdate" title="Update {{ element.mediaTypeId }}">
               <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.mediaTypeId }}" ></i>

@@ -651,9 +651,7 @@
     "tableHeader":{
       "name": "Nama Modul",
       "description": "Keterangan Modul",
-      "url": "Url Modul",
-      "status": "Status",
-      "action": "Tindakan"
+      "url": "Url Modul"
     },
     "tablebottom":{
       "modules": "modul"
@@ -663,9 +661,7 @@
     "header": "Senarai Soalan Soal Selidik",
     "tableHeader":{
       "pollquestionEn": "Soalan Soal Selidik (EN)",
-      "pollquestionBm": "Soalan Soal Selidik (BM)",
-      "status": "Status Aktif",
-      "action": "Tindakan"
+      "pollquestionBm": "Soalan Soal Selidik (BM)"
     },
     "tablebottom":{
       "pollquestion": "soalan soal selidik"
@@ -694,8 +690,7 @@
     "header": "Bangsa/Etnik",
     "tableHeader":{
       "raceEn": "Bangsa/Etnik (EN)",
-      "raceBm": "Bangsa/Etnik (BM)",
-      "action": "Tindakan"
+      "raceBm": "Bangsa/Etnik (BM)"
     },
     "tablebottom":{
       "race": "senarai bangsa/etnik"
@@ -705,8 +700,7 @@
     "header": "Agama",
     "tableHeader":{
       "religionEn": "Agama (EN)",
-      "religionBm": "Agama (BM)",
-      "action": "Tindakan"
+      "religionBm": "Agama (BM)"
     },
     "tablebottom":{
       "religion": "senarai agama"
@@ -727,9 +721,7 @@
     "tableHeader":{
       "entities": "Entiti",
       "key": "Kunci",
-      "value": "Nilai",
-      "activestatus": "Status Aktif",
-      "action": "Tindakan"
+      "value": "Nilai"
     },
     "tablebottom":{
       "sys": "tetapan sistem"
@@ -744,8 +736,7 @@
     "tableHeader":{
       "fullname": "Nama Penuh",
       "email": "Emel",
-      "accstatus": "Status Akaun",
-      "action": "Tindakan"
+      "accstatus": "Status Akaun"
     },
     "tablebottom":{
       "users": "pengguna"
@@ -761,20 +752,13 @@
       "religion": "Agama",
       "address": "Alamat",
       "mobilenum": "No. Telefon"
-    },
-    "filterby": {
-      "all": "Semua",
-      "email": "Emel",
-      "icno": "No. KP"
     }
   },
   "mediatype": {
     "header": "Pengurusan Media",
     "tableHeader":{
       "name": "Nama",
-      "category": "Kategori",
-      "status": "Status",
-      "action": "Tindakan"
+      "category": "Kategori"
     },
     "component": {
     }
