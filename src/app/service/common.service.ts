@@ -99,7 +99,7 @@ export class CommonService {
      }
   lang = this.lang;
   private usersUrl: string = this.appConfig.urlUsers;
-  private errMsgUrl: string = this.appConfig.urlErrorMsg;
+  // private errMsgUrl: string = this.appConfig.urlErrorMsg;
   private slidersUrl: string = this.appConfig.urlSlides;
   private stateUrl: string = this.appConfig.urlStateList;
   private cityUrl: string = this.appConfig.urlCityList;
@@ -201,28 +201,28 @@ export class CommonService {
 
   // Color
 
-  addColor(Color) {
+  // addColor(Color) {
     
-    return this.http.post(this.appConfig.urlColor + '?language='+this.languageId, Color)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlColor + '?language='+this.languageId, Color)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateColor(Color) {
+  // updateColor(Color) {
 
-    return this.http.put(this.appConfig.urlColor + '?language='+this.languageId, Color)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(this.appConfig.urlColor + '?language='+this.languageId, Color)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delColor(ColorId) {
+  // delColor(ColorId) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+  //   // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlColor + '/' + ColorId+ '?language='+this.languageId, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlColor + '/' + ColorId+ '?language='+this.languageId, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // Color END
 
   // FONT
@@ -432,11 +432,11 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  getFeedbackType(){
-    return this.http.get(this.appConfig.urlFbTypeList + 'type/?language='+this.languageId)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  // getFeedbackType(){
+  //   return this.http.get(this.appConfig.urlFbTypeList + 'type/?language='+this.languageId)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
   pageModeChange(isEdit: boolean) {
     if(isEdit === true)
@@ -647,37 +647,37 @@ getCategoryList1() {
   //ANNOUNCEMENT ENDS
 
   // ERROR MESSAGE
-  getErrorMsg(errMsgId) {
-    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
-    return this.http.get(this.appConfig.urlErrorMsg + '/' + errMsgId).subscribe(
-      Rdata => {
-      this.dataTbl = Rdata;
-      // this.router.navigate(['user', code]);
-    });
-  }
+  // getErrorMsg(errMsgId) {
+  //   // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
+  //   return this.http.get(this.appConfig.urlErrorMsg + '/' + errMsgId).subscribe(
+  //     Rdata => {
+  //     this.dataTbl = Rdata;
+  //     // this.router.navigate(['user', code]);
+  //   });
+  // }
 
-  addErrorMsg(errormsg) {
+  // addErrorMsg(errormsg) {
     
-    return this.http.post(this.appConfig.urlErrorMsg, errormsg)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(this.appConfig.urlErrorMsg, errormsg)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateErrorMsg(errormsg) {
+  // updateErrorMsg(errormsg) {
 
-    return this.http.put(this.appConfig.urlErrorMsg+ "/multiple/update", errormsg)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(this.appConfig.urlErrorMsg+ "/multiple/update", errormsg)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delErrorMsg(refCode) {
+  // delErrorMsg(refCode) {
 
-    // return this.http.put(this.appConfig.urlUsers + user.userId, user)
+  //   // return this.http.put(this.appConfig.urlUsers + user.userId, user)
     
-    return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + refCode, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(this.appConfig.urlErrorMsg + "/delete/" + refCode, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // ERROR MESSAGE END
 
   // MINISTRY TYPE
@@ -1081,55 +1081,55 @@ getCategoryList1() {
   // // End Account Status - N
 
   // Start Feedback Type - N
-  addRecordFeedbackType(record) {
-    let fullUrl = this.appConfig.urlFeedbackType + '?language='+this.languageId;
+  // addRecordFeedbackType(record) {
+  //   let fullUrl = this.appConfig.urlFeedbackType + '?language='+this.languageId;
  
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delRecordFeedbackType(refCode) {
-    let fullUrl = this.appConfig.urlFeedbackType  + "/code/" + refCode + "?language="+this.languageId;
+  // delRecordFeedbackType(refCode) {
+  //   let fullUrl = this.appConfig.urlFeedbackType  + "/code/" + refCode + "?language="+this.languageId;
 
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(fullUrl, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateRecordFeedbackType(record) {
-    let fullUrl = this.appConfig.urlFeedbackType + '?language='+this.languageId;
+  // updateRecordFeedbackType(record) {
+  //   let fullUrl = this.appConfig.urlFeedbackType + '?language='+this.languageId;
 
-    return this.http.put(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // End Feedback Type - N
 
   // Start Feedback Subject - N
-  addRecordFeedbackSubject(record) {
-    let fullUrl = this.appConfig.urlFeedbackSubject + '?language='+this.languageId;
+  // addRecordFeedbackSubject(record) {
+  //   let fullUrl = this.appConfig.urlFeedbackSubject + '?language='+this.languageId;
  
-    return this.http.post(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.post(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  delRecordFeedbackSubject(refCode) {
-    let fullUrl = this.appConfig.urlFeedbackSubject  + "/code/" + refCode + '?language='+this.languageId;
+  // delRecordFeedbackSubject(refCode) {
+  //   let fullUrl = this.appConfig.urlFeedbackSubject  + "/code/" + refCode + '?language='+this.languageId;
 
-    return this.http.delete(fullUrl, null)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.delete(fullUrl, null)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
 
-  updateRecordFeedbackSubject(record) {
-    let fullUrl = this.appConfig.urlFeedbackSubject + '?language='+this.languageId;
+  // updateRecordFeedbackSubject(record) {
+  //   let fullUrl = this.appConfig.urlFeedbackSubject + '?language='+this.languageId;
 
-    return this.http.put(fullUrl, record)
-    .map((response: Response) => response.json())
-    .catch(this.handleError);
-  }
+  //   return this.http.put(fullUrl, record)
+  //   .map((response: Response) => response.json())
+  //   .catch(this.handleError);
+  // }
   // End Feedback Subject - N
 
   // Start System Settings - N
