@@ -35,8 +35,7 @@ export class GenderComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
   languageId: any;
-  dataUrl: any;  
-
+  
   public getRaceIdEng: any;
   public getRaceIdMy: any;
   public getRaceMy: any;
@@ -84,8 +83,6 @@ export class GenderComponent implements OnInit {
 
   getRecordList() {
   
-    this.dataUrl = this.appConfig.urlGenderList;
-
     this.loading = true;
     this.commonservice.readPortal('gender/all')
     .subscribe(data => {

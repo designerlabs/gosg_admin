@@ -91,8 +91,6 @@ export class CitizentypetblComponent implements OnInit {
 
   getRecordList(page, size) {
   
-    // this.dataUrl = this.appConfig.urlUserTypeList + '/?page=' + page + '&size=' + size + "&language=" + this.languageId;
-
     this.loading = true;
     this.commonservice.readProtected('usertype', page, size)
     .subscribe(data => {

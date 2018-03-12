@@ -24,7 +24,6 @@ export class CitizentypeComponent implements OnInit {
   public userTypeMy: FormControl;
   public active: FormControl;
 
-  public dataUrl: any;  
   public recordList: any;
 
   public getUserTypeIdEng: any;
@@ -98,8 +97,6 @@ export class CitizentypeComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
-    // this.appConfig.urlRaceList
-    this.dataUrl = this.appConfig.urlUserTypeList + '/code/' +  _getRefID + "?language=" + this.languageId;
 
     this.loading = true;
     this.commonservice.readProtectedById('usertype/code/',_getRefID)

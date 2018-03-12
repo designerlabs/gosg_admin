@@ -158,7 +158,6 @@ export class SliderComponent implements OnInit {
 
         this.sliderData = Rdata;
         console.log(this.sliderData)
-        console.log(this.appConfig.urlSlides + "/" + row)
         let dataEn = this.sliderData['list'][0];
         let dataBm = this.sliderData['list'][1];
 

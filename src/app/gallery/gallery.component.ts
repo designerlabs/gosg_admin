@@ -150,7 +150,6 @@ export class GalleryComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function(){
         this.galleryData = Rdata;
         console.log(this.galleryData)
-        console.log(this.appConfig.urlSlides + '/code/' + row)
         let dataEn = this.galleryData['list'][0];
         let dataBm = this.galleryData['list'][1];
 
