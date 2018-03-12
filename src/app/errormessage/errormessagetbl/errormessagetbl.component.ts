@@ -143,15 +143,15 @@ export class ErrormessagetblComponent implements OnInit {
       });
   }
 
-  getFilterList(count, size, val) {
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+  getFilterList(count, size, keyword) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;   
-      this.commonservice.readProtected('errormessage', count, size, val)
+      this.commonservice.readProtected('errormessage/code', count, size, keyword)
       .subscribe(
           data => {
 
             this.commonservice.errorHandling(data, (function(){
-              console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
+              // console.log(this.dataUrl+ '/code/?page=' + count + '&size=' + size)
               this.errMsgList = data;
 
               if(this.errMsgList.list.length > 0){

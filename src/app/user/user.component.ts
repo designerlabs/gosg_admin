@@ -39,11 +39,14 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   // ROW DATA
   userId: any;
-  fullname: string;
+  credentialsNonExpired: string;
+  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   isCitizen: string;
   country: string;
-  dob: string;
+  dateOfBirth: string;
   race: string;
   religion: string;
   isStaff: string;
@@ -51,14 +54,14 @@ export class UserComponent implements OnInit, AfterViewInit {
   icNo: string;
   passportNo: string;
   address: string;
-  regDate: string;
-  mobileno: any;
-  userTypeCode: any;
+  registrationDate: string;
+  mobilePhoneNo: any;
+  userTypeId: any;
   accStatusCode: any;
   accStatusDesc: string;
   accStatusId: string;
 
-  accountStatus: FormControl
+  accountStatusSel: FormControl
   public loading = false;
 
   // tslint:disable-next-line:max-line-length
@@ -104,10 +107,10 @@ export class UserComponent implements OnInit, AfterViewInit {
     
     this.getAccountStatus();
 
-    this.accountStatus = new FormControl()
+    this.accountStatusSel = new FormControl()
 
     this.updateForm = new FormGroup({
-      accountStatus: this.accountStatus
+      accountStatusSel: this.accountStatusSel
     });
 
     if(refCode == "add") {
@@ -151,7 +154,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         
         // populate data
         this.userId = this.userData.userId;
-        this.fullname = this.userData.fullName;
+        this.fullName = this.userData.fullName;
         this.email = this.userData.email;
         this.icNo = this.userData.identificationNo;
         this.passportNo = this.userData.passportNo;
@@ -160,19 +163,19 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.religion = this.userData.religion;
         this.isStaff = this.userData.isStaff;
         this.isCitizen = this.userData.userType.userType;
-        this.dob = this.userData.dateOfBirth;
+        this.dateOfBirth = this.userData.dateOfBirth;
 
         if(this.userData.country)
           this.country = this.userData.country.countryName;
 
-        this.mobileno = this.userData.mobilePhoneNo
-        this.regDate = this.userData.registrationDate;
+        this.mobilePhoneNo = this.userData.mobilePhoneNo
+        this.registrationDate = this.userData.registrationDate;
 
         this.accStatusId = this.userData.accountStatus.accountStatusId
         this.accStatusCode = this.userData.accountStatus.accountStatusCode
         this.accStatusDesc = this.userData.accountStatus.accountStatusDescription
         
-        this.updateForm.get('accountStatus').setValue(this.accStatusId);
+        this.updateForm.get('accountStatusSel').setValue(this.accStatusId);
         // this.refCode = dataEn.agencyCode;
 
         this.checkReqValues();
@@ -207,7 +210,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   checkReqValues() {
 
-    let accountStatus = "accountStatus";
+    let accountStatus = "accountStatusSel";
 
     let reqVal: any = [accountStatus];
     let nullPointers: any = [];
@@ -232,13 +235,13 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   updateAction(formValues: any) {
-
+      
     console.log(this.userId)
-    console.log(formValues.accountStatus)
+    console.log(formValues.accountStatusSel)
     
     this.loading = true;
     // Update User Status Service
-    this.commonservice.update('accountstatus/', formValues.accountStatus).subscribe(
+    this.http.put(this.appConfig.urlCommon+'usermanagement/status/'+this.userId+'/'+formValues.accountStatusSel+ '?language='+this.languageId, null).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');

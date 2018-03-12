@@ -96,9 +96,7 @@ export class SlidertblComponent implements OnInit {
 
   // get Slider Data 
   getSlidersData(page, size) {
-    // console.log(this.appConfig.urlsliderList + '/?page=' + page + '&size=' + size)
-    this.dataUrl = this.appConfig.urlSlides;
-
+    
     this.loading = true;
     this.commonservice.readPortal('slide/code/',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(

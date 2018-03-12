@@ -93,7 +93,7 @@ export class IdentificationtypetblComponent implements OnInit {
     // this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + page + '&size=' + size + "?language=" + this.languageId;
 
     this.loading = true;
-    this.commonservice.readProtected('identificationtype/code/add/multiple', page, size)
+    this.commonservice.readProtected('identificationtype/code', page, size)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;

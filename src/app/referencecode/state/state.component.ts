@@ -141,80 +141,9 @@ export class StateComponent implements OnInit {
         });
   }
 
-  addBtn() {
-    this.viewSeq = 2;
-    // console.log(this.viewSeq);
-    // this.router.navigate(['slider', "add"]);
-  }
-
-  checkReqValues() {
-    let titleEn = "titleEn";
-    // let descEn = "descEn";
-    // let imgEn = "imgEn";
-    let titleBm = "titleBm";
-    // let descBm = "descBm";
-    // let imgBm = "imgBm";
-    let active = "active";
-
-    // let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, active];
-    let reqVal: any = [titleEn, titleBm, active];
-    let nullPointers: any = [];
-
-    for (var reqData of reqVal) {
-      let elem = this.sliderForm.get(reqData);
-
-      if (elem.value == "" || elem.value == null) {
-        elem.setValue(null)
-        nullPointers.push(null)
-      }
-    }
-
-    if (nullPointers.length > 0) {
-      this.complete = false;
-    } else {
-      this.complete = true;
-      // this.toastr.error(this.translate.instant('pagery error!'), '');
-    }
-
-  }
-
   navigateBack() {
     this.viewSeq = 1;
     this.router.navigate(['reference/state']);
-  }
-
-  updateRow(row) {
-
-    this.router.navigate(['reference/state', row]);
-    this.viewSeq = 2;
-    // alert("Update Slider id: " + row);
-    this.isEdit = true;
-    this.changePageMode(this.isEdit);
-
-    // Update Slider Service
-    return this.http.get(this.appConfig.urlSlides + '/' + row + '/').subscribe(
-      Rdata => {
-
-        this.sliderData = Rdata;
-        let dataEn = this.sliderData['slideList'][0];
-        let dataBm = this.sliderData['slideList'][1];
-
-        // console.log(this.sliderData['slideList'])
-
-        // populate data
-        this.sliderForm.get('titleEn').setValue(dataEn.slideTitle);
-        // this.sliderForm.get('descEn').setValue(dataEn.slideDescription);
-        // this.sliderForm.get('imgEn').setValue(dataEn.slideImage);
-        this.sliderForm.get('titleBm').setValue(dataBm.slideTitle);
-        // this.sliderForm.get('descBm').setValue(dataBm.slideDescription);
-        // this.sliderForm.get('imgBm').setValue(dataBm.slideImage);
-        this.sliderForm.get('active').setValue(dataEn.slideActiveFlag);
-        // this.slideCode = this.sliderData['slideCode'];
-        // this.slideIdEn = dataEn.slideId;
-        // this.slideIdBm = dataBm.slideId;
-        // this.copyImg
-      });
-
   }
 
   changePageMode(isEdit) {

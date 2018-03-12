@@ -87,7 +87,7 @@ export class GenderComponent implements OnInit {
     this.dataUrl = this.appConfig.urlGenderList;
 
     this.loading = true;
-    this.commonservice.readPortal('gender')
+    this.commonservice.readPortal('gender/all')
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){

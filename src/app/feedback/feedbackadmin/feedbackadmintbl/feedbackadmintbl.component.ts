@@ -43,8 +43,8 @@ export class FeedbackadmintblComponent implements OnInit {
 
   applyFilter(val) {   
 
-    console.log(val  + "TEST" + this.filterTypeVal);
-    
+    console.log(val  + " TEST123 " + this.filterTypeVal);
+  
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
@@ -142,18 +142,19 @@ export class FeedbackadmintblComponent implements OnInit {
   }
 
   getFilterList(count, size, val, filterVal) {
-
+   
     if(filterVal == 2){  // by Email
-      this.dataUrl = this.appConfig.urlFeedback + '/search/email/1/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+      this.dataUrl = 'feedback/search/email/1/';
     }
 
     else if (filterVal == 3){ // by keywords
-      this.dataUrl = this.appConfig.urlFeedback + '/search/1/'+ val +'?page=' + count + '&size=' + size + '&language='+this.languageId;
+      this.dataUrl = 'feedback/search/1/';
     }
 
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if((val != "") && (val != null) && (val.length != 0) && (val.length >= 3)) {
+     
       this.loading = true;
-      this.http.get(this.dataUrl)
+      this.commonservice.readProtected(this.dataUrl, count, size, val)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

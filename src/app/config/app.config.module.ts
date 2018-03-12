@@ -34,15 +34,15 @@ export class AppConfig {
     urlMenu: string;
     urlCommon: string;
     baseURL: string;
-    urlColor: string;
-    urlGetColor: string;
+    // urlColor: string;
+    // urlGetColor: string;
     // urlFont: string;
-    urlGetFont: string;
+    // urlGetFont: string;
     urlUsers: string;
     urlSlides: string;
-    urlErrorMsg: string;
+    // urlErrorMsg: string;
     urlUserList: string;
-    urlFbTypeList: string;
+    // urlFbTypeList: string;
     urlGroup: string;
     urlGroupList: string;
     urlCountryList: string;
@@ -52,26 +52,26 @@ export class AppConfig {
     urlReligionList: string;
     urlModuleList: string;
     urlGroupModuleList: string;
-    urlPostcode:string;
+    // urlPostcode:string;
     urlPoll: string;
     urlFeedback: string;
-    urlFaq: string;
+    // urlFaq: string;
     urlRaceList: string;
     urlRace: string;
     urlRaceDelete: string;
     urlGenderList: string;
     urlAnnounceList: string;
-    urlCategoryList: string;
+    // urlCategoryList: string;
     // urlAddressType: string;
-    urlAddressTypeGet: string;
+    // urlAddressTypeGet: string;
     // urlAccountStatus: string;
-    urlLanguage: string;
+    // urlLanguage: string;
     urlGetLanguage: string;
     urlAdminUserList:string;
-    urlFeedbackType: string;
-    urlFeedbackSubject: string;
-    urlFeedbackTypeGet: string;
-    urlFeedbackSubjectGet: string;
+    // urlFeedbackType: string;
+    // urlFeedbackSubject: string;
+    // urlFeedbackTypeGet: string;
+    // urlFeedbackSubjectGet: string;
     urlSubCategoryList: string;
     urlMainCategoryList: string;
     urlSearchbyEmail: string;
@@ -86,7 +86,7 @@ export class AppConfig {
 
     urlIdentificationTypeList: string;
     urlIdentificationType: string;
-    urlSystemSettings: string;
+    // urlSystemSettings: string;
     urlModule:string;
     urlModuleGroupList:string;
 
@@ -113,21 +113,21 @@ export const APP_DI_CONFIG: AppConfig = {
     urlService: serviceURL,
     
     urlMenu: commonURL + 'menu',
-    urlColor: commonURL + 'color',
-    urlGetColor: serviceURL + 'color',
+    // urlColor: commonURL + 'color',
+    // urlGetColor: serviceURL + 'color',
     // urlFont: commonURL + 'font',
-    urlGetFont: serviceURL + 'font',
+    // urlGetFont: serviceURL + 'font',
     
     baseURL: 'http://localhost/locale-api/',
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
-    urlFbTypeList : commonURL + 'feedback/',
+    // urlFbTypeList : commonURL + 'feedback/',
     // urlSlides: baseURL + 'slide/',
     urlSlides: commonURL + 'slide',  
-    urlLanguage: commonURL + 'language',  
+    // urlLanguage: commonURL + 'language',  
     urlGetLanguage: serviceURL + 'language',  
-    urlErrorMsg: commonURL + 'errormessage',
+    // urlErrorMsg: commonURL + 'errormessage',
     urlModule: commonURL + 'authorization/module',
     urlModuleRef: commonURL + 'authorization/module/url',
     urlModuleList: commonURL + 'authorization/module/moduleList',
@@ -174,26 +174,26 @@ export const APP_DI_CONFIG: AppConfig = {
     
     urlPoll: commonURL + 'polls', 
     urlFeedback: commonURL + 'feedback',
-    urlPostcode: serviceURL + 'postcode/city/',
-    urlFaq: './app/apidata/faq.json',
+    // urlPostcode: serviceURL + 'postcode/city/',
+    // urlFaq: './app/apidata/faq.json',
     urlImageList: commonURL + 'media/category/name/Article',
     // urlAnnounceList: './app/apidata/announce.json',
     urlAnnounceList: commonURL + 'announcement/code',
     // urlCategoryList: './app/apidata/category.json',
-    urlCategoryList: commonURL + 'announcement/category',
+    // urlCategoryList: commonURL + 'announcement/category',
     urlCategory: commonURL + 'content/category',
     // urlAddressType: commonURL + 'addresstype',
-    urlAddressTypeGet: serviceURL + 'addresstype',
+    // urlAddressTypeGet: serviceURL + 'addresstype',
     // urlAccountStatus: commonURL + 'accountstatus',
-    urlFeedbackType: commonURL + 'feedback/type',
-    urlFeedbackSubject: commonURL + 'feedback/subject',
-    urlFeedbackTypeGet: serviceURL + 'feedback/type',
-    urlFeedbackSubjectGet: serviceURL + 'feedback/subject',
+    // urlFeedbackType: commonURL + 'feedback/type',
+    // urlFeedbackSubject: commonURL + 'feedback/subject',
+    // urlFeedbackTypeGet: serviceURL + 'feedback/type',
+    // urlFeedbackSubjectGet: serviceURL + 'feedback/subject',
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMainCategoryList: './app/apidata/maincategory.json',
     urlMediaType: commonURL + 'mediatype',
     urlMediaFileUpload: commonURL + 'media',
-    urlSystemSettings: commonURL + 'systemsettings',
+    // urlSystemSettings: commonURL + 'systemsettings',
     lang: 'language='+localStorage.getItem('langID')
 };
 
