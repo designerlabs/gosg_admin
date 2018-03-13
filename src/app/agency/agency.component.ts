@@ -287,11 +287,8 @@ export class AgencyComponent implements OnInit {
             this.commonservice.errorHandling(data, (function(){
               if(langId == 1) {
                 this.searchMinistryResultEn = data['list'];
-                console.log(this.searchMinistryResultEn)
-                console.log('1')
               } else {
                 this.searchMinistryResultBm = data['list'];
-                console.log(this.searchMinistryResultBm)
               }
             }).bind(this)); 
             this.loading = false; 
