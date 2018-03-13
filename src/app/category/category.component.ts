@@ -13,7 +13,12 @@ import { DialogsService } from './../dialogs/dialogs.service';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css']
+  styleUrls: ['./category.component.css'],
+  styles:[`
+  .categoryList{
+    color: #ff0 !important;
+}
+  `]
 })
 export class CategoryComponent implements OnInit {
 
@@ -125,7 +130,7 @@ export class CategoryComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
-
+    
   }
 
 
@@ -258,6 +263,8 @@ export class CategoryComponent implements OnInit {
           this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
           console.log(arrCatEn);
+          this.json_tree(this.treeEn);
+          document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
           // console.log(JSON.stringify(this.treeEn));
           // console.log(JSON.stringify(this.treeBm));
           
@@ -303,6 +310,24 @@ export class CategoryComponent implements OnInit {
         }      
     }    
     return out  
+  }
+
+  json_tree(data) {
+    var json = "<ul style='margin:0px; padding:0px;'>";
+      for (let i = 0; i < data.length; ++i) {
+        json = json + `<li style='list-style-type: none;
+                        margin:0px; padding:0px; position: relative; 
+                      }'>`;
+        let className = "categoryCheckbox";
+        json = json + "<input type='checkbox' value=\"" + data[i].id + "\">";
+        json = json + data[i].categoryName;
+
+        if (data[i].children.length) {
+          json = json + this.json_tree(data[i].children);
+        }
+        json = json + "</li>";
+      }
+      return json + "</ul>";
   }
 
   getNestedChildrenBm(arr, parent) {
