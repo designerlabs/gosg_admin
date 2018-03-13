@@ -101,8 +101,8 @@
 
             <div class="example-header">
                     <ngx-treeview
-                    [items]="treeBm"
-                    (selectedChange)="onSelectedChange($event)">
+                    [items]="items" 
+                    (valueChange)="onValueChange($event)">
                 </ngx-treeview>
                 <!-- <div class="col-md-6">
                     <mat-form-field class="example-full-width" >

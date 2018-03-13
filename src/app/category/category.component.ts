@@ -9,7 +9,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
-import { TreeviewItem } from 'ngx-treeview';
+import { TreeviewItem, TreeviewConfig } from 'ngx-treeview';
+import { stringify } from '@angular/core/src/util';
 
 @Component({
   selector: 'app-category',
@@ -22,6 +23,10 @@ import { TreeviewItem } from 'ngx-treeview';
   `]
 })
 export class CategoryComponent implements OnInit {
+  value: any;
+  items: TreeviewItem[];
+  items2: TreeviewItem[];
+  
 
   updateForm: FormGroup;
   
@@ -35,7 +40,13 @@ export class CategoryComponent implements OnInit {
   public imageEn: FormControl;
   public imageBm: FormControl;
   public resultEn: FormControl;
-
+  config = TreeviewConfig.create({
+    hasAllCheckBox: true,
+   hasFilter: true,
+   hasCollapseExpand: false,
+   decoupleChildFromParent: false,
+   maxHeight: 500
+  });
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
@@ -86,35 +97,10 @@ export class CategoryComponent implements OnInit {
       //this.getData();
     }
     /* LANGUAGE FUNC */
+
   }
 
   ngOnInit() {
-
-    const itCategory = new TreeviewItem({
-      text: 'IT', value: 9, children: [
-          {
-              text: 'Programming', value: 91, children: [{
-                  text: 'Frontend', value: 911, children: [
-                      { text: 'Angular 1', value: 9111 },
-                      { text: 'Angular 2', value: 9112 },
-                      { text: 'ReactJS', value: 9113 }
-                  ]
-              }, {
-                  text: 'Backend', value: 912, children: [
-                      { text: 'C#', value: 9121 },
-                      { text: 'Java', value: 9122 },
-                      { text: 'Python', value: 9123, checked: false }
-                  ]
-              }]
-          },
-          {
-              text: 'Networking', value: 92, children: [
-                  { text: 'Internet', value: 921 },
-                  { text: 'Security', value: 922 }
-              ]
-          }
-      ]
-   });
 
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
@@ -143,6 +129,35 @@ export class CategoryComponent implements OnInit {
       
     });
 
+
+
+    this.items = [new TreeviewItem({
+        text: 'IT', value: 9, children: [
+        {
+           text: 'Programming', value: 91, children: [{
+               text: 'Frontend', value: 911, children: [
+                   { text: 'Angular 1', value: 9111 },
+                   { text: 'Angular 2', value: 9112 },
+                   { text: 'ReactJS', value: 9113 }
+               ]
+           }, {
+               text: 'Backend', value: 912, children: [
+                   { text: 'C#', value: 9121 },
+                   { text: 'Java', value: 9122 },
+                   { text: 'Python', value: 9123, checked: false }
+               ]
+           }]
+       },
+       {
+           text: 'Networking', value: 92, children: [
+               { text: 'Internet', value: 921 },
+               { text: 'Security', value: 922 }
+           ]
+       }
+   ]
+})];
+    this.value = undefined;
+
     this.getCategory();
     this.getImageList();
 
@@ -159,6 +174,12 @@ export class CategoryComponent implements OnInit {
     this.commonservice.getModuleId();
     
   }
+
+  onValueChange(value: number) {
+    console.log('valueChange raised with value: ' + value);
+  }
+
+
 
 
   selectedCat(e, val){
@@ -275,24 +296,33 @@ export class CategoryComponent implements OnInit {
           for(let i=0; i<this.categoryData.length; i++){        
          
             arrCatEn.push({id:this.categoryData[i].list[0].categoryId,
+                          value:this.categoryData[i].list[0].categoryId,
                          refCode: this.categoryData[i].refCode,
                          parent: this.categoryData[i].list[0].parentId,
                          categoryName: this.categoryData[i].list[0].categoryName,
+                         text: this.categoryData[i].list[0].categoryName,
+                         checked: false,
                          children: []});      
                          
             arrCatBm.push({id:this.categoryData[i].list[1].categoryId,
+                          value:this.categoryData[i].list[1].categoryId,
                           refCode: this.categoryData[i].refCode,
                           parent: this.categoryData[i].list[1].parentId,
                           categoryName: this.categoryData[i].list[1].categoryName,
+                          checked: false,
+                          text: this.categoryData[i].list[1].categoryName,
                           children: []}); 
           }
           
-          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+
+          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1)
+          // this.items2 = new TreeviewItem(this.getNestedChildrenEn(arrCatEn, -1));
           this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
+          
           // console.log(arrCatEn);
           // this.json_tree(this.treeEn);
           // document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
-          // console.log(JSON.stringify(this.treeEn));
+          console.log(JSON.stringify(this.treeEn));
           // console.log(JSON.stringify(this.treeBm));
           
         }).bind(this));
