@@ -315,7 +315,7 @@ export class CategoryComponent implements OnInit {
   json_tree(data) {
     var json = "<ul style='margin:0px; padding:0px;'>";
       for (let i = 0; i < data.length; ++i) {
-        json = json + `<li  (click)='alert("${data[i].categoryName}")' style='list-style-type: none;
+        json = json + `<li style='list-style-type: none;
                         margin:0px; padding:0px; position: relative; 
                       }'>`;
         let className = "categoryCheckbox";
