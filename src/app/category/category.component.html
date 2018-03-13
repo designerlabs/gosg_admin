@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container right-content">
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
@@ -19,7 +19,7 @@
 
     <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead">
                     
-        <div class="example-container mat-elevation-z8 paddingBottom-10">
+        <div class="example-container mat-elevation-z8 col-md-12">
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
