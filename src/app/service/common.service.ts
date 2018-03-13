@@ -453,6 +453,7 @@ getMediaByCateId(id){
     } else {
       readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
     }
+    console.log(readUrl)
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
@@ -481,6 +482,7 @@ getMediaByCateId(id){
   
   readPortalById(moduleName, id): Observable<any[]> {
     let readUrl = this.appConfig.urlService + moduleName + id + '?language='+this.languageId;
+    console.log(readUrl)
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)
