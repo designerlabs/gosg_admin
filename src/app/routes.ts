@@ -80,6 +80,8 @@ import { FonttblComponent } from './font/fonttbl/fonttbl.component';
 import { FontComponent } from './font/font.component';
 import { ColortblComponent } from './color/colortbl/colortbl.component';
 import { ColorComponent } from './color/color.component';
+import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
+import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -116,6 +118,9 @@ export const appRoutes: Routes = [
 {path: 'ministry/add', component: MinistryComponent},
 {path: 'ministry/:id', component: MinistryComponent},
 {path: 'ministry', component: MinistrytblComponent},
+{path: 'calendar/add', component: EventcalendarComponent},
+{path: 'calendar/:id', component: EventcalendarComponent},
+{path: 'calendar', component: EventcalendartblComponent},
 {path: 'agency/add', component: AgencyComponent},
 {path: 'agency/:id', component: AgencyComponent},
 {path: 'agency', component: AgencytblComponent},
