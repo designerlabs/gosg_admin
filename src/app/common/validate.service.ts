@@ -25,6 +25,7 @@ export class ValidateService {
 			'alphaNumeric':'^[a-zA-Z0-9]{'+min+','+max+'}$',
 			'email': '^[a-z0-9._]+@([a-z0-9]{2,})+\.[a-z.]{2,}$',
 			'colorCode':'^#[a-fA-F0-9]{'+min+','+max+'}$',
+			'alphaSpaceHyphen':'^[a-zA-Z-\' ]{'+min+','+max+'}$',
 			};
 	} 
 	
