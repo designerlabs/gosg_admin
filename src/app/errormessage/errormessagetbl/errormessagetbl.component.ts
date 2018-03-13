@@ -154,9 +154,9 @@ export class ErrormessagetblComponent implements OnInit {
               // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
               this.errMsgList = data;
 
-              if(this.errMsgList.resourceList.length > 0){
+              if(this.errMsgList.list.length > 0){
                 console.log(this.errMsgList)
-                this.dataSource.data = this.errMsgList.resourceList;
+                this.dataSource.data = this.errMsgList.list;
                 this.seqPageNum = this.errMsgList.pageNumber;
                 this.seqPageSize = this.errMsgList.pageSize;
                 this.commonservice.recordTable = this.errMsgList;

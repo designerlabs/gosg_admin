@@ -106,7 +106,7 @@ export class FeedbacktypeComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];  
     this.loading = true;
-    this.commonservice.readPortalById('feedback/type', _getRefID)
+    this.commonservice.readPortalById('feedback/type/', _getRefID)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

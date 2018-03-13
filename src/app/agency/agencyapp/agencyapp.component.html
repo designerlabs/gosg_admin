@@ -89,7 +89,7 @@
             <div *ngIf="isActiveListEn" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
               <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
                 <li *ngFor="let data of searchAgencyResultEn">
-                  <button (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.agencyName}}</button>
+                  <button (click)="getValue(data?.agencyId,data?.agencyName,data[0]?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.list[0].agencyName}}</button>
                 </li>
               </ul>
             </div>
@@ -105,7 +105,7 @@
             <div *ngIf="isActiveListBm" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
               <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
                 <li *ngFor="let data of searchAgencyResultBm">
-                  <button (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</button>
+                  <button (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.list[1].agencyName}}</button>
                 </li>
               </ul>
             </div>
