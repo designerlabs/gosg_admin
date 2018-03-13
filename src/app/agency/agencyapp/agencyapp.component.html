@@ -86,10 +86,10 @@
               </mat-error>
             </mat-form-field>
 
-            <div *ngIf="isActiveListEn" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
-              <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
-                <li *ngFor="let data of searchAgencyResultEn">
-                  <button (click)="getValue(data?.agencyId,data?.agencyName,data[0]?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.list[0].agencyName}}</button>
+            <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+              <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+                <li class="list-group-item" *ngFor="let data of searchAgencyResultEn">
+                  <a class="list-link" (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.agencyName}}</a>
                 </li>
               </ul>
             </div>
@@ -102,10 +102,10 @@
               </mat-error>
             </mat-form-field>
 
-            <div *ngIf="isActiveListBm" style="position:absolute; left: 60%; top:70%; z-index: 9999;">
-              <ul class="user_list_container" style="width: 180px; text-align: left; min-height:10px; height: auto; overflow: auto;">
-                <li *ngFor="let data of searchAgencyResultBm">
-                  <button (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.list[1].agencyName}}</button>
+            <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+              <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+                <li class="list-group-item" *ngFor="let data of searchAgencyResultBm">
+                  <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</a>
                 </li>
               </ul>
             </div>
