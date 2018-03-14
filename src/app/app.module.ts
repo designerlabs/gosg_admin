@@ -105,6 +105,8 @@ import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.co
 import { LoadingModule } from 'ngx-loading';
 import { TruncatePipe } from './pipe/truncate.pipe';
 import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
+import { TreeviewModule } from 'ngx-treeview';
+import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -192,12 +194,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     UserdetailstblComponent,
     TruncatePipe,
     EventcalendarComponent,
+    EventcalendartblComponent,
   ],
   imports: [
     BrowserModule,
     ToastrModule.forRoot({
       preventDuplicates: true
     }),
+
+    TreeviewModule.forRoot(),
 
     TranslateModule.forRoot({
       loader: {

@@ -132,7 +132,7 @@ export class AgencyComponent implements OnInit {
     this.uniqueCode = new FormControl()
     this.active = new FormControl()
     this.address = new FormControl()
-    this.agclat = new FormControl('', [Validators.pattern(this.validateService.getPattern(1,5).alphaOnly)])
+    this.agclat = new FormControl()
     this.agclong = new FormControl()
     this.phoneno = new FormControl()
     this.faxno = new FormControl()
@@ -275,21 +275,21 @@ export class AgencyComponent implements OnInit {
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
-      if(langId == 1) {
-        this.isActiveListEn = true;
-        this.isActiveListBm = false;
-      } else {
-        this.isActiveListBm = true;
-        this.isActiveListEn = false;
-      }
       this.loading = true;
       this.commonservice.readPortal('ministry/language/'+langId, '', '' , keyword).subscribe(data => {
             this.commonservice.errorHandling(data, (function(){
+              
+          if(data['list'].length != 0) {
               if(langId == 1) {
                 this.searchMinistryResultEn = data['list'];
+                this.isActiveListEn = true;
+                this.isActiveListBm = false;
               } else {
                 this.searchMinistryResultBm = data['list'];
+                this.isActiveListBm = true;
+                this.isActiveListEn = false;
               }
+            }
             }).bind(this)); 
             this.loading = false; 
           }, err =>{

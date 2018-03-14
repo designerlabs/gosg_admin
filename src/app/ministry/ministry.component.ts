@@ -259,12 +259,11 @@ export class MinistryComponent implements OnInit {
                         descEn, 
                         ministryNameBm, 
                         descBm,
-                        ministryEn,
-                        ministryBm,
                         address,
                         contactperson,
                         email
                       ];
+
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {

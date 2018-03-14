@@ -20,7 +20,7 @@
     
     <div class="example-container mat-elevation-z8">
         <div class="row paddingTop-10 pdg_L_30px">
-            <mat-form-field class="example-full-width paddingTop-10 col-md-4">
+            <mat-form-field class="example-form-field paddingTop-10 col-md-4">
                 <mat-select placeholder="{{ 'mediauploadtbl.filter.searchcat' | translate }}" (change)="selCateType($event)" [(ngModel)]="cateSelect">
                     <mat-option value="0">{{ 'mediauploadtbl.filter.all' | translate }}</mat-option>
                   <mat-option *ngFor="let obj of objCategory" [value]="obj.categoryId">{{obj.categoryName}}</mat-option>

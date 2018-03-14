@@ -119,7 +119,7 @@ export class FootercontentComponent implements OnInit {
     this.nameEng = new FormControl();
     this.descEng = new FormControl();
     // this.iconEng = new FormControl();
-    this.iconEng = new FormControl('',[Validators.pattern(this.validateService.getPattern(0,10).alphaOnly)]);
+    this.iconEng = new FormControl('',[Validators.pattern(this.validateService.getPattern(0,10).alphaSpaceHyphen)]);
     this.imgEng = new FormControl();
     this.urlEng = new FormControl();
     this.seqEng = new FormControl();
@@ -127,7 +127,7 @@ export class FootercontentComponent implements OnInit {
     this.nameMy = new FormControl();
     this.descMy = new FormControl();
     // this.iconMy = new FormControl();
-    this.iconMy = new FormControl('',[Validators.pattern(this.validateService.getPattern(0,10).alphaOnly)]);
+    this.iconMy = new FormControl('',[Validators.pattern(this.validateService.getPattern(0,10).alphaSpaceHyphen)]);
     this.imgMy = new FormControl();
     this.urlMy = new FormControl();
     this.seqMy = new FormControl();
@@ -244,7 +244,7 @@ export class FootercontentComponent implements OnInit {
   getImageList(){
 
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Article')
+    return this.commonservice.readProtected('media/category/name/Article','0','999999999')
      .subscribe(resCatData => {
         this.imageData = resCatData['list'];   
         this.loading = false;    
