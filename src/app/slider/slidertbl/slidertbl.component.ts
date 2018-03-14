@@ -68,7 +68,7 @@ export class SlidertblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              // this.getSlidersData(this.pageCount, this.sliderPageSize);
+              this.getSlidersData(this.pageCount, this.sliderPageSize);
       this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -77,7 +77,7 @@ export class SlidertblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      // this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.getSlidersData(this.pageCount, this.sliderPageSize);
       this.commonservice.getModuleId();
     }
 

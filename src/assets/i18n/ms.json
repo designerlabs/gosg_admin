@@ -624,7 +624,9 @@
     "header": "Pengurusan Galeri",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
-      "titleBm": "Tajuk (BM)"
+      "titleBm": "Tajuk (BM)",
+      "title": "Tajuk",
+      "description": "Keterangan"
     },
     "tablebottom":{
       "gallery": "senarai galeri"

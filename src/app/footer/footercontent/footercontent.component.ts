@@ -251,7 +251,7 @@ export class FootercontentComponent implements OnInit {
       },
       Error => {
         this.loading = false;  
-        console.log('Error in State');
+        console.log('Error in Footer');
      });
   }
 

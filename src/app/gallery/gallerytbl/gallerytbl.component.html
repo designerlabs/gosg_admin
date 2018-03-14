@@ -39,14 +39,14 @@
 
       <!-- galleryTitle Column -->
       <ng-container matColumnDef="galleryTitleEn">
-        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.titleEn' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[0].slideTitle}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.title' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.galleryTitle}} </mat-cell>
       </ng-container>
 
       <!-- galleryDescription Column -->
-      <ng-container matColumnDef="galleryTitleBm">
-        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.titleBm' | translate }} </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[1].slideTitle}} </mat-cell>
+      <ng-container matColumnDef="galleryDescription">
+        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.description' | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.galleryDescription | truncate:[30, '...']}} </mat-cell>
       </ng-container>
 
       <!-- galleryActiveFlag Column -->
@@ -54,8 +54,8 @@
         <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.status' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
           <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
-          <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-          <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+          <i *ngIf="element.galleryActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+          <i *ngIf="element.galleryActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
         </mat-cell>
       </ng-container>
       
@@ -63,13 +63,13 @@
       <ng-container matColumnDef="galleryAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
-              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.sliderCode)" title="Update {{ element.sliderCode }}">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.sliderCode }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.sliderCode }}" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow(element.list[0].slideId,element.list[1].slideId)" title="Delete {{ element.list[0].slideId }},{{ element.list[1].slideId }}">
-              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.list[0].sliderId }}, {{ element.list[1].slideId }}"></i>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow(element.sliderCode)" title="Delete {{ element.sliderCode }}">
+              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.sliderCode }}"></i>
             </button>
         </mat-cell>
       </ng-container>
