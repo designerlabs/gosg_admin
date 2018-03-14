@@ -36,6 +36,9 @@ export class AgencyapptblComponent implements OnInit {
   public loading = false;
   showNoData = false;
 
+  recordTable = null;
+  recordList = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -117,7 +120,7 @@ export class AgencyapptblComponent implements OnInit {
             this.dataSource.data = this.agencyAppList.list;
             this.seqPageNum = this.agencyAppList.pageNumber;
             this.seqPageSize = this.agencyAppList.pageSize;
-            this.commonservice.recordTable = this.agencyAppList;
+            this.recordTable = this.agencyAppList;
             this.noNextData = this.agencyAppList.pageNumber === this.agencyAppList.totalPages;
 
             this.showNoData = false;
@@ -135,7 +138,7 @@ export class AgencyapptblComponent implements OnInit {
       });
   }
 
-  getFilterList(count, size, keyword, filterkeyword) {
+  getFilterList(count, size, keyword, filterkeyword) {    
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
@@ -153,7 +156,7 @@ export class AgencyapptblComponent implements OnInit {
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -162,6 +165,10 @@ export class AgencyapptblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this));
