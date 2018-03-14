@@ -53,7 +53,6 @@ export class CommonService {
     view: 'fa fa-eye'
   }
 
-
   pageSize =  [
     {"id": 1, "size": 10},
     {"id": 2, "size": 25},
