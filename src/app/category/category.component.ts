@@ -287,24 +287,24 @@ export class CategoryComponent implements OnInit {
   //   return json;
   // }
 
-  json_tree(data) {
-    var json = "<ul class = \""+ parent +"\">";
+  // json_tree(data) {
+  //   var json = "<ul class = \""+ parent +"\">";
 
-    //alert( this.treeEn.length);
+  //   //alert( this.treeEn.length);
     
-    for(var i = 0; i < this.treeEn.length; ++i) {
-        json = json + "<li>";
-        var className = "categoryCheckbox";
-        json = json + "<input class=\"categoryCheckbox\" type=\"checkbox\" name=\"" + this.treeEn[i].categoryName + "\" value=\""+ this.treeEn[i].id +"\">";
-        json = json + this.treeEn[i].categoryName;
+  //   for(var i = 0; i < this.treeEn.length; ++i) {
+  //       json = json + "<li>";
+  //       var className = "categoryCheckbox";
+  //       json = json + "<input class=\"categoryCheckbox\" type=\"checkbox\" name=\"" + this.treeEn[i].categoryName + "\" value=\""+ this.treeEn[i].id +"\">";
+  //       json = json + this.treeEn[i].categoryName;
         
-        if(this.treeEn[i].children.length) {
-            json = json + this.json_tree (this.treeEn[i].children);
-        }
-        json = json + "</li>";
-    }
-    return json + "</ul>";
-  }
+  //       if(this.treeEn[i].children.length) {
+  //           json = json + this.json_tree (this.treeEn[i].children);
+  //       }
+  //       json = json + "</li>";
+  //   }
+  //   return json + "</ul>";
+  // }
 
 
   getNestedChildrenEn(arr, parent) {
@@ -407,9 +407,11 @@ export class CategoryComponent implements OnInit {
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[2];
-    let txt = "";
     let parentValEn: any;
     let parentValBm: any;
+
+    let valImgEn: any;
+    let valImg: any;
 
     //predefined super parent id;
     if(formValues.parentsEn == null){
@@ -436,26 +438,25 @@ export class CategoryComponent implements OnInit {
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": null,
           "language": {
               "languageId": 1
-          }
+          },
+          "isActiveFlag":false
         },{
           "categoryName": null,
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": null,
           "language": {
               "languageId": 2
-          }
+          },
+          "isActiveFlag":false
         }
       ]         
 
+   
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = parentValEn;
