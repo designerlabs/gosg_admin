@@ -34,6 +34,8 @@ export class SystemsettingstblComponent implements OnInit {
   public languageId: any;
 
   showNoData = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -94,6 +96,8 @@ export class SystemsettingstblComponent implements OnInit {
   }
 
   getRecordList(page, size) {
+
+    this.recordList = null;
   
     this.loading = true;
     this.commonservice.readProtected('systemsettings', page, size)
@@ -109,7 +113,7 @@ export class SystemsettingstblComponent implements OnInit {
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           
           this.showNoData = false;
@@ -132,6 +136,8 @@ export class SystemsettingstblComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword) {
+
+    this.recordList = null;
   
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
@@ -150,7 +156,7 @@ export class SystemsettingstblComponent implements OnInit {
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -159,6 +165,11 @@ export class SystemsettingstblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this)); 
