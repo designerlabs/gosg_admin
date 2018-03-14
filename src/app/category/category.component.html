@@ -76,7 +76,7 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <div class="row">&nbsp;</div>
-                    <tree-select  class="font-size-m" name="simpleSelect"
+                    <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                     [items]="itemEn"
                     textField ="text"
                     idField = "value"
@@ -90,7 +90,7 @@
                     placeholder="FilterPlaceholder"
                     [allowFilter]=true
                     [allowParentSelection]=true
-                    style="width: 80%; display: block; text-align:left;"
+                    style="width: 80%; display: block; font-size:15px; font-family:'Roboto'; text-align:left;"
                     expandMode="All"></tree-select>
                     <mat-error *ngIf="updateForm.controls.parentsEn.hasError('required')">
                         Penerangan diperlukan
@@ -99,7 +99,7 @@
   
                 <div class="col-md-6">
                     <div class="row">&nbsp;</div>
-                    <tree-select class="font-size-m" name="simpleSelect"
+                    <tree-select class="font-size-m example-full-width" name="simpleSelect"
                     [items]="itemBm"
                     textField ="text"
                     idField = "value"
@@ -113,7 +113,7 @@
                     placeholder="FilterPlaceholder"
                     [allowFilter]=true
                     [allowParentSelection]=true
-                    style="width: 80%; display: block; text-align:left;"
+                    style="width: 80%; display: block; font-size:15px; font-family:'Roboto'; text-align:left;"
                     expandMode="All"></tree-select>
                     <mat-error *ngIf="updateForm.controls.parentsBm.hasError('required')">
                         Penerangan diperlukan
