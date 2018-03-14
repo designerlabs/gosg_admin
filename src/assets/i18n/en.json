@@ -624,7 +624,9 @@
     "header": "Gallery Management",
     "tableHeader":{
       "titleEn": "Title (EN)",
-      "titleBm": "Title (BM)"
+      "titleBm": "Title (BM)",
+      "title": "Title",
+      "description": "Description"
     },
     "tablebottom":{
       "gallery": "gallery list"

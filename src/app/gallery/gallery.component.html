@@ -79,6 +79,20 @@
         </div>
 
         <div class="row">
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width font-size-s">
+                  <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100">                  
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width font-size-s" >
+                  <input matInput type="url" placeholder="URL" formControlName="urlMy" maxlength="100">
+              </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+      </div>
+
+        <div class="row">
             <div class="col-md-12">
                 <label class="">Gallery Image</label>
             </div>
@@ -123,6 +137,19 @@
             &nbsp;
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width font-size-s" >
+                  <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width font-size-s" >
+                  <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+              </mat-form-field>
+          </div>
+      </div>
 
         <div class="row">
           <div class="col-md-12">&nbsp;</div>

@@ -83,8 +83,9 @@ export class GallerytblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryAction'];
+    this.displayedColumns = ['no','galleryTitleEn', 'galleryDescription', 'galleryActiveFlag', 'galleryAction'];
     this.commonservice.getModuleId();
+    this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
 
   ngAfterViewInit() {
@@ -93,22 +94,23 @@ export class GallerytblComponent implements OnInit {
   }
 
   // get gallery Data 
-  getGalleryData(count, size) {
+  getGalleryData(page, size) {
     // console.log(this.appConfig.urlgalleryList + '/?page=' + count + '&size=' + size)
     this.dataUrl = this.appConfig.urlSlides;
     this.loading = true;
 
-    this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
+    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
+    this.commonservice.readPortal('gallery/all',page, size).subscribe(
       data => {
         
           this.commonservice.errorHandling(data, (function(){
           this.galleryList = data;
 
-          if(this.galleryList.list.length > 0){
+          if(this.galleryList.galleryList.length > 0){
             console.log(this.galleryList)
             // console.log(JSON.stringify(this.galleryList))
-            this.dataSource.data = this.galleryList.list;
+            this.dataSource.data = this.galleryList.galleryList;
             this.seqPageNum = this.galleryList.pageNumber;
             this.seqPageSize = this.galleryList.pageSize;
             this.commonservice.recordTable = this.galleryList;
