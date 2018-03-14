@@ -364,8 +364,8 @@ export class CategoryComponent implements OnInit {
         this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
         this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);    
         this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
-        this.updateForm.get('imageEn').setValue(this.recordList.list[0].image); 
-        this.updateForm.get('imageBm').setValue(this.recordList.list[1].image);       
+        this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
+        this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);       
         this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);   
 
         this.getIdEn = this.recordList.list[0].categoryId;
@@ -426,6 +426,14 @@ export class CategoryComponent implements OnInit {
 
     if(formValues.ismainmenu == null){
       formValues.ismainmenu = false;
+    }
+
+    if(formValues.imageEn == null){
+      valImg = null;
+    }
+
+    else{
+      valImg = { "mediaId": null };
     }
 
     // add form
@@ -522,8 +530,6 @@ export class CategoryComponent implements OnInit {
         }
       ]    
 
-
-
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = formValues.parentsEn;
@@ -536,12 +542,7 @@ export class CategoryComponent implements OnInit {
       body[1].isMainMenu = formValues.ismainmenu;
       //body[1].image.mediaId = formValues.imageBm;      
 
-      if(formValues.imageEn == null){
-        valImg = null;
-      }
-  
-      else{
-        valImg = { "mediaId": null };
+      if(formValues.imageBm != null){
         body[0].image.mediaId = formValues.imageEn;      
         body[1].image.mediaId = formValues.imageBm;
       }
