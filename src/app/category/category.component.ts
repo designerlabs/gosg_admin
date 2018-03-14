@@ -15,12 +15,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css'],
-  styles:[`
-  .categoryList{
-    color: #ff0 !important;
-}
-  `]
+  styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
   value: any;
@@ -137,14 +132,9 @@ export class CategoryComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
-    //document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
     
   }
 
-
-selectC(e){
-  debugger;
-}
   selectedCat(e, val){
 
     console.log(e);
@@ -379,16 +369,30 @@ selectC(e){
         this.updateForm.get('titleBm').setValue(this.recordList.list[1].categoryName);   
         this.updateForm.get('descEn').setValue(this.recordList.list[0].categoryDescription);
         this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
-        this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);    
-        this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
-        this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
-        this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);       
+          
+        //this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
+        // this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
+        // this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
+             
         this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);   
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
         this.getRefCode = this.recordList.list[0].refCode;
         this.catCode = this.recordList.list[0].categoryCode;
+
+        if(this.recordList.list[0].image != null){
+          this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
+          this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
+        }
+
+        if(this.languageId == 1){
+          this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);  
+        }
+
+        else{
+          this.updateForm.get('parentsEn').setValue(this.recordList.list[1].parentId);  
+        }
 
         this.checkReqValues();
       }).bind(this));
@@ -492,6 +496,7 @@ selectC(e){
       body[1].parentId = parentValEn.parentBm;
       body[1].isMainMenu = formValues.ismainmenu;
 
+
       if(formValues.imageBm != null){
         body[0].image.mediaId = formValues.imageEn;      
         body[1].image.mediaId = formValues.imageBm;
@@ -553,13 +558,13 @@ selectC(e){
 
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
-      body[0].parentId = formValues.parentsEn;
+      body[0].parentId = parentValEn.parentEn;
       body[0].isMainMenu = formValues.ismainmenu;
       //body[0].image.mediaId = formValues.imageEn;
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
-      body[1].parentId = formValues.parentsBm;
+      body[1].parentId = parentValEn.parentBm;
       body[1].isMainMenu = formValues.ismainmenu;
       //body[1].image.mediaId = formValues.imageBm;      
 
@@ -568,7 +573,7 @@ selectC(e){
         body[1].image.mediaId = formValues.imageBm;
       }
 
-      console.log("UPDATE: ");
+      console.log("uuuu: ");
       console.log(JSON.stringify(body))
       this.loading = true;
       this.commonservice.update(body,'content/category/update/').subscribe(
