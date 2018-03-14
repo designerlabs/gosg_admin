@@ -36,6 +36,8 @@ export class CategorytblComponent implements OnInit {
   public loading = false;
 
   showNoData = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -91,6 +93,8 @@ export class CategorytblComponent implements OnInit {
   }
 
   getRecordList(count, size) {
+
+    this.recordList = null;
   
     this.loading = true;
     this.commonservice.readProtected('content/category/code',count, size)
@@ -107,7 +111,7 @@ export class CategorytblComponent implements OnInit {
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
           this.showNoData = false;
@@ -130,6 +134,8 @@ export class CategorytblComponent implements OnInit {
   }
 
   getFilterList(count, size, val) {
+
+    this.recordList = null;
   
     this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
     
@@ -150,7 +156,7 @@ export class CategorytblComponent implements OnInit {
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -159,6 +165,11 @@ export class CategorytblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this));
