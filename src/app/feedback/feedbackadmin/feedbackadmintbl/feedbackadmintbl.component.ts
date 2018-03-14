@@ -101,7 +101,7 @@ export class FeedbackadmintblComponent implements OnInit {
 
   ngOnInit() {
 
-    //this.getRecordList(this.pageCount, this.pageSize);
+    this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
@@ -145,7 +145,7 @@ export class FeedbackadmintblComponent implements OnInit {
   }
 
   getFilterList(count, size, val, filterVal) {
-
+  
     this.recordList = null;
    
     if(filterVal == 2){  // by Email
@@ -161,6 +161,7 @@ export class FeedbackadmintblComponent implements OnInit {
       this.loading = true;
       this.commonservice.readProtected(this.dataUrl, count, size, val)
       .subscribe(data => {
+      
 
         this.commonservice.errorHandling(data, (function(){
 

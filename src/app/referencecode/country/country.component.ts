@@ -34,6 +34,8 @@ export class CountryComponent implements OnInit {
 
   showNoData = false;
 
+  recordTable = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -85,6 +87,7 @@ export class CountryComponent implements OnInit {
 
   getRecordList(page, size) {
 
+    this.recordList = null;
     // this.dataUrl = this.appConfig.urlCountryList;
 
     this.loading = true;
@@ -98,7 +101,7 @@ export class CountryComponent implements OnInit {
           console.log(data);
           if(this.recordList.countryList.length > 0){
             this.dataSource.data = this.recordList.countryList;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -122,6 +125,7 @@ export class CountryComponent implements OnInit {
 
   getFilterList(page, size, keyword) {
 
+    this.recordList = null;
     // this.dataUrl = this.appConfig.urlCountryList;
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
@@ -139,7 +143,7 @@ export class CountryComponent implements OnInit {
             // this.recordList.countryList.push(this.translate.instant('common.msg.notfound'));
             
               this.dataSource.data = this.recordList.countryList;
-              this.commonservice.recordTable = this.recordList;
+              this.recordTable = this.recordList;
               this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
               this.showNoData = false;
@@ -148,6 +152,9 @@ export class CountryComponent implements OnInit {
             else{
               this.dataSource.data = []; 
               this.showNoData = true;
+
+              this.recordTable = this.recordList;
+              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
             }
 
           }).bind(this)); 

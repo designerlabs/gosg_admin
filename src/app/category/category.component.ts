@@ -78,6 +78,7 @@ export class CategoryComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
+              this.getCategory()
               //this.getData();
             }
           }.bind(this));
@@ -141,6 +142,9 @@ export class CategoryComponent implements OnInit {
   }
 
 
+selectC(e){
+  debugger;
+}
   selectedCat(e, val){
 
     console.log(e);
@@ -255,26 +259,38 @@ export class CategoryComponent implements OnInit {
           for(let i=0; i<this.categoryData.length; i++){        
          
             arrCatEn.push({
+                        id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                         value:this.categoryData[i].list[0].categoryId,
-                        // refCode: this.categoryData[i].refCode,
+                        refCode: this.categoryData[i].refCode,
                         parent: this.categoryData[i].list[0].parentId,
+                        parentEn: this.categoryData[i].list[0].parentId,
+                        parentBm: this.categoryData[i].list[1].parentId,
                         // categoryName: this.categoryData[i].list[0].categoryName,
                         text: this.categoryData[i].list[0].categoryName,
                         checked: false,
                         children: []});      
                          
             arrCatBm.push({
+                          id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                           value:this.categoryData[i].list[1].categoryId,
-                          // refCode: this.categoryData[i].refCode,
+                          refCode: this.categoryData[i].refCode,
                           parent: this.categoryData[i].list[1].parentId,
+                          parentEn: this.categoryData[i].list[0].parentId,
+                          parentBm: this.categoryData[i].list[1].parentId,
                           // categoryName: this.categoryData[i].list[1].categoryName,
                           checked: false,
                           text: this.categoryData[i].list[1].categoryName,
                           children: []}); 
           }
           
-
-          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1)
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
           this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
 
           this.itemEn = this.treeEn;
@@ -290,39 +306,6 @@ export class CategoryComponent implements OnInit {
         console.log(error);
     });
   }
-
-  // json_tree(a) {
-  //   var json = "";
-
-    
-  //   for(var i = 0; i < this.treeEn.length; ++i) {
-  //       json = json  + this.treeEn[i].categoryName;
-  //       if(this.treeEn[i].children.length) {
-  //           json = json + this.json_tree (this.treeEn[i].children);
-  //       }
-  //       json = json;
-  //   }
-  //   return json;
-  // }
-
-  // json_tree(data) {
-  //   var json = "<ul class = \""+ parent +"\">";
-
-  //   //alert( this.treeEn.length);
-    
-  //   for(var i = 0; i < this.treeEn.length; ++i) {
-  //       json = json + "<li>";
-  //       var className = "categoryCheckbox";
-  //       json = json + "<input class=\"categoryCheckbox\" type=\"checkbox\" name=\"" + this.treeEn[i].categoryName + "\" value=\""+ this.treeEn[i].id +"\">";
-  //       json = json + this.treeEn[i].categoryName;
-        
-  //       if(this.treeEn[i].children.length) {
-  //           json = json + this.json_tree (this.treeEn[i].children);
-  //       }
-  //       json = json + "</li>";
-  //   }
-  //   return json + "</ul>";
-  // }
 
 
   getNestedChildrenEn(arr, parent) {
@@ -480,7 +463,7 @@ export class CategoryComponent implements OnInit {
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": null,
+          "image": valImg,
           "language": {
               "languageId": 1
           },
@@ -490,7 +473,7 @@ export class CategoryComponent implements OnInit {
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": null,
+          "image": valImg,
           "language": {
               "languageId": 2
           },
@@ -501,31 +484,38 @@ export class CategoryComponent implements OnInit {
    
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
-      body[0].parentId = parentValEn;
+      body[0].parentId = parentValEn.parentEn;
       body[0].isMainMenu = formValues.ismainmenu;      
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
-      body[1].parentId = parentValBm;
+      body[1].parentId = parentValEn.parentBm;
       body[1].isMainMenu = formValues.ismainmenu;
+
+      if(formValues.imageBm != null){
+        body[0].image.mediaId = formValues.imageEn;      
+        body[1].image.mediaId = formValues.imageBm;
+      }
+      
+
       this.loading = true;
-      // this.commonservice.create(body,'content/category/post').subscribe(
-      //   data => {         
+      this.commonservice.create(body,'content/category/post').subscribe(
+        data => {         
           
-      //     this.commonservice.errorHandling(data, (function(){
+          this.commonservice.errorHandling(data, (function(){
 
-      //       this.toastr.success(this.translate.instant('common.success.added'), '');
-      //       this.router.navigate(['category']);
+            this.toastr.success(this.translate.instant('common.success.added'), '');
+            this.router.navigate(['category']);
 
-      //     }).bind(this)); 
-      //     this.loading = false;  
-      //   },
-      //   error => {
+          }).bind(this)); 
+          this.loading = false;  
+        },
+        error => {
 
-      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-      //     this.loading = false;   
-      //     console.log(error);
-      // });
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;   
+          console.log(error);
+      });
     }
 
     // update form

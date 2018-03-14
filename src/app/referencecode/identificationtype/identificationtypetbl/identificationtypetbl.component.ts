@@ -42,6 +42,8 @@ export class IdentificationtypetblComponent implements OnInit {
   public getIdentificationTypeMy: any;
   public getIdentificationTypeEng: any;
   public loading = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -90,6 +92,7 @@ export class IdentificationtypetblComponent implements OnInit {
 
   getRecordList(page, size) {
   
+    this.recordList = null;
     // this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + page + '&size=' + size + "?language=" + this.languageId;
 
     this.loading = true;
@@ -102,7 +105,7 @@ export class IdentificationtypetblComponent implements OnInit {
       this.seqPageSize = this.recordList.pageSize;
       
       this.dataSource.data = this.recordList.list;
-      this.commonservice.recordTable = this.recordList;
+      this.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
     }).bind(this)); 
     this.loading = false;
