@@ -463,7 +463,7 @@ selectC(e){
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": null,
+          "image": valImg,
           "language": {
               "languageId": 1
           },
@@ -473,7 +473,7 @@ selectC(e){
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": null,
+          "image": valImg,
           "language": {
               "languageId": 2
           },
@@ -491,25 +491,31 @@ selectC(e){
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = parentValEn.parentBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      debugger;
-      // this.loading = true;
-      // this.commonservice.create(body,'content/category/post').subscribe(
-      //   data => {         
+
+      if(formValues.imageBm != null){
+        body[0].image.mediaId = formValues.imageEn;      
+        body[1].image.mediaId = formValues.imageBm;
+      }
+      
+
+      this.loading = true;
+      this.commonservice.create(body,'content/category/post').subscribe(
+        data => {         
           
-      //     this.commonservice.errorHandling(data, (function(){
+          this.commonservice.errorHandling(data, (function(){
 
-      //       this.toastr.success(this.translate.instant('common.success.added'), '');
-      //       this.router.navigate(['category']);
+            this.toastr.success(this.translate.instant('common.success.added'), '');
+            this.router.navigate(['category']);
 
-      //     }).bind(this)); 
-      //     this.loading = false;  
-      //   },
-      //   error => {
+          }).bind(this)); 
+          this.loading = false;  
+        },
+        error => {
 
-      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-      //     this.loading = false;   
-      //     console.log(error);
-      // });
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;   
+          console.log(error);
+      });
     }
 
     // update form
