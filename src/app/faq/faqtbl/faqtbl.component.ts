@@ -37,6 +37,7 @@ export class FaqtblComponent implements OnInit {
   dataUrl: any;  
   public languageId: any;
   showNoData = false;
+  recordTable = null;
 
   public getIdentificationTypeIdEng: any;
   public getIdentificationTypeIdMy: any;
@@ -95,6 +96,9 @@ export class FaqtblComponent implements OnInit {
   
 
   getRecordList(count, size) {
+
+    this.recordList = null;
+
     this.loading = true;
     this.commonservice.readProtected('faq/code', count, size)
     .subscribe(data => {
@@ -106,7 +110,7 @@ export class FaqtblComponent implements OnInit {
           this.seqPageSize = this.recordList.pageSize;
           
           this.dataSource.data = this.recordList.list;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
           this.showNoData = false;
@@ -129,6 +133,8 @@ export class FaqtblComponent implements OnInit {
   }
 
   getFilterList(count, size, val) {
+
+    this.recordList = null;
   
     if(val != "" && val != null && val.length != null && val.length >= 3) {
       this.loading = true;
@@ -143,10 +149,9 @@ export class FaqtblComponent implements OnInit {
             console.log(data);
 
             this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            
+            this.seqPageSize = this.recordList.pageSize;            
             this.dataSource.data = this.recordList.list;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -155,6 +160,10 @@ export class FaqtblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageSize = this.recordList.pageSize;            
+            this.dataSource.data = this.recordList.list;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
         }).bind(this)); 
         this.loading = false;
