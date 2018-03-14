@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, formControlBinding } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
@@ -43,7 +43,12 @@ export class SliderComponent implements OnInit {
   imgBm: FormControl
   active: FormControl
   copyImg: FormControl
+  urlEng: FormControl
+  urlMy: FormControl
+  seqEng: FormControl
+  seqMy: FormControl
   resetMsg = this.resetMsg;
+  imageData: any;
   public loading = false;
 
   constructor(
@@ -92,18 +97,26 @@ export class SliderComponent implements OnInit {
     this.descBm = new FormControl()
     this.imgEn = new FormControl()
     this.imgBm = new FormControl()
+    this.urlEng = new FormControl()
+    this.urlMy = new FormControl()
     this.active = new FormControl()
     this.copyImg = new FormControl()
+    this.seqEng = new FormControl()
+    this.seqMy = new FormControl()
 
     this.updateForm = new FormGroup({
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
+      urlEng: this.urlEng,
+      urlMy: this.urlMy,
       titleBm: this.titleBm,
       descBm: this.descBm,
       imgBm: this.imgBm,
       active: this.active,
-      copyImg: this.copyImg
+      copyImg: this.copyImg,
+      seqEng: this.seqEng,
+      seqMy: this.seqMy,
     });
 
     if(refCode == "add") {
@@ -151,7 +164,7 @@ export class SliderComponent implements OnInit {
 
     this.loading = true;
     // Update Slider Service
-    return this.commonservice.readPortalById('slide/code/', row).subscribe(
+    return this.commonservice.readPortalById('slider/code/', row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
@@ -238,60 +251,114 @@ export class SliderComponent implements OnInit {
     this.updateForm.get('active').setValue(true);
   }
 
+  getImageList(){
+    this.loading = true;
+    return this.commonservice.readProtected('media/category/name/slider','0','999999999')
+     .subscribe(resCatData => {
+        this.imageData = resCatData['list'];   
+        this.loading = false;    
+      },
+      Error => {
+        this.loading = false;  
+        console.log('Error in State');
+     });
+  }
+
+  copyValue(type) {
+    let elemOne = this.updateForm.get('seqEng');
+    let elemTwo = this.updateForm.get('seqMy');
+
+    if(type == 1)
+      elemTwo.setValue(elemOne.value)
+    else
+      elemOne.setValue(elemTwo.value)
+      
+    this.stripspaces(elemOne)
+    this.stripspaces(elemTwo)
+
+  }
+  stripspaces(input)
+  {
+    if(input.value != null){
+      let word = input.value.toString();
+    input.value = word.replace(/\s/gi,"");
+    return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
   updateSlider(formValues: any) {
     
     if(!this.isEdit) {
 
     let body = [
       {
-        "sliderTitle": null,
-        "sliderDescription": null,
-        "sliderImage": {
-          "mediaId": null
-        },
-        "sliderCode": null,
-        "sliderSort": null,
-        "sliderActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
+        "contentCategoryId": null,
+        "contents":[
+          {
+            "sliderTitle": null,
+            "sliderDescription": null,
+            "sliderImage": {
+              "mediaId": null
+            },
+            // "sliderCode": null,
+            "sliderSort": null,
+            "sliderUrl": null,
+            "sliderActiveFlag": false,
+            "language": {
+              "languageId": null
+            }
+          }
+        ]        
       }, 
       {
-        "sliderTitle": null,
-        "sliderDescription": null,
-        "sliderImage":  {
-          "mediaId": null
-        },
-        "sliderCode": null,
-        "sliderSort": null,
-        "sliderActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
+        "contentCategoryId": null,
+        "contents":[
+          {
+            "sliderTitle": null,
+            "sliderDescription": null,
+            "sliderImage": {
+              "mediaId": null
+            },
+            // "sliderCode": null,
+            "sliderSort": null,
+            "sliderUrl": null,
+            "sliderActiveFlag": false,
+            "language": {
+              "languageId": null
+            }
+          }
+        ]    
       }
     ];
     
     // console.log(formValues)
+    body[0].contentCategoryId = "";
+    body[0].contents[0].sliderTitle = formValues.titleEn;
+    body[0].contents[0].sliderDescription = formValues.descEn;
+    body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
+    body[0].contents[0].sliderSort = formValues.seqEng;
+    body[0].contents[0].sliderUrl = formValues.urlEng;
+    body[0].contents[0].sliderActiveFlag = formValues.active;
+    body[0].contents[0].language.languageId = 1;
 
-    body[0].sliderTitle = formValues.titleEn;
-    body[0].sliderDescription = formValues.descEn;
-    body[0].sliderImage.mediaId = formValues.imgEn;
-    body[0].sliderSort = null;
-    body[0].sliderActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
-
-    body[1].sliderTitle = formValues.titleBm;
-    body[1].sliderDescription = formValues.descBm;
-    body[1].sliderImage.mediaId = formValues.imgBm;
-    body[1].sliderSort = null;
-    body[1].sliderActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+    body[1].contentCategoryId = "";
+    body[1].contents[0].sliderTitle = formValues.titleBm;
+    body[1].contents[0].sliderDescription = formValues.descBm;
+    body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
+    body[1].contents[0].sliderSort = formValues.seqMy;
+    body[1].contents[0].sliderUrl = formValues.urlMy;
+    body[1].contents[0].sliderActiveFlag = formValues.active;
+    body[1].contents[0].language.languageId = 2;
 
     console.log(body)
 
     this.loading = true;
     // Add Slider Service
-    this.commonservice.create(body,'slide').subscribe(
+    this.commonservice.create(body,'slider').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
         this.toastr.success('Slider added successfully!', ''); 
@@ -310,58 +377,74 @@ export class SliderComponent implements OnInit {
       
     let body = [
       {
-        "sliderId": null,
-        "sliderTitle": null,
-        "sliderDescription": null,
-        "sliderImage": {
-          "mediaId": null
-        },
-        "sliderCode": null,
-        "sliderSort": null,
-        "sliderActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
+        "contentCategoryId": null,
+        "contents": [
+          {
+            "sliderId": null,
+            "sliderTitle": null,
+            "sliderDescription": null,
+            "sliderImage": {
+              "mediaId": null
+            },
+            // "sliderCode": null,
+            "sliderSort": null,
+            "sliderUrl": null,
+            "sliderActiveFlag": false,
+            "language": {
+              "languageId": null
+            }
+          }
+        ]        
       }, 
       {
-        "sliderId": null,
-        "sliderTitle": null,
-        "sliderDescription": null,
-        "sliderImage": {
-          "mediaId": null
-        },
-        "sliderCode": null,
-        "sliderSort": null,
-        "sliderActiveFlag": false,
-        "language": {
-          "languageId": null
-        }
+        "contentCategoryId": null,
+        "contents": [
+          {
+            "sliderId": null,
+            "sliderTitle": null,
+            "sliderDescription": null,
+            "sliderImage": {
+              "mediaId": null
+            },
+            // "sliderCode": null,
+            "sliderSort": null,
+            "sliderUrl": null,
+            "sliderActiveFlag": false,
+            "language": {
+              "languageId": null
+            }
+          }
+        ]   
       }
     ];
       
-    body[0].sliderCode = this.sliderCode;
-    body[0].sliderId = this.sliderIdEn;
-    body[0].sliderTitle = formValues.titleEn;
-    body[0].sliderDescription = formValues.descEn;
-    body[0].sliderImage.mediaId = formValues.imgEn;
-    body[0].sliderSort = null;
-    body[0].sliderActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
+    // body[0].sliderCode = this.sliderCode;
+    body[0].contentCategoryId = ""
+    body[0].contents[0].sliderId = this.sliderIdEn;
+    body[0].contents[0].sliderTitle = formValues.titleEn;
+    body[0].contents[0].sliderDescription = formValues.descEn;
+    body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
+    body[0].contents[0].sliderSort = formValues.seqEng;
+    body[0].contents[0].sliderUrl = formValues.urlEng;
+    body[0].contents[0].sliderActiveFlag = formValues.active;
+    body[0].contents[0].language.languageId = 1;
     
-    body[1].sliderCode = this.sliderCode;
-    body[1].sliderId = this.sliderIdBm;
-    body[1].sliderTitle = formValues.titleBm;
-    body[1].sliderDescription = formValues.descBm;
-    body[1].sliderImage.mediaId = formValues.imgBm;
-    body[1].sliderSort = null;
-    body[1].sliderActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+    // body[1].sliderCode = this.sliderCode;
+    body[1].contentCategoryId = ""
+    body[1].contents[0].sliderId = this.sliderIdBm;
+    body[1].contents[0].sliderTitle = formValues.titleBm;
+    body[1].contents[0].sliderDescription = formValues.descBm;
+    body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
+    body[1].contents[0].sliderSort = formValues.seqMy;
+    body[1].contents[0].sliderUrl = formValues.urlMy;
+    body[1].contents[0].sliderActiveFlag = formValues.active;
+    body[1].contents[0].language.languageId = 2;
 
     console.log(body);
     this.loading = true;
 
     // Update Slider Service
-    this.commonservice.update(body,'slide').subscribe(
+    this.commonservice.update(body,'slider/multiple/update').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
         this.toastr.success('Slider update successful!', '');   
