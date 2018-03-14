@@ -218,7 +218,7 @@ export class FootercontenttblComponent implements OnInit {
     this.loading = true;
 
     console.log(refCode);
-    this.commonservice.delete(refCode,'footer/footercontent').subscribe(
+    this.commonservice.delete(refCode,'footercontent/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

@@ -144,7 +144,7 @@ export class FonttblComponent implements OnInit {
 
     console.log(id);
     this.loading = true;
-    this.commonservice.delete(id,'font/').subscribe(
+    this.commonservice.delete(id,'font/id/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
