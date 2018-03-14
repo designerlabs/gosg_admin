@@ -22,6 +22,12 @@
     color: #ff0 !important;
 }
 
+label {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+
 .tree ul {
     margin-left: 20px !important;
 }
@@ -91,3 +97,5 @@ ul.tree>li:first-child::after {
 .tree li input:hover+ul ul::before, .tree li input:focus+ul ul::before{
     border-color:  #000 !important; /*connector color on hover*/
 }
+
+

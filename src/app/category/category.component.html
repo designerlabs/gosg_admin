@@ -75,55 +75,51 @@
 
             <div class="example-header">
                 <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                        <mat-select formControlName="parentsEn" placeholder="Parent" tabindex="5" (change)="selectedCat($event,1)">
-                            <mat-option *ngFor="let category of treeEn" 
-                            [value]="category?.id">{{ category?.categoryName }}</mat-option>
-                    
-                        </mat-select> 
-                    </mat-form-field>
-                    <!-- <div class="tree">
-                        <div id="result"></div>
-                    </div> -->
-
+                    <div class="row">&nbsp;</div>
+                    <tree-select name="simpleSelect"
+                    [items]="itemEn"
+                    textField ="text"
+                    idField = "value"
+                    childrenField="children"
+                    formControlName="parentsEn"
+                    minlength="2"
+                    maxlength="4"
+                    tabindex="5"
+                    required=true
+                    #simpleSelect
+                    placeholder="FilterPlaceholder"
+                    [allowFilter]=true
+                    [allowParentSelection]=true
+                    style="width: 80%; display: block; text-align:left;"
+                    expandMode="All"></tree-select>
+                    <mat-error *ngIf="updateForm.controls.parentsEn.hasError('required')">
+                        Penerangan diperlukan
+                    </mat-error>
                 </div>
-        
-
+  
                 <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                        <mat-select formControlName="parentsBm" placeholder="Induk" tabindex="6" (change)="selectedCat($event,2)">
-                            <mat-option *ngFor="let category of treeBm" 
-                            [value]="category?.id">{{ category?.categoryName }}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                    <div class="row">&nbsp;</div>
+                    <tree-select name="simpleSelect"
+                    [items]="itemBm"
+                    textField ="text"
+                    idField = "value"
+                    childrenField="children"
+                    formControlName="parentsBm"
+                    minlength="2"
+                    maxlength="4"
+                    tabindex="5"
+                    required=true
+                    #simpleSelect
+                    placeholder="FilterPlaceholder"
+                    [allowFilter]=true
+                    [allowParentSelection]=true
+                    style="width: 80%; display: block; text-align:left;"
+                    expandMode="All"></tree-select>
+                    <mat-error *ngIf="updateForm.controls.parentsBm.hasError('required')">
+                        Penerangan diperlukan
+                    </mat-error>
                 </div>
             </div>
-
-            <div class="example-header">
-                    <ngx-treeview
-                    [items]="items" 
-                    (valueChange)="onValueChange($event)">
-                </ngx-treeview>
-                <!-- <div class="col-md-6">
-                    <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Parent" formControlName="resultEn" id="result" (click)="j"
-                        tabindex="5">
-                        <mat-error *ngIf="updateForm.controls.resultEn.hasError('required')">
-                            Category Title is required
-                        </mat-error>
-                    </mat-form-field>
-                </div> -->
-                <!-- <div class="col-md-6">
-                    <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="resultBm" formControlName="Induk" (keyup)="checkReqValues()"
-                        tabindex="6">
-                        <mat-error *ngIf="updateForm.controls.resultBm.hasError('required')">
-                            Tajuk Kategori diperlukan
-                        </mat-error>
-                    </mat-form-field>
-                </div> -->
-            </div> 
-            <!-- <div id="result"></div> -->
 
             <div class="example-header">
                 <div class="col-md-6">
