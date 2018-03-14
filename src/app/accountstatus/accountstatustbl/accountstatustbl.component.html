@@ -89,14 +89,14 @@
             </mat-form-field>
             <span class="float-right">
                 <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'accstatuslist.tablebottom.accStatus' | translate }}
+                    <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+                    <strong>{{recordTable?.totalElements}}</strong> {{ 'accstatuslist.tablebottom.accStatus' | translate }}
                 </span>
-                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
                 <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
                 </button>
-                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
                 <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
                 </button>
             </span>

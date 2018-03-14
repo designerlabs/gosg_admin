@@ -9,7 +9,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
-import { TreeviewI18n, TreeviewItem, TreeviewConfig, DropdownTreeviewComponent, TreeviewHelper  } from 'ngx-treeview';
 import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
 
@@ -25,8 +24,8 @@ import { forEach } from '@angular/router/src/utils/collection';
 })
 export class CategoryComponent implements OnInit {
   value: any;
-  itemEn: TreeviewItem[];
-  itemBm: TreeviewItem[];
+  itemEn: any;
+  itemBm: any;
   
 
   updateForm: FormGroup;
@@ -41,13 +40,6 @@ export class CategoryComponent implements OnInit {
   public imageEn: FormControl;
   public imageBm: FormControl;
   public resultEn: FormControl;
-  config = TreeviewConfig.create({
-    hasAllCheckBox: false,
-    hasFilter: true,
-    hasCollapseExpand: false,
-    decoupleChildFromParent: false,
-    maxHeight: 400
-  });
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
@@ -144,16 +136,8 @@ export class CategoryComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
+    //document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
     
-  }
-
-  onSelectedChange(value: number) {
-    console.log('valueChange raised with value: ' + value);
-  }
-
-
-  selectC(e){
-    debugger;
   }
 
 
@@ -293,54 +277,8 @@ export class CategoryComponent implements OnInit {
           this.treeEn = this.getNestedChildrenEn(arrCatEn, -1)
           this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
 
-          for(let o of this.treeEn){
-            delete o.parent;
-            if(o.children.length > 0){
-              for(let c of o.children){
-                delete c.parent;
-                if(c.children.length > 0){
-                  for(let d of c.children){
-                    delete d.parent;
-                  }
-                  
-                }
-             
-
-              }
-            }
-           
-            
-            this.itemEn = [new TreeviewItem({text: 'Category', value: 9, children:this.treeEn})];
-          }
-
-
-          for(let o of this.treeBm){
-            delete o.parent;
-            if(o.children.length > 0){
-              for(let c of o.children){
-                delete c.parent;
-                if(c.children.length > 0){
-                  for(let d of c.children){
-                    delete d.parent;
-                  }
-                  
-                }
-             
-
-              }
-            }
-           
-            
-            this.itemBm = [new TreeviewItem({text: 'Category', value: 9, children:this.treeBm})];
-          }
-
-          console.log(JSON.stringify(this.treeEn));
-          
-          // console.log(arrCatEn);
-          // this.json_tree(this.treeEn);
-          // document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
-          
-          // console.log(JSON.stringify(this.treeBm));
+          this.itemEn = this.treeEn;
+          this.itemBm = this.treeBm;
           
         }).bind(this));
         this.loading = false;
@@ -365,6 +303,25 @@ export class CategoryComponent implements OnInit {
   //       json = json;
   //   }
   //   return json;
+  // }
+
+  // json_tree(data) {
+  //   var json = "<ul class = \""+ parent +"\">";
+
+  //   //alert( this.treeEn.length);
+    
+  //   for(var i = 0; i < this.treeEn.length; ++i) {
+  //       json = json + "<li>";
+  //       var className = "categoryCheckbox";
+  //       json = json + "<input class=\"categoryCheckbox\" type=\"checkbox\" name=\"" + this.treeEn[i].categoryName + "\" value=\""+ this.treeEn[i].id +"\">";
+  //       json = json + this.treeEn[i].categoryName;
+        
+  //       if(this.treeEn[i].children.length) {
+  //           json = json + this.json_tree (this.treeEn[i].children);
+  //       }
+  //       json = json + "</li>";
+  //   }
+  //   return json + "</ul>";
   // }
 
 
@@ -441,8 +398,8 @@ export class CategoryComponent implements OnInit {
         this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
         this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);    
         this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
-        this.updateForm.get('imageEn').setValue(this.recordList.list[0].image); 
-        this.updateForm.get('imageBm').setValue(this.recordList.list[1].image);       
+        this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
+        this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);       
         this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);   
 
         this.getIdEn = this.recordList.list[0].categoryId;
@@ -484,9 +441,11 @@ export class CategoryComponent implements OnInit {
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[2];
-    let txt = "";
     let parentValEn: any;
     let parentValBm: any;
+
+    let valImg: any;
+    let body: any;
 
     //predefined super parent id;
     if(formValues.parentsEn == null){
@@ -503,73 +462,77 @@ export class CategoryComponent implements OnInit {
       formValues.ismainmenu = false;
     }
 
+    if(formValues.imageEn == null){
+      valImg = null;
+    }
+
+    else{
+      valImg = { "mediaId": null };
+    }
+
     // add form
     if(urlEdit === 'add'){
 
-      let body = [
+      body = [
         {
         
           "categoryName": null,
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": null,
           "language": {
               "languageId": 1
-          }
+          },
+          "isActiveFlag":false
         },{
           "categoryName": null,
           "categoryDescription":null,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": null,
           "language": {
               "languageId": 2
-          }
+          },
+          "isActiveFlag":false
         }
       ]         
 
+   
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = parentValEn;
-      body[0].isMainMenu = formValues.ismainmenu;
-      body[0].image.mediaId = formValues.imageEn;
+      body[0].isMainMenu = formValues.ismainmenu;      
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = parentValBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].image.mediaId = formValues.imageBm;
-
-      console.log("TEST")
-      console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.create(body,'content/category/post').subscribe(
-        data => {         
+      // this.commonservice.create(body,'content/category/post').subscribe(
+      //   data => {         
           
-          this.commonservice.errorHandling(data, (function(){
+      //     this.commonservice.errorHandling(data, (function(){
 
-            this.toastr.success(this.translate.instant('common.success.added'), '');
-            this.router.navigate(['category']);
+      //       this.toastr.success(this.translate.instant('common.success.added'), '');
+      //       this.router.navigate(['category']);
 
-          }).bind(this)); 
-          this.loading = false;  
-        },
-        error => {
+      //     }).bind(this)); 
+      //     this.loading = false;  
+      //   },
+      //   error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          this.loading = false;   
-          console.log(error);
-      });
+      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+      //     this.loading = false;   
+      //     console.log(error);
+      // });
     }
 
     // update form
     else{
-      let body = [
+      //  
+      
+      body = [
         {
         
           "categoryId": this.getIdEn,
@@ -578,12 +541,11 @@ export class CategoryComponent implements OnInit {
           "categoryCode": this.catCode,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": valImg,
           "language": {
               "languageId": 1
-          }
+          },
+          "isActiveFlag":false
         },{
           "categoryId": this.getIdBm,
           "categoryName": null,
@@ -591,12 +553,11 @@ export class CategoryComponent implements OnInit {
           "categoryCode": this.catCode,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": valImg,
           "language": {
               "languageId": 2
-          }
+          },
+          "isActiveFlag":false
         }
       ]    
 
@@ -604,13 +565,18 @@ export class CategoryComponent implements OnInit {
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = formValues.parentsEn;
       body[0].isMainMenu = formValues.ismainmenu;
-      body[0].image.mediaId = formValues.imageEn;
+      //body[0].image.mediaId = formValues.imageEn;
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = formValues.parentsBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].image.mediaId = formValues.imageBm;      
+      //body[1].image.mediaId = formValues.imageBm;      
+
+      if(formValues.imageBm != null){
+        body[0].image.mediaId = formValues.imageEn;      
+        body[1].image.mediaId = formValues.imageBm;
+      }
 
       console.log("UPDATE: ");
       console.log(JSON.stringify(body))

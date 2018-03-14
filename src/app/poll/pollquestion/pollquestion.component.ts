@@ -328,7 +328,7 @@ export class PollquestionComponent implements OnInit {
       console.log("UPDATE DELETE: ");
       console.log(body);
 
-      this.commonservice.update(body,'/question/multiple/update').subscribe(
+      this.commonservice.update(body,'polls/question/multiple/update').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){

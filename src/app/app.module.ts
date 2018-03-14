@@ -105,7 +105,6 @@ import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.co
 import { LoadingModule } from 'ngx-loading';
 import { TruncatePipe } from './pipe/truncate.pipe';
 import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
-import { TreeviewModule } from 'ngx-treeview';
 import {NgxTreeSelectModule} from 'ngx-tree-select';
 import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -203,7 +202,6 @@ export function HttpLoaderFactory(http: HttpClient) {
       preventDuplicates: true
     }),
 
-    TreeviewModule.forRoot(),
     NgxTreeSelectModule.forRoot({
       allowFilter: true,
       expandMode: 'None',
