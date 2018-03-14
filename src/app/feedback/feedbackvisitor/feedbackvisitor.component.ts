@@ -60,7 +60,7 @@ export class FeedbackvisitorComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getData();
+              //this.getData();
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -70,7 +70,7 @@ export class FeedbackvisitorComponent implements OnInit {
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getData();
+      //this.getData();
       this.commonservice.getModuleId();
     }
 

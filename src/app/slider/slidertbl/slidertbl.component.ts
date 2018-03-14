@@ -68,7 +68,7 @@ export class SlidertblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              // this.getSlidersData(this.pageCount, this.sliderPageSize);
+              this.getSlidersData(this.pageCount, this.sliderPageSize);
       this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -77,7 +77,7 @@ export class SlidertblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      // this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.getSlidersData(this.pageCount, this.sliderPageSize);
       this.commonservice.getModuleId();
     }
 
@@ -85,8 +85,9 @@ export class SlidertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','slideTitleEn', 'slideTitleBm', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideAction'];
     this.commonservice.getModuleId();
+    this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
 
   ngAfterViewInit() {
@@ -98,15 +99,15 @@ export class SlidertblComponent implements OnInit {
   getSlidersData(page, size) {
     
     this.loading = true;
-    this.commonservice.readPortal('slide/code/',page, size).subscribe(
+    this.commonservice.readPortal('slider/all',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
         this.sliderList = data;
         console.log(this.sliderList)
 
-        if(this.sliderList.list.length > 0){
-          this.dataSource.data = this.sliderList.list;
+        if(this.sliderList.sliderList.length > 0){
+          this.dataSource.data = this.sliderList.sliderList;
           this.seqPageNum = this.sliderList.pageNumber;
           this.seqPageSize = this.sliderList.pageSize;
           this.commonservice.recordTable = this.sliderList;
@@ -162,11 +163,11 @@ export class SlidertblComponent implements OnInit {
     this.router.navigate(['slider', row]);
   }
 
-  deleteItem(enId,bmId) {
+  deleteItem(refcode) {
     let txt;
 
     this.loading = true;
-      this.commonservice.delete( enId+','+bmId, '/delete/selected?id=').subscribe(
+      this.commonservice.delete( refcode, '/delete/selected?id=').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

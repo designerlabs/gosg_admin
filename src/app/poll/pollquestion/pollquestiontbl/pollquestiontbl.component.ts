@@ -37,6 +37,8 @@ export class PollquestiontblComponent implements OnInit {
   languageId: any;
   public loading = false;
   showNoData = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -107,7 +109,8 @@ export class PollquestiontblComponent implements OnInit {
   }
 
   getRecordList(page, size) {
-  
+    
+    this.recordList = null;
     // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
     this.loading = true;
     this.commonservice.readProtected('polls/question', page, size)
@@ -124,7 +127,7 @@ export class PollquestiontblComponent implements OnInit {
             this.dataSource.data = this.recordList.pollQuestionFormatList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -148,6 +151,8 @@ export class PollquestiontblComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword) {
+
+    this.recordList = null;
   
     // this.dataUrl = this.appConfig.urlPoll + '/question/search/all?keyword=' +keyword+ '&page=' + page + '&size=' + size + '&language=' +this.languageId;
 
@@ -166,7 +171,7 @@ export class PollquestiontblComponent implements OnInit {
               this.dataSource.data = this.recordList.pollQuestionFormatList;
               this.seqPageNum = this.recordList.pageNumber;
               this.seqPageSize = this.recordList.pageSize;
-              this.commonservice.recordTable = this.recordList;
+              this.recordTable = this.recordList;
               this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
               this.showNoData = false;
@@ -175,6 +180,11 @@ export class PollquestiontblComponent implements OnInit {
             else{
               this.dataSource.data = []; 
               this.showNoData = true;
+
+              this.seqPageNum = this.recordList.pageNumber;
+              this.seqPageSize = this.recordList.pageSize;
+              this.recordTable = this.recordList;
+              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
             }
 
           }).bind(this)); 
@@ -222,8 +232,9 @@ export class PollquestiontblComponent implements OnInit {
   }
 
   deleteRow(enId, bmId) {
+    let ids = enId+','+bmId;
   
-    this.commonservice.delete(enId+','+bmId, 'polls/question/delete/selected?id=').subscribe(
+    this.commonservice.delete(ids, 'polls/question/delete/selected/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){

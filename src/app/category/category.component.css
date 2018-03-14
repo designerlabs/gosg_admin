@@ -1,4 +1,4 @@
-.right-content {
+/* .right-content {
     width: 100%;
 }
 
@@ -18,84 +18,30 @@
     width: 100%;
 }
 
-.categoryList{
+.categoryList {
     color: #ff0 !important;
 }
 
-label {
-    margin-bottom: 0;
-    cursor: pointer;
+.item{
+    font-size: 15px !important;
+    font-family: "Roboto" !important;
+} */
+.right-content {
+    width: 100%;
 }
 
-
-.tree ul {
-    margin-left: 20px !important;
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
 }
 
-.tree li {
-    list-style-type: none  !important;
-    margin:10px !important;
-    position: relative !important;
+.bg-form-header {
+    padding: 10px;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
 }
 
-.tree li::before {
-    content: "" !important;
-    position: absolute !important;
-    top:-7px !important;
-    left:-20px !important;
-    border-left: 1px solid #ccc !important;
-    border-bottom:1px solid #ccc !important;
-    border-radius:0 0 0 0px !important;
-    width:20px !important;
-    height:15px !important;
+.example-full-width {
+    width: 100%;
 }
-
-.tree li::after {
-    position:absolute !important;
-    content:"" !important;
-    top:8px !important;
-    left:-20px !important;
-    border-left: 1px solid #ccc !important;
-    border-top:1px solid #ccc !important;
-    border-radius:0px 0 0 0 !important;
-    width:20px !important;
-    height:100% !important;
-}
-
-.tree li:last-child::after  {
-    display:none !important;
-}
-
-.tree li:last-child:before{
-    border-radius: 0 0 0 5px !important;
-}
-
-ul.tree>li:first-child::before {
-    display:none !important;
-}
-
-ul.tree>li:first-child::after {
-    border-radius:5px 0 0 0 !important;
-}
-
-.tree li input {
-    border: 1px #ccc solid !important;
-    border-radius: 5px !important;
-    padding:2px 5px !important;
-}
-
-.tree li input:hover, .tree li input:hover+ul li input,
-.tree li input:focus, .tree li input:focus+ul li input {
-    background: #ccc !important; 
-    color: #000 !important; 
-    border: 1px solid #000 !important;
-}
-
-.tree li input:hover+ul li::after, .tree li input:focus+ul li::after,
-.tree li input:hover+ul li::before, .tree li input:focus+ul li::before 
-.tree li input:hover+ul::before, .tree li input:focus+ul::before 
-.tree li input:hover+ul ul::before, .tree li input:focus+ul ul::before{
-    border-color:  #000 !important; /*connector color on hover*/
-}
-
-

@@ -60,7 +60,7 @@ export class FeedbackadminComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getData();
+              //this.getData();
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -70,7 +70,7 @@ export class FeedbackadminComponent implements OnInit {
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getData();
+      //this.getData();
       this.commonservice.getModuleId();
     }
 
@@ -103,6 +103,7 @@ export class FeedbackadminComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[4];  
     this.loading = true;
+
     this.commonservice.readProtectedById('feedback/', _getRefID)
     .subscribe(data => {
 

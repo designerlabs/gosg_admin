@@ -34,6 +34,8 @@ export class FonttblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -85,6 +87,8 @@ export class FonttblComponent implements OnInit {
 
   getRecordList(page, size) {  
 
+    this.recordList = null;
+
     this.loading = true;
     this.commonservice.readPortal('font', page, size).subscribe(
       data => {
@@ -97,7 +101,7 @@ export class FonttblComponent implements OnInit {
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
         }).bind(this)); 
         this.loading = false;
@@ -140,7 +144,7 @@ export class FonttblComponent implements OnInit {
 
     console.log(id);
     this.loading = true;
-    this.commonservice.delete(id,'font/').subscribe(
+    this.commonservice.delete(id,'font/id/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

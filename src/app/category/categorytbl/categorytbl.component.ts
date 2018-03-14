@@ -36,6 +36,8 @@ export class CategorytblComponent implements OnInit {
   public loading = false;
 
   showNoData = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -91,6 +93,8 @@ export class CategorytblComponent implements OnInit {
   }
 
   getRecordList(count, size) {
+
+    this.recordList = null;
   
     this.loading = true;
     this.commonservice.readProtected('content/category/code',count, size)
@@ -107,7 +111,7 @@ export class CategorytblComponent implements OnInit {
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
           this.showNoData = false;
@@ -129,14 +133,17 @@ export class CategorytblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(page, size, keyword) {
+
+    this.recordList = null;
   
-    this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    //this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
     
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      // this.commonservice.readProtected('content/category/code', count, size)
-      this.http.get(this.dataUrl)
+
+      this.commonservice.readProtected('content/category/code', page, size, keyword)
+      //this.http.get(this.dataUrl)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -150,7 +157,7 @@ export class CategorytblComponent implements OnInit {
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -159,6 +166,11 @@ export class CategorytblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this));

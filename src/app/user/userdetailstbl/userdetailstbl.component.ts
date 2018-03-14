@@ -16,7 +16,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class UserdetailstblComponent implements OnInit {
 
-  filterTypeVal: any;
+  filterTypeVal = 0;
   checkStatus: any;
   userId: any;
   lang:any;
@@ -53,6 +53,9 @@ export class UserdetailstblComponent implements OnInit {
   isMailContainerShow = 'block';
   public loading = false;
   showNoData = false;
+
+  recordTable = null;
+  recordList = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -174,7 +177,7 @@ export class UserdetailstblComponent implements OnInit {
           this.dataSource.data = this.userList.userList;
           this.seqPageNum = this.userList.pageNumber;
           this.seqPageSize = this.userList.pageSize;
-          this.commonservice.recordTable = this.userList;
+          this.recordTable = this.userList;
           this.noNextData = this.userList.pageNumber === this.userList.totalPages;
           
           this.showNoData = false;
@@ -195,6 +198,8 @@ export class UserdetailstblComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword, filterVal) {
+
+    this.recordList = null;
 
     if(filterVal == 2){  // by Email
       this.dataUrl = 'usermanagement?email=';
@@ -221,13 +226,18 @@ export class UserdetailstblComponent implements OnInit {
             this.dataSource.data = this.recordList.userList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
             
             this.showNoData = false;
           }else{
             this.dataSource.data = []; 
             this.showNoData = true;
+
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }  
 
         }).bind(this)); 

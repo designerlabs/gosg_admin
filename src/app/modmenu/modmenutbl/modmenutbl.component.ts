@@ -40,6 +40,9 @@ export class ModmenutblComponent implements OnInit {
 
   showNoData = false;
 
+  recordList = null;
+  recordTable = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -118,7 +121,7 @@ export class ModmenutblComponent implements OnInit {
             this.dataSource.data = this.moduleList['moduleList'];
             this.seqPageNum = this.moduleList.pageNumber;
             this.seqPageSize = this.moduleList.pageSize;
-            this.commonservice.recordTable = this.moduleList;
+            this.recordTable = this.moduleList;
             this.noNextData = this.moduleList.pageNumber === this.moduleList.totalPages;
 
             this.showNoData = false;
@@ -142,6 +145,7 @@ export class ModmenutblComponent implements OnInit {
 
   getFilterList(page, size, keyword, filterkeyword) {
 
+    this.recordList = null;
     // this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId+ '&page=' + page + '&size=' + size;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
@@ -159,7 +163,7 @@ export class ModmenutblComponent implements OnInit {
             this.dataSource.data = this.recordList.moduleList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
             this.showNoData = false;
           }
@@ -167,6 +171,10 @@ export class ModmenutblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
         }).bind(this));
         this.loading = false; 

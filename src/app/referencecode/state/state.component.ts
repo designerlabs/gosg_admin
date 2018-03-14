@@ -41,6 +41,8 @@ export class StateComponent implements OnInit {
   languageId: any;
   public loading = false;
 
+  recordTable = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -108,7 +110,7 @@ export class StateComponent implements OnInit {
   }
 
   getRecordList(page, size) {
-
+    this.recordList = null;
     this.loading = true;
 
     this.commonservice.readPortal('state', page, size)
@@ -123,7 +125,7 @@ export class StateComponent implements OnInit {
           this.seqPageSize = this.recordList.pageSize;
 
           this.dataSource.data = this.recordList.stateList;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
         }).bind(this));

@@ -132,17 +132,7 @@
                                 <mat-option *ngFor="let imageEng of imageData" [value]="imageEng.list[0].mediaId">{{ imageEng.list[0].mediaFile }}</mat-option>
                             </mat-select>
                         </mat-form-field>
-                <!-- <mat-form-field class="example-full-width font-size-s">
-                        <mat-select formControlName="imgEng"  placeholder="Select Image">
-                            <mat-option>Select Image</mat-option>
-                            <mat-option [value]="647">image1.png</mat-option>
-                            <mat-option [value]="648">image2.jpg</mat-option>
-                        </mat-select>
-                </mat-form-field> -->
                 </div>
-                <!-- <div class="col-md-2" style="text-align: center; padding-top: 15px;">
-                    <mat-checkbox formControlName="copyImg" (change)="isChecked($event, imgEng)"></mat-checkbox><span>&nbsp;Copy</span>
-                </div> -->
                 <div class="col-md-6" style="border: 0px solid #000; text-align: left">
                     <mat-form-field class="font-size-s" style="width:100%;" >
                         <mat-select formControlName="imgMy"  placeholder="Pilih Gambar" (change)="selectedImg($event, 2)">
@@ -150,13 +140,6 @@
                             <mat-option *ngFor="let imageMy of imageData" [value]="imageMy.list[1].mediaId">{{ imageMy.list[1].mediaFile}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                <!-- <mat-form-field class="example-full-width font-size-s">
-                    <mat-select formControlName="imgMy" placeholder="Pilih Gambar">
-                        <mat-option>Sila Pilih</mat-option>
-                        <mat-option [value]="647">image1.png</mat-option>
-                        <mat-option [value]="648">image2.jpg</mat-option>
-                    </mat-select>
-                </mat-form-field> -->
                 </div>
                 <div class="col-md-1">
                 &nbsp;

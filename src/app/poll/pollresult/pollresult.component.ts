@@ -31,6 +31,8 @@ export class PollresultComponent implements OnInit {
   languageId: any;
   public loading = false;
 
+  recordTable = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -82,6 +84,9 @@ export class PollresultComponent implements OnInit {
   }
 
   getRecordList(page, size) {
+
+    this.recordList = null;
+
     this.loading = true;
     this.commonservice.readProtected('polls/question', page, size)
     .subscribe(data => {
@@ -95,7 +100,7 @@ export class PollresultComponent implements OnInit {
           this.dataSource.data = this.recordList.pollQuestionFormatList;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
         }).bind(this)); 
         this.loading = false;

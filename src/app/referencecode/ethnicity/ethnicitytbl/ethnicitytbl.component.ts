@@ -42,6 +42,8 @@ export class EthnicitytblComponent implements OnInit {
   public getRaceEng: any;
   public languageId: any;
   public loading = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -49,20 +51,7 @@ export class EthnicitytblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  // isAllSelected() {
-  //   const numSelected = this.selection.selected.length;
-  //   const numRows = this.dataSource.data.length;
-  //   return numSelected === numRows;
-  // }
-
-
-  // applyFilter(filterValue: string) {
-  //   filterValue = filterValue.trim(); // Remove whitespace
-  //   filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-  //   this.dataSource.filter = filterValue;
-  // }
-  
+    
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
@@ -98,6 +87,8 @@ export class EthnicitytblComponent implements OnInit {
   }
 
   getRecordList(page, size) {
+
+    this.recordList = null;
     this.loading = true;
     this.commonservice.readPortal('race', page, size)
     .subscribe(data => {
@@ -111,7 +102,7 @@ export class EthnicitytblComponent implements OnInit {
       this.seqPageSize = this.recordList.pageSize;
       
       this.dataSource.data = this.recordList.list;
-      this.commonservice.recordTable = this.recordList;
+      this.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
         }).bind(this)); 

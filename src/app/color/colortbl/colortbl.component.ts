@@ -36,6 +36,8 @@ export class ColortblComponent implements OnInit {
   languageId: any;
   public loading = false;
 
+  recordTable =  null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -100,7 +102,7 @@ export class ColortblComponent implements OnInit {
           this.dataSource.data = this.colorList['list'];
           this.seqPageNum = this.colorList.pageNumber;
           this.seqPageSize = this.colorList.pageSize;
-          this.commonservice.recordTable = this.colorList;
+          this.recordTable = this.colorList;
           this.noNextData = this.colorList.pageNumber === this.colorList.totalPages;
         }).bind(this));
         this.loading = false;
