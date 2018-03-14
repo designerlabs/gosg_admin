@@ -50,6 +50,8 @@ export class UsertblComponent implements OnInit {
   userType: FormControl;
   isMailContainerShow = 'block';
 
+  recordTable = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -150,7 +152,7 @@ export class UsertblComponent implements OnInit {
         this.dataSource.data = this.userList.adminUserListResource;
         this.seqPageNum = this.userList.pageNumber;
         this.seqPageSize = this.userList.pageSize;
-        this.commonservice.recordTable = this.userList;
+        this.recordTable = this.userList;
         this.noNextData = this.userList.pageNumber === this.userList.totalPages;
 
       }).bind(this));
