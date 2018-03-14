@@ -125,7 +125,7 @@ export class CategoryComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
-    document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
+    //document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
 
   }
 
@@ -410,8 +410,8 @@ export class CategoryComponent implements OnInit {
     let parentValEn: any;
     let parentValBm: any;
 
-    let valImgEn: any;
     let valImg: any;
+    let body: any;
 
     //predefined super parent id;
     if(formValues.parentsEn == null){
@@ -431,7 +431,7 @@ export class CategoryComponent implements OnInit {
     // add form
     if(urlEdit === 'add'){
 
-      let body = [
+      body = [
         {
         
           "categoryName": null,
@@ -460,40 +460,40 @@ export class CategoryComponent implements OnInit {
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = parentValEn;
-      body[0].isMainMenu = formValues.ismainmenu;
-      body[0].image.mediaId = formValues.imageEn;
+      body[0].isMainMenu = formValues.ismainmenu;      
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = parentValBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].image.mediaId = formValues.imageBm;
 
       console.log("TEST")
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.create(body,'content/category/post').subscribe(
-        data => {         
+      // this.commonservice.create(body,'content/category/post').subscribe(
+      //   data => {         
           
-          this.commonservice.errorHandling(data, (function(){
+      //     this.commonservice.errorHandling(data, (function(){
 
-            this.toastr.success(this.translate.instant('common.success.added'), '');
-            this.router.navigate(['category']);
+      //       this.toastr.success(this.translate.instant('common.success.added'), '');
+      //       this.router.navigate(['category']);
 
-          }).bind(this)); 
-          this.loading = false;  
-        },
-        error => {
+      //     }).bind(this)); 
+      //     this.loading = false;  
+      //   },
+      //   error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          this.loading = false;   
-          console.log(error);
-      });
+      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+      //     this.loading = false;   
+      //     console.log(error);
+      // });
     }
 
     // update form
     else{
-      let body = [
+      //  
+      
+      body = [
         {
         
           "categoryId": this.getIdEn,
@@ -502,12 +502,11 @@ export class CategoryComponent implements OnInit {
           "categoryCode": this.catCode,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": valImg,
           "language": {
               "languageId": 1
-          }
+          },
+          "isActiveFlag":false
         },{
           "categoryId": this.getIdBm,
           "categoryName": null,
@@ -515,26 +514,37 @@ export class CategoryComponent implements OnInit {
           "categoryCode": this.catCode,
           "parentId":null,
           "isMainMenu": false,
-          "image": {
-            "mediaId": null
-           },
+          "image": valImg,
           "language": {
               "languageId": 2
-          }
+          },
+          "isActiveFlag":false
         }
       ]    
+
+
 
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
       body[0].parentId = formValues.parentsEn;
       body[0].isMainMenu = formValues.ismainmenu;
-      body[0].image.mediaId = formValues.imageEn;
+      //body[0].image.mediaId = formValues.imageEn;
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = formValues.parentsBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].image.mediaId = formValues.imageBm;      
+      //body[1].image.mediaId = formValues.imageBm;      
+
+      if(formValues.imageEn == null){
+        valImg = null;
+      }
+  
+      else{
+        valImg = { "mediaId": null };
+        body[0].image.mediaId = formValues.imageEn;      
+        body[1].image.mediaId = formValues.imageBm;
+      }
 
       console.log("UPDATE: ");
       console.log(JSON.stringify(body))
