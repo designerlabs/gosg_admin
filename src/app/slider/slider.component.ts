@@ -176,10 +176,10 @@ export class SliderComponent implements OnInit {
           // populate data
           this.updateForm.get('titleEn').setValue(dataEn.sliderTitle);
           this.updateForm.get('descEn').setValue(dataEn.sliderDescription);
-          this.updateForm.get('imgEn').setValue(parseInt(dataEn.sliderImage));
+          this.updateForm.get('imgEn').setValue(parseInt(dataEn.sliderImage.mediaId));
           this.updateForm.get('titleBm').setValue(dataBm.sliderTitle);
           this.updateForm.get('descBm').setValue(dataBm.sliderDescription);
-          this.updateForm.get('imgBm').setValue(parseInt(dataBm.sliderImage));
+          this.updateForm.get('imgBm').setValue(parseInt(dataBm.sliderImage.mediaId));
           this.updateForm.get('active').setValue(dataEn.sliderActiveFlag);
           this.updateForm.get('urlEng').setValue(dataEn.sliderUrl);
           this.updateForm.get('urlMy').setValue(dataBm.sliderUrl);
