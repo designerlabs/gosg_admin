@@ -37,6 +37,8 @@ export class FootercategorytblComponent implements OnInit {
   dataUrl: any;  
   public languageId: any;
 
+  recordTable = null;
+
   public getIdentificationTypeIdEng: any;
   public getIdentificationTypeIdMy: any;
   public getIdentificationTypeMy: any;
@@ -90,6 +92,7 @@ export class FootercategorytblComponent implements OnInit {
 
   getRecordList(page, size) {
   
+    this.recordList = null;
     // this.dataUrl = this.appConfig.urlFooterCategory + '?page=' + count + '&size=' + size + "&language=" + this.languageId;
 
     this.loading = true;
@@ -102,10 +105,9 @@ export class FootercategorytblComponent implements OnInit {
         console.log(data);
 
         this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
-        
+        this.seqPageSize = this.recordList.pageSize;        
         this.dataSource.data = this.recordList.list;
-        this.commonservice.recordTable = this.recordList;
+        this.recordTable = this.recordList;
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
       }).bind(this)); 

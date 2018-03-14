@@ -40,6 +40,8 @@ export class FootercontenttblComponent implements OnInit {
   languageId: any;
   showNoData = false;
 
+  recordTable = null;
+
   public getIdentificationTypeIdEng: any;
   public getIdentificationTypeIdMy: any;
   public getIdentificationTypeMy: any;
@@ -94,6 +96,8 @@ export class FootercontenttblComponent implements OnInit {
   }
 
   getRecordList(page, size) {
+
+    this.recordList = null;
   
     this.dataUrl = 'footercontent';
     this.loading = true;
@@ -110,7 +114,7 @@ export class FootercontenttblComponent implements OnInit {
           this.seqPageSize = this.recordList.pageSize;
           
           this.dataSource.data = this.recordList.list;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
           this.showNoData = false;
@@ -133,6 +137,8 @@ export class FootercontenttblComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword) {
+
+    this.recordList = null;
   
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
@@ -147,10 +153,9 @@ export class FootercontenttblComponent implements OnInit {
             console.log(data);
 
             this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            
+            this.seqPageSize = this.recordList.pageSize;            
             this.dataSource.data = this.recordList.list;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -159,6 +164,10 @@ export class FootercontenttblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageSize = this.recordList.pageSize;            
+            this.dataSource.data = this.recordList.list;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this)); 
