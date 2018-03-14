@@ -141,6 +141,9 @@ export class CategoryComponent implements OnInit {
   }
 
 
+selectC(e){
+  debugger;
+}
   selectedCat(e, val){
 
     console.log(e);
@@ -290,39 +293,6 @@ export class CategoryComponent implements OnInit {
         console.log(error);
     });
   }
-
-  // json_tree(a) {
-  //   var json = "";
-
-    
-  //   for(var i = 0; i < this.treeEn.length; ++i) {
-  //       json = json  + this.treeEn[i].categoryName;
-  //       if(this.treeEn[i].children.length) {
-  //           json = json + this.json_tree (this.treeEn[i].children);
-  //       }
-  //       json = json;
-  //   }
-  //   return json;
-  // }
-
-  // json_tree(data) {
-  //   var json = "<ul class = \""+ parent +"\">";
-
-  //   //alert( this.treeEn.length);
-    
-  //   for(var i = 0; i < this.treeEn.length; ++i) {
-  //       json = json + "<li>";
-  //       var className = "categoryCheckbox";
-  //       json = json + "<input class=\"categoryCheckbox\" type=\"checkbox\" name=\"" + this.treeEn[i].categoryName + "\" value=\""+ this.treeEn[i].id +"\">";
-  //       json = json + this.treeEn[i].categoryName;
-        
-  //       if(this.treeEn[i].children.length) {
-  //           json = json + this.json_tree (this.treeEn[i].children);
-  //       }
-  //       json = json + "</li>";
-  //   }
-  //   return json + "</ul>";
-  // }
 
 
   getNestedChildrenEn(arr, parent) {
