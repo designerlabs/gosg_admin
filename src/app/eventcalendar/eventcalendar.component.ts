@@ -209,13 +209,25 @@ export class EventcalendarComponent implements OnInit {
 
     let nameEn = "nameEn";
     let descEn = "descEn";
-    let imgEn = "imgEn";
     let nameBm = "nameBm";
     let descBm = "descBm";
-    let imgBm = "imgBm";
-    // let active = "active";
+    let location = "location";
+    let city = "city";
+    let start = "start";
+    let end = "end";
+    let image = "image";
 
-    let reqVal: any = [nameEn, descEn, imgEn, nameBm, descBm, imgBm];
+    let reqVal: any = [
+                        nameEn, 
+                        descEn, 
+                        nameBm, 
+                        descBm, 
+                        location, 
+                        city, 
+                        start, 
+                        end, 
+                        image
+                      ];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -226,8 +238,6 @@ export class EventcalendarComponent implements OnInit {
         nullPointers.push(null)
       }
     }
-
-    this.isSameImg(this.updateForm.get(imgEn).value,this.updateForm.get(imgBm).value);
 
       // console.log(nullPointers)
 
@@ -252,27 +262,33 @@ export class EventcalendarComponent implements OnInit {
       {
         "eventTitle": null,
         "eventDescription": null,
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
         "eventImage": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 1
         }
       }, 
       {
         "eventTitle": null,
         "eventDescription": null,
-        "eventImage":  {
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
+        "eventImage": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 2
         }
       }
     ];
@@ -281,29 +297,33 @@ export class EventcalendarComponent implements OnInit {
 
     body[0].eventTitle = formValues.nameEn;
     body[0].eventDescription = formValues.descEn;
-    body[0].eventImage.mediaId = formValues.imgEn;
-    body[0].eventSort = null;
-    body[0].eventActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
+    body[0].eventStart = formValues.start;
+    body[0].eventEnd = formValues.end;
+    body[0].eventLocation = formValues.location;
+    body[0].eventCity = formValues.city;
+    body[0].eventImage.mediaId = formValues.image;
+    body[0].enabled = formValues.active;
 
     body[1].eventTitle = formValues.nameBm;
     body[1].eventDescription = formValues.descBm;
-    body[1].eventImage.mediaId = formValues.imgBm;
-    body[1].eventSort = null;
-    body[1].eventActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+    body[1].eventStart = formValues.start;
+    body[1].eventEnd = formValues.end;
+    body[1].eventLocation = formValues.location;
+    body[1].eventCity = formValues.city;
+    body[1].eventImage.mediaId = formValues.image;
+    body[1].enabled = formValues.active;
 
     console.log(body)
 
     this.loading = true;
     // Add event Service
-    this.commonservice.create(body,'slide').subscribe(
+    this.commonservice.create(body,'calendar').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.toastr.success('event added successfully!', ''); 
-        this.router.navigate(['event']);
-
-      }).bind(this)); 
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
+        this.router.navigate(['calendar']);
+      this.loading = false;
       this.loading = false;
       },
       error => {
@@ -319,68 +339,75 @@ export class EventcalendarComponent implements OnInit {
         "eventId": null,
         "eventTitle": null,
         "eventDescription": null,
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
         "eventImage": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 1
         }
       }, 
       {
         "eventId": null,
         "eventTitle": null,
         "eventDescription": null,
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
         "eventImage": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 2
         }
       }
     ];
-      
-    body[0].eventCode = this.eventCode;
+
     body[0].eventId = this.eventIdEn;
     body[0].eventTitle = formValues.nameEn;
     body[0].eventDescription = formValues.descEn;
-    body[0].eventImage.mediaId = formValues.imgEn;
-    body[0].eventSort = null;
-    body[0].eventActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
-    
-    body[1].eventCode = this.eventCode;
+    body[0].eventStart = formValues.start;
+    body[0].eventEnd = formValues.end;
+    body[0].eventLocation = formValues.location;
+    body[0].eventCity = formValues.city;
+    body[0].eventImage.mediaId = formValues.image;
+    body[0].enabled = formValues.active;
+
     body[1].eventId = this.eventIdBm;
     body[1].eventTitle = formValues.nameBm;
     body[1].eventDescription = formValues.descBm;
-    body[1].eventImage.mediaId = formValues.imgBm;
-    body[1].eventSort = null;
-    body[1].eventActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+    body[1].eventStart = formValues.start;
+    body[1].eventEnd = formValues.end;
+    body[1].eventLocation = formValues.location;
+    body[1].eventCity = formValues.city;
+    body[1].eventImage.mediaId = formValues.image;
+    body[1].enabled = formValues.active;
 
     console.log(body);
     this.loading = true;
 
     // Update event Service
-    this.commonservice.update(body,'slide').subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
-        this.toastr.success('event update successful!', '');   
-        this.router.navigate(['event']);
-
-      }).bind(this)); 
-      this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-        this.loading = false;
-      });
+    // this.commonservice.update(body,'calendar').subscribe(
+    //   data => {
+    //     this.commonservice.errorHandling(data, (function(){
+    //       this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+    //     }).bind(this));  
+    //     this.router.navigate(['calendar']);
+    //   this.loading = false;
+    //   },
+    //   error => {
+    //     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+    //     console.log(error);
+    //     this.loading = false;
+    //   });
     }
     
 

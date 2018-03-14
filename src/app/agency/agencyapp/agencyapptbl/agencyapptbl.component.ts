@@ -104,7 +104,7 @@ export class AgencyapptblComponent implements OnInit {
   // get agencyapp Data 
   getAgencyAppData(count, size) {
     this.loading = true;
-    this.commonservice.readPortal('agency/application/code/',count, size)
+    this.commonservice.readPortal('agency/application/code',count, size)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
