@@ -212,27 +212,25 @@ export class AgencyappComponent implements OnInit {
       console.log(keyword)
       console.log(keyword.length)
       this.isActive = true;
-
-      if(langId == 1) {
-        this.isActiveListEn = true;
-        this.isActiveListBm = false;
-      } else {
-        this.isActiveListBm = true;
-        this.isActiveListEn = false;
-      }
       this.loading = true;
-      this.commonservice.readPortal('agency','','', keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId,'','', keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
+
+          console.log(data['list'].length)
+
+          if(data['list'].length != 0) {
             if(langId == 1) {
               this.searchAgencyResultEn = data['list'];
-              console.log(this.searchAgencyResultEn)
-              console.log('1')
+              this.isActiveListEn = true;
+              this.isActiveListBm = false;
             } else {
               this.searchAgencyResultBm = data['list'];
-              console.log(this.searchAgencyResultBm)
+              this.isActiveListBm = true;
+              this.isActiveListEn = false;
             }
+          }
         }).bind(this));
           this.loading = false;
       },err => {
@@ -255,8 +253,6 @@ export class AgencyappComponent implements OnInit {
       this.agencyIdEn = aId;
       this.ministryNameEn = mName;
 
-      this.getAgencyByRefCode(refCode,2);
-
     } else {
       this.agencyBm = this.updateForm.get('agencyBm').value;
       this.isActive = false;
@@ -266,8 +262,8 @@ export class AgencyappComponent implements OnInit {
       this.agencyIdBm = aId;
       this.ministryNameBm = mName;
 
-      this.getAgencyByRefCode(refCode,1);
     }
+    this.getAgencyByRefCode(refCode,langId);
 
     // console.log(mName)
   }
@@ -288,16 +284,16 @@ export class AgencyappComponent implements OnInit {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           console.log('refCode Data');
           console.log(data);
 
-          mName = data['agencyList'][0]['agencyMinistry']['ministryName'];
-          aName = data['agencyList'][0]['agencyName'];
-          aId = data['agencyList'][0]['agencyId'];
+          mName = data['list'][0]['agencyMinistry']['ministryName'];
+          aName = data['list'][0]['agencyName'];
+          aId = data['list'][0]['agencyId'];
           
           this.updateForm.get(selLangField).setValue(aName);
 
