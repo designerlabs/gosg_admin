@@ -41,6 +41,8 @@ export class GenderComponent implements OnInit {
   public getRaceMy: any;
   public getRaceEng: any;
   public loading = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -82,7 +84,8 @@ export class GenderComponent implements OnInit {
   }
 
   getRecordList() {
-  
+
+    this.recordList = null;
     this.loading = true;
     this.commonservice.readPortal('gender/all')
     .subscribe(data => {
@@ -91,7 +94,7 @@ export class GenderComponent implements OnInit {
       this.recordList = data;
       
       this.dataSource.data = this.recordList.list;
-      this.commonservice.recordTable = this.recordList;
+      this.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           
       }).bind(this));
