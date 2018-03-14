@@ -35,6 +35,7 @@ export class ErrormessagetblComponent implements OnInit {
   lang:any;
   languageId: any;
   showNoData = false;
+  recordTable = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -121,7 +122,7 @@ export class ErrormessagetblComponent implements OnInit {
               this.dataSource.data = this.errMsgList.list;
               this.seqPageNum = this.errMsgList.pageNumber;
               this.seqPageSize = this.errMsgList.pageSize;
-              this.commonservice.recordTable = this.errMsgList;
+              this.recordTable = this.errMsgList;
               this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
 
               this.showNoData = false;
@@ -144,6 +145,9 @@ export class ErrormessagetblComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword) {
+
+    this.errMsgList =  null;
+
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;   
       this.commonservice.readProtected('errormessage/code', page, size, keyword)
@@ -159,7 +163,7 @@ export class ErrormessagetblComponent implements OnInit {
                 this.dataSource.data = this.errMsgList.list;
                 this.seqPageNum = this.errMsgList.pageNumber;
                 this.seqPageSize = this.errMsgList.pageSize;
-                this.commonservice.recordTable = this.errMsgList;
+                this.recordTable = this.errMsgList;
                 this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
 
                 this.showNoData = false;
@@ -168,6 +172,10 @@ export class ErrormessagetblComponent implements OnInit {
             else{
               this.dataSource.data = []; 
               this.showNoData = true;
+              this.seqPageNum = this.errMsgList.pageNumber;
+              this.seqPageSize = this.errMsgList.pageSize;
+              this.recordTable = this.errMsgList;
+              this.noNextData = this.errMsgList.pageNumber === this.errMsgList.totalPages;
             }
 
             }).bind(this)); 

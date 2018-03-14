@@ -32,6 +32,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -98,7 +99,7 @@ export class FeedbacksubjecttblComponent implements OnInit {
         this.dataSource.data = this.recordList.list;
         this.seqPageNum = this.recordList.pageNumber;
         this.seqPageSize = this.recordList.pageSize;
-        this.commonservice.recordTable = this.recordList;
+        this.recordTable = this.recordList;
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
       }).bind(this)); 
       this.loading = false;

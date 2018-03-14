@@ -53,7 +53,6 @@ export class CommonService {
     view: 'fa fa-eye'
   }
 
-
   pageSize =  [
     {"id": 1, "size": 10},
     {"id": 2, "size": 25},
@@ -446,10 +445,13 @@ getMediaByCateId(id){
     let readUrl;
     
     if(!keyword && page) {
+      console.log(1);
       readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
     } else if(keyword) {
+      console.log(2);
       readUrl = this.appConfig.urlService + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
     } else {
+      console.log(3);
       readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
     }
     console.log(readUrl)
