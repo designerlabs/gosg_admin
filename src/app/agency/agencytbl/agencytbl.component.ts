@@ -35,6 +35,8 @@ export class AgencytblComponent implements OnInit {
   languageId: any;
   filterTypeVal: any;
   public loading = false;
+  recordTable = null;
+  recordList = null;
 
   showNoData = false
 
@@ -119,7 +121,7 @@ export class AgencytblComponent implements OnInit {
             this.dataSource.data = this.agencyTypeList.list;
             this.seqPageNum = this.agencyTypeList.pageNumber;
             this.seqPageSize = this.agencyTypeList.pageSize;
-            this.commonservice.recordTable = this.agencyTypeList;
+            this.recordTable = this.agencyTypeList;
             this.noNextData = this.agencyTypeList.pageNumber === this.agencyTypeList.totalPages;
 
             this.showNoData = false;
@@ -155,7 +157,7 @@ export class AgencytblComponent implements OnInit {
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
           this.showNoData = false;
@@ -164,6 +166,10 @@ export class AgencytblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this)); 

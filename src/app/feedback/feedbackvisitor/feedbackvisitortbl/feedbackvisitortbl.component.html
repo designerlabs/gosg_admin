@@ -25,7 +25,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1">
+                <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1 && filterTypeVal != 0">
                     <mat-form-field>
                         <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
                         <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
@@ -109,14 +109,14 @@
             </mat-form-field>
             <span class="float-right">
                 <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
-                    <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
-                    <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-                    <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'feedbackvisitortbl.tablebottom.feedback' | translate }}
+                    <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+                    <strong>{{recordTable?.totalElements}}</strong> {{ 'feedbackvisitortbl.tablebottom.feedback' | translate }}
                 </span>
-                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
                     <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
                 </button>
-                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
                     <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
                 </button>
             </span>

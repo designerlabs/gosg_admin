@@ -18,7 +18,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 export class FeedbackvisitortblComponent implements OnInit {
 
   public loading = false;
-  recordList = null;
+  public recordList = null;
   displayedColumns = ['num','type', 'name','email', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
@@ -32,8 +32,10 @@ export class FeedbackvisitortblComponent implements OnInit {
 
   dataUrl: any;  
   languageId: any;
-  filterTypeVal: any;
+  filterTypeVal = 0;
   showNoData = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -104,6 +106,8 @@ export class FeedbackvisitortblComponent implements OnInit {
   }
 
   getRecordList(count, size) {
+
+    this.recordList = null;
   
     this.loading = true;
     this.commonservice.readProtected('feedback/reply/0', count, size)
@@ -119,7 +123,7 @@ export class FeedbackvisitortblComponent implements OnInit {
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -142,6 +146,8 @@ export class FeedbackvisitortblComponent implements OnInit {
   }
 
   getFilterList(count, size, val, filterVal) {
+    
+    this.recordList = null;
 
     if(filterVal == 2){  // by Email
       this.dataUrl = 'feedback/search/email/0/';
@@ -152,21 +158,23 @@ export class FeedbackvisitortblComponent implements OnInit {
     }
 
     if(val != "" && val != null && val.length != null && val.length >= 3) {
+   
       this.loading = true;
       this.commonservice.readProtected(this.dataUrl, count, size, val)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
+          
           this.recordList = data;
           if(this.recordList.feedbackList.length > 0){
 
-            console.log("data");
+            console.log("data Filter");
             console.log(data);
             
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -175,6 +183,10 @@ export class FeedbackvisitortblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this)); 
