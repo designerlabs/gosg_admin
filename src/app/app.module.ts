@@ -106,6 +106,7 @@ import { LoadingModule } from 'ngx-loading';
 import { TruncatePipe } from './pipe/truncate.pipe';
 import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
 import { TreeviewModule } from 'ngx-treeview';
+import {NgxTreeSelectModule} from 'ngx-tree-select';
 import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -203,7 +204,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
 
     TreeviewModule.forRoot(),
-
+    NgxTreeSelectModule.forRoot({
+      allowFilter: true,
+      expandMode: 'None',
+      filterPlaceholder: 'Type your filter here...',
+      idField: 'value',
+      childrenField: 'children'
+    }),
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
