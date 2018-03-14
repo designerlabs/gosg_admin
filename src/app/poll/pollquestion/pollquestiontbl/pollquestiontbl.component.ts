@@ -232,8 +232,9 @@ export class PollquestiontblComponent implements OnInit {
   }
 
   deleteRow(enId, bmId) {
+    let ids = enId+','+bmId;
   
-    this.commonservice.delete(enId+','+bmId, 'polls/question/delete/selected?id=').subscribe(
+    this.commonservice.delete(ids, 'polls/question/delete/selected/').subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){
