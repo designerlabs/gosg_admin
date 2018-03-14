@@ -111,7 +111,7 @@ export class CommonService {
 
   getUsersDetails(): Observable<any[]> {
     if(!environment.staging){
-      return this.http.get(this.getUserUrl+'?langId='+this.languageId)
+      return this.http.get(this.getUserUrl+'?language='+this.languageId)
         .map((response: Response) => response.json())
         .catch(this.handleError);
     }
@@ -391,7 +391,6 @@ getMediaByCateId(id){
 
   // LANGUAGE
   getAllLanguage() {
-    // return this.http.get(this.appConfig.urlUserList + '/' + code + '?langId=1').subscribe(
     return this.http.get(this.appConfig.urlGetLanguage + '/all')
     .map((response: Response) => response.json())
     .catch(this.handleError);
@@ -453,6 +452,7 @@ getMediaByCateId(id){
     } else {
       readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
     }
+    console.log(readUrl)
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
@@ -481,6 +481,7 @@ getMediaByCateId(id){
   
   readPortalById(moduleName, id): Observable<any[]> {
     let readUrl = this.appConfig.urlService + moduleName + id + '?language='+this.languageId;
+    console.log(readUrl)
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)

@@ -248,8 +248,23 @@ export class MinistryComponent implements OnInit {
     let descEn = "descEn";
     let ministryNameBm = "ministryNameBm";
     let descBm = "descBm";
+    let ministryEn = "ministryEn";
+    let ministryBm = "ministryBm";
+    let address = "address";
+    let contactperson = "contactperson";
+    let email = "email";
 
-    let reqVal: any = [ministryNameEn, descEn, ministryNameBm, descBm];
+    let reqVal: any = [
+                        ministryNameEn, 
+                        descEn, 
+                        ministryNameBm, 
+                        descBm,
+                        ministryEn,
+                        ministryBm,
+                        address,
+                        contactperson,
+                        email
+                      ];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {

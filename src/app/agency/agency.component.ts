@@ -101,7 +101,7 @@ export class AgencyComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getAgency();
+              // this.getAgency();
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -283,12 +283,12 @@ export class AgencyComponent implements OnInit {
         this.isActiveListEn = false;
       }
       this.loading = true;
-      this.commonservice.readPortal('ministry', '', '' , keyword).subscribe(data => {
+      this.commonservice.readPortal('ministry/language/'+langId, '', '' , keyword).subscribe(data => {
             this.commonservice.errorHandling(data, (function(){
               if(langId == 1) {
-                this.searchMinistryResultEn = data['ministryList'];
+                this.searchMinistryResultEn = data['list'];
               } else {
-                this.searchMinistryResultBm = data['ministryList'];
+                this.searchMinistryResultBm = data['list'];
               }
             }).bind(this)); 
             this.loading = false; 
@@ -310,7 +310,7 @@ export class AgencyComponent implements OnInit {
       this.updateForm.get('ministryEn').setValue(mName);
       this.ministryIdEn = mId;
 
-      this.getMinistryByRefCode(refCode,langId);
+      // this.getMinistryByRefCode(refCode,langId);
       
     } else {
       this.ministryBm = this.updateForm.get('ministryBm').value;
@@ -319,9 +319,9 @@ export class AgencyComponent implements OnInit {
       this.updateForm.get('ministryBm').setValue(mName);
       this.ministryIdBm = mId;
 
-      this.getMinistryByRefCode(refCode,langId);
-
+      
     }
+    this.getMinistryByRefCode(refCode,langId);
   }
 
   // GET MINISTRY NAME BY PAIRED LANGUAGE ID
@@ -339,7 +339,7 @@ export class AgencyComponent implements OnInit {
       selLangField = "ministryEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('ministry/refcode/language/', refCode)
+    this.commonservice.readPortalById('ministry/refcode/language/'+langId+'/', refCode)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -369,8 +369,26 @@ export class AgencyComponent implements OnInit {
     let descEn = "descEn";
     let agencyNameBm = "agencyNameBm";
     let descBm = "descBm";
+    let ministryEn = "ministryEn";
+    let ministryBm = "ministryBm";
+    let uniqueCode = "uniqueCode";
+    let address = "address";
+    let contactperson = "contactperson";
+    let email = "email";
 
-    let reqVal: any = [agencyNameEn, descEn, agencyNameBm, descBm];
+    let reqVal: any = [
+                        agencyNameEn, 
+                        descEn, 
+                        agencyNameBm, 
+                        descBm,
+                        ministryEn,
+                        ministryBm,
+                        uniqueCode,
+                        address,
+                        contactperson,
+                        email
+                      ];
+
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {

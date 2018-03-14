@@ -221,15 +221,16 @@ export class AgencyappComponent implements OnInit {
         this.isActiveListEn = false;
       }
       this.loading = true;
-      this.commonservice.readPortal('agency/type/','','', keyword).subscribe(
+      this.commonservice.readPortal('agency','','', keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
             if(langId == 1) {
-              this.searchAgencyResultEn = data['agencyList'];
+              this.searchAgencyResultEn = data['list'];
               console.log(this.searchAgencyResultEn)
+              console.log('1')
             } else {
-              this.searchAgencyResultBm = data['agencyList'];
+              this.searchAgencyResultBm = data['list'];
               console.log(this.searchAgencyResultBm)
             }
         }).bind(this));
@@ -254,7 +255,7 @@ export class AgencyappComponent implements OnInit {
       this.agencyIdEn = aId;
       this.ministryNameEn = mName;
 
-      this.getAgencyByRefCode(refCode,langId);
+      this.getAgencyByRefCode(refCode,2);
 
     } else {
       this.agencyBm = this.updateForm.get('agencyBm').value;
@@ -265,7 +266,7 @@ export class AgencyappComponent implements OnInit {
       this.agencyIdBm = aId;
       this.ministryNameBm = mName;
 
-      this.getAgencyByRefCode(refCode,langId);
+      this.getAgencyByRefCode(refCode,1);
     }
 
     // console.log(mName)
@@ -287,7 +288,7 @@ export class AgencyappComponent implements OnInit {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/type', refCode)
+    this.commonservice.readPortalById('agency/', refCode)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
