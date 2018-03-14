@@ -78,6 +78,7 @@ export class CategoryComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
+              this.getCategory()
               //this.getData();
             }
           }.bind(this));
@@ -258,8 +259,9 @@ selectC(e){
           for(let i=0; i<this.categoryData.length; i++){        
          
             arrCatEn.push({
+                        id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                         value:this.categoryData[i].list[0].categoryId,
-                        // refCode: this.categoryData[i].refCode,
+                        refCode: this.categoryData[i].refCode,
                         parent: this.categoryData[i].list[0].parentId,
                         // categoryName: this.categoryData[i].list[0].categoryName,
                         text: this.categoryData[i].list[0].categoryName,
@@ -267,8 +269,9 @@ selectC(e){
                         children: []});      
                          
             arrCatBm.push({
+                          id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                           value:this.categoryData[i].list[1].categoryId,
-                          // refCode: this.categoryData[i].refCode,
+                          refCode: this.categoryData[i].refCode,
                           parent: this.categoryData[i].list[1].parentId,
                           // categoryName: this.categoryData[i].list[1].categoryName,
                           checked: false,
@@ -276,8 +279,14 @@ selectC(e){
                           children: []}); 
           }
           
-
-          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1)
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
           this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
 
           this.itemEn = this.treeEn;
@@ -478,6 +487,7 @@ selectC(e){
       body[1].categoryDescription = formValues.descBm;
       body[1].parentId = parentValBm;
       body[1].isMainMenu = formValues.ismainmenu;
+      debugger;
       this.loading = true;
       // this.commonservice.create(body,'content/category/post').subscribe(
       //   data => {         
