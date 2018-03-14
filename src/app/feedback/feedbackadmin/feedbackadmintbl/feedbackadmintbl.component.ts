@@ -33,8 +33,9 @@ export class FeedbackadmintblComponent implements OnInit {
 
   dataUrl: any;  
   languageId: any;
-  filterTypeVal: any;
+  filterTypeVal = 0;
   showNoData = false;  
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -105,6 +106,8 @@ export class FeedbackadmintblComponent implements OnInit {
   }
 
   getRecordList(count, size) {
+
+    this.recordList = null;
   
     this.loading = true;
     this.commonservice.readProtected('feedback/reply/1', count, size)
@@ -120,7 +123,7 @@ export class FeedbackadmintblComponent implements OnInit {
           this.dataSource.data = this.recordList.feedbackList;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
           this.showNoData = false;
@@ -142,6 +145,8 @@ export class FeedbackadmintblComponent implements OnInit {
   }
 
   getFilterList(count, size, val, filterVal) {
+
+    this.recordList = null;
    
     if(filterVal == 2){  // by Email
       this.dataUrl = 'feedback/search/email/1/';
@@ -167,7 +172,7 @@ export class FeedbackadmintblComponent implements OnInit {
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -176,6 +181,10 @@ export class FeedbackadmintblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this)); 
