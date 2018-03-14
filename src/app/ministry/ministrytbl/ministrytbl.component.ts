@@ -41,6 +41,9 @@ export class MinistrytblComponent implements OnInit {
   public loading = false;
 
   showNoData = false;
+
+  recordTable = null;
+  recordList = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -122,7 +125,7 @@ export class MinistrytblComponent implements OnInit {
           this.dataSource.data = this.ministryList.list;
           this.seqPageNum = this.ministryList.pageNumber;
           this.seqPageSize = this.ministryList.pageSize;
-          this.commonservice.recordTable = this.ministryList;
+          this.recordTable = this.ministryList;
           this.noNextData = this.ministryList.pageNumber === this.ministryList.totalPages;
 
           this.showNoData = false;
@@ -145,6 +148,7 @@ export class MinistrytblComponent implements OnInit {
 
   getFilterList(page, size, keyword) {
 
+    this.recordList = null;
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
@@ -162,7 +166,7 @@ export class MinistrytblComponent implements OnInit {
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
             this.showNoData = false;
@@ -171,6 +175,10 @@ export class MinistrytblComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this)); 

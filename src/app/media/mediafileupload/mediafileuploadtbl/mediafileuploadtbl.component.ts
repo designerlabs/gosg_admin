@@ -151,6 +151,9 @@ export class MediafileuploadtblComponent implements OnInit {
           }else{
             this.dataSource.data = []; 
             this.showNoData = true;
+            this.seqPageNum = this.resultData.pageNumber;
+            this.seqPageSize = this.resultData.pageSize;
+            this.noNextData = this.resultData.pageNumber === this.resultData.totalPages;
           }        
         }).bind(this));     
         this.loading = false;
