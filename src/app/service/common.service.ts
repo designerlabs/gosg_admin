@@ -620,8 +620,7 @@ getMediaByCateId(id){
   
             }, error => {
               
-            }
-          );
+            });
         }
        
       }
