@@ -102,21 +102,21 @@
 
       <div class="row">
         <div class="form-group col-md-6">
-            <label class="font-size-m" for="start">Start Date</label>
+            <label class="font-size-s" for="start">Start Date</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div style="color:#333;" class="font-size-m boldText">{{dt | date:'dd/MM/yyyy' }}</div>
-                <input placeholder="{{ dateFormatExample }}" style="display: none;" matInput formControlName="start" #start [matDatepicker]="start" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" [max]="maxDate"  />
+                <div style="color:#333;">{{sdt | date:'dd/MM/yyyy' }}</div>
+                <input placeholder="" style="display: none;" matInput formControlName="start" #start [matDatepicker]="start" (dateInput)="addStartEvent('input', $event)" (dateChange)="addStartEvent('change', $event)" [min]="minDate" required />
                 <mat-datepicker-toggle matSuffix [for]="start" style="color:#333;"></mat-datepicker-toggle>
-                <mat-datepicker #start [disabled]="initialBtn"></mat-datepicker>
+                <mat-datepicker #start ></mat-datepicker>
               </mat-form-field>
           </div>
           <div class="form-group col-md-6">
-            <label class="font-size-m" for="end">End Date</label>
+            <label class="font-size-s" for="end">End Date</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div style="color:#333;" class="font-size-m boldText">{{dt | date:'dd/MM/yyyy' }}</div>
-                <input placeholder="{{ dateFormatExample }}" style="display: none;" matInput formControlName="end" #end [matDatepicker]="end" (dateInput)="addEvent('input', $event)" (dateChange)="addEvent('change', $event)" [max]="maxDate"  />
+                <div style="color:#333;">{{edt | date:'dd/MM/yyyy' }}</div>
+                <input placeholder="" style="display: none;" matInput formControlName="end" #end [matDatepicker]="end" (dateInput)="addEndEvent('input', $event)" (dateChange)="addEndEvent('change', $event)" [min]="minDate" required />
                 <mat-datepicker-toggle matSuffix [for]="end" style="color:#333;"></mat-datepicker-toggle>
-                <mat-datepicker #end [disabled]="initialBtn"></mat-datepicker>
+                <mat-datepicker #end ></mat-datepicker>
               </mat-form-field>
           </div>
       </div>
@@ -124,13 +124,14 @@
           <div class="col-md-12">
               <label class="">Image</label>
           </div>
-        <div class="col-md-12" style="border: 0px solid #000">
+        <div class="col-md-6" style="border: 0px solid #000">
           <mat-form-field class="example-full-width">
-                <mat-select formControlName="image" placeholder="Select Image" (change)="checkReqValues()" required>
-                    <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
-                    <mat-option [value]="647">image1.png</mat-option>
-                    <mat-option [value]="648">image2.jpg</mat-option>
-                </mat-select>
+            <mat-select formControlName="image" placeholder="Select Image" tabindex="7">
+                <mat-option [value]=null>Select Image</mat-option>
+                <mat-option *ngFor="let img of imageData" 
+                [value]="img.list[0].mediaId">{{ img.list[0].mediaFile }}</mat-option>
+        
+            </mat-select> 
               <mat-error *ngIf="updateForm.get('image').hasError('required')">
                 Please select a file
               </mat-error>
@@ -140,30 +141,30 @@
               </mat-error> -->
           </mat-form-field>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-12">
           &nbsp;
         </div>
       </div>
 
       <div class="row">
-        <div class="col-md-12">&nbsp;</div>
         <div class="col-md-12">
           <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;Active</span>
         </div>
       </div>
       <div class="col-md-12">&nbsp;</div>
     </div>
-
-    <!-- <div class="container"> -->
-      <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate">
-        <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right width_100px mgn_L_5px" (click)="updateSlider(updateForm.value)" [disabled]="!complete">
-          <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-          <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode }}</button>
-        <button mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning pull-right" (click)="resetModal.show()">
-          <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
-      </div>
-    <!-- <div class="col-md-12">&nbsp;</div> -->
-  <!-- </div> -->
+  
+    <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
+      <div class="col-md-12">&nbsp;</div>
+      <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success pull-right width_100px mgn_L_5px"
+      (click)="updateAction(updateForm.value)" [disabled]="!complete">
+      <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+      <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode }}</button>
+      <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="form-control btn btn-md btn-warning width_100px pull-right"
+      (click)="resetModal.show()">
+      <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
+    </div>
+    <div class="col-md-12">&nbsp;</div>
 </form>
 </div>
 <app-confirm-dialog  #resetModal 
