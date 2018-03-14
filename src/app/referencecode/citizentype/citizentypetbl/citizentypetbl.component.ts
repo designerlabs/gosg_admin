@@ -42,6 +42,8 @@ export class CitizentypetblComponent implements OnInit {
   public getUserTypeMy: any;
   public getUserTypeEng: any;
   public loading = false;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -90,6 +92,8 @@ export class CitizentypetblComponent implements OnInit {
   }
 
   getRecordList(page, size) {
+
+    this.recordList = null;
   
     this.loading = true;
     this.commonservice.readProtected('usertype', page, size)
@@ -104,7 +108,7 @@ export class CitizentypetblComponent implements OnInit {
       this.seqPageSize = this.recordList.pageSize;
       
       this.dataSource.data = this.recordList.list;
-      this.commonservice.recordTable = this.recordList;
+      this.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
     }).bind(this)); 

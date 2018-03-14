@@ -34,6 +34,8 @@ export class CityComponent implements OnInit {
 
   showNoData = false;
 
+  recordTable = null;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -84,6 +86,8 @@ export class CityComponent implements OnInit {
   }
 
   getRecordList(page, size) {
+
+    this.recordList = null;
     this.loading = true;
 
     this.commonservice.readPortal('city', page, size)
@@ -99,7 +103,7 @@ export class CityComponent implements OnInit {
           this.dataSource.data = this.recordList.cityList;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
-          this.commonservice.recordTable = this.recordList;
+          this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
           this.showNoData = false;
@@ -121,6 +125,9 @@ export class CityComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword) {
+
+    this.recordList = null;
+
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
       
@@ -137,7 +144,7 @@ export class CityComponent implements OnInit {
             this.dataSource.data = this.recordList.cityList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
-            this.commonservice.recordTable = this.recordList;
+            this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
             this.showNoData = false;
           }
@@ -145,6 +152,11 @@ export class CityComponent implements OnInit {
           else{
             this.dataSource.data = []; 
             this.showNoData = true;
+
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this)); 
