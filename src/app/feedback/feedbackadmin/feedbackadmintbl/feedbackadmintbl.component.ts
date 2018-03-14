@@ -145,7 +145,7 @@ export class FeedbackadmintblComponent implements OnInit {
   }
 
   getFilterList(count, size, val, filterVal) {
-    debugger;
+  
     this.recordList = null;
    
     if(filterVal == 2){  // by Email

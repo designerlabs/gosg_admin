@@ -263,6 +263,8 @@ selectC(e){
                         value:this.categoryData[i].list[0].categoryId,
                         refCode: this.categoryData[i].refCode,
                         parent: this.categoryData[i].list[0].parentId,
+                        parentEn: this.categoryData[i].list[0].parentId,
+                        parentBm: this.categoryData[i].list[1].parentId,
                         // categoryName: this.categoryData[i].list[0].categoryName,
                         text: this.categoryData[i].list[0].categoryName,
                         checked: false,
@@ -273,6 +275,8 @@ selectC(e){
                           value:this.categoryData[i].list[1].categoryId,
                           refCode: this.categoryData[i].refCode,
                           parent: this.categoryData[i].list[1].parentId,
+                          parentEn: this.categoryData[i].list[0].parentId,
+                          parentBm: this.categoryData[i].list[1].parentId,
                           // categoryName: this.categoryData[i].list[1].categoryName,
                           checked: false,
                           text: this.categoryData[i].list[1].categoryName,
@@ -480,15 +484,15 @@ selectC(e){
    
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
-      body[0].parentId = parentValEn;
+      body[0].parentId = parentValEn.parentEn;
       body[0].isMainMenu = formValues.ismainmenu;      
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
-      body[1].parentId = parentValBm;
+      body[1].parentId = parentValEn.parentBm;
       body[1].isMainMenu = formValues.ismainmenu;
       debugger;
-      this.loading = true;
+      // this.loading = true;
       // this.commonservice.create(body,'content/category/post').subscribe(
       //   data => {         
           
