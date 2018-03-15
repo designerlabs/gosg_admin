@@ -68,8 +68,8 @@
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-                        <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                        <i *ngIf="element.list[0].isActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.list[0].isActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
                     </mat-cell>
                 </ng-container>
 
