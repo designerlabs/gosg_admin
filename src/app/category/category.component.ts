@@ -34,7 +34,7 @@ export class CategoryComponent implements OnInit {
   public ismainmenu: FormControl;
   public imageEn: FormControl;
   public imageBm: FormControl;
-  public resultEn: FormControl;
+  public active: FormControl;
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
@@ -101,7 +101,7 @@ export class CategoryComponent implements OnInit {
     this.imageEn = new FormControl();
     this.imageBm = new FormControl();
 
-    this.resultEn = new FormControl();
+    this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
@@ -114,7 +114,7 @@ export class CategoryComponent implements OnInit {
       ismainmenu: this.ismainmenu,
       imageEn: this.imageEn,
       imageBm: this.imageBm,
-      resultEn: this.resultEn
+      active: this.active
       
     });
 
@@ -125,6 +125,7 @@ export class CategoryComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      //this.updateForm.get('active').setValue(this.recordList.list[0].isMainMenu);   
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -137,56 +138,54 @@ export class CategoryComponent implements OnInit {
 
   selectedCat(e, val){
 
-    console.log(e);
-    this.getCatIdEn = e.value;
-    this.getCatIdBm = e.value;
-    let dataListEn = this.treeEn;
-    let dataListBm = this.treeBm;
-    let indexVal: any;
-    let idBm: any;
-    let idEn: any;
-    let refCodeVal: any;
+    // console.log(e);
+    // this.getCatIdEn = e.value;
+    // this.getCatIdBm = e.value;
+    // let dataListEn = this.treeEn;
+    // let dataListBm = this.treeBm;
+    // let indexVal: any;
+    // let idBm: any;
+    // let idEn: any;
+    // let refCodeVal: any;
 
-    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
+    // // if english
+    // if(val == 1){
 
-    // if english
-    if(val == 1){
+    //   //get the refcode
+    //   for(let i=0; i<dataListEn.length; i++){
+    //     indexVal = dataListEn[i].id;
+    //     if(indexVal == this.getCatIdEn){
+    //       refCodeVal = dataListEn[i].refCode;
+    //     }        
+    //   }
 
-      //get the refcode
-      for(let i=0; i<dataListEn.length; i++){
-        indexVal = dataListEn[i].id;
-        if(indexVal == this.getCatIdEn){
-          refCodeVal = dataListEn[i].refCode;
-        }        
-      }
+    //   //comprare refcode to get id for bm
+    //   for(let i=0; i<dataListBm.length; i++){
+    //     if(refCodeVal ==  dataListBm[i].refCode){
+    //       idBm = dataListBm[i].id;
+    //     }        
+    //   }
 
-      //comprare refcode to get id for bm
-      for(let i=0; i<dataListBm.length; i++){
-        if(refCodeVal ==  dataListBm[i].refCode){
-          idBm = dataListBm[i].id;
-        }        
-      }
+    //   this.updateForm.get('parentsBm').setValue(idBm);  
+    // }
 
-      this.updateForm.get('parentsBm').setValue(idBm);  
-    }
+    // else{ //if malay
 
-    else{ //if malay
+    //   for(let i=0; i<dataListBm.length; i++){
+    //     indexVal = dataListBm[i].id;
+    //     if(indexVal == this.getCatIdBm){
+    //       refCodeVal = dataListBm[i].refCode;
+    //     }        
+    //   }
 
-      for(let i=0; i<dataListBm.length; i++){
-        indexVal = dataListBm[i].id;
-        if(indexVal == this.getCatIdBm){
-          refCodeVal = dataListBm[i].refCode;
-        }        
-      }
+    //   for(let i=0; i<dataListEn.length; i++){
+    //     if(refCodeVal ==  dataListEn[i].refCode){
+    //       idBm = dataListEn[i].id;
+    //     }        
+    //   }
 
-      for(let i=0; i<dataListEn.length; i++){
-        if(refCodeVal ==  dataListEn[i].refCode){
-          idBm = dataListEn[i].id;
-        }        
-      }
-
-      this.updateForm.get('parentsEn').setValue(idEn); 
-    }
+    //   this.updateForm.get('parentsEn').setValue(idEn); 
+    // }
   }
 
   selectedImage(e, val){
@@ -197,8 +196,7 @@ export class CategoryComponent implements OnInit {
    
     let indexVal: any;
     let idBm: any;
-    let idEn: any;
-   
+    let idEn: any;   
 
     console.log("EN: "+this.imageEn+" BM: "+this.imageBm+ " value: " +val);
 
@@ -249,16 +247,16 @@ export class CategoryComponent implements OnInit {
           for(let i=0; i<this.categoryData.length; i++){        
          
             arrCatEn.push({
-                        id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                        value:this.categoryData[i].list[0].categoryId,
-                        refCode: this.categoryData[i].refCode,
-                        parent: this.categoryData[i].list[0].parentId,
-                        parentEn: this.categoryData[i].list[0].parentId,
-                        parentBm: this.categoryData[i].list[1].parentId,
-                        // categoryName: this.categoryData[i].list[0].categoryName,
-                        text: this.categoryData[i].list[0].categoryName,
-                        checked: false,
-                        children: []});      
+                          id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                          value:this.categoryData[i].list[0].categoryId,
+                          refCode: this.categoryData[i].refCode,
+                          parent: this.categoryData[i].list[0].parentId,
+                          parentEn: this.categoryData[i].list[0].parentId,
+                          parentBm: this.categoryData[i].list[1].parentId,
+                          // categoryName: this.categoryData[i].list[0].categoryName,
+                          text: this.categoryData[i].list[0].categoryName,
+                          checked: false,
+                          children: []});      
                          
             arrCatBm.push({
                           id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
@@ -297,7 +295,6 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-
   getNestedChildrenEn(arr, parent) {
     var out = []
     var children = []
@@ -314,22 +311,6 @@ export class CategoryComponent implements OnInit {
         }      
     }    
     return out  
-  }
-
-  json_tree(data) {
-    var json = `<ul style='margin:0px; padding:0px 15px;'>`;
-      for (let i = 0; i < data.length; ++i) {
-        json = json + `<li style='list-style-type: none;
-                        margin:0px; padding:0px 15px; position: relative; '>`;
-        let className = "categoryCheckbox";
-        json = json + `<input type='checkbox' value=${data[i].id}> ${data[i].categoryName} <a onClick="alert(${data[i].id});">click</a>`;
-        
-        if (data[i].children.length) {
-          json = json + this.json_tree(data[i].children);
-        }
-        json = json + "</li>";
-      }
-      return json + "</ul>";
   }
 
   getNestedChildrenBm(arr, parent) {
@@ -350,6 +331,22 @@ export class CategoryComponent implements OnInit {
     }    
     return out  
   }
+
+  json_tree(data) {
+    var json = `<ul style='margin:0px; padding:0px 15px;'>`;
+      for (let i = 0; i < data.length; ++i) {
+        json = json + `<li style='list-style-type: none;
+                        margin:0px; padding:0px 15px; position: relative; '>`;
+        let className = "categoryCheckbox";
+        json = json + `<input type='checkbox' value=${data[i].id}> ${data[i].categoryName} <a onClick="alert(${data[i].id});">click</a>`;
+        
+        if (data[i].children.length) {
+          json = json + this.json_tree(data[i].children);
+        }
+        json = json + "</li>";
+      }
+      return json + "</ul>";
+  }  
 
   getData() {
 
