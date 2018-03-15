@@ -277,11 +277,22 @@ export class CommonService {
 
 
   pageModeChange(isEdit: boolean) {
-    if(isEdit === true)
-      this.pageMode = "Update"
-    else
-      this.pageMode = "Add"
-
+    if(isEdit === true){
+      if(this.languageId == 1){
+        this.pageMode = "Update"
+      }
+      else{
+        this.pageMode = "Kemaskini"
+      }
+    }
+    else{
+      if(this.languageId == 1){
+        this.pageMode = "Add"
+      }
+      else{
+        this.pageMode = "Tambah"
+      }
+    }
     return this.pageMode;
   }
 
