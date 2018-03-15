@@ -20,7 +20,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 export class CategorytblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];
+  displayedColumns = ['num','accEng', 'accMalay', 'status', 'ismain', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
