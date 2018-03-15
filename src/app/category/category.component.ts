@@ -79,14 +79,7 @@ export class CategoryComponent implements OnInit {
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
               this.getCategory();
-
-              if(this.languageId == 1){
-                this.categoryPlaceholder = "Category Parents";
-              }
-        
-              else{
-                this.categoryPlaceholder = "Induk Kategori";
-              }
+              this.changePlaceHolder(); 
               //this.getData();
             }
           }.bind(this));
@@ -140,14 +133,7 @@ export class CategoryComponent implements OnInit {
     if (urlEdit === 'add'){
 
       this.commonservice.pageModeChange(false);
-      if(this.languageId == 1){
-        this.categoryPlaceholder = "Category Parents";
-      }
-
-      else{
-        this.categoryPlaceholder = "Induk Kategori";
-      }
-      
+      this.changePlaceHolder();       
       this.updateForm.get('active').setValue(true);   
     }
     else{
@@ -393,6 +379,7 @@ export class CategoryComponent implements OnInit {
         this.catCode = this.recordList.list[0].categoryCode;
 
         if(this.recordList.list[0].image != null){
+
           this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
           this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
         }
@@ -676,10 +663,7 @@ export class CategoryComponent implements OnInit {
     
   }
 
-  myFunction() {
-    this.updateForm.reset();
-    this.checkReqValues();   
-
+  changePlaceHolder(){
     if(this.languageId == 1){
       this.categoryPlaceholder = "Category Parents";
     }
@@ -687,6 +671,12 @@ export class CategoryComponent implements OnInit {
     else{
       this.categoryPlaceholder = "Induk Kategori";
     }
+  }
+
+  myFunction() {
+    this.updateForm.reset();
+    this.checkReqValues();   
+    this.changePlaceHolder();    
   }
 
   back(){
