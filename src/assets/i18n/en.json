@@ -804,6 +804,9 @@
       "category": "Category"
     },
     "component": {
+    },
+    "msg":{
+      "clickadd":"Click add button to add Category"
     }
   },
   "admin": {

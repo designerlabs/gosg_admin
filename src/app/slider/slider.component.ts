@@ -255,7 +255,7 @@ export class SliderComponent implements OnInit {
 
   getImageList() {
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Article', '0', '999999999')
+    return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999')
       .subscribe(resCatData => {
         this.imageData = resCatData['list'];
         this.loading = false;
