@@ -79,6 +79,14 @@ export class CategoryComponent implements OnInit {
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
               this.getCategory();
+
+              if(this.languageId == 1){
+                this.categoryPlaceholder = "Category Parents";
+              }
+        
+              else{
+                this.categoryPlaceholder = "Induk Kategori";
+              }
               //this.getData();
             }
           }.bind(this));
