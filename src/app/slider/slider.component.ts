@@ -333,7 +333,8 @@ export class SliderComponent implements OnInit {
     if (!this.isEdit) {
 
       let body = [
-        {
+        
+        { 
           "contentCategoryId": null,
           "contents": [
             {
@@ -396,7 +397,7 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.create(body, 'slider').subscribe(
+      this.commonservice.create(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success('Slider added successfully!', '');
@@ -476,7 +477,7 @@ export class SliderComponent implements OnInit {
       console.log(body);
       this.loading = true;
       // Update Slider Service
-      this.commonservice.update(body, 'slider/multiple/update').subscribe(
+      this.commonservice.update(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success('Slider update successful!', '');
