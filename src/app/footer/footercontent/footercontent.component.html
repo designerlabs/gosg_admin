@@ -21,7 +21,7 @@
 
     <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" novalidate>       
         <div class="example-container mat-elevation-z8 paddingBottom-10">
-                <div class="bg-form-header col-md-12" *ngIf = "commonservice.pageMode == 'Add'">
+                <div class="bg-form-header col-md-12" *ngIf = "commonservice.pageMode == 'Add' || commonservice.pageMode == 'Tambah'">
                     <!-- <div class="col-md-4"></div> -->
                     <div class="col-md-6">
                         <mat-form-field class="font-size-s" style="width:100%;" >

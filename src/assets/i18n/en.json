@@ -298,7 +298,9 @@
     "agency": "Agency",
     "isrequired": "is required",
     "patternisnotvalid": "pattern is not valid",
-    "email": "Email"
+    "email": "Email",
+    "update": "Kemaskini",
+    "add": "Tambah"
   },
   "appmngt":{
     "setSearch":{
@@ -442,6 +444,7 @@
       "agency": "applications"
     },
     "component": {
+      "header": "Agency Application",
       "isdoc": "is Document",
       "websiteURL": "Website URL"
     }
@@ -801,6 +804,9 @@
       "category": "Category"
     },
     "component": {
+    },
+    "msg":{
+      "clickadd":"Click add button to add Category"
     }
   },
   "admin": {
@@ -809,7 +815,7 @@
       "users": "users"
     },
     "component": {
-      "permision": "Role and Permission Management",
+      "permision": "Update Role and Permission Management",
       "superadmin": "Super Admin",
       "groupmodule": "Group Module Name",
       "modpermision": "Group Modules and Permission",
@@ -828,6 +834,25 @@
       "header": "Grouping Management",
       "name": "Grouping Name",
       "description": "Grouping Description"
+    }
+  },
+  "calendar": {
+    "header": "Calender",
+    "tableHeader":{
+      "eventNameEn": "Event Name (EN)",
+      "eventNameBm": "Event Name (BM)"
+    },
+    "tablebottom":{
+      "calendar": "calender list"
+    },
+    "component":{
+      "location": "Location",
+      "city": "City",
+      "startdate": "Start Date",
+      "enddate": "End Date",
+      "image": "Image",
+      "select": "Select",
+      "imageerr": "Please select a file"
     }
   }
 }
