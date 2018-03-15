@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-eventcalendar',
@@ -17,7 +18,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 export class EventcalendarComponent implements OnInit {
   
   date = new Date();
-  dateFormatExample = "dd/mm/yyyy";
+  dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
   sdt:number;
   edt:number;
@@ -136,6 +137,8 @@ export class EventcalendarComponent implements OnInit {
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
+    console.log(this.updateForm.get('start').value)
+    console.log(this.updateForm.get('end').value)
   }
 
   ngAfterViewInit() {
@@ -211,6 +214,7 @@ export class EventcalendarComponent implements OnInit {
       this.setEventDate(dataBm.eventEnd, 'end')
       // this.updateForm.get('start').setValue('3/25/2018')
       console.log(this.updateForm.get('start').value)
+      console.log(this.updateForm.get('end').value)
 
       this.checkReqValues();
           
@@ -289,18 +293,18 @@ export class EventcalendarComponent implements OnInit {
 
   }
 
-  addStartEvent(type: string, event: MatDatepickerInputEvent<Date>) { 
+  addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
     console.log(type)
-    console.log(event)
+    console.log(event.value)
     this.events = [];
     this.events.push(`${event.value}`);
     this.sdt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
-    console.log(this.sdt)
+    // console.log(this.sdt)
     this.checkReqValues()
   }
 
-  addEndEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  addEndEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
     console.log(type)
     this.events = [];
     this.events.push(`${event.value}`);
@@ -377,14 +381,14 @@ export class EventcalendarComponent implements OnInit {
 
     console.log(body)
 
-    this.loading = true;
+    // this.loading = true;
     // Add event Service
     this.commonservice.create(body,'calendar').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
         }).bind(this));  
-        this.router.navigate(['calendar']);
+      this.router.navigate(['calendar']);
       this.loading = false;
       this.loading = false;
       },
@@ -467,19 +471,19 @@ export class EventcalendarComponent implements OnInit {
     // this.loading = true;
 
     // Update event Service
-    this.commonservice.update(body,'calendar').subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-        }).bind(this));  
-        this.router.navigate(['calendar']);
-      this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-        this.loading = false;
-      });
+    // this.commonservice.update(body,'calendar').subscribe(
+    //   data => {
+    //     this.commonservice.errorHandling(data, (function(){
+    //       this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+    //     }).bind(this));  
+    //     this.router.navigate(['calendar']);
+    //   this.loading = false;
+    //   },
+    //   error => {
+    //     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+    //     console.log(error);
+    //     this.loading = false;
+    //   });
     }
     
 

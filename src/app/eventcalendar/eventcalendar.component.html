@@ -98,28 +98,27 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div class="col-md-12">&nbsp;</div>
       </div>
 
-      <div class="row">
+      <div class="row paddingTop-20">
         <div class="form-group col-md-6">
-            <label class="font-size-s" for="start">{{ 'calendar.component.startdate' | translate }}</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div style="color:#333;">{{sdt | date:'dd/MM/yyyy' }}</div>
-                <input placeholder="" style="display: none;" matInput formControlName="start" #start [matDatepicker]="start" (dateInput)="addStartEvent('input', $event)" (dateChange)="addStartEvent('change', $event)" [min]="minDate" required />
-                <mat-datepicker-toggle matSuffix [for]="start" style="color:#333;"></mat-datepicker-toggle>
-                <mat-datepicker #start ></mat-datepicker>
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{sdt | date:'dd/MM/yyyy h:m a' }}</div>
+                <input placeholder="{{ 'calendar.component.startdate' | translate }}" [owlDateTime]="start" style="display: none;" matInput formControlName="start" #start (dateTimeInput)="addStartEvent('input', $event)" (dateTimeChange)="addStartEvent('change', $event)" [min]="minDate" required />
+                <span [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right"></i></span>
+                <owl-date-time #start class="pull-right"></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.start.hasError('required')">
                   Start Date is required
                 </mat-error>
               </mat-form-field>
           </div>
           <div class="form-group col-md-6">
-            <label class="font-size-s" for="end">{{ 'calendar.component.enddate' | translate }}</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div style="color:#333;">{{edt | date:'dd/MM/yyyy' }}</div>
-                <input placeholder="" style="display: none;" matInput formControlName="end" #end [matDatepicker]="end" (dateInput)="addEndEvent('input', $event)" (dateChange)="addEndEvent('change', $event)" [min]="minDate" required />
-                <mat-datepicker-toggle matSuffix [for]="end" style="color:#333;"></mat-datepicker-toggle>
-                <mat-datepicker #end ></mat-datepicker>
+                <div class="datetimeMask">{{edt | date:'dd/MM/yyyy h:m a' }}</div>
+                <input placeholder="{{ 'calendar.component.enddate' | translate }}" [owlDateTime]="end" style="display: none;" matInput formControlName="end" #end (dateTimeInput)="addEndEvent('input', $event)" (dateTimeChange)="addEndEvent('change', $event)" [min]="minDate" required />
+                <span [owlDateTimeTrigger]="end"><i class="fa fa-calendar pull-right"></i></span>
+                <owl-date-time #end class="pull-right"></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.end.hasError('required')">
                   End Date is required
                 </mat-error>

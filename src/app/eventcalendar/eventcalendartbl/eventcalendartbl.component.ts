@@ -221,7 +221,7 @@ export class EventcalendartblComponent implements OnInit {
   }
 
   deleteItem(refCode) {
-
+    this.loading = true;
     console.log(refCode)
     let txt;
       // this.loading = true;
@@ -231,12 +231,12 @@ export class EventcalendartblComponent implements OnInit {
             this.getEventData(this.pageCount, this.pageSize);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
-          // this.loading = false;
+          this.loading = false;
           
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          // this.loading = false;
+          this.loading = false;
         });
 
   }

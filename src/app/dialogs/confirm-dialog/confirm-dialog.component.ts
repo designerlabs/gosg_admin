@@ -14,6 +14,7 @@ export class ConfirmDialogComponent {
 
 
     
+  loading: boolean;
     public message: string;
     @ViewChild('staticModal') public staticModal:ModalDirective;
     @Input() title?:string;
@@ -37,6 +38,7 @@ export class ConfirmDialogComponent {
 
     show(){
       this.staticModal.show();
+      this.loading = false;
     }
 
     hide(){
