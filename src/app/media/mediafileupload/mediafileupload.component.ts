@@ -180,7 +180,7 @@ export class MediafileuploadComponent implements OnInit {
   fnLoadCateMediaType(refData) {
     // Get MediaType
       this.loading = true;
-    this.commonservice.getMediaType()
+    this.commonservice.readProtected('mediatype')
       .subscribe(resStateData => {
         // this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
@@ -193,7 +193,7 @@ export class MediafileuploadComponent implements OnInit {
         });
          
     // Get Categories // no need to load first
-    this.commonservice.getCategoryData()
+    this.commonservice.readProtected('content/category')
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
@@ -210,7 +210,8 @@ export class MediafileuploadComponent implements OnInit {
   }  
 
   getRow(row) {
-    return this.http.get(this.appConfig.urlMediaFileUpload + '/code/' + row).subscribe(
+    this.commonservice.readProtectedById('media/code/', row)
+    .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.mediaFileUpData = Rdata;
@@ -584,7 +585,7 @@ export class MediafileuploadComponent implements OnInit {
         formData.append('mediaFiles', file.files[0], file.files[0].name);
       }
       formData.append('strMedias', JSON.stringify(body));
-      this.commonservice.UpdateMediaFileUpload(formData).subscribe(
+      this.commonservice.update(formData, 'media').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success('Media Type Updated successfully!', '');
@@ -709,7 +710,7 @@ export class MediafileuploadComponent implements OnInit {
         formData.append('mediaFiles', file.files[0], file.files[0].name);
       }
       formData.append('strMedias', JSON.stringify(body));
-      this.commonservice.addMediaFileUpload(formData).subscribe(
+      this.commonservice.create(formData,'media').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success('Media Type Updated successfully!', '');
