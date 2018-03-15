@@ -1,0 +1,59 @@
+<!-- VIEW: ADD/EDIT SLIDER -->
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+  
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>View Event</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
+          </span>
+      </div> 
+  </div>
+  
+  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+  </div>
+  
+  
+      <div *ngIf="commonservice.isRead" class="example-container mat-elevation-z8 col-md-12">
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <label>Event Name</label><br />
+            <span>{{ eventName }}</span>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <label>Event Description</label><br />
+            <span>{{ eventDescription }}</span>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <label>Event Start</label><br />
+            <span>{{ eventStart | date:'dd/MM/yyyy hh:mm a'}}</span>
+          </div>
+          <div class="col-md-6">
+            <label>Event End</label><br />
+            <span>{{ eventEnd | date:'dd/MM/yyyy hh:mm a'}}</span>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+              <label>Event Status</label><br />
+              <span>{{ enabled?'Active':'Inactive'}}</span>
+              <div class="col-md-12">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    
+  </div>

@@ -203,7 +203,12 @@ export class EventcalendarComponent implements OnInit {
       this.updateForm.get('city').setValue(dataBm.eventCity);
       this.updateForm.get('start').setValue(new Date(dataBm.eventStart).toISOString());
       this.updateForm.get('end').setValue(new Date(dataBm.eventEnd).toISOString());
-      this.updateForm.get('image').setValue(dataBm.image.mediaId);
+
+      if(dataBm.image)
+        this.updateForm.get('image').setValue(dataBm.image.mediaId);
+      else
+        this.updateForm.get('image').setValue(null);
+        
       this.updateForm.get('active').setValue(dataEn.enabled);
       this.eventCode = dataEn.eventCode;
       this.eventIdEn = dataEn.id;
@@ -399,6 +404,8 @@ export class EventcalendarComponent implements OnInit {
       });
 
     } else {
+    
+      console.log(formValues)
       
     let body = [
       {
@@ -471,19 +478,19 @@ export class EventcalendarComponent implements OnInit {
     // this.loading = true;
 
     // Update event Service
-    // this.commonservice.update(body,'calendar').subscribe(
-    //   data => {
-    //     this.commonservice.errorHandling(data, (function(){
-    //       this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-    //     }).bind(this));  
-    //     this.router.navigate(['calendar']);
-    //   this.loading = false;
-    //   },
-    //   error => {
-    //     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    //     console.log(error);
-    //     this.loading = false;
-    //   });
+    this.commonservice.update(body,'calendar').subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
+        this.router.navigate(['calendar']);
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });
     }
     
 

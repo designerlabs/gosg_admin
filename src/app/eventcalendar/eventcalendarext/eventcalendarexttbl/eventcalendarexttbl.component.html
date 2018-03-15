@@ -3,15 +3,15 @@
   
     <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ 'calendar.header' | translate }}</h3>
+          <h3>{{ 'calendarexternal.header' | translate }}</h3>
       </div>
       
-      <div class="col-md-2 curdHeadingRight">
+      <!-- <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" mat-fab color="warn" *ngIf="commonservice.isWrite" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
                 <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
           </span>
-      </div> 
+      </div>  -->
   </div>
   
   
@@ -25,13 +25,13 @@
       <div class="row">
         <div class="col-md-3 paddingTop-10 pdg_L_30px">
           <mat-form-field>
-              <mat-select placeholder="Internal" [(ngModel)]="calendarType">
-                <mat-option [value]="null">Internal</mat-option>
-                <mat-option [value]="2" (click)="showCalendar(calendarType)">External</mat-option>
+              <mat-select placeholder="External" [(ngModel)]="calendarType">
+                <mat-option [value]="null">External</mat-option>
+                <mat-option [value]="1" (click)="showCalendar(calendarType)">Internal</mat-option>
               </mat-select>
             </mat-form-field>
         </div>
-
+  
         <div class="col-md-9 paddingTop-10 pdg_L_30px" *ngIf="filterTypeVal != 1">
             <mat-form-field>
               <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate}}">
@@ -52,16 +52,10 @@
           </mat-cell>
         </ng-container>
   
-        <!-- nameEn Column -->
-        <ng-container matColumnDef="eventNameEn">
-          <mat-header-cell *matHeaderCellDef> {{ 'calendar.tableHeader.eventNameEn' | translate }}</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.list[0].eventName}} </mat-cell>
-        </ng-container>
-  
-        <!-- nameBm Column -->
-        <ng-container matColumnDef="eventNameBm">
-          <mat-header-cell *matHeaderCellDef> {{ 'calendar.tableHeader.eventNameBm' | translate }} </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.list[1].eventName}} </mat-cell>
+        <!-- name Column -->
+        <ng-container matColumnDef="eventName">
+          <mat-header-cell *matHeaderCellDef> {{ 'calendar.tableHeader.eventName' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.eventName}} </mat-cell>
         </ng-container>
 
         <!-- activeFlag Column -->
@@ -69,8 +63,8 @@
           <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.status' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
             <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
-            <i *ngIf="element.list[1].enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-            <i *ngIf="element.list[1].enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+            <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+            <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
           </mat-cell>
         </ng-container>
   
@@ -78,21 +72,9 @@
         <ng-container matColumnDef="calendarAction">
           <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="actionColumn">
-              <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
-                <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
-                <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+              <button mat-mini-fab class="bg_orange" (click)="updateRow(element.id)" title="View {{ element.id }}">
+                <i *ngIf="commonservice.isRead" [ngClass]="commonservice.icon.view" title="View {{ element.id }}" ></i>
               </button>
-              &nbsp;
-              <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
-                <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode }}"></i>
-              </button>
-              <app-confirm-dialog  #deleteRow 
-              [title]="'common.icon.warn'" 
-              [content]="'common.msg.delete'"
-              [state]="'common.state.warn'"
-              [isReset]="'true'"
-              (resetMethod)="deleteItem(element.refCode)">
-              </app-confirm-dialog> 
           </mat-cell>
         </ng-container>
   

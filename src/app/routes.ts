@@ -82,6 +82,8 @@ import { ColortblComponent } from './color/colortbl/colortbl.component';
 import { ColorComponent } from './color/color.component';
 import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
 import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
+import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
+import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -121,6 +123,8 @@ export const appRoutes: Routes = [
 {path: 'calendar/add', component: EventcalendarComponent},
 {path: 'calendar/:id', component: EventcalendarComponent},
 {path: 'calendar', component: EventcalendartblComponent},
+{path: 'calendarext/:id', component: EventcalendarextComponent},
+{path: 'calendarext', component: EventcalendarexttblComponent},
 {path: 'agency/add', component: AgencyComponent},
 {path: 'agency/:id', component: AgencyComponent},
 {path: 'agency', component: AgencytblComponent},
