@@ -244,8 +244,4 @@ export class MediafileuploadtblComponent implements OnInit {
         console.log(error);
       });    
   }
-
-  searchByCate(evnt){
-
-  }
 }

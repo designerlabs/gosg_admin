@@ -88,7 +88,6 @@ export class MediatypeComponent implements OnInit {
   }
 
   ngOnInit() {
-    // debugger;
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
@@ -131,10 +130,8 @@ export class MediatypeComponent implements OnInit {
       this.updateForm.enable();
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
-    }
-    
-  }//10.1.22.50:8080/mediatype
-
+    }    
+  }
 
   back() {
     this.router.navigate(['media/type']);
@@ -235,24 +232,13 @@ export class MediatypeComponent implements OnInit {
      error => {
       this.loading = false;
        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
-    });   
-    
+    });       
   }
 
   selMediaType(event) {
     var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == event.value);
     this.objFileExtn = fltr[0].supportedFileExtensions.split(',');
-    this.displaymediaTypeName = fltr[0].mediaTypeName;
-    // if (event.value == "Images") {
-    //   this.objFileExtn = this.objImage;
-    // } else if (event.value == "Documents") {
-    //   this.objFileExtn = this.objDoc;
-    // } else if (event.value == "Videos") {
-    //   this.objFileExtn = this.objVideo;
-    // } else if (event.value == "Audios") {
-    //   this.objFileExtn = this.objAudio;
-    // }
-
+    this.displaymediaTypeName = fltr[0].mediaTypeName;    
     this.checkReqValues();
   }
 
@@ -271,8 +257,7 @@ export class MediatypeComponent implements OnInit {
         this.updateForm.get('minwidth').setValue(filtrData[0].minW);
         this.updateForm.get('maxheigth').setValue(filtrData[0].maxH);
         this.updateForm.get('maxwidth').setValue(filtrData[0].maxW);
-      } else {
-        
+      } else {        
         this.updateForm.controls.filesize.reset();
         this.updateForm.controls.fileunit.reset();
         this.updateForm.controls.minheigth.reset();
@@ -297,7 +282,6 @@ export class MediatypeComponent implements OnInit {
     let mediatype = "mediatype";
     let catType = "catType";
     let filetype = "filetype";
-
     let filesize = "filesize";
     let fileunit = "fileunit";
     let minwidth = "minwidth";
@@ -322,33 +306,11 @@ export class MediatypeComponent implements OnInit {
     } else {
       this.complete = true;
     }
-
   }
 
   // updateMediaType
   updateMediaType(formValues: any) {
     if (this.isEdit) {
-      // let body = [
-      //   {
-                  
-      //     "mediaTypeCategories": [{
-      //       "mediaTypeCategoryId": null,
-      //       "category": {
-      //         "categoryId": null,
-      //         "categoryName": ""
-      //       },
-      //       "minH": "",
-      //       "minW": "",
-      //       "maxH": "",
-      //       "maxW": "",
-      //       "fileThresholdSize": "",
-      //       "fileThresholdSizeUnits": "",
-      //       "fileExtensions": "",
-      //     }],
-      //     "enabled": true
-      //   }
-      // ];
-
       let body = [{
         "category": {
           "categoryId": null,
@@ -378,12 +340,6 @@ export class MediatypeComponent implements OnInit {
       console.log(body);
 
       // Update Media Type Service
-      // this.commonservice.updateMediaType(this.mediaTypeData.mediaType.mediaTypeId, body[0])
-      // updateMediaType(mediaTypeId,mediaTypeVal) {
-      //   return this.http.put(this.appConfig.urlMediaType + "/" + mediaTypeId, mediaTypeVal)
-      //   .map((response: Response) => response.json())
-      //   .catch(this.handleError);
-      // }
       this.commonservice.update(body[0],'mediatype/' + this.mediaTypeData.mediaType.mediaTypeId)
       .subscribe(
         data => {
@@ -423,11 +379,6 @@ export class MediatypeComponent implements OnInit {
       console.log(body);
 
       // Update Media Type Service
-      // addMediaType(mediaTypeId, mediaTypeVal) {
-      //   return this.http.post(this.appConfig.urlMediaType + "/" + mediaTypeId, mediaTypeVal)
-      //   .map((response: Response) => response.json())
-      //   .catch(this.handleError);
-      // }
       // this.commonservice.addMediaType(formValues.mediatype, body[0]).subscribe(
         this.commonservice.create(body[0],'mediatype/' + formValues.mediatype)
         .subscribe(data => {
