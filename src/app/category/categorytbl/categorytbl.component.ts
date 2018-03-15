@@ -20,7 +20,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 export class CategorytblComponent implements OnInit {
 
   recordList = null;
-  displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];
+  displayedColumns = ['num','accEng', 'accMalay', 'status', 'ismain', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -133,16 +133,17 @@ export class CategorytblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(page, size, keyword) {
 
     this.recordList = null;
   
-    this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
+    //this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
     
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      // this.commonservice.readProtected('content/category/code', count, size)
-      this.http.get(this.dataUrl)
+
+      this.commonservice.readProtected('content/category/code', page, size, keyword)
+      //this.http.get(this.dataUrl)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

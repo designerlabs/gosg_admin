@@ -15,12 +15,7 @@ import { forEach } from '@angular/router/src/utils/collection';
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.css'],
-  styles:[`
-  .categoryList{
-    color: #ff0 !important;
-}
-  `]
+  styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
   value: any;
@@ -39,7 +34,7 @@ export class CategoryComponent implements OnInit {
   public ismainmenu: FormControl;
   public imageEn: FormControl;
   public imageBm: FormControl;
-  public resultEn: FormControl;
+  public active: FormControl;
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
@@ -106,7 +101,7 @@ export class CategoryComponent implements OnInit {
     this.imageEn = new FormControl();
     this.imageBm = new FormControl();
 
-    this.resultEn = new FormControl();
+    this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
 
@@ -119,7 +114,7 @@ export class CategoryComponent implements OnInit {
       ismainmenu: this.ismainmenu,
       imageEn: this.imageEn,
       imageBm: this.imageBm,
-      resultEn: this.resultEn
+      active: this.active
       
     });
 
@@ -130,6 +125,7 @@ export class CategoryComponent implements OnInit {
     
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      //this.updateForm.get('active').setValue(this.recordList.list[0].isMainMenu);   
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -137,66 +133,59 @@ export class CategoryComponent implements OnInit {
     }
 
     this.commonservice.getModuleId();
-    //document.getElementById("result").innerHTML = this.json_tree(this.treeEn);
     
   }
 
-
-selectC(e){
-  debugger;
-}
   selectedCat(e, val){
 
-    console.log(e);
-    this.getCatIdEn = e.value;
-    this.getCatIdBm = e.value;
-    let dataListEn = this.treeEn;
-    let dataListBm = this.treeBm;
-    let indexVal: any;
-    let idBm: any;
-    let idEn: any;
-    let refCodeVal: any;
+    // console.log(e);
+    // this.getCatIdEn = e.value;
+    // this.getCatIdBm = e.value;
+    // let dataListEn = this.treeEn;
+    // let dataListBm = this.treeBm;
+    // let indexVal: any;
+    // let idBm: any;
+    // let idEn: any;
+    // let refCodeVal: any;
 
-    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
+    // // if english
+    // if(val == 1){
 
-    // if english
-    if(val == 1){
+    //   //get the refcode
+    //   for(let i=0; i<dataListEn.length; i++){
+    //     indexVal = dataListEn[i].id;
+    //     if(indexVal == this.getCatIdEn){
+    //       refCodeVal = dataListEn[i].refCode;
+    //     }        
+    //   }
 
-      //get the refcode
-      for(let i=0; i<dataListEn.length; i++){
-        indexVal = dataListEn[i].id;
-        if(indexVal == this.getCatIdEn){
-          refCodeVal = dataListEn[i].refCode;
-        }        
-      }
+    //   //comprare refcode to get id for bm
+    //   for(let i=0; i<dataListBm.length; i++){
+    //     if(refCodeVal ==  dataListBm[i].refCode){
+    //       idBm = dataListBm[i].id;
+    //     }        
+    //   }
 
-      //comprare refcode to get id for bm
-      for(let i=0; i<dataListBm.length; i++){
-        if(refCodeVal ==  dataListBm[i].refCode){
-          idBm = dataListBm[i].id;
-        }        
-      }
+    //   this.updateForm.get('parentsBm').setValue(idBm);  
+    // }
 
-      this.updateForm.get('parentsBm').setValue(idBm);  
-    }
+    // else{ //if malay
 
-    else{ //if malay
+    //   for(let i=0; i<dataListBm.length; i++){
+    //     indexVal = dataListBm[i].id;
+    //     if(indexVal == this.getCatIdBm){
+    //       refCodeVal = dataListBm[i].refCode;
+    //     }        
+    //   }
 
-      for(let i=0; i<dataListBm.length; i++){
-        indexVal = dataListBm[i].id;
-        if(indexVal == this.getCatIdBm){
-          refCodeVal = dataListBm[i].refCode;
-        }        
-      }
+    //   for(let i=0; i<dataListEn.length; i++){
+    //     if(refCodeVal ==  dataListEn[i].refCode){
+    //       idBm = dataListEn[i].id;
+    //     }        
+    //   }
 
-      for(let i=0; i<dataListEn.length; i++){
-        if(refCodeVal ==  dataListEn[i].refCode){
-          idBm = dataListEn[i].id;
-        }        
-      }
-
-      this.updateForm.get('parentsEn').setValue(idEn); 
-    }
+    //   this.updateForm.get('parentsEn').setValue(idEn); 
+    // }
   }
 
   selectedImage(e, val){
@@ -207,8 +196,7 @@ selectC(e){
    
     let indexVal: any;
     let idBm: any;
-    let idEn: any;
-   
+    let idEn: any;   
 
     console.log("EN: "+this.imageEn+" BM: "+this.imageBm+ " value: " +val);
 
@@ -259,16 +247,16 @@ selectC(e){
           for(let i=0; i<this.categoryData.length; i++){        
          
             arrCatEn.push({
-                        id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                        value:this.categoryData[i].list[0].categoryId,
-                        refCode: this.categoryData[i].refCode,
-                        parent: this.categoryData[i].list[0].parentId,
-                        parentEn: this.categoryData[i].list[0].parentId,
-                        parentBm: this.categoryData[i].list[1].parentId,
-                        // categoryName: this.categoryData[i].list[0].categoryName,
-                        text: this.categoryData[i].list[0].categoryName,
-                        checked: false,
-                        children: []});      
+                          id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                          value:this.categoryData[i].list[0].categoryId,
+                          refCode: this.categoryData[i].refCode,
+                          parent: this.categoryData[i].list[0].parentId,
+                          parentEn: this.categoryData[i].list[0].parentId,
+                          parentBm: this.categoryData[i].list[1].parentId,
+                          // categoryName: this.categoryData[i].list[0].categoryName,
+                          text: this.categoryData[i].list[0].categoryName,
+                          checked: false,
+                          children: []});      
                          
             arrCatBm.push({
                           id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
@@ -307,7 +295,6 @@ selectC(e){
     });
   }
 
-
   getNestedChildrenEn(arr, parent) {
     var out = []
     var children = []
@@ -324,22 +311,6 @@ selectC(e){
         }      
     }    
     return out  
-  }
-
-  json_tree(data) {
-    var json = `<ul style='margin:0px; padding:0px 15px;'>`;
-      for (let i = 0; i < data.length; ++i) {
-        json = json + `<li style='list-style-type: none;
-                        margin:0px; padding:0px 15px; position: relative; '>`;
-        let className = "categoryCheckbox";
-        json = json + `<input type='checkbox' value=${data[i].id}> ${data[i].categoryName} <a onClick="alert(${data[i].id});">click</a>`;
-        
-        if (data[i].children.length) {
-          json = json + this.json_tree(data[i].children);
-        }
-        json = json + "</li>";
-      }
-      return json + "</ul>";
   }
 
   getNestedChildrenBm(arr, parent) {
@@ -361,6 +332,22 @@ selectC(e){
     return out  
   }
 
+  json_tree(data) {
+    var json = `<ul style='margin:0px; padding:0px 15px;'>`;
+      for (let i = 0; i < data.length; ++i) {
+        json = json + `<li style='list-style-type: none;
+                        margin:0px; padding:0px 15px; position: relative; '>`;
+        let className = "categoryCheckbox";
+        json = json + `<input type='checkbox' value=${data[i].id}> ${data[i].categoryName} <a onClick="alert(${data[i].id});">click</a>`;
+        
+        if (data[i].children.length) {
+          json = json + this.json_tree(data[i].children);
+        }
+        json = json + "</li>";
+      }
+      return json + "</ul>";
+  }  
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
@@ -379,16 +366,30 @@ selectC(e){
         this.updateForm.get('titleBm').setValue(this.recordList.list[1].categoryName);   
         this.updateForm.get('descEn').setValue(this.recordList.list[0].categoryDescription);
         this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
-        this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);    
-        this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
-        this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
-        this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);       
+          
+        //this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
+        // this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
+        // this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
+             
         this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);   
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
         this.getRefCode = this.recordList.list[0].refCode;
         this.catCode = this.recordList.list[0].categoryCode;
+
+        if(this.recordList.list[0].image != null){
+          this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
+          this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
+        }
+
+        if(this.languageId == 1){
+          this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);  
+        }
+
+        else{
+          this.updateForm.get('parentsEn').setValue(this.recordList.list[1].parentId);  
+        }
 
         this.checkReqValues();
       }).bind(this));
@@ -492,6 +493,7 @@ selectC(e){
       body[1].parentId = parentValEn.parentBm;
       body[1].isMainMenu = formValues.ismainmenu;
 
+
       if(formValues.imageBm != null){
         body[0].image.mediaId = formValues.imageEn;      
         body[1].image.mediaId = formValues.imageBm;
@@ -553,13 +555,13 @@ selectC(e){
 
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
-      body[0].parentId = formValues.parentsEn;
+      body[0].parentId = parentValEn.parentEn;
       body[0].isMainMenu = formValues.ismainmenu;
       //body[0].image.mediaId = formValues.imageEn;
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
-      body[1].parentId = formValues.parentsBm;
+      body[1].parentId = parentValEn.parentBm;
       body[1].isMainMenu = formValues.ismainmenu;
       //body[1].image.mediaId = formValues.imageBm;      
 
@@ -568,7 +570,7 @@ selectC(e){
         body[1].image.mediaId = formValues.imageBm;
       }
 
-      console.log("UPDATE: ");
+      console.log("uuuu: ");
       console.log(JSON.stringify(body))
       this.loading = true;
       this.commonservice.update(body,'content/category/update/').subscribe(

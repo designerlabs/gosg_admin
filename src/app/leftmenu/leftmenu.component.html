@@ -3,7 +3,7 @@
             
 	<div class="searchMod">
 		<mat-form-field class="example-full-width">
-			<input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" placeholder="Keywords">
+			<input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" placeholder="{{ 'common.placeholder.keywords' | translate }}">
 			<button mat-button *ngIf="value" matSuffix mat-icon-button (click)="value='';resetSearch()">
 				<mat-icon>close</mat-icon>
 			</button>

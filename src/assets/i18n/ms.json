@@ -298,7 +298,9 @@
     "agency": "Agensi",
     "isrequired": "diperlukan",
     "patternisnotvalid": "corak tidak sah",
-    "email": "Emel"
+    "email": "Emel",
+    "update": "Kemaskini",
+    "add": "Tambah"
   },
   "appmngt":{
     "setSearch":{
@@ -401,8 +403,8 @@
       "agency": "agensi"
     },
     "name":"Agency Name",
-    "uniquecode": "Agency Unique Code",
-    "mdecstatus": "MDEC Status",
+    "uniquecode": "Kod Unik Agensi",
+    "mdecstatus": "Status MDEC",
     "location": {
       "header": "Maklumat Lokasi",
       "address": "Alamat",
@@ -425,11 +427,11 @@
     },
     "socmed": {
       "header": "Media Sosial",
-      "facebook": "Facebook URL",
-      "twitter": "Twitter URL",
-      "youtube": "Youtube URL",
-      "instagram": "Instagram URL",
-      "flickr": "Filckr URL"
+      "facebook": "URL Facebook",
+      "twitter": "URL Twitter",
+      "youtube": "URL Youtube",
+      "instagram": "URL Instagram",
+      "flickr": "URL Filckr"
     }
   },
   "agencyapp": {
@@ -442,6 +444,7 @@
       "agency": "permohonan"
     },
     "component": {
+      "header": "Permohonan Agensi",
       "isdoc": "adalah dokumen",
       "websiteURL": "URL Laman Web"
     }
@@ -809,7 +812,7 @@
       "users": "pengguna"
     },
     "component": {
-      "permision": "Pengurusan Peranan dan Kebenaran",
+      "permision": "Kemaskini Pengurusan Peranan dan Kebenaran",
       "superadmin": "Super Admin",
       "groupmodule": "Nama Kumpulan Modul",
       "modpermision": "Kumpulan Modul dan Kebenaran",
@@ -828,6 +831,25 @@
       "header": "Pengurusan Pengumpulan",
       "name": "Nama Pengumpulan",
       "description": "Keterangan Pengumpulan"
+    }
+  },
+  "calendar": {
+    "header": "Kalendar",
+    "tableHeader":{
+      "eventNameEn": "Nama Acara (EN)",
+      "eventNameBm": "Nama Acara (BM)"
+    },
+    "tablebottom":{
+      "calendar": "senarai kalendar"
+    },
+    "component":{
+      "location": "Lokasi",
+      "city": "Bandar",
+      "startdate": "Tarikh Mula",
+      "enddate": "Tarikh Akhir",
+      "image": "Imej",
+      "select": "Pilih",
+      "imageerr": "Sila pilih fail"
     }
   }
 }

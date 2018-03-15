@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
@@ -16,9 +16,13 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class EventcalendarComponent implements OnInit {
   
+  date = new Date();
+  dateFormatExample = "dd/mm/yyyy";
+  events: string[] = [];
+  sdt:number;
+  edt:number;
   eventData: Object;
   dataUrl: any;
-  date = new Date();
   updateForm: FormGroup
   isLocalAPI: boolean;
   isEdit: boolean;
@@ -27,6 +31,8 @@ export class EventcalendarComponent implements OnInit {
   eventCode:any;
   eventIdEn:any;
   eventIdBm:any;
+  minDate: any;
+  imageData: any;
 
   isRead: boolean;
   isCreate: boolean;
@@ -87,6 +93,8 @@ export class EventcalendarComponent implements OnInit {
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
+    this.getMinEventDate();
+    this.getImageList();
 
     this.nameEn = new FormControl()
     this.nameBm = new FormControl()
@@ -133,23 +141,22 @@ export class EventcalendarComponent implements OnInit {
   ngAfterViewInit() {
   }
 
-  isSameImg(enImg,bmImg) {
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
 
-    console.log(enImg)
-    if(enImg != null && enImg == bmImg) {
-      this.updateForm.get('copyImg').setValue(true);
-    } else {
-      this.updateForm.get('copyImg').setValue(false);
-    }
+    this.minDate = new Date(year, month, todaysdt);
   }
 
   navigateBack() {
     this.isEdit = false;
-    this.router.navigate(['event']);
+    this.router.navigate(['calendar']);
   }
 
   back(){
-    this.router.navigate(['event']);
+    this.router.navigate(['calendar']);
   }
 
   // get, add, update, delete
@@ -157,7 +164,7 @@ export class EventcalendarComponent implements OnInit {
 
     this.loading = true;
     // Update event Service
-    return this.commonservice.readPortalById('slide/code/', row).subscribe(
+    return this.commonservice.readProtectedById('calendar/', row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
@@ -168,19 +175,20 @@ export class EventcalendarComponent implements OnInit {
         let dataBm = this.eventData['list'][1];
 
       // populate data
-      this.updateForm.get('nameEn').setValue(dataEn.eventTitle);
+      this.updateForm.get('nameEn').setValue(dataEn.eventName);
       this.updateForm.get('descEn').setValue(dataEn.eventDescription);
-      this.updateForm.get('imgEn').setValue(parseInt(dataEn.eventImage));
-      this.updateForm.get('nameBm').setValue(dataBm.eventTitle);
+      this.updateForm.get('nameBm').setValue(dataBm.eventName);
       this.updateForm.get('descBm').setValue(dataBm.eventDescription);
-      this.updateForm.get('imgBm').setValue(parseInt(dataBm.eventImage));
-      this.updateForm.get('active').setValue(dataEn.eventActiveFlag);
+      this.updateForm.get('location').setValue(dataBm.eventLocation);
+      this.updateForm.get('city').setValue(dataBm.eventCity);
+      this.updateForm.get('start').setValue(dataBm.eventStart);
+      this.updateForm.get('end').setValue(dataBm.eventEnd);
+      this.updateForm.get('image').setValue(dataBm.image.mediaId);
+      this.updateForm.get('active').setValue(dataEn.enabled);
       this.eventCode = dataEn.eventCode;
-      this.eventIdEn = dataEn.eventId;
-      this.eventIdBm = dataBm.eventId;
+      this.eventIdEn = dataEn.id;
+      this.eventIdBm = dataBm.id;
       
-      this.isSameImg(dataEn.eventImage,dataBm.eventImage);
-
       this.checkReqValues();
           
     }).bind(this));
@@ -194,40 +202,59 @@ export class EventcalendarComponent implements OnInit {
     
   }
 
-  // isChecked(e) {
+  getImageList(){
+    this.loading = true;
+    this.commonservice.readProtected('media/category/name/Article')
+     .subscribe(resCatData => {
 
-  //   if (e.checked) {
-  //     this.updateForm.get("imgBm").setValue(this.imgEn.value);
-  //   } else {
-  //     this.updateForm.get("imgBm").setValue("");
-  //   }
-  //   this.copyImg = e.checked;
-  //   this.checkReqValues();
-  // }
+      this.commonservice.errorHandling(resCatData, (function(){
+
+        this.imageData = resCatData['list'];       
+        console.log(this.imageData);
+
+      }).bind(this));
+      this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.loading = false;
+      console.log(error);
+    });
+  }
 
   checkReqValues() {
 
     let nameEn = "nameEn";
     let descEn = "descEn";
-    let imgEn = "imgEn";
     let nameBm = "nameBm";
     let descBm = "descBm";
-    let imgBm = "imgBm";
-    // let active = "active";
+    let location = "location";
+    let city = "city";
+    let start = "start";
+    let end = "end";
+    let image = "image";
 
-    let reqVal: any = [nameEn, descEn, imgEn, nameBm, descBm, imgBm];
+    let reqVal: any = [
+                        nameEn, 
+                        descEn, 
+                        nameBm, 
+                        descBm, 
+                        location, 
+                        city, 
+                        start, 
+                        end
+                      ];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
       let elem = this.updateForm.get(reqData);
+      // console.log(elem.value)
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
         nullPointers.push(null)
       }
     }
-
-    this.isSameImg(this.updateForm.get(imgEn).value,this.updateForm.get(imgBm).value);
 
       // console.log(nullPointers)
 
@@ -239,71 +266,103 @@ export class EventcalendarComponent implements OnInit {
 
   }
 
-  myFunction() {
-    this.updateForm.reset();
-    this.updateForm.get('active').setValue(true);
+  addStartEvent(type: string, event: MatDatepickerInputEvent<Date>) { 
+    console.log(type)
+    console.log(event)
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.sdt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";
+    console.log(this.sdt)
+    this.checkReqValues()
   }
 
-  updateevent(formValues: any) {
+  addEndEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+    console.log(type)
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.edt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";
+    console.log(this.edt)
+    this.checkReqValues()
+  }
+
+  updateAction(formValues: any) {
     
     if(!this.isEdit) {
 
     let body = [
       {
-        "eventTitle": null,
+        "eventName": null,
         "eventDescription": null,
-        "eventImage": {
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
+        "image": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 1
         }
       }, 
       {
-        "eventTitle": null,
+        "eventName": null,
         "eventDescription": null,
-        "eventImage":  {
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
+        "image": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 2
         }
       }
     ];
     
     // console.log(formValues)
 
-    body[0].eventTitle = formValues.nameEn;
+    body[0].eventName = formValues.nameEn;
     body[0].eventDescription = formValues.descEn;
-    body[0].eventImage.mediaId = formValues.imgEn;
-    body[0].eventSort = null;
-    body[0].eventActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
-
-    body[1].eventTitle = formValues.nameBm;
+    body[0].eventStart = new Date(formValues.start).getTime();
+    body[0].eventEnd =  new Date(formValues.end).getTime();
+    body[0].eventLocation = formValues.location;
+    body[0].eventCity = formValues.city;
+    body[0].enabled = formValues.active;
+    
+    body[1].eventName = formValues.nameBm;
     body[1].eventDescription = formValues.descBm;
-    body[1].eventImage.mediaId = formValues.imgBm;
-    body[1].eventSort = null;
-    body[1].eventActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+    body[1].eventStart = new Date(formValues.start).getTime();
+    body[1].eventEnd =  new Date(formValues.end).getTime();
+    body[1].eventLocation = formValues.location;
+    body[1].eventCity = formValues.city;
+    body[1].enabled = formValues.active;
+    
+    if(formValues.image) {
+      body[0].image.mediaId = formValues.image;
+      body[1].image.mediaId = formValues.image;
+    } else {
+      body[0].image = null;
+      body[1].image = null;
+    }
 
     console.log(body)
 
     this.loading = true;
     // Add event Service
-    this.commonservice.create(body,'slide').subscribe(
+    this.commonservice.create(body,'calendar').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.toastr.success('event added successfully!', ''); 
-        this.router.navigate(['event']);
-
-      }).bind(this)); 
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
+        this.router.navigate(['calendar']);
+      this.loading = false;
       this.loading = false;
       },
       error => {
@@ -316,64 +375,81 @@ export class EventcalendarComponent implements OnInit {
       
     let body = [
       {
-        "eventId": null,
-        "eventTitle": null,
+        "id": null,
+        "eventCode": null,
+        "eventName": null,
         "eventDescription": null,
-        "eventImage": {
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
+        "image": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 1
         }
       }, 
       {
-        "eventId": null,
-        "eventTitle": null,
+        "id": null,
+        "eventCode": null,
+        "eventName": null,
         "eventDescription": null,
-        "eventImage": {
+        "eventStart": null,
+        "eventEnd": null,
+        "eventLocation": null,
+        "eventCity": null,
+        "enabled": false,
+        "externalData": false,
+        "image": {
           "mediaId": null
         },
-        "eventCode": null,
-        "eventSort": null,
-        "eventActiveFlag": false,
         "language": {
-          "languageId": null
+          "languageId": 2
         }
       }
     ];
-      
-    body[0].eventCode = this.eventCode;
-    body[0].eventId = this.eventIdEn;
-    body[0].eventTitle = formValues.nameEn;
+
+    body[0].id = this.eventIdEn;
+    body[0].eventName = formValues.nameEn;
     body[0].eventDescription = formValues.descEn;
-    body[0].eventImage.mediaId = formValues.imgEn;
-    body[0].eventSort = null;
-    body[0].eventActiveFlag = formValues.active;
-    body[0].language.languageId = 1;
-    
-    body[1].eventCode = this.eventCode;
-    body[1].eventId = this.eventIdBm;
-    body[1].eventTitle = formValues.nameBm;
+    body[0].eventStart = new Date(formValues.start).getTime();
+    body[0].eventEnd =  new Date(formValues.end).getTime();
+    body[0].eventLocation = formValues.location;
+    body[0].eventCity = formValues.city;
+    body[0].enabled = formValues.active;
+    body[0].eventCode = this.eventCode;
+
+    body[1].id = this.eventIdBm;
+    body[1].eventName = formValues.nameBm;
     body[1].eventDescription = formValues.descBm;
-    body[1].eventImage.mediaId = formValues.imgBm;
-    body[1].eventSort = null;
-    body[1].eventActiveFlag = formValues.active;
-    body[1].language.languageId = 2;
+    body[1].eventStart = new Date(formValues.start).getTime();
+    body[1].eventEnd =  new Date(formValues.end).getTime();
+    body[1].eventLocation = formValues.location;
+    body[1].eventCity = formValues.city;
+    body[1].enabled = formValues.active;
+    body[1].eventCode = this.eventCode;
+    
+    if(formValues.image) {
+      body[0].image.mediaId = formValues.image;
+      body[1].image.mediaId = formValues.image;
+    } else {
+      body[0].image = null;
+      body[1].image = null;
+    }
 
     console.log(body);
-    this.loading = true;
+    // this.loading = true;
 
     // Update event Service
-    this.commonservice.update(body,'slide').subscribe(
+    this.commonservice.update(body,'calendar').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.toastr.success('event update successful!', '');   
-        this.router.navigate(['event']);
-
-      }).bind(this)); 
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
+        this.router.navigate(['calendar']);
       this.loading = false;
       },
       error => {
@@ -385,13 +461,5 @@ export class EventcalendarComponent implements OnInit {
     
 
   }
-
-  // addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-  //   this.events = [];
-  //   this.events.push(`${event.value}`);
-  //   this.dt = new Date(this.events[0]).getTime();
-  //   this.dateFormatExample = "";
-    // console.log(this.dt)
-  // }
 
 }
