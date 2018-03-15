@@ -55,6 +55,11 @@ export class CategoryComponent implements OnInit {
   public catCode: any;
   public loading = false;
 
+  public parentsValEn : any;
+  public parentsValBm : any;
+
+  public categoryPlaceholder = "";
+
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService, 
@@ -73,7 +78,8 @@ export class CategoryComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
-              this.getCategory()
+              this.getCategory();
+              this.changePlaceHolder(); 
               //this.getData();
             }
           }.bind(this));
@@ -83,10 +89,11 @@ export class CategoryComponent implements OnInit {
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
       this.commonservice.getModuleId();
+      this.getCategory();
       //this.getData();
     }
     /* LANGUAGE FUNC */
-
+   
   }
 
   ngOnInit() {
@@ -124,15 +131,18 @@ export class CategoryComponent implements OnInit {
     let urlEdit = this.router.url.split('/')[2];
     
     if (urlEdit === 'add'){
+
       this.commonservice.pageModeChange(false);
-      //this.updateForm.get('active').setValue(this.recordList.list[0].isMainMenu);   
+      this.changePlaceHolder();       
+      this.updateForm.get('active').setValue(true);   
     }
     else{
-      this.commonservice.pageModeChange(true);
+      this.commonservice.pageModeChange(true);      
       this.getData();
     }
 
     this.commonservice.getModuleId();
+
     
   }
 
@@ -228,6 +238,7 @@ export class CategoryComponent implements OnInit {
   }
 
   getCategory(){
+
     this.loading = true;
     return this.commonservice.readProtected('content/category')
      .subscribe(data => {
@@ -245,30 +256,35 @@ export class CategoryComponent implements OnInit {
           let parentBm;
 
           for(let i=0; i<this.categoryData.length; i++){        
-         
-            arrCatEn.push({
-                          id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                          value:this.categoryData[i].list[0].categoryId,
-                          refCode: this.categoryData[i].refCode,
-                          parent: this.categoryData[i].list[0].parentId,
-                          parentEn: this.categoryData[i].list[0].parentId,
-                          parentBm: this.categoryData[i].list[1].parentId,
-                          // categoryName: this.categoryData[i].list[0].categoryName,
-                          text: this.categoryData[i].list[0].categoryName,
-                          checked: false,
-                          children: []});      
-                         
-            arrCatBm.push({
-                          id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                          value:this.categoryData[i].list[1].categoryId,
-                          refCode: this.categoryData[i].refCode,
-                          parent: this.categoryData[i].list[1].parentId,
-                          parentEn: this.categoryData[i].list[0].parentId,
-                          parentBm: this.categoryData[i].list[1].parentId,
-                          // categoryName: this.categoryData[i].list[1].categoryName,
-                          checked: false,
-                          text: this.categoryData[i].list[1].categoryName,
-                          children: []}); 
+
+            if(this.categoryData[i].list.length === 2){
+              arrCatEn.push({
+                
+                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                    value:this.categoryData[i].list[0].categoryId,
+                    refCode: this.categoryData[i].refCode,
+                    parent: this.categoryData[i].list[0].parentId.categoryId,
+                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                    // categoryName: this.categoryData[i].list[0].categoryName,
+                    text: this.categoryData[i].list[0].categoryName,
+                    checked: false,
+                    children: []});      
+                  
+              arrCatBm.push({
+                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                    value:this.categoryData[i].list[1].categoryId,
+                    refCode: this.categoryData[i].refCode,
+                    parent: this.categoryData[i].list[1].parentId.categoryId,
+                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                    // categoryName: this.categoryData[i].list[1].categoryName,
+                    checked: false,
+                    text: this.categoryData[i].list[1].categoryName,
+                    children: []}); 
+                  
+            }
+
           }
           
           if(this.languageId == 1){
@@ -279,10 +295,8 @@ export class CategoryComponent implements OnInit {
             this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           }
           
-          this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
-
           this.itemEn = this.treeEn;
-          this.itemBm = this.treeBm;
+          console.log(this.itemEn);
           
         }).bind(this));
         this.loading = false;
@@ -332,23 +346,8 @@ export class CategoryComponent implements OnInit {
     return out  
   }
 
-  json_tree(data) {
-    var json = `<ul style='margin:0px; padding:0px 15px;'>`;
-      for (let i = 0; i < data.length; ++i) {
-        json = json + `<li style='list-style-type: none;
-                        margin:0px; padding:0px 15px; position: relative; '>`;
-        let className = "categoryCheckbox";
-        json = json + `<input type='checkbox' value=${data[i].id}> ${data[i].categoryName} <a onClick="alert(${data[i].id});">click</a>`;
-        
-        if (data[i].children.length) {
-          json = json + this.json_tree(data[i].children);
-        }
-        json = json + "</li>";
-      }
-      return json + "</ul>";
-  }  
 
-  getData() {
+  getData() {  
 
     let _getRefID = this.router.url.split('/')[2];
   
@@ -372,6 +371,7 @@ export class CategoryComponent implements OnInit {
         // this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
              
         this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);   
+        this.updateForm.get('active').setValue(this.recordList.list[0].isActiveFlag);  
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -379,18 +379,37 @@ export class CategoryComponent implements OnInit {
         this.catCode = this.recordList.list[0].categoryCode;
 
         if(this.recordList.list[0].image != null){
+
           this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
           this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
         }
+        
+        this.parentsValEn = this.recordList.list[0].parentId.categoryId;
+        this.parentsValBm = this.recordList.list[1].parentId.categoryId;  
 
         if(this.languageId == 1){
-          this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId);  
+      
+        //  this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId.categoryId);
+          if(this.recordList.list[0].parentId.categoryId != -1){
+          this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
+          }
+
+          else{
+            this.categoryPlaceholder = "Category Parents";
+          }
         }
 
         else{
-          this.updateForm.get('parentsEn').setValue(this.recordList.list[1].parentId);  
-        }
+        //  this.updateForm.get('parentsEn').setValue(this.recordList.list[1].parentId.categoryId);
+          if(this.recordList.list[1].parentId.categoryId != -2){
+            this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
+          }
 
+          else{
+            this.categoryPlaceholder = "Induk Kategori";
+          }
+        }
+       
         this.checkReqValues();
       }).bind(this));
       this.loading = false;
@@ -431,16 +450,7 @@ export class CategoryComponent implements OnInit {
     let valImg: any;
     let body: any;
 
-    //predefined super parent id;
-    if(formValues.parentsEn == null){
-      parentValEn = -1;
-      parentValBm = -2;
-    }
-
-    else {
-      parentValEn = formValues.parentsEn;
-      parentValBm = formValues.parentsBm;
-    }
+      
 
     if(formValues.ismainmenu == null){
       formValues.ismainmenu = false;
@@ -462,7 +472,9 @@ export class CategoryComponent implements OnInit {
         
           "categoryName": null,
           "categoryDescription":null,
-          "parentId":null,
+          "parentId":{
+             "categoryId": null
+          },
           "isMainMenu": false,
           "image": valImg,
           "language": {
@@ -472,7 +484,9 @@ export class CategoryComponent implements OnInit {
         },{
           "categoryName": null,
           "categoryDescription":null,
-          "parentId":null,
+          "parentId":{
+            "categoryId": null
+          },
           "isMainMenu": false,
           "image": valImg,
           "language": {
@@ -481,24 +495,40 @@ export class CategoryComponent implements OnInit {
           "isActiveFlag":false
         }
       ]         
-
-   
+      
       body[0].categoryName = formValues.titleEn;
-      body[0].categoryDescription = formValues.descEn;
-      body[0].parentId = parentValEn.parentEn;
+      body[0].categoryDescription = formValues.descEn;      
       body[0].isMainMenu = formValues.ismainmenu;      
-
+      body[0].isActiveFlag = formValues.active;   
+    
       body[1].categoryName = formValues.titleBm;
-      body[1].categoryDescription = formValues.descBm;
-      body[1].parentId = parentValEn.parentBm;
+      body[1].categoryDescription = formValues.descBm;      
       body[1].isMainMenu = formValues.ismainmenu;
+      body[1].isActiveFlag = formValues.active;   
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+          parentValEn = -1;
+          parentValBm = -2;
+
+          body[0].parentId.categoryId = parentValEn;
+          body[1].parentId.categoryId = parentValBm;
+      }
+
+      else {      
+          parentValEn = formValues.parentsEn;
+          parentValBm = formValues.parentsBm;
+          body[0].parentId.categoryId = parentValEn.id[0];
+          body[1].parentId.categoryId = parentValEn.id[1];        
+      } 
 
 
       if(formValues.imageBm != null){
-        body[0].image.mediaId = formValues.imageEn;      
-        body[1].image.mediaId = formValues.imageBm;
+          body[0].image.mediaId = formValues.imageEn;      
+          body[1].image.mediaId = formValues.imageBm;
       }
-      
+
+      console.log(JSON.stringify(body))      
 
       this.loading = true;
       this.commonservice.create(body,'content/category/post').subscribe(
@@ -522,7 +552,7 @@ export class CategoryComponent implements OnInit {
 
     // update form
     else{
-      //  
+      console.log(formValues.parentsEn);      
       
       body = [
         {
@@ -531,7 +561,9 @@ export class CategoryComponent implements OnInit {
           "categoryName": null,
           "categoryDescription":null,
           "categoryCode": this.catCode,
-          "parentId":null,
+          "parentId":{
+            "categoryId": null
+          },
           "isMainMenu": false,
           "image": valImg,
           "language": {
@@ -543,7 +575,9 @@ export class CategoryComponent implements OnInit {
           "categoryName": null,
           "categoryDescription":null,
           "categoryCode": this.catCode,
-          "parentId":null,
+          "parentId":{
+            "categoryId": null
+          },
           "isMainMenu": false,
           "image": valImg,
           "language": {
@@ -552,17 +586,18 @@ export class CategoryComponent implements OnInit {
           "isActiveFlag":false
         }
       ]    
-
+     
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
-      body[0].parentId = parentValEn.parentEn;
       body[0].isMainMenu = formValues.ismainmenu;
+      body[0].isActiveFlag = formValues.active;  
       //body[0].image.mediaId = formValues.imageEn;
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;
-      body[1].parentId = parentValEn.parentBm;
+      
       body[1].isMainMenu = formValues.ismainmenu;
+      body[1].isActiveFlag = formValues.active;  
       //body[1].image.mediaId = formValues.imageBm;      
 
       if(formValues.imageBm != null){
@@ -570,7 +605,19 @@ export class CategoryComponent implements OnInit {
         body[1].image.mediaId = formValues.imageBm;
       }
 
-      console.log("uuuu: ");
+      if(formValues.parentsEn == null){
+            
+        body[0].parentId.categoryId = this.parentsValEn;
+        body[1].parentId.categoryId = this.parentsValBm;
+      }
+
+      else {    
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].parentId.categoryId = parentValEn.id[0];
+        body[1].parentId.categoryId = parentValEn.id[1];     
+      } 
+      
       console.log(JSON.stringify(body))
       this.loading = true;
       this.commonservice.update(body,'content/category/update/').subscribe(
@@ -613,11 +660,23 @@ export class CategoryComponent implements OnInit {
     } else {
       this.complete = true;
     }
+    
+  }
+
+  changePlaceHolder(){
+    if(this.languageId == 1){
+      this.categoryPlaceholder = "Category Parents";
+    }
+
+    else{
+      this.categoryPlaceholder = "Induk Kategori";
+    }
   }
 
   myFunction() {
     this.updateForm.reset();
     this.checkReqValues();   
+    this.changePlaceHolder();    
   }
 
   back(){

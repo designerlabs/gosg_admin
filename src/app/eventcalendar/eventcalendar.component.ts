@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-eventcalendar',
@@ -17,7 +18,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 export class EventcalendarComponent implements OnInit {
   
   date = new Date();
-  dateFormatExample = "dd/mm/yyyy";
+  dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
   sdt:number;
   edt:number;
@@ -136,6 +137,8 @@ export class EventcalendarComponent implements OnInit {
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
+    console.log(this.updateForm.get('start').value)
+    console.log(this.updateForm.get('end').value)
   }
 
   ngAfterViewInit() {
@@ -148,6 +151,23 @@ export class EventcalendarComponent implements OnInit {
     let month = today.getMonth();
 
     this.minDate = new Date(year, month, todaysdt);
+  }
+
+  setEventDate(tsd,type) {
+    let res;    
+    this.events = [];
+    this.events.push(tsd);
+    // this.events.push(`${event.value}`);
+    if(type == 'start')
+      this.sdt = new Date(this.events[0]).getTime();
+    else
+      this.edt = new Date(this.events[0]).getTime();
+
+    this.dateFormatExample = "";
+ 
+    // console.log(res)
+
+    return res;
   }
 
   navigateBack() {
@@ -181,14 +201,26 @@ export class EventcalendarComponent implements OnInit {
       this.updateForm.get('descBm').setValue(dataBm.eventDescription);
       this.updateForm.get('location').setValue(dataBm.eventLocation);
       this.updateForm.get('city').setValue(dataBm.eventCity);
-      this.updateForm.get('start').setValue(dataBm.eventStart);
-      this.updateForm.get('end').setValue(dataBm.eventEnd);
-      this.updateForm.get('image').setValue(dataBm.image.mediaId);
+      this.updateForm.get('start').setValue(new Date(dataBm.eventStart).toISOString());
+      this.updateForm.get('end').setValue(new Date(dataBm.eventEnd).toISOString());
+
+      if(dataBm.image)
+        this.updateForm.get('image').setValue(dataBm.image.mediaId);
+      else
+        this.updateForm.get('image').setValue(null);
+        
       this.updateForm.get('active').setValue(dataEn.enabled);
       this.eventCode = dataEn.eventCode;
       this.eventIdEn = dataEn.id;
       this.eventIdBm = dataBm.id;
       
+      // this.setEventDate(dataBm.eventStart);
+      this.setEventDate(dataBm.eventStart,'start')
+      this.setEventDate(dataBm.eventEnd, 'end')
+      // this.updateForm.get('start').setValue('3/25/2018')
+      console.log(this.updateForm.get('start').value)
+      console.log(this.updateForm.get('end').value)
+
       this.checkReqValues();
           
     }).bind(this));
@@ -266,18 +298,18 @@ export class EventcalendarComponent implements OnInit {
 
   }
 
-  addStartEvent(type: string, event: MatDatepickerInputEvent<Date>) { 
+  addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
     console.log(type)
-    console.log(event)
+    console.log(event.value)
     this.events = [];
     this.events.push(`${event.value}`);
     this.sdt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
-    console.log(this.sdt)
+    // console.log(this.sdt)
     this.checkReqValues()
   }
 
-  addEndEvent(type: string, event: MatDatepickerInputEvent<Date>) {
+  addEndEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
     console.log(type)
     this.events = [];
     this.events.push(`${event.value}`);
@@ -354,14 +386,14 @@ export class EventcalendarComponent implements OnInit {
 
     console.log(body)
 
-    this.loading = true;
+    // this.loading = true;
     // Add event Service
     this.commonservice.create(body,'calendar').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
         }).bind(this));  
-        this.router.navigate(['calendar']);
+      this.router.navigate(['calendar']);
       this.loading = false;
       this.loading = false;
       },
@@ -372,6 +404,8 @@ export class EventcalendarComponent implements OnInit {
       });
 
     } else {
+    
+      console.log(formValues)
       
     let body = [
       {
@@ -426,7 +460,7 @@ export class EventcalendarComponent implements OnInit {
     body[1].eventName = formValues.nameBm;
     body[1].eventDescription = formValues.descBm;
     body[1].eventStart = new Date(formValues.start).getTime();
-    body[1].eventEnd =  new Date(formValues.end).getTime();
+    body[1].eventEnd = new Date(formValues.end).getTime();
     body[1].eventLocation = formValues.location;
     body[1].eventCity = formValues.city;
     body[1].enabled = formValues.active;

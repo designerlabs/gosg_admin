@@ -52,6 +52,8 @@ export class SliderComponent implements OnInit {
   public loading = false;
   getImgIdEn: any;
   getImgIdBm: any;
+  selectedFileEn = '';
+  selectedFileMy = '';
 
   constructor(
     private http: HttpClient,
@@ -167,7 +169,7 @@ export class SliderComponent implements OnInit {
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
-
+          debugger;
           this.sliderData = Rdata;
           console.log(this.sliderData)
           let dataEn = this.sliderData['sliderList'][0];
@@ -185,6 +187,8 @@ export class SliderComponent implements OnInit {
           this.updateForm.get('urlMy').setValue(dataBm.sliderUrl);
           this.updateForm.get('seqEng').setValue(dataEn.sliderSort);
           this.updateForm.get('seqMy').setValue(dataBm.sliderSort);
+          this.selectedFileEn = dataEn.sliderImage.mediaFile;
+          this.selectedFileMy = dataBm.sliderImage.mediaFile;
 
           this.sliderCode = dataEn.sliderCode;
           this.sliderIdEn = dataEn.sliderId;
@@ -284,6 +288,7 @@ export class SliderComponent implements OnInit {
         indexVal = dataList[i].list[0].mediaId;
         if(indexVal == this.getImgIdEn){
           idBm = dataList[i].list[1].mediaId;
+          this.selectedFileEn=dataList[i].list[1].mediaFile;
         }        
       }
 
@@ -295,6 +300,7 @@ export class SliderComponent implements OnInit {
         indexVal = dataList[i].list[1].mediaId;
         if(indexVal == this.getImgIdBm){
           idEn = dataList[i].list[0].mediaId;
+          this.selectedFileMy=dataList[i].list[0].mediaFile;
         }        
       }
 
@@ -375,7 +381,7 @@ export class SliderComponent implements OnInit {
       ];
 
       // console.log(formValues)
-      body[0].contentCategoryId = 13;
+      body[0].contentCategoryId = 15;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
       body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
@@ -384,7 +390,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].sliderActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = 14;
+      body[1].contentCategoryId = 16;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
       body[1].contents[0].sliderImage.mediaId = formValues.imgBm;

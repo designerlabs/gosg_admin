@@ -1,20 +1,20 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-import { CommonService } from '../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { DialogsService } from '../../dialogs/dialogs.service';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-eventcalendartbl',
-  templateUrl: './eventcalendartbl.component.html',
-  styleUrls: ['./eventcalendartbl.component.css']
+  selector: 'app-eventcalendarexttbl',
+  templateUrl: './eventcalendarexttbl.component.html',
+  styleUrls: ['./eventcalendarexttbl.component.css']
 })
-export class EventcalendartblComponent implements OnInit {
+export class EventcalendarexttblComponent implements OnInit {
 
   displayedExtColumns: string[];
   calendarData: Object;
@@ -51,7 +51,7 @@ export class EventcalendartblComponent implements OnInit {
 
   applyFilter(val) {   
 
-    console.log(val);
+    // console.log(val);
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -102,8 +102,7 @@ export class EventcalendartblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','eventNameEn', 'eventNameBm','enabled', 'calendarAction'];
-    this.displayedExtColumns = ['no','eventNameEn', 'eventNameBm','enabled', 'calendarAction'];
+    this.displayedColumns = ['no','eventName','enabled', 'calendarAction'];
     this.commonservice.getModuleId();
   }
 
@@ -115,15 +114,15 @@ export class EventcalendartblComponent implements OnInit {
   // get agencyType Data 
   getEventData(count, size) {
     this.loading = true;
-    this.commonservice.readProtected('calendar', count, size).subscribe(
+    this.commonservice.readProtected('calendar/external', count, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.calendarList = data;
 
           if(this.calendarList.list.length > 0){
-            console.log(this.calendarList)
             this.dataSource.data = this.calendarList.list;
+            console.log(this.calendarList.list)
             this.seqPageNum = this.calendarList.pageNumber;
             this.seqPageSize = this.calendarList.pageSize;
             this.recordTable = this.calendarList;
@@ -148,7 +147,7 @@ export class EventcalendartblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('calendar',count, size, keyword)
+      this.commonservice.readProtected('calendar/external',count, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -208,60 +207,20 @@ export class EventcalendartblComponent implements OnInit {
     this.noPrevData = true;
   }
 
-  addBtn() {
-    this.isEdit = false;
-    this.changePageMode(this.isEdit);
-    this.router.navigate(['calendar', "add"]);
+  showCalendar(type) {
+    console.log(type)
+    if(type == 1)
+      this.router.navigate(['calendar']);
+  }
+
+  back(){
+    this.router.navigate(['calendar']);
   }
   
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['calendar', row]);
-  }
-
-  deleteItem(refCode) {
-    this.loading = true;
-    console.log(refCode)
-    let txt;
-      // this.loading = true;
-      this.commonservice.delete(refCode, 'calendar/').subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function(){
-            this.getEventData(this.pageCount, this.pageSize);
-            this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
-          }).bind(this));  
-          this.loading = false;
-          
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          this.loading = false;
-        });
-
-  }
-
-  showCalendar(type) {
-    console.log(type)
-    if(type == 2)
-      this.router.navigate(['calendarext']);
-  }
-
-  changePageMode(isEdit) {
-    if (isEdit == false) {
-      this.pageMode = "View";
-    } else if (isEdit == true) {
-      this.pageMode = "Update";
-    }
-  }
-
-  navigateBack() {
-    this.isEdit = false;
-    this.router.navigate(['calendar']);
-  }
-
-  back(){
-    this.router.navigate(['calendar']);
+    this.router.navigate(['calendarext', row]);
   }
 
 }

@@ -182,9 +182,9 @@ export class MediafileuploadComponent implements OnInit {
       this.loading = true;
     this.commonservice.readProtected('mediatype')
       .subscribe(resStateData => {
-        // this.commonservice.errorHandling(resStateData, (function () {
+        this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
-        // }).bind(this));    
+        }).bind(this));    
         this.loading = false;    
       },
         error => {

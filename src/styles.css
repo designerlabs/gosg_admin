@@ -252,3 +252,13 @@ mat-header-cell{
     .pdg_L_15px {
         padding-left:15px !important;
     }
+
+    .datetimeMask {
+        color:#333; 
+        margin-bottom: 0%
+    }
+
+    .datetimeMaskWithValue {
+        color:#333; 
+        margin-bottom: -4%
+    }
