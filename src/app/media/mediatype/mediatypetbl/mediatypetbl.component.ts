@@ -60,19 +60,21 @@ export class MediatypetblComponent implements OnInit {
 
   getMediaList() {
     this.loading = true;
-    return this.commonservice.getMediaType()
+    // return this.commonservice.getMediaType()
+    this.commonservice.readProtected('mediatype')
        .subscribe(resStateData => {
-        // this.commonservice.errorHandling(resStateData, (function(){
+        this.commonservice.errorHandling(resStateData, (function(){ 
             this.seqPageNum = 1;
             this.seqPageSize = 10;
             this.mediaList = resStateData['mediaTypes'];  
             this.dataSource.data = this.mediaList;      
-          // }).bind(this));
+          }).bind(this));
           this.loading = false;
         },
         error => {
           this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');     
+          console.log(error);     
        });
   }
 
@@ -87,7 +89,8 @@ export class MediatypetblComponent implements OnInit {
 
   deleteRow(id) {    
     this.loading = true;
-      this.commonservice.delMediaType(id).subscribe(
+      // this.commonservice.delMediaType(id).subscribe(
+        this.commonservice.delete(id,'mediatype/id/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');

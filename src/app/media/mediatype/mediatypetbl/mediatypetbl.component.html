@@ -39,10 +39,12 @@
           <mat-cell *matCellDef="let element" >
             <mat-chip-list>
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories.length > 3 ? element.mediaTypeCategories.slice(0,3): element.mediaTypeCategories">
-                {{ele.category.categoryName}}</mat-chip>
+                {{ele.category.categoryName | truncate:[12, '...']}}</mat-chip>
               <mat-chip color="default" *ngIf="element.mediaTypeCategories.length > 3">+{{element.mediaTypeCategories.length - 3}}</mat-chip>
             </mat-chip-list>
+            <span align="end" *ngIf="element.mediaTypeCategories.length==0">{{ 'mediatype.msg.clickadd' | translate }}</span>
           </mat-cell>
+          
         </ng-container>
         <!-- ActiveFlag Column -->
         <ng-container matColumnDef="status">
@@ -57,12 +59,13 @@
         <ng-container matColumnDef="action">
           <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell class="actionColumn" *matCellDef="let element">
-            <button mat-mini-fab class="bg_orange" (click)="editGroup(element.mediaTypeId)" *ngIf="commonservice.isUpdate" title="Update {{ element.mediaTypeId }}">
+            <button mat-mini-fab class="bg_orange" (click)="editGroup(element.mediaTypeId)" *ngIf="commonservice.isUpdate" 
+            [disabled]="element.mediaTypeCategories.length==0" title="Update {{ element.mediaTypeId }}">
               <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.mediaTypeId }}" ></i>
               <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.mediaTypeId }}" ></i>
             </button>&nbsp;
             <!-- Delete option not required for Media Type -->
-            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete"  (click)="deleteModal.show()">
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete"  (click)="deleteModal.show()" [disabled]="element.mediaTypeCategories.length==0">
               <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.mediaTypeId }}"></i>
             </button>
             <app-confirm-dialog  #deleteModal 
