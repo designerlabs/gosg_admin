@@ -150,6 +150,23 @@ export class EventcalendarComponent implements OnInit {
     this.minDate = new Date(year, month, todaysdt);
   }
 
+  setEventDate(tsd,type) {
+    let res;    
+    this.events = [];
+    this.events.push(tsd);
+    // this.events.push(`${event.value}`);
+    if(type == 'start')
+      this.sdt = new Date(this.events[0]).getTime();
+    else
+      this.edt = new Date(this.events[0]).getTime();
+
+    this.dateFormatExample = "";
+ 
+    // console.log(res)
+
+    return res;
+  }
+
   navigateBack() {
     this.isEdit = false;
     this.router.navigate(['calendar']);
@@ -181,14 +198,20 @@ export class EventcalendarComponent implements OnInit {
       this.updateForm.get('descBm').setValue(dataBm.eventDescription);
       this.updateForm.get('location').setValue(dataBm.eventLocation);
       this.updateForm.get('city').setValue(dataBm.eventCity);
-      this.updateForm.get('start').setValue(dataBm.eventStart);
-      this.updateForm.get('end').setValue(dataBm.eventEnd);
+      this.updateForm.get('start').setValue(new Date(dataBm.eventStart).toISOString());
+      this.updateForm.get('end').setValue(new Date(dataBm.eventEnd).toISOString());
       this.updateForm.get('image').setValue(dataBm.image.mediaId);
       this.updateForm.get('active').setValue(dataEn.enabled);
       this.eventCode = dataEn.eventCode;
       this.eventIdEn = dataEn.id;
       this.eventIdBm = dataBm.id;
       
+      // this.setEventDate(dataBm.eventStart);
+      this.setEventDate(dataBm.eventStart,'start')
+      this.setEventDate(dataBm.eventEnd, 'end')
+      // this.updateForm.get('start').setValue('3/25/2018')
+      console.log(this.updateForm.get('start').value)
+
       this.checkReqValues();
           
     }).bind(this));
@@ -426,7 +449,7 @@ export class EventcalendarComponent implements OnInit {
     body[1].eventName = formValues.nameBm;
     body[1].eventDescription = formValues.descBm;
     body[1].eventStart = new Date(formValues.start).getTime();
-    body[1].eventEnd =  new Date(formValues.end).getTime();
+    body[1].eventEnd = new Date(formValues.end).getTime();
     body[1].eventLocation = formValues.location;
     body[1].eventCity = formValues.city;
     body[1].enabled = formValues.active;
