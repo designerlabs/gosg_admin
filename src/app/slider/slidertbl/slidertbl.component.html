@@ -28,17 +28,21 @@
 
 <div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
-    <!-- <div class="example-header">
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-      </mat-form-field>
-    </div> -->
 
-    <mat-table *ngIf="commonservice.isRead" #table [dataSource]="dataSource">
+    <div class="col-md-12 paddingTop-10">
+      <mat-form-field>
+          <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+          <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+          </button>
+      </mat-form-field>
+    </div>
+
+    <mat-table #table [dataSource]="dataSource">
 
       <!-- No Column -->
       <ng-container matColumnDef="no">
-        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> No </mat-header-cell>
+        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
         <mat-cell class="text-align-left noColumn"  *matCellDef="let element; let i = index;">
           {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
         </mat-cell>
@@ -46,19 +50,29 @@
 
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitle">
-        <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Title (EN) </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.sliderTitle}} </mat-cell>
       </ng-container>
 
       <!-- slideDescription Column -->
       <ng-container matColumnDef="sliderDescription">
-        <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> Title (BM)</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.sliderDescription | truncate:[30, '...']}} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->
       <ng-container matColumnDef="slideActiveFlag">
-        <mat-header-cell *matHeaderCellDef class="statusColumn"> Status</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.status' | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="statusColumn">
+          <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
+          <i *ngIf="element.sliderActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+          <i *ngIf="element.sliderActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+        </mat-cell>
+      </ng-container>
+
+      <!-- slideActiveFlag Column -->
+      <ng-container matColumnDef="slideDraft">
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> Status Draft</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
           <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
           <i *ngIf="element.sliderActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
@@ -107,13 +121,13 @@
     </mat-form-field>
     <span class="float-right">
       <span class="table_footer_pagination">Pages
-        <strong>{{commonservice.recordTable?.pageNumber}}</strong> of
-        <strong>{{commonservice.recordTable?.totalPages}}</strong> in
-        <strong>{{commonservice.recordTable?.totalElements}}</strong> sliders</span>
-      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+        <strong>{{recordTable?.pageNumber}}</strong> of
+        <strong>{{recordTable?.totalPages}}</strong> in
+        <strong>{{recordTable?.totalElements}}</strong> sliders</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
         <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
       </button>
-      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
         <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
       </button>
     </span>

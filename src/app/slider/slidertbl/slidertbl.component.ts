@@ -36,6 +36,8 @@ export class SlidertblComponent implements OnInit {
   languageId: any;
   public loading = false;
 
+  recordTable = null;
+
   showNoData = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -69,7 +71,7 @@ export class SlidertblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getSlidersData(this.pageCount, this.sliderPageSize);
-      this.commonservice.getModuleId();
+              this.commonservice.getModuleId();
             }
           }.bind(this));
         })
@@ -85,7 +87,7 @@ export class SlidertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideAction'];
+    this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
@@ -110,7 +112,7 @@ export class SlidertblComponent implements OnInit {
           this.dataSource.data = this.sliderList.sliderList;
           this.seqPageNum = this.sliderList.pageNumber;
           this.seqPageSize = this.sliderList.pageSize;
-          this.commonservice.recordTable = this.sliderList;
+          this.recordTable = this.sliderList;
           this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
 
           this.showNoData = false;
@@ -152,28 +154,24 @@ export class SlidertblComponent implements OnInit {
   }
 
   addBtn() {
-    this.isEdit = false;
-    this.changePageMode(this.isEdit);
+    this.commonservice.pageModeChange(false);
     this.router.navigate(['slider', "add"]);
   }
   
   updateRow(row) {
-    this.isEdit = true;
-    // this.changePageMode(this.isEdit);
+    this.commonservice.pageModeChange(true);
     this.router.navigate(['slider', row]);
   }
 
   deleteItem(refcode) {
-    let txt;
 
     this.loading = true;
       this.commonservice.delete(refcode, 'slider/delete/').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
-          txt = "Slider deleted successfully!";
-          this.toastr.success(txt, '');   
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+            this.getSlidersData(this.pageCount, this.sliderPageSize);
 
         }).bind(this)); 
         this.loading = false;
@@ -186,18 +184,13 @@ export class SlidertblComponent implements OnInit {
 
   }
 
-  changePageMode(isEdit) {
-    if (isEdit == false) {
-      this.pageMode = "Add";
-    } else if (isEdit == true) {
-      this.pageMode = "Update";
-    }
-  }
-
-  navigateBack() {
-    this.isEdit = false;
-    this.router.navigate(['slider']);
-  }
+  // changePageMode(isEdit) {
+  //   if (isEdit == false) {
+  //     this.pageMode = "Add";
+  //   } else if (isEdit == true) {
+  //     this.pageMode = "Update";
+  //   }
+  // }
 
   back(){
     this.router.navigate(['slider']);
