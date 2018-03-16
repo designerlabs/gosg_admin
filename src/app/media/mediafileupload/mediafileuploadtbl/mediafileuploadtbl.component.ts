@@ -143,6 +143,7 @@ export class MediafileuploadtblComponent implements OnInit {
        .subscribe(resData => {
         this.commonservice.errorHandling(resData, (function(){
         this.resultData = resData;
+        this.mediaPage = resData;
           if(this.resultData.list.length > 0){
             this.seqPageNum = this.resultData.pageNumber;
             this.seqPageSize = this.resultData.pageSize;
