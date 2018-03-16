@@ -79,14 +79,7 @@ export class CategoryComponent implements OnInit {
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
               this.getCategory();
-
-              if(this.languageId == 1){
-                this.categoryPlaceholder = "Category Parents";
-              }
-        
-              else{
-                this.categoryPlaceholder = "Induk Kategori";
-              }
+              this.changePlaceHolder(); 
               //this.getData();
             }
           }.bind(this));
@@ -140,14 +133,7 @@ export class CategoryComponent implements OnInit {
     if (urlEdit === 'add'){
 
       this.commonservice.pageModeChange(false);
-      if(this.languageId == 1){
-        this.categoryPlaceholder = "Category Parents";
-      }
-
-      else{
-        this.categoryPlaceholder = "Induk Kategori";
-      }
-      
+      this.changePlaceHolder();       
       this.updateForm.get('active').setValue(true);   
     }
     else{
@@ -393,6 +379,7 @@ export class CategoryComponent implements OnInit {
         this.catCode = this.recordList.list[0].categoryCode;
 
         if(this.recordList.list[0].image != null){
+
           this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
           this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
         }
@@ -460,21 +447,23 @@ export class CategoryComponent implements OnInit {
     let parentValEn: any;
     let parentValBm: any;
 
-    let valImg: any;
-    let body: any;
-
-      
+    let valImgEn: any;
+    let valImgBm: any;
+    let body: any;      
 
     if(formValues.ismainmenu == null){
       formValues.ismainmenu = false;
     }
 
     if(formValues.imageEn == null){
-      valImg = null;
+      valImgEn = null;
+      valImgBm = null;
     }
 
     else{
-      valImg = { "mediaId": null };
+      valImgEn = { "mediaId": null };
+      valImgBm = { "mediaId": null };
+      
     }
 
     // add form
@@ -489,7 +478,7 @@ export class CategoryComponent implements OnInit {
              "categoryId": null
           },
           "isMainMenu": false,
-          "image": valImg,
+          "image": valImgEn,
           "language": {
               "languageId": 1
           },
@@ -501,13 +490,15 @@ export class CategoryComponent implements OnInit {
             "categoryId": null
           },
           "isMainMenu": false,
-          "image": valImg,
+          "image": valImgBm,
           "language": {
               "languageId": 2
           },
           "isActiveFlag":false
         }
       ]         
+
+      debugger;
       
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;      
@@ -536,7 +527,7 @@ export class CategoryComponent implements OnInit {
       } 
 
 
-      if(formValues.imageBm != null){
+      if(formValues.imageBm != null && formValues.imageEn != null){
           body[0].image.mediaId = formValues.imageEn;      
           body[1].image.mediaId = formValues.imageBm;
       }
@@ -565,7 +556,6 @@ export class CategoryComponent implements OnInit {
 
     // update form
     else{
-      console.log(formValues.parentsEn);      
       
       body = [
         {
@@ -578,7 +568,7 @@ export class CategoryComponent implements OnInit {
             "categoryId": null
           },
           "isMainMenu": false,
-          "image": valImg,
+          "image": valImgEn,
           "language": {
               "languageId": 1
           },
@@ -592,7 +582,7 @@ export class CategoryComponent implements OnInit {
             "categoryId": null
           },
           "isMainMenu": false,
-          "image": valImg,
+          "image": valImgBm,
           "language": {
               "languageId": 2
           },
@@ -613,9 +603,11 @@ export class CategoryComponent implements OnInit {
       body[1].isActiveFlag = formValues.active;  
       //body[1].image.mediaId = formValues.imageBm;      
 
-      if(formValues.imageBm != null){
+      if(formValues.imageBm != null && formValues.imageEn != null){
         body[0].image.mediaId = formValues.imageEn;      
         body[1].image.mediaId = formValues.imageBm;
+
+        console.log(formValues.imageEn +" : "+ formValues.imageBm);
       }
 
       if(formValues.parentsEn == null){
@@ -676,10 +668,7 @@ export class CategoryComponent implements OnInit {
     
   }
 
-  myFunction() {
-    this.updateForm.reset();
-    this.checkReqValues();   
-
+  changePlaceHolder(){
     if(this.languageId == 1){
       this.categoryPlaceholder = "Category Parents";
     }
@@ -687,6 +676,12 @@ export class CategoryComponent implements OnInit {
     else{
       this.categoryPlaceholder = "Induk Kategori";
     }
+  }
+
+  myFunction() {
+    this.updateForm.reset();
+    this.checkReqValues();   
+    this.changePlaceHolder();    
   }
 
   back(){

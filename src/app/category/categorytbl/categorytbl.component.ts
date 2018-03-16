@@ -105,9 +105,9 @@ export class CategorytblComponent implements OnInit {
         this.recordList = data;
 
         if(this.recordList.list.length > 0){
-          console.log("data");
+          console.log("dataaaaaaa");
           console.log(data);
-          
+        
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;

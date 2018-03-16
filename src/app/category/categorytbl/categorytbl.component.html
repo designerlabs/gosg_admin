@@ -43,7 +43,7 @@
                 <ng-container matColumnDef="accEng">
                     <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'category.tableHeader.categoryEn' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.list[0].categoryName}} 
+                        {{element.list[0]?.categoryName}} 
                     </mat-cell>
                 </ng-container>
 
@@ -51,7 +51,7 @@
                 <ng-container matColumnDef="accMalay">
                     <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'category.tableHeader.categoryBm' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.list[1].categoryName}}
+                        {{element.list[1]?.categoryName}}
                     </mat-cell>
                 </ng-container>
             
