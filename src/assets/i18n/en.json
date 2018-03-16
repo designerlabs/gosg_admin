@@ -845,6 +845,10 @@
     "tablebottom":{
       "calendar": "calender list"
     },
+    "filter": {
+      "internal": "Internal",
+      "external": "External"
+    },
     "component":{
       "header": "Event",
       "location": "Location",

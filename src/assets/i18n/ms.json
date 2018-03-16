@@ -845,6 +845,10 @@
     "tablebottom":{
       "calendar": "senarai kalendar"
     },
+    "filter": {
+      "internal": "Dalaman",
+      "external": "Luaran"
+    },
     "component":{
       "header": "Acara",
       "location": "Lokasi",
