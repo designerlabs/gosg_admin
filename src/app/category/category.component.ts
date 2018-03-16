@@ -59,6 +59,7 @@ export class CategoryComponent implements OnInit {
   public parentsValBm : any;
 
   public categoryPlaceholder = "";
+  public urlEdit = "";
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -80,7 +81,7 @@ export class CategoryComponent implements OnInit {
               this.commonservice.getModuleId();
               this.getCategory();
               this.changePlaceHolder(); 
-              //this.getData();
+              this.changeLanguageAddEdit();              
             }
           }.bind(this));
         })
@@ -128,9 +129,9 @@ export class CategoryComponent implements OnInit {
     this.getCategory();
     this.getImageList();
 
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
 
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder();       
@@ -443,7 +444,7 @@ export class CategoryComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     let parentValEn: any;
     let parentValBm: any;
 
@@ -467,7 +468,7 @@ export class CategoryComponent implements OnInit {
     }
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
       body = [
         {
@@ -644,6 +645,15 @@ export class CategoryComponent implements OnInit {
       });
     }
     
+  }
+
+  changeLanguageAddEdit(){
+    if (this.urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);  
+    }
+    else{
+      this.commonservice.pageModeChange(true);      
+    }
   }
 
   checkReqValues() {
