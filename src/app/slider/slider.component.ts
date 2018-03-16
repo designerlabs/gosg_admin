@@ -55,6 +55,8 @@ export class SliderComponent implements OnInit {
   selectedFileEn = '';
   selectedFileMy = '';
 
+  refCode = "";
+
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -89,10 +91,8 @@ export class SliderComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
 
-    let refCode = this.router.url.split('/')[2];
+    this.refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.getImageList();
 
@@ -124,14 +124,12 @@ export class SliderComponent implements OnInit {
       seqMy: this.seqMy,
     });
 
-    if (refCode == "add") {
-      this.isEdit = false;
-      this.pageMode = "Add";
+    if (this.refCode == "add") {
+      this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
     } else {
-      this.isEdit = true;
-      this.pageMode = "Update";
-      this.getRow(refCode);
+      this.commonservice.pageModeChange(true);
+      this.getRow(this.refCode);
     }
 
     // #### for disable non update user ---1
@@ -149,11 +147,6 @@ export class SliderComponent implements OnInit {
     } else {
       this.updateForm.get('copyImg').setValue(false);
     }
-  }
-
-  navigateBack() {
-    this.isEdit = false;
-    this.router.navigate(['slider']);
   }
 
   back() {
@@ -220,6 +213,15 @@ export class SliderComponent implements OnInit {
     this.checkReqValues();
   }
 
+  changeLanguageAddEdit(){
+    if (this.refCode === 'add'){
+      this.commonservice.pageModeChange(false);  
+    }
+    else{
+      this.commonservice.pageModeChange(true);      
+    }
+  }
+
   checkReqValues() {
 
     let titleEn = "titleEn";
@@ -268,7 +270,6 @@ export class SliderComponent implements OnInit {
           console.log('Error in Slider');
         });
   }
-
   
   selectedImg(e, val){
     console.log(e);
@@ -335,7 +336,7 @@ export class SliderComponent implements OnInit {
 
   updateSlider(formValues: any) {
 
-    if (!this.isEdit) {
+    if (this.refCode == "add") {
 
       let body = [
         
