@@ -5,6 +5,7 @@ export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
 const baseURL = environment.baseURL;
 const mockApiURL = environment.mockApiURL;
+let mediaURL = environment.mediaURL;
 
 // const baseURL = 'http://10.1.17.12:3000/';
 
@@ -78,7 +79,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlAdminUserList: commonURL+'adminuser/userList',
     urlAdminUserListUpdate: commonURL + 'adminuser/assignAdminUserToModuleGroup/',
     urlAdminUserPermission: commonURL + 'adminuser/assignAdminUserToModulePermission',
-    externalMediaURL: "http://10.1.71.168/media",
+    externalMediaURL: mediaURL+"media",
     urlFooterCategory: commonURL + 'footer',
     urlImageList: commonURL + 'media/category/name/Article',
     urlAnnounceList: commonURL + 'announcement/code',
