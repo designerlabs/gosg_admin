@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   staging: false,
   uapURL : '/',
+  mediaURL: '/',
   mockApiURL :'/',
   baseURL: '/'
 };
