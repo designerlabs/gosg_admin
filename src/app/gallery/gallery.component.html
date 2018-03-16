@@ -3,7 +3,7 @@
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ pageMode }} Gallery</h3>
+          <h3>{{ pageMode }} {{ 'gallerytbl.name' | translate }}</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -44,10 +44,10 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Title" formControlName="titleBm" value="" (change)="checkReqValues()"
+              <input matInput placeholder="Tajuk" formControlName="titleBm" value="" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
-                Title is required
+                Tajuk diperlukan
               </mat-error>
             </mat-form-field>
           </div>
@@ -66,10 +66,10 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+              <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
-                Description is required
+                Keterangan diperlukan
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
               <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
@@ -94,7 +94,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <label class="">Gallery Image</label>
+                <label class="">{{ 'gallerytbl.galleryimg' | translate }}</label>
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
             <mat-form-field class="example-full-width">
@@ -114,7 +114,7 @@
             </mat-form-field>
           </div>
           <div class="col-md-2" style="text-align: center; padding-top: 15px;">
-              <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;Copy</span>
+              <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;{{ 'gallerytbl.copy' | translate }}</span>
           </div>
           <div class="col-md-5" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
@@ -154,7 +154,7 @@
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;Active</span>
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.active' | translate }}</span>
           </div>
         </div>
         <div class="col-md-12">&nbsp;</div>

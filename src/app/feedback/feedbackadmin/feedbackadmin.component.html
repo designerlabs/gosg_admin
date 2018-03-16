@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>Feedback Message</h3>
+            <h3>{{ 'feedbackmsg.header' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -24,27 +24,27 @@
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-12">Feedback Information</label>
+                    <label class="col-md-12">{{ 'feedbackmsg.feedbackinfo' | translate }}</label>
                 </div>
             </div><br>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">Name</span></div>
+                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.name' | translate }}</span></div>
                 <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{name}} ({{email}})</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">Type</span></div>
+                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.type' | translate }}</span></div>
                 <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{type}}</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">Subject</span></div>
+                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.subject' | translate }}</span></div>
                 <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{subject}}</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">Message</span></div>
+                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.msg' | translate }}</span></div>
                 <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
             </div>
 
@@ -55,12 +55,12 @@
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-12">Reply Section</label>
+                    <label class="col-md-12">{{ 'feedbackmsg.replysection' | translate }}</label>
                 </div>
             </div><br>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">Reply</span></div>
+                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.reply' | translate }}</span></div>
                 <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
             </div>
 
@@ -88,7 +88,7 @@
             <button mat-raised-button type="button" color="primary" id="btnsubmit"
             class="form-control btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px"
             (click)="deleteModal.show()" >
-            <i [ngClass]="commonservice.icon.times"></i> Delete </button>
+            <i [ngClass]="commonservice.icon.times"></i> {{ 'common.buttons.delete' | translate }} </button>
             <!-- <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i class="fa fa-refresh"></i> Reset</button> -->
