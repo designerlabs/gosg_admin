@@ -169,7 +169,7 @@ export class SliderComponent implements OnInit {
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
-          debugger;
+
           this.sliderData = Rdata;
           console.log(this.sliderData)
           let dataEn = this.sliderData['sliderList'][0];
@@ -228,7 +228,6 @@ export class SliderComponent implements OnInit {
     let titleBm = "titleBm";
     let descBm = "descBm";
     let imgBm = "imgBm";
-    // let active = "active";
 
     let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm];
     let nullPointers: any = [];

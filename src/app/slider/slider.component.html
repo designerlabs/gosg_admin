@@ -4,7 +4,7 @@
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ pageMode }} Slider</h3>
+          <h3>{{commonservice.pageMode}} Slider</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -45,10 +45,10 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Title" formControlName="titleBm" value="" (change)="checkReqValues()"
+              <input matInput placeholder="Tajuk" formControlName="titleBm" value="" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
-                Title diperlukan
+                Tajuk diperlukan
               </mat-error>
             </mat-form-field>
           </div>
@@ -66,10 +66,10 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Description" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+              <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
-                Description diperlukan
+                Keterangan diperlukan
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
               <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
@@ -92,12 +92,12 @@
     </div>   -->
      <div class="row">
       <div class="col-md-6">
-          <mat-form-field class="example-full-width font-size-s">
+          <mat-form-field class="example-full-width">
               <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100">                  
           </mat-form-field>
       </div>
       <div class="col-md-6">
-          <mat-form-field class="example-full-width font-size-s" >
+          <mat-form-field class="example-full-width" >
               <input matInput type="url" placeholder="URL" formControlName="urlMy" maxlength="100">
           </mat-form-field>
       </div>
