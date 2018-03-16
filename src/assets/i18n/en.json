@@ -235,7 +235,8 @@
       "servicedown": "Sorry, Server is down",
       "failtoload":"Sorry, Record is not loading properly, Try again!",
       "failtodelete":"Sorry, Record is not deleted properly, Try again!",
-      "failtoview":"Sorry, Record is not viewed properly, Try again!"
+      "failtoview":"Sorry, Record is not viewed properly, Try again!",
+      "patternisnotvalid": "pattern is not valid"
     },
     "success":{
       "added": "Successfully added!",
@@ -243,7 +244,9 @@
       "deletesuccess":"Record has been deleted successfully!",
       "deletesuccess_multi":"Selected Record has been deleted successfully!",
       "feedbacksummitted":"Feedback has been submitted successfully!",
-      "feedbackdraft":"Feedback has been saved has darft!"
+      "feedbackdraft":"Feedback has been saved has darft!",
+      "sliderdraft": "Slider has been saved has draft!",
+      "slidersubmitted":"Slider has been submitted successfully!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -457,6 +460,11 @@
     },
     "tablebottom":{
       "category": "category management"
+    },
+    "component":{
+      "header": "Category",
+      "parent": "Parent",
+      "ismainmenu": "is Main Menu"
     }
   },
   "city": {
@@ -480,12 +488,16 @@
     },
     "tablebottom":{
       "usertypelist": "User Type list"
+    },
+    "component": {
+      "header": "User Type"
     }
   },
   "color": {
+    "name": "color",
     "header": "Color Management",
     "tableHeader":{
-      "colortitle": "Color Title",
+      "colortitle": "Color Name",
       "colorcode": "Color Code"
     },
     "tablebottom":{
@@ -493,6 +505,7 @@
     }
   },
   "contentmgmt": {
+    "name": "Content",
     "header": "Content Management",
     "tableHeader":{
       "categoryEn": "Category (EN)",
@@ -522,9 +535,13 @@
     },
     "tablebottom":{
       "errmsg": "error messages"
+    },
+    "component": {
+      "header": "Error Message"
     }
   },
   "faq": {
+    "name": "FAQ",
     "header": "FAQs List",
     "tableHeader":{
       "questionEn": "Question (EN)",
@@ -569,7 +586,8 @@
     "type": "Type",
     "subject": "Subject",
     "msg": "Message",
-    "replysection": "Reply Section"
+    "replysection": "Reply Section",
+    "reply": "Reply"
   },
   "feedbacksubjecttbl": {
     "header": "Feedback Subject List",
@@ -579,6 +597,9 @@
     },
     "tablebottom":{
       "feedbacksubject": "feedback subject"
+    },
+    "component": {
+      "header": "Feedback Subject"
     }
   },
   "feedbacktypetbl": {
@@ -589,17 +610,23 @@
     },
     "tablebottom":{
       "feedbacktype": "feedback type"
+    },
+    "component": {
+      "header": "Feedback Type"
     }
   },
   "fonttbl": {
     "header": "Font Settings List",
     "tableHeader":{
-      "name": "Name",
-      "url": "Url",
+      "name": "Font Name",
+      "url": "Font Url",
       "defaultstatus": "Default Status"
     },
     "tablebottom":{
       "font": "font setting"
+    },
+    "component": {
+      "header" : "Font Settings"
     }
   },
   "footercategorytbl": {
@@ -624,7 +651,10 @@
     }
   },
   "gallerytbl": {
+    "name": "Gallery",
+    "galleryimg": "Gallery Image",
     "header": "Gallery Management",
+    "copy": "Copy",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
@@ -837,13 +867,17 @@
     }
   },
   "calendar": {
-    "header": "Calender",
+    "header": "Calendar",
     "tableHeader":{
       "eventNameEn": "Event Name (EN)",
       "eventNameBm": "Event Name (BM)"
     },
     "tablebottom":{
-      "calendar": "calender list"
+      "calendar": "calendar list"
+    },
+    "filter": {
+      "internal": "Internal",
+      "external": "External"
     },
     "component":{
       "header": "Event",

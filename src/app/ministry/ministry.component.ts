@@ -306,7 +306,7 @@ export class MinistryComponent implements OnInit {
         "ministryAddress": null,
         "ministryLatitude": null,
         "ministryLongitude": null,
-        "ministryPhoneNo": null,
+        "ministryPhone": null,
         "ministryFax": null,
         "ministryEmail": null,
         "ministryStatus": null,
@@ -330,7 +330,7 @@ export class MinistryComponent implements OnInit {
         "ministryAddress": null,
         "ministryLatitude": null,
         "ministryLongitude": null,
-        "ministryPhoneNo": null,
+        "ministryPhone": null,
         "ministryFax": null,
         "ministryEmail": null,
         "ministryStatus": null,
@@ -357,7 +357,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryAddress = formValues.address;
     body[0].ministryLatitude = formValues.agclat;
     body[0].ministryLongitude = formValues.agclong;
-    body[0].ministryPhoneNo = formValues.phoneno;
+    body[0].ministryPhone = formValues.phoneno;
     body[0].ministryFax = formValues.faxno;
     body[0].ministryEmail = formValues.email;
     body[0].ministryStatus = formValues.active;
@@ -377,7 +377,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryAddress = formValues.address;
     body[1].ministryLatitude = formValues.agclat;
     body[1].ministryLongitude = formValues.agclong;
-    body[1].ministryPhoneNo = formValues.phoneno;
+    body[1].ministryPhone = formValues.phoneno;
     body[1].ministryFax = formValues.faxno;
     body[1].ministryEmail = formValues.email;
     body[1].ministryStatus = formValues.active;
@@ -424,7 +424,7 @@ export class MinistryComponent implements OnInit {
         "ministryAddress": null,
         "ministryLatitude": null,
         "ministryLongitude": null,
-        "ministryPhoneNo": null,
+        "ministryPhone": null,
         "ministryFax": null,
         "ministryEmail": null,
         "ministryStatus": null,
@@ -450,7 +450,7 @@ export class MinistryComponent implements OnInit {
         "ministryAddress": null,
         "ministryLatitude": null,
         "ministryLongitude": null,
-        "ministryPhoneNo": null,
+        "ministryPhone": null,
         "ministryFax": null,
         "ministryEmail": null,
         "ministryStatus": null,
@@ -477,7 +477,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryAddress = formValues.address;
     body[0].ministryLatitude = formValues.agclat;
     body[0].ministryLongitude = formValues.agclong;
-    body[0].ministryPhoneNo = formValues.phoneno;
+    body[0].ministryPhone = formValues.phoneno;
     body[0].ministryFax = formValues.faxno;
     body[0].ministryEmail = formValues.email;
     body[0].ministryStatus = formValues.active;
@@ -499,7 +499,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryAddress = formValues.address;
     body[1].ministryLatitude = formValues.agclat;
     body[1].ministryLongitude = formValues.agclong;
-    body[1].ministryPhoneNo = formValues.phoneno;
+    body[1].ministryPhone = formValues.phoneno;
     body[1].ministryFax = formValues.faxno;
     body[1].ministryEmail = formValues.email;
     body[1].ministryStatus = formValues.active;

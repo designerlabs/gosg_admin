@@ -2,7 +2,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>{{commonservice.pageMode}} Category </h3>
+            <h3>{{commonservice.pageMode}} {{ 'category.component.header' | translate }} </h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -22,7 +22,7 @@
         <div class="example-container mat-elevation-z8 paddingBottom-10">
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-12">Parent</label>
+                    <label class="col-md-12">{{ 'category.component.parent' | translate }}</label>
                 </div>
             </div><br>
             
@@ -124,13 +124,13 @@
 
             <div class="example-header">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width" formControlName="ismainmenu" tabindex="9">is Main Menu</mat-checkbox>
+                    <mat-checkbox class="example-full-width" formControlName="ismainmenu" tabindex="9">{{ 'category.component.ismainmenu' | translate }}</mat-checkbox>
                 </div>
             </div>     
             
             <div class="example-header">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="10">Active</mat-checkbox>
+                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="10">{{ 'common.buttons.active' | translate }}</mat-checkbox>
                 </div>
             </div>
         

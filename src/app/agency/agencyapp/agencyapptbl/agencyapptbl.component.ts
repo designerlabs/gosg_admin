@@ -202,6 +202,7 @@ export class AgencyapptblComponent implements OnInit {
     this.noPrevData = true;
   }
 
+  
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
