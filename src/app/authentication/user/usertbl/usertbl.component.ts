@@ -141,9 +141,8 @@ export class UsertblComponent implements OnInit {
 
   // get User Data 
   getUsersData(count, size) {
-    this.dataUrl = this.appConfig.urlAdminUserList;
     this.loading = true;
-    this.http.get(this.dataUrl+'?page=' + count + '&size=' + size+'&language='+this.languageId).subscribe(data => {
+    this.commonservice.readProtected('adminuser/userList',count, size).subscribe(data => {
       
       this.commonservice.errorHandling(data, (function(){
         
