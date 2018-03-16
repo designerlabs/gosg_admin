@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>{{commonservice.pageMode}} Font Settings</h3>
+            <h3>{{commonservice.pageMode}} {{ 'fonttbl.component.header' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -24,17 +24,17 @@
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-12">Font Settings</label>
+                    <label class="col-md-12">{{ 'fonttbl.component.header' | translate }}</label>
                 </div>
             </div><br>
 
             <div class="example-header">
                 <div class="col-md-12">
                     <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Font Name" formControlName="fname" (keyup)="checkReqValues()"
+                        <input matInput placeholder="{{ 'fonttbl.tableHeader.name' | translate }}" formControlName="fname" (keyup)="checkReqValues()"
                         required tabindex="1">
                         <mat-error *ngIf="updateForm.controls.fname.hasError('required')">
-                            Font Name is required
+                                {{ 'fonttbl.tableHeader.name' | translate }} {{ 'common.isrequired' | translate }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -43,10 +43,10 @@
             <div class="example-header">
                 <div class="col-md-12">
                     <mat-form-field class="example-full-width">
-                        <input  matInput placeholder="Font Url" formControlName="furl" (keyup)="checkReqValues()" 
+                        <input  matInput placeholder="{{ 'fonttbl.tableHeader.url' | translate }}" formControlName="furl" (keyup)="checkReqValues()" 
                         tabindex="2">
                         <mat-error *ngIf="updateForm.controls.furl.hasError('required')">
-                            Font Url is required
+                                {{ 'fonttbl.tableHeader.url' | translate }} {{ 'common.isrequired' | translate }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -59,7 +59,7 @@
               </div>
               <div class="col-md-12 paddingTop-20">
                 <mat-checkbox tabindex="4" formControlName="active" [checked]="true" (change)="checkDefaultStatus()"></mat-checkbox>
-                <span>&nbsp;Active</span>
+                <span>&nbsp;{{ 'common.buttons.active' | translate }}</span>
               </div>
               <div class="col-md-12">&nbsp;</div>
           </div>     

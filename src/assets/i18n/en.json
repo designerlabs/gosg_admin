@@ -235,7 +235,8 @@
       "servicedown": "Sorry, Server is down",
       "failtoload":"Sorry, Record is not loading properly, Try again!",
       "failtodelete":"Sorry, Record is not deleted properly, Try again!",
-      "failtoview":"Sorry, Record is not viewed properly, Try again!"
+      "failtoview":"Sorry, Record is not viewed properly, Try again!",
+      "patternisnotvalid": "pattern is not valid"
     },
     "success":{
       "added": "Successfully added!",
@@ -243,7 +244,9 @@
       "deletesuccess":"Record has been deleted successfully!",
       "deletesuccess_multi":"Selected Record has been deleted successfully!",
       "feedbacksummitted":"Feedback has been submitted successfully!",
-      "feedbackdraft":"Feedback has been saved has darft!"
+      "feedbackdraft":"Feedback has been saved has darft!",
+      "sliderdraft": "Slider has been saved has draft!",
+      "slidersubmitted":"Slider has been submitted successfully!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -295,6 +298,35 @@
       "email":"Email",
       "icno": "IC No."
     },
+    "location": {
+      "header": "Location Details",
+      "address": "Address",
+      "lat": "Latitude",
+      "long": "Longitude",
+      "latpattern": "Latitude Pattern"
+    },
+    "contact": {
+      "header": "Contact Details",
+      "person": "Contact Person",
+      "email": "Email",
+      "phone": "Phone Number",
+      "fax": "Fax Number"
+    },
+    "publishing": {
+      "header": "Publishing",
+      "website": "Website URL",
+      "rss": "RSS URL",
+      "blog": "Blog URL"
+    },
+    "socmed": {
+      "header": "Social Media",
+      "facebook": "Facebook URL",
+      "twitter": "Twitter URL",
+      "youtube": "Youtube URL",
+      "instagram": "Instagram URL",
+      "flickr": "Filckr URL"
+    },
+    "mdecstatus": "MDEC Status",
     "agency": "Agency",
     "isrequired": "is required",
     "patternisnotvalid": "pattern is not valid",
@@ -404,7 +436,6 @@
     },
     "name":"Agency Name",
     "uniquecode": "Agency Unique Code",
-    "mdecstatus": "MDEC Status",
     "location": {
       "header": "Location Details",
       "address": "Address",
@@ -457,6 +488,11 @@
     },
     "tablebottom":{
       "category": "category management"
+    },
+    "component":{
+      "header": "Category",
+      "parent": "Parent",
+      "ismainmenu": "is Main Menu"
     }
   },
   "city": {
@@ -480,12 +516,16 @@
     },
     "tablebottom":{
       "usertypelist": "User Type list"
+    },
+    "component": {
+      "header": "User Type"
     }
   },
   "color": {
+    "name": "color",
     "header": "Color Management",
     "tableHeader":{
-      "colortitle": "Color Title",
+      "colortitle": "Color Name",
       "colorcode": "Color Code"
     },
     "tablebottom":{
@@ -493,6 +533,7 @@
     }
   },
   "contentmgmt": {
+    "name": "Content",
     "header": "Content Management",
     "tableHeader":{
       "categoryEn": "Category (EN)",
@@ -522,9 +563,13 @@
     },
     "tablebottom":{
       "errmsg": "error messages"
+    },
+    "component": {
+      "header": "Error Message"
     }
   },
   "faq": {
+    "name": "FAQ",
     "header": "FAQs List",
     "tableHeader":{
       "questionEn": "Question (EN)",
@@ -569,7 +614,8 @@
     "type": "Type",
     "subject": "Subject",
     "msg": "Message",
-    "replysection": "Reply Section"
+    "replysection": "Reply Section",
+    "reply": "Reply"
   },
   "feedbacksubjecttbl": {
     "header": "Feedback Subject List",
@@ -579,6 +625,9 @@
     },
     "tablebottom":{
       "feedbacksubject": "feedback subject"
+    },
+    "component": {
+      "header": "Feedback Subject"
     }
   },
   "feedbacktypetbl": {
@@ -589,17 +638,23 @@
     },
     "tablebottom":{
       "feedbacktype": "feedback type"
+    },
+    "component": {
+      "header": "Feedback Type"
     }
   },
   "fonttbl": {
     "header": "Font Settings List",
     "tableHeader":{
-      "name": "Name",
-      "url": "Url",
+      "name": "Font Name",
+      "url": "Font Url",
       "defaultstatus": "Default Status"
     },
     "tablebottom":{
       "font": "font setting"
+    },
+    "component": {
+      "header" : "Font Settings"
     }
   },
   "footercategorytbl": {
@@ -624,7 +679,10 @@
     }
   },
   "gallerytbl": {
+    "name": "Gallery",
+    "galleryimg": "Gallery Image",
     "header": "Gallery Management",
+    "copy": "Copy",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
@@ -658,7 +716,8 @@
       "code": "Code",
       "name": "Language Name",
       "description": "Language Description"
-    }
+    },
+    "update": "Update Language"
   },
   "mediauploadtbl": {
     "header": "Media File Upload Management",
@@ -679,7 +738,13 @@
       "reset": "Reset"
     }
   },
+  "mediaupload": {
+    "header": "Media File Upload",
+    "mediatype": "Media Type",
+    "mediaupload": "Media Upload"
+  },
   "ministrytbl": {
+    "name": "Ministry",
     "header": "Ministry Management",
     "tableHeader":{
       "nameEn": "Ministry Name (EN)",
@@ -696,9 +761,7 @@
       "description": "Module Description",
       "url": "Module Url"
     },
-    "tablebottom":{
-      "modules": "modules"
-    }
+    "modules": "Modules"
   },
   "pollquestiontbl": {
     "header": "Polls Questions List",
@@ -837,13 +900,17 @@
     }
   },
   "calendar": {
-    "header": "Calender",
+    "header": "Calendar",
     "tableHeader":{
       "eventNameEn": "Event Name (EN)",
       "eventNameBm": "Event Name (BM)"
     },
     "tablebottom":{
-      "calendar": "calender list"
+      "calendar": "calendar list"
+    },
+    "filter": {
+      "internal": "Internal",
+      "external": "External"
     },
     "component":{
       "header": "Event",

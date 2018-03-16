@@ -57,7 +57,7 @@
             
                 <!-- status Column -->
                 <ng-container matColumnDef="ismain">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> is Main Menu </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'category.component.ismainmenu' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.list[0]?.isMainMenu == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
                         <i *ngIf="element.list[0]?.isMainMenu == false" [ngClass]="commonservice.icon.times" class="color_red"></i>

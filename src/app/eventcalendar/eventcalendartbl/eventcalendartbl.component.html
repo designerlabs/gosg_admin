@@ -25,9 +25,9 @@
       <div class="row">
         <div class="col-md-3 paddingTop-10 pdg_L_30px">
           <mat-form-field>
-              <mat-select placeholder="Internal" [(ngModel)]="calendarType">
-                <mat-option [value]="null">Internal</mat-option>
-                <mat-option [value]="2" (click)="showCalendar(calendarType)">External</mat-option>
+              <mat-select placeholder="{{ 'calendar.filter.internal' | translate }}" [(ngModel)]="calendarType">
+                <mat-option [value]="null">{{ 'calendar.filter.internal' | translate }}</mat-option>
+                <mat-option [value]="2" (click)="showCalendar(calendarType)">{{ 'calendar.filter.external' | translate }}</mat-option>
               </mat-select>
             </mat-form-field>
         </div>

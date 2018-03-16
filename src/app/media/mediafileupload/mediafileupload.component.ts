@@ -339,17 +339,20 @@ export class MediafileuploadComponent implements OnInit {
         maxFileSize = fileConfig[0].fileThresholdSize * 1048576
       }
       this.chkUploadFile.maxSize =  maxFileSize;
-    }
-    let filextnLCase = fileConfig[0].fileExtensions.toLowerCase();
+      let filextnLCase = fileConfig[0].fileExtensions.toLowerCase();
    
-    this.chkUploadFile.allowedFormat = fileConfig[0].fileExtensions;
-    this.chkUploadFile.minH = fileConfig[0].minH;
-    this.chkUploadFile.maxH = fileConfig[0].maxH;
-    this.chkUploadFile.minW = fileConfig[0].minW;
-    this.chkUploadFile.maxW = fileConfig[0].maxW;
-    this.sharedConfig.acceptExtensions =  filextnLCase.split(',');   
-    this.sharedConfig.maxFileSize = maxFileSize;
-    this.resFileExtn = filextnLCase.split(',');
+      this.chkUploadFile.allowedFormat = fileConfig[0].fileExtensions;
+      this.chkUploadFile.minH = fileConfig[0].minH;
+      this.chkUploadFile.maxH = fileConfig[0].maxH;
+      this.chkUploadFile.minW = fileConfig[0].minW;
+      this.chkUploadFile.maxW = fileConfig[0].maxW;
+      this.sharedConfig.acceptExtensions =  filextnLCase.split(',');   
+      this.sharedConfig.maxFileSize = maxFileSize;
+      this.resFileExtn = filextnLCase.split(',');
+    }else{
+      this.toastr.error('Can not find Category under "' + resMT[0].mediaTypeName + '" Media Type');
+    }
+   
     // if(!this.addconfig){
     //   this.ng4FilesService.addConfig(this.sharedConfig); 
     //   this.addconfig = true;

@@ -235,7 +235,8 @@
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
       "failtoload":"Harap maaf, Record is not loading properly, Try again!",
       "failtodelete":"Harap maaf, Record is not deleted properly, Try again!",
-      "failtoview":"Harap maaf, Record is not viewed properly, Try again!"
+      "failtoview":"Harap maaf, Record is not viewed properly, Try again!",
+      "patternisnotvalid": "corak tidak sah"
     },
     "success":{
       "added": "Berjaya ditambah!",
@@ -243,7 +244,9 @@
       "deletesuccess":"Rekod berjaya dipadam!",
       "deletesuccess_multi":"Rekod yang dipilih berjaya dipadam!",
       "feedbacksummitted":"Maklum balas berjaya dihantar!",
-      "feedbackdraft":"Maklum balas berjaya disimpan sebagai deraf!"
+      "feedbackdraft":"Maklum balas berjaya disimpan sebagai deraf!",
+      "sliderdraft": "Slider has been saved has draft!",
+      "slidersubmitted":"Slider has been submitted successfully!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -295,6 +298,35 @@
       "email":"Emel",
       "icno": "No. KP"
     },
+    "location": {
+      "header": "Maklumat Lokasi",
+      "address": "Alamat",
+      "lat": "Latitud",
+      "long": "Longitud",
+      "latpattern": "Corak Latitud"
+    },
+    "contact": {
+      "header": "Maklumat untuk dihubungi",
+      "person": "Orang untuk dihubungi",
+      "email": "Emel",
+      "phone": "Nombor Telefon",
+      "fax": "Nombor Faks"
+    },
+    "publishing": {
+      "header": "Penerbitan",
+      "website": "URL Laman Web",
+      "rss": "URL RSS",
+      "blog": "URL Blog"
+    },
+    "socmed": {
+      "header": "Media Sosial",
+      "facebook": "URL Facebook",
+      "twitter": "URL Twitter",
+      "youtube": "URL Youtube",
+      "instagram": "URL Instagram",
+      "flickr": "URL Filckr"
+    },
+    "mdecstatus": "Status MDEC",
     "agency": "Agensi",
     "isrequired": "diperlukan",
     "patternisnotvalid": "corak tidak sah",
@@ -404,7 +436,6 @@
     },
     "name":"Agency Name",
     "uniquecode": "Kod Unik Agensi",
-    "mdecstatus": "Status MDEC",
     "location": {
       "header": "Maklumat Lokasi",
       "address": "Alamat",
@@ -457,6 +488,11 @@
     },
     "tablebottom":{
       "category": "pengurusan kategori"
+    },
+    "component":{
+      "header": "Kategori",
+      "parent": "Induk",
+      "ismainmenu": "adalah Menu Utama"
     }
   },
   "city": {
@@ -480,12 +516,16 @@
     },
     "tablebottom":{
       "usertypelist": "senarai Jenis Pengguna"
+    },
+    "component": {
+      "header": "Jenis Pengguna"
     }
   },
   "color": {
+    "name": "warna",
     "header": "Pengurusan Warna",
     "tableHeader":{
-      "colortitle": "Tajuk Warna",
+      "colortitle": "Nama Warna",
       "colorcode": "Kod Warna"
     },
     "tablebottom":{
@@ -493,6 +533,7 @@
     }
   },
   "contentmgmt": {
+    "name": "Kandungan",
     "header": "Pengurusan Kandungan",
     "tableHeader":{
       "categoryEn": "Kategori (EN)",
@@ -514,17 +555,21 @@
     }
   },
   "errormsg": {
-    "header": "Pengurusan Mesej Error",
+    "header": "Pengurusan Mesej Ralat",
     "tableHeader":{
-      "code": "Kod Mesej Error",
+      "code": "Kod Mesej Ralat",
       "descriptionEn": "Keterangan (EN)",
       "descriptionBm": "Keterangan (BM)"
     },
     "tablebottom":{
       "errmsg": "mesej error"
+    },
+    "component": {
+      "header": "Mesej Ralat"
     }
   },
   "faq": {
+    "name": "Soalan Lazim",
     "header": "Senarai Soalan Lazim",
     "tableHeader":{
       "questionEn": "Soalan (EN)",
@@ -569,7 +614,8 @@
     "type": "Jenis",
     "subject": "Subjek",
     "msg": "Mesej",
-    "replysection": "Bahagian Balasan"
+    "replysection": "Bahagian Balasan",
+    "reply": "Balasan"
   },
   "feedbacksubjecttbl": {
     "header": "Senarai Subjek Maklum Balas",
@@ -579,6 +625,9 @@
     },
     "tablebottom":{
       "feedbacksubject": "subjek maklum balas"
+    },
+    "component": {
+      "header": "Subjek Maklum Balas"
     }
   },
   "feedbacktypetbl": {
@@ -589,17 +638,23 @@
     },
     "tablebottom":{
       "feedbacktype": "jenis maklum balas"
+    },
+    "component": {
+      "header": "Jenis Maklum Balas"
     }
   },
   "fonttbl": {
     "header": "Senarai Tetapan Fon",
     "tableHeader":{
-      "name": "Nama",
-      "url": "Url",
+      "name": "Nama Fon",
+      "url": "Url Fon",
       "defaultstatus": "Status Default"
     },
     "tablebottom":{
       "font": "tetapan fon"
+    },
+    "component": {
+      "header" : "Tetapan Fon"
     }
   },
   "footercategorytbl": {
@@ -624,7 +679,10 @@
     }
   },
   "gallerytbl": {
+    "name": "Galeri",
+    "galleryimg": "Imej Galeri",
     "header": "Pengurusan Galeri",
+    "copy": "Salin",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
       "titleBm": "Tajuk (BM)",
@@ -658,7 +716,8 @@
       "code": "Kod",
       "name": "Nama Bahasa",
       "description": "Keterangan Bahasa"
-    }
+    },
+    "update": "Kemaskini Bahasa"
   },
   "mediauploadtbl": {
     "header": "Pengurusan Muat Naik Fail Media",
@@ -679,7 +738,13 @@
       "reset": "Reset"
     }
   },
+  "mediaupload": {
+    "header": "Muat Naik Fail Media",
+    "mediatype": "Jenis Media",
+    "mediaupload": "Muat Naik Media"
+  },
   "ministrytbl": {
+    "name": "Kementerian",
     "header": "Pengurusan Kementerian",
     "tableHeader":{
       "nameEn": "Nama Kementerian (EN)",
@@ -696,9 +761,7 @@
       "description": "Keterangan Modul",
       "url": "Url Modul"
     },
-    "tablebottom":{
-      "modules": "modul"
-    }
+    "modules": "Modul"
   },
   "pollquestiontbl": {
     "header": "Senarai Soalan Soal Selidik",
@@ -844,6 +907,10 @@
     },
     "tablebottom":{
       "calendar": "senarai kalendar"
+    },
+    "filter": {
+      "internal": "Dalaman",
+      "external": "Luaran"
     },
     "component":{
       "header": "Acara",
