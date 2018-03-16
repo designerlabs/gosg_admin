@@ -298,6 +298,35 @@
       "email":"Emel",
       "icno": "No. KP"
     },
+    "location": {
+      "header": "Maklumat Lokasi",
+      "address": "Alamat",
+      "lat": "Latitud",
+      "long": "Longitud",
+      "latpattern": "Corak Latitud"
+    },
+    "contact": {
+      "header": "Maklumat untuk dihubungi",
+      "person": "Orang untuk dihubungi",
+      "email": "Emel",
+      "phone": "Nombor Telefon",
+      "fax": "Nombor Faks"
+    },
+    "publishing": {
+      "header": "Penerbitan",
+      "website": "URL Laman Web",
+      "rss": "URL RSS",
+      "blog": "URL Blog"
+    },
+    "socmed": {
+      "header": "Media Sosial",
+      "facebook": "URL Facebook",
+      "twitter": "URL Twitter",
+      "youtube": "URL Youtube",
+      "instagram": "URL Instagram",
+      "flickr": "URL Filckr"
+    },
+    "mdecstatus": "Status MDEC",
     "agency": "Agensi",
     "isrequired": "diperlukan",
     "patternisnotvalid": "corak tidak sah",
@@ -407,7 +436,6 @@
     },
     "name":"Agency Name",
     "uniquecode": "Kod Unik Agensi",
-    "mdecstatus": "Status MDEC",
     "location": {
       "header": "Maklumat Lokasi",
       "address": "Alamat",
@@ -688,7 +716,8 @@
       "code": "Kod",
       "name": "Nama Bahasa",
       "description": "Keterangan Bahasa"
-    }
+    },
+    "update": "Kemaskini Bahasa"
   },
   "mediauploadtbl": {
     "header": "Pengurusan Muat Naik Fail Media",
@@ -709,7 +738,13 @@
       "reset": "Reset"
     }
   },
+  "mediaupload": {
+    "header": "Muat Naik Fail Media",
+    "mediatype": "Jenis Media",
+    "mediaupload": "Muat Naik Media"
+  },
   "ministrytbl": {
+    "name": "Kementerian",
     "header": "Pengurusan Kementerian",
     "tableHeader":{
       "nameEn": "Nama Kementerian (EN)",
@@ -726,9 +761,7 @@
       "description": "Keterangan Modul",
       "url": "Url Modul"
     },
-    "tablebottom":{
-      "modules": "modul"
-    }
+    "modules": "Modul"
   },
   "pollquestiontbl": {
     "header": "Senarai Soalan Soal Selidik",

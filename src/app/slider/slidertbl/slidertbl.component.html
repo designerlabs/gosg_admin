@@ -54,10 +54,10 @@
         <mat-cell *matCellDef="let element"> {{element.list[0]?.contentTitle}}</mat-cell>
       </ng-container>
 
-      <!-- slideDescription Column -->
+      <!-- slideDescription Column {{element.list[1]?.contentTitle | truncate:[30, '...']}}-->
       <ng-container matColumnDef="sliderDescription">
         <mat-header-cell *matHeaderCellDef> Title (BM)</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[1]?.contentTitle | truncate:[30, '...']}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1]?.contentTitle }} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->

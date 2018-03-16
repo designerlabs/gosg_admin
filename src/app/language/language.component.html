@@ -3,7 +3,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ pageMode }} Language</h3>
+          <h3>{{ 'langtbl.update' | translate }}</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -25,10 +25,10 @@
         <div class="row">
           <div class="col-md-12">
             <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <input matInput placeholder="Language Code" formControlName="languageCode" (keyup)="checkReqValues()"
+              <input matInput placeholder="{{ 'langtbl.tableHeader.code' | translate }}" formControlName="languageCode" (keyup)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.languageCode.hasError('required')">
-                Language code required
+                {{ 'langtbl.tableHeader.code' | translate }} {{ 'common.isrequired' | translate }}
               </mat-error>
             </mat-form-field>
             
@@ -38,10 +38,10 @@
         <div class="row">
           <div class="col-md-12">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Language Name" formControlName="languageName" (keyup)="checkReqValues()"
+                <input matInput placeholder="{{ 'langtbl.tableHeader.name' | translate }}" formControlName="languageName" (keyup)="checkReqValues()"
                   required>
                 <mat-error *ngIf="updateForm.controls.languageName.hasError('required')">
-                  Language code required
+                  {{ 'langtbl.tableHeader.name' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
               </mat-form-field>
           </div>
@@ -50,17 +50,17 @@
         <div class="row">
           <div class="col-md-12">
             <mat-form-field class="example-full-width font-size-s">
-              <textarea matInput placeholder="Description" formControlName="languageDescription" #languageDescription maxLength="10000" (keyup)="checkReqValues()"
+              <textarea matInput placeholder="{{ 'langtbl.tableHeader.description' | translate }}" formControlName="languageDescription" #languageDescription maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.languageDescription.hasError('required')">
-                Description is required
+                {{ 'langtbl.tableHeader.description' | translate }} {{ 'common.isrequired' | translate }}
               </mat-error>
               <mat-hint align="end">{{languageDescription.value?.length || 0}}/10000</mat-hint>
             </mat-form-field>
           </div>
           <div class="col-md-2 paddingTop-20">
             <mat-checkbox tabindex="7" formControlName="isDefault" [checked]="false" [value]="false"></mat-checkbox>
-            <span>&nbsp;is Default</span>
+            <span>&nbsp;Default</span>
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>

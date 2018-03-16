@@ -3,7 +3,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ pageMode }} Module </h3>
+          <h3>{{ pageMode }} {{ 'modulemgmttbl.modules' | translate }} </h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -26,19 +26,19 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
             <mat-form-field class="example-full-width ">
-              <input matInput tabindex="1" placeholder="Module Name" formControlName="moduleName" (change)="checkReqValues()"
+              <input matInput tabindex="1" placeholder="{{ 'modulemgmttbl.tableHeader.name' | translate }}" formControlName="moduleName" (change)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.moduleName.hasError('required')">
-                Module Name is required
+                {{ 'modulemgmttbl.tableHeader.name' | translate }} {{ 'common.isrequired' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-12">
             <mat-form-field class="example-full-width ">
-              <textarea matInput tabindex="2" placeholder="Description" formControlName="moduleDesc" #moduleDesc maxLength="10000" (change)="checkReqValues()"
+              <textarea matInput tabindex="2" placeholder="{{ 'modulemgmttbl.tableHeader.description' | translate }}" formControlName="moduleDesc" #moduleDesc maxLength="10000" (change)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.moduleDesc.hasError('required')">
-                Description is required
+                {{ 'modulemgmttbl.tableHeader.description' | translate }} {{ 'common.isrequired' | translate }}
               </mat-error>
               <mat-hint align="end">{{moduleDesc.value?.length || 0}}/10000</mat-hint>
             </mat-form-field>
@@ -49,15 +49,15 @@
         <div class="row">
           <div class="col-md-10">
             <mat-form-field class="example-full-width">
-              <input matInput tabindex="3" placeholder="Module URL" formControlName="moduleUrl" (keyup)="checkReqValues()" required>
+              <input matInput tabindex="3" placeholder="{{ 'modulemgmttbl.tableHeader.url' | translate }}" formControlName="moduleUrl" (keyup)="checkReqValues()" required>
               <mat-error *ngIf="updateForm.controls.moduleUrl.hasError('required')">
-                Module URL is required
+                {{ 'modulemgmttbl.tableHeader.url' | translate }} {{ 'common.isrequired' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
           <div class="col-md-2 paddingTop-20">
             <mat-checkbox tabindex="4" formControlName="active" [checked]="true"></mat-checkbox>
-            <span>&nbsp;Active</span>
+            <span>&nbsp;{{ 'common.buttons.active' | translate }}</span>
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
