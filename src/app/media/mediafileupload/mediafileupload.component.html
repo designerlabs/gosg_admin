@@ -3,7 +3,7 @@
         <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-      <h3>{{ pageMode }} Media File Upload</h3>
+      <h3>{{ pageMode }} {{ 'mediaupload.header' | translate }}</h3>
     </div>
 
     <div class="col-md-2 curdHeadingRight">
@@ -24,7 +24,7 @@
       <div class="row">
         <div class="col-md-6" [hidden]="isEdit">
           <mat-form-field class="example-full-width font-size-s paddingTop-10">
-              <mat-select placeholder="Media Type" formControlName="mediatype" (change)="selMediaType($event)" required >
+              <mat-select placeholder="{{ 'mediaupload.mediatype' | translate }}" formControlName="mediatype" (change)="selMediaType($event)" required >
                 <mat-option *ngFor="let obj of objMediaType" [value]="obj.mediaTypeId">{{obj.mediaTypeName}}</mat-option>
               </mat-select>
               <mat-error *ngIf="mediaFileUpForm.get('mediatype').hasError('required')">
@@ -37,11 +37,11 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width font-size-s paddingTop-10">
-            <mat-select placeholder="Category" formControlName="catType" (change)="selCateType($event)" required>
+            <mat-select placeholder="{{ 'mediauploadtbl.tableHeader.category' | translate }}" formControlName="catType" (change)="selCateType($event)" required>
               <mat-option *ngFor="let obj of objCategory" [value]="obj.category.categoryId">{{obj.category.categoryName}}</mat-option>
             </mat-select>
             <mat-error *ngIf="mediaFileUpForm.get('catType').hasError('required')">
-              Category is required
+                {{ 'mediauploadtbl.tableHeader.category' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
           </mat-form-field>
         </div>
@@ -67,7 +67,7 @@
               </div>
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Media Tajuk" formControlName="mediaTitleMy" maxlength="100" 
+                      <input matInput placeholder="Tajuk Media" formControlName="mediaTitleMy" maxlength="100" 
                       (change)="checkReqValues()" required>
                       <mat-error *ngIf="mediaFileUpForm.controls.mediaTitleMy.hasError('required')">
                           Tajuk Media diperlukan
@@ -89,10 +89,10 @@
               </div>
               <div class="col-md-6">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <input matInput placeholder="Tajuk Media" formControlName="mediaFileMy" maxlength="100" 
+                      <input matInput placeholder="Fail Media" formControlName="mediaFileMy" maxlength="100" 
                       (change)="checkReqValues()" required readonly>
                       <mat-error *ngIf="mediaFileUpForm.controls.mediaFileMy.hasError('required')">
-                          Tajuk Media diperlukan
+                        Fail Media diperlukan
                       </mat-error>
                   </mat-form-field>
               </div>
@@ -101,7 +101,7 @@
       <!-- Common controls -->
       <div class="row">
         <div class="col-md-3 paddingTop-10">
-          <label class="font-size-m" for="mediatype"> Media Upload </label>
+          <label class="font-size-m" for="mediatype"> {{ 'mediaupload.mediaupload' | translate }} </label>
         </div>
       </div>
       <div class="row" >
@@ -118,7 +118,7 @@
         <div class="col-md-6">
             <ng4-files-click (filesSelect)="filesSelectMy($event)">
               <!-- <span>Upload a File here</span> -->
-              <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> File Upload</span>
+              <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> Muat Naik Fail</span>
             </ng4-files-click>
             <div *ngIf="selectedFilesMy">
                 <img *ngIf="showImgMy" [src]="appConfig.externalMediaURL+'/'+mediaPath+'/'+selectedFilesMy" style="width:200px">

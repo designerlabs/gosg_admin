@@ -242,7 +242,7 @@ mat-header-cell{
     }
 
     .width_100px {
-        width: 100px !important;
+        min-width: 100px !important;
     }
 
     .mgn_L_5px {

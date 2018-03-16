@@ -40,6 +40,7 @@ export class GalleryComponent implements OnInit {
   urlMy: FormControl
   seqEng: FormControl
   seqMy: FormControl
+  mtype: FormControl
   resetMsg = this.resetMsg;
 
   isRead: boolean;
@@ -47,8 +48,16 @@ export class GalleryComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
-  imageData: any;
+  fileData: any;
+  mediaTypes: any;
   public loading = false;
+  getImgIdEn: any;
+  getImgIdBm: any;
+  selectedFileEn = '';
+  selectedFileMy = '';
+  mediaPath = '';
+  contentCategoryIdEn='';
+  contentCategoryIdMy='';
 
   constructor(
     private http: HttpClient,
@@ -90,7 +99,8 @@ export class GalleryComponent implements OnInit {
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
-
+    // this.getFileList();
+    this.getMediaTypes()
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
     this.descEn = new FormControl()
@@ -103,6 +113,7 @@ export class GalleryComponent implements OnInit {
     this.copyImg = new FormControl()
     this.seqEng = new FormControl()
     this.seqMy = new FormControl()
+    this.mtype = new FormControl()
 
     this.updateForm = new FormGroup({
       titleEn: this.titleEn,
@@ -117,6 +128,7 @@ export class GalleryComponent implements OnInit {
       copyImg: this.copyImg,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
+      mtype: this.mtype,
     });
 
     if (refCode == "add") {
@@ -167,24 +179,41 @@ export class GalleryComponent implements OnInit {
 
         this.commonservice.errorHandling(Rdata, (function () {
           this.galleryData = Rdata;
-          console.log(this.galleryData)
-          let dataEn = this.galleryData['list'][0];
-          let dataBm = this.galleryData['list'][1];
-
+          console.log(this.galleryData);
+          
+          let dataEn = this.galleryData['galleryList'][0];
+          let dataBm = this.galleryData['galleryList'][1];
+          this.getFileList(parseInt(dataEn.galleryImage.mediaTypeId)); 
           // populate data
-          this.updateForm.get('titleEn').setValue(dataEn.slideTitle);
-          this.updateForm.get('descEn').setValue(dataEn.slideDescription);
-          this.updateForm.get('imgEn').setValue(parseInt(dataEn.slideImage));
-          this.updateForm.get('titleBm').setValue(dataBm.slideTitle);
-          this.updateForm.get('descBm').setValue(dataBm.slideDescription);
-          this.updateForm.get('imgBm').setValue(parseInt(dataBm.slideImage));
-          this.updateForm.get('active').setValue(dataEn.slideActiveFlag);
-          this.galleryCode = dataEn.slideCode;
-          this.galleryIdEn = dataEn.slideId;
-          this.galleryIdBm = dataBm.slideId;
+          this.updateForm.get('titleEn').setValue(dataEn.galleryTitle);
+          this.updateForm.get('descEn').setValue(dataEn.galleryDescription);
+          this.updateForm.get('imgEn').setValue(parseInt(dataEn.galleryImage.mediaId));
+          this.updateForm.get('titleBm').setValue(dataBm.galleryTitle);
+          this.updateForm.get('descBm').setValue(dataBm.galleryDescription);
+          this.updateForm.get('imgBm').setValue(parseInt(dataBm.galleryImage.mediaId));
+          this.updateForm.get('urlEng').setValue(dataEn.galleryUrl);
+          this.updateForm.get('urlMy').setValue(dataBm.galleryUrl);
+          this.updateForm.get('seqEng').setValue(dataEn.gallerySort);
+          this.updateForm.get('seqMy').setValue(dataBm.gallerySort);
+          this.updateForm.get('active').setValue(dataEn.galleryActiveFlag);
+          this.updateForm.get('mtype').setValue(parseInt(dataEn.galleryImage.mediaTypeId));
+          this.selectedFileEn = dataEn.galleryImage.mediaFile;
+          this.selectedFileMy= dataBm.galleryImage.mediaFile;
+          this.galleryCode = dataEn.galleryCode;
+          this.galleryIdEn = dataEn.galleryId;
+          this.galleryIdBm = dataBm.galleryId;
 
-          this.isSameImg(dataEn.slideImage, dataBm.slideImage);
+          if(dataEn.galleryImage.mediaTypeId === 1){
+            this.mediaPath = "documents";
+          }else if(dataEn.galleryImage.mediaTypeId === 2){
+            this.mediaPath = "images";
+          }else if(dataEn.galleryImage.mediaTypeId === 3){
+            this.mediaPath = "audios";
+          }else if(dataEn.galleryImage.mediaTypeId === 4){
+            this.mediaPath = "videos";
+          }
 
+          this.isSameImg(dataEn.galleryImage.mediaFile, dataBm.galleryImage.mediaFile);
           this.checkReqValues();
         }).bind(this));
         this.loading = false;
@@ -215,9 +244,11 @@ export class GalleryComponent implements OnInit {
     let titleBm = "titleBm";
     let descBm = "descBm";
     let imgBm = "imgBm";
+    let urlEng = "urlEng";
+    let urlMy = "urlMy";
     // let active = "active";
 
-    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm];
+    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, urlEng, urlMy];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -239,17 +270,94 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  getImageList() {
+  getFileList(mediaId) {
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/slider', '0', '999999999')
+    return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
       .subscribe(resCatData => {
-        this.imageData = resCatData['list'];
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
+          // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
+          this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
+          this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
+      }).bind(this));
         this.loading = false;
       },
-        Error => {
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
           this.loading = false;
-          console.log('Error in Gallery');
         });
+  }
+
+  getMediaTypes(){
+    this.loading = true;
+    return this.commonservice.readProtected('mediatype')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.mediaTypes = resCatData['mediaTypes'];
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+  }
+
+  selectedmType(e){
+    debugger;
+    let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
+    
+
+    if(resMT[0].mediaTypeName === "Images"){
+      this.mediaPath = "images";
+    }else if(resMT[0].mediaTypeName === "Documents"){
+      this.mediaPath = "documents";
+    }else if(resMT[0].mediaTypeName === "Videos"){
+      this.mediaPath = "videos";
+    }else if(resMT[0].mediaTypeName === "Audios"){
+      this.mediaPath = "audios";
+    }
+    this.getFileList(e.value);
+    this.checkReqValues();
+  }
+    
+  selectedImg(e, val){
+    console.log(e);
+    this.getImgIdEn = e.value;
+    this.getImgIdBm = e.value;
+    let dataList = this.fileData;
+    let indexVal: any;
+    let idBm: any;
+    let idEn: any;
+
+    console.log("EN: "+this.getImgIdEn+" BM: "+this.getImgIdBm + " value: " + val);
+
+    if(val == 1){
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[0].mediaId;
+        if(indexVal == this.getImgIdEn){
+          idBm = dataList[i].list[1].mediaId;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
+        }        
+      }
+      this.updateForm.get('imgBm').setValue(idBm);  
+    }
+    else{
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[1].mediaId;
+        if(indexVal == this.getImgIdBm){
+          idEn = dataList[i].list[0].mediaId;
+          // this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
+        }        
+      }
+      // this.updateForm.get('imgEn').setValue(idEn); 
+    }
+    this.checkReqValues();
   }
 
   copyValue(type) {
@@ -274,7 +382,6 @@ export class GalleryComponent implements OnInit {
     else {
       return false;
     }
-
   }
 
   myFunction() {
@@ -283,12 +390,9 @@ export class GalleryComponent implements OnInit {
     this.checkReqValues();
   }
 
-  updateGallery(formValues: any) {
-    // console.log(this.viewSeq);
-    // let galleryCode = Math.floor((Math.random() * 100) + 1);
+  updateGallery(formValues: any) {  
 
     if (!this.isEdit) {
-
       let body = [
         {
           "contentCategoryId": null,
@@ -325,20 +429,21 @@ export class GalleryComponent implements OnInit {
       ];
 
       // console.log(formValues)
-      body[0].contentCategoryId = '';
+      body[0].contentCategoryId = this.contentCategoryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
       body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
-      body[0].contents[0].gallerySort = null;
-      body[0].contents[0].galleryUrl = null;
+      body[0].contents[0].gallerySort = formValues.seqEng;
+      body[0].contents[0].galleryUrl = formValues.urlEng;
       body[0].contents[0].galleryActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = '';
+      body[1].contentCategoryId = this.contentCategoryIdMy;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
       body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
-      body[1].contents[0].gallerySort = null;
+      body[1].contents[0].gallerySort = formValues.seqMy;
+      body[0].contents[0].galleryUrl = formValues.urlMy;
       body[1].contents[0].galleryActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
@@ -401,7 +506,7 @@ export class GalleryComponent implements OnInit {
           ]
         }
       ];
-      body[0].contentCategoryId = "";
+      body[0].contentCategoryId = this.contentCategoryIdEn;
       // body[0].contents[0].galleryCode = this.galleryCode;
       body[0].contents[0].galleryId = this.galleryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
@@ -412,7 +517,7 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = this.galleryCode;
+      body[1].contentCategoryId = this.contentCategoryIdMy;
       body[1].contents[0].galleryId = this.galleryIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;

@@ -158,36 +158,44 @@ export class SliderComponent implements OnInit {
 
     this.loading = true;
     // Update Slider Service
-    return this.commonservice.readPortalById('slider/code/', row).subscribe(
+    return this.commonservice.readProtectedById('slider/creator/', row).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.sliderData = Rdata;
           console.log(this.sliderData)
-          let dataEn = this.sliderData['sliderList'][0];
-          let dataBm = this.sliderData['sliderList'][1];
+          let dataEn = this.sliderData['list'][0];
+          let dataBm = this.sliderData['list'][1];
 
           // populate data
-          this.updateForm.get('titleEn').setValue(dataEn.sliderTitle);
-          this.updateForm.get('descEn').setValue(dataEn.sliderDescription);
-          this.updateForm.get('imgEn').setValue(parseInt(dataEn.sliderImage.mediaId));
-          this.updateForm.get('titleBm').setValue(dataBm.sliderTitle);
-          this.updateForm.get('descBm').setValue(dataBm.sliderDescription);
-          this.updateForm.get('imgBm').setValue(parseInt(dataBm.sliderImage.mediaId));
-          this.updateForm.get('active').setValue(dataEn.sliderActiveFlag);
-          this.updateForm.get('urlEng').setValue(dataEn.sliderUrl);
-          this.updateForm.get('urlMy').setValue(dataBm.sliderUrl);
-          this.updateForm.get('seqEng').setValue(dataEn.sliderSort);
-          this.updateForm.get('seqMy').setValue(dataBm.sliderSort);
-          this.selectedFileEn = dataEn.sliderImage.mediaFile;
-          this.selectedFileMy = dataBm.sliderImage.mediaFile;
+          this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
+          this.updateForm.get('descEn').setValue(dataEn.contentDescription);
+         
+          this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
+          this.updateForm.get('descBm').setValue(dataBm.contentDescription);
+          
+          this.updateForm.get('active').setValue(dataEn.isActiveFlag);
+          this.updateForm.get('urlEng').setValue(dataEn.contentUrl);
+          this.updateForm.get('urlMy').setValue(dataBm.contentUrl);
+          this.updateForm.get('seqEng').setValue(dataEn.contentSort);
+          this.updateForm.get('seqMy').setValue(dataBm.contentSort);
 
-          this.sliderCode = dataEn.sliderCode;
-          this.sliderIdEn = dataEn.sliderId;
-          this.sliderIdBm = dataBm.sliderId;
+          if(dataEn.contentImage != null){
+            this.selectedFileEn = dataEn.contentImage.mediaFile;
+            this.selectedFileMy = dataBm.contentImage.mediaFile;
 
-          this.isSameImg(dataEn.sliderImage, dataBm.sliderImage);
+            this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
+            this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
+          }
+
+
+
+          this.sliderCode = this.sliderData.refCode;
+          this.sliderIdEn = dataEn.contentId;
+          this.sliderIdBm = dataBm.contentId;
+
+          //this.isSameImg(dataEn.sliderImage, dataBm.sliderImage);
 
           this.checkReqValues();
 
@@ -243,7 +251,7 @@ export class SliderComponent implements OnInit {
       }
     }
 
-    this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
+    // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
 
     // console.log(nullPointers)
     if (nullPointers.length > 0) {

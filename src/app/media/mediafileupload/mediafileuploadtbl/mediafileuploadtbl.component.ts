@@ -143,6 +143,7 @@ export class MediafileuploadtblComponent implements OnInit {
        .subscribe(resData => {
         this.commonservice.errorHandling(resData, (function(){
         this.resultData = resData;
+        this.mediaPage = resData;
           if(this.resultData.list.length > 0){
             this.seqPageNum = this.resultData.pageNumber;
             this.seqPageSize = this.resultData.pageSize;
@@ -236,7 +237,8 @@ export class MediafileuploadtblComponent implements OnInit {
        .subscribe(data => {           
         this.commonservice.errorHandling(data, (function(){          
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getMediaList(this.PageCount, this.PageSize);
+          this.reset()
+          // this.getMediaList(this.PageCount, this.PageSize);
         }).bind(this)); 
         },
       error => {
