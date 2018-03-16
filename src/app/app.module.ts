@@ -107,6 +107,9 @@ import { TruncatePipe } from './pipe/truncate.pipe';
 import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
 import {NgxTreeSelectModule} from 'ngx-tree-select';
 import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
+import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -195,6 +198,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     TruncatePipe,
     EventcalendarComponent,
     EventcalendartblComponent,
+    EventcalendarextComponent,
+    EventcalendarexttblComponent,
   ],
   imports: [
     BrowserModule,
@@ -228,7 +233,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     RouterModule.forRoot(appRoutes),
     NgxEditorModule,
     ModalModule.forRoot(),
-    LoadingModule
+    LoadingModule,
+    OwlDateTimeModule, 
+    OwlNativeDateTimeModule,
+
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],

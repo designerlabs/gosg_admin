@@ -88,7 +88,6 @@ export class MediatypeComponent implements OnInit {
   }
 
   ngOnInit() {
-    // debugger;
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
@@ -131,10 +130,8 @@ export class MediatypeComponent implements OnInit {
       this.updateForm.enable();
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
-    }
-    
-  }//10.1.22.50:8080/mediatype
-
+    }    
+  }
 
   back() {
     this.router.navigate(['media/type']);
@@ -143,10 +140,12 @@ export class MediatypeComponent implements OnInit {
   loadMedia() {
     this.loading = true;
     //Get Media Type
-    this.commonservice.getMediaType()
+    // this.commonservice.getMediaType()
+    this.commonservice.readProtected('mediatype')
     .subscribe(resStateData => {
-     // this.commonservice.errorHandling(resStateData, (function(){            
+     this.commonservice.errorHandling(resStateData, (function(){            
          this.objMediaType = resStateData['mediaTypes'];   
+        }).bind(this));
          this.loading = false;           
      },
      error => {
@@ -158,7 +157,8 @@ export class MediatypeComponent implements OnInit {
   loadCate(){
     this.loading = true;
     // Get Categories
-    this.commonservice.getCategoryData()
+    // this.commonservice.getCategoryData()
+    this.commonservice.readProtected('content/category')
     .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function () {
         this.objCategory = resStateData['list'];
@@ -173,12 +173,13 @@ export class MediatypeComponent implements OnInit {
 }  // get, add, update, delete
   getRow(row) {
     this.loading = true;
-    this.commonservice.getMediaType()
+    this.commonservice.readProtected('mediatype')
     .subscribe(resStateData => {
-    //  this.commonservice.errorHandling(resStateData, (function(){            
+      this.commonservice.errorHandling(resStateData, (function(){            
          this.objMediaType = resStateData['mediaTypes'];    
-         this.http.get(this.appConfig.urlMediaType + '/id/' + row).subscribe(
-          Rdata => {
+        //  this.http.get(this.appConfig.urlMediaType + '/id/' + row)
+          this.commonservice.readProtectedById('mediatype/id/', row)
+          .subscribe(Rdata => {
             this.commonservice.errorHandling(Rdata, (function () {
               this.mediaTypeData = Rdata;
               console.log(this.mediaTypeData);
@@ -224,29 +225,20 @@ export class MediatypeComponent implements OnInit {
           error => {
             this.loading = false;
             this.toastr.error(JSON.parse(error._body).statusDesc, '');          
-          });              
+          }); 
+        }).bind(this));
+        this.loading = false;              
      },
      error => {
       this.loading = false;
        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
-    });   
-    
+    });       
   }
 
   selMediaType(event) {
     var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == event.value);
     this.objFileExtn = fltr[0].supportedFileExtensions.split(',');
-    this.displaymediaTypeName = fltr[0].mediaTypeName;
-    // if (event.value == "Images") {
-    //   this.objFileExtn = this.objImage;
-    // } else if (event.value == "Documents") {
-    //   this.objFileExtn = this.objDoc;
-    // } else if (event.value == "Videos") {
-    //   this.objFileExtn = this.objVideo;
-    // } else if (event.value == "Audios") {
-    //   this.objFileExtn = this.objAudio;
-    // }
-
+    this.displaymediaTypeName = fltr[0].mediaTypeName;    
     this.checkReqValues();
   }
 
@@ -265,8 +257,7 @@ export class MediatypeComponent implements OnInit {
         this.updateForm.get('minwidth').setValue(filtrData[0].minW);
         this.updateForm.get('maxheigth').setValue(filtrData[0].maxH);
         this.updateForm.get('maxwidth').setValue(filtrData[0].maxW);
-      } else {
-        
+      } else {        
         this.updateForm.controls.filesize.reset();
         this.updateForm.controls.fileunit.reset();
         this.updateForm.controls.minheigth.reset();
@@ -291,7 +282,6 @@ export class MediatypeComponent implements OnInit {
     let mediatype = "mediatype";
     let catType = "catType";
     let filetype = "filetype";
-
     let filesize = "filesize";
     let fileunit = "fileunit";
     let minwidth = "minwidth";
@@ -316,33 +306,11 @@ export class MediatypeComponent implements OnInit {
     } else {
       this.complete = true;
     }
-
   }
 
   // updateMediaType
   updateMediaType(formValues: any) {
     if (this.isEdit) {
-      // let body = [
-      //   {
-                  
-      //     "mediaTypeCategories": [{
-      //       "mediaTypeCategoryId": null,
-      //       "category": {
-      //         "categoryId": null,
-      //         "categoryName": ""
-      //       },
-      //       "minH": "",
-      //       "minW": "",
-      //       "maxH": "",
-      //       "maxW": "",
-      //       "fileThresholdSize": "",
-      //       "fileThresholdSizeUnits": "",
-      //       "fileExtensions": "",
-      //     }],
-      //     "enabled": true
-      //   }
-      // ];
-
       let body = [{
         "category": {
           "categoryId": null,
@@ -356,23 +324,7 @@ export class MediatypeComponent implements OnInit {
         "fileThresholdSize": null,
         "fileThresholdSizeUnits": null,
         "fileExtensions": null
-      }];
-    
-      // body[0].mediaTypeId = this.mediaTypeData.mediaType.mediaTypeId;
-      // body[0].mediaTypeName = this.mediaTypeData.mediaType.mediaTypeName;
-      // body[0].supportedFileExtensions = this.mediaTypeData.supportedFileExtensions;
-      // body[0].mediaTypeCategories[0].mediaTypeCategoryId = this.selmediaTypeCategoryId;
-      // body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
-      // body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
-
-      // body[0].mediaTypeCategories[0].minH = formValues.minheigth;
-      // body[0].mediaTypeCategories[0].minW = formValues.minwidth;
-      // body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
-      // body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
-      // body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
-      // body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
-      // body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString();
-      // body[0].enabled = true;
+      }];    
 
       body[0].category.categoryId = formValues.catType;
       body[0].category.categoryName = this.selCategory.categoryName;
@@ -388,7 +340,8 @@ export class MediatypeComponent implements OnInit {
       console.log(body);
 
       // Update Media Type Service
-      this.commonservice.updateMediaType(this.mediaTypeData.mediaType.mediaTypeId, body[0]).subscribe(
+      this.commonservice.update(body[0],'mediatype/' + this.mediaTypeData.mediaType.mediaTypeId)
+      .subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
@@ -399,28 +352,7 @@ export class MediatypeComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
         });
 
-    } else {
-      // let body = [
-      //   {
-      //     "mediaTypeId": null,  
-      //     "mediaTypeName": null,
-      //     "supportedFileExtensions": null,       
-      //     "mediaTypeCategories": [{
-      //       "category": {
-      //         "categoryId": null,
-      //         "categoryName": ""
-      //       },     
-      //       "minH": "",
-      //       "minW": "",
-      //       "maxH": "",
-      //       "maxW": "",
-      //       "fileThresholdSize": "",
-      //       "fileThresholdSizeUnits": "",
-      //       "fileExtensions": "",
-      //     }],
-      //     "enabled": true
-      //   }
-      // ];
+    } else {     
       let body = [{
         "category": {
           "categoryId": null,
@@ -435,22 +367,6 @@ export class MediatypeComponent implements OnInit {
         "fileExtensions": null
       }];
       var fltr = this.objMediaType.filter(fdata => fdata.mediaTypeId == formValues.mediatype);
-      // // body[0].mediaTypeId = this.mediaTypeId;
-      // body[0].mediaTypeId = formValues.mediatype;
-      // body[0].mediaTypeName = fltr[0].mediaTypeName;
-      // // body[0].mediaTypeName = formValues.mediatype;
-      // body[0].supportedFileExtensions = fltr[0].supportedFileExtensions;
-      // body[0].mediaTypeCategories[0].category.categoryId = formValues.catType;
-      // body[0].mediaTypeCategories[0].category.categoryName = this.selCategory.categoryName;
-
-      // body[0].mediaTypeCategories[0].minH = formValues.minheigth;
-      // body[0].mediaTypeCategories[0].minW = formValues.minwidth;
-      // body[0].mediaTypeCategories[0].maxH = formValues.maxheigth;
-      // body[0].mediaTypeCategories[0].maxW = formValues.maxwidth;
-      // body[0].mediaTypeCategories[0].fileThresholdSize = formValues.filesize;
-      // body[0].mediaTypeCategories[0].fileThresholdSizeUnits = formValues.fileunit;
-      // body[0].mediaTypeCategories[0].fileExtensions = formValues.filetype.toString()
-      // body[0].enabled = true;
       body[0].category.categoryId = formValues.catType;
       body[0].category.categoryName = this.selCategory.categoryName;
       body[0].minH = formValues.minheigth;
@@ -463,8 +379,9 @@ export class MediatypeComponent implements OnInit {
       console.log(body);
 
       // Update Media Type Service
-      this.commonservice.addMediaType(formValues.mediatype, body[0]).subscribe(
-        data => {
+      // this.commonservice.addMediaType(formValues.mediatype, body[0]).subscribe(
+        this.commonservice.create(body[0],'mediatype/' + formValues.mediatype)
+        .subscribe(data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success('Media Type Updated successfully!', '');
             this.router.navigate(['media/type']);

@@ -804,6 +804,9 @@
       "category": "Kategori"
     },
     "component": {
+    },
+    "msg":{
+      "clickadd":"Tekan butang Tambah untuk tambah Kategori"
     }
   },
   "admin": {
