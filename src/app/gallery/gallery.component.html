@@ -91,47 +91,56 @@
           </div>
           <div class="col-md-12">&nbsp;</div>
       </div>
-
+      <div class="row">
+        <div class="col-md-12">
+            <label class="">Media Type</label>
+        </div>
+        <div class="col-md-5" style="border: 0px solid #000">
+          <mat-form-field class="example-full-width">
+            <mat-select formControlName="mtype" placeholder="Select Image" (change)="selectedmType($event)" required>
+              <mat-option [value]=null>Select Media Type</mat-option>
+              <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype.mediaTypeId">{{ mtype.mediaTypeName }}</mat-option>                      
+            </mat-select>
+              <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
+                Please select a Media Type
+              </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
         <div class="row">
             <div class="col-md-12">
                 <label class="">{{ 'gallerytbl.galleryimg' | translate }}</label>
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
             <mat-form-field class="example-full-width">
-                  <mat-select formControlName="imgEn" placeholder="Select Image" (change)="checkReqValues()" required>
-                      <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
-                      <mat-option [value]="1">image1.png</mat-option>
-                      <mat-option [value]="2">image2.jpg</mat-option>
-                      <mat-option [value]="3">image3.png</mat-option>
-                  </mat-select>
+              <mat-select formControlName="imgEn" placeholder="Select Image" (change)="selectedImg($event, 1)" required>
+                <mat-option [value]=null>Select Image</mat-option>
+                <mat-option *ngFor="let fileEng of fileData" [value]="fileEng.list[0].mediaId">{{ fileEng.list[0].mediaFile }}</mat-option>                      
+              </mat-select>
                 <mat-error *ngIf="updateForm.get('imgEn').hasError('required')">
                   Please select a file
                 </mat-error>
-                <!-- <mat-error *ngIf="updateForm.get('imgEn').hasError('maxContentSize')">
-                  The total size must not exceed {{updateForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
-                  ({{updateForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
-                </mat-error> -->
             </mat-form-field>
+            <div *ngIf="selectedFileEn.length>0">
+              <img [src]="appConfig.externalMediaURL  +'/'+ mediaPath +'/'+ selectedFileEn" style="width:200px">
+            </div> 
           </div>
           <div class="col-md-2" style="text-align: center; padding-top: 15px;">
               <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;{{ 'gallerytbl.copy' | translate }}</span>
           </div>
           <div class="col-md-5" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
-              <mat-select formControlName="imgBm" placeholder="Select Image" (change)="checkReqValues()" required>
-                  <!-- <mat-option *ngFor="let imgd of imgData" [value]="imgd?.imgName">imgName</mat-option> -->
-                  <mat-option [value]="1">image1.png</mat-option>
-                  <mat-option [value]="2">image2.jpg</mat-option>
-                  <mat-option [value]="3">image3.png</mat-option>
+              <mat-select formControlName="imgBm" placeholder="Pilih Gambar" (change)="selectedImg($event, 2)" required>
+                <mat-option [value]=null>Pilih Gambar</mat-option>
+                <mat-option *ngFor="let fileMy of fileData" [value]="fileMy.list[1].mediaId">{{ fileMy.list[1].mediaFile }}</mat-option>
               </mat-select>
             <mat-error *ngIf="updateForm.get('imgBm').hasError('required')">
               Please select a file
             </mat-error>
-                <!-- <mat-error *ngIf="updateForm.get('imgEn').hasError('maxContentSize')">
-                  The total size must not exceed {{updateForm.get('imgEn')?.getError('maxContentSize').maxSize | byteFormat}}
-                  ({{updateForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
-                </mat-error> -->
             </mat-form-field>
+            <div *ngIf="selectedFileMy.length>0">
+              <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFileMy" style="width:200px">
+            </div>
           </div>
           <div class="col-md-1">
             &nbsp;
