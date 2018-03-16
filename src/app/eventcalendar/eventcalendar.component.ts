@@ -319,6 +319,15 @@ export class EventcalendarComponent implements OnInit {
     this.checkReqValues()
   }
 
+  myFunction() {
+    this.updateForm.reset();
+    this.checkReqValues();   
+    this.events = [];
+    this.sdt = null;
+    this.edt = null;
+    this.dateFormatExample = "";
+  }
+
   updateAction(formValues: any) {
     
     if(!this.isEdit) {
