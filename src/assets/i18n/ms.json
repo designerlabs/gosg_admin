@@ -843,6 +843,7 @@
       "calendar": "senarai kalendar"
     },
     "component":{
+      "header": "Acara",
       "location": "Lokasi",
       "city": "Bandar",
       "startdate": "Tarikh Mula",
