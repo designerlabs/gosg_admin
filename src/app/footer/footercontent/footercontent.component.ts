@@ -443,9 +443,9 @@ export class FootercontentComponent implements OnInit {
 
 
         this.getIdMy = this.recordList.list[1].id;
-        this.getContentCodeMy = this.recordList.list[0].contentCode;
-        this.getFooterNameMy = this.recordList.list[0].footer.name;
-        this.getFooterIdMy = this.recordList.list[0].footer.id;
+        this.getContentCodeMy = this.recordList.list[1].contentCode;
+        this.getFooterNameMy = this.recordList.list[1].footer.name;
+        this.getFooterIdMy = this.recordList.list[1].footer.id;
 
         // this.isSameImg(this.recordList.list[0].image,this.recordList.list[1].image);
 

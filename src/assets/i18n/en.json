@@ -846,6 +846,7 @@
       "calendar": "calender list"
     },
     "component":{
+      "header": "Event",
       "location": "Location",
       "city": "City",
       "startdate": "Start Date",
