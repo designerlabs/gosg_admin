@@ -580,7 +580,8 @@ getMediaByCateId(id){
             this.getUserData();
           
         })
-    }
+    };
+    this.defaultPageSize = 10;
     
   };
 

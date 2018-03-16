@@ -55,6 +55,8 @@ export class SliderComponent implements OnInit {
   selectedFileEn = '';
   selectedFileMy = '';
 
+  refCode = "";
+
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -89,10 +91,8 @@ export class SliderComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
 
-    let refCode = this.router.url.split('/')[2];
+    this.refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.getImageList();
 
@@ -124,14 +124,12 @@ export class SliderComponent implements OnInit {
       seqMy: this.seqMy,
     });
 
-    if (refCode == "add") {
-      this.isEdit = false;
-      this.pageMode = "Add";
+    if (this.refCode == "add") {
+      this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
     } else {
-      this.isEdit = true;
-      this.pageMode = "Update";
-      this.getRow(refCode);
+      this.commonservice.pageModeChange(true);
+      this.getRow(this.refCode);
     }
 
     // #### for disable non update user ---1
@@ -149,11 +147,6 @@ export class SliderComponent implements OnInit {
     } else {
       this.updateForm.get('copyImg').setValue(false);
     }
-  }
-
-  navigateBack() {
-    this.isEdit = false;
-    this.router.navigate(['slider']);
   }
 
   back() {
@@ -220,6 +213,15 @@ export class SliderComponent implements OnInit {
     this.checkReqValues();
   }
 
+  changeLanguageAddEdit(){
+    if (this.refCode === 'add'){
+      this.commonservice.pageModeChange(false);  
+    }
+    else{
+      this.commonservice.pageModeChange(true);      
+    }
+  }
+
   checkReqValues() {
 
     let titleEn = "titleEn";
@@ -268,7 +270,6 @@ export class SliderComponent implements OnInit {
           console.log('Error in Slider');
         });
   }
-
   
   selectedImg(e, val){
     console.log(e);
@@ -333,9 +334,9 @@ export class SliderComponent implements OnInit {
 
   }
 
-  updateSlider(formValues: any) {
+  sliderDraft(formValues: any) {
 
-    if (!this.isEdit) {
+    if (this.refCode == "add") {
 
       let body = [
         
@@ -398,14 +399,14 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
-      console.log(body)
+      console.log(JSON.stringify(body))
 
       this.loading = true;
       // Add Slider Service
       this.commonservice.create(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Slider added successfully!', '');
+            this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -415,7 +416,7 @@ export class SliderComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
           console.log(error);
           this.loading = false;
-        });
+      });
 
     } else {
 
@@ -460,7 +461,7 @@ export class SliderComponent implements OnInit {
         }
       ];
 
-      body[0].contentCategoryId = 13;
+      body[0].contentCategoryId = 15;
       body[0].contents[0].sliderId = this.sliderIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -470,7 +471,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].sliderActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = 14;
+      body[1].contentCategoryId = 16;
       body[1].contents[0].sliderId = this.sliderIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
@@ -479,13 +480,16 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
-      console.log(body);
+
+
+      console.log(JSON.stringify(body))
+
       this.loading = true;
       // Update Slider Service
       this.commonservice.update(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Slider update successful!', '');
+            this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -497,5 +501,90 @@ export class SliderComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+  
+  sliderSubmit(formValues: any) {
+
+      let body = [
+        
+        { 
+          "contentCategoryId": null,
+          "contents": [
+            {
+              "sliderTitle": null,
+              "sliderDescription": null,
+              "sliderImage": {
+                "mediaId": null
+              },
+              // "sliderCode": null,
+              "sliderSort": null,
+              "sliderUrl": null,
+              "sliderActiveFlag": false,
+              "language": {
+                "languageId": null
+              }
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+              "sliderTitle": null,
+              "sliderDescription": null,
+              "sliderImage": {
+                "mediaId": null
+              },
+              // "sliderCode": null,
+              "sliderSort": null,
+              "sliderUrl": null,
+              "sliderActiveFlag": false,
+              "language": {
+                "languageId": null
+              }
+            }
+          ]
+        }
+      ];
+
+      // console.log(formValues)
+      body[0].contentCategoryId = 15;
+      body[0].contents[0].sliderTitle = formValues.titleEn;
+      body[0].contents[0].sliderDescription = formValues.descEn;
+      body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
+      body[0].contents[0].sliderSort = formValues.seqEng;
+      body[0].contents[0].sliderUrl = formValues.urlEng;
+      body[0].contents[0].sliderActiveFlag = formValues.active;
+      body[0].contents[0].language.languageId = 1;
+
+      body[1].contentCategoryId = 16;
+      body[1].contents[0].sliderTitle = formValues.titleBm;
+      body[1].contents[0].sliderDescription = formValues.descBm;
+      body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
+      body[1].contents[0].sliderSort = formValues.seqMy;
+      body[1].contents[0].sliderUrl = formValues.urlMy;
+      body[1].contents[0].sliderActiveFlag = formValues.active;
+      body[1].contents[0].language.languageId = 2;
+
+      console.log(JSON.stringify(body))
+
+      this.loading = true;
+      // Add Slider Service
+      this.commonservice.create(body, 'slider/creator').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.submitted'), ''); 
+            this.router.navigate(['slider']);
+
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+      });
+
+    
   }
 }
