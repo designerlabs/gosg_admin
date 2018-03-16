@@ -4,7 +4,7 @@
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-      <h3>{{ pageMode }} User Account Status</h3>
+      <h3>{{ pageMode }} {{ 'usermgmt.component.users' | translate }}</h3>
     </div>
 
     <div class="col-md-2 curdHeadingRight">
@@ -76,7 +76,7 @@
         </div>
         <div class="col-md-4">
           <mat-form-field class="" style="width:100%;" > 
-            <mat-select formControlName="accountStatusSel" placeholder="Select Account Status" (change)="checkReqValues()">
+            <mat-select formControlName="accountStatusSel" placeholder="{{ 'usermgmt.component.select' | translate }}" (change)="checkReqValues()">
                 <mat-option *ngFor="let status of AccStatusData" [value]="status.accountStatusId">{{ status.accountStatusDescription }}</mat-option>
             </mat-select>
           </mat-form-field>

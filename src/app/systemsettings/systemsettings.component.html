@@ -3,7 +3,7 @@
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>{{commonservice.pageMode}} System Settings</h3>
+            <h3>{{commonservice.pageMode}} {{ 'systemsetting.name' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -31,10 +31,10 @@
             <div *ngIf="urlEdit == 'add'" class="example-header">
                 <div class="col-md-12">
                     <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Entity" formControlName="entity" (keyup)="checkReqValues()"
+                        <input matInput placeholder="{{ 'systemsetting.tableHeader.entity' | translate }}" formControlName="entity" (keyup)="checkReqValues()"
                         required tabindex="1">
                         <mat-error *ngIf="updateForm.controls.entity.hasError('required')">
-                            Entity is required
+                            {{ 'systemsetting.tableHeader.entity' | translate }} {{ 'common.isrequired' | translate }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -43,10 +43,10 @@
             <div *ngIf="urlEdit != 'add'" class="example-header">
                 <div class="col-md-12">
                     <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Entity" formControlName="entity" (keyup)="checkReqValues()"
+                        <input matInput placeholder="{{ 'systemsetting.tableHeader.entity' | translate }}" formControlName="entity" (keyup)="checkReqValues()"
                         required tabindex="1" [attr.disabled]="complete">
                         <mat-error *ngIf="updateForm.controls.entity.hasError('required')">
-                            Entity is required
+                            {{ 'systemsetting.tableHeader.entity' | translate }} {{ 'common.isrequired' | translate }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -55,10 +55,10 @@
             <div *ngIf="urlEdit == 'add'" class="example-header">
                 <div class="col-md-12">
                     <mat-form-field class="example-full-width">
-                        <input  matInput placeholder="Key" 
+                        <input  matInput placeholder="{{ 'systemsetting.tableHeader.key' | translate }}" 
                         formControlName="key" (keyup)="checkReqValues()" required tabindex="2">
                         <mat-error *ngIf="updateForm.controls.key.hasError('required')">
-                            Key is required
+                            {{ 'systemsetting.tableHeader.key' | translate }} {{ 'common.isrequired' | translate }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -67,10 +67,10 @@
             <div *ngIf="urlEdit != 'add'" class="example-header">
                 <div class="col-md-12">
                     <mat-form-field class="example-full-width">
-                        <input  matInput placeholder="Key" 
+                        <input  matInput placeholder="{{ 'systemsetting.tableHeader.key' | translate }}" 
                         formControlName="key" (keyup)="checkReqValues()" required tabindex="2" [attr.disabled]="complete">
                         <mat-error *ngIf="updateForm.controls.key.hasError('required')">
-                            Key is required
+                            {{ 'systemsetting.tableHeader.key' | translate }} {{ 'common.isrequired' | translate }}
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -79,10 +79,10 @@
             <div class="example-header">
                 <div class="col-md-12">
                     <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Value" formControlName="value" (keyup)="checkReqValues()"
+                        <input matInput placeholder="{{ 'systemsetting.tableHeader.value' | translate }}" formControlName="value" (keyup)="checkReqValues()"
                         required tabindex="3">
                         <mat-error *ngIf="updateForm.controls.value.hasError('required')">
-                            Value is required
+                            {{ 'systemsetting.tableHeader.value' | translate }} {{ 'common.isrequired' | translate }}
                         </mat-error>
                     </mat-form-field>
                 </div>

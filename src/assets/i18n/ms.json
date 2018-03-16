@@ -332,7 +332,8 @@
     "patternisnotvalid": "corak tidak sah",
     "email": "Emel",
     "update": "Kemaskini",
-    "add": "Tambah"
+    "add": "Tambah",
+    "mgmt": "Pengurusan"
   },
   "appmngt":{
     "setSearch":{
@@ -771,7 +772,8 @@
     },
     "tablebottom":{
       "pollquestion": "soalan soal selidik"
-    }
+    },
+    "name": "Soalan Soal Selidik"
   },
   "pollresult": {
     "header": "Senarai Keputusan Soal Selidik",
@@ -823,9 +825,11 @@
     }
   },
   "systemsetting": {
+    "name": "Tetapan Sistem",
     "header": "Senarai Tetapan Sistem",
     "tableHeader":{
       "entities": "Entiti",
+      "entity": "Entiti",
       "key": "Kunci",
       "value": "Nilai"
     },
@@ -834,7 +838,8 @@
     },
     "component": {
       "sys": "Tetapan Sistem",
-      "active": "Aktif"
+      "active": "Aktif",
+      "keyword": "Kata Kunci Entiti"
     }
   },
   "usermgmt": {
@@ -857,7 +862,8 @@
       "race": "Bangsa",
       "religion": "Agama",
       "address": "Alamat",
-      "mobilenum": "No. Telefon"
+      "mobilenum": "No. Telefon",
+      "select": "Pilih Status Akaun"
     }
   },
   "mediatype": {
@@ -921,6 +927,17 @@
       "image": "Imej",
       "select": "Pilih",
       "imageerr": "Sila pilih fail"
+    }
+  },
+  "slider": {
+    "header": "Pengurusan Slider",
+    "tableHeader":{
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "statusdraft": "Draf Status"
+    },
+    "tableBottom":{
+      
     }
   }
 }

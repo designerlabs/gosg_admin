@@ -24,7 +24,7 @@
             
             <div class="col-md-12 paddingTop-10">
                 <mat-form-field>
-                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="Keyword Entity">
+                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'systemsetting.component.keyword' | translate }}">
                     <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                       <mat-icon>close</mat-icon>
                     </button>
