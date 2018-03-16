@@ -334,7 +334,7 @@ export class SliderComponent implements OnInit {
 
   }
 
-  updateSlider(formValues: any) {
+  sliderDraft(formValues: any) {
 
     if (this.refCode == "add") {
 
@@ -399,14 +399,14 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
-      console.log(body)
+      console.log(JSON.stringify(body))
 
       this.loading = true;
       // Add Slider Service
       this.commonservice.create(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Slider added successfully!', '');
+            this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -416,7 +416,7 @@ export class SliderComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
           console.log(error);
           this.loading = false;
-        });
+      });
 
     } else {
 
@@ -480,13 +480,16 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
-      console.log(body);
+
+
+      console.log(JSON.stringify(body))
+      
       this.loading = true;
       // Update Slider Service
       this.commonservice.update(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Slider update successful!', '');
+            this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
             this.router.navigate(['slider']);
 
           }).bind(this));
