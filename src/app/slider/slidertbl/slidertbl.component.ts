@@ -101,15 +101,15 @@ export class SlidertblComponent implements OnInit {
   getSlidersData(page, size) {
     
     this.loading = true;
-    this.commonservice.readPortal('slider/all',page, size).subscribe(
+    this.commonservice.readProtected('slider/creator',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
         this.sliderList = data;
         console.log(this.sliderList)
 
-        if(this.sliderList.sliderList.length > 0){
-          this.dataSource.data = this.sliderList.sliderList;
+        if(this.sliderList.list.length > 0){
+          this.dataSource.data = this.sliderList.list;
           this.seqPageNum = this.sliderList.pageNumber;
           this.seqPageSize = this.sliderList.pageSize;
           this.recordTable = this.sliderList;

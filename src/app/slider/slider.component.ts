@@ -461,7 +461,7 @@ export class SliderComponent implements OnInit {
         }
       ];
 
-      body[0].contentCategoryId = 13;
+      body[0].contentCategoryId = 15;
       body[0].contents[0].sliderId = this.sliderIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -471,7 +471,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].sliderActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = 14;
+      body[1].contentCategoryId = 16;
       body[1].contents[0].sliderId = this.sliderIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
@@ -483,7 +483,7 @@ export class SliderComponent implements OnInit {
 
 
       console.log(JSON.stringify(body))
-      
+
       this.loading = true;
       // Update Slider Service
       this.commonservice.update(body, 'slider/creator/draft').subscribe(
@@ -501,5 +501,90 @@ export class SliderComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+  
+  sliderSubmit(formValues: any) {
+
+      let body = [
+        
+        { 
+          "contentCategoryId": null,
+          "contents": [
+            {
+              "sliderTitle": null,
+              "sliderDescription": null,
+              "sliderImage": {
+                "mediaId": null
+              },
+              // "sliderCode": null,
+              "sliderSort": null,
+              "sliderUrl": null,
+              "sliderActiveFlag": false,
+              "language": {
+                "languageId": null
+              }
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+              "sliderTitle": null,
+              "sliderDescription": null,
+              "sliderImage": {
+                "mediaId": null
+              },
+              // "sliderCode": null,
+              "sliderSort": null,
+              "sliderUrl": null,
+              "sliderActiveFlag": false,
+              "language": {
+                "languageId": null
+              }
+            }
+          ]
+        }
+      ];
+
+      // console.log(formValues)
+      body[0].contentCategoryId = 15;
+      body[0].contents[0].sliderTitle = formValues.titleEn;
+      body[0].contents[0].sliderDescription = formValues.descEn;
+      body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
+      body[0].contents[0].sliderSort = formValues.seqEng;
+      body[0].contents[0].sliderUrl = formValues.urlEng;
+      body[0].contents[0].sliderActiveFlag = formValues.active;
+      body[0].contents[0].language.languageId = 1;
+
+      body[1].contentCategoryId = 16;
+      body[1].contents[0].sliderTitle = formValues.titleBm;
+      body[1].contents[0].sliderDescription = formValues.descBm;
+      body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
+      body[1].contents[0].sliderSort = formValues.seqMy;
+      body[1].contents[0].sliderUrl = formValues.urlMy;
+      body[1].contents[0].sliderActiveFlag = formValues.active;
+      body[1].contents[0].language.languageId = 2;
+
+      console.log(JSON.stringify(body))
+
+      this.loading = true;
+      // Add Slider Service
+      this.commonservice.create(body, 'slider/creator').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.submitted'), ''); 
+            this.router.navigate(['slider']);
+
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+      });
+
+    
   }
 }

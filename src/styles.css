@@ -214,6 +214,10 @@ mat-header-cell{
         background: orange !important;
     }
 
+    .bg_gray{
+        background: gray !important;
+    }
+
     .bg_red{
         background: red !important;
     }
