@@ -168,9 +168,9 @@ export class SlidertblComponent implements OnInit {
   }
 
   deleteItem(refcode) {
-
+    debugger;
     this.loading = true;
-      this.commonservice.delete(refcode, 'slider/delete/').subscribe(
+      this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
