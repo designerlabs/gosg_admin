@@ -245,8 +245,4 @@ export class SlidertblComponent implements OnInit {
   //   }
   // }
 
-  back(){
-    this.router.navigate(['slider']);
-  }
-
 }
