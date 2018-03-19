@@ -111,6 +111,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
 import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
 import { PublisherComponent } from './publisher/publisher.component';
+import { PublishertblComponent } from './publisher/publishertbl/publishertbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -202,6 +203,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventcalendarextComponent,
     EventcalendarexttblComponent,
     PublisherComponent,
+    PublishertblComponent,
   ],
   imports: [
     BrowserModule,
