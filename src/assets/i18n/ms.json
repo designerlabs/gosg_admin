@@ -493,7 +493,8 @@
     "component":{
       "header": "Kategori",
       "parent": "Induk",
-      "ismainmenu": "adalah Menu Utama"
+      "ismainmenu": "adalah Menu Utama",
+      "subscription":"benarkan untuk langganan"
     }
   },
   "city": {

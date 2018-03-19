@@ -493,7 +493,8 @@
     "component":{
       "header": "Category",
       "parent": "Parent",
-      "ismainmenu": "is Main Menu"
+      "ismainmenu": "is Main Menu",
+      "subscription":"allow for subscription"
     }
   },
   "city": {
