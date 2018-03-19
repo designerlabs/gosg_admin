@@ -118,7 +118,7 @@ export class AgencyappComponent implements OnInit {
     });
     this.getAgency();
 
-    if(refCode == "add") {alert(this.languageId);
+    if(refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
     } else {
