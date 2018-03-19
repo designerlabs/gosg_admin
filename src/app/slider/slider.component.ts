@@ -75,6 +75,7 @@ export class SliderComponent implements OnInit {
             if (val.languageCode == translate.currentLang) {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              this.changeLanguageAddEdit();
               // this.getMinistryData(this.pageCount, this.agencyPageSize);
               this.commonservice.getModuleId();
             }

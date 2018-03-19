@@ -229,7 +229,8 @@
       "ok":"Ok",
       "cancel":"Cancel",
       "home":"Home",
-      "active": "Active"
+      "active": "Active",
+      "darft": "Save Draft"
     },
     "err":{
       "servicedown": "Sorry, Server is down",

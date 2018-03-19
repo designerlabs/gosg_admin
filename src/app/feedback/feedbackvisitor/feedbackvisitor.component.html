@@ -76,14 +76,14 @@
     
         <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
 
-            <button mat-raised-button type="button" color="primary" id="btnreply" class="form-control btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px"
+            <button mat-raised-button type="button" color="primary" id="btnreply" class="btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px"
             (click)="submitReply(updateForm.value)"  [disabled]="!complete">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> Submit </button>
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px" (click)="submit(updateForm.value)"  [disabled]="!complete">
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{'common.buttons.submit' | translate}} </button>
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px" (click)="submit(updateForm.value)"  [disabled]="!complete">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> Save Draft </button>
-            <button tabindex="2" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right width_100px" (click)="resetModal.show()">
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{'common.buttons.darft' | translate}} </button>
+            <button tabindex="2" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right width_100px" (click)="resetModal.show()">
             <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
         </div>      
     </form>
