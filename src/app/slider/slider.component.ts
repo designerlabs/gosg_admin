@@ -189,7 +189,8 @@ export class SliderComponent implements OnInit {
             this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
             this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
           }
-
+          console.log("******************UPDATE*****************************");
+          console.log("EN: "+this.selectedFileEn+ " BM: "+this.selectedFileMy);
 
 
           this.sliderCode = this.sliderData.refCode;
@@ -289,15 +290,15 @@ export class SliderComponent implements OnInit {
     let idBm: any;
     let idEn: any;
 
-    console.log("EN: "+this.getImgIdEn+" BM: "+this.getImgIdBm + " value: " + val);
-
+   
     if(val == 1){
 
       for(let i=0; i<dataList.length; i++){
         indexVal = dataList[i].list[0].mediaId;
         if(indexVal == this.getImgIdEn){
           idBm = dataList[i].list[1].mediaId;
-          this.selectedFileEn=dataList[i].list[1].mediaFile;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
         }        
       }
 
@@ -309,13 +310,15 @@ export class SliderComponent implements OnInit {
         indexVal = dataList[i].list[1].mediaId;
         if(indexVal == this.getImgIdBm){
           idEn = dataList[i].list[0].mediaId;
-          this.selectedFileMy=dataList[i].list[0].mediaFile;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
         }        
       }
 
       this.updateForm.get('imgEn').setValue(idEn); 
     }
     this.checkReqValues();
+
   }
 
   copyValue(type) {
