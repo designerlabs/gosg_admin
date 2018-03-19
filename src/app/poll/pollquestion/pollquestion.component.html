@@ -3,7 +3,7 @@
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
-            <h3>{{commonservice.pageMode}} Polls Questions</h3>
+            <h3>{{commonservice.pageMode}} {{ 'pollquestiontbl.name' | translate }}</h3>
         </div>
         
         <div class="col-md-2 curdHeadingRight">
@@ -163,7 +163,7 @@
 
             <div class="example-header">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="13">Active</mat-checkbox>
+                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="13">{{ 'common.buttons.active' | translate }}</mat-checkbox>
                 </div>
             </div>
         </div>

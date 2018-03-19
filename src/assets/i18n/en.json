@@ -333,8 +333,9 @@
     "isrequired": "is required",
     "patternisnotvalid": "pattern is not valid",
     "email": "Email",
-    "update": "Kemaskini",
-    "add": "Tambah"
+    "update": "Update",
+    "add": "Add",
+    "mgmt": "Management"
   },
   "appmngt":{
     "setSearch":{
@@ -773,7 +774,8 @@
     },
     "tablebottom":{
       "pollquestion": "polls questions"
-    }
+    },
+    "name": "Polls Questions"
   },
   "pollresult": {
     "header": "Polls Results List",
@@ -825,9 +827,11 @@
     }
   },
   "systemsetting": {
+    "name": "System Settings",
     "header": "System Settings List",
     "tableHeader":{
       "entities": "Entities",
+      "entity": "Entity",
       "key": "Key",
       "value": "Value"
     },
@@ -836,7 +840,8 @@
     },
     "component": {
       "sys": "System Settings",
-      "active": "Active"
+      "active": "Active",
+      "keyword": "Entity Keyword"
     }
   },
   "usermgmt": {
@@ -859,7 +864,8 @@
       "race": "Race",
       "religion": "Religion",
       "address": "Address",
-      "mobilenum": "Mobile Number"
+      "mobilenum": "Mobile Number",
+      "select": "Select Account Status"
     }
   },
   "mediatype": {
@@ -923,6 +929,17 @@
       "image": "Image",
       "select": "Select",
       "imageerr": "Please select a file"
+    }
+  },
+  "slider": {
+    "header": "Slider Management",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "statusdraft": "Status Draft"
+    },
+    "tableBottom":{
+      
     }
   }
 }

@@ -38,6 +38,7 @@ export class FaqComponent implements OnInit {
 
   complete: boolean;
   public languageId: any;
+  public urlEdit = "";
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -53,6 +54,7 @@ export class FaqComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
+              this.changeLanguageAddEdit();
             }
           }.bind(this));
         })
@@ -81,9 +83,9 @@ export class FaqComponent implements OnInit {
       active: this.active,      
     });     
     
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
     }
@@ -143,10 +145,10 @@ export class FaqComponent implements OnInit {
 
   submit(formValues: any) {
     
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
       let body = [
         {
@@ -259,6 +261,15 @@ export class FaqComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           console.log(error);
       });
+    }
+  }
+
+  changeLanguageAddEdit(){
+    if (this.urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);  
+    }
+    else{
+      this.commonservice.pageModeChange(true);      
     }
   }
 

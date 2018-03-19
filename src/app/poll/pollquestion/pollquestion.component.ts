@@ -47,6 +47,7 @@ export class PollquestionComponent implements OnInit {
   public complete: boolean;
   public languageId: any;
   public loading = false;
+  public urlEdit = "";
 
   constructor(
     private http: HttpClient, 
@@ -67,6 +68,7 @@ export class PollquestionComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
+              this.changeLanguageAddEdit();
               //this.getUsersData(this.pageCount, this.pageSize);
             }
           }.bind(this));
@@ -119,9 +121,9 @@ export class PollquestionComponent implements OnInit {
       
     });     
     
-    let urlEdit = this.router.url.split('/')[3];
+    this.urlEdit = this.router.url.split('/')[3];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true)
     }
@@ -186,11 +188,11 @@ export class PollquestionComponent implements OnInit {
 
   submit(formValues: any) {
     
-    let urlEdit = this.router.url.split('/')[3];
+    this.urlEdit = this.router.url.split('/')[3];
     let txt = "";
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
       let body = [
         {
@@ -342,6 +344,15 @@ export class PollquestionComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           console.log(error);
       });
+    }
+  }
+
+  changeLanguageAddEdit(){
+    if (this.urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);  
+    }
+    else{
+      this.commonservice.pageModeChange(true);      
     }
   }
 

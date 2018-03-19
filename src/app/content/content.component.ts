@@ -41,7 +41,7 @@ export class ContentComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
-
+  public urlEdit = "";
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -61,6 +61,7 @@ export class ContentComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               //this.getUsersData(this.pageCount, this.pageSize);
+              this.changeLanguageAddEdit();
             }
           }.bind(this));
         })
@@ -100,9 +101,9 @@ export class ContentComponent implements OnInit {
 
     this.getCategory();
 
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true)
     }
@@ -261,11 +262,11 @@ export class ContentComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    let urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[2];
     let txt = "";
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
       let body = [
         {
@@ -369,6 +370,15 @@ export class ContentComponent implements OnInit {
       });
     }
     
+  }
+
+  changeLanguageAddEdit(){
+    if (this.urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);  
+    }
+    else{
+      this.commonservice.pageModeChange(true);      
+    }
   }
 
   checkReqValues() {

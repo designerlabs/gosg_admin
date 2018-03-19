@@ -35,6 +35,7 @@ export class CitizentypeComponent implements OnInit {
   complete: boolean;
   public languageId: any;
   public loading = false;
+  public urlEdit = "";
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -50,6 +51,7 @@ export class CitizentypeComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.commonservice.getModuleId();
+              this.changeLanguageAddEdit();
             }
           }.bind(this));
         })
@@ -75,9 +77,9 @@ export class CitizentypeComponent implements OnInit {
       
     });     
     
-    let urlEdit = this.router.url.split('/')[3];
+    this.urlEdit = this.router.url.split('/')[3];
     
-    if (urlEdit === 'add'){
+    if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
     }
@@ -149,10 +151,10 @@ export class CitizentypeComponent implements OnInit {
       flag = formValues.active;
     }
 
-    let urlEdit = this.router.url.split('/')[3];
+    this.urlEdit = this.router.url.split('/')[3];
 
     // add form
-    if(urlEdit === 'add'){
+    if(this.urlEdit === 'add'){
 
       let body = [
         {
@@ -280,6 +282,15 @@ export class CitizentypeComponent implements OnInit {
         //   console.log("No Data")
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
+    }
+  }
+
+  changeLanguageAddEdit(){
+    if (this.urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);  
+    }
+    else{
+      this.commonservice.pageModeChange(true);      
     }
   }
 
