@@ -66,11 +66,11 @@
             </div>
         
             <div class="form-group paddingTop-10" *ngIf="commonservice.isUpdate || commonservice.isWrite">
-                <button mat-raised-button type="button" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s pull-right width_100px mgn_L_5px"
+                <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right mgn_L_5px"
                 (click)="submit(updateForm.value)" [disabled]="!complete">
                 <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
                 <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
-                <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="form-control btn btn-md btn-warning font-size-s pull-right width_100px" (click)="resetModal.show()">
+                <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right" (click)="resetModal.show()">
                 <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
             </div>      
     
