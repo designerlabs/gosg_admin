@@ -101,7 +101,7 @@ export class SlidertblComponent implements OnInit {
   getSlidersData(page, size) {
     
     this.loading = true;
-    this.commonservice.readProtected('slider/creator',page, size).subscribe(
+    this.commonservice.readProtected('slider/creator/4',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){

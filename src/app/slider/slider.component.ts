@@ -158,7 +158,7 @@ export class SliderComponent implements OnInit {
 
     this.loading = true;
     // Update Slider Service
-    return this.commonservice.readProtectedById('slider/creator/', row).subscribe(
+    return this.commonservice.readProtectedById('content/creator/', row).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
