@@ -16,7 +16,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class MediafileuploadtblComponent implements OnInit {
   objCategory: any[];
-  PageCount = 0;
+  PageCount = 1;
   PageSize = 10;
   mediaList = null;
   mediaPage = null;
@@ -88,7 +88,7 @@ export class MediafileuploadtblComponent implements OnInit {
     // Get Categories
     let dUrl = this.appConfig.urlMediaFileUpload + '?page=0&size=999999&language=' + this.languageId;
     // this.http.get(dUrl)
-    this.commonservice.readProtected('media','0','99999999')
+    this.commonservice.readProtected('media','1','99999999')
       .subscribe(resStateData => {
           this.commonservice.errorHandling(resStateData, (function () {
             let objCate: Object;            
@@ -143,7 +143,7 @@ export class MediafileuploadtblComponent implements OnInit {
        .subscribe(resData => {
         this.commonservice.errorHandling(resData, (function(){
         this.resultData = resData;
-        this.mediaPage = resData;
+        // this.mediaPage = resData;
           if(this.resultData.list.length > 0){
             this.seqPageNum = this.resultData.pageNumber;
             this.seqPageSize = this.resultData.pageSize;
@@ -174,7 +174,7 @@ export class MediafileuploadtblComponent implements OnInit {
 
 
   searchByFileName(val){
-    this.PageCount = 0;
+    this.PageCount = 1;
     this.PageSize = 10; 
     this.cateSelect = 0;   //Reset Category search
     if(val.length>0){
@@ -183,7 +183,7 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   selCateType(val){
-    this.PageCount = 0;
+    this.PageCount = 1;
     this.PageSize = 10;
     this.fileName = ""; // Reset File name Search
     if(val.value === "0" ){
@@ -194,31 +194,29 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   reset(){
-    this.PageCount = 0;
+    this.PageCount = 1;
     this.PageSize = 10;
     this.fileName = "";
     this.cateSelect = 0;
     this.getMediaList(this.PageCount, this.PageSize);
   }
 
-
   add(){    
       this.router.navigate(['media/upload' , 'add']);
   }
-
   
   paginatorL(page) {
-    this.getMediaList(page - 2, this.PageSize);
-    this.noPrevData = page <= 3 ? true : false; // page count is zero based so use 3. (page-2 = 0 first page)
+    this.getMediaList(page - 1, this.PageSize);
+    this.noPrevData = page <= 2 ? true : false; 
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
-    this.noPrevData = page >= 0 ? false : true;
+    this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getMediaList(page , this.PageSize);
+    this.getMediaList(pageInc , this.PageSize);
   }
 
   pageChange(event, totalPages) {

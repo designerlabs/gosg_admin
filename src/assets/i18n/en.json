@@ -229,7 +229,8 @@
       "ok":"Ok",
       "cancel":"Cancel",
       "home":"Home",
-      "active": "Active"
+      "active": "Active",
+      "darft": "Save Draft"
     },
     "err":{
       "servicedown": "Sorry, Server is down",
@@ -246,7 +247,9 @@
       "feedbacksummitted":"Feedback has been submitted successfully!",
       "feedbackdraft":"Feedback has been saved has darft!",
       "sliderdraft": "Slider has been saved has draft!",
-      "slidersubmitted":"Slider has been submitted successfully!"
+      "slidersubmitted":"Slider has been submitted successfully!",
+      "gallerydraft": "Gallery has been saved has draft!",
+      "gallerysubmitted":"Gallery has been submitted successfully!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -493,7 +496,8 @@
     "component":{
       "header": "Category",
       "parent": "Parent",
-      "ismainmenu": "is Main Menu"
+      "ismainmenu": "is Main Menu",
+      "subscription":"allow for subscription"
     }
   },
   "city": {

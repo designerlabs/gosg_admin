@@ -390,8 +390,8 @@ export class GalleryComponent implements OnInit {
     this.checkReqValues();
   }
 
-  updateGallery(formValues: any) {  
-
+  galleryDraft(formValues: any) {  
+    this.loading = true;
     if (!this.isEdit) {
       let body = [
         {
@@ -450,10 +450,10 @@ export class GalleryComponent implements OnInit {
       console.log(body)
 
       // Add gallery Service
-      this.commonservice.create(body, 'gallery').subscribe(
+      this.commonservice.create(body, 'gallery/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Gallery added successfully!', '');
+            this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
             this.router.navigate(['gallery']);
           }).bind(this));
           this.loading = false;
@@ -528,10 +528,11 @@ export class GalleryComponent implements OnInit {
       body[1].contents[0].language.languageId = 2;
       console.log(body);
       // Update gallery Service
-      this.commonservice.update(body, 'gallery/multiple/update').subscribe(
+      // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
+        this.commonservice.update(body, 'gallery/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Gallery update successful!', '');
+            this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
             this.router.navigate(['gallery']);
           }).bind(this));
           this.loading = false;
@@ -542,5 +543,78 @@ export class GalleryComponent implements OnInit {
           this.loading = false;
         });
     }
+  }
+
+  gallerySubmit(formValues: any) {
+    this.loading = true;
+    let body = [
+      {
+        "contentCategoryId": null,
+        "contents": [{
+          "galleryTitle": null,
+          "galleryDescription": null,
+          "galleryImage": {
+            "mediaId": null
+          },
+          "gallerySort": null,
+          "galleryUrl": null,
+          "galleryActiveFlag": null,
+          "language": {
+            "languageId": null
+          }
+        }]
+      },
+      {
+        "contentCategoryId": null,
+        "contents": [{
+          "galleryTitle": null,
+          "galleryDescription": null,
+          "galleryImage": {
+            "mediaId": null
+          },
+          "gallerySort": null,
+          "galleryUrl": null,
+          "galleryActiveFlag": null,
+          "language": {
+            "languageId": null
+          }
+        }]
+      }
+    ];
+    // console.log(formValues)
+    body[0].contentCategoryId = this.contentCategoryIdEn;
+    body[0].contents[0].galleryTitle = formValues.titleEn;
+    body[0].contents[0].galleryDescription = formValues.descEn;
+    body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
+    body[0].contents[0].gallerySort = formValues.seqEng;
+    body[0].contents[0].galleryUrl = formValues.urlEng;
+    body[0].contents[0].galleryActiveFlag = formValues.active;
+    body[0].contents[0].language.languageId = 1;
+
+    body[1].contentCategoryId = this.contentCategoryIdMy;
+    body[1].contents[0].galleryTitle = formValues.titleBm;
+    body[1].contents[0].galleryDescription = formValues.descBm;
+    body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
+    body[1].contents[0].gallerySort = formValues.seqMy;
+    body[0].contents[0].galleryUrl = formValues.urlMy;
+    body[1].contents[0].galleryActiveFlag = formValues.active;
+    body[1].contents[0].language.languageId = 2;
+
+    console.log(body);
+
+    // Add gallery Service
+    this.commonservice.create(body, 'gallery/creator').subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function () {
+          this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), '');
+          this.router.navigate(['gallery']);
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
   }
 }

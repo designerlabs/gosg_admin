@@ -229,7 +229,8 @@
       "ok":"OK",
       "cancel":"Batal",
       "home":"Laman Utama",
-      "active": "Aktif"
+      "active": "Aktif",
+      "darft": "Simpan Draf"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
@@ -246,7 +247,9 @@
       "feedbacksummitted":"Maklum balas berjaya dihantar!",
       "feedbackdraft":"Maklum balas berjaya disimpan sebagai deraf!",
       "sliderdraft": "Slider has been saved has draft!",
-      "slidersubmitted":"Slider has been submitted successfully!"
+      "slidersubmitted":"Slider has been submitted successfully!",
+      "gallerydraft": "Gallery has been saved has draft!",
+      "gallerysubmitted":"Gallery has been submitted successfully!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -493,7 +496,8 @@
     "component":{
       "header": "Kategori",
       "parent": "Induk",
-      "ismainmenu": "adalah Menu Utama"
+      "ismainmenu": "adalah Menu Utama",
+      "subscription":"benarkan untuk langganan"
     }
   },
   "city": {

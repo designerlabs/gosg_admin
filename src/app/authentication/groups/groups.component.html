@@ -55,11 +55,11 @@
         <div class="row"></div>
         
         <div class="form-group" style="float: right;">
-            <button *ngIf="!isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnsubmit" class="form-control btn btn-md btn-success font-size-s"
+            <button *ngIf="!isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s"
             (click)="addModuleData();false">
             <i [ngClass]="commonservice.icon.check"></i> {{ 'common.buttons.submit' | translate }}</button>
 
-            <button *ngIf="isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnupdate" class="form-control btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i [ngClass]="commonservice.icon.check"></i> Update</button>           
+            <button *ngIf="isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnupdate" class="btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i [ngClass]="commonservice.icon.check"></i> Update</button>           
         </div>
        
     </form>
