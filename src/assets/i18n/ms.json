@@ -688,6 +688,7 @@
     "galleryimg": "Imej Galeri",
     "header": "Pengurusan Galeri",
     "copy": "Salin",
+    "publishDt" : "Tarikh Terbitkan",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
       "titleBm": "Tajuk (BM)",

@@ -19,9 +19,11 @@
   </div>
 
   <form [formGroup]="updateForm" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" autocomplete="off" role="form" novalidate>
-  
       <!-- EN -->
       <div class="example-container mat-elevation-z8 col-md-12">
+        <div class="row paddingTop-20">
+       
+        </div>
         <div class="row">
           <div class="bg-form-header col-md-6">
             <label class="staticLabel">English</label>
@@ -92,19 +94,32 @@
           <div class="col-md-12">&nbsp;</div>
       </div>
       <div class="row">
-        <div class="col-md-12">
-            <label class="">Media Type</label>
+        <div class="col-md-6">
+            <label class="font-size-s">Media Type</label>
+            <mat-form-field class="example-full-width">
+                <mat-select formControlName="mtype" placeholder="Select Media" (change)="selectedmType($event)" required>
+                  <mat-option [value]=null>Select Media Type</mat-option>
+                  <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype.mediaTypeId">{{ mtype.mediaTypeName }}</mat-option>                      
+                </mat-select>
+                  <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
+                    Please select a Media Type
+                  </mat-error>
+              </mat-form-field>
         </div>
-        <div class="col-md-5" style="border: 0px solid #000">
-          <mat-form-field class="example-full-width">
-            <mat-select formControlName="mtype" placeholder="Select Image" (change)="selectedmType($event)" required>
-              <mat-option [value]=null>Select Media Type</mat-option>
-              <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype.mediaTypeId">{{ mtype.mediaTypeName }}</mat-option>                      
-            </mat-select>
-              <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
-                Please select a Media Type
+        <!-- <div class="col-md-5" style="border: 0px solid #000">
+         
+        </div> -->
+        <div class="col-md-6">
+            <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
+            <mat-form-field class="example-full-width" style="padding-top: 5px;" >
+              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
+              <input placeholder="" [owlDateTime]="publish" style="display: none; padding-top: 5px;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
+              <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
+              <owl-date-time #publish></owl-date-time>
+              <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+                Start Date is required
               </mat-error>
-          </mat-form-field>
+            </mat-form-field>
         </div>
       </div>
         <div class="row">
@@ -113,7 +128,7 @@
             </div>
           <div class="col-md-5" style="border: 0px solid #000">
             <mat-form-field class="example-full-width">
-              <mat-select formControlName="imgEn" placeholder="Select Image" (change)="selectedImg($event, 1)" required>
+              <mat-select formControlName="imgEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
                 <mat-option [value]=null>Select Image</mat-option>
                 <mat-option *ngFor="let fileEng of fileData" [value]="fileEng.list[0].mediaId">{{ fileEng.list[0].mediaFile }}</mat-option>                      
               </mat-select>
@@ -130,8 +145,8 @@
           </div>
           <div class="col-md-5" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
-              <mat-select formControlName="imgBm" placeholder="Pilih Gambar" (change)="selectedImg($event, 2)" required>
-                <mat-option [value]=null>Pilih Gambar</mat-option>
+              <mat-select formControlName="imgBm" placeholder="Pilih File" (change)="selectedImg($event, 2)" required>
+                <mat-option [value]=null>Pilih File</mat-option>
                 <mat-option *ngFor="let fileMy of fileData" [value]="fileMy.list[1].mediaId">{{ fileMy.list[1].mediaFile }}</mat-option>
               </mat-select>
             <mat-error *ngIf="updateForm.get('imgBm').hasError('required')">

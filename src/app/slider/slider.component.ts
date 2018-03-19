@@ -55,6 +55,8 @@ export class SliderComponent implements OnInit {
   selectedFileEn = '';
   selectedFileMy = '';
 
+  sendForApporval: boolean;
+
   refCode = "";
 
   constructor(
@@ -196,6 +198,7 @@ export class SliderComponent implements OnInit {
           this.sliderCode = this.sliderData.refCode;
           this.sliderIdEn = dataEn.contentId;
           this.sliderIdBm = dataBm.contentId;
+          this.sendForApporval = dataEn.isSendForApproval;
 
           //this.isSameImg(dataEn.sliderImage, dataBm.sliderImage);
 

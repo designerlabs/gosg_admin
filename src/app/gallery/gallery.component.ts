@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-gallery',
@@ -15,6 +16,12 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
+
+  
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  minDate: any;
 
   galleryData: Object;
   dataUrl: any;
@@ -28,6 +35,7 @@ export class GalleryComponent implements OnInit {
   galleryIdEn: any;
   galleryIdBm: any;
 
+  publish: FormControl
   titleEn: FormControl
   titleBm: FormControl
   descEn: FormControl
@@ -87,9 +95,6 @@ export class GalleryComponent implements OnInit {
       this.languageId = localStorage.getItem('langID');
       this.commonservice.getModuleId();
     }
-
-
-
     /* LANGUAGE FUNC */
 }
 
@@ -99,8 +104,10 @@ export class GalleryComponent implements OnInit {
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
+    this.getMinEventDate();
     // this.getFileList();
     this.getMediaTypes()
+    this.publish = new FormControl()
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
     this.descEn = new FormControl()
@@ -116,6 +123,7 @@ export class GalleryComponent implements OnInit {
     this.mtype = new FormControl()
 
     this.updateForm = new FormGroup({
+      publish: this.publish,
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
@@ -169,7 +177,6 @@ export class GalleryComponent implements OnInit {
 
   // get, add, update, delete
   getRow(row) {
-
     this.loading = true;
     // Update gallery Service
     // return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
@@ -224,6 +231,25 @@ export class GalleryComponent implements OnInit {
       });
 
   }
+
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+
+    this.minDate = new Date(year, month, todaysdt);
+  }
+
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log(type);
+    console.log(event.value);
+    this.publishdt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.publishdt);
+    this.checkReqValues()
+  }
+
 
   isChecked(e) {
 

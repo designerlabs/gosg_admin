@@ -688,6 +688,7 @@
     "galleryimg": "Gallery Image",
     "header": "Gallery Management",
     "copy": "Copy",
+    "publishDt" : "Publish Date",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
