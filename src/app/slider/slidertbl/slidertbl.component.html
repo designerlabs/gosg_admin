@@ -74,8 +74,8 @@
       <ng-container matColumnDef="slideDraft">
         <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'slider.tableHeader.statusdraft' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
-            <button *ngIf="element.list[0].isSendForApproval == true" mat-mini-fab class="bg_orange" title="Send for Apporval"></button>
-            <button *ngIf="element.list[0].isSendForApproval == false" mat-mini-fab class="bg_gray" title="Draft"></button>
+            <button *ngIf="element.list[0].isSendForApproval == true" mat-mini-fab class="bg_orange tiny" title="Send for Apporval"></button>
+            <button *ngIf="element.list[0].isSendForApproval == false" mat-mini-fab class="bg_gray tiny" title="Draft"></button>
         </mat-cell>
       </ng-container>
       

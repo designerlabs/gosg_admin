@@ -271,3 +271,9 @@ mat-header-cell{
         margin-top: 8%;
         margin-left: 50%;
     }
+
+    .tiny{
+        height: 20px !important;
+        width: 20px !important;
+        margin: 10px !important;
+    }
