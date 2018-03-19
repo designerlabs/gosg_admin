@@ -229,7 +229,8 @@
       "ok":"OK",
       "cancel":"Batal",
       "home":"Laman Utama",
-      "active": "Aktif"
+      "active": "Aktif",
+      "darft": "Simpan Draf"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
