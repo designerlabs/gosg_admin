@@ -88,7 +88,7 @@
               <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isSendForApproval == false" (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
               <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode }}"></i>
             </button>
             <app-confirm-dialog  #deleteRow 

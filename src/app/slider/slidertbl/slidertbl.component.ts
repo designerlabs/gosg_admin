@@ -45,10 +45,18 @@ export class SlidertblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.sliderList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.sliderPageSize, e);
+    }
+    else{
+      this.getSlidersData(this.pageCount, this.sliderPageSize);
+    }
+  }
+
+  resetSearch() {
+    this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
 
   constructor(
@@ -107,12 +115,9 @@ export class SlidertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
         this.sliderList = data;
         console.log(this.sliderList);
-        console.log("99999999999999999999999999999999");
-        console.log(this.sliderList.list[0].refCode);
-        console.log(this.sliderList.list[0].list.length);
-               
+        console.log(this.sliderList.list.length);               
 
-        if(this.sliderList.list[0].list.length > 0){
+        if(this.sliderList.list.length > 0){
           this.dataSource.data = this.sliderList.list;
           this.seqPageNum = this.sliderList.pageNumber;
           this.seqPageSize = this.sliderList.pageSize;
@@ -135,6 +140,50 @@ export class SlidertblComponent implements OnInit {
         console.log(error);  
         this.loading = false;
       });
+  }
+
+  getFilterList(page, size, keyword) {
+    this.sliderList = null;
+    
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.loading = true;
+      this.commonservice.readProtected('slider/creator/search/4',page, size, keyword).subscribe(
+        // this.http.get(this.dataUrl).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+          this.sliderList = data;
+          console.log(this.sliderList);
+          console.log(this.sliderList.list.length);               
+
+          if(this.sliderList.list.length > 0){
+            this.dataSource.data = this.sliderList.list;
+            this.seqPageNum = this.sliderList.pageNumber;
+            this.seqPageSize = this.sliderList.pageSize;
+            this.recordTable = this.sliderList;
+            this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+            this.showNoData = true;
+
+            this.seqPageNum = this.sliderList.pageNumber;
+            this.seqPageSize = this.sliderList.pageSize;
+            this.recordTable = this.sliderList;
+            this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+          }
+            
+        }).bind(this));
+        this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          console.log(error);  
+          this.loading = false;
+      });
+    }
   }
 
   paginatorL(page) {
