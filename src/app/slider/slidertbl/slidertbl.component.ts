@@ -101,7 +101,7 @@ export class SlidertblComponent implements OnInit {
   getSlidersData(page, size) {
     
     this.loading = true;
-    this.commonservice.readProtected('slider/creator',page, size).subscribe(
+    this.commonservice.readProtected('slider/creator/4',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -164,9 +164,9 @@ export class SlidertblComponent implements OnInit {
   }
 
   deleteItem(refcode) {
-
+    debugger;
     this.loading = true;
-      this.commonservice.delete(refcode, 'slider/delete/').subscribe(
+      this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
