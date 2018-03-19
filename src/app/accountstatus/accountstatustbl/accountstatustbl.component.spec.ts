@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { LoadingModule } from 'ngx-loading';
 import { AccountstatustblComponent } from './accountstatustbl.component';
 
 describe('AccountstatustblComponent', () => {
@@ -8,7 +8,8 @@ describe('AccountstatustblComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AccountstatustblComponent ]
+      declarations: [ AccountstatustblComponent ],
+      imports: [LoadingModule]
     })
     .compileComponents();
   }));
