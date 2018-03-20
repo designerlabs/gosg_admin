@@ -9,6 +9,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
+import { stringify } from '@angular/core/src/util';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-content',
@@ -169,12 +171,14 @@ export class ContentComponent implements OnInit {
     
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      this.changePlaceHolder(); 
       this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+    this.commonservice.getModuleId();
   }
 
 
@@ -182,37 +186,76 @@ export class ContentComponent implements OnInit {
 
   selectedCat(e, val){
 
+    // console.log(e);
+    // this.getCatIdEn = e.value;
+    // this.getCatIdBm = e.value;
+    // let dataList = this.categoryData;
+    // let indexVal: any;
+    // let idBm: any;
+    // let idEn: any;
+
+    // console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
+
+    // if(val == 1){
+
+    //   for(let i=0; i<dataList.length; i++){
+    //     indexVal = dataList[i].list[0].id;
+    //     if(indexVal == this.getCatIdEn){
+    //       idBm = dataList[i].list[1].id;
+    //     }        
+    //   }
+
+    //   this.updateForm.get('catBm').setValue(idBm);  
+    // }
+    // else{
+
+    //   for(let i=0; i<dataList.length; i++){
+    //     indexVal = dataList[i].list[1].id;
+    //     if(indexVal == this.getCatIdBm){
+    //       idEn = dataList[i].list[0].id;
+    //     }        
+    //   }
+
+    //   this.updateForm.get('catEn').setValue(idEn); 
+    // }
+  }
+
+  selectedImage(e, val){
+
     console.log(e);
-    this.getCatIdEn = e.value;
-    this.getCatIdBm = e.value;
-    let dataList = this.categoryData;
+    this.imageEn = e.value;
+    this.imageBm = e.value;
+   
     let indexVal: any;
     let idBm: any;
-    let idEn: any;
+    let idEn: any;   
 
-    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
+    console.log("EN: "+this.imageEn+" BM: "+this.imageBm+ " value: " +val);
 
+    // if english
     if(val == 1){
 
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[0].id;
-        if(indexVal == this.getCatIdEn){
-          idBm = dataList[i].list[1].id;
-        }        
-      }
+    
+      for(let i=0; i<this.imageData.length; i++){
+        indexVal = this.imageData[i].list[0].mediaId;
+        if(indexVal == this.imageEn){
+          idBm = this.imageData[i].list[1].mediaId;
+        }            
+      }   
 
-      this.updateForm.get('catBm').setValue(idBm);  
+      this.updateForm.get('imageBm').setValue(idBm);  
     }
-    else{
 
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[1].id;
-        if(indexVal == this.getCatIdBm){
-          idEn = dataList[i].list[0].id;
+    else{ //if malay
+
+      for(let i=0; i<this.imageData.length; i++){
+        indexVal = this.imageData[i].list[1].mediaId;
+        if(indexVal == this.imageBm){
+          idBm = this.imageData[i].list[0].mediaId;
         }        
       }
 
-      this.updateForm.get('catEn').setValue(idEn); 
+      this.updateForm.get('imageEn').setValue(idEn); 
     }
   }
 
@@ -316,14 +359,13 @@ export class ContentComponent implements OnInit {
     for(var i in arr) {
     
         if(arr[i].parent == parent) {
-            children = this.getNestedChildrenEn(arr, arr[i].id)
+            children = this.getNestedChildrenEn(arr, arr[i].value)
 
             if(children.length) {
                  arr[i].children = children
             }
             out.push(arr[i])
-        }
-      
+        }      
     }    
     return out  
   }
@@ -335,7 +377,7 @@ export class ContentComponent implements OnInit {
     for(var i in arr) {
     
         if(arr[i].parent == parent) {
-            children = this.getNestedChildrenBm(arr, arr[i].id)
+            children = this.getNestedChildrenBm(arr, arr[i].value)
 
             if(children.length) {
                  arr[i].children = children
@@ -350,6 +392,8 @@ export class ContentComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
+    this.loading = true;
+
      this.commonservice.readPortalById('accountstatus/code/', _getRefID)
       .subscribe(data => {
         this.recordList = data;
@@ -514,6 +558,16 @@ export class ContentComponent implements OnInit {
       this.complete = false;
     } else {
       this.complete = true;
+    }
+  }
+
+  changePlaceHolder(){
+    if(this.languageId == 1){
+      this.categoryPlaceholder = "Category Parents";
+    }
+
+    else{
+      this.categoryPlaceholder = "Induk Kategori";
     }
   }
 

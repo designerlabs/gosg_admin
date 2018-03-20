@@ -47,7 +47,7 @@
       </div>
 
   </div>
-  
+
       <div class="bg-form-header col-md-12">
         <div class="row">
           <label class="col-md-6">English</label>
@@ -55,30 +55,6 @@
         </div>
       </div>
       <br>
-
-      <div class="example-header">
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width">
-            <mat-select formControlName="catEn" placeholder="Category" tabindex="1" required (change)="selectedCat($event,1)">
-              <mat-option *ngFor="let category of treeEn" [value]="category?.id">{{ category?.categoryName }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="updateForm.controls.catEn.hasError('required')">
-              Category is required
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width">
-            <mat-select formControlName="catBm" placeholder="Kategori" tabindex="2" required (change)="selectedCat($event,2)">
-              <mat-option *ngFor="let category of treeBm" [value]="category?.id">{{ category?.categoryName }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="updateForm.controls.catBm.hasError('required')">
-              Kategori diperlukan
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
 
       <div class="example-header">
         <div class="col-md-6">
@@ -99,7 +75,7 @@
         </div>
       </div>
 
-      <!-- <div class="example-header">
+      <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" (keyup)="checkReqValues()"
@@ -121,7 +97,7 @@
             <mat-hint align="end">{{descBm.value?.length || 0}}/200</mat-hint>
           </mat-form-field>
         </div>
-      </div> -->
+      </div>
 
       <div class="example-header">
         <div class="col-md-12">
