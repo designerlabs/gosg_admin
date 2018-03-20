@@ -498,7 +498,8 @@
       "header": "Kategori",
       "parent": "Induk",
       "ismainmenu": "adalah Menu Utama",
-      "subscription":"benarkan untuk langganan"
+      "subscription":"benarkan untuk langganan",
+      "deleted":"tidak dibenarkan padam"
     }
   },
   "city": {
