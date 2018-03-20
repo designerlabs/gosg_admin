@@ -663,6 +663,18 @@
       "header" : "Tetapan Fon"
     }
   },
+  "lifeeventtbl":{
+    "header": "Life Event",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "category": "category",
+      "statusdraft": "Draf Status"
+    },
+    "tablebottom":{
+      "contentmgmt": "Life event"
+    }
+  },
   "footercategorytbl": {
     "header": "Kategori Footer",
     "tableHeader":{

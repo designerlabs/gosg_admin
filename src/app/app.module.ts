@@ -112,6 +112,8 @@ import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/even
 import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
 import { PublisherComponent } from './publisher/publisher.component';
 import { PublishertblComponent } from './publisher/publishertbl/publishertbl.component';
+import { LifeeventComponent } from './lifeevent/lifeevent.component';
+import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -204,6 +206,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventcalendarexttblComponent,
     PublisherComponent,
     PublishertblComponent,
+    LifeeventComponent,
+    LifeeventtblComponent,
   ],
   imports: [
     BrowserModule,
