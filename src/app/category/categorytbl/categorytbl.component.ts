@@ -126,10 +126,11 @@ export class CategorytblComponent implements OnInit {
       this.loading = false;
     },
     error => {
-
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        if(error._body){
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        }
         this.loading = false;
-        console.log(error);
+        
     });
   }
 

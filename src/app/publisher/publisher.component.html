@@ -1,3 +1,183 @@
-<p>
-  publisher works!
-</p>
+<!-- VIEW: ADD/EDIT SLIDER -->
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
+  <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+          <h3>{{commonservice.pageMode}} {{ 'publisher.header2' | translate }}</h3>
+      </div>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
+          </span>
+      </div> 
+  </div>
+  
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+  </div>
+
+  <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" autocomplete="off" role="form" novalidate>
+  
+      <!-- EN -->
+      <div class="example-container mat-elevation-z8 col-md-12">
+        <div class="row">
+          <div class="bg-form-header col-md-6">
+            <label class="">English</label>
+          </div>
+          <div class="bg-form-header col-md-6">
+            <label class="">Bahasa Malaysia</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
+                Title is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput placeholder="Tajuk" formControlName="titleBm" value="" (change)="checkReqValues()"
+                required>
+              <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
+                Tajuk diperlukan
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()" required></textarea>
+              <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
+                Keterangan diperlukan
+              </mat-error>
+              <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+              <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
+            </mat-form-field>
+          </div>
+          
+          <div class="col-md-12">&nbsp;</div>
+        </div>  
+     
+        <div class="row">
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                  <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100">                  
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width" >
+                  <input matInput type="url" placeholder="URL" formControlName="urlMy" maxlength="100">
+              </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+
+        <div class="row">
+            <!-- <div class="col-md-12">
+                <label class="">Slider Image</label>
+            </div> -->
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                  <mat-select formControlName="imgEn" placeholder="Select Image" (change)="selectedImg($event, 1)" required>
+                    <mat-option [value]=null>Select Image</mat-option>
+                    <mat-option *ngFor="let imageEng of imageData" [value]="imageEng.list[0].mediaId">{{ imageEng.list[0].mediaFile }}</mat-option>                      
+                  </mat-select>
+                  <mat-error *ngIf="updateForm.get('imgEn').hasError('required')">
+                    Please select a file
+                  </mat-error>                            
+              </mat-form-field>
+            
+              <div *ngIf="imgEn.value != null">
+                <img [src]="appConfig.externalMediaURL +'/images/'+ selectedFileEn" style="width:200px">
+              </div> 
+            </div>
+            <!-- <div class="col-md-2" style="text-align: center; padding-top: 15px;">
+                <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;Copy</span>
+            </div> -->
+            <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                <mat-select formControlName="imgBm" placeholder="Pilih Gambar" (change)="selectedImg($event, 2)" required>
+                  <mat-option [value]=null>Pilih Gambar</mat-option>
+                  <mat-option *ngFor="let imageMy of imageData" [value]="imageMy.list[1].mediaId">{{ imageMy.list[1].mediaFile }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="updateForm.get('imgBm').hasError('required')">
+                  Sila Pilih Fail
+                </mat-error>            
+              </mat-form-field>
+
+              <div *ngIf="imgEn.value != null"> 
+                <img [src]="appConfig.externalMediaURL +'/images/'+ selectedFileMy" style="width:200px">
+              </div>
+            </div>  
+        </div><br>
+
+        <div class="row">
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width" >
+                  <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width" >
+                  <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+              </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.approve' | translate }}</span>
+          </div>
+        </div>
+
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+  
+      <!-- <div class="container"> -->
+      <div class="col-md-12">&nbsp;</div>
+        <div class="form-group" *ngIf="commonservice.isUpdate" style="padding-bottom:20px;">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+          (click)="sliderSubmit(updateForm.value)" [disabled]="!complete || sendForApporval">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+          (click)="sliderDraft(updateForm.value)" [disabled]="!complete || sendForApporval">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" (click)="resetModal.show()">
+            <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
+        </div>
+      <!-- <div class="col-md-12">&nbsp;</div> -->
+    <!-- </div> -->
+  </form>
+</div>
+<app-confirm-dialog  #resetModal 
+[title]="'common.icon.warn'" 
+[content]="'common.msg.reset'"
+[state]="'bg_header bg_warn_header'"
+[isReset]="'true'"
+(resetMethod)="myFunction()">
+</app-confirm-dialog>

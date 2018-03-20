@@ -230,7 +230,8 @@
       "cancel":"Cancel",
       "home":"Home",
       "active": "Active",
-      "darft": "Save Draft"
+      "darft": "Save Draft",
+      "approve": "Approve"
     },
     "err":{
       "servicedown": "Sorry, Server is down",
@@ -944,5 +945,17 @@
     "tableBottom":{
       
     }
+  },
+  "publisher": {
+    "header": "Publisher Management",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "statusdraft": "Status Draft"
+    },
+    "tableBottom":{
+      
+    },
+    "header2": "Publisher"
   }
 }

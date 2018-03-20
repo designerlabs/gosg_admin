@@ -230,7 +230,8 @@
       "cancel":"Batal",
       "home":"Laman Utama",
       "active": "Aktif",
-      "darft": "Simpan Draf"
+      "darft": "Simpan Draf",
+      "approve": "Lulus"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
@@ -944,5 +945,17 @@
     "tableBottom":{
       
     }
+  },
+  "publisher": {
+    "header": "Pengurusan Percetakan",
+    "tableHeader":{
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "statusdraft": "Draf Status"
+    },
+    "tableBottom":{
+      
+    },
+    "header2": "Percetakan"
   }
 }
