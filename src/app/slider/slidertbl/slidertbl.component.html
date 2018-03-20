@@ -89,11 +89,11 @@
               <i *ngIf="!commonservice.isUpdate || element.list[0].isSendForApproval == true" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isSendForApproval == false" (click)="deleteRow.show()" 
-            title="Delete {{ element.refCode }}">
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isSendForApproval == false" 
+            (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
               <i [ngClass]="commonservice.icon.trash"></i>
             </button>
-            <button mat-mini-fab class="bg_gray" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" (click)="deleteRow.show()" 
+            <button mat-mini-fab class="bg_gray" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
             [disabled]="element.list[0].isSendForApproval == true">
               <i [ngClass]="commonservice.icon.trash"></i>
             </button>
