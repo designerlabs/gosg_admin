@@ -60,6 +60,8 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cateSelect = "0";
+    this.fileName='';
     this.getMediaList(this.PageCount, this.PageSize);
     this.commonservice.getModuleId();
     this.fnLoadCateMediaType();
