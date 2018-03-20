@@ -174,8 +174,8 @@ export class MediafileuploadtblComponent implements OnInit {
 
 
   searchByFileName(val){
-    this.PageCount = 1;
-    this.PageSize = 10; 
+    // this.PageCount = 1;
+    // this.PageSize = 10; 
     this.cateSelect = 0;   //Reset Category search
     if(val.length>0){
       this.getMediaList(this.PageCount, this.PageSize, "byFileName", val); 
@@ -185,8 +185,8 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   selCateType(val){
-    this.PageCount = 1;
-    this.PageSize = 10;
+    // this.PageCount = 1;
+    // this.PageSize = 10;
     this.fileName = ""; // Reset File name Search
     if(val.value === "0" ){
       this.getMediaList(this.PageCount, this.PageSize);
@@ -196,8 +196,8 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   reset(){
-    this.PageCount = 1;
-    this.PageSize = 10;
+    // this.PageCount = 1;
+    // this.PageSize = 10;
     this.fileName = "";
     this.cateSelect = 0;
     this.getMediaList(this.PageCount, this.PageSize);
@@ -207,7 +207,7 @@ export class MediafileuploadtblComponent implements OnInit {
       this.router.navigate(['media/upload' , 'add']);
   }
   
-  paginatorL(page) {
+  paginatorL(page) {    
     this.getMediaList(page - 1, this.PageSize);
     this.noPrevData = page <= 2 ? true : false; 
     this.noNextData = false;
@@ -222,8 +222,18 @@ export class MediafileuploadtblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getMediaList(this.PageCount, event.value);
+    this.cateSelect;
+    this.fileName;
     this.PageSize = event.value;
+
+    if(this.cateSelect !== "0" ){
+      this.getMediaList(this.PageCount, this.PageSize, "byCateId", this.cateSelect); 
+    } else if(this.fileName.length>0){
+      this.getMediaList(this.PageCount, this.PageSize, "byFileName", this.fileName); 
+    }else {
+      this.getMediaList(this.PageCount, event.value);
+    }   
+    
     this.noPrevData = true;
   }
   editGroup(mtId) {
