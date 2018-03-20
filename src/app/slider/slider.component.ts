@@ -590,7 +590,7 @@ export class SliderComponent implements OnInit {
       this.commonservice.create(body, 'slider/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.draftsubmitted'), ''); 
+            this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -675,7 +675,7 @@ export class SliderComponent implements OnInit {
       this.commonservice.update(body, 'slider/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.draftsubmitted'), ''); 
+            this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
             this.router.navigate(['slider']);
 
           }).bind(this));

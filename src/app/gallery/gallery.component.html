@@ -111,14 +111,14 @@
         </div> -->
         <div class="col-md-6">
             <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
-            <mat-form-field class="example-full-width" style="padding-top: 5px;" >
+            <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none; padding-top: 5px;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
+              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
               <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #publish></owl-date-time>
-              <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+              <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
                 Start Date is required
-              </mat-error>
+              </mat-error> -->
             </mat-form-field>
         </div>
       </div>
