@@ -44,8 +44,6 @@ export class GalleryComponent implements OnInit {
   imgBm: FormControl
   active: FormControl
   copyImg: FormControl
-  urlEng: FormControl
-  urlMy: FormControl
   seqEng: FormControl
   seqMy: FormControl
   mtype: FormControl
@@ -114,8 +112,6 @@ export class GalleryComponent implements OnInit {
     this.descBm = new FormControl()
     this.imgEn = new FormControl()
     this.imgBm = new FormControl()
-    this.urlEng = new FormControl()
-    this.urlMy = new FormControl()
     this.active = new FormControl()
     this.copyImg = new FormControl()
     this.seqEng = new FormControl()
@@ -127,8 +123,6 @@ export class GalleryComponent implements OnInit {
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
-      urlEng: this.urlEng,
-      urlMy: this.urlMy,
       titleBm: this.titleBm,
       descBm: this.descBm,
       imgBm: this.imgBm,
@@ -301,19 +295,20 @@ export class GalleryComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
       .subscribe(resCatData => {
+        
         this.commonservice.errorHandling(resCatData, (function () {
-          this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
-          // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
-          this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
-          this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
-      }).bind(this));
+            this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
+            // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
+            this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
+            this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
+        }).bind(this));
         this.loading = false;
       },
       error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-        });
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
   }
 
   getMediaTypes(){
@@ -322,20 +317,24 @@ export class GalleryComponent implements OnInit {
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.mediaTypes = resCatData['mediaTypes'];
+
+          console.log(this.mediaTypes);
         }).bind(this));
         this.loading = false;
       },
       error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-        });
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
   }
 
   selectedmType(e){
-    debugger;
+
     let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
-    
+
+    console.log("###########");
+    console.log(resMT);
 
     if(resMT[0].mediaTypeName === "Images"){
       this.mediaPath = "images";
@@ -346,6 +345,7 @@ export class GalleryComponent implements OnInit {
     }else if(resMT[0].mediaTypeName === "Audios"){
       this.mediaPath = "audios";
     }
+
     this.getFileList(e.value);
     this.checkReqValues();
   }

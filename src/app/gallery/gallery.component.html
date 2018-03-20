@@ -22,6 +22,7 @@
   <form [formGroup]="updateForm" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" autocomplete="off" role="form" novalidate>
       <!-- EN -->
       <div class="example-container mat-elevation-z8 col-md-12">
+
         <div class="row">
           <div class="bg-form-header col-md-6">
             <label class="staticLabel">English</label>
@@ -72,59 +73,47 @@
                 Keterangan diperlukan
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
-              <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
             </mat-form-field>
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
 
-        <div class="row">
-          <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s">
-                  <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100">                  
+        <div class="row">    
+          <div class="col-md-12">
+              <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
+              <mat-form-field class="example-full-width">
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
+                <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
+                <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
+                <owl-date-time #publish></owl-date-time>
+                <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+                  Start Date is required
+                </mat-error> -->
               </mat-form-field>
           </div>
-          <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s" >
-                  <input matInput type="url" placeholder="URL" formControlName="urlMy" maxlength="100">
-              </mat-form-field>
-          </div>
-          <div class="col-md-12">&nbsp;</div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-            <label class="font-size-s">Media Type</label>
-            <mat-form-field class="example-full-width">
-                <mat-select formControlName="mtype" placeholder="Select Media" (change)="selectedmType($event)" required>
-                  <mat-option [value]=null>Select Media Type</mat-option>
-                  <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype.mediaTypeId">{{ mtype.mediaTypeName }}</mat-option>                      
-                </mat-select>
-                  <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
-                    Please select a Media Type
-                  </mat-error>
-              </mat-form-field>
         </div>
-        <!-- <div class="col-md-5" style="border: 0px solid #000">
-         
-        </div> -->
-        <div class="col-md-6">
-            <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
-            <mat-form-field class="example-full-width">
-              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
-              <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
-              <owl-date-time #publish></owl-date-time>
-              <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
-                Start Date is required
-              </mat-error> -->
-            </mat-form-field>
-        </div>
-      </div>
+
         <div class="row">
             <div class="col-md-12">
-                <label class="">{{ 'gallerytbl.galleryimg' | translate }}</label>
+                <label class="font-size-s">Media Type</label>
+                <mat-form-field class="example-full-width">
+                    <mat-select formControlName="mtype" placeholder="Select Media" (change)="selectedmType($event)" required>
+                      <mat-option [value]=null>Select Media Type</mat-option>
+                      <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype.mediaTypeId">{{ mtype.mediaTypeName }}</mat-option>                      
+                    </mat-select>
+                      <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
+                        Please select a Media Type
+                      </mat-error>
+                  </mat-form-field>
             </div>
-          <div class="col-md-5" style="border: 0px solid #000">
+          </div>
+
+        <div class="row">
+          <div class="col-md-12">
+              <label class="">{{ 'gallerytbl.galleryimg' | translate }}</label>
+          </div>
+
+          <div class="col-md-6" style="border: 0px solid #000">
             <mat-form-field class="example-full-width">
               <mat-select formControlName="imgEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
                 <mat-option [value]=null>Select Image</mat-option>
@@ -138,10 +127,11 @@
               <img [src]="appConfig.externalMediaURL  +'/'+ mediaPath +'/'+ selectedFileEn" style="width:200px">
             </div> 
           </div>
-          <div class="col-md-2" style="text-align: center; padding-top: 15px;">
+
+          <!-- <div class="col-md-2" style="text-align: center; padding-top: 15px;">
               <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;{{ 'gallerytbl.copy' | translate }}</span>
-          </div>
-          <div class="col-md-5" style="border: 0px solid #000; text-align: left">
+          </div> -->
+          <div class="col-md-6" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
               <mat-select formControlName="imgBm" placeholder="Pilih File" (change)="selectedImg($event, 2)" required>
                 <mat-option [value]=null>Pilih File</mat-option>
@@ -155,9 +145,9 @@
               <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFileMy" style="width:200px">
             </div>
           </div>
-          <div class="col-md-1">
+          <!-- <div class="col-md-1">
             &nbsp;
-          </div>
+          </div> -->
         </div>
 
         <div class="row">
