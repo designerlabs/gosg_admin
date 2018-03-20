@@ -664,6 +664,18 @@
       "header" : "Font Settings"
     }
   },
+  "lifeeventtbl":{
+    "header": "Life Event",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "category": "category",
+      "statusdraft": "Draf Status"
+    },
+    "tablebottom":{
+      "contentmgmt": "Life event"
+    }
+  },
   "footercategorytbl": {
     "header": "Footer Category",
     "tableHeader":{

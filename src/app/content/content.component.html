@@ -1,125 +1,137 @@
 <div class="container-fluid">
 
-    <div class="curdHeader">
-        <div class="col-md-10 curdHeadingLeft">
-            <h3>{{commonservice.pageMode}} {{ 'contentmgmt.name' | translate }} </h3>
-        </div>
-        
-        <div class="col-md-2 curdHeadingRight">
-            <span class="pull-right">
-                <button type="button" mat-fab color="accent" (click)="back()" >
-                <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
-            </span>
-        </div> 
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+      <h3>{{commonservice.pageMode}} {{ 'contentmgmt.name' | translate }} </h3>
     </div>
 
-    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
-                    
-        <div class="example-container mat-elevation-z8 paddingBottom-10">
+    <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+        <button type="button" mat-fab color="accent" (click)="back()">
+          <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i>
+        </button>
+      </span>
+    </div>
+  </div>
 
-            <div class="bg-form-header col-md-12">
-                <div class="row">
-                    <label class="col-md-6">English</label>
-                    <label class="col-md-6">Bahasa Malaysia</label>
-                </div>
-            </div><br>
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
 
-            <div class="example-header">
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                        <mat-select formControlName="catEn" placeholder="Category" tabindex="1" 
-                        required (change)="selectedCat($event,1)">
-                            <mat-option *ngFor="let category of treeEn" 
-                            [value]="category?.id">{{ category?.categoryName }}</mat-option>
-                        </mat-select> 
-                        <mat-error *ngIf="updateForm.controls.catEn.hasError('required')">
-                            Category is required
-                        </mat-error>                        
-                    </mat-form-field>
-                </div>
+    <div class="example-container mat-elevation-z8 paddingBottom-10">
 
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width">
-                        <mat-select formControlName="catBm" placeholder="Kategori" tabindex="2" 
-                        required (change)="selectedCat($event,2)">
-                        <mat-option *ngFor="let category of treeBm" 
-                        [value]="category?.id">{{ category?.categoryName }}</mat-option>
-                        </mat-select>
-                        <mat-error *ngIf="updateForm.controls.catBm.hasError('required')">
-                            Kategori diperlukan
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div>
-
-            <div class="example-header">
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()"
-                         tabindex="3">
-                        <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
-                            Title is required
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Tajuk" formControlName="titleBm" (keyup)="checkReqValues()"
-                        required tabindex="3">
-                        <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
-                            Tajuk diperlukan
-                        </mat-error>
-                    </mat-form-field>
-                </div>
-            </div> 
-
-            <div class="example-header">
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width" >
-                        <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" 
-                        (keyup)="checkReqValues()" required tabindex="5"></textarea>
-                        <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
-                            Description is required
-                        </mat-error>
-                        <mat-hint align="end">{{descEn.value?.length || 0}}/200</mat-hint>
-                    </mat-form-field>
-                </div>
-
-                <div class="col-md-6">
-                    <mat-form-field class="example-full-width" >
-                        <textarea matInput placeholder="Kenerangan" formControlName="descBm" #pollMalay maxlength="200" 
-                        (keyup)="checkReqValues()" required tabindex="6"></textarea>
-                        <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
-                            Kenerangan diperlukan
-                        </mat-error>
-                        <mat-hint align="end">{{descBm.value?.length || 0}}/200</mat-hint>
-                    </mat-form-field>
-                </div>
-            </div> 
-
-            <div class="example-header">
-                <div class="col-md-12">
-                    <mat-checkbox class="example-full-width" formControlName="active" tabindex="9">{{ 'common.buttons.active' | translate }}</mat-checkbox>
-                </div>
-            </div>            
-        
+      <div class="bg-form-header col-md-12">
+        <div class="row">
+          <label class="col-md-6">English</label>
+          <label class="col-md-6">Bahasa Malaysia</label>
         </div>
-    
-        <div class="form-group paddingTop-20">
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
-            (click)="submit(updateForm.value)" [disabled]="!complete">
-            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
-            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning pull-right" (click)="resetModal.show()">
-            <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
-        </div>      
-    </form>
+      </div>
+      <br>
+
+      <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <mat-select formControlName="catEn" placeholder="Category" tabindex="1" required (change)="selectedCat($event,1)">
+              <mat-option *ngFor="let category of treeEn" [value]="category?.id">{{ category?.categoryName }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="updateForm.controls.catEn.hasError('required')">
+              Category is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <mat-select formControlName="catBm" placeholder="Kategori" tabindex="2" required (change)="selectedCat($event,2)">
+              <mat-option *ngFor="let category of treeBm" [value]="category?.id">{{ category?.categoryName }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="updateForm.controls.catBm.hasError('required')">
+              Kategori diperlukan
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" tabindex="3">
+            <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Tajuk" formControlName="titleBm" (keyup)="checkReqValues()" required tabindex="3">
+            <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
+              Tajuk diperlukan
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <!-- <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" (keyup)="checkReqValues()"
+              required tabindex="5"></textarea>
+            <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{descEn.value?.length || 0}}/200</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Kenerangan" formControlName="descBm" #pollMalay maxlength="200" (keyup)="checkReqValues()"
+              required tabindex="6"></textarea>
+            <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
+              Kenerangan diperlukan
+            </mat-error>
+            <mat-hint align="end">{{descBm.value?.length || 0}}/200</mat-hint>
+          </mat-form-field>
+        </div>
+      </div> -->
+
+      <div class="example-header">
+        <div class="col-md-12">
+          <div class="example-full-width editor block">
+            <label for="htmlContentEn">English Content</label>
+            <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentEn" #htmlContentEn></app-ngx-editor>
+            <button mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i *ngIf="!complete" [ngClass]="commonservice.icon.view"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="example-header">
+        <div class="col-md-12">            
+            <div class="example-full-width editor block">
+              <label for="htmlContentMy">Malay Content</label>
+              <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentMy" #htmlContentMy></app-ngx-editor>
+            </div>
+            <button mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i *ngIf="!complete" [ngClass]="commonservice.icon.view"></i></button>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-12">
+          <mat-checkbox class="example-full-width" formControlName="active" tabindex="9">{{ 'common.buttons.active' | translate }}</mat-checkbox>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="form-group paddingTop-20">
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
+        (click)="submit(updateForm.value)" [disabled]="!complete">
+        <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+        <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
+      <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning pull-right"
+        (click)="resetModal.show()">
+        <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
+    </div>
+  </form>
 </div>
 
-<app-confirm-dialog  #resetModal 
-[title]="'common.icon.warn'" 
-[content]="'common.msg.reset'"
-[state]="'bg_header bg_warn_header'"
-[isReset]="'true'"
-(resetMethod)="myFunction()">
+<app-confirm-dialog #resetModal [title]="'common.icon.warn'" [content]="'common.msg.reset'" [state]="'bg_header bg_warn_header'"
+  [isReset]="'true'" (resetMethod)="myFunction()">
 </app-confirm-dialog>

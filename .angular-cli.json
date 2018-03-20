@@ -9,7 +9,7 @@
       "outDir": "portal-admin-protected",
       "assets": [
         "assets",
-        "favicon.ico",
+        "favicon-16x16.png",
         "app/apidata"
       ],
       "index": "index.html",
