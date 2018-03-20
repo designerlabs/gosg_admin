@@ -86,6 +86,8 @@ import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/e
 import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
 import { PublishertblComponent } from './publisher/publishertbl/publishertbl.component';
 import { PublisherComponent } from './publisher/publisher.component';
+import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
+import { LifeeventComponent } from './lifeevent/lifeevent.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -212,6 +214,11 @@ export const appRoutes: Routes = [
 {path: 'account', component: AccountstatustblComponent},
 {path: 'account/:id', component: AccountstatusComponent},
 {path: 'account/add', component: AccountstatusComponent},
+
+//Life Event: S
+{path: 'lifeevent', component: LifeeventtblComponent},
+{path: 'lifeevent/:id', component: LifeeventComponent},
+{path: 'lifeevent/add', component: LifeeventComponent},
 
 // Category & Content: N
 {path: 'category', component: CategorytblComponent},

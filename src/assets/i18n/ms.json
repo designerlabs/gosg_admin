@@ -498,7 +498,8 @@
       "header": "Kategori",
       "parent": "Induk",
       "ismainmenu": "adalah Menu Utama",
-      "subscription":"benarkan untuk langganan"
+      "subscription":"benarkan untuk langganan",
+      "deleted":"tidak dibenarkan padam"
     }
   },
   "city": {
@@ -661,6 +662,18 @@
     },
     "component": {
       "header" : "Tetapan Fon"
+    }
+  },
+  "lifeeventtbl":{
+    "header": "Life Event",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "category": "category",
+      "statusdraft": "Draf Status"
+    },
+    "tablebottom":{
+      "contentmgmt": "Life event"
     }
   },
   "footercategorytbl": {

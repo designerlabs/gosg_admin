@@ -498,7 +498,8 @@
       "header": "Category",
       "parent": "Parent",
       "ismainmenu": "is Main Menu",
-      "subscription":"allow for subscription"
+      "subscription":"allow for subscription",
+      "deleted":"not allow to delete"
     }
   },
   "city": {
@@ -661,6 +662,18 @@
     },
     "component": {
       "header" : "Font Settings"
+    }
+  },
+  "lifeeventtbl":{
+    "header": "Life Event",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "category": "category",
+      "statusdraft": "Draf Status"
+    },
+    "tablebottom":{
+      "contentmgmt": "Life event"
     }
   },
   "footercategorytbl": {
