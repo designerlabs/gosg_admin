@@ -81,8 +81,11 @@
                             <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}"></i>
                             <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}"></i></button>
                         &nbsp;
-                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-                            <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode}}"></i></button>
+                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isDeleted == false" (click)="deleteModal.show()">
+                            <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode}}" ></i></button>
+                        <button mat-mini-fab class="bg_gray" *ngIf="commonservice.isDelete && element.list[0].isDeleted == true" 
+                        [disabled]="element.list[0].isDeleted == true">
+                            <i [ngClass]="commonservice.icon.trash"></i></button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'common.icon.warn'" 
                         [content]="'common.msg.delete'"
