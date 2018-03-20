@@ -213,7 +213,7 @@ export class PublishertblComponent implements OnInit {
   
   updateRow(row) {
     this.commonservice.pageModeChange(true);
-    this.router.navigate(['slider', row]);
+    this.router.navigate(['publisher', row]);
   }
 
   deleteItem(refcode) {
