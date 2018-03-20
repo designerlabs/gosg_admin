@@ -28,6 +28,8 @@ export class ContentComponent implements OnInit {
   public catEn: FormControl;
   public catBm: FormControl;
   public active: FormControl;
+  public htmlContentEn: FormControl;
+  public htmlContentMy: FormControl;
 
   public dataUrl: any;  
   public recordList: any;
@@ -42,6 +44,26 @@ export class ContentComponent implements OnInit {
   public complete: boolean;
   public languageId: any;
   public urlEdit = "";
+  public loading = false;
+
+  editorConfig = {
+    "editable": true,
+    "spellcheck": true,
+    "height": "20rem",
+    "minHeight": "5rem",
+    "maxHeight": "50rem",
+    "width": "auto",
+    "minWidth": "0",
+    "enableToolbar": true,
+    "showToolbar": true,
+    "placeholder": "Enter text here...",
+    "toolbar": [
+        ["bold", "italic"],        
+        ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
+        ["orderedList", "unorderedList"],
+        ["link", "unlink", "image"]
+    ]
+}
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -85,6 +107,8 @@ export class ContentComponent implements OnInit {
     this.catEn = new FormControl();
     this.catBm = new FormControl();
     this.active = new FormControl();
+    this.htmlContentEn = new FormControl();
+    this.htmlContentMy = new FormControl();
 
     this.updateForm = new FormGroup({   
 
@@ -97,6 +121,8 @@ export class ContentComponent implements OnInit {
       catEn: this.catEn,
       catBm: this.catBm,
       active: this.active,
+      htmlContentEn: this.htmlContentEn,
+      htmlContentMy: this.htmlContentMy,
     });
 
     this.getCategory();
@@ -147,6 +173,26 @@ export class ContentComponent implements OnInit {
 
       this.updateForm.get('catEn').setValue(idEn); 
     }
+  }
+
+  previewEn() {
+    // htmlcontent/formathtml
+    this.loading = true;
+    return this.commonservice.create(this.htmlContentEn.value, 'htmlcontent/formathtml')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {          
+          console.log(resCatData);
+      }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+  }
+  previewMy(){
+    console.log();
   }
 
   getCategory(){

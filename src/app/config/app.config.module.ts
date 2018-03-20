@@ -54,6 +54,7 @@ export class AppConfig {
     urlGetUser: string;
     urlModuleRef: string;
     externalMediaURL: string;
+    urlHtmlParse: string;
     
 }
 
@@ -87,7 +88,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlSubCategoryList: './app/apidata/subcategory.json',
     urlMediaType: commonURL + 'mediatype',
     urlMediaFileUpload: commonURL + 'media',
-    lang: 'language='+localStorage.getItem('langID')
+    lang: 'language='+localStorage.getItem('langID'),
+    urlHtmlParse: commonURL + 'htmlcontent/formathtml',
 };
 
 @NgModule({

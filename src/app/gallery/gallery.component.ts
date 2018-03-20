@@ -138,7 +138,8 @@ export class GalleryComponent implements OnInit {
       seqMy: this.seqMy,
       mtype: this.mtype,
     });
-
+    let now = new Date();
+    this.publishdt = now.getTime();
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
