@@ -16,8 +16,38 @@
 
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
 
+
+
     <div class="example-container mat-elevation-z8 paddingBottom-10">
 
+      
+    <div class="bg-form-header col-md-12">
+      <div class="row">
+          <label class="col-md-12">{{ 'category.component.parent' | translate }}</label>
+      </div>
+  </div><br>
+  
+  <div class="example-header">
+      <div class="col-md-12">
+          <tree-select  class="font-size-m example-full-width" name="simpleSelect"
+          [items]="itemEn"
+          textField ="text"
+          idField = "value"
+          childrenField="children"
+          formControlName="parentsEn"
+          minlength="2"
+          maxlength="4"
+          tabindex="5"
+          required=true
+          #simpleSelect
+          [placeholder]="categoryPlaceholder"
+          [allowFilter]=true
+          [allowParentSelection]=true
+          expandMode="All"></tree-select>
+      </div>
+
+  </div>
+  
       <div class="bg-form-header col-md-12">
         <div class="row">
           <label class="col-md-6">English</label>

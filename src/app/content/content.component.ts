@@ -30,12 +30,20 @@ export class ContentComponent implements OnInit {
   public active: FormControl;
   public htmlContentEn: FormControl;
   public htmlContentMy: FormControl;
-
+  itemEn: any;
+  itemBm: any;
+  public parentsEn: FormControl;
+  public parentsBm: FormControl;
+  public ismainmenu: FormControl;
+  public imageEn: FormControl;
+  public imageBm: FormControl;
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
   public getCatIdEn: any;
   public getCatIdBm: any;
+  public subcription: FormControl;
+  public deleted: FormControl;
 
   public getIdEn: any;
   public getIdBm: any;
@@ -43,8 +51,20 @@ export class ContentComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
-  public urlEdit = "";
+  public treeEn: any;
+  public treeBm: any;
+  public imageData: any;
+  public getImgEn: any;
+  public getImgdBm: any;
+  public catCode: any;
   public loading = false;
+
+  public parentsValEn : any;
+  public parentsValBm : any;
+
+  public categoryPlaceholder = "";
+  public urlEdit = "";
+
 
   editorConfig = {
     "editable": true,
@@ -81,6 +101,8 @@ export class ContentComponent implements OnInit {
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
+              this.getCategory();
+
               this.languageId = val.languageId;
               //this.getUsersData(this.pageCount, this.pageSize);
               this.changeLanguageAddEdit();
@@ -91,12 +113,21 @@ export class ContentComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.getCategory();
       //this.getData();
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl();
+    this.ismainmenu = new FormControl();
+    this.imageEn = new FormControl();
+    this.imageBm = new FormControl();
+    this.subcription = new FormControl();
+    this.deleted = new FormControl();
 
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
@@ -116,11 +147,18 @@ export class ContentComponent implements OnInit {
       titleBm: this.titleBm,
       descEn: this.descEn,    
       descBm: this.descBm,
+      parentsEn: this.parentsEn,
+      parentsBm: this.parentsBm,
+      ismainmenu: this.ismainmenu,
+      imageEn: this.imageEn,
+      imageBm: this.imageBm,
+      active: this.active,
+      subcription: this.subcription,
+      deleted: this.deleted,
       imgEn: this.imgEn,
       imgBm: this.imgBm,
       catEn: this.catEn,
       catBm: this.catBm,
-      active: this.active,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
     });
@@ -138,6 +176,9 @@ export class ContentComponent implements OnInit {
       this.getData();
     }
   }
+
+
+  
 
   selectedCat(e, val){
 
@@ -197,7 +238,8 @@ export class ContentComponent implements OnInit {
 
   getCategory(){
 
-    return this.commonservice.getCategoryList()
+    this.loading = true;
+    return this.commonservice.readProtected('content/category')
      .subscribe(data => {
   
       console.log("GET CATEGORY: ");
@@ -213,32 +255,59 @@ export class ContentComponent implements OnInit {
           let parentBm;
 
           for(let i=0; i<this.categoryData.length; i++){        
-         
-            arrCatEn.push({id:this.categoryData[i].list[0].categoryId,
-                         refCode: this.categoryData[i].refCode,
-                         parent: this.categoryData[i].list[0].parentId,
-                         categoryName: this.categoryData[i].list[0].categoryName});      
-                         
-            arrCatBm.push({id:this.categoryData[i].list[1].categoryId,
-                          refCode: this.categoryData[i].refCode,
-                          parent: this.categoryData[i].list[1].parentId,
-                          categoryName: this.categoryData[i].list[1].categoryName}); 
+
+            if(this.categoryData[i].list.length === 2){
+              arrCatEn.push({
+                
+                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                    value:this.categoryData[i].list[0].categoryId,
+                    refCode: this.categoryData[i].refCode,
+                    parent: this.categoryData[i].list[0].parentId.categoryId,
+                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                    // categoryName: this.categoryData[i].list[0].categoryName,
+                    text: this.categoryData[i].list[0].categoryName,
+                    checked: false,
+                    children: []});      
+                  
+              arrCatBm.push({
+                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                    value:this.categoryData[i].list[1].categoryId,
+                    refCode: this.categoryData[i].refCode,
+                    parent: this.categoryData[i].list[1].parentId.categoryId,
+                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                    // categoryName: this.categoryData[i].list[1].categoryName,
+                    checked: false,
+                    text: this.categoryData[i].list[1].categoryName,
+                    children: []}); 
+                  
+            }
+
           }
           
-          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
-          this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
-          console.log(arrCatEn);
-          console.log(JSON.stringify(this.treeEn));
-          console.log(JSON.stringify(this.treeBm));
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
+          this.itemEn = this.treeEn;
+          console.log(this.itemEn);
           
         }).bind(this));
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
         console.log(error);
     });
   }
+
 
   getNestedChildrenEn(arr, parent) {
     var out = []
