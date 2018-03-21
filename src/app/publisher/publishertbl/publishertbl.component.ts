@@ -17,7 +17,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 export class PublishertblComponent implements OnInit {
 
   sliderData: Object;
-  sliderList = null;
+  publisherList = null;
   displayedColumns: any;
   displayedColumns2: any;
   sliderPageSize = 10;
@@ -43,7 +43,7 @@ export class PublishertblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.sliderList);
+  dataSource = new MatTableDataSource<object>(this.publisherList);
 
   applyFilter(e) {
     console.log(e);
@@ -113,16 +113,16 @@ export class PublishertblComponent implements OnInit {
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.sliderList = data;
-        console.log(this.sliderList);
-        console.log(this.sliderList.list.length);               
+        this.publisherList = data;
+        console.log(this.publisherList);
+        console.log(this.publisherList.list.length);               
 
-        if(this.sliderList.list.length > 0){
-          this.dataSource.data = this.sliderList.list;
-          this.seqPageNum = this.sliderList.pageNumber;
-          this.seqPageSize = this.sliderList.pageSize;
-          this.recordTable = this.sliderList;
-          this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+        if(this.publisherList.list.length > 0){
+          this.dataSource.data = this.publisherList.list;
+          this.seqPageNum = this.publisherList.pageNumber;
+          this.seqPageSize = this.publisherList.pageSize;
+          this.recordTable = this.publisherList;
+          this.noNextData = this.publisherList.pageNumber === this.publisherList.totalPages;
 
           this.showNoData = false;
         }
@@ -143,7 +143,7 @@ export class PublishertblComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword) {
-    this.sliderList = null;
+    this.publisherList = null;
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
@@ -151,16 +151,16 @@ export class PublishertblComponent implements OnInit {
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-          this.sliderList = data;
-          console.log(this.sliderList);
-          console.log(this.sliderList.list.length);               
+          this.publisherList = data;
+          console.log(this.publisherList);
+          console.log(this.publisherList.list.length);               
 
-          if(this.sliderList.list.length > 0){
-            this.dataSource.data = this.sliderList.list;
-            this.seqPageNum = this.sliderList.pageNumber;
-            this.seqPageSize = this.sliderList.pageSize;
-            this.recordTable = this.sliderList;
-            this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+          if(this.publisherList.list.length > 0){
+            this.dataSource.data = this.publisherList.list;
+            this.seqPageNum = this.publisherList.pageNumber;
+            this.seqPageSize = this.publisherList.pageSize;
+            this.recordTable = this.publisherList;
+            this.noNextData = this.publisherList.pageNumber === this.publisherList.totalPages;
 
             this.showNoData = false;
           }
@@ -169,10 +169,10 @@ export class PublishertblComponent implements OnInit {
             this.dataSource.data = []; 
             this.showNoData = true;
 
-            this.seqPageNum = this.sliderList.pageNumber;
-            this.seqPageSize = this.sliderList.pageSize;
-            this.recordTable = this.sliderList;
-            this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+            this.seqPageNum = this.publisherList.pageNumber;
+            this.seqPageSize = this.publisherList.pageSize;
+            this.recordTable = this.publisherList;
+            this.noNextData = this.publisherList.pageNumber === this.publisherList.totalPages;
           }
             
         }).bind(this));

@@ -25,12 +25,12 @@
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <label>Event Name</label><br />
+            <label>{{'calendar.tableHeader.eventName' | translate}}</label><br />
             <span>{{ eventName }}</span>
           </div>
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <label>Event Description</label><br />
+            <label>{{'calendar.component.desc' | translate}}</label><br />
             <span>{{ eventDescription }}</span>
           </div>
           <div class="col-md-12">&nbsp;</div>
@@ -38,18 +38,18 @@
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
-            <label>Event Start</label><br />
+            <label>{{'calendar.component.startdate' | translate}}</label><br />
             <span>{{ eventStart | date:'dd/MM/yyyy hh:mm a'}}</span>
           </div>
           <div class="col-md-6">
-            <label>Event End</label><br />
+            <label>{{'calendar.component.enddate' | translate}}</label><br />
             <span>{{ eventEnd | date:'dd/MM/yyyy hh:mm a'}}</span>
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
         <div class="row">
             <div class="col-md-6">
-              <label>Event Status</label><br />
+              <label>{{'calendar.component.status' | translate}}</label><br />
               <span>{{ enabled?'Active':'Inactive'}}</span>
               <div class="col-md-12">&nbsp;</div>
           </div>

@@ -586,6 +586,22 @@
       "question": "questions"
     }
   },
+  "inbox": {
+    "name":"Inbox",
+    "nameAdd":"Add Inbox",
+    "header": "Inbox List",
+    "tableHeader":{
+      "subject": "Subject",
+      "content": "Content",
+      "sender": "Sender",
+      "to": "To",
+      "insertDate": "Insert Date",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "inbox"
+    }
+  },
   "feedbacktbl": {
     "header": "Feedback Admin List",
     "tableHeader":{
@@ -699,10 +715,13 @@
   },
   "gallerytbl": {
     "name": "Gallery",
-    "galleryimg": "Gallery Image",
+    "galleryimg": "Gallery Information",
     "header": "Gallery Management",
     "copy": "Copy",
-    "publishDt" : "Publish Date",
+    "publishDt" : "Start Publish Date",
+    "endDt" : "End Publish Date",
+    "errorStartDate": "Start Publish Date is required",
+    "errorEndDate": "End Publish Date is required",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
@@ -926,9 +945,11 @@
   },
   "calendar": {
     "header": "Calendar",
+    "extheader": "External Calendar",
     "tableHeader":{
       "eventNameEn": "Event Name (EN)",
-      "eventNameBm": "Event Name (BM)"
+      "eventNameBm": "Event Name (BM)",
+      "eventName": "Event Name"
     },
     "tablebottom":{
       "calendar": "calendar list"
@@ -939,10 +960,12 @@
     },
     "component":{
       "header": "Event",
+      "desc": "Description",
       "location": "Location",
       "city": "City",
       "startdate": "Start Date",
       "enddate": "End Date",
+      "status": "Event Status",
       "image": "Image",
       "select": "Select",
       "imageerr": "Please select a file"
@@ -962,9 +985,12 @@
   "publisher": {
     "header": "Publisher Management",
     "tableHeader":{
-      "titleEn": "Title (EN)",
+      "titleEn": "Title",
       "titleBm": "Title (BM)",
-      "statusdraft": "Status Draft"
+      "statusdraft": "Status Draft",
+      "category": "Category",
+      "desc": "Description",
+      "userInfo":"User Information"
     },
     "tableBottom":{
       

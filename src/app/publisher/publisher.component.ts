@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-publisher',
@@ -16,6 +17,12 @@ import { LangChangeEvent } from '@ngx-translate/core';
   encapsulation: ViewEncapsulation.None
 })
 export class PublisherComponent implements OnInit {
+
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  minDate: any;
 
   sliderData: Object;
   dataUrl: any;
@@ -35,6 +42,9 @@ export class PublisherComponent implements OnInit {
   isDelete: boolean;
   languageId: any;
 
+  mtype: FormControl
+  publish: FormControl
+  endD: FormControl
   titleEn: FormControl
   titleBm: FormControl
   descEn: FormControl
@@ -47,13 +57,16 @@ export class PublisherComponent implements OnInit {
   urlMy: FormControl
   seqEng: FormControl
   seqMy: FormControl
-  resetMsg = this.resetMsg;
-  imageData: any;
+  //imageData: any;
   public loading = false;
   getImgIdEn: any;
   getImgIdBm: any;
   selectedFileEn = '';
   selectedFileMy = '';
+
+  fileData = [];
+  mediaTypes: any;
+  mediaPath = 'images';
 
   sendForApporval: boolean;
 
@@ -78,7 +91,6 @@ export class PublisherComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.changeLanguageAddEdit();
-              // this.getMinistryData(this.pageCount, this.agencyPageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -87,7 +99,6 @@ export class PublisherComponent implements OnInit {
     });
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
-      // this.getMinistryData(this.pageCount, this.agencyPageSize);
       this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
@@ -98,7 +109,12 @@ export class PublisherComponent implements OnInit {
     this.refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.getImageList();
+    this.getMinEventDate();
+    this.getMediaTypes();
 
+    this.mtype = new FormControl()
+    this.publish = new FormControl()
+    this.endD = new FormControl
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
@@ -113,6 +129,10 @@ export class PublisherComponent implements OnInit {
     this.seqMy = new FormControl();
 
     this.updateForm = new FormGroup({
+
+      mtype: this.mtype,
+      endD: this.endD,
+      publish: this.publish,
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
@@ -127,9 +147,15 @@ export class PublisherComponent implements OnInit {
       seqMy: this.seqMy,
     });
 
+    let now = new Date();
+
     if (this.refCode == "add") {
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
+      this.publishdt = now.getTime();
+      this.updateForm.get('publish').setValue(now.getTime());
+      this.enddt = now.getTime();
+      this.updateForm.get('endD').setValue(now.getTime());
     } else {
       this.commonservice.pageModeChange(true);
       this.getRow(this.refCode);
@@ -145,6 +171,98 @@ export class PublisherComponent implements OnInit {
 
   back() {
     this.router.navigate(['publisher']);
+  }
+
+  getMediaTypes(){
+    this.loading = true;
+    return this.commonservice.readProtected('mediatype')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.mediaTypes = resCatData['mediaTypes'];
+
+          console.log(this.mediaTypes);
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  selectedmType(e){
+
+    let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
+    this.mediaPath = "";
+    console.log("###########");
+    console.log(resMT);
+
+    if(resMT[0].mediaTypeName === "Images"){
+      this.mediaPath = "images";
+    }else if(resMT[0].mediaTypeName === "Documents"){
+      this.mediaPath = "documents";
+    }else if(resMT[0].mediaTypeName === "Videos"){
+      this.mediaPath = "videos";
+    }else if(resMT[0].mediaTypeName === "Audios"){
+      this.mediaPath = "audios";
+    }
+
+    this.getFileList(e.value);
+    this.checkReqValues();
+  }
+
+  getFileList(mediaId) {
+   
+    console.log(mediaId);
+    this.loading = true;
+    return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
+      .subscribe(resCatData => {
+
+        this.commonservice.errorHandling(resCatData, (function () {
+            this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
+
+            console.log(this.fileData);
+            
+            if(this.fileData.length>0){
+              this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
+              this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
+            }
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+
+    this.minDate = new Date(year, month, todaysdt);
+  }
+
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("START: "+type);
+    console.log(event.value);
+    this.publishdt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.publishdt);
+    this.checkReqValues()
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("END: "+type);
+    console.log(event.value);
+    this.enddt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.enddt);
+    this.checkReqValues()
   }
 
   // get, add, update, delete
@@ -255,7 +373,7 @@ export class PublisherComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999')
       .subscribe(resCatData => {
-        this.imageData = resCatData['list'];
+        this.fileData = resCatData['list'];
         this.loading = false;
       },
         Error => {
@@ -268,7 +386,7 @@ export class PublisherComponent implements OnInit {
     console.log(e);
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
-    let dataList = this.imageData;
+    let dataList = this.fileData;
     let indexVal: any;
     let idBm: any;
     let idEn: any;

@@ -21,11 +21,15 @@
 
 <div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
-    <!-- <div class="example-header">
+    
+    <div class="col-md-12 paddingTop-10">
       <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+          <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+          </button>
       </mat-form-field>
-    </div> -->
+    </div>
 
     <mat-table #table [dataSource]="dataSource">
 
@@ -39,14 +43,14 @@
 
       <!-- galleryTitle Column -->
       <ng-container matColumnDef="galleryTitleEn">
-        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.title' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.galleryTitle}} </mat-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.titleEn' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[0]?.contentTitle}} </mat-cell>
       </ng-container>
 
       <!-- galleryDescription Column -->
-      <ng-container matColumnDef="galleryDescription">
-        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.description' | translate }} </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.galleryDescription | truncate:[30, '...']}} </mat-cell>
+      <ng-container matColumnDef="galleryTitleBm">
+        <mat-header-cell *matHeaderCellDef> {{ 'gallerytbl.tableHeader.titleBm' | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1]?.contentTitle}} </mat-cell>
       </ng-container>
 
       <!-- galleryActiveFlag Column -->
@@ -54,8 +58,18 @@
         <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.status' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
           <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
-          <i *ngIf="element.galleryActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-          <i *ngIf="element.galleryActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+          <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+          <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+        </mat-cell>
+      </ng-container>
+
+      <!-- slideActiveFlag Column -->
+      <ng-container matColumnDef="galleryDraft">
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'slider.tableHeader.statusdraft' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="statusColumn">
+            <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
+            <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>
+            <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Approved" [disabled]="true"></button>
         </mat-cell>
       </ng-container>
       
@@ -63,14 +77,26 @@
       <ng-container matColumnDef="galleryAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.galleryCode)" title="Update {{ element.galleryCode }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.galleryCode }}" ></i>
-              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.galleryCode }}" ></i>
+            <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
+              <i *ngIf="commonservice.isUpdate && element.list[0].isSendForApproval == false" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
+              <i *ngIf="!commonservice.isUpdate || element.list[0].isSendForApproval == true" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow(element.galleryCode)" title="Delete {{ element.galleryCode }}">
-              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.galleryCode }}"></i>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isSendForApproval == false" 
+            (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
+              <i [ngClass]="commonservice.icon.trash"></i>
             </button>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
+            [disabled]="element.list[0].isSendForApproval == true">
+              <i [ngClass]="commonservice.icon.trash"></i>
+            </button>
+            <app-confirm-dialog  #deleteRow 
+            [title]="'common.icon.warn'" 
+            [content]="'common.msg.delete'"
+            [state]="'common.state.warn'"
+            [isReset]="'true'"
+            (resetMethod)="deleteItem(element.refCode)">
+            </app-confirm-dialog> 
         </mat-cell>
       </ng-container>
 
@@ -92,13 +118,13 @@
     </mat-form-field>
     <span class="float-right">
       <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
-        <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
-        <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-        <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'gallerytbl.tablebottom.gallery' | translate }}</span>
-      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
+        <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+        <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+        <strong>{{recordTable?.totalElements}}</strong> {{ 'gallerytbl.tablebottom.gallery' | translate }}</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
         <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
       </button>
-      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
         <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
       </button>
     </span>

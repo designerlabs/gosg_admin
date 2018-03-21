@@ -116,6 +116,8 @@ import { LifeeventComponent, DialogResultExampleDialog } from './lifeevent/lifee
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
 // import { JoditAngularModule } from 'jodit-angular';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { InboxComponent } from './inbox/inbox.component';
+import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -210,7 +212,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     PublishertblComponent,
     LifeeventComponent,
     LifeeventtblComponent,
-    DialogResultExampleDialog
+    DialogResultExampleDialog,
+    InboxComponent,
+    InboxtblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
