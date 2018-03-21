@@ -105,7 +105,7 @@
         <div class="form-group col-md-6">
               <label class="font-size-s">{{ 'calendar.component.startdate' | translate }}</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{sdt | date:'dd/MM/yyyy h:m a' }}</div>
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{sdt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input placeholder="" [owlDateTime]="start" style="display: none;" matInput formControlName="start" #start (dateTimeInput)="addStartEvent('input', $event)" (dateTimeChange)="addStartEvent('change', $event)" [min]="minDate" required />
                 <span [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right"></i></span>
                 <owl-date-time #start></owl-date-time>
@@ -117,7 +117,7 @@
           <div class="form-group col-md-6">
               <label class="font-size-s">{{ 'calendar.component.enddate' | translate }}</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{edt | date:'dd/MM/yyyy h:m a' }}</div>
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{edt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input [owlDateTime]="end" style="display: none;" matInput formControlName="end" #end (dateTimeInput)="addEndEvent('input', $event)" (dateTimeChange)="addEndEvent('change', $event)" [min]="minDate" required />
                 <span [owlDateTimeTrigger]="end"><i class="fa fa-calendar pull-right"></i></span>
                 <owl-date-time #end class="pull-right"></owl-date-time>
