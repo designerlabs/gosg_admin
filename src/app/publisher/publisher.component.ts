@@ -42,6 +42,7 @@ export class PublisherComponent implements OnInit {
   isDelete: boolean;
   languageId: any;
 
+  mtype: FormControl
   publish: FormControl
   endD: FormControl
   titleEn: FormControl
@@ -56,12 +57,16 @@ export class PublisherComponent implements OnInit {
   urlMy: FormControl
   seqEng: FormControl
   seqMy: FormControl
-  imageData: any;
+  //imageData: any;
   public loading = false;
   getImgIdEn: any;
   getImgIdBm: any;
   selectedFileEn = '';
   selectedFileMy = '';
+
+  fileData = [];
+  mediaTypes: any;
+  mediaPath = 'images';
 
   sendForApporval: boolean;
 
@@ -105,7 +110,9 @@ export class PublisherComponent implements OnInit {
     this.commonservice.getModuleId();
     this.getImageList();
     this.getMinEventDate();
+    this.getMediaTypes();
 
+    this.mtype = new FormControl()
     this.publish = new FormControl()
     this.endD = new FormControl
     this.titleEn = new FormControl();
@@ -122,6 +129,8 @@ export class PublisherComponent implements OnInit {
     this.seqMy = new FormControl();
 
     this.updateForm = new FormGroup({
+
+      mtype: this.mtype,
       endD: this.endD,
       publish: this.publish,
       titleEn: this.titleEn,
@@ -162,6 +171,71 @@ export class PublisherComponent implements OnInit {
 
   back() {
     this.router.navigate(['publisher']);
+  }
+
+  getMediaTypes(){
+    this.loading = true;
+    return this.commonservice.readProtected('mediatype')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.mediaTypes = resCatData['mediaTypes'];
+
+          console.log(this.mediaTypes);
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  selectedmType(e){
+
+    let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
+    this.mediaPath = "";
+    console.log("###########");
+    console.log(resMT);
+
+    if(resMT[0].mediaTypeName === "Images"){
+      this.mediaPath = "images";
+    }else if(resMT[0].mediaTypeName === "Documents"){
+      this.mediaPath = "documents";
+    }else if(resMT[0].mediaTypeName === "Videos"){
+      this.mediaPath = "videos";
+    }else if(resMT[0].mediaTypeName === "Audios"){
+      this.mediaPath = "audios";
+    }
+
+    this.getFileList(e.value);
+    this.checkReqValues();
+  }
+
+  getFileList(mediaId) {
+   
+    console.log(mediaId);
+    this.loading = true;
+    return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
+      .subscribe(resCatData => {
+
+        this.commonservice.errorHandling(resCatData, (function () {
+            this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
+
+            console.log(this.fileData);
+            
+            if(this.fileData.length>0){
+              this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
+              this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
+            }
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
   }
 
   getMinEventDate(){
@@ -299,7 +373,7 @@ export class PublisherComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999')
       .subscribe(resCatData => {
-        this.imageData = resCatData['list'];
+        this.fileData = resCatData['list'];
         this.loading = false;
       },
         Error => {
@@ -312,7 +386,7 @@ export class PublisherComponent implements OnInit {
     console.log(e);
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
-    let dataList = this.imageData;
+    let dataList = this.fileData;
     let indexVal: any;
     let idBm: any;
     let idEn: any;

@@ -985,7 +985,8 @@
       "titleBm": "Tajuk (BM)",
       "statusdraft": "Draf Status",
       "category": "Kategori",
-      "desc": "Keterangan"
+      "desc": "Keterangan",
+      "userInfo":"Maklumat Pengguna"
     },
     "tableBottom":{
       

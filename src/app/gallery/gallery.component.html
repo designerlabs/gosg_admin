@@ -107,19 +107,19 @@
         </div>
 
         <div class="row">
-            <div class="col-md-12">
-                <label class="font-size-s">Media Type</label>
-                <mat-form-field class="example-full-width">
-                    <mat-select formControlName="mtype" placeholder="Select Media" (change)="selectedmType($event)" required>
-                      <mat-option [value]=null>Select Media Type</mat-option>
-                      <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype?.mediaTypeId">{{ mtype?.mediaTypeName }}</mat-option>                      
-                    </mat-select>
-                    <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
-                      Please select a Media Type
-                    </mat-error>
-                </mat-form-field>
-            </div>
+          <div class="col-md-12">
+              <label class="font-size-s">Media Type</label>
+              <mat-form-field class="example-full-width">
+                  <mat-select formControlName="mtype" placeholder="Select Media" (change)="selectedmType($event)" required>
+                    <mat-option [value]=null>Select Media Type</mat-option>
+                    <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype?.mediaTypeId">{{ mtype?.mediaTypeName }}</mat-option>                      
+                  </mat-select>
+                  <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
+                    Please select a Media Type
+                  </mat-error>
+              </mat-form-field>
           </div>
+        </div>
 
         <div class="row">
           <div class="col-md-12">
@@ -159,7 +159,7 @@
           <div class="col-md-6" *ngIf="fileData.length==0">
             <mat-form-field class="example-full-width">
               <mat-select formControlName="imgEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
-                <mat-option [value]=null>No fail</mat-option>                
+                <mat-option [value]=null>No file</mat-option>                
               </mat-select>
                 <mat-error *ngIf="updateForm.get('imgEn').hasError('required')">
                   Please select a file

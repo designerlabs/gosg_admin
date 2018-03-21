@@ -985,7 +985,8 @@
       "titleBm": "Title (BM)",
       "statusdraft": "Status Draft",
       "category": "Category",
-      "desc": "Description"
+      "desc": "Description",
+      "userInfo":"User Information"
     },
     "tableBottom":{
       
