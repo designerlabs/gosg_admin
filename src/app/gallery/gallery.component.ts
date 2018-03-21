@@ -54,7 +54,7 @@ export class GalleryComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
-  fileData: any;
+  fileData = [];
   mediaTypes: any;
   public loading = false;
   getImgIdEn: any;
@@ -292,15 +292,20 @@ export class GalleryComponent implements OnInit {
   }
 
   getFileList(mediaId) {
+   
+    console.log(mediaId);
     this.loading = true;
     return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
       .subscribe(resCatData => {
-        
+
         this.commonservice.errorHandling(resCatData, (function () {
             this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
+            
             // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
-            this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
-            this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
+            if(this.fileData.length>0){
+              this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
+              this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
+            }
         }).bind(this));
         this.loading = false;
       },
