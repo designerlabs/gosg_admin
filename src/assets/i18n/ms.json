@@ -586,6 +586,22 @@
       "question": "soalan"
     }
   },
+  "inbox": {
+    "name":"Peti Masuk",
+    "nameAdd":"Tambah Peti Masuk",
+    "header": "Senarai Peti Masuk",
+    "tableHeader":{
+      "subject": "Subjek",
+      "content": "Kandungan",
+      "sender": "Penghantar",
+      "to": "Kepada",
+      "insertDate": "Tarikh Masuk",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "peti masuk"
+    }
+  },
   "feedbacktbl": {
     "header": "Senarai Maklum Balas Admin",
     "tableHeader":{

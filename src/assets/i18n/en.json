@@ -586,6 +586,22 @@
       "question": "questions"
     }
   },
+  "inbox": {
+    "name":"Inbox",
+    "nameAdd":"Add Inbox",
+    "header": "Inbox List",
+    "tableHeader":{
+      "subject": "Subject",
+      "content": "Content",
+      "sender": "Sender",
+      "to": "To",
+      "insertDate": "Insert Date",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "inbox"
+    }
+  },
   "feedbacktbl": {
     "header": "Feedback Admin List",
     "tableHeader":{
