@@ -699,10 +699,13 @@
   },
   "gallerytbl": {
     "name": "Galeri",
-    "galleryimg": "Imej Galeri",
+    "galleryimg": "Maklumat Galeri",
     "header": "Pengurusan Galeri",
     "copy": "Salin",
-    "publishDt" : "Tarikh Terbitkan",
+    "publishDt" : "Tarikh Mula Terbitan",
+    "endDt" : "Tarikh Akhir Terbitan",
+    "errorStartDate": "Tarikh Mula Terbitan diperlukan",
+    "errorEndDate": "Tarikh Akhir Terbitan diperlukan",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
       "titleBm": "Tajuk (BM)",

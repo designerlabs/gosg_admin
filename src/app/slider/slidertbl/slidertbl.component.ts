@@ -217,23 +217,23 @@ export class SlidertblComponent implements OnInit {
   }
 
   deleteItem(refcode) {
-    debugger;
+
     this.loading = true;
-      this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
-        data => {
+    this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
+      data => {
 
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-            this.getSlidersData(this.pageCount, this.sliderPageSize);
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
 
-        }).bind(this)); 
+      }).bind(this)); 
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
         this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
-          this.loading = false;
-        });
+      });
 
   }
 

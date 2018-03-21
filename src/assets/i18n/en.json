@@ -699,10 +699,13 @@
   },
   "gallerytbl": {
     "name": "Gallery",
-    "galleryimg": "Gallery Image",
+    "galleryimg": "Gallery Information",
     "header": "Gallery Management",
     "copy": "Copy",
-    "publishDt" : "Publish Date",
+    "publishDt" : "Start Publish Date",
+    "endDt" : "End Publish Date",
+    "errorStartDate": "Start Publish Date is required",
+    "errorEndDate": "End Publish Date is required",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
