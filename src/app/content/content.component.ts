@@ -9,6 +9,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
+import { stringify } from '@angular/core/src/util';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-content',
@@ -30,12 +32,20 @@ export class ContentComponent implements OnInit {
   public active: FormControl;
   public htmlContentEn: FormControl;
   public htmlContentMy: FormControl;
-
+  itemEn: any;
+  itemBm: any;
+  public parentsEn: FormControl;
+  public parentsBm: FormControl;
+  public ismainmenu: FormControl;
+  public imageEn: FormControl;
+  public imageBm: FormControl;
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
   public getCatIdEn: any;
   public getCatIdBm: any;
+  public subcription: FormControl;
+  public deleted: FormControl;
 
   public getIdEn: any;
   public getIdBm: any;
@@ -43,8 +53,20 @@ export class ContentComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
-  public urlEdit = "";
+  public treeEn: any;
+  public treeBm: any;
+  public imageData: any;
+  public getImgEn: any;
+  public getImgdBm: any;
+  public catCode: any;
   public loading = false;
+
+  public parentsValEn : any;
+  public parentsValBm : any;
+
+  public categoryPlaceholder = "";
+  public urlEdit = "";
+
 
   editorConfig = {
     "editable": true,
@@ -81,6 +103,8 @@ export class ContentComponent implements OnInit {
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
+              this.getCategory();
+
               this.languageId = val.languageId;
               //this.getUsersData(this.pageCount, this.pageSize);
               this.changeLanguageAddEdit();
@@ -91,12 +115,21 @@ export class ContentComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.getCategory();
       //this.getData();
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl();
+    this.ismainmenu = new FormControl();
+    this.imageEn = new FormControl();
+    this.imageBm = new FormControl();
+    this.subcription = new FormControl();
+    this.deleted = new FormControl();
 
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
@@ -116,11 +149,18 @@ export class ContentComponent implements OnInit {
       titleBm: this.titleBm,
       descEn: this.descEn,    
       descBm: this.descBm,
+      parentsEn: this.parentsEn,
+      parentsBm: this.parentsBm,
+      ismainmenu: this.ismainmenu,
+      imageEn: this.imageEn,
+      imageBm: this.imageBm,
+      active: this.active,
+      subcription: this.subcription,
+      deleted: this.deleted,
       imgEn: this.imgEn,
       imgBm: this.imgBm,
       catEn: this.catEn,
       catBm: this.catBm,
-      active: this.active,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
     });
@@ -131,47 +171,91 @@ export class ContentComponent implements OnInit {
     
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      this.changePlaceHolder(); 
       this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
     }
+    this.commonservice.getModuleId();
   }
+
+
+  
 
   selectedCat(e, val){
 
+    // console.log(e);
+    // this.getCatIdEn = e.value;
+    // this.getCatIdBm = e.value;
+    // let dataList = this.categoryData;
+    // let indexVal: any;
+    // let idBm: any;
+    // let idEn: any;
+
+    // console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
+
+    // if(val == 1){
+
+    //   for(let i=0; i<dataList.length; i++){
+    //     indexVal = dataList[i].list[0].id;
+    //     if(indexVal == this.getCatIdEn){
+    //       idBm = dataList[i].list[1].id;
+    //     }        
+    //   }
+
+    //   this.updateForm.get('catBm').setValue(idBm);  
+    // }
+    // else{
+
+    //   for(let i=0; i<dataList.length; i++){
+    //     indexVal = dataList[i].list[1].id;
+    //     if(indexVal == this.getCatIdBm){
+    //       idEn = dataList[i].list[0].id;
+    //     }        
+    //   }
+
+    //   this.updateForm.get('catEn').setValue(idEn); 
+    // }
+  }
+
+  selectedImage(e, val){
+
     console.log(e);
-    this.getCatIdEn = e.value;
-    this.getCatIdBm = e.value;
-    let dataList = this.categoryData;
+    this.imageEn = e.value;
+    this.imageBm = e.value;
+   
     let indexVal: any;
     let idBm: any;
-    let idEn: any;
+    let idEn: any;   
 
-    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
+    console.log("EN: "+this.imageEn+" BM: "+this.imageBm+ " value: " +val);
 
+    // if english
     if(val == 1){
 
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[0].id;
-        if(indexVal == this.getCatIdEn){
-          idBm = dataList[i].list[1].id;
-        }        
-      }
+    
+      for(let i=0; i<this.imageData.length; i++){
+        indexVal = this.imageData[i].list[0].mediaId;
+        if(indexVal == this.imageEn){
+          idBm = this.imageData[i].list[1].mediaId;
+        }            
+      }   
 
-      this.updateForm.get('catBm').setValue(idBm);  
+      this.updateForm.get('imageBm').setValue(idBm);  
     }
-    else{
 
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[1].id;
-        if(indexVal == this.getCatIdBm){
-          idEn = dataList[i].list[0].id;
+    else{ //if malay
+
+      for(let i=0; i<this.imageData.length; i++){
+        indexVal = this.imageData[i].list[1].mediaId;
+        if(indexVal == this.imageBm){
+          idBm = this.imageData[i].list[0].mediaId;
         }        
       }
 
-      this.updateForm.get('catEn').setValue(idEn); 
+      this.updateForm.get('imageEn').setValue(idEn); 
     }
   }
 
@@ -197,7 +281,8 @@ export class ContentComponent implements OnInit {
 
   getCategory(){
 
-    return this.commonservice.getCategoryList()
+    this.loading = true;
+    return this.commonservice.readProtected('content/category')
      .subscribe(data => {
   
       console.log("GET CATEGORY: ");
@@ -213,32 +298,59 @@ export class ContentComponent implements OnInit {
           let parentBm;
 
           for(let i=0; i<this.categoryData.length; i++){        
-         
-            arrCatEn.push({id:this.categoryData[i].list[0].categoryId,
-                         refCode: this.categoryData[i].refCode,
-                         parent: this.categoryData[i].list[0].parentId,
-                         categoryName: this.categoryData[i].list[0].categoryName});      
-                         
-            arrCatBm.push({id:this.categoryData[i].list[1].categoryId,
-                          refCode: this.categoryData[i].refCode,
-                          parent: this.categoryData[i].list[1].parentId,
-                          categoryName: this.categoryData[i].list[1].categoryName}); 
+
+            if(this.categoryData[i].list.length === 2){
+              arrCatEn.push({
+                
+                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                    value:this.categoryData[i].list[0].categoryId,
+                    refCode: this.categoryData[i].refCode,
+                    parent: this.categoryData[i].list[0].parentId.categoryId,
+                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                    // categoryName: this.categoryData[i].list[0].categoryName,
+                    text: this.categoryData[i].list[0].categoryName,
+                    checked: false,
+                    children: []});      
+                  
+              arrCatBm.push({
+                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                    value:this.categoryData[i].list[1].categoryId,
+                    refCode: this.categoryData[i].refCode,
+                    parent: this.categoryData[i].list[1].parentId.categoryId,
+                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                    // categoryName: this.categoryData[i].list[1].categoryName,
+                    checked: false,
+                    text: this.categoryData[i].list[1].categoryName,
+                    children: []}); 
+                  
+            }
+
           }
           
-          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
-          this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
-          console.log(arrCatEn);
-          console.log(JSON.stringify(this.treeEn));
-          console.log(JSON.stringify(this.treeBm));
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
+          this.itemEn = this.treeEn;
+          console.log(this.itemEn);
           
         }).bind(this));
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
         console.log(error);
     });
   }
+
 
   getNestedChildrenEn(arr, parent) {
     var out = []
@@ -247,14 +359,13 @@ export class ContentComponent implements OnInit {
     for(var i in arr) {
     
         if(arr[i].parent == parent) {
-            children = this.getNestedChildrenEn(arr, arr[i].id)
+            children = this.getNestedChildrenEn(arr, arr[i].value)
 
             if(children.length) {
                  arr[i].children = children
             }
             out.push(arr[i])
-        }
-      
+        }      
     }    
     return out  
   }
@@ -266,7 +377,7 @@ export class ContentComponent implements OnInit {
     for(var i in arr) {
     
         if(arr[i].parent == parent) {
-            children = this.getNestedChildrenBm(arr, arr[i].id)
+            children = this.getNestedChildrenBm(arr, arr[i].value)
 
             if(children.length) {
                  arr[i].children = children
@@ -281,6 +392,8 @@ export class ContentComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
+    this.loading = true;
+
      this.commonservice.readPortalById('accountstatus/code/', _getRefID)
       .subscribe(data => {
         this.recordList = data;
@@ -445,6 +558,16 @@ export class ContentComponent implements OnInit {
       this.complete = false;
     } else {
       this.complete = true;
+    }
+  }
+
+  changePlaceHolder(){
+    if(this.languageId == 1){
+      this.categoryPlaceholder = "Category Parents";
+    }
+
+    else{
+      this.categoryPlaceholder = "Induk Kategori";
     }
   }
 

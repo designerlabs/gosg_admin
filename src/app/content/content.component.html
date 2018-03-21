@@ -16,7 +16,37 @@
 
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
 
+
+
     <div class="example-container mat-elevation-z8 paddingBottom-10">
+
+      
+    <div class="bg-form-header col-md-12">
+      <div class="row">
+          <label class="col-md-12">{{ 'category.component.parent' | translate }}</label>
+      </div>
+  </div><br>
+  
+  <div class="example-header">
+      <div class="col-md-12">
+          <tree-select  class="font-size-m example-full-width" name="simpleSelect"
+          [items]="itemEn"
+          textField ="text"
+          idField = "value"
+          childrenField="children"
+          formControlName="parentsEn"
+          minlength="2"
+          maxlength="4"
+          tabindex="5"
+          required=true
+          #simpleSelect
+          [placeholder]="categoryPlaceholder"
+          [allowFilter]=true
+          [allowParentSelection]=true
+          expandMode="All"></tree-select>
+      </div>
+
+  </div>
 
       <div class="bg-form-header col-md-12">
         <div class="row">
@@ -25,30 +55,6 @@
         </div>
       </div>
       <br>
-
-      <div class="example-header">
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width">
-            <mat-select formControlName="catEn" placeholder="Category" tabindex="1" required (change)="selectedCat($event,1)">
-              <mat-option *ngFor="let category of treeEn" [value]="category?.id">{{ category?.categoryName }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="updateForm.controls.catEn.hasError('required')">
-              Category is required
-            </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width">
-            <mat-select formControlName="catBm" placeholder="Kategori" tabindex="2" required (change)="selectedCat($event,2)">
-              <mat-option *ngFor="let category of treeBm" [value]="category?.id">{{ category?.categoryName }}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="updateForm.controls.catBm.hasError('required')">
-              Kategori diperlukan
-            </mat-error>
-          </mat-form-field>
-        </div>
-      </div>
 
       <div class="example-header">
         <div class="col-md-6">
@@ -69,7 +75,7 @@
         </div>
       </div>
 
-      <!-- <div class="example-header">
+      <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" (keyup)="checkReqValues()"
@@ -91,7 +97,7 @@
             <mat-hint align="end">{{descBm.value?.length || 0}}/200</mat-hint>
           </mat-form-field>
         </div>
-      </div> -->
+      </div>
 
       <div class="example-header">
         <div class="col-md-12">
