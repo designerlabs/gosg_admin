@@ -926,9 +926,11 @@
   },
   "calendar": {
     "header": "Kalendar",
+    "extheader": "Kalendar Luaran",
     "tableHeader":{
       "eventNameEn": "Nama Acara (EN)",
-      "eventNameBm": "Nama Acara (BM)"
+      "eventNameBm": "Nama Acara (BM)",
+      "eventName": "Nama Acara"
     },
     "tablebottom":{
       "calendar": "senarai kalendar"
@@ -939,10 +941,12 @@
     },
     "component":{
       "header": "Acara",
+      "desc": "Keterangan",
       "location": "Lokasi",
       "city": "Bandar",
       "startdate": "Tarikh Mula",
       "enddate": "Tarikh Akhir",
+      "status": "Status Acara",
       "image": "Imej",
       "select": "Pilih",
       "imageerr": "Sila pilih fail"
