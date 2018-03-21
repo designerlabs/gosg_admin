@@ -586,6 +586,22 @@
       "question": "soalan"
     }
   },
+  "inbox": {
+    "name":"Peti Masuk",
+    "nameAdd":"Tambah Peti Masuk",
+    "header": "Senarai Peti Masuk",
+    "tableHeader":{
+      "subject": "Subjek",
+      "content": "Kandungan",
+      "sender": "Penghantar",
+      "to": "Kepada",
+      "insertDate": "Tarikh Masuk",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "peti masuk"
+    }
+  },
   "feedbacktbl": {
     "header": "Senarai Maklum Balas Admin",
     "tableHeader":{
@@ -699,10 +715,13 @@
   },
   "gallerytbl": {
     "name": "Galeri",
-    "galleryimg": "Imej Galeri",
+    "galleryimg": "Maklumat Galeri",
     "header": "Pengurusan Galeri",
     "copy": "Salin",
-    "publishDt" : "Tarikh Terbitkan",
+    "publishDt" : "Tarikh Mula Terbitan",
+    "endDt" : "Tarikh Akhir Terbitan",
+    "errorStartDate": "Tarikh Mula Terbitan diperlukan",
+    "errorEndDate": "Tarikh Akhir Terbitan diperlukan",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
       "titleBm": "Tajuk (BM)",
@@ -966,9 +985,11 @@
   "publisher": {
     "header": "Pengurusan Percetakan",
     "tableHeader":{
-      "titleEn": "Tajuk (EN)",
+      "titleEn": "Tajuk",
       "titleBm": "Tajuk (BM)",
-      "statusdraft": "Draf Status"
+      "statusdraft": "Draf Status",
+      "category": "Kategori",
+      "desc": "Keterangan"
     },
     "tableBottom":{
       

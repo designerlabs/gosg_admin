@@ -50,13 +50,13 @@
 
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitle">
-        <mat-header-cell *matHeaderCellDef> {{ 'slider.tableHeader.titleEn' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.category' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.list[0]?.contentTitle}}</mat-cell>
       </ng-container>
 
       <!-- slideDescription Column {{element.list[1]?.contentTitle | truncate:[30, '...']}}-->
       <ng-container matColumnDef="sliderDescription">
-        <mat-header-cell *matHeaderCellDef> {{ 'slider.tableHeader.titleBm' | translate }}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.titleEn' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.list[1]?.contentTitle }} </mat-cell>
       </ng-container>
 
@@ -72,7 +72,7 @@
 
       <!-- slideActiveFlag Column -->
       <ng-container matColumnDef="slideDraft">
-        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'slider.tableHeader.statusdraft' | translate }}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'publisher.tableHeader.statusdraft' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
             <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
             <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>

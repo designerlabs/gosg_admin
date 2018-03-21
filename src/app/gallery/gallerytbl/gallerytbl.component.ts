@@ -35,6 +35,8 @@ export class GallerytblComponent implements OnInit {
   languageId: any;
 
   showNoData = false;
+
+  recordTable = null;
   
   public loading = false;
 
@@ -43,10 +45,18 @@ export class GallerytblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.galleryList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.galleryPageSize, e);
+    }
+    else{
+      this.getGalleryData(this.pageCount, this.galleryPageSize);
+    }
+  }
+
+  resetSearch() {
+    this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
 
   constructor(
@@ -83,7 +93,7 @@ export class GallerytblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','galleryTitleEn', 'galleryDescription', 'galleryActiveFlag', 'galleryAction'];
+    this.displayedColumns = ['no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
     this.commonservice.getModuleId();
     this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
@@ -101,19 +111,18 @@ export class GallerytblComponent implements OnInit {
 
     // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
-    this.commonservice.readPortal('gallery/all',page, size).subscribe(
+    this.commonservice.readProtected('gallery/creator/39',page, size).subscribe(
       data => {
         
           this.commonservice.errorHandling(data, (function(){
           this.galleryList = data;
 
-          if(this.galleryList.galleryList.length > 0){
-            console.log(this.galleryList)
-            // console.log(JSON.stringify(this.galleryList))
-            this.dataSource.data = this.galleryList.galleryList;
+          if(this.galleryList.list.length > 0){
+            
+            this.dataSource.data = this.galleryList.list;
             this.seqPageNum = this.galleryList.pageNumber;
             this.seqPageSize = this.galleryList.pageSize;
-            this.commonservice.recordTable = this.galleryList;
+            this.recordTable = this.galleryList;
             this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
 
             this.showNoData = false;
@@ -131,6 +140,51 @@ export class GallerytblComponent implements OnInit {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       });
+  }
+
+  getFilterList(page, size, keyword) {
+
+    this.galleryList = null;
+
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+
+      this.loading = true;
+
+      this.commonservice.readProtected('gallery/creator/search/39',page, size, keyword).subscribe(
+        data => {
+          
+            this.commonservice.errorHandling(data, (function(){
+            this.galleryList = data;
+
+            if(this.galleryList.list.length > 0){
+              
+              this.dataSource.data = this.galleryList.list;
+              this.seqPageNum = this.galleryList.pageNumber;
+              this.seqPageSize = this.galleryList.pageSize;
+              this.recordTable = this.galleryList;
+              this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
+
+              this.showNoData = false;
+            }
+
+            else{
+              this.dataSource.data = []; 
+              this.showNoData = true;
+
+              this.seqPageNum = this.galleryList.pageNumber;
+              this.seqPageSize = this.galleryList.pageSize;
+              this.recordTable = this.galleryList;
+              this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
+            }
+            
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        });
+    }
   }
 
   paginatorL(page) {
@@ -164,21 +218,24 @@ export class GallerytblComponent implements OnInit {
     this.router.navigate(['gallery', row]);
   }
 
-  deleteRow(enId,bmId) {
+  deleteItem(refcode) {
 
-    this.loading = true;
-      this.commonservice.delGallery(enId,bmId).subscribe(
-        data => {
+    this.loading = true;      
+    this.commonservice.delete(refcode, 'gallery/creator/delete/').subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getGalleryData(this.pageCount, this.galleryPageSize);
-          this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
-          this.loading = false;
-        });
 
-    
+      }).bind(this)); 
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });    
   }
 
   changePageMode(isEdit) {
@@ -188,14 +245,4 @@ export class GallerytblComponent implements OnInit {
       this.pageMode = "Update";
     }
   }
-
-  navigateBack() {
-    this.isEdit = false;
-    this.router.navigate(['gallery']);
-  }
-
-  back(){
-    this.router.navigate(['gallery']);
-  }
-
 }

@@ -160,6 +160,8 @@ export class EventcalendarComponent implements OnInit {
     let res;    
     this.events = [];
     this.events.push(tsd);
+
+    console.log(tsd);
     // this.events.push(`${event.value}`);
     if(type == 'start')
       this.sdt = new Date(this.events[0]).getTime();

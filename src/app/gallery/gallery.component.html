@@ -36,7 +36,7 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()"
+              <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
                 Title is required
@@ -45,7 +45,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Tajuk" formControlName="titleBm" value="" (change)="checkReqValues()"
+              <input matInput placeholder="Tajuk" formControlName="titleBm" value="" (keyup)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
                 Tajuk diperlukan
@@ -57,7 +57,7 @@
         <div class="row">
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+              <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
                 Description is required
@@ -67,7 +67,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+              <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
                 Keterangan diperlukan
@@ -79,16 +79,29 @@
         </div>
 
         <div class="row">    
-          <div class="col-md-12">
+          <div class="col-md-6">
               <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
               <mat-form-field class="example-full-width">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
                 <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
                 <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
                 <owl-date-time #publish></owl-date-time>
-                <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
-                  Start Date is required
-                </mat-error> -->
+                <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+                  {{ 'gallerytbl.errorStartDate' | translate }}
+                </mat-error>
+              </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+              <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
+              <mat-form-field class="example-full-width">
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
+                <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" required />
+                <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
+                <owl-date-time #endD></owl-date-time>
+                <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
+                  {{ 'gallerytbl.errorEndDate' | translate }}
+                </mat-error>
               </mat-form-field>
           </div>
         </div>
@@ -123,7 +136,7 @@
                   Please select a file
                 </mat-error>
             </mat-form-field>
-            <div *ngIf="selectedFileEn.length>0">
+            <div *ngIf="imgEn.value != null && mediaPath == 'images'">
               <img [src]="appConfig.externalMediaURL  +'/'+ mediaPath +'/'+ selectedFileEn" style="width:200px">
             </div> 
           </div>
@@ -138,7 +151,7 @@
                 Sila pilih fail
               </mat-error>
             </mat-form-field>
-            <div *ngIf="selectedFileMy.length>0">
+            <div *ngIf="imgEn.value != null && mediaPath == 'images'">
               <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFileMy" style="width:200px">
             </div>
           </div>
@@ -176,12 +189,12 @@
 
         <div class="row">
           <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s" >
+              <mat-form-field class="example-full-width" >
                   <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
               </mat-form-field>
           </div>
           <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s" >
+              <mat-form-field class="example-full-width" >
                   <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
               </mat-form-field>
           </div>
@@ -198,15 +211,16 @@
   
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
-        <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
-          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
-            (click)="gallerySubmit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        <div class="form-group" *ngIf="commonservice.isUpdate" style="padding-bottom:20px;">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+          (click)="gallerySubmit(updateForm.value)" [disabled]="!complete || sendForApporval">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;Submit</button>
-            <button mat-raised-button type="button" color="primary" class="btn btn-md btn-success pull-right mgn_L_5px" (click)="galleryDraft(updateForm.value)" [disabled]="!complete">
-              <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-              <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;Save Draft</button>
-          <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning pull-right" (click)="resetModal.show()">
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+          (click)="galleryDraft(updateForm.value)" [disabled]="!complete || sendForApporval">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" (click)="resetModal.show()">
             <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
         </div>
       <!-- <div class="col-md-12">&nbsp;</div> -->
