@@ -945,9 +945,11 @@
   },
   "calendar": {
     "header": "Calendar",
+    "extheader": "External Calendar",
     "tableHeader":{
       "eventNameEn": "Event Name (EN)",
-      "eventNameBm": "Event Name (BM)"
+      "eventNameBm": "Event Name (BM)",
+      "eventName": "Event Name"
     },
     "tablebottom":{
       "calendar": "calendar list"
@@ -958,10 +960,12 @@
     },
     "component":{
       "header": "Event",
+      "desc": "Description",
       "location": "Location",
       "city": "City",
       "startdate": "Start Date",
       "enddate": "End Date",
+      "status": "Event Status",
       "image": "Image",
       "select": "Select",
       "imageerr": "Please select a file"
