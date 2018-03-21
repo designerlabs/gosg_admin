@@ -114,6 +114,8 @@ import { PublisherComponent } from './publisher/publisher.component';
 import { PublishertblComponent } from './publisher/publishertbl/publishertbl.component';
 import { LifeeventComponent } from './lifeevent/lifeevent.component';
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
+import { InboxComponent } from './inbox/inbox.component';
+import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -208,6 +210,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     PublishertblComponent,
     LifeeventComponent,
     LifeeventtblComponent,
+    InboxComponent,
+    InboxtblComponent,
   ],
   imports: [
     BrowserModule,

@@ -89,6 +89,9 @@ import { PublisherComponent } from './publisher/publisher.component';
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
 import { LifeeventComponent } from './lifeevent/lifeevent.component';
 
+import { InboxComponent } from './inbox/inbox.component';
+import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
+
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -175,6 +178,10 @@ export const appRoutes: Routes = [
 {path: 'footer/footercategory', component: FootercategorytblComponent},
 {path: 'footer/footercategory/:id', component: FootercategoryComponent},
 {path: 'footer/footercategory/add', component: FootercategoryComponent},
+
+{path: 'inbox', component: InboxtblComponent},
+{path: 'inbox/:id', component: InboxComponent},
+{path: 'inbox/add', component: InboxComponent},
 
 {path: 'footer/footercontent', component: FootercontenttblComponent},
 {path: 'footer/footercontent/:id', component: FootercontentComponent},
