@@ -93,17 +93,17 @@
           </div>
 
           <div class="col-md-6">
-            <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
-            <mat-form-field class="example-full-width">
-              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" required />
-              <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
-              <owl-date-time #endD></owl-date-time>
-              <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
-                {{ 'gallerytbl.errorEndDate' | translate }}
-              </mat-error>
-            </mat-form-field>
-        </div>
+              <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
+              <mat-form-field class="example-full-width">
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
+                <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" required />
+                <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
+                <owl-date-time #endD></owl-date-time>
+                <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
+                  {{ 'gallerytbl.errorEndDate' | translate }}
+                </mat-error>
+              </mat-form-field>
+          </div>
         </div>
 
         <div class="row">

@@ -965,9 +965,11 @@
   "publisher": {
     "header": "Pengurusan Percetakan",
     "tableHeader":{
-      "titleEn": "Tajuk (EN)",
+      "titleEn": "Tajuk",
       "titleBm": "Tajuk (BM)",
-      "statusdraft": "Draf Status"
+      "statusdraft": "Draf Status",
+      "category": "Kategori",
+      "desc": "Keterangan"
     },
     "tableBottom":{
       

@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-publisher',
@@ -16,6 +17,12 @@ import { LangChangeEvent } from '@ngx-translate/core';
   encapsulation: ViewEncapsulation.None
 })
 export class PublisherComponent implements OnInit {
+
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  minDate: any;
 
   sliderData: Object;
   dataUrl: any;
@@ -35,6 +42,8 @@ export class PublisherComponent implements OnInit {
   isDelete: boolean;
   languageId: any;
 
+  publish: FormControl
+  endD: FormControl
   titleEn: FormControl
   titleBm: FormControl
   descEn: FormControl
@@ -47,7 +56,6 @@ export class PublisherComponent implements OnInit {
   urlMy: FormControl
   seqEng: FormControl
   seqMy: FormControl
-  resetMsg = this.resetMsg;
   imageData: any;
   public loading = false;
   getImgIdEn: any;
@@ -78,7 +86,6 @@ export class PublisherComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.changeLanguageAddEdit();
-              // this.getMinistryData(this.pageCount, this.agencyPageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -87,7 +94,6 @@ export class PublisherComponent implements OnInit {
     });
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
-      // this.getMinistryData(this.pageCount, this.agencyPageSize);
       this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
@@ -98,7 +104,10 @@ export class PublisherComponent implements OnInit {
     this.refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.getImageList();
+    this.getMinEventDate();
 
+    this.publish = new FormControl()
+    this.endD = new FormControl
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
@@ -113,6 +122,8 @@ export class PublisherComponent implements OnInit {
     this.seqMy = new FormControl();
 
     this.updateForm = new FormGroup({
+      endD: this.endD,
+      publish: this.publish,
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
@@ -127,9 +138,15 @@ export class PublisherComponent implements OnInit {
       seqMy: this.seqMy,
     });
 
+    let now = new Date();
+
     if (this.refCode == "add") {
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
+      this.publishdt = now.getTime();
+      this.updateForm.get('publish').setValue(now.getTime());
+      this.enddt = now.getTime();
+      this.updateForm.get('endD').setValue(now.getTime());
     } else {
       this.commonservice.pageModeChange(true);
       this.getRow(this.refCode);
@@ -145,6 +162,33 @@ export class PublisherComponent implements OnInit {
 
   back() {
     this.router.navigate(['publisher']);
+  }
+
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+
+    this.minDate = new Date(year, month, todaysdt);
+  }
+
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("START: "+type);
+    console.log(event.value);
+    this.publishdt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.publishdt);
+    this.checkReqValues()
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("END: "+type);
+    console.log(event.value);
+    this.enddt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.enddt);
+    this.checkReqValues()
   }
 
   // get, add, update, delete

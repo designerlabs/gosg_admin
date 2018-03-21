@@ -965,9 +965,11 @@
   "publisher": {
     "header": "Publisher Management",
     "tableHeader":{
-      "titleEn": "Title (EN)",
+      "titleEn": "Title",
       "titleBm": "Title (BM)",
-      "statusdraft": "Status Draft"
+      "statusdraft": "Status Draft",
+      "category": "Category",
+      "desc": "Description"
     },
     "tableBottom":{
       
