@@ -21,6 +21,7 @@ export class GalleryComponent implements OnInit {
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
   publishdt:number;  
+  enddt: number;
   minDate: any;
 
   galleryData: Object;
@@ -36,6 +37,7 @@ export class GalleryComponent implements OnInit {
   galleryIdBm: any;
 
   publish: FormControl
+  end: FormControl
   titleEn: FormControl
   titleBm: FormControl
   descEn: FormControl
@@ -64,6 +66,8 @@ export class GalleryComponent implements OnInit {
   mediaPath = '';
   contentCategoryIdEn='';
   contentCategoryIdMy='';
+
+  sliderIdVal: any;
 
   constructor(
     private http: HttpClient,
@@ -106,6 +110,7 @@ export class GalleryComponent implements OnInit {
     // this.getFileList();
     this.getMediaTypes()
     this.publish = new FormControl()
+    this.end = new FormControl
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
     this.descEn = new FormControl()
@@ -119,6 +124,8 @@ export class GalleryComponent implements OnInit {
     this.mtype = new FormControl()
 
     this.updateForm = new FormGroup({
+
+      end: this.end,
       publish: this.publish,
       titleEn: this.titleEn,
       descEn: this.descEn,
@@ -132,8 +139,10 @@ export class GalleryComponent implements OnInit {
       seqMy: this.seqMy,
       mtype: this.mtype,
     });
+
     let now = new Date();
     this.publishdt = now.getTime();
+
     if (refCode == "add") {
       this.isEdit = false;
       this.pageMode = "Add";
@@ -169,6 +178,44 @@ export class GalleryComponent implements OnInit {
   back() {
     this.router.navigate(['gallery']);
   }
+
+  // addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  //   console.log(type)
+  //   console.log(event.value)
+  //   this.events = [];
+  //   this.events.push(`${event.value}`);
+  //   this.sdt = new Date(this.events[0]).getTime();
+  //   this.dateFormatExample = "";
+  //   // console.log(this.sdt)
+  //   this.checkReqValues()
+  // }
+
+  // addEndEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+  //   console.log(type)
+  //   this.events = [];
+  //   this.events.push(`${event.value}`);
+  //   this.edt = new Date(this.events[0]).getTime();
+  //   this.dateFormatExample = "";
+  //   console.log(this.edt)
+  //   this.checkReqValues()
+  // }
+
+  // setEventDate(tsd,type) {
+  //   let res;    
+  //   this.events = [];
+  //   this.events.push(tsd);
+  //   // this.events.push(`${event.value}`);
+  //   if(type == 'start')
+  //     this.sdt = new Date(this.events[0]).getTime();
+  //   else
+  //     this.edt = new Date(this.events[0]).getTime();
+
+  //   this.dateFormatExample = "";
+ 
+  //   // console.log(res)
+
+  //   return res;
+  // }
 
   // get, add, update, delete
   getRow(row) {
@@ -237,7 +284,7 @@ export class GalleryComponent implements OnInit {
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log(type);
+    console.log("START: "+type);
     console.log(event.value);
     this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
@@ -245,6 +292,14 @@ export class GalleryComponent implements OnInit {
     this.checkReqValues()
   }
 
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("END: "+type);
+    console.log(event.value);
+    this.enddt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.enddt);
+    this.checkReqValues()
+  }
 
   isChecked(e) {
 
@@ -265,11 +320,11 @@ export class GalleryComponent implements OnInit {
     let titleBm = "titleBm";
     let descBm = "descBm";
     let imgBm = "imgBm";
-    let urlEng = "urlEng";
-    let urlMy = "urlMy";
-    // let active = "active";
+    let publish = "publish";
+    let end = "end";
+    let mtype = "mtype";
 
-    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, urlEng, urlMy];
+    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, publish, end, mtype];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -300,6 +355,8 @@ export class GalleryComponent implements OnInit {
 
         this.commonservice.errorHandling(resCatData, (function () {
             this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
+
+            console.log(this.fileData);
             
             // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
             if(this.fileData.length>0){
@@ -383,11 +440,11 @@ export class GalleryComponent implements OnInit {
         indexVal = dataList[i].list[1].mediaId;
         if(indexVal == this.getImgIdBm){
           idEn = dataList[i].list[0].mediaId;
-          // this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
           this.selectedFileMy=dataList[i].list[1].mediaFile;
         }        
       }
-      // this.updateForm.get('imgEn').setValue(idEn); 
+      this.updateForm.get('imgEn').setValue(idEn); 
     }
     this.checkReqValues();
   }
@@ -432,14 +489,16 @@ export class GalleryComponent implements OnInit {
             "galleryTitle": null,
             "galleryDescription": null,
             "galleryImage": {
-              "mediaId": null
+              "mediaId": null,
+              "mediaTypeId": null
             },
             "gallerySort": null,
-            "galleryUrl": null,
             "galleryActiveFlag": null,
             "language": {
               "languageId": null
-            }
+            },
+            "galleryPublishDate": null,
+            "galleryEndDate": null
           }]
         },
         {
@@ -448,14 +507,16 @@ export class GalleryComponent implements OnInit {
             "galleryTitle": null,
             "galleryDescription": null,
             "galleryImage": {
-              "mediaId": null
+              "mediaId": null,
+              "mediaTypeId": null
             },
             "gallerySort": null,
-            "galleryUrl": null,
             "galleryActiveFlag": null,
             "language": {
               "languageId": null
-            }
+            },
+            "galleryPublishDate": null,
+            "galleryEndDate": null
           }]
         }
       ];
@@ -465,21 +526,26 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
       body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
+      body[0].contents[0].galleryImage.mediaTypeId = formValues.mtype;
       body[0].contents[0].gallerySort = formValues.seqEng;
-      body[0].contents[0].galleryUrl = formValues.urlEng;
       body[0].contents[0].galleryActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
+      body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].galleryEndDate = new Date(formValues.end).getTime();
 
       body[1].contentCategoryId = this.contentCategoryIdMy;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
       body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
+      body[1].contents[0].galleryImage.mediaTypeId = formValues.mtype;
       body[1].contents[0].gallerySort = formValues.seqMy;
-      body[0].contents[0].galleryUrl = formValues.urlMy;
       body[1].contents[0].galleryActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+      body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].galleryEndDate = new Date(formValues.end).getTime();
 
-      console.log(body)
+      console.log(JSON.stringify(body))
+
 
       // Add gallery Service
       this.commonservice.create(body, 'gallery/creator/draft').subscribe(
@@ -507,14 +573,16 @@ export class GalleryComponent implements OnInit {
               "galleryTitle": null,
               "galleryDescription": null,
               "galleryImage": {
-                "mediaId": null
+                "mediaId": null,
+                "mediaTypeId": null
               },
               "gallerySort": null,
-              "galleryUrl": null,
               "galleryActiveFlag": null,
               "language": {
                 "languageId": null
-              }
+              },
+              "galleryPublishDate": null,
+              "galleryEndDate": null
             }
           ]
         },
@@ -526,14 +594,16 @@ export class GalleryComponent implements OnInit {
               "galleryTitle": null,
               "galleryDescription": null,
               "galleryImage": {
-                "mediaId": null
+                "mediaId": null,
+                "mediaTypeId": null
               },
               "gallerySort": null,
-              "galleryUrl": null,
               "galleryActiveFlag": null,
               "language": {
                 "languageId": null
-              }
+              },
+              "galleryPublishDate": null,
+              "galleryEndDate": null
             }
           ]
         }
@@ -544,20 +614,24 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
       body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
+      body[0].contents[0].galleryImage.mediaTypeId = formValues.mtype;
       body[0].contents[0].gallerySort = formValues.seqEng;
-      body[0].contents[0].galleryUrl = formValues.urlEng;
       body[0].contents[0].galleryActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
+      body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].galleryEndDate = new Date(formValues.end).getTime();
 
       body[1].contentCategoryId = this.contentCategoryIdMy;
       body[1].contents[0].galleryId = this.galleryIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
       body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
+      body[1].contents[0].galleryImage.mediaTypeId = formValues.mtype;
       body[1].contents[0].gallerySort = formValues.seqMy;
-      body[1].contents[0].galleryUrl = formValues.urlMy;
       body[1].contents[0].galleryActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+      body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].galleryEndDate = new Date(formValues.end).getTime();
       console.log(body);
       // Update gallery Service
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
