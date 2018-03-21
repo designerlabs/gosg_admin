@@ -26,10 +26,13 @@
         "../node_modules/animate.css/animate.min.css",
         "../node_modules/ngx-toastr/toastr.css",
         "../node_modules/ng-pick-datetime/assets/style/picker.min.css",
-        "./assets/styles/unicorn.scss"
+        "./assets/styles/unicorn.scss",
+        "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
+        "../node_modules/froala-editor/css/froala_style.min.css"
       ],
       "scripts": [
-        
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/froala-editor/js/froala_editor.pkgd.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

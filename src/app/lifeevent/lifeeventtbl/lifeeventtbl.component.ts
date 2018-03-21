@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 
-
+declare var System: any;
 @Component({
   selector: 'app-lifeeventtbl',
   templateUrl: './lifeeventtbl.component.html',
@@ -83,6 +83,27 @@ export class LifeeventtblComponent implements OnInit {
     //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
+
+
+//   onLoad(){
+//     var options = {
+//         sourceLanguage: 'en',
+//         destinationLanguage: ['hi'],
+//         shortcutKey: 'ctrl+m',
+//         transliterationEnabled: true
+//     };
+
+//     // Create an instance on TransliterationControl with the required
+//     // options.
+//     var control =
+//     this.google.elements.transliteration.TransliterationControl(options);
+//     // Enable transliteration in the textfields with the given ids.
+//     var ids = [ "language" ];
+//     control.makeTransliteratable(ids);
+//     // Show the transliteration control which can be used to toggle between
+//     // English and Hindi and also choose other destination language.
+//     control.showControl('translControl');
+// }
 
   getRecordList(page, size) {  
 
@@ -175,3 +196,7 @@ export class LifeeventtblComponent implements OnInit {
 
 
 }
+// System.import('http://www.google.com/jsapi')
+//     .then(MyModule => {
+//        debugger;
+//     });

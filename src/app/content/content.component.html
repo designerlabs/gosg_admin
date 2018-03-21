@@ -59,7 +59,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" tabindex="3">
+            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" required tabindex="3">
             <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
               Title is required
             </mat-error>
