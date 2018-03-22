@@ -26,6 +26,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../../dialogs/dialogs.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-inboxtbl',
@@ -40,7 +41,7 @@ export class InboxtblComponent implements OnInit {
   updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['no', 'subject', 'content', 'sender', 'insertDate', 'action'];
+  displayedColumns = ['no', 'subject', 'content', 'sender', 'to', 'insertDate', 'action'];
   // displayedColumns = ['no', 'subject', 'content', 'sender', 'to', 'insertDate', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
@@ -150,13 +151,13 @@ export class InboxtblComponent implements OnInit {
     });
   }
 
-  getFilterList(count, size, val) {
+  getFilterList(count, size, keyword) {
 
     this.recordList = null;
   
-    if(val != "" && val != null && val.length != null && val.length >= 3) {
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readPortal('inbox', count, size, val)
+      this.commonservice.readProtected('inbox', count, size, keyword)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;

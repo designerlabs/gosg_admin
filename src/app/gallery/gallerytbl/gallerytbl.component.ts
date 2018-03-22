@@ -111,7 +111,7 @@ export class GallerytblComponent implements OnInit {
 
     // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
-    this.commonservice.readProtected('gallery/creator/39',page, size).subscribe(
+    this.commonservice.readProtected('gallery/39',page, size).subscribe(
       data => {
         
           this.commonservice.errorHandling(data, (function(){
@@ -150,7 +150,7 @@ export class GallerytblComponent implements OnInit {
 
       this.loading = true;
 
-      this.commonservice.readProtected('gallery/creator/search/39',page, size, keyword).subscribe(
+      this.commonservice.readProtected('gallery/search/39',page, size, keyword).subscribe(
         data => {
           
             this.commonservice.errorHandling(data, (function(){
@@ -221,7 +221,7 @@ export class GallerytblComponent implements OnInit {
   deleteItem(refcode) {
 
     this.loading = true;      
-    this.commonservice.delete(refcode, 'gallery/creator/delete/').subscribe(
+    this.commonservice.delete(refcode, 'gallery/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

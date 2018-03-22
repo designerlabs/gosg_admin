@@ -15,10 +15,10 @@
     </div>
     
     <div class="col-md-2 curdHeadingRight">
-        <span class="pull-right">
+        <!-- <span class="pull-right">
             <button type="button" mat-fab color="warn" (click)="addBtn()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
               <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
-        </span>
+        </span> -->
     </div> 
 </div>
 
@@ -50,14 +50,19 @@
 
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitle">
-        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.category' | translate }} </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[0]?.contentTitle}}</mat-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.category' | translate }} </mat-header-cell>        
+        <mat-cell *matCellDef="let element"> {{element.list[0]?.contentTitle | truncate:[30, '...']}}</mat-cell>
       </ng-container>
+
+      <!-- <ng-container matColumnDef="slideTitle" *ngIf="element.list[0]?.contentTitle == ''">
+        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.category' | translate }} </mat-header-cell>        
+        <mat-cell *matCellDef="let element"> {{element.list[0]?.contentTitle }}</mat-cell>
+      </ng-container> -->
 
       <!-- slideDescription Column {{element.list[1]?.contentTitle | truncate:[30, '...']}}-->
       <ng-container matColumnDef="sliderDescription">
         <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.titleEn' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.list[1]?.contentTitle }} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.list[1]?.contentTitle | truncate:[30, '...']}} </mat-cell>
       </ng-container>
 
       <!-- slideActiveFlag Column -->
@@ -74,9 +79,9 @@
       <ng-container matColumnDef="slideDraft">
         <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'publisher.tableHeader.statusdraft' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element" class="statusColumn">
-            <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
-            <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>
-            <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Draft" [disabled]="true"></button>
+            <button *ngIf="element.list[0].isApproverDraftFlag == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Send for Apporval" [disabled]="true"></button>
+            <button *ngIf="element.list[0].isApproverDraftFlag == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Draft" [disabled]="true"></button>
+            <button *ngIf="element.list[0].isApproverDraftFlag == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Draft" [disabled]="true"></button>
         </mat-cell>
       </ng-container>
       
@@ -85,13 +90,17 @@
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
-              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+              <i *ngIf="commonservice.isUpdate && element.list[0].isApprovedFlag == false" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
+              <i *ngIf="!commonservice.isUpdate || element.list[0].isApprovedFlag == true" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" 
-            title="Delete {{ element.refCode }}" [disabled]="element.list[0].isSendForApproval == true">
-              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode }}"></i>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isApprovedFlag == false" 
+            (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
+              <i [ngClass]="commonservice.icon.trash"></i>
+            </button>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
+            [disabled]="element.list[0].isApprovedFlag == true">
+              <i [ngClass]="commonservice.icon.trash"></i>
             </button>
             <app-confirm-dialog  #deleteRow 
             [title]="'common.icon.warn'" 

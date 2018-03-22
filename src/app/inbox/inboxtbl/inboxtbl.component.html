@@ -27,7 +27,7 @@
       <div class="example-container mat-elevation-z8">
           <div class="col-md-12 paddingTop-10">
               <mat-form-field>
-                  <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                  <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywordsBySubject' | translate }}">
                   <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
                       <mat-icon>close</mat-icon>
                   </button>
@@ -63,17 +63,17 @@
                 </mat-cell>
               </ng-container>
 
-              <!-- <ng-container matColumnDef="to">
+              <ng-container matColumnDef="to">
                 <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inbox.tableHeader.to' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" *matCellDef="let element">
-                    {{element.list.sender.fullName}}
+                    Broadcast
                 </mat-cell>
-              </ng-container> -->
+              </ng-container>
 
               <ng-container matColumnDef="insertDate">
                 <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inbox.tableHeader.insertDate' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" *matCellDef="let element">
-                    {{element.submissionDate}}
+                    {{element.submissionDate | date:'yyyy-MM-dd HH:mm a'}}
                 </mat-cell>
               </ng-container>
 
