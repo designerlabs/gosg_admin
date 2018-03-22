@@ -603,6 +603,22 @@
       "inboxList": "peti masuk"
     }
   },
+  "inboxsent": {
+    "name":"Peti Masuk Dihantar",
+    "nameAdd":"Tambah Peti Masuk Dihantar",
+    "header": "Senarai Peti Masuk Dihantar",
+    "tableHeader":{
+      "subject": "Subjek",
+      "content": "Kandungan",
+      "sender": "Penghantar",
+      "to": "Kepada",
+      "insertDate": "Tarikh Masuk",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "peti masuk dihantar"
+    }
+  },
   "feedbacktbl": {
     "header": "Senarai Maklum Balas Admin",
     "tableHeader":{

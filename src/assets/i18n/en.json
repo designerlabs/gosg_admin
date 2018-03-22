@@ -603,6 +603,22 @@
       "inboxList": "inbox"
     }
   },
+  "inboxsent": {
+    "name":"Inbox Sent",
+    "nameAdd":"Add Inbox Sent",
+    "header": "Inbox Sent List",
+    "tableHeader":{
+      "subject": "Subject",
+      "content": "Content",
+      "sender": "Sender",
+      "to": "To",
+      "insertDate": "Insert Date",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "inbox sent"
+    }
+  },
   "feedbacktbl": {
     "header": "Feedback Admin List",
     "tableHeader":{
