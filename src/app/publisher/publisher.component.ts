@@ -24,7 +24,7 @@ export class PublisherComponent implements OnInit {
   enddt: number;
   minDate: any;
 
-  sliderData: Object;
+  publisherData: Object;
   dataUrl: any;
   date = new Date();
   updateForm: FormGroup
@@ -32,9 +32,9 @@ export class PublisherComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-  sliderCode: any;
-  sliderIdEn: any;
-  sliderIdBm: any;
+  publisherCode: any;
+  publisherIdEn: any;
+  publisherIdBm: any;
 
   isRead: boolean;
   isCreate: boolean;
@@ -52,7 +52,6 @@ export class PublisherComponent implements OnInit {
   imgEn: FormControl
   imgBm: FormControl
   active: FormControl
-  copyImg: FormControl
   urlEng: FormControl
   urlMy: FormControl
   seqEng: FormControl
@@ -69,8 +68,9 @@ export class PublisherComponent implements OnInit {
   mediaPath = 'images';
 
   sendForApporval: boolean;
-
   refCode = "";
+
+  categoryCode: any;
 
   constructor(
     private http: HttpClient,
@@ -124,7 +124,6 @@ export class PublisherComponent implements OnInit {
     this.urlEng = new FormControl();
     this.urlMy = new FormControl();
     this.active = new FormControl();
-    this.copyImg = new FormControl();
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
 
@@ -142,7 +141,6 @@ export class PublisherComponent implements OnInit {
       descBm: this.descBm,
       imgBm: this.imgBm,
       active: this.active,
-      copyImg: this.copyImg,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
     });
@@ -173,7 +171,7 @@ export class PublisherComponent implements OnInit {
     this.router.navigate(['publisher']);
   }
 
-  getMediaTypes(){
+  getMediaTypes(){ // data for media type
     this.loading = true;
     return this.commonservice.readProtected('mediatype')
       .subscribe(resCatData => {
@@ -269,47 +267,49 @@ export class PublisherComponent implements OnInit {
   getRow(row) {
 
     this.loading = true;
-    // Update Slider Service
+    
     return this.commonservice.readProtectedById('content/creator/', row).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
 
-          this.sliderData = Rdata;
-          console.log(this.sliderData)
-          let dataEn = this.sliderData['list'][0];
-          let dataBm = this.sliderData['list'][1];
+          this.publisherData = Rdata;
+          console.log(this.publisherData)
+          let dataEn = this.publisherData['list'][0];
+          let dataBm = this.publisherData['list'][1];
 
           // populate data
-          this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
-          this.updateForm.get('descEn').setValue(dataEn.contentDescription);
+          // this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
+          // this.updateForm.get('descEn').setValue(dataEn.contentDescription);
          
-          this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
-          this.updateForm.get('descBm').setValue(dataBm.contentDescription);
+          // this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
+          // this.updateForm.get('descBm').setValue(dataBm.contentDescription);
           
-          this.updateForm.get('active').setValue(dataEn.isActiveFlag);
-          this.updateForm.get('urlEng').setValue(dataEn.contentUrl);
-          this.updateForm.get('urlMy').setValue(dataBm.contentUrl);
-          this.updateForm.get('seqEng').setValue(dataEn.contentSort);
-          this.updateForm.get('seqMy').setValue(dataBm.contentSort);
+          // this.updateForm.get('urlEng').setValue(dataEn.contentUrl);
+          // this.updateForm.get('urlMy').setValue(dataBm.contentUrl);
+          // this.updateForm.get('seqEng').setValue(dataEn.contentSort);
+          // this.updateForm.get('seqMy').setValue(dataBm.contentSort);
 
-          if(dataEn.contentImage != null){
-            this.selectedFileEn = dataEn.contentImage.mediaFile;
-            this.selectedFileMy = dataBm.contentImage.mediaFile;
+          // this.updateForm.get('active').setValue(dataEn.isActiveFlag);
 
-            this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
-            this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
-          }
+          // if(dataEn.contentImage != null){
+          //   this.selectedFileEn = dataEn.contentImage.mediaFile;
+          //   this.selectedFileMy = dataBm.contentImage.mediaFile;
+
+          //   this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
+          //   this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
+          // }
           console.log("******************UPDATE*****************************");
           console.log("EN: "+this.selectedFileEn+ " BM: "+this.selectedFileMy);
 
 
-          this.sliderCode = this.sliderData.refCode;
-          this.sliderIdEn = dataEn.contentId;
-          this.sliderIdBm = dataBm.contentId;
-          this.sendForApporval = dataEn.isSendForApproval;
+          // this.publisherCode = this.publisherData.refCode;
+          // this.publisherIdEn = dataEn.contentId;
+          // this.publisherIdBm = dataBm.contentId;
+          // this.sendForApporval = dataEn.isSendForApproval;
 
           //this.isSameImg(dataEn.sliderImage, dataBm.sliderImage);
+          this.categoryCode = 39;
 
           this.checkReqValues();
 
@@ -462,7 +462,7 @@ export class PublisherComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -481,7 +481,7 @@ export class PublisherComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -575,7 +575,7 @@ export class PublisherComponent implements OnInit {
       ];
 
       body[0].contentCategoryId = 15;
-      body[0].contents[0].sliderId = this.sliderIdEn;
+      body[0].contents[0].sliderId = this.publisherIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
       body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
@@ -585,7 +585,7 @@ export class PublisherComponent implements OnInit {
       body[0].contents[0].language.languageId = 1;
 
       body[1].contentCategoryId = 16;
-      body[1].contents[0].sliderId = this.sliderIdBm;
+      body[1].contents[0].sliderId = this.publisherIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
       body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
@@ -631,7 +631,7 @@ export class PublisherComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -650,7 +650,7 @@ export class PublisherComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -709,13 +709,13 @@ export class PublisherComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-              "sliderId":  this.sliderIdEn,
+              "sliderId":  this.publisherIdEn,
               "sliderTitle": null,
               "sliderDescription": null,
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -729,13 +729,13 @@ export class PublisherComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-              "sliderId":  this.sliderIdBm,
+              "sliderId":  this.publisherIdBm,
               "sliderTitle": null,
               "sliderDescription": null,
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,

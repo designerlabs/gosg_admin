@@ -106,7 +106,8 @@
           <div class="col-md-12">&nbsp;</div>
         </div>  
      
-        <div class="row">
+        <!-- Start Only for Slider -->   
+        <div class="row" *ngIf="categoryCode == 4">
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
                   <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100">                  
@@ -119,8 +120,11 @@
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
+        <!-- End Only for Slider --> 
 
-        <div class="row">    
+
+        <!-- Start Only for Gallery --> 
+        <div class="row" *ngIf="categoryCode == 39">    
           <div class="col-md-6">
               <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
               <mat-form-field class="example-full-width">
@@ -147,8 +151,10 @@
               </mat-form-field>
           </div>
         </div>
+        <!-- End Only for Gallery --> 
 
-        <div class="row">
+        <!-- Start Only for Gallery -->        
+        <div class="row" *ngIf="categoryCode == 39">
           <div class="col-md-12">
               <label class="font-size-s">Media Type</label>
               <mat-form-field class="example-full-width">
@@ -162,8 +168,10 @@
               </mat-form-field>
           </div>
         </div>
+        <!-- End Only for Gallery -->
 
-        <div class="row">
+        <!-- Start Only for Slider & Gallery --> 
+        <div class="row" *ngIf="categoryCode == 4 || categoryCode == 39"> 
             <div class="col-md-6" *ngIf="fileData.length>0">
               <mat-form-field class="example-full-width">
                   <mat-select formControlName="imgEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
@@ -228,6 +236,7 @@
                 </div>
               </div>  
         </div><br>
+        <!-- End Only for Slider & Gallery --> 
 
         <div class="row">
           <div class="col-md-6">
