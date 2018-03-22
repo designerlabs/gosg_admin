@@ -170,8 +170,8 @@ export class InboxComponent implements OnInit {
       let body = 
         {
           "subject": null,
-          "content": null,
-          "placeholder": "testing"
+          "content": null
+          // "placeholder": "testing"
         }
         
  

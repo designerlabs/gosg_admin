@@ -290,7 +290,8 @@
       "isrequired": "diperlukan"
     },
     "placeholder": {
-      "keywords": "Kata Kunci"
+      "keywords": "Kata Kunci",
+      "keywordsBySubject": "Kata Kunci Subjek"
     },
     "filterby": {
       "filterby": "Tapisan Mengikut",
