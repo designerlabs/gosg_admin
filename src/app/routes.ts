@@ -244,7 +244,6 @@ export const appRoutes: Routes = [
 
 {path: 'publisher', component: PublishertblComponent},
 {path: 'publisher/:id', component: PublisherComponent},
-{path: 'publisher/add', component: PublisherComponent},
 
 {path: '**', component: ErrorComponent}, // put at the last row
 // All Category

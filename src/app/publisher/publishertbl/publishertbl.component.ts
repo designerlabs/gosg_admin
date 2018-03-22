@@ -109,7 +109,7 @@ export class PublishertblComponent implements OnInit {
   getSlidersData(page, size) {
     
     this.loading = true;
-    this.commonservice.readProtected('slider/creator/4',page, size).subscribe(
+    this.commonservice.readProtected('content/publisher',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -147,7 +147,7 @@ export class PublishertblComponent implements OnInit {
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('slider/creator/search/4',page, size, keyword).subscribe(
+      this.commonservice.readProtected('slider/search/4',page, size, keyword).subscribe(
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
@@ -206,10 +206,10 @@ export class PublishertblComponent implements OnInit {
     this.noPrevData = true;
   }
 
-  addBtn() {
-    this.commonservice.pageModeChange(false);
-    this.router.navigate(['publisher', "add"]);
-  }
+  // addBtn() {
+  //   this.commonservice.pageModeChange(false);
+  //   this.router.navigate(['publisher', "add"]);
+  // }
   
   updateRow(row) {
     this.commonservice.pageModeChange(true);
@@ -219,7 +219,7 @@ export class PublishertblComponent implements OnInit {
   deleteItem(refcode) {
     debugger;
     this.loading = true;
-      this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
+      this.commonservice.delete(refcode, 'slider/delete/').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

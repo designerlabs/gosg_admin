@@ -161,15 +161,15 @@ export class SliderComponent implements OnInit {
 
     this.loading = true;
     // Update Slider Service
-    return this.commonservice.readProtectedById('content/creator/', row).subscribe(
+    return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.sliderData = Rdata;
           console.log(this.sliderData)
-          let dataEn = this.sliderData['list'][0];
-          let dataBm = this.sliderData['list'][1];
+          let dataEn = this.sliderData['contentDetailList'][0];
+          let dataBm = this.sliderData['contentDetailList'][1];
 
           // populate data
           this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
@@ -418,7 +418,7 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.create(body, 'slider/creator/draft').subscribe(
+      this.commonservice.create(body, 'slider/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
@@ -501,7 +501,7 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Update Slider Service
-      this.commonservice.update(body, 'slider/creator/draft').subscribe(
+      this.commonservice.update(body, 'slider/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
@@ -587,7 +587,7 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.create(body, 'slider/creator').subscribe(
+      this.commonservice.create(body, 'slider').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
@@ -672,7 +672,7 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.update(body, 'slider/creator').subscribe(
+      this.commonservice.update(body, 'slider').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 

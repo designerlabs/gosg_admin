@@ -17,6 +17,8 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./lifeevent.component.css']
 })
 export class LifeeventComponent implements OnInit {
+  parseEnBtn: boolean;
+  parseMyBtn: boolean;
 
   updateForm: FormGroup;
   
@@ -29,6 +31,10 @@ export class LifeeventComponent implements OnInit {
   public catEn: FormControl;
   public catBm: FormControl;
   public active: FormControl;
+  public seqEng: FormControl;
+  public seqMy: FormControl;
+  public contentTxtEn: FormControl;
+  public contentTxtMy: FormControl;
   public htmlContentEn: FormControl;
   public htmlContentMy: FormControl;
   itemEn: any;
@@ -123,6 +129,8 @@ export class LifeeventComponent implements OnInit {
   
 
   ngOnInit() {  
+    this.parseEnBtn = false;
+    this.parseMyBtn = false;
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
     this.ismainmenu = new FormControl();
@@ -135,6 +143,8 @@ export class LifeeventComponent implements OnInit {
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
     this.descBm = new FormControl();
+    this.seqEng = new FormControl();
+    this.seqMy = new FormControl();
     this.imgEn = new FormControl();
     this.imgBm = new FormControl();
     this.catEn = new FormControl();
@@ -149,6 +159,8 @@ export class LifeeventComponent implements OnInit {
       titleBm: this.titleBm,
       descEn: this.descEn,    
       descBm: this.descBm,
+      seqEng: this.seqEng,
+      seqMy: this.seqMy,
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       ismainmenu: this.ismainmenu,
@@ -179,6 +191,8 @@ export class LifeeventComponent implements OnInit {
       this.getData();
     }
     this.commonservice.getModuleId();
+
+    console.log(this.htmlContentEn.value);
   }
 
 
@@ -269,8 +283,12 @@ export class LifeeventComponent implements OnInit {
           config.width = '800px';
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
-          dialogRef.componentInstance.content = resCatData.formattedHtml;
-          
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-l">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-m">');
+          dialogRef.componentInstance.content = addClassforH2;
+          this.contentTxtEn = dialogRef.componentInstance.content;
+          this.parseEnBtn = true;
       }).bind(this));
         this.loading = false;
       },
@@ -281,7 +299,29 @@ export class LifeeventComponent implements OnInit {
         });
   }
   previewMy(){
-    console.log();
+    this.loading = true;
+    return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () { 
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-l">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-m">');
+          dialogRef.componentInstance.content = addClassforH2;
+          this.parseMyBtn = true;
+          this.contentTxtMy = dialogRef.componentInstance.content;
+
+      }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
   }
 
   getCategory(){
@@ -410,6 +450,8 @@ export class LifeeventComponent implements OnInit {
         this.updateForm.get('titleBm').setValue(this.recordList[1].accountStatusDescription);   
         this.updateForm.get('descEn').setValue(this.recordList[0].accountStatusDescription);
         this.updateForm.get('descBm').setValue(this.recordList[1].accountStatusDescription);  
+        this.updateForm.get('seqEng').setValue(this.recordList[0].accountStatusDescription);
+        this.updateForm.get('seqMy').setValue(this.recordList[1].accountStatusDescription);
         this.updateForm.get('parents').setValue(this.recordList[0].enabled);    
         this.updateForm.get('active').setValue(this.recordList[0].enabled);      
         this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
@@ -428,36 +470,73 @@ export class LifeeventComponent implements OnInit {
   submit(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
     let txt = "";
+    let parentValEn: any;
+    let parentValBm: any;
 
     // add form
     if(this.urlEdit === 'add'){
 
       let body = [
         {
-        
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
               "languageId": 1
-          }
-        },{
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
-              "languageId": 2
-          }
-        }
-      ]    
+              }
+            }]
+          },
+          {
+            "contentCategoryId": null,
+            "contents": [
+              {
+              "lifeEventTitle": null,
+              "lifeEventText": null,
+              "lifeEventDescription": null,
+              "lifeEventSort": null,
+              "lifeEventUrl": null,
+              "language": {
+                "languageId": 2
+                }
+              }]
+            }
+          ];    
 
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      console.log("TEST")
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+    }
+
+    else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+    }
+
       console.log(JSON.stringify(body))
      
-      this.commonservice.create(body, 'accountstatus').subscribe(
+      this.commonservice.create(body, 'life/event/draft').subscribe(
         data => {         
           
           let errMsg = data.statusCode.toLowerCase();
@@ -545,6 +624,14 @@ export class LifeeventComponent implements OnInit {
     }
   }
 
+  parseChkEn(e){
+    this.parseEnBtn = false;
+  }
+
+  parseChkMy(e){
+    this.parseMyBtn = false;
+  }
+
   checkReqValues() {
 
     let reqVal:any = ["titleEn", "titleBm", "descEn", "descBm"];
@@ -564,6 +651,31 @@ export class LifeeventComponent implements OnInit {
     } else {
       this.complete = true;
     }
+  }
+
+  copyValue(type) {
+    let elemOne = this.updateForm.get('seqEng');
+    let elemTwo = this.updateForm.get('seqMy');
+
+    if (type == 1)
+      elemTwo.setValue(elemOne.value)
+    else
+      elemOne.setValue(elemTwo.value)
+
+    this.stripspaces(elemOne)
+    this.stripspaces(elemTwo)
+
+  }
+  stripspaces(input) {
+    if (input.value != null) {
+      let word = input.value.toString();
+      input.value = word.replace(/\s/gi, "");
+      return true;
+    }
+    else {
+      return false;
+    }
+
   }
 
   changePlaceHolder(){
@@ -590,14 +702,15 @@ export class LifeeventComponent implements OnInit {
 
 @Component({
   selector: 'dialog-result-example-dialog',
+  styleUrls: ['./lifeevent.component.css'],
   template: `
-<div mat-dialog-content>
-  <div [innerHTML]="content"></div>
-</div>
-<div mat-dialog-actions>
-<button mat-button (click)="dialogRef.close()">
-Cancel
-</button>
+  <div class="dialogCloseBtn">
+    <button mat-fab color="warn" (click)="dialogRef.close()"><i class="fa fa-times"></i></button>
+  </div>
+  
+  <div mat-dialog-content>
+  <div [innerHTML]="content">
+  </div>
 </div>
   `,
 })

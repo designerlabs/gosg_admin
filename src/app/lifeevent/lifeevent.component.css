@@ -17,3 +17,10 @@
 .example-full-width {
     width: 100%;
 }
+
+.dialogCloseBtn{
+    float: right;
+    bottom: 20px;
+    position: relative;
+    right: -20px;
+}

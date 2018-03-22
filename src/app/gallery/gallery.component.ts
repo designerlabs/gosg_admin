@@ -187,15 +187,15 @@ export class GalleryComponent implements OnInit {
     // Update gallery Service
     // return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
-    return this.commonservice.readProtectedById('content/creator/', row).subscribe(
+    return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
       Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function () {
           this.galleryData = Rdata;
           console.log(this.galleryData);
           
-          let dataEn = this.galleryData['list'][0];
-          let dataBm = this.galleryData['list'][1];
+          let dataEn = this.galleryData['contentDetailList'][0];
+          let dataBm = this.galleryData['contentDetailList'][1];
           this.getFileList(parseInt(dataEn.contentImage.mediaTypeId)); 
           // populate data
           this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
@@ -546,7 +546,7 @@ export class GalleryComponent implements OnInit {
 
 
       // Add gallery Service
-      this.commonservice.create(body, 'gallery/creator').subscribe(
+      this.commonservice.create(body, 'gallery').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), '');
@@ -633,7 +633,7 @@ export class GalleryComponent implements OnInit {
       console.log(body);
       // Update gallery Service
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-        this.commonservice.update(body, 'gallery/creator').subscribe(
+        this.commonservice.update(body, 'gallery').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), '');
@@ -718,7 +718,7 @@ export class GalleryComponent implements OnInit {
 
 
       // Add gallery Service
-      this.commonservice.create(body, 'gallery/creator/draft').subscribe(
+      this.commonservice.create(body, 'gallery/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
@@ -805,7 +805,7 @@ export class GalleryComponent implements OnInit {
       console.log(body);
       // Update gallery Service
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-        this.commonservice.update(body, 'gallery/creator/draft').subscribe(
+        this.commonservice.update(body, 'gallery/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
