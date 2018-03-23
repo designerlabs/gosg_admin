@@ -147,7 +147,7 @@ export class PublishertblComponent implements OnInit {
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('slider/search/4',page, size, keyword).subscribe(
+      this.commonservice.readProtected('content/publisher/search',page, size, keyword).subscribe(
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){

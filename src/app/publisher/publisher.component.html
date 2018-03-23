@@ -32,16 +32,16 @@
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-1">
-              <span>Email</span>
+              <span class="bold">Email</span>
           </div>
           <div class="col-md-11">
-              <span>>> noraini.ghani@mimos.my</span>
+              <span>>> {{email}} ({{fullName}})</span>
           </div>
           <div class="col-md-1">
-              <span>Category</span>
+              <span class="bold">Category</span>
           </div>
           <div class="col-md-11">
-              <span>>> {{categoryName}} : {{categoryCode}} File data {{fileData.length}} {{imgEn.value}} {{mediaPath}}</span>
+              <span>>> {{categoryName}} </span>
           </div>
         </div>
 
@@ -101,8 +101,6 @@
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
             </mat-form-field>
           </div>
-          
-          <div class="col-md-12">&nbsp;</div>
         </div>  
      
         <!-- Start Only for Slider -->   
@@ -195,6 +193,7 @@
               <div *ngIf="imgEn.value != null && mediaPath == 'images'">
                 <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFileEn" style="width:200px">
               </div> 
+              <br>
             </div>
 
             <div class="col-md-6">
@@ -221,10 +220,9 @@
               <div *ngIf="imgEn.value != null && mediaPath == 'images'"> 
                 <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFileMy" style="width:200px">
               </div>
-            </div>  
-
-            
-        </div><br>
+              <br>
+            </div>              
+        </div>
         <!-- End Only for Slider & Gallery --> 
 
         <div class="row">

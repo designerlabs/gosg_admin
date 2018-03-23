@@ -66,5 +66,9 @@
     cursor: pointer;
     text-decoration: none
     }
+
+    .bold{
+        font-weight: bold;
+    }
     
     
