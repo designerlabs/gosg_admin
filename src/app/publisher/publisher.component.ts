@@ -76,6 +76,10 @@ export class PublisherComponent implements OnInit {
   appPublisher = false;
 
   disableApprove: any;
+  userDetails: any;
+  createdBy: any;
+  fullName: any;
+  email: any;
 
   constructor(
     private http: HttpClient,
@@ -249,6 +253,32 @@ export class PublisherComponent implements OnInit {
       });
   }
 
+  getUserInfo(id) {
+   
+    console.log(id);
+    this.loading = true;
+    return this.commonservice.readProtected('usermanagement/' + id)
+      .subscribe(resUser => {
+
+        this.commonservice.errorHandling(resUser, (function () {
+          
+            this.userDetails = resUser["user"];
+            console.log("##############################");
+            console.log(this.userDetails);
+
+            this.fullName = this.userDetails.fullName;
+            this.email = this.userDetails.email;
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
   getMinEventDate(){
     let today = new Date();
     let todaysdt = today.getDate();
@@ -311,12 +341,15 @@ export class PublisherComponent implements OnInit {
           this.categoryCode = dataEn.contentCategories[0].categoryCode;
           this.categoryName = dataEn.contentCategories[0].categoryName;
 
+          this.createdBy = dataEn.createdBy;
+          this.getUserInfo(this.createdBy);
+
+          //get list of images if slider
           if(this.categoryCode === 4){
-          
-            //this.mediaPath = "images";
             this.getImageList();
           }
 
+          //get list of images if besides slider
           else{
             this.getFileList(dataEn.contentImage.mediaTypeId);
           }
@@ -347,6 +380,7 @@ export class PublisherComponent implements OnInit {
           this.publisherIdBm = dataBm.contentId;
           this.sendForApporval = dataEn.isSendForApproval;          
 
+          //get path
           if(dataEn.contentImage.mediaTypeId === 1){
             this.mediaPath = "documents";
           }else if(dataEn.contentImage.mediaTypeId === 2){
