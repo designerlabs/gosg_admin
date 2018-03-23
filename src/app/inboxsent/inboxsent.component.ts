@@ -54,6 +54,15 @@ export class InboxsentComponent implements OnInit {
   showEmail: boolean;
   searchUserResult: Object;
   checkStatus: any;
+  isActive: boolean;
+  isActiveList: boolean;
+  userId: any;
+
+  public emailList: any;
+  public emailData: any;
+  public emailKeyword: any;
+  idArr = [];
+
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
@@ -86,11 +95,17 @@ export class InboxsentComponent implements OnInit {
     this.emailFld = new FormControl();
     this.subject = new FormControl();
     this.content = new FormControl();
+    this.emailList = new FormControl();
+    this.emailKeyword = new FormControl();
+    this.isActive = true;
+    this.isActiveList = false;
 
     this.updateForm = new FormGroup({   
       emailFld: this.emailFld,
       subject: this.subject,
       content: this.content,
+      emailList: this.emailList,
+      emailKeyword: this.emailKeyword,
     });     
     
     this.urlEdit = this.router.url.split('/')[2];
@@ -112,28 +127,83 @@ export class InboxsentComponent implements OnInit {
     }
   }
 
-  getSearchData(findby,type,keyword){
-    // this.isActive = true;
-    // this.isActiveList = true;
+  getEmailList(e){
+    console.log(e);
+    if(e != "" && e != null && e.length != null && e.length >= 3) {
+    this.loading = true;
+    return this.http.get(this.appConfig.urlAdminUserFind+'/findByEmail?email='+e)
+     .subscribe(resCatData => {
+        this.emailData = resCatData['userList'];   
+        this.loading = false;    
+      },
+      Error => {
+        this.loading = false;  
+        console.log('Error in Footer');
+     });
+    }
+  }
+
+  
+
+  getSearchData(keyword){
+    this.isActive = true;
+    this.isActiveList = true;
+    this.loading = true;
     if(!keyword.value){
       keyword == '-';
     }
-    this.loading = true;
-    this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
+    if(keyword.value != null){
+      var splitArr = keyword.value.split("; ");
+      var newKeyword = splitArr[splitArr.length-1];
+      // var str = keyword.value;     
+      // var n = str.indexOf(";");
+      // var str2 = str.substring(n+2, str.length);
 
-      this.commonservice.errorHandling(data, (function(){
-        
-        this.searchUserResult = data['userList'];
-        this.checkStatus = data['statusCode'];
+      this.http.get(this.appConfig.urlAdminUserFind+'/findByEmail?email='+newKeyword).subscribe(data => {
 
-      }).bind(this));
+        this.commonservice.errorHandling(data, (function(){
+          
+          this.searchUserResult = data['userList'];
+          this.checkStatus = data['statusCode'];
+  
+        }).bind(this));
+  
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');     
+        this.loading = false;     
+      });
+    }
+    
+  }
 
-      this.loading = false;
-    },
-    error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');     
-      this.loading = false;     
-    });
+  getValue(type, val, usrId){
+    // console.log(e);
+    event.preventDefault();
+    this.userId = usrId;
+    this.isActive = false;
+    this.isActiveList = false;
+    this.searchUserResult = [''];
+    // if(val !=null){
+    //   val = "";
+    // }
+    var joinText = "";
+    var splitArr2 = this.emailFld.value.split("; ");
+    for(var i=0; i<splitArr2.length-1; i++){
+        joinText += splitArr2[i] + "; ";
+    }
+
+    let valAll = joinText + val + '; ';
+    // let valAll = val + '; ';
+    // let idArr = [];
+    this.idArr.push(usrId);
+
+    if(type == 'email'){
+      this.updateForm.get('emailFld').setValue(valAll);
+    }else{
+      this.updateForm.get('icFld').setValue(val);
+    }
   }
 
   getData() {
@@ -178,13 +248,13 @@ export class InboxsentComponent implements OnInit {
         {
           "subject": null,
           "content": null,
-          // "toUser": []
+          "toUser": null
         }
         
  
       body.subject = formValues.subject;
       body.content = formValues.content;
-      // body.toUser = formValues.;
+      body.toUser = this.idArr;
 
 
       console.log(body);
@@ -223,6 +293,8 @@ export class InboxsentComponent implements OnInit {
 
     let reqVal:any = ["subject", "content", ""];
     let nullPointers:any = [];
+    this.isActive = true;
+    this.isActiveList = false;
     this.showEmail = true;
     this.searchUserResult = [''];
 
