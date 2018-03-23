@@ -50,7 +50,7 @@
 
       <!-- slideTitle Column -->
       <ng-container matColumnDef="slideTitle">
-        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.category' | translate }} </mat-header-cell>        
+        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.titleEn' | translate }} </mat-header-cell>        
         <mat-cell *matCellDef="let element"> {{element.list[0]?.contentTitle | truncate:[30, '...']}}</mat-cell>
       </ng-container>
 
@@ -61,7 +61,7 @@
 
       <!-- slideDescription Column {{element.list[1]?.contentTitle | truncate:[30, '...']}}-->
       <ng-container matColumnDef="sliderDescription">
-        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.titleEn' | translate }}</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'publisher.tableHeader.titleBm' | translate }}</mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.list[1]?.contentTitle | truncate:[30, '...']}} </mat-cell>
       </ng-container>
 
