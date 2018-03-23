@@ -284,9 +284,13 @@ export class LifeeventComponent implements OnInit {
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
-          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-l">');
-          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-m">');
-          dialogRef.componentInstance.content = addClassforH2;
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+
+          dialogRef.componentInstance.content = addClassforSpan;
           this.contentTxtEn = dialogRef.componentInstance.content;
           this.parseEnBtn = true;
       }).bind(this));
