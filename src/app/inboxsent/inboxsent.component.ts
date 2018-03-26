@@ -25,6 +25,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../dialogs/dialogs.service';
+import { HtmlParser } from '@angular/compiler';
 
 @Component({
   selector: 'app-inboxsent',
@@ -181,6 +182,7 @@ export class InboxsentComponent implements OnInit {
   getValue(type, val, usrId){
     // console.log(e);
     event.preventDefault();
+    var el = `<a href="#" onClick="alert(test delete);">[X]</a>`;
     this.userId = usrId;
     this.isActive = false;
     this.isActiveList = false;
@@ -191,10 +193,10 @@ export class InboxsentComponent implements OnInit {
     var joinText = "";
     var splitArr2 = this.emailFld.value.split("; ");
     for(var i=0; i<splitArr2.length-1; i++){
-        joinText += splitArr2[i] + "; ";
+        joinText += splitArr2[i] +"; ";
     }
 
-    let valAll = joinText + val + '; ';
+    let valAll = joinText + val + el + '; ';
     // let valAll = val + '; ';
     // let idArr = [];
     this.idArr.push(usrId);
