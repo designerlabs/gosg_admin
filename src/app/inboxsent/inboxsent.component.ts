@@ -291,7 +291,7 @@ export class InboxsentComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["subject", "content", ""];
+    let reqVal:any = ["subject", "content", "emailFld"];
     let nullPointers:any = [];
     this.isActive = true;
     this.isActiveList = false;
