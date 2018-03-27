@@ -295,17 +295,18 @@ export class LifeeventComponent implements OnInit {
 
           for(let i=0; i<this.categoryData.length; i++){     
             
-            for(let x=0; x<arrCode.length; x++){
+          //  for(let x=0; x<arrCode.length; x++){
+    
 
-              if(this.categoryData[i].list.length === 2 && this.categoryData[i].refCode == arrCode[x]){
+              if(this.categoryData[i].list.length === 2){
                 arrCatEn.push({
                   
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[0].categoryId,
                       refCode: this.categoryData[i].refCode,
-                      parent: this.categoryData[i].list[0].parentId.categoryId,
-                      parentEn: this.categoryData[i].list[0].parentId.categoryId,
-                      parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                      parent: this.categoryData[i].list[0].parentId,
+                      parentEn: this.categoryData[i].list[0].parentId,
+                      parentBm: this.categoryData[i].list[1].parentId,
                       // categoryName: this.categoryData[i].list[0].categoryName,
                       text: this.categoryData[i].list[0].categoryName,
                       checked: false,
@@ -315,9 +316,9 @@ export class LifeeventComponent implements OnInit {
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[1].categoryId,
                       refCode: this.categoryData[i].refCode,
-                      parent: this.categoryData[i].list[1].parentId.categoryId,
-                      parentEn: this.categoryData[i].list[0].parentId.categoryId,
-                      parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                      parent: this.categoryData[i].list[1].parentId,
+                      parentEn: this.categoryData[i].list[0].parentId,
+                      parentBm: this.categoryData[i].list[1].parentId,
                       // categoryName: this.categoryData[i].list[1].categoryName,
                       checked: false,
                       text: this.categoryData[i].list[1].categoryName,
@@ -325,7 +326,7 @@ export class LifeeventComponent implements OnInit {
                     
               }
 
-            }
+          //  }
 
           }
           
@@ -358,6 +359,7 @@ export class LifeeventComponent implements OnInit {
 
     for(var i in arr) {
     
+      debugger;
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenEn(arr, arr[i].value)
 
