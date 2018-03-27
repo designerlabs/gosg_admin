@@ -22,8 +22,9 @@
         <div class="example-container mat-elevation-z8">
             
             <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+                <br>
                 <div class="example-header">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
                         <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                         [items]="itemEn"
                         textField ="text"
@@ -71,7 +72,7 @@
 
                 <!-- Default Column -->
                 <ng-container matColumnDef="default_status">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.category' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.defaultFont == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
                         <i *ngIf="element.defaultFont == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
@@ -80,7 +81,7 @@
             
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
                         <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
                         <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>

@@ -26,8 +26,6 @@ export class LifeeventComponent implements OnInit {
   public titleBm: FormControl;
   public descEn: FormControl;  
   public descBm: FormControl;
-  public catEn: FormControl;
-  public catBm: FormControl;
   public active: FormControl;
   public seqEng: FormControl;
   public seqMy: FormControl;
@@ -43,8 +41,6 @@ export class LifeeventComponent implements OnInit {
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
-  public getCatIdEn: any;
-  public getCatIdBm: any;
   public subcription: FormControl;
   public deleted: FormControl;
 
@@ -56,12 +52,10 @@ export class LifeeventComponent implements OnInit {
   public languageId: any;
   public treeEn: any;
   public treeBm: any;
-  public catCode: any;
   public loading = false;
 
   public parentsValEn : any;
   public parentsValBm : any;
-  public resultEn1: any;
   public categoryPlaceholder = "";
   public urlEdit = "";
 
@@ -102,12 +96,10 @@ export class LifeeventComponent implements OnInit {
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
-              this.getCategory();
-              
-
+              this.getCategory();           
               this.languageId = val.languageId;
-              //this.getUsersData(this.pageCount, this.pageSize);
               this.changeLanguageAddEdit();
+              this.changePlaceHolder();
             }
           }.bind(this));
         })
@@ -137,8 +129,6 @@ export class LifeeventComponent implements OnInit {
     this.descBm = new FormControl();
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
-    this.catEn = new FormControl();
-    this.catBm = new FormControl();
     this.active = new FormControl();
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
@@ -157,8 +147,6 @@ export class LifeeventComponent implements OnInit {
       active: this.active,
       subcription: this.subcription,
       deleted: this.deleted,
-      catEn: this.catEn,
-      catBm: this.catBm,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
     });
@@ -307,7 +295,6 @@ export class LifeeventComponent implements OnInit {
         console.log(error);
     });
   }
-
 
   getNestedChildrenEn(arr, parent) {
     var out = []

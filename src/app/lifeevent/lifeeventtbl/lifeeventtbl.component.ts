@@ -18,6 +18,7 @@ declare var System: any;
 })
 export class LifeeventtblComponent implements OnInit {
 
+  updateForm: FormGroup;
   public loading = false;
   recordList = null;
   displayedColumns = ['num','name', 'url', 'default_status', 'status', 'action'];
@@ -30,6 +31,16 @@ export class LifeeventtblComponent implements OnInit {
   seqNo = 0;
   seqPageNum = 0;
   seqPageSize = 0 ;
+
+  itemEn: any;
+  itemBm: any;
+  public parentsEn: FormControl;
+  public parentsBm: FormControl;
+  public parentsValEn : any;
+  public parentsValBm : any;
+  public treeEn: any;
+  public treeBm: any;
+  public categoryPlaceholder = "";
 
   dataUrl: any;  
   public languageId: any;
@@ -66,6 +77,7 @@ export class LifeeventtblComponent implements OnInit {
               this.languageId = val.languageId;
               this.getRecordList(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
+              this.getCategory();
             }
           }.bind(this));
         })
@@ -75,6 +87,7 @@ export class LifeeventtblComponent implements OnInit {
       this.languageId = localStorage.getItem('langID');
       this.getRecordList(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
+      this.getCategory();
     }
     /* LANGUAGE FUNC */
   }
@@ -82,6 +95,16 @@ export class LifeeventtblComponent implements OnInit {
   ngOnInit() {
     //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl();
+
+    this.updateForm = new FormGroup({   
+      
+      parentsEn: this.parentsEn,
+      parentsBm: this.parentsBm,
+    });
+
+    this.getCategory();
   }
 
 
@@ -192,6 +215,116 @@ export class LifeeventtblComponent implements OnInit {
     this.getRecordList(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
+  }
+
+  getCategory(){
+
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
+     .subscribe(data => {
+  
+      console.log("GET CATEGORY: ");
+      console.log(data);
+        
+      this.commonservice.errorHandling(data, (function(){
+
+          this.categoryData = data["list"];   
+          console.log(this.categoryData);    
+          let arrCatEn = [];          
+          let parentEn;
+          let arrCatBm = [];          
+          let parentBm;
+
+          for(let i=0; i<this.categoryData.length; i++){     
+    
+              if(this.categoryData[i].list.length === 2){
+                arrCatEn.push({
+                  
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[0].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[0].parentId,
+                      parentEn: this.categoryData[i].list[0].parentId,
+                      parentBm: this.categoryData[i].list[1].parentId,
+                      // categoryName: this.categoryData[i].list[0].categoryName,
+                      text: this.categoryData[i].list[0].categoryName,
+                      checked: false,
+                      children: []});      
+                    
+                arrCatBm.push({
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[1].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[1].parentId,
+                      parentEn: this.categoryData[i].list[0].parentId,
+                      parentBm: this.categoryData[i].list[1].parentId,
+                      // categoryName: this.categoryData[i].list[1].categoryName,
+                      checked: false,
+                      text: this.categoryData[i].list[1].categoryName,
+                      children: []}); 
+                    
+              }
+
+          }
+          
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
+          this.itemEn = this.treeEn;
+          console.log(this.itemEn);
+          
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+        console.log(error);
+    });
+  }
+
+  getNestedChildrenEn(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+    
+      debugger;
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenEn(arr, arr[i].value)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }      
+    }    
+    return out  
+  }
+
+  getNestedChildrenBm(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+    
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenBm(arr, arr[i].value)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }
+      
+    }    
+    return out  
   }
 
 
