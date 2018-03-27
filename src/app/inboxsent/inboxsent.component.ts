@@ -25,6 +25,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../dialogs/dialogs.service';
+import { HtmlParser } from '@angular/compiler';
+declare var jquery:any;
+declare var $ :any;
 
 @Component({
   selector: 'app-inboxsent',
@@ -40,7 +43,7 @@ export class InboxsentComponent implements OnInit {
   
   public subject: FormControl;
   public content: FormControl;
-  
+  input: HTMLElement;
   emailFld: FormControl;
 
   public dataUrl: any;  
@@ -62,6 +65,8 @@ export class InboxsentComponent implements OnInit {
   public emailData: any;
   public emailKeyword: any;
   idArr = [];
+
+  // var el = `<a href="#" onClick="alert(test delete);">[X]</a>`;
 
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -177,33 +182,65 @@ export class InboxsentComponent implements OnInit {
     }
     
   }
+  
 
   getValue(type, val, usrId){
-    // console.log(e);
+    // console.log(e);a
     event.preventDefault();
+    let span = document.createElement("span");
+    let spanName = document.createElement("span");
+    let spanclose = document.createElement("span");
+    let nameNode = document.createTextNode(val); 
+    spanName.appendChild(nameNode);
+    spanclose.setAttribute("class", "fa fa-times");
+    span.setAttribute("usrId", usrId);
+    span.setAttribute("class", "emailList");
+ 
+    span.appendChild(spanName);
+    span.appendChild(spanclose);
+    
+    document.getElementById("myList").appendChild(span); 
+    document.getElementById("myList").removeChild
+    let inx = this.idArr.length;
+    let element: HTMLElement = document.getElementsByClassName('emailList')[inx] as HTMLElement;
+    // element.click(this.btnClose());
+  element.addEventListener( 'click', function( e ){
+
+    $("#myList div:nth(1)").attr('usrId');
+    let le =  $("#myList .emailList").filter(function(inx, val){
+      return $(this).attr('usrid') == usrId;
+    });
+
+    let remInx = $("#myList .emailList").index(le);
+    $("#myList .emailList")[remInx].remove();
+    this.idArr.splice(remInx,1);
+
+  }.bind(this));
+
+
     this.userId = usrId;
     this.isActive = false;
     this.isActiveList = false;
-    this.searchUserResult = [''];
+    this.searchUserResult = [];
     // if(val !=null){
     //   val = "";
     // }
-    var joinText = "";
-    var splitArr2 = this.emailFld.value.split("; ");
-    for(var i=0; i<splitArr2.length-1; i++){
-        joinText += splitArr2[i] + "; ";
-    }
+    // var joinText = "";
+    // var splitArr2 = this.emailFld.value.split("; ");
+    // for(var i=0; i<splitArr2.length-1; i++){
+    //     joinText += splitArr2[i] +"; ";
+    // }
 
-    let valAll = joinText + val + '; ';
+    // let valAll = joinText + val + el + '; ';
     // let valAll = val + '; ';
     // let idArr = [];
     this.idArr.push(usrId);
-
-    if(type == 'email'){
-      this.updateForm.get('emailFld').setValue(valAll);
-    }else{
-      this.updateForm.get('icFld').setValue(val);
-    }
+    this.updateForm.get('emailFld').setValue("");
+    // if(type == 'email'){
+    //   this.updateForm.get('emailFld').setValue(valAll);
+    // }else{
+    //   this.updateForm.get('icFld').setValue(val);
+    // }
   }
 
   getData() {
@@ -291,12 +328,12 @@ export class InboxsentComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["subject", "content", "emailFld"];
+    let reqVal:any = ["subject", "content"];
     let nullPointers:any = [];
     this.isActive = true;
     this.isActiveList = false;
     this.showEmail = true;
-    this.searchUserResult = [''];
+    this.searchUserResult = [];
 
     for (var reqData of reqVal) {
       let elem = this.updateForm.get(reqData);
@@ -312,10 +349,12 @@ export class InboxsentComponent implements OnInit {
     } else {
       this.complete = true;
     }
+   
   }
 
   myFunction() {
-
+    this.idArr =[];
+    $("#myList").empty();
     this.updateForm.reset();
     this.checkReqValues(); 
   }
