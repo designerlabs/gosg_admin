@@ -98,23 +98,50 @@
           </mat-form-field>
         </div>
       </div>
+      <div class="example-header">
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width" >
+                  <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+              </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width" >
+                  <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+              </mat-form-field>
+          </div>
+        </div>
 
       <div class="example-header">
         <div class="col-md-12">
           <div class="example-full-width editor block">
             <label for="htmlContentEn">English Content</label>
-            <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentEn" #htmlContentEn></app-ngx-editor>
-            <button mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i *ngIf="!complete" [ngClass]="commonservice.icon.view"></i></button>
+            <div [froalaEditor] formControlName="htmlContentEn" (keyup)="parseChkEn($event)" #htmlContentEn class="article_content"></div>
+            <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentEn" #htmlContentEn></app-ngx-editor> -->
+            <!-- <button mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i *ngIf="!complete" [ngClass]="commonservice.icon.view"></i></button> -->
           </div>
         </div>
       </div>
+
+      <div class="example-header">
+        <div class="col-md-12">
+          <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view"></i></button>
+        </div>
+      </div>
+
       <div class="example-header">
         <div class="col-md-12">            
             <div class="example-full-width editor block">
               <label for="htmlContentMy">Malay Content</label>
-              <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentMy" #htmlContentMy></app-ngx-editor>
+              <div [froalaEditor] formControlName="htmlContentMy" (keyup)="parseChkMy($event)" #htmlContentMy  class="article_content"></div>
+              <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentMy" #htmlContentMy></app-ngx-editor> -->
             </div>
-            <button mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i *ngIf="!complete" [ngClass]="commonservice.icon.view"></i></button>
+            <!-- <button mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i *ngIf="!complete" [ngClass]="commonservice.icon.view"></i></button> -->
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-12"> 
+          <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary" class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view"></i></button>
         </div>
       </div>
 
@@ -128,7 +155,7 @@
 
     <div class="form-group paddingTop-20">
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
-        (click)="submit(updateForm.value)" [disabled]="!complete">
+        (click)="submit(updateForm.value)"  [disabled]="(!parseMyBtn || !parseEnBtn || !complete)">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
       <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning pull-right"
