@@ -89,14 +89,14 @@ export class ModmenuComponent implements OnInit {
       active: this.active
 
     });
-
+    
     if(refId == "add") {
       this.isEdit = false;
-      this.pageMode = "Add";
+      this.pageMode = 'common.add';
       this.updateForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
-      this.pageMode = "Update";
+      this.pageMode = 'common.update';
       this.getRow(refId);
     }
     

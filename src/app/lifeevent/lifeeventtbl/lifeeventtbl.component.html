@@ -1,126 +1,143 @@
 <div class="container-fluid">
-  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 
-  <div class="curdHeader">
-      <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ 'lifeeventtbl.header' | translate }}</h3>
-      </div>
-      
-      <div class="col-md-2 curdHeadingRight">
-          <span class="pull-right">
-              <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
-              <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
-          </span>
-      </div> 
-  </div>
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>{{ 'lifeeventtbl.header' | translate }}</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
+                <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
+            </span>
+        </div> 
+    </div>
 
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
-  </div>
+    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
+    </div>
 
-  <div *ngIf="commonservice.isRead">
-      <div class="example-container mat-elevation-z8">
-          
-          <!-- <div class="col-md-12 paddingTop-10">
-              <mat-form-field class="font-size-s">
-                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-              </mat-form-field>
-          </div> -->
+    <div *ngIf="commonservice.isRead">
+        <div class="example-container mat-elevation-z8">
+            
+            <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+                <br>
+                <div class="example-header">
+                    <div class="col-md-4">
+                        <tree-select  class="font-size-m example-full-width" name="simpleSelect"
+                        [items]="itemEn"
+                        textField ="text"
+                        idField = "value"
+                        childrenField="children"
+                        formControlName="parentsEn"
+                        minlength="2"
+                        maxlength="4"
+                        tabindex="5"
+                        required=true
+                        #simpleSelect
+                        [placeholder]="categoryPlaceholder"
+                        [allowFilter]=true
+                        [allowParentSelection]=true
+                        expandMode="All"></tree-select>
+                    </div>
+                </div>
+            </form>
 
-          <mat-table #table [dataSource]="dataSource">           
-          
-              <!-- num Column -->
-              <ng-container matColumnDef="num">
-                  <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-                      {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-                  </mat-cell>
-              </ng-container>
-          
-              <!-- Name Column -->
-              <ng-container matColumnDef="name">
-                  <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
-                      {{element.fontName}} 
-                  </mat-cell>
-              </ng-container>
+            <mat-table #table [dataSource]="dataSource">           
+            
+                <!-- num Column -->
+                <ng-container matColumnDef="num">
+                    <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                        {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                    </mat-cell>
+                </ng-container>
+            
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
+                        {{element.fontName}} 
+                    </mat-cell>
+                </ng-container>
 
-              <!-- Url Column -->
-              <ng-container matColumnDef="url">
-                  <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-Left" *matCellDef="let element">
-                      {{element.fontUrl}}
-                  </mat-cell>
-              </ng-container>
+                <!-- Url Column -->
+                <ng-container matColumnDef="url">
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                        {{element.fontUrl}}
+                    </mat-cell>
+                </ng-container>
 
-              <!-- Default Column -->
-              <ng-container matColumnDef="default_status">
-                  <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.category' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                      <i *ngIf="element.defaultFont == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-                      <i *ngIf="element.defaultFont == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
-                  </mat-cell>
-              </ng-container>
-          
-              <!-- status Column -->
-              <ng-container matColumnDef="status">
-                  <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                      <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-                      <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
-                  </mat-cell>
-              </ng-container>
+                <!-- Default Column -->
+                <ng-container matColumnDef="default_status">
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                        <i *ngIf="element.defaultFont == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.defaultFont == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                    </mat-cell>
+                </ng-container>
+            
+                <!-- status Column -->
+                <ng-container matColumnDef="status">
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                        <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                    </mat-cell>
+                </ng-container>
 
-              <!-- action Column -->
-              <ng-container matColumnDef="action">
-                  <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                      <button mat-mini-fab class="bg_orange" (click)="updateRow(element.fontId)">
-                      <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.fontId }}"></i>
-                      <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fontId }}"></i>
-                      &nbsp; --></button>
-                      <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-                      <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.fontId}}"></i></button>
-                      <app-confirm-dialog  #deleteModal 
-                      [title]="'common.icon.warn'" 
-                      [content]="'common.msg.delete'"
-                      [state]="'bg_header bg_warn_header'"
-                      [isReset]="'true'"
-                      (resetMethod)="deleteRow(element.fontId)">
-                      </app-confirm-dialog>
-                  </mat-cell>
-              </ng-container>
-          
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-          
-      </div>
-      
-      <div class="float-right paddingTop-15">
-          <mat-form-field class="table_footer_pagecount">
-              <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-              <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
-              <!-- <mat-option value="10">10</mat-option>
-              <mat-option value="25">25</mat-option>
-              <mat-option value="50">50</mat-option> -->
-              </mat-select>
-          </mat-form-field>
-          <span class="float-right">
-              <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
-                  <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
-                  <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-                  <strong>{{recordTable?.totalElements}}</strong> {{ 'lifeeventtbl.tablebottom.contentmgmt' | translate }}
-              </span>
-              <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
-              <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
-              </button>
-              <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
-              <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
-              </button>
-          </span>
-      </div>
-  </div>
+                <!-- action Column -->
+                <ng-container matColumnDef="action">
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                        <button mat-mini-fab class="bg_orange" (click)="updateRow(element.fontId)">
+                        <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.fontId }}"></i>
+                        <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fontId }}"></i>
+                        &nbsp; --></button>
+                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
+                        <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.fontId}}"></i></button>
+                        <app-confirm-dialog  #deleteModal 
+                        [title]="'common.icon.warn'" 
+                        [content]="'common.msg.delete'"
+                        [state]="'bg_header bg_warn_header'"
+                        [isReset]="'true'"
+                        (resetMethod)="deleteRow(element.fontId)">
+                        </app-confirm-dialog>
+                    </mat-cell>
+                </ng-container>
+            
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            
+        </div>
+        
+        <div class="float-right paddingTop-15">
+            <mat-form-field class="table_footer_pagecount">
+                <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
+                <mat-option value="25">25</mat-option>
+                <mat-option value="50">50</mat-option> -->
+                </mat-select>
+            </mat-form-field>
+            <span class="float-right">
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+                    <strong>{{recordTable?.totalElements}}</strong> {{ 'lifeeventtbl.tablebottom.contentmgmt' | translate }}
+                </span>
+                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+                <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+                </button>
+                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
+                <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+                </button>
+            </span>
+        </div>
+    </div>
 
 </div>
 

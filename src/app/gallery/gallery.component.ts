@@ -324,7 +324,10 @@ export class GalleryComponent implements OnInit {
   }
 
   changeLanguageAddEdit(){
-    if (this.isEdit = false) {
+
+    let refCode = this.router.url.split('/')[2];
+
+    if (refCode == "add") {
       if(this.languageId==1)
       {
         this.pageMode = "Add";
