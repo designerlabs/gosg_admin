@@ -44,6 +44,10 @@ export class LifeeventtblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  leCategoryCode: any;
+  countArticle = 0;
+  catCode: any;
+  catName: any;
 
   recordTable = null;
   
@@ -75,9 +79,11 @@ export class LifeeventtblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
+              this.getCategoryCode();
+              //this.getRecordList(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
               this.getCategory();
+              
             }
           }.bind(this));
         })
@@ -85,7 +91,7 @@ export class LifeeventtblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
+      //this.getRecordList(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
       this.getCategory();
     }
@@ -94,6 +100,8 @@ export class LifeeventtblComponent implements OnInit {
 
   ngOnInit() {
     //this.getRecordList(this.pageCount, this.pageSize);
+    
+    this.getCategoryCode();
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
@@ -128,12 +136,53 @@ export class LifeeventtblComponent implements OnInit {
 //     control.showControl('translControl');
 // }
 
-  getRecordList(page, size) {  
+  getCategoryCode(){ 
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.leCategoryCode = resCatData['list'];          
+
+          let countFlag = false;
+
+          for(let i=0; i<this.leCategoryCode.length; i++){     
+
+            if(countFlag == false && this.leCategoryCode[i].list[0].articleCount > 0){
+              countFlag = true;
+              this.countArticle = this.leCategoryCode[i].list[0].articleCount;
+              this.catCode = this.leCategoryCode[i].refCode;
+
+              if(this.languageId == 1){
+                this.catName = this.leCategoryCode[i].list[0].categoryName;
+              }
+
+              else{
+                this.catName = this.leCategoryCode[i].list[1].categoryName;
+              }
+            }
+          }
+
+          this.categoryPlaceholder = this.catName;
+
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+
+          console.log(this.categoryPlaceholder);
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  getRecordList(page, size, code) {  
 
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readPortal('font', page, size).subscribe(
+    this.commonservice.readProtected('life/event/'+code, page, size).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
@@ -158,8 +207,14 @@ export class LifeeventtblComponent implements OnInit {
 
   }
 
+  searchCode(formValues: any){
+    this.catCode = formValues.parentsEn.refCode;
+    this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+    console.log(this.catCode);
+  }
+
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize, this.catCode);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -169,7 +224,7 @@ export class LifeeventtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize, this.catCode);
   }
 
   add() {
@@ -212,7 +267,7 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value, this.catCode);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -230,10 +285,8 @@ export class LifeeventtblComponent implements OnInit {
 
           this.categoryData = data["list"];   
           console.log(this.categoryData);    
-          let arrCatEn = [];          
-          let parentEn;
-          let arrCatBm = [];          
-          let parentBm;
+          let arrCatEn = [];      
+          let arrCatBm = [];     
 
           for(let i=0; i<this.categoryData.length; i++){     
     
@@ -244,9 +297,6 @@ export class LifeeventtblComponent implements OnInit {
                       value:this.categoryData[i].list[0].categoryId,
                       refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[0].parentId,
-                      parentEn: this.categoryData[i].list[0].parentId,
-                      parentBm: this.categoryData[i].list[1].parentId,
-                      // categoryName: this.categoryData[i].list[0].categoryName,
                       text: this.categoryData[i].list[0].categoryName,
                       checked: false,
                       children: []});      
@@ -256,9 +306,6 @@ export class LifeeventtblComponent implements OnInit {
                       value:this.categoryData[i].list[1].categoryId,
                       refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[1].parentId,
-                      parentEn: this.categoryData[i].list[0].parentId,
-                      parentBm: this.categoryData[i].list[1].parentId,
-                      // categoryName: this.categoryData[i].list[1].categoryName,
                       checked: false,
                       text: this.categoryData[i].list[1].categoryName,
                       children: []}); 
@@ -294,8 +341,7 @@ export class LifeeventtblComponent implements OnInit {
     var children = []
 
     for(var i in arr) {
-    
-      debugger;
+  
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenEn(arr, arr[i].value)
 

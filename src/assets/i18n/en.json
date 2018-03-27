@@ -702,8 +702,8 @@
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
-      "category": "category",
-      "statusdraft": "Draf Status"
+      "category": "Category",
+      "statusdraft": "Status Draft"
     },
     "tablebottom":{
       "contentmgmt": "Life event"

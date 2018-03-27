@@ -42,6 +42,11 @@
                         expandMode="All"></tree-select>
                     </div>
                 </div>
+                <div class="example-header col-md-2">
+                    <button mat-mini-fab color="bg_green" [disabled]="noNextData" (click)="searchCode(updateForm.value)">
+                        <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+                    </button>
+                </div>
             </form>
 
             <mat-table #table [dataSource]="dataSource">           
@@ -58,7 +63,7 @@
                 <ng-container matColumnDef="name">
                     <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
-                        {{element.fontName}} 
+                        {{element.list[0]?.contentTitle}}
                     </mat-cell>
                 </ng-container>
 
@@ -66,7 +71,7 @@
                 <ng-container matColumnDef="url">
                     <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.fontUrl}}
+                        {{element.list[1]?.contentTitle }}
                     </mat-cell>
                 </ng-container>
 
@@ -74,8 +79,8 @@
                 <ng-container matColumnDef="default_status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.defaultFont == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-                        <i *ngIf="element.defaultFont == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                        <i *ngIf="element.list[0].isActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.list[0].isActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
                     </mat-cell>
                 </ng-container>
             
@@ -83,8 +88,9 @@
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                        <i *ngIf="element.enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-                        <i *ngIf="element.enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                        <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
+                        <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>
+                        <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Approved" [disabled]="true"></button>
                     </mat-cell>
                 </ng-container>
 
@@ -92,12 +98,19 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                        <button mat-mini-fab class="bg_orange" (click)="updateRow(element.fontId)">
-                        <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.fontId }}"></i>
-                        <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fontId }}"></i>
-                        &nbsp; --></button>
-                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-                        <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.fontId}}"></i></button>
+                        <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
+                            <i *ngIf="commonservice.isUpdate && element.list[0].isSendForApproval == false" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
+                            <i *ngIf="!commonservice.isUpdate || element.list[0].isSendForApproval == true" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+                        </button>
+                        &nbsp;
+                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isSendForApproval == false" 
+                            (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
+                            <i [ngClass]="commonservice.icon.trash"></i>
+                        </button>
+                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
+                            [disabled]="element.list[0].isSendForApproval == true">
+                            <i [ngClass]="commonservice.icon.trash"></i>
+                        </button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'common.icon.warn'" 
                         [content]="'common.msg.delete'"

@@ -698,15 +698,15 @@
     }
   },
   "lifeeventtbl":{
-    "header": "Life Event",
+    "header": "Peristiwa Kehidupan",
     "tableHeader":{
-      "titleEn": "Title (EN)",
-      "titleBm": "Title (BM)",
-      "category": "category",
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "category": "Kategori",
       "statusdraft": "Draf Status"
     },
     "tablebottom":{
-      "contentmgmt": "Life event"
+      "contentmgmt": "Peristiwa Kehidupan"
     }
   },
   "footercategorytbl": {
