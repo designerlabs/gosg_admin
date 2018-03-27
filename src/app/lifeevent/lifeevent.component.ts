@@ -65,8 +65,6 @@ export class LifeeventComponent implements OnInit {
   public categoryPlaceholder = "";
   public urlEdit = "";
 
-  public arrCode = [];
-
 
   editorConfig = {
     "editable": true,
@@ -104,7 +102,6 @@ export class LifeeventComponent implements OnInit {
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
-              this.getCodelifeEvent();
               this.getCategory();
               
 
@@ -118,7 +115,6 @@ export class LifeeventComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getCodelifeEvent();
       this.getCategory();
       //this.getData();
     }
@@ -167,7 +163,6 @@ export class LifeeventComponent implements OnInit {
       htmlContentMy: this.htmlContentMy,
     });
 
-    this.getCodelifeEvent();
     this.getCategory();
 
     this.urlEdit = this.router.url.split('/')[2];
@@ -241,38 +236,6 @@ export class LifeeventComponent implements OnInit {
         });
   }
 
-  getCodelifeEvent(){
-
-    this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/643')
-     .subscribe(data => {
-  
-      console.log(data);
-        
-      this.commonservice.errorHandling(data, (function(){
-
-          let leCategoryCode = data["list"];       
-          console.log("********************************************************88");
-          console.log(leCategoryCode);
-          console.log("********************************************************88");
-
-          let arrCode = [643,653,654];     
-          
-         
-          console.log(this.itemEn);
-          
-        }).bind(this));
-        this.loading = false;
-      },
-      error => {
-
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        this.loading = false;
-        console.log(error);
-    });
-
-  }
-
   getCategory(){
 
     this.loading = true;
@@ -291,13 +254,8 @@ export class LifeeventComponent implements OnInit {
           let arrCatBm = [];          
           let parentBm;
 
-          let arrCode = [643,653,654];
-
           for(let i=0; i<this.categoryData.length; i++){     
-            
-          //  for(let x=0; x<arrCode.length; x++){
     
-
               if(this.categoryData[i].list.length === 2){
                 arrCatEn.push({
                   
@@ -325,8 +283,6 @@ export class LifeeventComponent implements OnInit {
                       children: []}); 
                     
               }
-
-          //  }
 
           }
           
