@@ -26,8 +26,6 @@ export class LifeeventComponent implements OnInit {
   public titleBm: FormControl;
   public descEn: FormControl;  
   public descBm: FormControl;
-  public imgEn: FormControl;
-  public imgBm: FormControl;
   public catEn: FormControl;
   public catBm: FormControl;
   public active: FormControl;
@@ -42,8 +40,6 @@ export class LifeeventComponent implements OnInit {
   public parentsEn: FormControl;
   public parentsBm: FormControl;
   public ismainmenu: FormControl;
-  public imageEn: FormControl;
-  public imageBm: FormControl;
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
@@ -60,9 +56,6 @@ export class LifeeventComponent implements OnInit {
   public languageId: any;
   public treeEn: any;
   public treeBm: any;
-  public imageData: any;
-  public getImgEn: any;
-  public getImgdBm: any;
   public catCode: any;
   public loading = false;
 
@@ -71,6 +64,8 @@ export class LifeeventComponent implements OnInit {
   public resultEn1: any;
   public categoryPlaceholder = "";
   public urlEdit = "";
+
+  public arrCode = [];
 
 
   editorConfig = {
@@ -109,7 +104,9 @@ export class LifeeventComponent implements OnInit {
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
+              this.getCodelifeEvent();
               this.getCategory();
+              
 
               this.languageId = val.languageId;
               //this.getUsersData(this.pageCount, this.pageSize);
@@ -121,6 +118,7 @@ export class LifeeventComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.getCodelifeEvent();
       this.getCategory();
       //this.getData();
     }
@@ -134,8 +132,6 @@ export class LifeeventComponent implements OnInit {
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
     this.ismainmenu = new FormControl();
-    this.imageEn = new FormControl();
-    this.imageBm = new FormControl();
     this.subcription = new FormControl();
     this.deleted = new FormControl();
 
@@ -145,8 +141,6 @@ export class LifeeventComponent implements OnInit {
     this.descBm = new FormControl();
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
-    this.imgEn = new FormControl();
-    this.imgBm = new FormControl();
     this.catEn = new FormControl();
     this.catBm = new FormControl();
     this.active = new FormControl();
@@ -164,19 +158,16 @@ export class LifeeventComponent implements OnInit {
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       ismainmenu: this.ismainmenu,
-      imageEn: this.imageEn,
-      imageBm: this.imageBm,
       active: this.active,
       subcription: this.subcription,
       deleted: this.deleted,
-      imgEn: this.imgEn,
-      imgBm: this.imgBm,
       catEn: this.catEn,
       catBm: this.catBm,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
     });
 
+    this.getCodelifeEvent();
     this.getCategory();
 
     this.urlEdit = this.router.url.split('/')[2];
@@ -250,6 +241,38 @@ export class LifeeventComponent implements OnInit {
         });
   }
 
+  getCodelifeEvent(){
+
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
+     .subscribe(data => {
+  
+      console.log(data);
+        
+      this.commonservice.errorHandling(data, (function(){
+
+          let leCategoryCode = data["list"];       
+          console.log("********************************************************88");
+          console.log(leCategoryCode);
+          console.log("********************************************************88");
+
+          let arrCode = [643,653,654];     
+          
+         
+          console.log(this.itemEn);
+          
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+        console.log(error);
+    });
+
+  }
+
   getCategory(){
 
     this.loading = true;
@@ -268,34 +291,40 @@ export class LifeeventComponent implements OnInit {
           let arrCatBm = [];          
           let parentBm;
 
-          for(let i=0; i<this.categoryData.length; i++){        
+          let arrCode = [643,653,654];
 
-            if(this.categoryData[i].list.length === 2 && this.categoryData[i].refCode == 643){
-              arrCatEn.push({
-                
-                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                    value:this.categoryData[i].list[0].categoryId,
-                    refCode: this.categoryData[i].refCode,
-                    parent: this.categoryData[i].list[0].parentId.categoryId,
-                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
-                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
-                    // categoryName: this.categoryData[i].list[0].categoryName,
-                    text: this.categoryData[i].list[0].categoryName,
-                    checked: false,
-                    children: []});      
+          for(let i=0; i<this.categoryData.length; i++){     
+            
+            for(let x=0; x<arrCode.length; x++){
+
+              if(this.categoryData[i].list.length === 2 && this.categoryData[i].refCode == arrCode[x]){
+                arrCatEn.push({
                   
-              arrCatBm.push({
-                    id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                    value:this.categoryData[i].list[1].categoryId,
-                    refCode: this.categoryData[i].refCode,
-                    parent: this.categoryData[i].list[1].parentId.categoryId,
-                    parentEn: this.categoryData[i].list[0].parentId.categoryId,
-                    parentBm: this.categoryData[i].list[1].parentId.categoryId,
-                    // categoryName: this.categoryData[i].list[1].categoryName,
-                    checked: false,
-                    text: this.categoryData[i].list[1].categoryName,
-                    children: []}); 
-                  
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[0].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[0].parentId.categoryId,
+                      parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                      parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                      // categoryName: this.categoryData[i].list[0].categoryName,
+                      text: this.categoryData[i].list[0].categoryName,
+                      checked: false,
+                      children: []});      
+                    
+                arrCatBm.push({
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[1].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[1].parentId.categoryId,
+                      parentEn: this.categoryData[i].list[0].parentId.categoryId,
+                      parentBm: this.categoryData[i].list[1].parentId.categoryId,
+                      // categoryName: this.categoryData[i].list[1].categoryName,
+                      checked: false,
+                      text: this.categoryData[i].list[1].categoryName,
+                      children: []}); 
+                    
+              }
+
             }
 
           }
