@@ -195,84 +195,6 @@ export class LifeeventComponent implements OnInit {
     console.log(this.htmlContentEn.value);
   }
 
-
-  
-
-  selectedCat(e, val){
-
-    // console.log(e);
-    // this.getCatIdEn = e.value;
-    // this.getCatIdBm = e.value;
-    // let dataList = this.categoryData;
-    // let indexVal: any;
-    // let idBm: any;
-    // let idEn: any;
-
-    // console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
-
-    // if(val == 1){
-
-    //   for(let i=0; i<dataList.length; i++){
-    //     indexVal = dataList[i].list[0].id;
-    //     if(indexVal == this.getCatIdEn){
-    //       idBm = dataList[i].list[1].id;
-    //     }        
-    //   }
-
-    //   this.updateForm.get('catBm').setValue(idBm);  
-    // }
-    // else{
-
-    //   for(let i=0; i<dataList.length; i++){
-    //     indexVal = dataList[i].list[1].id;
-    //     if(indexVal == this.getCatIdBm){
-    //       idEn = dataList[i].list[0].id;
-    //     }        
-    //   }
-
-    //   this.updateForm.get('catEn').setValue(idEn); 
-    // }
-  }
-
-  selectedImage(e, val){
-
-    console.log(e);
-    this.imageEn = e.value;
-    this.imageBm = e.value;
-   
-    let indexVal: any;
-    let idBm: any;
-    let idEn: any;   
-
-    console.log("EN: "+this.imageEn+" BM: "+this.imageBm+ " value: " +val);
-
-    // if english
-    if(val == 1){
-
-    
-      for(let i=0; i<this.imageData.length; i++){
-        indexVal = this.imageData[i].list[0].mediaId;
-        if(indexVal == this.imageEn){
-          idBm = this.imageData[i].list[1].mediaId;
-        }            
-      }   
-
-      this.updateForm.get('imageBm').setValue(idBm);  
-    }
-
-    else{ //if malay
-
-      for(let i=0; i<this.imageData.length; i++){
-        indexVal = this.imageData[i].list[1].mediaId;
-        if(indexVal == this.imageBm){
-          idBm = this.imageData[i].list[0].mediaId;
-        }        
-      }
-
-      this.updateForm.get('imageEn').setValue(idEn); 
-    }
-  }
-
   previewEn() {
     // htmlcontent/formathtml
     this.loading = true;
@@ -344,7 +266,7 @@ export class LifeeventComponent implements OnInit {
 
           for(let i=0; i<this.categoryData.length; i++){        
 
-            if(this.categoryData[i].list.length === 2){
+            if(this.categoryData[i].list.length === 2 && this.categoryData[i].refCode == 643){
               arrCatEn.push({
                 
                     id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
