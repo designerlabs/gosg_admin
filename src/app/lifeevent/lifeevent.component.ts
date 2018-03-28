@@ -11,12 +11,16 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
 import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
+
 @Component({
   selector: 'app-lifeevent',
   templateUrl: './lifeevent.component.html',
   styleUrls: ['./lifeevent.component.css']
 })
 export class LifeeventComponent implements OnInit {
+  rawValBm: any;
+  rawValEn: any;
+
   parseEnBtn: boolean;
   parseMyBtn: boolean;
 
@@ -27,6 +31,8 @@ export class LifeeventComponent implements OnInit {
   public descEn: FormControl;  
   public descBm: FormControl;
   public active: FormControl;
+  public citizenflag:FormControl;
+  public noncitizenflag: FormControl;
   public seqEng: FormControl;
   public seqMy: FormControl;
   public contentTxtEn: FormControl;
@@ -37,11 +43,9 @@ export class LifeeventComponent implements OnInit {
   itemBm: any;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
-  public ismainmenu: FormControl;
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
-  public subcription: FormControl;
   public deleted: FormControl;
 
   public getIdEn: any;
@@ -54,12 +58,12 @@ export class LifeeventComponent implements OnInit {
   public treeBm: any;
   public loading = false;
 
-  public parentsValEn : any;
-  public parentsValBm : any;
   public categoryPlaceholder = "";
   public urlEdit = "";
 
+  sendForApporval: any;
 
+  editor = { enVal: '', bmVal: '' };
   editorConfig = {
     "editable": true,
     "spellcheck": true,
@@ -77,7 +81,7 @@ export class LifeeventComponent implements OnInit {
         ["paragraph", "orderedList", "unorderedList"],
         ["link", "unlink"]
     ]
-}
+  }
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -86,7 +90,8 @@ export class LifeeventComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
-    public dialog: MatDialog ) {
+    public dialog: MatDialog,
+    public builder: FormBuilder ) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -111,16 +116,24 @@ export class LifeeventComponent implements OnInit {
       //this.getData();
     }
     /* LANGUAGE FUNC */
+      
+    this.updateForm = builder.group({
+      enVal: "",
+      bmVal: ""
+    })
   }
   
 
   ngOnInit() {  
+
+    // $('.fr-toolbar button').click(function(){
+    //   alert('dd')
+    // });
+   
     this.parseEnBtn = false;
     this.parseMyBtn = false;
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
-    this.ismainmenu = new FormControl();
-    this.subcription = new FormControl();
     this.deleted = new FormControl();
 
     this.titleEn = new FormControl();
@@ -130,6 +143,8 @@ export class LifeeventComponent implements OnInit {
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
     this.active = new FormControl();
+    this.citizenflag = new FormControl();
+    this.noncitizenflag = new FormControl();
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
 
@@ -143,13 +158,15 @@ export class LifeeventComponent implements OnInit {
       seqMy: this.seqMy,
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
-      ismainmenu: this.ismainmenu,
       active: this.active,
-      subcription: this.subcription,
+      citizenflag: this.citizenflag,
+      noncitizenflag: this.noncitizenflag,
       deleted: this.deleted,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
     });
+
+    
 
     this.getCategory();
 
@@ -159,14 +176,16 @@ export class LifeeventComponent implements OnInit {
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder(); 
       this.updateForm.get('active').setValue(true)
+      this.updateForm.get('citizenflag').setValue(true)
+      this.updateForm.get('noncitizenflag').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
+     
+      console.log(this.parseEnBtn);
     }
     this.commonservice.getModuleId();
-
-    console.log(this.htmlContentEn.value);
   }
 
   previewEn() {
@@ -208,9 +227,12 @@ export class LifeeventComponent implements OnInit {
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
-          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-l">');
-          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-m">');
-          dialogRef.componentInstance.content = addClassforH2;
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+          dialogRef.componentInstance.content = addClassforSpan;
           this.parseMyBtn = true;
           this.contentTxtMy = dialogRef.componentInstance.content;
 
@@ -222,6 +244,24 @@ export class LifeeventComponent implements OnInit {
           console.log(error);
           this.loading = false;
         });
+  }
+
+  onChangeEn(ele){
+    if(ele == this.rawValEn){
+      this.parseEnBtn = true;        
+    }
+    else{
+      this.parseEnBtn = false;
+    }   
+  }
+
+  onChangeBm(ele){
+    if(ele == this.rawValBm){
+      this.parseMyBtn = true;
+    }
+    else{
+      this.parseMyBtn = false;
+    }
   }
 
   getCategory(){
@@ -238,9 +278,8 @@ export class LifeeventComponent implements OnInit {
           this.categoryData = data["list"];   
           console.log(this.categoryData);    
           let arrCatEn = [];          
-          let parentEn;
           let arrCatBm = [];          
-          let parentBm;
+
 
           for(let i=0; i<this.categoryData.length; i++){     
     
@@ -251,9 +290,6 @@ export class LifeeventComponent implements OnInit {
                       value:this.categoryData[i].list[0].categoryId,
                       refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[0].parentId,
-                      parentEn: this.categoryData[i].list[0].parentId,
-                      parentBm: this.categoryData[i].list[1].parentId,
-                      // categoryName: this.categoryData[i].list[0].categoryName,
                       text: this.categoryData[i].list[0].categoryName,
                       checked: false,
                       children: []});      
@@ -263,9 +299,6 @@ export class LifeeventComponent implements OnInit {
                       value:this.categoryData[i].list[1].categoryId,
                       refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[1].parentId,
-                      parentEn: this.categoryData[i].list[0].parentId,
-                      parentBm: this.categoryData[i].list[1].parentId,
-                      // categoryName: this.categoryData[i].list[1].categoryName,
                       checked: false,
                       text: this.categoryData[i].list[1].categoryName,
                       children: []}); 
@@ -302,7 +335,6 @@ export class LifeeventComponent implements OnInit {
 
     for(var i in arr) {
     
-      debugger;
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenEn(arr, arr[i].value)
 
@@ -339,31 +371,276 @@ export class LifeeventComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
 
-     this.commonservice.readPortalById('accountstatus/code/', _getRefID)
+     this.commonservice.readProtectedById('content/publisher/', _getRefID)
       .subscribe(data => {
         this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+        let dataEn = this.recordList['contentDetailList'][0];
+        let dataBm = this.recordList['contentDetailList'][1];
 
-        this.updateForm.get('titleEn').setValue(this.recordList[0].accountStatusDescription);
-        this.updateForm.get('titleBm').setValue(this.recordList[1].accountStatusDescription);   
-        this.updateForm.get('descEn').setValue(this.recordList[0].accountStatusDescription);
-        this.updateForm.get('descBm').setValue(this.recordList[1].accountStatusDescription);  
-        this.updateForm.get('seqEng').setValue(this.recordList[0].accountStatusDescription);
-        this.updateForm.get('seqMy').setValue(this.recordList[1].accountStatusDescription);
-        this.updateForm.get('parents').setValue(this.recordList[0].enabled);    
-        this.updateForm.get('active').setValue(this.recordList[0].enabled);      
-        this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
+        this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
+        this.updateForm.get('titleBm').setValue(dataBm.contentTitle);   
+        this.updateForm.get('descEn').setValue(dataEn.contentDescription);
+        this.updateForm.get('descBm').setValue(dataBm.contentDescription);  
+        this.updateForm.get('seqEng').setValue(dataEn.contentSort);
+        this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
+        this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
+        this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
+        this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventCitizenFlag);   
 
-        this.getIdEn = this.recordList[0].accountStatusId;
-        this.getIdBm = this.recordList[1].accountStatusId;
-        this.getRefCode = this.recordList[0].accountStatusCode;
+        this.getIdEn = dataEn.contentId;
+        this.getIdBm = dataBm.contentId;
+        this.getRefCode = this.recordList.refCode;
+        this.sendForApporval = dataEn.isSendForApproval;
 
         this.checkReqValues();
+
+       
+        
+        let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
+        let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
+        let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
+        let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
+        let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
+        let addClassforTable = addClassforSpan.replace('class="table">', '>');
+
+
+        let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
+        let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
+        let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
+        let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
+        let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
+        let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
+
+        this.rawValEn = addClassforTable;
+        this.rawValBm = addClassforTable_BM;
+
+        this.htmlContentEn.setValue(addClassforTable);
+        this.htmlContentMy.setValue(addClassforTable_BM);
+
+        this.contentTxtEn = addClassforTable;
+        this.contentTxtMy = addClassforTable_BM;      
+
+        this.parseEnBtn = true;
+        this.parseMyBtn = true;
+
+        if(this.languageId == 1){          
+          this.categoryPlaceholder = dataEn.contentTitle;
+        }
+
+        else{
+          this.categoryPlaceholder = dataBm.contentTitle;
+        }
         
       });
+    
+  }
 
+  draft(formValues: any) {
+    this.urlEdit = this.router.url.split('/')[2];
+    let txt = "";
+    let parentValEn: any;
+    let parentValBm: any;
+
+    // add form
+    if(this.urlEdit === 'add'){
+
+      let body = [
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 1
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 2
+              },        
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        }
+      ];    
+
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
+
+      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+
+      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+      }
+
+      else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+      }
+
+      console.log(JSON.stringify(body))
+     
+      this.loading = true;
+      // Add
+      this.commonservice.create(body, 'life/event/draft').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
+            this.router.navigate(['lifeevent']);
+
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+    }
+
+    // update form
+    else{
+      let body = [
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdEn,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 1
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdBm,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 2
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        }
+      ];    
+
+      console.log("kkkkkkkkkkkkkkkkkkkkk");
+      console.log(this.contentTxtEn);
+
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
+
+      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+
+      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+      }
+
+      else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+      }
+      
+
+      console.log("UPDATE: ");
+      console.log(JSON.stringify(body))
+
+      this.loading = true;
+      // Update 
+      this.commonservice.update(body, 'life/event/draft').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
+            this.router.navigate(['lifeevent']);
+
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+    }
     
   }
 
@@ -390,23 +667,31 @@ export class LifeeventComponent implements OnInit {
             "language": {
               "languageId": 1
               }
-            }]
-          },
-          {
-            "contentCategoryId": null,
-            "contents": [
-              {
-              "lifeEventTitle": null,
-              "lifeEventText": null,
-              "lifeEventDescription": null,
-              "lifeEventSort": null,
-              "lifeEventUrl": null,
-              "language": {
-                "languageId": 2
-                }
-              }]
             }
-          ];    
+          ],          
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "isActiveFlag":false
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 2
+              }
+            }
+          ],          
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "isActiveFlag":false
+        }
+      ];    
 
       body[0].contents[0].lifeEventTitle = formValues.titleEn;
       body[1].contents[0].lifeEventTitle = formValues.titleBm;
@@ -417,6 +702,14 @@ export class LifeeventComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
+      body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].isActiveFlag = formValues.active;
+
+      body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].isActiveFlag = formValues.active;
+
 
       //predefined super parent id;
       if(formValues.parentsEn == null){
@@ -425,92 +718,132 @@ export class LifeeventComponent implements OnInit {
 
         body[0].contentCategoryId = parentValEn;
         body[1].contentCategoryId = parentValBm;
-    }
+      }
 
-    else {      
+      else {      
         parentValEn = formValues.parentsEn;
         parentValBm = formValues.parentsBm;
         body[0].contentCategoryId = parentValEn.id[0];
         body[1].contentCategoryId = parentValEn.id[1];       
-    }
+      }
 
       console.log(JSON.stringify(body))
      
-      this.commonservice.create(body, 'life/event/draft').subscribe(
-        data => {         
-          
-          let errMsg = data.statusCode.toLowerCase();
-
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
+      this.loading = true;
+      // Add
+      this.commonservice.create(body, 'life/event').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
             this.router.navigate(['lifeevent']);
-          }  
+
+          }).bind(this));
+          this.loading = false;
         },
         error => {
-
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           console.log(error);
-      });
+          this.loading = false;
+        });
     }
 
     // update form
     else{
       let body = [
         {
-          "accountStatusId":this.getIdEn,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefCode,
-          "language": {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdEn,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
               "languageId": 1
-          }
-        },{
-          "accountStatusId":this.getIdBm,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefCode,
-          "language": {
+              }
+            }
+          ],
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "isActiveFlag":false
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdBm,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
               "languageId": 2
-          }
+              }
+            }
+          ],
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "isActiveFlag":false
         }
-      ]        
+      ];    
 
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
+
+      body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].isActiveFlag = formValues.active;
+
+      body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].isActiveFlag = formValues.active;
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+      }
+
+      else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+      }
       
 
       console.log("UPDATE: ");
       console.log(body);
 
-      this.commonservice.update(body,'accountstatus').subscribe(
+      this.loading = true;
+      // Update 
+      this.commonservice.update(body, 'life/event').subscribe(
         data => {
-          
-          let errMsg = data.statusCode.toLowerCase();
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
+            this.router.navigate(['lifeevent']);
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
-            this.router.navigate(['content']);
-          }  
+          }).bind(this));
+          this.loading = false;
         },
         error => {
-
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           console.log(error);
-      });
+          this.loading = false;
+        });
     }
     
   }
@@ -525,6 +858,8 @@ export class LifeeventComponent implements OnInit {
   }
 
   parseChkEn(e){
+    console.log(e);
+
     this.parseEnBtn = false;
   }
 
@@ -579,12 +914,26 @@ export class LifeeventComponent implements OnInit {
   }
 
   changePlaceHolder(){
+    this.urlEdit = this.router.url.split('/')[2];
+
     if(this.languageId == 1){
-      this.categoryPlaceholder = "Category Parents";
+      if(this.urlEdit == "add"){
+        this.categoryPlaceholder = "Category Parents";
+      }
+
+      else{
+        this.getData();
+      }
     }
 
     else{
-      this.categoryPlaceholder = "Induk Kategori";
+      if(this.urlEdit == "add"){
+        this.categoryPlaceholder = "Induk Kategori";
+      }
+
+      else{
+        this.getData();
+      }
     }
   }
 

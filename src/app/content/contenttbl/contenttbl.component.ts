@@ -18,8 +18,10 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class ContenttblComponent implements OnInit {
 
+  updateForm: FormGroup;
+  public loading = false;
   recordList = null;
-  displayedColumns = ['num','accEng', 'accMalay', 'status', 'action'];
+  displayedColumns = ['num','name', 'url', 'default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -30,9 +32,24 @@ export class ContenttblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
+  itemEn: any;
+  itemBm: any;
+  public parentsEn: FormControl;
+  public parentsBm: FormControl;
+  public parentsValEn : any;
+  public parentsValBm : any;
+  public treeEn: any;
+  public treeBm: any;
+  public categoryPlaceholder = "";
+
   dataUrl: any;  
   public languageId: any;
-  showNoData = false;
+  leCategoryCode: any;
+  countArticle = 0;
+  catCode: any;
+  catName: any;
+
+  recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -62,7 +79,11 @@ export class ContenttblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
+              this.getCategoryCode();
+              //this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
+              this.getCategory();
+              
             }
           }.bind(this));
         })
@@ -70,45 +91,110 @@ export class ContenttblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
+      //this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
+      this.getCategory();
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
 
-    this.getRecordList(this.pageCount, this.pageSize);
+    this.getCategoryCode();
+    this.commonservice.getModuleId();
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl();
+
+    this.updateForm = new FormGroup({   
+      
+      parentsEn: this.parentsEn,
+      parentsBm: this.parentsBm,
+    });
+
+    this.getCategory();
   }
 
-  getRecordList(count, size) {
-    this.commonservice.readProtected('accountstatus',count, size)
-    .subscribe(data => {
-      this.recordList = data;
+  getCategoryCode(){ 
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.leCategoryCode = resCatData['list'];          
 
-      if(this.recordList.list.length > 0){
+          let countFlag = false;
 
-        console.log("data");
-        console.log(data);
-        
-        this.dataSource.data = this.recordList.list;
-        this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
-        this.commonservice.recordTable = this.recordList;
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          for(let i=0; i<this.leCategoryCode.length; i++){     
 
-        this.showNoData = false;
-      }
+            if(countFlag == false && this.leCategoryCode[i].list[0].articleCount > 0){
+              countFlag = true;
+              this.countArticle = this.leCategoryCode[i].list[0].articleCount;
+              this.catCode = this.leCategoryCode[i].refCode;
 
-      else{
-        this.dataSource.data = []; 
-        this.showNoData = true;
-      }
-      
-    });
+              if(this.languageId == 1){
+                this.catName = this.leCategoryCode[i].list[0].categoryName;
+              }
+
+              else{
+                this.catName = this.leCategoryCode[i].list[1].categoryName;
+              }
+            }
+          }
+
+          this.categoryPlaceholder = this.catName;
+
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+
+          console.log(this.categoryPlaceholder);
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  getRecordList(page, size, code) {  
+
+    this.recordList = null;
+
+    this.loading = true;
+    this.commonservice.readProtected('life/event/'+code, page, size).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+  
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          
+          this.dataSource.data = this.recordList.list;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+  
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+
+  }
+
+  searchCode(formValues: any){
+
+    console.log("OOOOOOOO");
+    this.catCode = formValues.parentsEn.refCode;
+    this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+    console.log(this.catCode);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize, this.catCode);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -118,7 +204,7 @@ export class ContenttblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize, this.catCode);
   }
 
   add() {
@@ -132,32 +218,27 @@ export class ContenttblComponent implements OnInit {
     this.commonservice.pageModeChange(true);
   }
 
-  deleteRow(refcode) {
-    let txt;
-  
-    console.log(refcode);
-    this.commonservice.delete(refcode,'accountstatus/').subscribe(
+  deleteRow(id) {
+
+    console.log(id);
+    this.loading = true;
+    this.commonservice.delete(id,'life/event/delete/').subscribe(
       data => {
-        
-        let errMsg = data.statusCode.toLowerCase();
 
-        if(errMsg == "error"){
-          this.commonservice.errorResponse(data);
-        }
-        else{
+        this.commonservice.errorHandling(data, (function(){
 
-          txt = "Record deleted successfully!"
-          this.toastr.success(txt, '');  
-          this.getRecordList(this.pageCount, this.pageSize);
-        } 
-                  
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+        }).bind(this)); 
+        this.loading = false;
       },
       error => {
 
-        txt = "Server is down."
-        this.toastr.error(txt, '');  
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         console.log(error);
-    });    
+    });
+  
   }
 
   ngAfterViewInit() {
@@ -166,9 +247,110 @@ export class ContenttblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value, this.catCode);
     this.pageSize = event.value;
     this.noPrevData = true;
+  }
+
+  getCategory(){
+
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
+     .subscribe(data => {
+  
+      console.log("GET CATEGORY: ");
+      console.log(data);
+        
+      this.commonservice.errorHandling(data, (function(){
+
+          this.categoryData = data["list"];   
+          console.log(this.categoryData);    
+          let arrCatEn = [];      
+          let arrCatBm = [];     
+
+          for(let i=0; i<this.categoryData.length; i++){     
+    
+              if(this.categoryData[i].list.length === 2){
+                arrCatEn.push({
+                  
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[0].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[0].parentId,
+                      text: this.categoryData[i].list[0].categoryName,
+                      checked: false,
+                      children: []});      
+                    
+                arrCatBm.push({
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[1].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[1].parentId,
+                      checked: false,
+                      text: this.categoryData[i].list[1].categoryName,
+                      children: []}); 
+                    
+              }
+
+          }
+          
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
+          this.itemEn = this.treeEn;
+          console.log(this.itemEn);
+          
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+        console.log(error);
+    });
+  }
+
+  getNestedChildrenEn(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+  
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenEn(arr, arr[i].value)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }      
+    }    
+    return out  
+  }
+
+  getNestedChildrenBm(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+    
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenBm(arr, arr[i].value)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }
+      
+    }    
+    return out  
   }
 
 }

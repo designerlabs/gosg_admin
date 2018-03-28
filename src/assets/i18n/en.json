@@ -250,7 +250,11 @@
       "sliderdraft": "Slider has been saved has draft!",
       "slidersubmitted":"Slider has been submitted successfully!",
       "gallerydraft": "Gallery has been saved has draft!",
-      "gallerysubmitted":"Gallery has been submitted successfully!"
+      "gallerysubmitted":"Gallery has been submitted successfully!",
+      "ledraft": "Life Event has been saved has draft!",
+      "lesubmitted":"Life Event has been submitted successfully!",
+      "contentdraft": "Content has been saved has draft!",
+      "contentsubmitted":"Content has been submitted successfully!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -707,7 +711,9 @@
     },
     "tablebottom":{
       "contentmgmt": "Life event"
-    }
+    },
+    "citizenflag": "Citizen",
+    "noncitizenflag": "Non Citizen"
   },
   "footercategorytbl": {
     "header": "Footer Category",

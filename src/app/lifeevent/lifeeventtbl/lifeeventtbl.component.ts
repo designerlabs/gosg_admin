@@ -36,6 +36,7 @@ export class LifeeventtblComponent implements OnInit {
   itemBm: any;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
+  public keys: FormControl;
   public parentsValEn : any;
   public parentsValBm : any;
   public treeEn: any;
@@ -49,6 +50,8 @@ export class LifeeventtblComponent implements OnInit {
   catCode: any;
   catName: any;
 
+  valkey = false;
+
   recordTable = null;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -56,11 +59,19 @@ export class LifeeventtblComponent implements OnInit {
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
+  // applyFilter(e) {
+  //   console.log(e);
+  //   if(e){
+  //     this.getFilterList(this.pageCount, this.sliderPageSize, e);
+  //   }
+  //   else{
+  //     this.getSlidersData(this.pageCount, this.sliderPageSize);
+  //   }
+  // }
+
+  // resetSearch() {
+  //   this.getSlidersData(this.pageCount, this.sliderPageSize);
+  // }
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -105,14 +116,18 @@ export class LifeeventtblComponent implements OnInit {
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
+    this.keys = new FormControl();
 
     this.updateForm = new FormGroup({   
       
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
+      keys: this.keys,
     });
 
     this.getCategory();
+    this.valkey = false;
+
   }
 
 
@@ -208,6 +223,8 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   searchCode(formValues: any){
+
+    console.log("OOOOOOOO");
     this.catCode = formValues.parentsEn.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);
     console.log(this.catCode);
@@ -242,13 +259,13 @@ export class LifeeventtblComponent implements OnInit {
 
     console.log(id);
     this.loading = true;
-    this.commonservice.delete(id,'lifeevent/id/').subscribe(
+    this.commonservice.delete(id,'life/event/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize);
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
         }).bind(this)); 
         this.loading = false;
       },
@@ -371,6 +388,20 @@ export class LifeeventtblComponent implements OnInit {
       
     }    
     return out  
+  }
+
+  keysFilter(){
+
+    let keysVal = this.updateForm.get('keys');
+    //alert(keysVal.value);
+
+    if(keysVal.value == true){
+      this.valkey = true;
+    }
+
+    else{
+      this.valkey = false;
+    }    
   }
 
 
