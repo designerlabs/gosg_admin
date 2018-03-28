@@ -198,6 +198,8 @@ export class PollquestionComponent implements OnInit {
         this.res4Bm = this.recordList.pollQuestionListDto[1].answer[3].result;
         this.res5Bm = this.recordList.pollQuestionListDto[1].answer[4].result;
 
+        console.log(this.res1Bm);
+
         this.checkReqValues();
       }).bind(this));  
       this.loading = false;
@@ -263,12 +265,6 @@ export class PollquestionComponent implements OnInit {
       body[0].pollsActiveFlag = formValues.active;
       body[0].language.languageId = 1;
 
-      body[0].pollsResult1 = this.res1En;
-      body[0].pollsResult2 = this.res2En;
-      body[0].pollsResult3 = this.res3En;
-      body[0].pollsResult4 = this.res4En;
-      body[0].pollsResult5 = this.res5En;
-
       body[1].pollsQuestion = formValues.pollMalay;
       body[1].pollsAnswer1 = formValues.opt1Bm;
       body[1].pollsAnswer2 = formValues.opt2Bm;
@@ -277,12 +273,6 @@ export class PollquestionComponent implements OnInit {
       body[1].pollsAnswer5 = formValues.opt5Bm;
       body[1].pollsActiveFlag = formValues.active;   
       body[1].language.languageId = 2;
-
-      body[1].pollsResult1 = this.res1Bm;
-      body[1].pollsResult2 = this.res2Bm;
-      body[1].pollsResult3 = this.res3Bm;
-      body[1].pollsResult4 = this.res4Bm;
-      body[1].pollsResult5 = this.res5Bm;
 
       console.log("ADD BODY: ");
       console.log(JSON.stringify(body))
@@ -354,6 +344,12 @@ export class PollquestionComponent implements OnInit {
       body[0].pollsActiveFlag = formValues.active;
       body[0].language.languageId = 1;
 
+      body[0].pollsResult1 = this.res1En;
+      body[0].pollsResult2 = this.res2En;
+      body[0].pollsResult3 = this.res3En;
+      body[0].pollsResult4 = this.res4En;
+      body[0].pollsResult5 = this.res5En;
+
       body[1].pollsQuestion = formValues.pollMalay;
       body[1].pollsAnswer1 = formValues.opt1Bm;
       body[1].pollsAnswer2 = formValues.opt2Bm;
@@ -363,8 +359,14 @@ export class PollquestionComponent implements OnInit {
       body[1].pollsActiveFlag = formValues.active;
       body[1].language.languageId = 2;
 
+      body[1].pollsResult1 = this.res1Bm;
+      body[1].pollsResult2 = this.res2Bm;
+      body[1].pollsResult3 = this.res3Bm;
+      body[1].pollsResult4 = this.res4Bm;
+      body[1].pollsResult5 = this.res5Bm;
+
       console.log("UPDATE DELETE: ");
-      console.log(body);
+      console.log(JSON.stringify(body))
 
       this.commonservice.update(body,'polls/question/multiple/update').subscribe(
         data => {
