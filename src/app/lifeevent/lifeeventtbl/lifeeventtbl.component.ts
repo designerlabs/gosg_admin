@@ -53,9 +53,7 @@ export class LifeeventtblComponent implements OnInit {
   catName: any;
 
   valkey = false;
-
   recordTable = null;
-
   showNoData = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -120,9 +118,9 @@ export class LifeeventtblComponent implements OnInit {
     this.getCategoryCode();
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
-    this.parentsBm = new FormControl();
+    this.parentsBm = new FormControl({disabled: true});
     this.keys = new FormControl();
-    this.kataKunci = new FormControl();
+    this.kataKunci = new FormControl({value: '', disabled: true});
 
     this.updateForm = new FormGroup({   
       
@@ -136,27 +134,6 @@ export class LifeeventtblComponent implements OnInit {
     this.valkey = false;
 
   }
-
-
-//   onLoad(){
-//     var options = {
-//         sourceLanguage: 'en',
-//         destinationLanguage: ['hi'],
-//         shortcutKey: 'ctrl+m',
-//         transliterationEnabled: true
-//     };
-
-//     // Create an instance on TransliterationControl with the required
-//     // options.
-//     var control =
-//     this.google.elements.transliteration.TransliterationControl(options);
-//     // Enable transliteration in the textfields with the given ids.
-//     var ids = [ "language" ];
-//     control.makeTransliteratable(ids);
-//     // Show the transliteration control which can be used to toggle between
-//     // English and Hindi and also choose other destination language.
-//     control.showControl('translControl');
-// }
 
   getCategoryCode(){ 
     this.loading = true;
@@ -457,19 +434,22 @@ export class LifeeventtblComponent implements OnInit {
 
   keysFilter(){
 
-    let keysVal = this.updateForm.get('keys');
-    //alert(keysVal.value);
-
+    let keysVal = this.updateForm.get('keys');    
+    this.updateForm.get('kataKunci').setValue('');
+ 
     if(keysVal.value == true){
-      this.valkey = true;
+      this.valkey = true;      
+      this.kataKunci.enable();
+      this.parentsEn.disable();
     }
 
     else{
-      this.valkey = false;
+      this.valkey = false;      
+      this.kataKunci.disable();
+      this.parentsEn.enable();
+      this.getCategoryCode();
     }    
   }
-
-
 }
 // System.import('http://www.google.com/jsapi')
 //     .then(MyModule => {

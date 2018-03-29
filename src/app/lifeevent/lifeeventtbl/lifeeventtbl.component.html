@@ -42,7 +42,7 @@
                             [placeholder]="categoryPlaceholder"
                             [allowFilter]=true
                             [allowParentSelection]=true
-                            expandMode="All" [disabled]="valkey"></tree-select>
+                            expandMode="All"></tree-select>
                         </div>
     
                         <div class="col-md-1">
@@ -51,11 +51,13 @@
                             </button>
                         </div>
     
-                        <div class="col-md-7">
+                        <div class="col-md-7"> 
                             <mat-checkbox class="example-full-width" formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                             <mat-form-field>                        
-                                <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" placeholder="{{ 'common.placeholder.keywords' | translate }}" [disabled]="!valkey">
-                                <button mat-button *ngIf="valkey" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()" [disabled]="!valkey">
+                                <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
+                                placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                                <button mat-button *ngIf="valkey" matSuffix mat-icon-button aria-label="Clear" 
+                                (click)="resetSearch()" >
                                     <mat-icon>close</mat-icon>
                                 </button>
                             </mat-form-field>
