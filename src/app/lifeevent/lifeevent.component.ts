@@ -57,6 +57,7 @@ export class LifeeventComponent implements OnInit {
   public treeEn: any;
   public treeBm: any;
   public loading = false;
+  public parentFlag = false;
 
   public categoryPlaceholder = "";
   public filterPlaceholder = "";
@@ -64,7 +65,7 @@ export class LifeeventComponent implements OnInit {
 
   sendForApporval: any;
 
-  editor = { enVal: '', bmVal: '' };
+  editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
     "editable": true,
     "spellcheck": true,
@@ -120,7 +121,8 @@ export class LifeeventComponent implements OnInit {
       
     this.updateForm = builder.group({
       enVal: "",
-      bmVal: ""
+      bmVal: "",
+      treeVal: ""
     })
   }
   
@@ -263,6 +265,25 @@ export class LifeeventComponent implements OnInit {
     else{
       this.parseMyBtn = false;
     }
+  }
+
+  onChange(ele){    
+
+    this.urlEdit = this.router.url.split('/')[2];
+
+    if(this.urlEdit === "add" && ele == ""){
+      this.parentFlag = false;
+    }
+
+    else if(this.urlEdit === "add" && ele != ""){
+      this.parentFlag = true;
+    }
+
+    else{
+      this.parentFlag = true;
+    }
+
+    console.log(ele);   
   }
 
   getCategory(){
@@ -669,12 +690,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 1
-              }
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],          
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         },
         {
           "contentCategoryId": null,
@@ -687,12 +708,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 2
-              }
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],          
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         }
       ];    
 
@@ -705,13 +726,13 @@ export class LifeeventComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].isActiveFlag = formValues.active;
+      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].isActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
 
       //predefined super parent id;
@@ -766,12 +787,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 1
-              }
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         },
         {
           "contentCategoryId": null,
@@ -785,12 +806,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 2
-              }
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         }
       ];    
 
@@ -803,13 +824,13 @@ export class LifeeventComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].isActiveFlag = formValues.active;
+      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].isActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
       //predefined super parent id;
       if(formValues.parentsEn == null){
@@ -871,8 +892,10 @@ export class LifeeventComponent implements OnInit {
   }
 
   checkReqValues() {
+    let reqVal:any;
 
-    let reqVal:any = ["titleEn", "titleBm", "descEn", "descBm"];
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];    
+
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

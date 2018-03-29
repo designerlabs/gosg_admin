@@ -20,6 +20,11 @@ import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 })
 export class ContentComponent implements OnInit {
 
+  filterPlaceholder: string;
+
+  rawValBm: any;
+  rawValEn: any;
+
   parseEnBtn: boolean;
   parseMyBtn: boolean;
 
@@ -30,8 +35,6 @@ export class ContentComponent implements OnInit {
   public descEn: FormControl;  
   public descBm: FormControl;
   public active: FormControl;
-  public citizenflag:FormControl;
-  public noncitizenflag: FormControl;
   public seqEng: FormControl;
   public seqMy: FormControl;
   public contentTxtEn: FormControl;
@@ -56,13 +59,14 @@ export class ContentComponent implements OnInit {
   public treeEn: any;
   public treeBm: any;
   public loading = false;
+  public parentFlag = false;
 
   public categoryPlaceholder = "";
   public urlEdit = "";
 
   sendForApporval: any;
 
-
+  editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
     "editable": true,
     "spellcheck": true,
@@ -89,7 +93,8 @@ export class ContentComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
-    public dialog: MatDialog ) {
+    public dialog: MatDialog,
+    public builder: FormBuilder ) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -114,6 +119,12 @@ export class ContentComponent implements OnInit {
       //this.getData();
     }
     /* LANGUAGE FUNC */
+
+    this.updateForm = builder.group({
+      enVal: "",
+      bmVal: "",
+      treeVal: ""
+    })
   }
 
   ngOnInit() {
@@ -130,8 +141,7 @@ export class ContentComponent implements OnInit {
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
     this.active = new FormControl();
-    this.citizenflag = new FormControl();
-    this.noncitizenflag = new FormControl();
+
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
 
@@ -146,14 +156,10 @@ export class ContentComponent implements OnInit {
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       active: this.active,
-      citizenflag: this.citizenflag,
-      noncitizenflag: this.noncitizenflag,
       deleted: this.deleted,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
-    });
-
-    
+    });    
 
     this.getCategory();
 
@@ -163,8 +169,6 @@ export class ContentComponent implements OnInit {
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder(); 
       this.updateForm.get('active').setValue(true)
-      this.updateForm.get('citizenflag').setValue(true)
-      this.updateForm.get('noncitizenflag').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -233,6 +237,43 @@ export class ContentComponent implements OnInit {
         });
   }
 
+  onChangeEn(ele){
+    if(ele == this.rawValEn){
+      this.parseEnBtn = true;        
+    }
+    else{
+      this.parseEnBtn = false;
+    }   
+  }
+
+  onChangeBm(ele){
+    if(ele == this.rawValBm){
+      this.parseMyBtn = true;
+    }
+    else{
+      this.parseMyBtn = false;
+    }
+  }
+
+  onChange(ele){    
+
+    this.urlEdit = this.router.url.split('/')[2];
+
+    if(this.urlEdit === "add" && ele == ""){
+      this.parentFlag = false;
+    }
+
+    else if(this.urlEdit === "add" && ele != ""){
+      this.parentFlag = true;
+    }
+
+    else{
+      this.parentFlag = true;
+    }
+
+    console.log(ele);   
+  }
+
   getCategory(){
 
     this.loading = true;
@@ -248,7 +289,6 @@ export class ContentComponent implements OnInit {
           console.log(this.categoryData);    
           let arrCatEn = [];          
           let arrCatBm = [];          
-
 
           for(let i=0; i<this.categoryData.length; i++){     
     
@@ -353,9 +393,7 @@ export class ContentComponent implements OnInit {
         this.updateForm.get('descBm').setValue(dataBm.contentDescription);  
         this.updateForm.get('seqEng').setValue(dataEn.contentSort);
         this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
-        this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
-        this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
-        this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventCitizenFlag);   
+        this.updateForm.get('active').setValue(dataEn.isActiveFlag);        
 
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
@@ -363,8 +401,7 @@ export class ContentComponent implements OnInit {
         this.sendForApporval = dataEn.isSendForApproval;
 
         this.checkReqValues();
-        debugger;
-
+      
         let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
         let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
         let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
@@ -380,21 +417,28 @@ export class ContentComponent implements OnInit {
         let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
         let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
 
+        this.rawValEn = addClassforTable;
+        this.rawValBm = addClassforTable_BM;
+
+        //set value at input field
         this.htmlContentEn.setValue(addClassforTable);
         this.htmlContentMy.setValue(addClassforTable_BM);
 
+        //set  value after preview
         this.contentTxtEn = addClassforTable;
-        this.contentTxtMy = addClassforTable_BM;        
+        this.contentTxtMy = addClassforTable_BM;      
 
-        // this.parseEnBtn = true;
-        // this.parseMyBtn = true;
+        this.parseEnBtn = true;
+        this.parseMyBtn = true;
 
         if(this.languageId == 1){          
           this.categoryPlaceholder = dataEn.contentTitle;
+          this.filterPlaceholder = "Type your filter here..."          
         }
 
         else{
           this.categoryPlaceholder = dataBm.contentTitle;
+          this.filterPlaceholder = "Taip tapisan di sini..."
         }
         
       });
@@ -459,12 +503,7 @@ export class ContentComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[0].contents[0].lifeEventActiveFlag = formValues.active;
-
-      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
 
@@ -560,12 +599,7 @@ export class ContentComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[0].contents[0].lifeEventActiveFlag = formValues.active;
-
-      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
 
@@ -631,12 +665,12 @@ export class ContentComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 1
-              }
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],          
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         },
         {
           "contentCategoryId": null,
@@ -649,12 +683,12 @@ export class ContentComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 2
-              }
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],          
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         }
       ];    
 
@@ -667,13 +701,8 @@ export class ContentComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].isActiveFlag = formValues.active;
-
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].isActiveFlag = formValues.active;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
 
       //predefined super parent id;
@@ -728,12 +757,12 @@ export class ContentComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 1
-              }
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         },
         {
           "contentCategoryId": null,
@@ -747,12 +776,12 @@ export class ContentComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 2
-              }
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         }
       ];    
 
@@ -765,13 +794,8 @@ export class ContentComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].isActiveFlag = formValues.active;
-
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].isActiveFlag = formValues.active;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
       //predefined super parent id;
       if(formValues.parentsEn == null){
@@ -833,7 +857,16 @@ export class ContentComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["titleEn", "titleBm", "descEn", "descBm"];
+    let reqVal:any;
+
+    // if (this.urlEdit === 'add'){
+    //   reqVal = ["titleEn", "titleBm", "descEn", "descBm", "parentsEn"];
+    // }
+
+    // else{
+      reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
+    
+
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
@@ -883,6 +916,7 @@ export class ContentComponent implements OnInit {
     if(this.languageId == 1){
       if(this.urlEdit == "add"){
         this.categoryPlaceholder = "Category Parents";
+        this.filterPlaceholder = "Type your filter here..."
       }
 
       else{
@@ -893,6 +927,7 @@ export class ContentComponent implements OnInit {
     else{
       if(this.urlEdit == "add"){
         this.categoryPlaceholder = "Induk Kategori";
+        this.filterPlaceholder = "Taip tapisan di sini..."
       }
 
       else{
@@ -907,7 +942,7 @@ export class ContentComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['lifeevent']);
+    this.router.navigate(['content']);
   }
 
 }
