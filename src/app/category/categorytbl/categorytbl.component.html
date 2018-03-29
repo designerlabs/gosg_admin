@@ -83,7 +83,7 @@
                         &nbsp;
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isDeleted == false" (click)="deleteModal.show()">
                             <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode}}" ></i></button>
-                        <button mat-mini-fab class="bg_gray" *ngIf="commonservice.isDelete && element.list[0].isDeleted == true" 
+                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isDeleted == true" 
                         [disabled]="element.list[0].isDeleted == true">
                             <i [ngClass]="commonservice.icon.trash"></i></button>
                         <app-confirm-dialog  #deleteModal 

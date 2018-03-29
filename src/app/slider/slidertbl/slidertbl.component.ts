@@ -109,7 +109,7 @@ export class SlidertblComponent implements OnInit {
   getSlidersData(page, size) {
     
     this.loading = true;
-    this.commonservice.readProtected('slider/creator/4',page, size).subscribe(
+    this.commonservice.readProtected('slider/4',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -147,7 +147,7 @@ export class SlidertblComponent implements OnInit {
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('slider/creator/search/4',page, size, keyword).subscribe(
+      this.commonservice.readProtected('slider/search/4',page, size, keyword).subscribe(
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
@@ -217,23 +217,23 @@ export class SlidertblComponent implements OnInit {
   }
 
   deleteItem(refcode) {
-    debugger;
+
     this.loading = true;
-      this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
-        data => {
+    this.commonservice.delete(refcode, 'slider/delete/').subscribe(
+      data => {
 
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-            this.getSlidersData(this.pageCount, this.sliderPageSize);
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
 
-        }).bind(this)); 
+      }).bind(this)); 
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
         this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
-          this.loading = false;
-        });
+      });
 
   }
 

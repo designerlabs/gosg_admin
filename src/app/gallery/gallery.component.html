@@ -22,6 +22,7 @@
   <form [formGroup]="updateForm" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" autocomplete="off" role="form" novalidate>
       <!-- EN -->
       <div class="example-container mat-elevation-z8 col-md-12">
+
         <div class="row">
           <div class="bg-form-header col-md-6">
             <label class="staticLabel">English</label>
@@ -35,7 +36,7 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Title" formControlName="titleEn" (change)="checkReqValues()"
+              <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
                 Title is required
@@ -44,7 +45,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput placeholder="Tajuk" formControlName="titleBm" value="" (change)="checkReqValues()"
+              <input matInput placeholder="Tajuk" formControlName="titleBm" value="" (keyup)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
                 Tajuk diperlukan
@@ -56,7 +57,7 @@
         <div class="row">
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+              <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
                 Description is required
@@ -66,69 +67,99 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+              <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (keyup)="checkReqValues()"
                 required></textarea>
               <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
                 Keterangan diperlukan
               </mat-error>
               <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
-              <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
             </mat-form-field>
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
 
+        <div class="row">    
+          <div class="col-md-6">
+              <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
+              <mat-form-field class="example-full-width">
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
+                <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
+                <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
+                <owl-date-time #publish></owl-date-time>
+                <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+                  {{ 'gallerytbl.errorStartDate' | translate }}
+                </mat-error>
+              </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+              <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
+              <mat-form-field class="example-full-width">
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
+                <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" required />
+                <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
+                <owl-date-time #endD></owl-date-time>
+                <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
+                  {{ 'gallerytbl.errorEndDate' | translate }}
+                </mat-error>
+              </mat-form-field>
+          </div>
+        </div>
+
         <div class="row">
-          <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s">
-                  <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100">                  
-              </mat-form-field>
-          </div>
-          <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s" >
-                  <input matInput type="url" placeholder="URL" formControlName="urlMy" maxlength="100">
-              </mat-form-field>
-          </div>
-          <div class="col-md-12">&nbsp;</div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-            <label class="font-size-s">Media Type</label>
-            <mat-form-field class="example-full-width">
-                <mat-select formControlName="mtype" placeholder="Select Media" (change)="selectedmType($event)" required>
-                  <mat-option [value]=null>Select Media Type</mat-option>
-                  <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype.mediaTypeId">{{ mtype.mediaTypeName }}</mat-option>                      
-                </mat-select>
+          <div class="col-md-12">
+              <label class="font-size-s">Media Type</label>
+              <mat-form-field class="example-full-width">
+                  <mat-select formControlName="mtype" placeholder="Select Media" (change)="selectedmType($event)" required>
+                    <mat-option [value]=null>Select Media Type</mat-option>
+                    <mat-option *ngFor="let mtype of mediaTypes" [value]="mtype?.mediaTypeId">{{ mtype?.mediaTypeName }}</mat-option>                      
+                  </mat-select>
                   <mat-error *ngIf="updateForm.get('mtype').hasError('required')">
                     Please select a Media Type
                   </mat-error>
               </mat-form-field>
+          </div>
         </div>
-        <!-- <div class="col-md-5" style="border: 0px solid #000">
-         
-        </div> -->
-        <div class="col-md-6">
-            <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
-            <mat-form-field class="example-full-width">
-              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
-              <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
-              <owl-date-time #publish></owl-date-time>
-              <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
-                Start Date is required
-              </mat-error> -->
-            </mat-form-field>
-        </div>
-      </div>
+
         <div class="row">
-            <div class="col-md-12">
-                <label class="">{{ 'gallerytbl.galleryimg' | translate }}</label>
-            </div>
-          <div class="col-md-5" style="border: 0px solid #000">
+          <div class="col-md-12">
+              <label class="">{{ 'gallerytbl.galleryimg' | translate }}</label>
+          </div>
+
+          <div class="col-md-6" *ngIf="fileData.length>0">
             <mat-form-field class="example-full-width">
               <mat-select formControlName="imgEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
-                <mat-option [value]=null>Select Image</mat-option>
+                <mat-option [value]=null>Select File</mat-option>
                 <mat-option *ngFor="let fileEng of fileData" [value]="fileEng.list[0].mediaId">{{ fileEng.list[0].mediaFile }}</mat-option>                      
+              </mat-select>
+                <mat-error *ngIf="updateForm.get('imgEn').hasError('required')">
+                  Please select a file
+                </mat-error>
+            </mat-form-field>
+            <div *ngIf="imgEn.value != null && mediaPath == 'images'">
+              <img [src]="appConfig.externalMediaURL  +'/'+ mediaPath +'/'+ selectedFileEn" style="width:200px">
+            </div> 
+          </div>
+
+          <div class="col-md-6" *ngIf="fileData.length>0">
+            <mat-form-field class="example-full-width">
+              <mat-select formControlName="imgBm" placeholder="Pilih Fail" (change)="selectedImg($event, 2)" required>
+                <mat-option [value]=null>Pilih Fail</mat-option>
+                <mat-option *ngFor="let fileMy of fileData" [value]="fileMy.list[1].mediaId">{{ fileMy.list[1].mediaFile }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="updateForm.get('imgBm').hasError('required')">
+                Sila pilih fail
+              </mat-error>
+            </mat-form-field>
+            <div *ngIf="imgEn.value != null && mediaPath == 'images'">
+              <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFileMy" style="width:200px">
+            </div>
+          </div>
+
+          <div class="col-md-6" *ngIf="fileData.length==0">
+            <mat-form-field class="example-full-width">
+              <mat-select formControlName="imgEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
+                <mat-option [value]=null>No file</mat-option>                
               </mat-select>
                 <mat-error *ngIf="updateForm.get('imgEn').hasError('required')">
                   Please select a file
@@ -138,40 +169,36 @@
               <img [src]="appConfig.externalMediaURL  +'/'+ mediaPath +'/'+ selectedFileEn" style="width:200px">
             </div> 
           </div>
-          <div class="col-md-2" style="text-align: center; padding-top: 15px;">
-              <mat-checkbox formControlName="copyImg" (change)="isChecked($event)"></mat-checkbox><span class="">&nbsp;{{ 'gallerytbl.copy' | translate }}</span>
-          </div>
-          <div class="col-md-5" style="border: 0px solid #000; text-align: left">
+  
+          <div class="col-md-6" *ngIf="fileData.length==0">
             <mat-form-field class="example-full-width">
-              <mat-select formControlName="imgBm" placeholder="Pilih File" (change)="selectedImg($event, 2)" required>
-                <mat-option [value]=null>Pilih File</mat-option>
-                <mat-option *ngFor="let fileMy of fileData" [value]="fileMy.list[1].mediaId">{{ fileMy.list[1].mediaFile }}</mat-option>
+              <mat-select formControlName="imgBm" placeholder="Pilih Fail" (change)="selectedImg($event, 2)" required>
+                <mat-option [value]=null>Tiada Fail</mat-option>
               </mat-select>
-            <mat-error *ngIf="updateForm.get('imgBm').hasError('required')">
-              Please select a file
-            </mat-error>
+              <mat-error *ngIf="updateForm.get('imgBm').hasError('required')">
+                Sila pilih fail
+              </mat-error>
             </mat-form-field>
             <div *ngIf="selectedFileMy.length>0">
               <img [src]="appConfig.externalMediaURL +'/'+ mediaPath +'/'+ selectedFileMy" style="width:200px">
             </div>
           </div>
-          <div class="col-md-1">
-            &nbsp;
-          </div>
         </div>
+
+    
 
         <div class="row">
           <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s" >
+              <mat-form-field class="example-full-width" >
                   <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
               </mat-form-field>
           </div>
           <div class="col-md-6">
-              <mat-form-field class="example-full-width font-size-s" >
+              <mat-form-field class="example-full-width" >
                   <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
               </mat-form-field>
           </div>
-      </div>
+        </div>
 
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
@@ -184,15 +211,16 @@
   
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
-        <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
-          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
-            (click)="gallerySubmit(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite" style="padding-bottom:20px;">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+          (click)="gallerySubmit(updateForm.value)" [disabled]="!complete || sendForApporval">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;Submit</button>
-            <button mat-raised-button type="button" color="primary" class="btn btn-md btn-success pull-right mgn_L_5px" (click)="galleryDraft(updateForm.value)" [disabled]="!complete">
-              <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-              <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;Save Draft</button>
-          <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning pull-right" (click)="resetModal.show()">
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+          (click)="galleryDraft(updateForm.value)" [disabled]="!complete || sendForApporval">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" (click)="resetModal.show()">
             <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
         </div>
       <!-- <div class="col-md-12">&nbsp;</div> -->

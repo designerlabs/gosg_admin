@@ -250,7 +250,11 @@
       "sliderdraft": "Slider has been saved has draft!",
       "slidersubmitted":"Slider has been submitted successfully!",
       "gallerydraft": "Gallery has been saved has draft!",
-      "gallerysubmitted":"Gallery has been submitted successfully!"
+      "gallerysubmitted":"Gallery has been submitted successfully!",
+      "ledraft": "Life Event has been saved has draft!",
+      "lesubmitted":"Life Event has been submitted successfully!",
+      "contentdraft": "Content has been saved has draft!",
+      "contentsubmitted":"Content has been submitted successfully!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -290,7 +294,8 @@
       "isrequired": "is required"
     },
     "placeholder": {
-      "keywords": "Keywords"
+      "keywords": "Keywords",
+      "keywordsBySubject": "Subject Keywords"
     },
     "filterby": {
       "filterby": "Filter By",
@@ -586,6 +591,38 @@
       "question": "questions"
     }
   },
+  "inbox": {
+    "name":"Inbox",
+    "nameAdd":"Add Inbox",
+    "header": "Inbox List",
+    "tableHeader":{
+      "subject": "Subject",
+      "content": "Content",
+      "sender": "Sender",
+      "to": "To",
+      "insertDate": "Insert Date",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "inbox"
+    }
+  },
+  "inboxsent": {
+    "name":"Inbox Sent",
+    "nameAdd":"Add Inbox Sent",
+    "header": "Inbox Sent List",
+    "tableHeader":{
+      "subject": "Subject",
+      "content": "Content",
+      "sender": "Sender",
+      "to": "To",
+      "insertDate": "Insert Date",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "inbox sent"
+    }
+  },
   "feedbacktbl": {
     "header": "Feedback Admin List",
     "tableHeader":{
@@ -669,12 +706,14 @@
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
-      "category": "category",
-      "statusdraft": "Draf Status"
+      "category": "Category",
+      "statusdraft": "Status Draft"
     },
     "tablebottom":{
       "contentmgmt": "Life event"
-    }
+    },
+    "citizenflag": "Citizen",
+    "noncitizenflag": "Non Citizen"
   },
   "footercategorytbl": {
     "header": "Footer Category",
@@ -699,10 +738,13 @@
   },
   "gallerytbl": {
     "name": "Gallery",
-    "galleryimg": "Gallery Image",
+    "galleryimg": "Gallery Information",
     "header": "Gallery Management",
     "copy": "Copy",
-    "publishDt" : "Publish Date",
+    "publishDt" : "Start Publish Date",
+    "endDt" : "End Publish Date",
+    "errorStartDate": "Start Publish Date is required",
+    "errorEndDate": "End Publish Date is required",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
@@ -926,9 +968,11 @@
   },
   "calendar": {
     "header": "Calendar",
+    "extheader": "External Calendar",
     "tableHeader":{
       "eventNameEn": "Event Name (EN)",
-      "eventNameBm": "Event Name (BM)"
+      "eventNameBm": "Event Name (BM)",
+      "eventName": "Event Name"
     },
     "tablebottom":{
       "calendar": "calendar list"
@@ -939,10 +983,12 @@
     },
     "component":{
       "header": "Event",
+      "desc": "Description",
       "location": "Location",
       "city": "City",
       "startdate": "Start Date",
       "enddate": "End Date",
+      "status": "Event Status",
       "image": "Image",
       "select": "Select",
       "imageerr": "Please select a file"
@@ -962,9 +1008,12 @@
   "publisher": {
     "header": "Publisher Management",
     "tableHeader":{
-      "titleEn": "Title (EN)",
+      "titleEn": "Title",
       "titleBm": "Title (BM)",
-      "statusdraft": "Status Draft"
+      "statusdraft": "Status Draft",
+      "category": "Category",
+      "desc": "Description",
+      "userInfo":"User Information"
     },
     "tableBottom":{
       

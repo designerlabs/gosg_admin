@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-publisher',
@@ -17,7 +18,13 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class PublisherComponent implements OnInit {
 
-  sliderData: Object;
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  minDate: any;
+
+  publisherData: Object;
   dataUrl: any;
   date = new Date();
   updateForm: FormGroup
@@ -25,9 +32,9 @@ export class PublisherComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-  sliderCode: any;
-  sliderIdEn: any;
-  sliderIdBm: any;
+  publisherCode: any;
+  publisherIdEn: any;
+  publisherIdBm: any;
 
   isRead: boolean;
   isCreate: boolean;
@@ -35,6 +42,9 @@ export class PublisherComponent implements OnInit {
   isDelete: boolean;
   languageId: any;
 
+  mtype: FormControl
+  publish: FormControl
+  endD: FormControl
   titleEn: FormControl
   titleBm: FormControl
   descEn: FormControl
@@ -42,22 +52,34 @@ export class PublisherComponent implements OnInit {
   imgEn: FormControl
   imgBm: FormControl
   active: FormControl
-  copyImg: FormControl
+  approve: FormControl
   urlEng: FormControl
   urlMy: FormControl
   seqEng: FormControl
   seqMy: FormControl
-  resetMsg = this.resetMsg;
-  imageData: any;
+  //imageData: any;
   public loading = false;
   getImgIdEn: any;
   getImgIdBm: any;
   selectedFileEn = '';
   selectedFileMy = '';
 
-  sendForApporval: boolean;
+  fileData = [];
+  mediaTypes: any;
+  mediaPath = '';
 
+  sendForApporval: boolean;
   refCode = "";
+
+  categoryCode: any;
+  categoryName: any;
+  appPublisher = false;
+
+  disableApprove: any;
+  userDetails: any;
+  createdBy: any;
+  fullName: any;
+  email: any;
 
   constructor(
     private http: HttpClient,
@@ -78,7 +100,6 @@ export class PublisherComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.changeLanguageAddEdit();
-              // this.getMinistryData(this.pageCount, this.agencyPageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -87,7 +108,6 @@ export class PublisherComponent implements OnInit {
     });
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
-      // this.getMinistryData(this.pageCount, this.agencyPageSize);
       this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
@@ -96,9 +116,13 @@ export class PublisherComponent implements OnInit {
   ngOnInit() {
 
     this.refCode = this.router.url.split('/')[2];
-    this.commonservice.getModuleId();
-    this.getImageList();
+    this.commonservice.getModuleId();    
+    this.getMinEventDate();
+    
 
+    this.mtype = new FormControl()
+    this.publish = new FormControl()
+    this.endD = new FormControl
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
@@ -108,11 +132,15 @@ export class PublisherComponent implements OnInit {
     this.urlEng = new FormControl();
     this.urlMy = new FormControl();
     this.active = new FormControl();
-    this.copyImg = new FormControl();
+    this.approve = new FormControl();
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
 
     this.updateForm = new FormGroup({
+
+      mtype: this.mtype,
+      endD: this.endD,
+      publish: this.publish,
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
@@ -122,18 +150,27 @@ export class PublisherComponent implements OnInit {
       descBm: this.descBm,
       imgBm: this.imgBm,
       active: this.active,
-      copyImg: this.copyImg,
+      approve: this.approve,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
     });
 
+    let now = new Date();
+
     if (this.refCode == "add") {
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
+      this.publishdt = now.getTime();
+      this.updateForm.get('publish').setValue(now.getTime());
+      this.enddt = now.getTime();
+      this.updateForm.get('endD').setValue(now.getTime());
     } else {
       this.commonservice.pageModeChange(true);
       this.getRow(this.refCode);
     }
+    
+    this.getImageList();  
+    this.getMediaTypes();
 
     // #### for disable non update user ---1
     if (!this.commonservice.isUpdate && this.commonservice.isWrite) {
@@ -147,34 +184,176 @@ export class PublisherComponent implements OnInit {
     this.router.navigate(['publisher']);
   }
 
+  getMediaTypes(){ // data for media type
+    this.loading = true;
+    return this.commonservice.readProtected('mediatype')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.mediaTypes = resCatData['mediaTypes'];
+
+          console.log(this.mediaTypes);
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  selectedmType(e){
+
+    let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
+    this.mediaPath = ""
+
+    this.updateForm.get('imgEn').setValue('');
+    this.updateForm.get('imgBm').setValue('');
+
+    console.log("###########");
+    console.log(resMT);
+
+    if(resMT[0].mediaTypeName === "Images"){
+      this.mediaPath = "images";
+    }else if(resMT[0].mediaTypeName === "Documents"){
+      this.mediaPath = "documents";
+    }else if(resMT[0].mediaTypeName === "Videos"){
+      this.mediaPath = "videos";
+    }else if(resMT[0].mediaTypeName === "Audios"){
+      this.mediaPath = "audios";
+    }
+
+    this.getFileList(e.value);
+    this.checkReqValues();
+  }
+
+  getFileList(mediaId) {
+   
+    console.log(mediaId);
+    this.loading = true;
+    return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
+      .subscribe(resCatData => {
+
+        this.commonservice.errorHandling(resCatData, (function () {
+            this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
+
+            console.log(this.fileData);
+            
+            if(this.fileData.length>0){
+              this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
+              this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
+            }
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  getUserInfo(id) {
+   
+    console.log(id);
+    this.loading = true;
+    return this.commonservice.readProtected('usermanagement/' + id)
+      .subscribe(resUser => {
+
+        this.commonservice.errorHandling(resUser, (function () {
+          
+            this.userDetails = resUser["user"];
+            console.log("##############################");
+            console.log(this.userDetails);
+
+            this.fullName = this.userDetails.fullName;
+            this.email = this.userDetails.email;
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+
+    this.minDate = new Date(year, month, todaysdt);
+  }
+
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("START: "+type);
+    console.log(event.value);
+    this.publishdt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.publishdt);
+    this.checkReqValues()
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("END: "+type);
+    console.log(event.value);
+    this.enddt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.enddt);
+    this.checkReqValues()
+  }
+
   // get, add, update, delete
   getRow(row) {
 
     this.loading = true;
-    // Update Slider Service
-    return this.commonservice.readProtectedById('content/creator/', row).subscribe(
+    
+    return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
 
-          this.sliderData = Rdata;
-          console.log(this.sliderData)
-          let dataEn = this.sliderData['list'][0];
-          let dataBm = this.sliderData['list'][1];
+          this.publisherData = Rdata;
+          console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+          console.log(this.publisherData)
+          let dataEn = this.publisherData['contentDetailList'][0];
+          let dataBm = this.publisherData['contentDetailList'][1];
 
-          // populate data
+          //populate data
           this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
           this.updateForm.get('descEn').setValue(dataEn.contentDescription);
          
           this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
           this.updateForm.get('descBm').setValue(dataBm.contentDescription);
           
-          this.updateForm.get('active').setValue(dataEn.isActiveFlag);
           this.updateForm.get('urlEng').setValue(dataEn.contentUrl);
           this.updateForm.get('urlMy').setValue(dataBm.contentUrl);
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
           this.updateForm.get('seqMy').setValue(dataBm.contentSort);
 
+          this.updateForm.get('active').setValue(dataEn.isActiveFlag);
+          this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
+          this.updateForm.get('mtype').setValue(parseInt(dataEn.contentImage.mediaTypeId));
+
+          this.categoryCode = dataEn.contentCategories[0].categoryCode;
+          this.categoryName = dataEn.contentCategories[0].categoryName;
+
+          this.createdBy = dataEn.createdBy;
+          this.getUserInfo(this.createdBy);
+
+          //get list of images if slider
+          if(this.categoryCode === 4){
+            this.getImageList();
+          }
+
+          //get list of images if besides slider
+          else{
+            this.getFileList(dataEn.contentImage.mediaTypeId);
+          }
+      
           if(dataEn.contentImage != null){
             this.selectedFileEn = dataEn.contentImage.mediaFile;
             this.selectedFileMy = dataBm.contentImage.mediaFile;
@@ -182,16 +361,35 @@ export class PublisherComponent implements OnInit {
             this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
             this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
           }
-          console.log("******************UPDATE*****************************");
-          console.log("EN: "+this.selectedFileEn+ " BM: "+this.selectedFileMy);
 
+          if(dataEn.isApprovedFlag == true){
+            this.appPublisher = false;
+          }
 
-          this.sliderCode = this.sliderData.refCode;
-          this.sliderIdEn = dataEn.contentId;
-          this.sliderIdBm = dataBm.contentId;
-          this.sendForApporval = dataEn.isSendForApproval;
+          this.disableApprove = dataEn.isApprovedFlag;
 
-          //this.isSameImg(dataEn.sliderImage, dataBm.sliderImage);
+          this.dateFormatExample = "";
+
+          this.publishdt = dataEn.publishDate;
+          this.enddt = dataEn.endDate;
+          this.updateForm.get('publish').setValue(dataEn.publishDate);
+          this.updateForm.get('endD').setValue(dataEn.publishDate);
+
+          this.publisherCode = this.publisherData.refCode;
+          this.publisherIdEn = dataEn.contentId;
+          this.publisherIdBm = dataBm.contentId;
+          this.sendForApporval = dataEn.isSendForApproval;          
+
+          //get path
+          if(dataEn.contentImage.mediaTypeId === 1){
+            this.mediaPath = "documents";
+          }else if(dataEn.contentImage.mediaTypeId === 2){
+            this.mediaPath = "images";
+          }else if(dataEn.contentImage.mediaTypeId === 3){
+            this.mediaPath = "audios";
+          }else if(dataEn.contentImage.mediaTypeId === 4){
+            this.mediaPath = "videos";
+          }
 
           this.checkReqValues();
 
@@ -219,12 +417,12 @@ export class PublisherComponent implements OnInit {
 
     let titleEn = "titleEn";
     let descEn = "descEn";
-    let imgEn = "imgEn";
+    //let imgEn = "imgEn";
     let titleBm = "titleBm";
     let descBm = "descBm";
-    let imgBm = "imgBm";
+   // let imgBm = "imgBm";
 
-    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm];
+    let reqVal: any = [titleEn, descEn, titleBm, descBm];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -235,8 +433,6 @@ export class PublisherComponent implements OnInit {
         nullPointers.push(null)
       }
     }
-
-    // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
 
     // console.log(nullPointers)
     if (nullPointers.length > 0) {
@@ -255,7 +451,7 @@ export class PublisherComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999')
       .subscribe(resCatData => {
-        this.imageData = resCatData['list'];
+        this.fileData = resCatData['list'];
         this.loading = false;
       },
         Error => {
@@ -268,7 +464,7 @@ export class PublisherComponent implements OnInit {
     console.log(e);
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
-    let dataList = this.imageData;
+    let dataList = this.fileData;
     let indexVal: any;
     let idBm: any;
     let idEn: any;
@@ -331,90 +527,6 @@ export class PublisherComponent implements OnInit {
 
   sliderDraft(formValues: any) {
 
-    if (this.refCode == "add") {
-
-      let body = [
-        
-        { 
-          "contentCategoryId": null,
-          "contents": [
-            {
-              "sliderTitle": null,
-              "sliderDescription": null,
-              "sliderImage": {
-                "mediaId": null
-              },
-              // "sliderCode": null,
-              "sliderSort": null,
-              "sliderUrl": null,
-              "sliderActiveFlag": false,
-              "language": {
-                "languageId": null
-              }
-            }
-          ]
-        },
-        {
-          "contentCategoryId": null,
-          "contents": [
-            {
-              "sliderTitle": null,
-              "sliderDescription": null,
-              "sliderImage": {
-                "mediaId": null
-              },
-              // "sliderCode": null,
-              "sliderSort": null,
-              "sliderUrl": null,
-              "sliderActiveFlag": false,
-              "language": {
-                "languageId": null
-              }
-            }
-          ]
-        }
-      ];
-
-      // console.log(formValues)
-      body[0].contentCategoryId = 15;
-      body[0].contents[0].sliderTitle = formValues.titleEn;
-      body[0].contents[0].sliderDescription = formValues.descEn;
-      body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
-      body[0].contents[0].sliderSort = formValues.seqEng;
-      body[0].contents[0].sliderUrl = formValues.urlEng;
-      body[0].contents[0].sliderActiveFlag = formValues.active;
-      body[0].contents[0].language.languageId = 1;
-
-      body[1].contentCategoryId = 16;
-      body[1].contents[0].sliderTitle = formValues.titleBm;
-      body[1].contents[0].sliderDescription = formValues.descBm;
-      body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
-      body[1].contents[0].sliderSort = formValues.seqMy;
-      body[1].contents[0].sliderUrl = formValues.urlMy;
-      body[1].contents[0].sliderActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;
-
-      console.log(JSON.stringify(body))
-
-      this.loading = true;
-      // Add Slider Service
-      this.commonservice.create(body, 'slider/creator/draft').subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
-            this.router.navigate(['slider']);
-
-          }).bind(this));
-          this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-      });
-
-    } else {
-
       let body = [
         {
           "contentCategoryId": null,
@@ -457,7 +569,7 @@ export class PublisherComponent implements OnInit {
       ];
 
       body[0].contentCategoryId = 15;
-      body[0].contents[0].sliderId = this.sliderIdEn;
+      body[0].contents[0].sliderId = this.publisherIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
       body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
@@ -467,7 +579,7 @@ export class PublisherComponent implements OnInit {
       body[0].contents[0].language.languageId = 1;
 
       body[1].contentCategoryId = 16;
-      body[1].contents[0].sliderId = this.sliderIdBm;
+      body[1].contents[0].sliderId = this.publisherIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
       body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
@@ -480,7 +592,6 @@ export class PublisherComponent implements OnInit {
       console.log(JSON.stringify(body))
 
       this.loading = true;
-      // Update Slider Service
       this.commonservice.update(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
@@ -495,25 +606,24 @@ export class PublisherComponent implements OnInit {
           console.log(error);
           this.loading = false;
         });
-    }
+    
   }
   
   sliderSubmit(formValues: any) {
 
-    if (this.refCode == "add") {
-
       let body = [
         
         { 
           "contentCategoryId": null,
           "contents": [
             {
+              "sliderId":  this.publisherIdEn,
               "sliderTitle": null,
               "sliderDescription": null,
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -527,97 +637,13 @@ export class PublisherComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
+              "sliderId":  this.publisherIdBm,
               "sliderTitle": null,
               "sliderDescription": null,
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
-              "sliderSort": null,
-              "sliderUrl": null,
-              "sliderActiveFlag": false,
-              "language": {
-                "languageId": null
-              }
-            }
-          ]
-        }
-      ];
-
-      // console.log(formValues)
-      body[0].contentCategoryId = 15;
-      body[0].contents[0].sliderTitle = formValues.titleEn;
-      body[0].contents[0].sliderDescription = formValues.descEn;
-      body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
-      body[0].contents[0].sliderSort = formValues.seqEng;
-      body[0].contents[0].sliderUrl = formValues.urlEng;
-      body[0].contents[0].sliderActiveFlag = formValues.active;
-      body[0].contents[0].language.languageId = 1;
-
-      body[1].contentCategoryId = 16;
-      body[1].contents[0].sliderTitle = formValues.titleBm;
-      body[1].contents[0].sliderDescription = formValues.descBm;
-      body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
-      body[1].contents[0].sliderSort = formValues.seqMy;
-      body[1].contents[0].sliderUrl = formValues.urlMy;
-      body[1].contents[0].sliderActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;
-
-      console.log(JSON.stringify(body))
-
-      this.loading = true;
-      // Add Slider Service
-      this.commonservice.create(body, 'slider/creator').subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.draftsubmitted'), ''); 
-            this.router.navigate(['slider']);
-
-          }).bind(this));
-          this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-      });
-    }
-
-    else{
-
-      let body = [
-        
-        { 
-          "contentCategoryId": null,
-          "contents": [
-            {
-              "sliderId":  this.sliderIdEn,
-              "sliderTitle": null,
-              "sliderDescription": null,
-              "sliderImage": {
-                "mediaId": null
-              },
-              // "sliderCode": null,
-              "sliderSort": null,
-              "sliderUrl": null,
-              "sliderActiveFlag": false,
-              "language": {
-                "languageId": null
-              }
-            }
-          ]
-        },
-        {
-          "contentCategoryId": null,
-          "contents": [
-            {
-              "sliderId":  this.sliderIdBm,
-              "sliderTitle": null,
-              "sliderDescription": null,
-              "sliderImage": {
-                "mediaId": null
-              },
-              // "sliderCode": null,
+              // "publisherCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -667,9 +693,20 @@ export class PublisherComponent implements OnInit {
           this.loading = false;
       });
 
+    
+  }
+
+  approvePublisher(){
+
+    let appVal = this.updateForm.get('approve');
+
+    if(appVal.value == true){
+      this.appPublisher = true;
     }
 
-    
+    else{
+      this.appPublisher = false;
+    }    
   }
 
 }

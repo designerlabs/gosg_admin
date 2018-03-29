@@ -18,9 +18,7 @@
     width: 100%;
 }
 
-.dialogCloseBtn{
-    float: right;
-    bottom: 20px;
-    position: relative;
-    right: -20px;
+.label-name {
+    padding: 15px;
+    font-size: 17px;
 }

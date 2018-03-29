@@ -89,6 +89,12 @@ import { PublisherComponent } from './publisher/publisher.component';
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
 import { LifeeventComponent } from './lifeevent/lifeevent.component';
 
+import { InboxComponent } from './inbox/inbox.component';
+import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
+
+import { InboxsentComponent } from './inboxsent/inboxsent.component';
+import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
+
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
 {path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -176,6 +182,14 @@ export const appRoutes: Routes = [
 {path: 'footer/footercategory/:id', component: FootercategoryComponent},
 {path: 'footer/footercategory/add', component: FootercategoryComponent},
 
+{path: 'inbox', component: InboxtblComponent},
+{path: 'inbox/:id', component: InboxComponent},
+{path: 'inbox/add', component: InboxComponent},
+
+{path: 'inboxsent', component: InboxsenttblComponent},
+{path: 'inboxsent/:id', component: InboxsentComponent},
+{path: 'inboxsent/add', component: InboxsentComponent},
+
 {path: 'footer/footercontent', component: FootercontenttblComponent},
 {path: 'footer/footercontent/:id', component: FootercontentComponent},
 {path: 'footer/footercontent/add', component: FootercontentComponent},
@@ -230,7 +244,6 @@ export const appRoutes: Routes = [
 
 {path: 'publisher', component: PublishertblComponent},
 {path: 'publisher/:id', component: PublisherComponent},
-{path: 'publisher/add', component: PublisherComponent},
 
 {path: '**', component: ErrorComponent}, // put at the last row
 // All Category

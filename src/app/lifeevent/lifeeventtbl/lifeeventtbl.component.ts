@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 
-
+declare var System: any;
 @Component({
   selector: 'app-lifeeventtbl',
   templateUrl: './lifeeventtbl.component.html',
@@ -18,6 +18,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class LifeeventtblComponent implements OnInit {
 
+  updateForm: FormGroup;
   public loading = false;
   recordList = null;
   displayedColumns = ['num','name', 'url', 'default_status', 'status', 'action'];
@@ -31,20 +32,48 @@ export class LifeeventtblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
+  itemEn: any;
+  itemBm: any;
+  public parentsEn: FormControl;
+  public parentsBm: FormControl;
+  public keys: FormControl;
+  public kataKunci: FormControl;
+  public parentsValEn : any;
+  public parentsValBm : any;
+  public treeEn: any;
+  public treeBm: any;
+  public categoryPlaceholder = "";
+  public filterPlaceholder = "";
+
   dataUrl: any;  
   public languageId: any;
+  leCategoryCode: any;
+  countArticle = 0;
+  catCode: any;
+  catName: any;
 
+  valkey = false;
   recordTable = null;
+  showNoData = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.pageSize, e);
+    }
+    else{
+      this.getCategoryCode();
+    }
+  }
+
+  resetSearch() {
+    this.updateForm.get('kataKunci').setValue('');
+    this.getCategoryCode();
   }
 
   constructor(private http: HttpClient, 
@@ -64,8 +93,11 @@ export class LifeeventtblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
+              this.getCategoryCode();
+              //this.getRecordList(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
+              this.getCategory();
+              
             }
           }.bind(this));
         })
@@ -73,35 +105,110 @@ export class LifeeventtblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
+      //this.getRecordList(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
+      this.getCategory();
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
     //this.getRecordList(this.pageCount, this.pageSize);
+    
+    this.getCategoryCode();
     this.commonservice.getModuleId();
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl({disabled: true});
+    this.keys = new FormControl();
+    this.kataKunci = new FormControl({value: '', disabled: true});
+
+    this.updateForm = new FormGroup({   
+      
+      parentsEn: this.parentsEn,
+      parentsBm: this.parentsBm,
+      keys: this.keys,
+      kataKunci: this.kataKunci
+    });
+
+    this.getCategory();
+    this.valkey = false;
+
   }
 
-  getRecordList(page, size) {  
+  getCategoryCode(){ 
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () {
+          this.leCategoryCode = resCatData['list'];          
+
+          let countFlag = false;
+
+          for(let i=0; i<this.leCategoryCode.length; i++){     
+
+            if(countFlag == false && this.leCategoryCode[i].list[0].articleCount > 0){
+              countFlag = true;
+              this.countArticle = this.leCategoryCode[i].list[0].articleCount;
+              this.catCode = this.leCategoryCode[i].refCode;
+
+              if(this.languageId == 1){
+                this.catName = this.leCategoryCode[i].list[0].categoryName;
+                this.filterPlaceholder = "Type your filter here..."
+              }
+
+              else{
+                this.catName = this.leCategoryCode[i].list[1].categoryName;
+                this.filterPlaceholder = "Taip tapisan di sini..."
+              }
+            }
+          }
+
+          this.categoryPlaceholder = this.catName;
+
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+
+          console.log(this.categoryPlaceholder);
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
+  getRecordList(page, size, code) {  
 
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readPortal('font', page, size).subscribe(
+    this.commonservice.readProtected('life/event/'+code, page, size).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
           this.recordList = data;
           console.log("data");
           console.log(data);
-          
-          this.dataSource.data = this.recordList.list;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          if(this.recordList.list.length > 0){  
+            this.dataSource.data = this.recordList.list;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+
+            this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          }
         }).bind(this)); 
         this.loading = false;
       },
@@ -114,8 +221,59 @@ export class LifeeventtblComponent implements OnInit {
 
   }
 
+  getFilterList(page, size, e) {  
+
+    this.recordList = null;
+
+    this.loading = true;
+    this.commonservice.readProtected('life/event/search/643', page, size,e).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+  
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          if(this.recordList.list.length > 0){  
+            this.dataSource.data = this.recordList.list;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+
+            this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          }
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+  
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+
+  }
+
+  searchCode(formValues: any){
+
+    console.log("OOOOOOOO");
+    this.catCode = formValues.parentsEn.refCode;
+    this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+    console.log(this.catCode);
+  }
+
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize, this.catCode);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -125,7 +283,7 @@ export class LifeeventtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize, this.catCode);
   }
 
   add() {
@@ -143,13 +301,13 @@ export class LifeeventtblComponent implements OnInit {
 
     console.log(id);
     this.loading = true;
-    this.commonservice.delete(id,'lifeevent/id/').subscribe(
+    this.commonservice.delete(id,'life/event/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize);
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
         }).bind(this)); 
         this.loading = false;
       },
@@ -168,10 +326,132 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value, this.catCode);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
 
+  getCategory(){
 
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
+     .subscribe(data => {
+  
+      console.log("GET CATEGORY: ");
+      console.log(data);
+        
+      this.commonservice.errorHandling(data, (function(){
+
+          this.categoryData = data["list"];   
+          console.log(this.categoryData);    
+          let arrCatEn = [];      
+          let arrCatBm = [];     
+
+          for(let i=0; i<this.categoryData.length; i++){     
+    
+              if(this.categoryData[i].list.length === 2){
+                arrCatEn.push({
+                  
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[0].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[0].parentId,
+                      text: this.categoryData[i].list[0].categoryName,
+                      checked: false,
+                      children: []});      
+                    
+                arrCatBm.push({
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[1].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[1].parentId,
+                      checked: false,
+                      text: this.categoryData[i].list[1].categoryName,
+                      children: []}); 
+                    
+              }
+
+          }
+          
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
+          this.itemEn = this.treeEn;
+          console.log(this.itemEn);
+          
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+        console.log(error);
+    });
+  }
+
+  getNestedChildrenEn(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+  
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenEn(arr, arr[i].value)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }      
+    }    
+    return out  
+  }
+
+  getNestedChildrenBm(arr, parent) {
+    var out = []
+    var children = []
+
+    for(var i in arr) {
+    
+        if(arr[i].parent == parent) {
+            children = this.getNestedChildrenBm(arr, arr[i].value)
+
+            if(children.length) {
+                 arr[i].children = children
+            }
+            out.push(arr[i])
+        }
+      
+    }    
+    return out  
+  }
+
+  keysFilter(){
+
+    let keysVal = this.updateForm.get('keys');    
+    this.updateForm.get('kataKunci').setValue('');
+ 
+    if(keysVal.value == true){
+      this.valkey = true;      
+      this.kataKunci.enable();
+      this.parentsEn.disable();
+    }
+
+    else{
+      this.valkey = false;      
+      this.kataKunci.disable();
+      this.parentsEn.enable();
+      this.getCategoryCode();
+    }    
+  }
 }
+// System.import('http://www.google.com/jsapi')
+//     .then(MyModule => {
+//        debugger;
+//     });

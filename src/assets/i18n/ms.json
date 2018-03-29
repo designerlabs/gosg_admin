@@ -247,10 +247,14 @@
       "deletesuccess_multi":"Rekod yang dipilih berjaya dipadam!",
       "feedbacksummitted":"Maklum balas berjaya dihantar!",
       "feedbackdraft":"Maklum balas berjaya disimpan sebagai deraf!",
-      "sliderdraft": "Slider has been saved has draft!",
-      "slidersubmitted":"Slider has been submitted successfully!",
-      "gallerydraft": "Gallery has been saved has draft!",
-      "gallerysubmitted":"Gallery has been submitted successfully!"
+      "sliderdraft": "Slider berjaya disimpan sebagai deraf!",
+      "slidersubmitted":"Slider berjaya dihantar!",
+      "gallerydraft": "Galeri berjaya disimpan sebagai deraf!",
+      "gallerysubmitted":"Galeri berjaya dihantar!",
+      "ledraft": "Peristiwa Kehidupan  berjaya disimpan sebagai deraf!",
+      "lesubmitted":"Peristiwa Kehidupan berjaya dihantar!",
+      "contentdraft": "Kandungan berjaya disimpan sebagai deraf!",
+      "contentsubmitted":"Kandungan  berjaya dihantar!"
     },
     "icon":{
       "success":"fa fa-check",
@@ -290,7 +294,8 @@
       "isrequired": "diperlukan"
     },
     "placeholder": {
-      "keywords": "Kata Kunci"
+      "keywords": "Kata Kunci",
+      "keywordsBySubject": "Kata Kunci Subjek"
     },
     "filterby": {
       "filterby": "Tapisan Mengikut",
@@ -586,6 +591,38 @@
       "question": "soalan"
     }
   },
+  "inbox": {
+    "name":"Peti Masuk",
+    "nameAdd":"Tambah Peti Masuk",
+    "header": "Senarai Peti Masuk",
+    "tableHeader":{
+      "subject": "Subjek",
+      "content": "Kandungan",
+      "sender": "Penghantar",
+      "to": "Kepada",
+      "insertDate": "Tarikh Masuk",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "peti masuk"
+    }
+  },
+  "inboxsent": {
+    "name":"Peti Masuk Dihantar",
+    "nameAdd":"Tambah Peti Masuk Dihantar",
+    "header": "Senarai Peti Masuk Dihantar",
+    "tableHeader":{
+      "subject": "Subjek",
+      "content": "Kandungan",
+      "sender": "Penghantar",
+      "to": "Kepada",
+      "insertDate": "Tarikh Masuk",
+      "status": "Status"
+    },
+    "tablebottom":{
+      "inboxList": "peti masuk dihantar"
+    }
+  },
   "feedbacktbl": {
     "header": "Senarai Maklum Balas Admin",
     "tableHeader":{
@@ -665,16 +702,18 @@
     }
   },
   "lifeeventtbl":{
-    "header": "Life Event",
+    "header": "Peristiwa Kehidupan",
     "tableHeader":{
-      "titleEn": "Title (EN)",
-      "titleBm": "Title (BM)",
-      "category": "category",
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "category": "Kategori",
       "statusdraft": "Draf Status"
     },
     "tablebottom":{
-      "contentmgmt": "Life event"
-    }
+      "contentmgmt": "Peristiwa Kehidupan"
+    },
+    "citizenflag": "Warganegara",
+    "noncitizenflag": "Bukan Warganegara"
   },
   "footercategorytbl": {
     "header": "Kategori Footer",
@@ -699,10 +738,13 @@
   },
   "gallerytbl": {
     "name": "Galeri",
-    "galleryimg": "Imej Galeri",
+    "galleryimg": "Maklumat Galeri",
     "header": "Pengurusan Galeri",
     "copy": "Salin",
-    "publishDt" : "Tarikh Terbitkan",
+    "publishDt" : "Tarikh Mula Terbitan",
+    "endDt" : "Tarikh Akhir Terbitan",
+    "errorStartDate": "Tarikh Mula Terbitan diperlukan",
+    "errorEndDate": "Tarikh Akhir Terbitan diperlukan",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
       "titleBm": "Tajuk (BM)",
@@ -926,9 +968,11 @@
   },
   "calendar": {
     "header": "Kalendar",
+    "extheader": "Kalendar Luaran",
     "tableHeader":{
       "eventNameEn": "Nama Acara (EN)",
-      "eventNameBm": "Nama Acara (BM)"
+      "eventNameBm": "Nama Acara (BM)",
+      "eventName": "Nama Acara"
     },
     "tablebottom":{
       "calendar": "senarai kalendar"
@@ -939,10 +983,12 @@
     },
     "component":{
       "header": "Acara",
+      "desc": "Keterangan",
       "location": "Lokasi",
       "city": "Bandar",
       "startdate": "Tarikh Mula",
       "enddate": "Tarikh Akhir",
+      "status": "Status Acara",
       "image": "Imej",
       "select": "Pilih",
       "imageerr": "Sila pilih fail"
@@ -962,9 +1008,12 @@
   "publisher": {
     "header": "Pengurusan Percetakan",
     "tableHeader":{
-      "titleEn": "Tajuk (EN)",
+      "titleEn": "Tajuk",
       "titleBm": "Tajuk (BM)",
-      "statusdraft": "Draf Status"
+      "statusdraft": "Draf Status",
+      "category": "Kategori",
+      "desc": "Keterangan",
+      "userInfo":"Maklumat Pengguna"
     },
     "tableBottom":{
       

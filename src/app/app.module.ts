@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, ElementRef } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule, Http } from '@angular/http';
 import { HttpClientModule, HttpClient } from '@angular/common/http';  // replaces previous Http service
@@ -112,8 +112,14 @@ import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/even
 import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
 import { PublisherComponent } from './publisher/publisher.component';
 import { PublishertblComponent } from './publisher/publishertbl/publishertbl.component';
-import { LifeeventComponent } from './lifeevent/lifeevent.component';
+import { LifeeventComponent, DialogResultExampleDialog } from './lifeevent/lifeevent.component';
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
+// import { JoditAngularModule } from 'jodit-angular';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { InboxComponent } from './inbox/inbox.component';
+import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
+import { InboxsentComponent } from './inboxsent/inboxsent.component';
+import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -208,9 +214,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     PublishertblComponent,
     LifeeventComponent,
     LifeeventtblComponent,
+    DialogResultExampleDialog,
+    InboxComponent,
+    InboxtblComponent,
+    InboxsentComponent,
+    InboxsenttblComponent,
   ],
+  entryComponents: [DialogResultExampleDialog],
   imports: [
     BrowserModule,
+    // JoditAngularModule,
     ToastrModule.forRoot({
       preventDuplicates: true
     }),
@@ -244,6 +257,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoadingModule,
     OwlDateTimeModule, 
     OwlNativeDateTimeModule,
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot()
 
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()

@@ -1,126 +1,189 @@
 <div class="container-fluid">
-    <div class="curdHeader">
-        <div class="col-md-10 curdHeadingLeft">
-            <h3>{{ 'contentmgmt.header' | translate }}</h3>
-        </div>
-        
-        <div class="col-md-2 curdHeadingRight">
-            <span class="pull-right">
-                <button type="button" mat-fab color="warn" (click)="add()" >
-                    <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
-            </span>
-        </div> 
-    </div>
-  
-    <div class="example-container mat-elevation-z8">
+        <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
     
-        <!-- <div class="col-md-12 paddingTop-10">
-            <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-            </mat-form-field>
-        </div> -->
-  
-        <mat-table #table [dataSource]="dataSource">           
-        
-            <!-- num Column -->
-            <ng-container matColumnDef="num">
-                <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-                <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-                </mat-cell>
-            </ng-container>
-        
-            <!-- Account Status en Column -->
-            <ng-container matColumnDef="accEng">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'contentmgmt.tableHeader.categoryEn' | translate }} </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[0].accountStatusDescription}} 
-                </mat-cell>
-            </ng-container>
-  
-            <!-- Account Status bm Column -->
-            <ng-container matColumnDef="accMalay">
-                <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'contentmgmt.tableHeader.categoryBm' | translate }} </mat-header-cell>
-                <mat-cell class="text-align-Left" *matCellDef="let element">
-                    {{element.list[1].accountStatusDescription}}
-                </mat-cell>
-            </ng-container>
-        
-            <!-- status Column -->
-            <ng-container matColumnDef="status">
-                <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
-                <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
-                    <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-                    <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
-                </mat-cell>
-            </ng-container>
-  
-            <!-- action Column -->
-            <ng-container matColumnDef="action">
-                <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
-                <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                    <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
-                    <!-- <i class="fa fa-edit" title="Update {{ element.refCode }}"></i> -->
-                    <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
-                    <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i></button>
-                    &nbsp;
-                    <button mat-mini-fab class="bg_red" (click)="deleteModal.show()">
-                        <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode}}"></i></button>
-                    <app-confirm-dialog  #deleteModal 
-                    [title]="'common.icon.warn'" 
-                    [content]="'common.msg.delete'"
-                    [state]="'bg_header bg_warn_header'"
-                    [isReset]="'true'"
-                    (resetMethod)="deleteRow(element.refCode)">
-                    </app-confirm-dialog>
-                </mat-cell>
-            </ng-container>
-        
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        
-        <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+        <div class="curdHeader">
+            <div class="col-md-10 curdHeadingLeft">
+                <h3>{{ 'contentmgmt.header' | translate }}</h3>
+            </div>
+            
+            <div class="col-md-2 curdHeadingRight">
+                <span class="pull-right">
+                    <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
+                    <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
+                </span>
+            </div> 
+        </div>
+    
+        <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+            {{'common.msg.unauthorized' | translate}}
+        </div>
+    
+        <div *ngIf="commonservice.isRead">
+            <div class="example-container mat-elevation-z8">
+                
+                <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+                    <br>
+                    <div class="example-header">                
+    
+                        <div class="col-md-4">
+                            <tree-select  class="font-size-m example-full-width" name="simpleSelect"
+                            [items]="itemEn"
+                            textField ="text"
+                            idField = "value"
+                            childrenField="children"
+                            formControlName="parentsEn"
+                            [filterPlaceholder]="filterPlaceholder"
+                            minlength="2"
+                            maxlength="4"
+                            tabindex="5"
+                            required=true
+                            #simpleSelect
+                            [placeholder]="categoryPlaceholder"
+                            [allowFilter]=true
+                            [allowParentSelection]=true
+                            expandMode="All" ></tree-select>
+                        </div>
+    
+                        <div class="col-md-1">
+                            <button mat-mini-fab class="bg_green" (click)="searchCode(updateForm.value)" [disabled]="valkey">
+                                <i [ngClass]="commonservice.icon.arrRight"></i>
+                            </button>
+                        </div>
+    
+                        <div class="col-md-7"> 
+                            <mat-checkbox class="example-full-width" formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
+                            <mat-form-field>                        
+                                <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
+                                placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                                <button mat-button *ngIf="valkey" matSuffix mat-icon-button aria-label="Clear" 
+                                (click)="resetSearch()" >
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+    
+                <mat-table #table [dataSource]="dataSource">           
+                
+                    <!-- num Column -->
+                    <ng-container matColumnDef="num">
+                        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                        </mat-cell>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
+                            {{element.list[0]?.contentTitle}}
+                        </mat-cell>
+                    </ng-container>
+    
+                    <!-- Url Column -->
+                    <ng-container matColumnDef="url">
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-Left" *matCellDef="let element">
+                            {{element.list[1]?.contentTitle }}
+                        </mat-cell>
+                    </ng-container>
+    
+                    <!-- Default Column -->
+                    <ng-container matColumnDef="default_status">
+                        <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> Status </mat-header-cell>
+                        <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                            <i *ngIf="element.list[0].isActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                            <i *ngIf="element.list[0].isActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                        </mat-cell>
+                    </ng-container>
+                
+                    <!-- status Column -->
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                            <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
+                            <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>
+                            <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Approved" [disabled]="true"></button>
+                        </mat-cell>
+                    </ng-container>
+    
+                    <!-- action Column -->
+                    <ng-container matColumnDef="action">
+                        <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                            <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
+                                <i *ngIf="commonservice.isUpdate && element.list[0].isSendForApproval == false" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
+                                <i *ngIf="!commonservice.isUpdate || element.list[0].isSendForApproval == true" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+                            </button>
+                            &nbsp;
+                            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isSendForApproval == false" 
+                                (click)="delete.show()" title="Delete {{ element.refCode }}">
+                                <i [ngClass]="commonservice.icon.trash"></i>
+                            </button>
+                            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
+                                [disabled]="element.list[0].isSendForApproval == true">  
+                                <i [ngClass]="commonservice.icon.trash"></i>
+                            </button>
+                            <app-confirm-dialog  #delete
+                            [title]="'common.icon.warn'" 
+                            [content]="'common.msg.delete'"
+                            [state]="'bg_header bg_warn_header'"
+                            [isReset]="'true'"
+                            (resetMethod)="deleteRow(element.refCode)">
+                            </app-confirm-dialog>
+                        </mat-cell>
+                    </ng-container>
+                
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+
+                <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+                
+            </div>
+            
+            <div class="float-right paddingTop-15">
+                <mat-form-field class="table_footer_pagecount">
+                    <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                    <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                    <!-- <mat-option value="10">10</mat-option>
+                    <mat-option value="25">25</mat-option>
+                    <mat-option value="50">50</mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+                <span class="float-right">
+                    <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                        <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                        <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+                        <strong>{{recordTable?.totalElements}}</strong> {{ 'contentmgmt.tablebottom.contentmgmt' | translate }}
+                    </span>
+                    <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+                    <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+                    </button>
+                    <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
+                    <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+    
     </div>
-  
-  <div class="float-right paddingTop-15">
-    <mat-form-field class="table_footer_pagecount">
-        <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-        <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
-        <!-- <mat-option value="10">10</mat-option>
-        <mat-option value="25">25</mat-option>
-        <mat-option value="50">50</mat-option> -->
-        </mat-select>
-    </mat-form-field>
-    <span class="float-right">
-        <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
-            <strong>{{commonservice.recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
-            <strong>{{commonservice.recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-            <strong>{{commonservice.recordTable?.totalElements}}</strong> {{ 'contentmgmt.tablebottom.contentmgmt' | translate }}
-        </span>
-        <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(commonservice.recordTable?.pageNumber)">
-            <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
-        </button>
-        <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(commonservice.recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
-            <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
-        </button>
-    </span>
-  </div>
-  </div>
-  
-  <!-- <app-confirm-dialog  #resetModal 
-  [title]="'common.icon.warn'" 
-  [content]="'common.msg.reset'"
-  [state]="'common.state.warn'" 
-  [isReset]="'true'"
-  (resetMethod)="resetMethod($event)">
-  </app-confirm-dialog>
-  
-  <app-confirm-dialog  #infoModal 
-  [title]="'common.icon.success'" 
-  [content]="'register.popupmsg.success_content1'"
-  [email] = "getEmail"
-  [content2] = "'register.popupmsg.success_content2'" 
-  [state]="'common.state.success'" 
-  [isRegister]="'index'">
-  </app-confirm-dialog> -->
+    
+    <!-- <app-confirm-dialog  #resetModal 
+    [title]="'common.icon.warn'" 
+    [content]="'common.msg.reset'"
+    [state]="'common.state.warn'" 
+    [isReset]="'true'"
+    (resetMethod)="resetMethod($event)">
+    </app-confirm-dialog>
+    
+    <app-confirm-dialog  #infoModal 
+    [title]="'common.icon.success'" 
+    [content]="'register.popupmsg.success_content1'"
+    [email] = "getEmail"
+    [content2] = "'register.popupmsg.success_content2'" 
+    [state]="'common.state.success'" 
+    [isRegister]="'index'">
+    </app-confirm-dialog> -->

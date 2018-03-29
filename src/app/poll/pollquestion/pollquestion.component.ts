@@ -37,6 +37,18 @@ export class PollquestionComponent implements OnInit {
 
   public active: FormControl
 
+  public res1En: any;
+  public res2En: any;
+  public res3En: any;
+  public res4En: any;
+  public res5En: any;
+
+  public res1Bm: any;
+  public res2Bm: any;
+  public res3Bm: any;
+  public res4Bm: any;
+  public res5Bm: any;
+
   public dataUrl: any;  
   public recordList: any;
 
@@ -173,6 +185,20 @@ export class PollquestionComponent implements OnInit {
         this.getIdEn = this.recordList.pollQuestionListDto[0].questionId;
         this.getIdBm = this.recordList.pollQuestionListDto[1].questionId;
         this.getRefId = this.recordList.pollQuestionListDto[0].pollReference;
+
+        this.res1En = this.recordList.pollQuestionListDto[0].answer[0].result;
+        this.res2En = this.recordList.pollQuestionListDto[0].answer[1].result;
+        this.res3En = this.recordList.pollQuestionListDto[0].answer[2].result;
+        this.res4En = this.recordList.pollQuestionListDto[0].answer[3].result;
+        this.res5En = this.recordList.pollQuestionListDto[0].answer[4].result;
+
+        this.res1Bm = this.recordList.pollQuestionListDto[1].answer[0].result;
+        this.res2Bm = this.recordList.pollQuestionListDto[1].answer[1].result;
+        this.res3Bm = this.recordList.pollQuestionListDto[1].answer[2].result;
+        this.res4Bm = this.recordList.pollQuestionListDto[1].answer[3].result;
+        this.res5Bm = this.recordList.pollQuestionListDto[1].answer[4].result;
+
+        console.log(this.res1Bm);
 
         this.checkReqValues();
       }).bind(this));  
@@ -318,6 +344,12 @@ export class PollquestionComponent implements OnInit {
       body[0].pollsActiveFlag = formValues.active;
       body[0].language.languageId = 1;
 
+      body[0].pollsResult1 = this.res1En;
+      body[0].pollsResult2 = this.res2En;
+      body[0].pollsResult3 = this.res3En;
+      body[0].pollsResult4 = this.res4En;
+      body[0].pollsResult5 = this.res5En;
+
       body[1].pollsQuestion = formValues.pollMalay;
       body[1].pollsAnswer1 = formValues.opt1Bm;
       body[1].pollsAnswer2 = formValues.opt2Bm;
@@ -327,8 +359,14 @@ export class PollquestionComponent implements OnInit {
       body[1].pollsActiveFlag = formValues.active;
       body[1].language.languageId = 2;
 
+      body[1].pollsResult1 = this.res1Bm;
+      body[1].pollsResult2 = this.res2Bm;
+      body[1].pollsResult3 = this.res3Bm;
+      body[1].pollsResult4 = this.res4Bm;
+      body[1].pollsResult5 = this.res5Bm;
+
       console.log("UPDATE DELETE: ");
-      console.log(body);
+      console.log(JSON.stringify(body))
 
       this.commonservice.update(body,'polls/question/multiple/update').subscribe(
         data => {

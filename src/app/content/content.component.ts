@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
+import { stringify } from '@angular/core/src/util';
+import { forEach } from '@angular/router/src/utils/collection';
+import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 
 @Component({
   selector: 'app-content',
@@ -17,25 +20,35 @@ import { DialogsService } from './../dialogs/dialogs.service';
 })
 export class ContentComponent implements OnInit {
 
+  filterPlaceholder: string;
+
+  rawValBm: any;
+  rawValEn: any;
+
+  parseEnBtn: boolean;
+  parseMyBtn: boolean;
+
   updateForm: FormGroup;
   
   public titleEn: FormControl;  
   public titleBm: FormControl;
   public descEn: FormControl;  
   public descBm: FormControl;
-  public imgEn: FormControl;
-  public imgBm: FormControl;
-  public catEn: FormControl;
-  public catBm: FormControl;
   public active: FormControl;
+  public seqEng: FormControl;
+  public seqMy: FormControl;
+  public contentTxtEn: FormControl;
+  public contentTxtMy: FormControl;
   public htmlContentEn: FormControl;
   public htmlContentMy: FormControl;
-
+  itemEn: any;
+  itemBm: any;
+  public parentsEn: FormControl;
+  public parentsBm: FormControl;
   public dataUrl: any;  
   public recordList: any;
   public categoryData: any;
-  public getCatIdEn: any;
-  public getCatIdBm: any;
+  public deleted: FormControl;
 
   public getIdEn: any;
   public getIdBm: any;
@@ -43,27 +56,35 @@ export class ContentComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
-  public urlEdit = "";
+  public treeEn: any;
+  public treeBm: any;
   public loading = false;
+  public parentFlag = false;
 
+  public categoryPlaceholder = "";
+  public urlEdit = "";
+
+  sendForApporval: any;
+
+  editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
     "editable": true,
     "spellcheck": true,
-    "height": "20rem",
-    "minHeight": "5rem",
-    "maxHeight": "50rem",
+    "height": "600px",
+    "minHeight": "0",
     "width": "auto",
     "minWidth": "0",
+    "translate": "yes",
     "enableToolbar": true,
     "showToolbar": true,
     "placeholder": "Enter text here...",
     "toolbar": [
-        ["bold", "italic"],        
-        ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
-        ["orderedList", "unorderedList"],
-        ["link", "unlink", "image"]
+        ["bold", "italic"],
+        ["cut", "copy", "delete", "undo", "redo"],
+        ["paragraph", "orderedList", "unorderedList"],
+        ["link", "unlink"]
     ]
-}
+  }
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -71,7 +92,9 @@ export class ContentComponent implements OnInit {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
-    private dialogsService: DialogsService) {
+    private dialogsService: DialogsService,
+    public dialog: MatDialog,
+    public builder: FormBuilder ) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -81,9 +104,10 @@ export class ContentComponent implements OnInit {
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
+              this.getCategory();           
               this.languageId = val.languageId;
-              //this.getUsersData(this.pageCount, this.pageSize);
               this.changeLanguageAddEdit();
+              this.changePlaceHolder();
             }
           }.bind(this));
         })
@@ -91,22 +115,33 @@ export class ContentComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
+      this.getCategory();
       //this.getData();
     }
     /* LANGUAGE FUNC */
+
+    this.updateForm = builder.group({
+      enVal: "",
+      bmVal: "",
+      treeVal: ""
+    })
   }
 
   ngOnInit() {
+    this.parseEnBtn = false;
+    this.parseMyBtn = false;
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl();
+    this.deleted = new FormControl();
 
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
     this.descBm = new FormControl();
-    this.imgEn = new FormControl();
-    this.imgBm = new FormControl();
-    this.catEn = new FormControl();
-    this.catBm = new FormControl();
+    this.seqEng = new FormControl();
+    this.seqMy = new FormControl();
     this.active = new FormControl();
+
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
 
@@ -116,14 +151,15 @@ export class ContentComponent implements OnInit {
       titleBm: this.titleBm,
       descEn: this.descEn,    
       descBm: this.descBm,
-      imgEn: this.imgEn,
-      imgBm: this.imgBm,
-      catEn: this.catEn,
-      catBm: this.catBm,
+      seqEng: this.seqEng,
+      seqMy: this.seqMy,
+      parentsEn: this.parentsEn,
+      parentsBm: this.parentsBm,
       active: this.active,
+      deleted: this.deleted,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
-    });
+    });    
 
     this.getCategory();
 
@@ -131,48 +167,16 @@ export class ContentComponent implements OnInit {
     
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
+      this.changePlaceHolder(); 
       this.updateForm.get('active').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
+     
+      console.log(this.parseEnBtn);
     }
-  }
-
-  selectedCat(e, val){
-
-    console.log(e);
-    this.getCatIdEn = e.value;
-    this.getCatIdBm = e.value;
-    let dataList = this.categoryData;
-    let indexVal: any;
-    let idBm: any;
-    let idEn: any;
-
-    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm+ " value: " +val);
-
-    if(val == 1){
-
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[0].id;
-        if(indexVal == this.getCatIdEn){
-          idBm = dataList[i].list[1].id;
-        }        
-      }
-
-      this.updateForm.get('catBm').setValue(idBm);  
-    }
-    else{
-
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[1].id;
-        if(indexVal == this.getCatIdBm){
-          idEn = dataList[i].list[0].id;
-        }        
-      }
-
-      this.updateForm.get('catEn').setValue(idEn); 
-    }
+    this.commonservice.getModuleId();
   }
 
   previewEn() {
@@ -180,8 +184,21 @@ export class ContentComponent implements OnInit {
     this.loading = true;
     return this.commonservice.create(this.htmlContentEn.value, 'htmlcontent/formathtml')
       .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () {          
-          console.log(resCatData);
+        this.commonservice.errorHandling(resCatData, (function () { 
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+
+          dialogRef.componentInstance.content = addClassforSpan;
+          this.contentTxtEn = dialogRef.componentInstance.content;
+          this.parseEnBtn = true;
       }).bind(this));
         this.loading = false;
       },
@@ -192,12 +209,75 @@ export class ContentComponent implements OnInit {
         });
   }
   previewMy(){
-    console.log();
+    this.loading = true;
+    return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () { 
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+          dialogRef.componentInstance.content = addClassforSpan;
+          this.parseMyBtn = true;
+          this.contentTxtMy = dialogRef.componentInstance.content;
+
+      }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+  }
+
+  onChangeEn(ele){
+    if(ele == this.rawValEn){
+      this.parseEnBtn = true;        
+    }
+    else{
+      this.parseEnBtn = false;
+    }   
+  }
+
+  onChangeBm(ele){
+    if(ele == this.rawValBm){
+      this.parseMyBtn = true;
+    }
+    else{
+      this.parseMyBtn = false;
+    }
+  }
+
+  onChange(ele){    
+
+    this.urlEdit = this.router.url.split('/')[2];
+
+    if(this.urlEdit === "add" && ele == ""){
+      this.parentFlag = false;
+    }
+
+    else if(this.urlEdit === "add" && ele != ""){
+      this.parentFlag = true;
+    }
+
+    else{
+      this.parentFlag = true;
+    }
+
+    console.log(ele);   
   }
 
   getCategory(){
 
-    return this.commonservice.getCategoryList()
+    this.loading = true;
+    return this.commonservice.readProtected('life/event/dropdown/643')
      .subscribe(data => {
   
       console.log("GET CATEGORY: ");
@@ -208,34 +288,52 @@ export class ContentComponent implements OnInit {
           this.categoryData = data["list"];   
           console.log(this.categoryData);    
           let arrCatEn = [];          
-          let parentEn;
           let arrCatBm = [];          
-          let parentBm;
 
-          for(let i=0; i<this.categoryData.length; i++){        
-         
-            arrCatEn.push({id:this.categoryData[i].list[0].categoryId,
-                         refCode: this.categoryData[i].refCode,
-                         parent: this.categoryData[i].list[0].parentId,
-                         categoryName: this.categoryData[i].list[0].categoryName});      
-                         
-            arrCatBm.push({id:this.categoryData[i].list[1].categoryId,
-                          refCode: this.categoryData[i].refCode,
-                          parent: this.categoryData[i].list[1].parentId,
-                          categoryName: this.categoryData[i].list[1].categoryName}); 
+          for(let i=0; i<this.categoryData.length; i++){     
+    
+              if(this.categoryData[i].list.length === 2){
+                arrCatEn.push({
+                  
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[0].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[0].parentId,
+                      text: this.categoryData[i].list[0].categoryName,
+                      checked: false,
+                      children: []});      
+                    
+                arrCatBm.push({
+                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                      value:this.categoryData[i].list[1].categoryId,
+                      refCode: this.categoryData[i].refCode,
+                      parent: this.categoryData[i].list[1].parentId,
+                      checked: false,
+                      text: this.categoryData[i].list[1].categoryName,
+                      children: []}); 
+                    
+              }
+
           }
           
-          this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
-          this.treeBm = this.getNestedChildrenBm(arrCatBm, -2);
-          console.log(arrCatEn);
-          console.log(JSON.stringify(this.treeEn));
-          console.log(JSON.stringify(this.treeBm));
+          if(this.languageId == 1){
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }else if(this.languageId == 2){
+            this.treeEn = this.getNestedChildrenBm(arrCatBm, -2);
+          }else{
+            this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
+          }
+          
+          this.itemEn = this.treeEn;
+          console.log(this.itemEn);
           
         }).bind(this));
+        this.loading = false;
       },
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
         console.log(error);
     });
   }
@@ -247,14 +345,13 @@ export class ContentComponent implements OnInit {
     for(var i in arr) {
     
         if(arr[i].parent == parent) {
-            children = this.getNestedChildrenEn(arr, arr[i].id)
+            children = this.getNestedChildrenEn(arr, arr[i].value)
 
             if(children.length) {
                  arr[i].children = children
             }
             out.push(arr[i])
-        }
-      
+        }      
     }    
     return out  
   }
@@ -266,7 +363,7 @@ export class ContentComponent implements OnInit {
     for(var i in arr) {
     
         if(arr[i].parent == parent) {
-            children = this.getNestedChildrenBm(arr, arr[i].id)
+            children = this.getNestedChildrenBm(arr, arr[i].value)
 
             if(children.length) {
                  arr[i].children = children
@@ -281,139 +378,461 @@ export class ContentComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
-     this.commonservice.readPortalById('accountstatus/code/', _getRefID)
+    this.loading = true;
+
+     this.commonservice.readProtectedById('content/publisher/', _getRefID)
       .subscribe(data => {
         this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+        let dataEn = this.recordList['contentDetailList'][0];
+        let dataBm = this.recordList['contentDetailList'][1];
 
-        this.updateForm.get('titleEn').setValue(this.recordList[0].accountStatusDescription);
-        this.updateForm.get('titleBm').setValue(this.recordList[1].accountStatusDescription);   
-        this.updateForm.get('descEn').setValue(this.recordList[0].accountStatusDescription);
-        this.updateForm.get('descBm').setValue(this.recordList[1].accountStatusDescription);  
-        this.updateForm.get('parents').setValue(this.recordList[0].enabled);    
-        this.updateForm.get('active').setValue(this.recordList[0].enabled);      
-        this.updateForm.get('ismainmenu').setValue(this.recordList[0].enabled);    
+        this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
+        this.updateForm.get('titleBm').setValue(dataBm.contentTitle);   
+        this.updateForm.get('descEn').setValue(dataEn.contentDescription);
+        this.updateForm.get('descBm').setValue(dataBm.contentDescription);  
+        this.updateForm.get('seqEng').setValue(dataEn.contentSort);
+        this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
+        this.updateForm.get('active').setValue(dataEn.isActiveFlag);        
 
-        this.getIdEn = this.recordList[0].accountStatusId;
-        this.getIdBm = this.recordList[1].accountStatusId;
-        this.getRefCode = this.recordList[0].accountStatusCode;
+        this.getIdEn = dataEn.contentId;
+        this.getIdBm = dataBm.contentId;
+        this.getRefCode = this.recordList.refCode;
+        this.sendForApporval = dataEn.isSendForApproval;
 
         this.checkReqValues();
+      
+        let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
+        let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
+        let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
+        let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
+        let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
+        let addClassforTable = addClassforSpan.replace('class="table">', '>');
+
+
+        let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
+        let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
+        let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
+        let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
+        let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
+        let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
+
+        this.rawValEn = addClassforTable;
+        this.rawValBm = addClassforTable_BM;
+
+        //set value at input field
+        this.htmlContentEn.setValue(addClassforTable);
+        this.htmlContentMy.setValue(addClassforTable_BM);
+
+        //set  value after preview
+        this.contentTxtEn = addClassforTable;
+        this.contentTxtMy = addClassforTable_BM;      
+
+        this.parseEnBtn = true;
+        this.parseMyBtn = true;
+
+        if(this.languageId == 1){          
+          this.categoryPlaceholder = dataEn.contentTitle;
+          this.filterPlaceholder = "Type your filter here..."          
+        }
+
+        else{
+          this.categoryPlaceholder = dataBm.contentTitle;
+          this.filterPlaceholder = "Taip tapisan di sini..."
+        }
         
       });
-
     
   }
 
-  submit(formValues: any) {
+  draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
     let txt = "";
+    let parentValEn: any;
+    let parentValBm: any;
 
     // add form
     if(this.urlEdit === 'add'){
 
       let body = [
         {
-        
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
               "languageId": 1
-          }
-        },{
-          "accountStatusDescription": null,
-          "enabled":false,
-          "language": {
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
               "languageId": 2
-          }
+              },        
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
         }
-      ]    
+      ];    
 
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      console.log("TEST")
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+      }
+
+      else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+      }
+
       console.log(JSON.stringify(body))
      
-      this.commonservice.create(body, 'accountstatus').subscribe(
-        data => {         
-          
-          let errMsg = data.statusCode.toLowerCase();
+      this.loading = true;
+      // Add
+      this.commonservice.create(body, 'life/event/draft').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
+            this.router.navigate(['lifeevent']);
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record added successfully!"
-            this.toastr.success(txt, '');  
-            this.router.navigate(['content']);
-          }  
+          }).bind(this));
+          this.loading = false;
         },
         error => {
-
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           console.log(error);
-      });
+          this.loading = false;
+        });
     }
 
     // update form
     else{
       let body = [
         {
-          "accountStatusId":this.getIdEn,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefCode,
-          "language": {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdEn,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
               "languageId": 1
-          }
-        },{
-          "accountStatusId":this.getIdBm,
-          "accountStatusDescription": null,
-          "enabled":false,
-          "accountStatusCode": this.getRefCode,
-          "language": {
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdBm,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
               "languageId": 2
-          }
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
         }
-      ]        
+      ];    
 
-      body[0].accountStatusDescription = formValues.accEn;
-      body[0].enabled = formValues.active;
-      body[1].accountStatusDescription = formValues.accBm;
-      body[1].enabled = formValues.active;
+      console.log("kkkkkkkkkkkkkkkkkkkkk");
+      console.log(this.contentTxtEn);
+
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
+
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+      }
+
+      else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+      }
+      
+
+      console.log("UPDATE: ");
+      console.log(JSON.stringify(body))
+
+      this.loading = true;
+      // Update 
+      this.commonservice.update(body, 'life/event/draft').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
+            this.router.navigate(['lifeevent']);
+
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+    }
+    
+  }
+
+  submit(formValues: any) {
+    this.urlEdit = this.router.url.split('/')[2];
+    let txt = "";
+    let parentValEn: any;
+    let parentValBm: any;
+
+    // add form
+    if(this.urlEdit === 'add'){
+
+      let body = [
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 1
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 2
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        }
+      ];    
+
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
+
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+      }
+
+      else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+      }
+
+      console.log(JSON.stringify(body))
+     
+      this.loading = true;
+      // Add
+      this.commonservice.create(body, 'life/event').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
+            this.router.navigate(['lifeevent']);
+
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+    }
+
+    // update form
+    else{
+      let body = [
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdEn,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+       
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 1
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        },
+        {
+          "contentCategoryId": null,
+          "contents": [
+            {
+            "lifeEventId":  this.getIdBm,
+            "lifeEventTitle": null,
+            "lifeEventText": null,
+            "lifeEventDescription": null,
+            "lifeEventSort": null,
+            "lifeEventUrl": null,
+            "language": {
+              "languageId": 2
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
+            }
+          ]
+        }
+      ];    
+
+      body[0].contents[0].lifeEventTitle = formValues.titleEn;
+      body[1].contents[0].lifeEventTitle = formValues.titleBm;
+      body[0].contents[0].lifeEventText = this.contentTxtEn;
+      body[1].contents[0].lifeEventText = this.contentTxtMy;
+      body[0].contents[0].lifeEventDescription = formValues.descEn;
+      body[1].contents[0].lifeEventDescription = formValues.descBm;
+      body[0].contents[0].lifeEventSort = formValues.seqEng;
+      body[1].contents[0].lifeEventSort = formValues.seqMy;
+
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+
+      //predefined super parent id;
+      if(formValues.parentsEn == null){
+        parentValEn = -1;
+        parentValBm = -2;
+
+        body[0].contentCategoryId = parentValEn;
+        body[1].contentCategoryId = parentValBm;
+      }
+
+      else {      
+        parentValEn = formValues.parentsEn;
+        parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = parentValEn.id[0];
+        body[1].contentCategoryId = parentValEn.id[1];       
+      }
       
 
       console.log("UPDATE: ");
       console.log(body);
 
-      this.commonservice.update(body,'accountstatus').subscribe(
+      this.loading = true;
+      // Update 
+      this.commonservice.update(body, 'life/event').subscribe(
         data => {
-          
-          let errMsg = data.statusCode.toLowerCase();
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
+            this.router.navigate(['lifeevent']);
 
-          if(errMsg == "error"){
-            this.commonservice.errorResponse(data);
-          }
-          
-          else{
-            txt = "Record updated successfully!"
-            this.toastr.success(txt, '');  
-            this.router.navigate(['content']);
-          }  
+          }).bind(this));
+          this.loading = false;
         },
         error => {
-
-          txt = "Server is down."
-          this.toastr.error(txt, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           console.log(error);
-      });
+          this.loading = false;
+        });
     }
     
   }
@@ -427,9 +846,27 @@ export class ContentComponent implements OnInit {
     }
   }
 
+  parseChkEn(e){
+    console.log(e);
+    this.parseEnBtn = false;
+  }
+
+  parseChkMy(e){
+    this.parseMyBtn = false;
+  }
+
   checkReqValues() {
 
-    let reqVal:any = ["titleEn", "titleBm", "descEn", "descBm"];
+    let reqVal:any;
+
+    // if (this.urlEdit === 'add'){
+    //   reqVal = ["titleEn", "titleBm", "descEn", "descBm", "parentsEn"];
+    // }
+
+    // else{
+      reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
+    
+
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
@@ -448,6 +885,57 @@ export class ContentComponent implements OnInit {
     }
   }
 
+  copyValue(type) {
+    let elemOne = this.updateForm.get('seqEng');
+    let elemTwo = this.updateForm.get('seqMy');
+
+    if (type == 1)
+      elemTwo.setValue(elemOne.value)
+    else
+      elemOne.setValue(elemTwo.value)
+
+    this.stripspaces(elemOne)
+    this.stripspaces(elemTwo)
+
+  }
+  stripspaces(input) {
+    if (input.value != null) {
+      let word = input.value.toString();
+      input.value = word.replace(/\s/gi, "");
+      return true;
+    }
+    else {
+      return false;
+    }
+
+  }
+
+  changePlaceHolder(){
+    this.urlEdit = this.router.url.split('/')[2];
+
+    if(this.languageId == 1){
+      if(this.urlEdit == "add"){
+        this.categoryPlaceholder = "Category Parents";
+        this.filterPlaceholder = "Type your filter here..."
+      }
+
+      else{
+        this.getData();
+      }
+    }
+
+    else{
+      if(this.urlEdit == "add"){
+        this.categoryPlaceholder = "Induk Kategori";
+        this.filterPlaceholder = "Taip tapisan di sini..."
+      }
+
+      else{
+        this.getData();
+      }
+    }
+  }
+
   myFunction() {
     this.updateForm.reset();
     this.checkReqValues();   
@@ -458,3 +946,4 @@ export class ContentComponent implements OnInit {
   }
 
 }
+

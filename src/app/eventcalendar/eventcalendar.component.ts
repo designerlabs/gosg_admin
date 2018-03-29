@@ -149,6 +149,9 @@ export class EventcalendarComponent implements OnInit {
     let todaysdt = today.getDate();
     let year = today.getFullYear();
     let month = today.getMonth();
+    // console.log(year)
+    // console.log(month)
+    // console.log(todaysdt)
 
     this.minDate = new Date(year, month, todaysdt);
   }
@@ -157,6 +160,8 @@ export class EventcalendarComponent implements OnInit {
     let res;    
     this.events = [];
     this.events.push(tsd);
+
+    console.log(tsd);
     // this.events.push(`${event.value}`);
     if(type == 'start')
       this.sdt = new Date(this.events[0]).getTime();
@@ -299,6 +304,7 @@ export class EventcalendarComponent implements OnInit {
   }
 
   addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    let year, month, day;
     console.log(type)
     console.log(event.value)
     this.events = [];
@@ -306,6 +312,14 @@ export class EventcalendarComponent implements OnInit {
     this.sdt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
     // console.log(this.sdt)
+    year = new Date(this.events[0]).getFullYear();
+    month = new Date(this.events[0]).getMonth();
+    day = new Date(this.events[0]).getDate();
+
+    this.minDate = new Date(year,month,day);
+    this.updateForm.get('end').reset();
+    this.edt = null;
+
     this.checkReqValues()
   }
 
