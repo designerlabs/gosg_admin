@@ -174,33 +174,35 @@ export class InboxsentComponent implements OnInit {
     let inx = this.idArr.length;
     let element: HTMLElement = document.getElementsByClassName('emailList')[inx] as HTMLElement;
     // element.click(this.btnClose());
-  element.addEventListener( 'click', function( e ){
+    element.addEventListener( 'click', function( e ){
 
-    $("#myList div:nth(1)").attr('usrId');
-    let le =  $("#myList .emailList").filter(function(inx, val){
-      return $(this).attr('usrid') == usrId;
-    });
+      $("#myList div:nth(1)").attr('usrId');
+      let le =  $("#myList .emailList").filter(function(inx, val){
+          return $(this).attr('usrid') == usrId;
+      });
 
     
-    let remInx = $("#myList .emailList").index(le);
-    $("#myList .emailList")[remInx].remove();
-    this.idArr.splice(remInx,1);
+      let remInx = $("#myList .emailList").index(le);
+      $("#myList .emailList")[remInx].remove();
+      this.idArr.splice(remInx,1);
 
-  }.bind(this));
+    }.bind(this));
 
 
     // this.userId = usrId;
     // this.isActive = false;
     // this.isActiveList = false;
     this.searchUserResult = [];
-    let a = {
-      "userId":usrId
-    }
+    // let a = {
+    //   "userId":usrId
+    // }
 
-    
-    this.idArr.push(a);
+    this.idArr.push(usrId);
     // this.idArr.push(usrId);
     this.updateForm.get('emailFld').setValue("");
+
+    // let placeholder =+ val;
+
     
   }
 
@@ -215,7 +217,7 @@ export class InboxsentComponent implements OnInit {
 
         console.log(data);
         
-        this.updateForm.get('emailFld').setValue(this.recordList.object.toUser.email);
+        this.updateForm.get('emailFld').setValue(this.recordList.object.placeholder);
         this.updateForm.get('subject').setValue(this.recordList.object.subject);
         this.updateForm.get('content').setValue(this.recordList.object.content);
 
@@ -247,13 +249,13 @@ export class InboxsentComponent implements OnInit {
         {
           "subject": null,
           "content": null,
-          "toUser": null
+          "recipient": null
         }
         
  
       body.subject = formValues.subject;
       body.content = formValues.content;
-      body.toUser = this.idArr;
+      body.recipient = this.idArr;
 
 
       console.log(body);
