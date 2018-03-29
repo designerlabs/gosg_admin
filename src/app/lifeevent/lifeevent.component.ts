@@ -393,9 +393,7 @@ export class LifeeventComponent implements OnInit {
         this.getRefCode = this.recordList.refCode;
         this.sendForApporval = dataEn.isSendForApproval;
 
-        this.checkReqValues();
-
-       
+        this.checkReqValues();       
         
         let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
         let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');

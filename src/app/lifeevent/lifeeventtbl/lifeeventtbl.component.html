@@ -41,11 +41,11 @@
                             [placeholder]="categoryPlaceholder"
                             [allowFilter]=true
                             [allowParentSelection]=true
-                            expandMode="All"></tree-select>
+                            expandMode="All" [disabled]="valkey"></tree-select>
                         </div>
     
                         <div class="col-md-1">
-                            <button mat-mini-fab class="bg_green" (click)="searchCode(updateForm.value)" >
+                            <button mat-mini-fab class="bg_green" (click)="searchCode(updateForm.value)" [disabled]="valkey">
                                 <i [ngClass]="commonservice.icon.arrRight"></i>
                             </button>
                         </div>
@@ -53,8 +53,8 @@
                         <div class="col-md-7">
                             <mat-checkbox class="example-full-width" formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                             <mat-form-field>                        
-                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="{{ 'common.placeholder.keywords' | translate }}" [disabled]="!valkey">
-                                <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()" >
+                                <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" placeholder="{{ 'common.placeholder.keywords' | translate }}" [disabled]="!valkey">
+                                <button mat-button *ngIf="valkey" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()" [disabled]="!valkey">
                                     <mat-icon>close</mat-icon>
                                 </button>
                             </mat-form-field>
@@ -161,6 +161,8 @@
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
+
+                <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
                 
             </div>
             

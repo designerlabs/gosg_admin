@@ -37,6 +37,7 @@ export class LifeeventtblComponent implements OnInit {
   public parentsEn: FormControl;
   public parentsBm: FormControl;
   public keys: FormControl;
+  public kataKunci: FormControl;
   public parentsValEn : any;
   public parentsValBm : any;
   public treeEn: any;
@@ -53,25 +54,28 @@ export class LifeeventtblComponent implements OnInit {
   valkey = false;
 
   recordTable = null;
+
+  showNoData = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  // applyFilter(e) {
-  //   console.log(e);
-  //   if(e){
-  //     this.getFilterList(this.pageCount, this.sliderPageSize, e);
-  //   }
-  //   else{
-  //     this.getSlidersData(this.pageCount, this.sliderPageSize);
-  //   }
-  // }
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.pageSize, e);
+    }
+    else{
+      this.getCategoryCode();
+    }
+  }
 
-  // resetSearch() {
-  //   this.getSlidersData(this.pageCount, this.sliderPageSize);
-  // }
+  resetSearch() {
+    this.updateForm.get('kataKunci').setValue('');
+    this.getCategoryCode();
+  }
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -117,12 +121,14 @@ export class LifeeventtblComponent implements OnInit {
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
     this.keys = new FormControl();
+    this.kataKunci = new FormControl();
 
     this.updateForm = new FormGroup({   
       
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       keys: this.keys,
+      kataKunci: this.kataKunci
     });
 
     this.getCategory();
@@ -204,12 +210,68 @@ export class LifeeventtblComponent implements OnInit {
           this.recordList = data;
           console.log("data");
           console.log(data);
-          
-          this.dataSource.data = this.recordList.list;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          if(this.recordList.list.length > 0){  
+            this.dataSource.data = this.recordList.list;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+
+            this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          }
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+  
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+
+  }
+
+  getFilterList(page, size, e) {  
+
+    this.recordList = null;
+
+    this.loading = true;
+    this.commonservice.readProtected('life/event/search/643', page, size,e).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+  
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          if(this.recordList.list.length > 0){  
+            this.dataSource.data = this.recordList.list;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+
+            this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          }
         }).bind(this)); 
         this.loading = false;
       },
