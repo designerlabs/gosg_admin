@@ -43,6 +43,7 @@ export class LifeeventtblComponent implements OnInit {
   public treeEn: any;
   public treeBm: any;
   public categoryPlaceholder = "";
+  public filterPlaceholder = "";
 
   dataUrl: any;  
   public languageId: any;
@@ -175,10 +176,12 @@ export class LifeeventtblComponent implements OnInit {
 
               if(this.languageId == 1){
                 this.catName = this.leCategoryCode[i].list[0].categoryName;
+                this.filterPlaceholder = "Type your filter here..."
               }
 
               else{
                 this.catName = this.leCategoryCode[i].list[1].categoryName;
+                this.filterPlaceholder = "Taip tapisan di sini..."
               }
             }
           }

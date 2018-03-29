@@ -59,6 +59,7 @@ export class LifeeventComponent implements OnInit {
   public loading = false;
 
   public categoryPlaceholder = "";
+  public filterPlaceholder = "";
   public urlEdit = "";
 
   sendForApporval: any;
@@ -413,9 +414,11 @@ export class LifeeventComponent implements OnInit {
         this.rawValEn = addClassforTable;
         this.rawValBm = addClassforTable_BM;
 
+        //set value at input field
         this.htmlContentEn.setValue(addClassforTable);
         this.htmlContentMy.setValue(addClassforTable_BM);
 
+        //set  value after preview
         this.contentTxtEn = addClassforTable;
         this.contentTxtMy = addClassforTable_BM;      
 
@@ -424,10 +427,12 @@ export class LifeeventComponent implements OnInit {
 
         if(this.languageId == 1){          
           this.categoryPlaceholder = dataEn.contentTitle;
+          this.filterPlaceholder = "Type your filter here..."          
         }
 
         else{
           this.categoryPlaceholder = dataBm.contentTitle;
+          this.filterPlaceholder = "Taip tapisan di sini..."
         }
         
       });
@@ -917,6 +922,7 @@ export class LifeeventComponent implements OnInit {
     if(this.languageId == 1){
       if(this.urlEdit == "add"){
         this.categoryPlaceholder = "Category Parents";
+        this.filterPlaceholder = "Type your filter here..."
       }
 
       else{
@@ -926,7 +932,8 @@ export class LifeeventComponent implements OnInit {
 
     else{
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = "Induk Kategori";
+        this.categoryPlaceholder = "Induk Kategori";        
+        this.filterPlaceholder = "Taip tapisan di sini..."
       }
 
       else{
