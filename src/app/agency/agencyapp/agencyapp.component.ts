@@ -120,10 +120,10 @@ export class AgencyappComponent implements OnInit {
 
     if(refCode == "add") {
       this.isEdit = false;
-      this.pageMode = "Add";
+      this.pageMode = 'common.add';
     } else {
       this.isEdit = true;
-      this.pageMode = "Update";
+      this.pageMode = 'common.update';
       this.getRow(refCode);
     }
     
