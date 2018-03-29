@@ -393,7 +393,9 @@ export class LifeeventComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
 
-     this.commonservice.readProtectedById('content/publisher/', _getRefID)
+    if(_getRefID != undefined){
+
+      this.commonservice.readProtectedById('content/publisher/', _getRefID)
       .subscribe(data => {
         this.recordList = data;
 
@@ -457,6 +459,7 @@ export class LifeeventComponent implements OnInit {
         }
         
       });
+    }
     
   }
 
