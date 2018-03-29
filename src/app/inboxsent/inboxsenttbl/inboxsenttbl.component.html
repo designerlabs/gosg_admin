@@ -63,14 +63,14 @@
               <ng-container matColumnDef="sender">
                 <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.sender' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" *matCellDef="let element">
-                    {{element.fromUser.fullName}}
+                    {{element.fromUser.email}}
                 </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="to">
                 <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.to' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" *matCellDef="let element">
-                  {{element.toUser.fullName}}
+                  {{element.placeholder | truncate : [20, '...']}}
                 </mat-cell>
               </ng-container>
 

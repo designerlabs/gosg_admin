@@ -613,7 +613,9 @@
     "header": "Senarai Peti Masuk Dihantar",
     "tableHeader":{
       "subject": "Subjek",
+      "subjectErr": "Subjek diperlukan",
       "content": "Kandungan",
+      "contentErr": "Kandungan diperlukan",
       "sender": "Penghantar",
       "to": "Kepada",
       "insertDate": "Tarikh Masuk",

@@ -613,7 +613,9 @@
     "header": "Inbox Sent List",
     "tableHeader":{
       "subject": "Subject",
+      "subjectErr": "Subject is required",
       "content": "Content",
+      "contentErr": "Content is required",
       "sender": "Sender",
       "to": "To",
       "insertDate": "Insert Date",

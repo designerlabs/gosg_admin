@@ -130,13 +130,13 @@ export class MediafileuploadComponent implements OnInit {
     this.fnLoadCateMediaType(refCode);
     if (refCode == "add") {
       this.isEdit = false;
-      this.pageMode = "Add";
+      this.pageMode = 'common.add';
       this.showImgEn = false;
       this.showImgMy = false;
       // this.mediatype = new FormControl();
     } else {
       this.isEdit = true;
-      this.pageMode = "Update"; 
+      this.pageMode = 'common.update'; 
       this.showImgEn = true;
       this.showImgMy = true;
       // this.getRow(refCode);  
