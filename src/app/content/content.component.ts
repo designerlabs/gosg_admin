@@ -862,13 +862,7 @@ export class ContentComponent implements OnInit {
 
     let reqVal:any;
 
-    // if (this.urlEdit === 'add'){
-    //   reqVal = ["titleEn", "titleBm", "descEn", "descBm", "parentsEn"];
-    // }
-
-    // else{
-      reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
-    
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];    
 
     let nullPointers:any = [];
 

@@ -1,14 +1,18 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../dialogs/dialogs.service';
+import { stringify } from '@angular/core/src/util';
+import { forEach } from '@angular/router/src/utils/collection';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-publisher',
@@ -17,6 +21,12 @@ import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-
   encapsulation: ViewEncapsulation.None
 })
 export class PublisherComponent implements OnInit {
+
+  rawValBm: any;
+  rawValEn: any;
+
+  parseEnBtn: boolean;
+  parseMyBtn: boolean;
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -42,6 +52,11 @@ export class PublisherComponent implements OnInit {
   isDelete: boolean;
   languageId: any;
 
+  public contentTxtEn: FormControl;
+  public contentTxtMy: FormControl;
+  public htmlContentEn: FormControl;
+  public htmlContentMy: FormControl;
+
   mtype: FormControl
   publish: FormControl
   endD: FormControl
@@ -51,7 +66,9 @@ export class PublisherComponent implements OnInit {
   descBm: FormControl
   imgEn: FormControl
   imgBm: FormControl
-  active: FormControl
+  active: FormControl  
+  public citizenflag:FormControl;
+  public noncitizenflag: FormControl;
   approve: FormControl
   urlEng: FormControl
   urlMy: FormControl
@@ -81,13 +98,36 @@ export class PublisherComponent implements OnInit {
   fullName: any;
   email: any;
 
+  editor = { enVal: '', bmVal: ''};
+  editorConfig = {
+    "editable": true,
+    "spellcheck": true,
+    "height": "600px",
+    "minHeight": "0",
+    "width": "auto",
+    "minWidth": "0",
+    "translate": "yes",
+    "enableToolbar": true,
+    "showToolbar": true,
+    "placeholder": "Enter text here...",
+    "toolbar": [
+        ["bold", "italic"],
+        ["cut", "copy", "delete", "undo", "redo"],
+        ["paragraph", "orderedList", "unorderedList"],
+        ["link", "unlink"]
+    ]
+  }
+
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService,
     private translate: TranslateService,
-    private router: Router,
-    private toastr: ToastrService
+    private router: Router,    
+    private dialogsService: DialogsService,
+    public dialog: MatDialog,
+    private toastr: ToastrService,
+    public builder: FormBuilder
   ) {
 
     /* LANGUAGE FUNC */
@@ -108,9 +148,15 @@ export class PublisherComponent implements OnInit {
     });
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
+      this.commonservice.
+      getModuleId();
     }
     /* LANGUAGE FUNC */
+
+    this.updateForm = builder.group({
+      enVal: "",
+      bmVal: ""
+    })
   }
 
   ngOnInit() {
@@ -119,7 +165,8 @@ export class PublisherComponent implements OnInit {
     this.commonservice.getModuleId();    
     this.getMinEventDate();
     
-
+    this.htmlContentEn = new FormControl();
+    this.htmlContentMy = new FormControl();
     this.mtype = new FormControl()
     this.publish = new FormControl()
     this.endD = new FormControl
@@ -132,12 +179,16 @@ export class PublisherComponent implements OnInit {
     this.urlEng = new FormControl();
     this.urlMy = new FormControl();
     this.active = new FormControl();
+    this.citizenflag = new FormControl();
+    this.noncitizenflag = new FormControl();
     this.approve = new FormControl();
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
 
     this.updateForm = new FormGroup({
 
+      htmlContentEn: this.htmlContentEn,
+      htmlContentMy: this.htmlContentMy,
       mtype: this.mtype,
       endD: this.endD,
       publish: this.publish,
@@ -149,7 +200,9 @@ export class PublisherComponent implements OnInit {
       titleBm: this.titleBm,
       descBm: this.descBm,
       imgBm: this.imgBm,
-      active: this.active,
+      active: this.active,      
+      citizenflag: this.citizenflag,
+      noncitizenflag: this.noncitizenflag,
       approve: this.approve,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
@@ -411,6 +464,91 @@ export class PublisherComponent implements OnInit {
     else{
       this.commonservice.pageModeChange(true);      
     }
+  }
+
+  parseChkEn(e){
+    console.log(e);
+    this.parseEnBtn = false;
+  }
+
+  parseChkMy(e){
+    this.parseMyBtn = false;
+  }
+
+  onChangeEn(ele){
+    if(ele == this.rawValEn){
+      this.parseEnBtn = true;        
+    }
+    else{
+      this.parseEnBtn = false;
+    }   
+  }
+
+  onChangeBm(ele){
+    if(ele == this.rawValBm){
+      this.parseMyBtn = true;
+    }
+    else{
+      this.parseMyBtn = false;
+    }
+  }
+
+  previewEn() {
+    // htmlcontent/formathtml
+    this.loading = true;
+    return this.commonservice.create(this.htmlContentEn.value, 'htmlcontent/formathtml')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () { 
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+
+          dialogRef.componentInstance.content = addClassforSpan;
+          this.contentTxtEn = dialogRef.componentInstance.content;
+          this.parseEnBtn = true;
+      }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+  }
+  previewMy(){
+    this.loading = true;
+    return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () { 
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+          dialogRef.componentInstance.content = addClassforSpan;
+          this.parseMyBtn = true;
+          this.contentTxtMy = dialogRef.componentInstance.content;
+
+      }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
   }
 
   checkReqValues() {
