@@ -57,13 +57,15 @@ export class LifeeventComponent implements OnInit {
   public treeEn: any;
   public treeBm: any;
   public loading = false;
+  public parentFlag = false;
 
   public categoryPlaceholder = "";
+  public filterPlaceholder = "";
   public urlEdit = "";
 
   sendForApporval: any;
 
-  editor = { enVal: '', bmVal: '' };
+  editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
     "editable": true,
     "spellcheck": true,
@@ -119,7 +121,8 @@ export class LifeeventComponent implements OnInit {
       
     this.updateForm = builder.group({
       enVal: "",
-      bmVal: ""
+      bmVal: "",
+      treeVal: ""
     })
   }
   
@@ -264,6 +267,25 @@ export class LifeeventComponent implements OnInit {
     }
   }
 
+  onChange(ele){    
+
+    this.urlEdit = this.router.url.split('/')[2];
+
+    if(this.urlEdit === "add" && ele == ""){
+      this.parentFlag = false;
+    }
+
+    else if(this.urlEdit === "add" && ele != ""){
+      this.parentFlag = true;
+    }
+
+    else{
+      this.parentFlag = true;
+    }
+
+    console.log(ele);   
+  }
+
   getCategory(){
 
     this.loading = true;
@@ -371,7 +393,9 @@ export class LifeeventComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
 
-     this.commonservice.readProtectedById('content/publisher/', _getRefID)
+    if(_getRefID != undefined){
+
+      this.commonservice.readProtectedById('content/publisher/', _getRefID)
       .subscribe(data => {
         this.recordList = data;
 
@@ -393,9 +417,7 @@ export class LifeeventComponent implements OnInit {
         this.getRefCode = this.recordList.refCode;
         this.sendForApporval = dataEn.isSendForApproval;
 
-        this.checkReqValues();
-
-       
+        this.checkReqValues();       
         
         let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
         let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
@@ -415,9 +437,11 @@ export class LifeeventComponent implements OnInit {
         this.rawValEn = addClassforTable;
         this.rawValBm = addClassforTable_BM;
 
+        //set value at input field
         this.htmlContentEn.setValue(addClassforTable);
         this.htmlContentMy.setValue(addClassforTable_BM);
 
+        //set  value after preview
         this.contentTxtEn = addClassforTable;
         this.contentTxtMy = addClassforTable_BM;      
 
@@ -426,13 +450,16 @@ export class LifeeventComponent implements OnInit {
 
         if(this.languageId == 1){          
           this.categoryPlaceholder = dataEn.contentTitle;
+          this.filterPlaceholder = "Type your filter here..."          
         }
 
         else{
           this.categoryPlaceholder = dataBm.contentTitle;
+          this.filterPlaceholder = "Taip tapisan di sini..."
         }
         
       });
+    }
     
   }
 
@@ -666,12 +693,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 1
-              }
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],          
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         },
         {
           "contentCategoryId": null,
@@ -684,12 +711,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 2
-              }
+              },          
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],          
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         }
       ];    
 
@@ -702,13 +729,13 @@ export class LifeeventComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].isActiveFlag = formValues.active;
+      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].isActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
 
       //predefined super parent id;
@@ -763,12 +790,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 1
-              }
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         },
         {
           "contentCategoryId": null,
@@ -782,12 +809,12 @@ export class LifeeventComponent implements OnInit {
             "lifeEventUrl": null,
             "language": {
               "languageId": 2
-              }
+              },
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventActiveFlag":false
             }
-          ],
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "isActiveFlag":false
+          ]
         }
       ];    
 
@@ -800,13 +827,13 @@ export class LifeeventComponent implements OnInit {
       body[0].contents[0].lifeEventSort = formValues.seqEng;
       body[1].contents[0].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].isActiveFlag = formValues.active;
+      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].contents[0].lifeEventActiveFlag = formValues.active;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].isActiveFlag = formValues.active;
+      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
       //predefined super parent id;
       if(formValues.parentsEn == null){
@@ -868,8 +895,10 @@ export class LifeeventComponent implements OnInit {
   }
 
   checkReqValues() {
+    let reqVal:any;
 
-    let reqVal:any = ["titleEn", "titleBm", "descEn", "descBm"];
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];    
+
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {
@@ -919,6 +948,7 @@ export class LifeeventComponent implements OnInit {
     if(this.languageId == 1){
       if(this.urlEdit == "add"){
         this.categoryPlaceholder = "Category Parents";
+        this.filterPlaceholder = "Type your filter here..."
       }
 
       else{
@@ -928,7 +958,8 @@ export class LifeeventComponent implements OnInit {
 
     else{
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = "Induk Kategori";
+        this.categoryPlaceholder = "Induk Kategori";        
+        this.filterPlaceholder = "Taip tapisan di sini..."
       }
 
       else{

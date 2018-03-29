@@ -23,7 +23,8 @@
                 
                 <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
                     <br>
-                    <div class="example-header">
+                    <div class="example-header">                
+    
                         <div class="col-md-4">
                             <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                             [items]="itemEn"
@@ -31,6 +32,7 @@
                             idField = "value"
                             childrenField="children"
                             formControlName="parentsEn"
+                            [filterPlaceholder]="filterPlaceholder"
                             minlength="2"
                             maxlength="4"
                             tabindex="5"
@@ -39,13 +41,26 @@
                             [placeholder]="categoryPlaceholder"
                             [allowFilter]=true
                             [allowParentSelection]=true
-                            expandMode="All"></tree-select>
+                            expandMode="All" ></tree-select>
                         </div>
-                    </div>
-                    <div class="example-header col-md-2">
-                        <button mat-mini-fab class="bg_green" (click)="searchCode(updateForm.value)">
-                            <i [ngClass]="commonservice.icon.arrRight"></i>
-                        </button>
+    
+                        <div class="col-md-1">
+                            <button mat-mini-fab class="bg_green" (click)="searchCode(updateForm.value)" [disabled]="valkey">
+                                <i [ngClass]="commonservice.icon.arrRight"></i>
+                            </button>
+                        </div>
+    
+                        <div class="col-md-7"> 
+                            <mat-checkbox class="example-full-width" formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
+                            <mat-form-field>                        
+                                <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
+                                placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                                <button mat-button *ngIf="valkey" matSuffix mat-icon-button aria-label="Clear" 
+                                (click)="resetSearch()" >
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </form>
     
@@ -124,6 +139,8 @@
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>
+
+                <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
                 
             </div>
             

@@ -116,13 +116,13 @@ export class MediatypeComponent implements OnInit {
     this.loadMedia();    
     if (refCode == "add") {
       this.isEdit = false;
-      this.pageMode = "Add";
+      this.pageMode = 'common.add';
       this.loadCate();
        // Add media type will have all category
       // this.updateForm.get('imgchkactive').setValue(false);     
     } else {
       this.isEdit = true;
-      this.pageMode = "Update";
+      this.pageMode = 'common.update'; 
       this.getRow(refCode); // Edit media type will have only selected category
       }
 

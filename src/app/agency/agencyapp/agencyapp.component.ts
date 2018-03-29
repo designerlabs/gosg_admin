@@ -120,10 +120,10 @@ export class AgencyappComponent implements OnInit {
 
     if(refCode == "add") {
       this.isEdit = false;
-      this.pageMode = "Add";
+      this.pageMode = 'common.add';
     } else {
       this.isEdit = true;
-      this.pageMode = "Update";
+      this.pageMode = 'common.update';
       this.getRow(refCode);
     }
     
@@ -218,15 +218,15 @@ export class AgencyappComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
 
-          console.log(data['list'].length)
+          console.log(data['agencyList'].length)
 
-          if(data['list'].length != 0) {
+          if(data['agencyList'].length != 0) {
             if(langId == 1) {
-              this.searchAgencyResultEn = data['list'];
+              this.searchAgencyResultEn = data['agencyList'];
               this.isActiveListEn = true;
               this.isActiveListBm = false;
             } else {
-              this.searchAgencyResultBm = data['list'];
+              this.searchAgencyResultBm = data['agencyList'];
               this.isActiveListBm = true;
               this.isActiveListEn = false;
             }

@@ -3,7 +3,7 @@
   <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ pageMode }} {{ 'agencyapp.component.header' | translate }} </h3>
+          <h3>{{ pageMode | translate }} {{ 'agencyapp.component.header' | translate }} </h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -150,7 +150,7 @@
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success  pull-right"
             (click)="updateAgencyApp(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode }}</button>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>{{ pageMode | translate}}</button>
           <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning  pull-right"
             style="width: 100px; font-family: Roboto" (click)="myFunction()">
             <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>

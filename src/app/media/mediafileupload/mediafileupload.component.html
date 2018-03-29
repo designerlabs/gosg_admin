@@ -3,7 +3,7 @@
         <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-      <h3>{{ pageMode }} {{ 'mediaupload.header' | translate }}</h3>
+      <h3>{{ pageMode | translate }} {{ 'mediaupload.header' | translate }}</h3>
     </div>
 
     <div class="col-md-2 curdHeadingRight">
@@ -141,7 +141,7 @@
     <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;" *ngIf="commonservice.isUpdate || commonservice.isWrite">
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right mgn_L_5px" (click)="updateMediaFileUpload(mediaFileUpForm.value)"  [disabled]="!complete">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-        <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{ pageMode }}</button>
+        <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{ pageMode | translate }}</button>
         <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning pull-right"
         (click)="resetModal.show()">
         <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>

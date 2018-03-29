@@ -33,6 +33,7 @@
           idField = "value"
           childrenField="children"
           formControlName="parentsEn"
+          [filterPlaceholder]="filterPlaceholder"
           minlength="2"
           maxlength="4"
           tabindex="5"
@@ -41,6 +42,8 @@
           [placeholder]="categoryPlaceholder"
           [allowFilter]=true
           [allowParentSelection]=true
+          [(ngModel)]="editor.treeVal"
+          (ngModelChange)="onChange($event)"
           expandMode="All"></tree-select>
       </div>
 
@@ -165,28 +168,16 @@
     <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite" >
         
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
-      (click)="submit(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn ">
+      (click)="submit(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn || !parentFlag">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
-      (click)="draft(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn">
+      (click)="draft(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn || !parentFlag">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
       <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" (click)="resetModal.show()">
         <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
        
-
-
-
-
-
-      <!-- <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
-        (click)="submit(updateForm.value)" [disabled]="(!parseMyBtn || !parseEnBtn || !complete)">
-        <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-        <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
-      <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning pull-right"
-        (click)="resetModal.show()">
-        <i [ngClass]="commonservice.icon.refresh"></i> Reset</button> -->
     </div>
   </form>
 </div>

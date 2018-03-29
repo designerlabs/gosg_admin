@@ -37,11 +37,13 @@ export class LifeeventtblComponent implements OnInit {
   public parentsEn: FormControl;
   public parentsBm: FormControl;
   public keys: FormControl;
+  public kataKunci: FormControl;
   public parentsValEn : any;
   public parentsValBm : any;
   public treeEn: any;
   public treeBm: any;
   public categoryPlaceholder = "";
+  public filterPlaceholder = "";
 
   dataUrl: any;  
   public languageId: any;
@@ -51,27 +53,28 @@ export class LifeeventtblComponent implements OnInit {
   catName: any;
 
   valkey = false;
-
   recordTable = null;
+  showNoData = false;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
-  // applyFilter(e) {
-  //   console.log(e);
-  //   if(e){
-  //     this.getFilterList(this.pageCount, this.sliderPageSize, e);
-  //   }
-  //   else{
-  //     this.getSlidersData(this.pageCount, this.sliderPageSize);
-  //   }
-  // }
+  applyFilter(e) {
+    console.log(e);
+    if(e){
+      this.getFilterList(this.pageCount, this.pageSize, e);
+    }
+    else{
+      this.getCategoryCode();
+    }
+  }
 
-  // resetSearch() {
-  //   this.getSlidersData(this.pageCount, this.sliderPageSize);
-  // }
+  resetSearch() {
+    this.updateForm.get('kataKunci').setValue('');
+    this.getCategoryCode();
+  }
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
@@ -115,41 +118,22 @@ export class LifeeventtblComponent implements OnInit {
     this.getCategoryCode();
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
-    this.parentsBm = new FormControl();
+    this.parentsBm = new FormControl({disabled: true});
     this.keys = new FormControl();
+    this.kataKunci = new FormControl({value: '', disabled: true});
 
     this.updateForm = new FormGroup({   
       
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       keys: this.keys,
+      kataKunci: this.kataKunci
     });
 
     this.getCategory();
     this.valkey = false;
 
   }
-
-
-//   onLoad(){
-//     var options = {
-//         sourceLanguage: 'en',
-//         destinationLanguage: ['hi'],
-//         shortcutKey: 'ctrl+m',
-//         transliterationEnabled: true
-//     };
-
-//     // Create an instance on TransliterationControl with the required
-//     // options.
-//     var control =
-//     this.google.elements.transliteration.TransliterationControl(options);
-//     // Enable transliteration in the textfields with the given ids.
-//     var ids = [ "language" ];
-//     control.makeTransliteratable(ids);
-//     // Show the transliteration control which can be used to toggle between
-//     // English and Hindi and also choose other destination language.
-//     control.showControl('translControl');
-// }
 
   getCategoryCode(){ 
     this.loading = true;
@@ -169,10 +153,12 @@ export class LifeeventtblComponent implements OnInit {
 
               if(this.languageId == 1){
                 this.catName = this.leCategoryCode[i].list[0].categoryName;
+                this.filterPlaceholder = "Type your filter here..."
               }
 
               else{
                 this.catName = this.leCategoryCode[i].list[1].categoryName;
+                this.filterPlaceholder = "Taip tapisan di sini..."
               }
             }
           }
@@ -204,12 +190,68 @@ export class LifeeventtblComponent implements OnInit {
           this.recordList = data;
           console.log("data");
           console.log(data);
-          
-          this.dataSource.data = this.recordList.list;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          if(this.recordList.list.length > 0){  
+            this.dataSource.data = this.recordList.list;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+
+            this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          }
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+  
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+      });
+
+  }
+
+  getFilterList(page, size, e) {  
+
+    this.recordList = null;
+
+    this.loading = true;
+    this.commonservice.readProtected('life/event/search/643', page, size,e).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+  
+          this.recordList = data;
+          console.log("data");
+          console.log(data);
+          if(this.recordList.list.length > 0){  
+            this.dataSource.data = this.recordList.list;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+            this.showNoData = false;
+          }
+
+          else{
+            this.dataSource.data = []; 
+
+            this.showNoData = true;
+            this.seqPageNum = this.recordList.pageNumber;
+            this.seqPageSize = this.recordList.pageSize;
+            this.recordTable = this.recordList;
+            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          }
         }).bind(this)); 
         this.loading = false;
       },
@@ -392,19 +434,22 @@ export class LifeeventtblComponent implements OnInit {
 
   keysFilter(){
 
-    let keysVal = this.updateForm.get('keys');
-    //alert(keysVal.value);
-
+    let keysVal = this.updateForm.get('keys');    
+    this.updateForm.get('kataKunci').setValue('');
+ 
     if(keysVal.value == true){
-      this.valkey = true;
+      this.valkey = true;      
+      this.kataKunci.enable();
+      this.parentsEn.disable();
     }
 
     else{
-      this.valkey = false;
+      this.valkey = false;      
+      this.kataKunci.disable();
+      this.parentsEn.enable();
+      this.getCategoryCode();
     }    
   }
-
-
 }
 // System.import('http://www.google.com/jsapi')
 //     .then(MyModule => {
