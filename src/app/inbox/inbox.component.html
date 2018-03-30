@@ -6,13 +6,16 @@
 <div class="container-fluid">
   <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 
-  <div class="curdHeader">
-      <div class="col-md-10 curdHeadingLeft" *ngIf="!commonservice.isUpdate && !commonservice.isWrite">
-          <h3>{{ 'inbox.name' | translate }}</h3>
-      </div>
-      <div class="col-md-10 curdHeadingLeft" *ngIf="commonservice.isWrite">
-        <h3>{{ 'inbox.nameAdd' | translate }}</h3>
-    </div>
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft" *ngIf="!commonservice.isUpdate && !commonservice.isWrite">
+            <h3>{{ 'inbox.name' | translate }}</h3>
+        </div>
+        <div class="col-md-10 curdHeadingLeft" *ngIf="commonservice.isWrite && urlEdit == 'add'">
+            <h3>{{ 'inbox.nameAdd' | translate }}</h3>
+        </div>
+        <div class="col-md-10 curdHeadingLeft" *ngIf="commonservice.isWrite && urlEdit != 'add'">
+            <h3>{{ 'inbox.name' | translate }}</h3>
+        </div>
       
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
@@ -37,7 +40,7 @@
   
           <div class="example-header">
               <div class="col-md-12">
-                  <mat-form-field class="example-full-width font-size-s" >
+                  <mat-form-field class="example-full-width font-size-s">
                       <input matInput placeholder="{{ 'inbox.tableHeader.subject' | translate }}" formControlName="subject"  maxlength="100" 
                       (keyup)="checkReqValues()" required>
                       <mat-error *ngIf="updateForm.controls.subject.hasError('required')">
@@ -71,10 +74,10 @@
   
       <div class="form-group paddingTop-20" *ngIf="commonservice.isWrite">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right mgn_L_5px"
-          (click)="submit(updateForm.value)" [disabled]="!complete">
+          (click)="submit(updateForm.value)" [disabled]="!complete || (commonservice.isWrite && this.urlEdit != 'add')">
           <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
           <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
-          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right" (click)="resetModal.show()">
+          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right" (click)="resetModal.show()" [disabled]="commonservice.isWrite && this.urlEdit != 'add'">
           <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
       </div> 
   </form>

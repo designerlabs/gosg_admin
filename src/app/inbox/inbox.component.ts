@@ -132,16 +132,12 @@ export class InboxComponent implements OnInit {
 
         this.updateForm.get('subject').setValue(this.recordList.object.subject);
         this.updateForm.get('content').setValue(this.recordList.object.content);
-        // this.updateForm.get('active').setValue(this.recordList.faqList[0].faqActiveFlag);
 
-        // this.updateForm.get('faqQMy').setValue(this.recordList.faqList[1].facQuestion);
-        // this.updateForm.get('faqAMy').setValue(this.recordList.faqList[1].facAnswer);
-        
-        // this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
-        // this.getFaqIdEng = this.recordList.faqList[0].faqId;
-        
-        // this.getFaqCodeMy = this.recordList.faqList[1].faqCode;
-        // this.getFaqIdMy = this.recordList.faqList[1].faqId;
+        if(this.commonservice.isWrite==true && this.urlEdit != 'add'){
+          this.subject.disable();
+          this.content.disable();
+        }
+         
 
         this.checkReqValues();
 
