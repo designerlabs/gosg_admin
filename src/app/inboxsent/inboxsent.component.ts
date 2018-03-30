@@ -221,6 +221,12 @@ export class InboxsentComponent implements OnInit {
         this.updateForm.get('subject').setValue(this.recordList.object.subject);
         this.updateForm.get('content').setValue(this.recordList.object.content);
 
+        if(this.commonservice.isWrite==true && this.urlEdit != 'add'){
+          this.emailFld.disable();
+          this.subject.disable();
+          this.content.disable();
+        }
+
         this.checkReqValues();
 
       }).bind(this));   
