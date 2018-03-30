@@ -263,9 +263,7 @@ export class PublisherComponent implements OnInit {
     this.updateForm.get('imgEn').setValue('');
     this.updateForm.get('imgBm').setValue('');
 
-    console.log("###########");
-    console.log(resMT);
-
+    
     if(resMT[0].mediaTypeName === "Images"){
       this.mediaPath = "images";
     }else if(resMT[0].mediaTypeName === "Documents"){
@@ -316,8 +314,6 @@ export class PublisherComponent implements OnInit {
         this.commonservice.errorHandling(resUser, (function () {
           
             this.userDetails = resUser["user"];
-            console.log("##############################");
-            console.log(this.userDetails);
 
             this.fullName = this.userDetails.fullName;
             this.email = this.userDetails.email;
@@ -370,8 +366,6 @@ export class PublisherComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.publisherData = Rdata;
-          console.log("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-          console.log(this.publisherData)
           let dataEn = this.publisherData['contentDetailList'][0];
           let dataBm = this.publisherData['contentDetailList'][1];
 
@@ -389,35 +383,80 @@ export class PublisherComponent implements OnInit {
 
           this.updateForm.get('active').setValue(dataEn.isActiveFlag);
           this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
-          this.updateForm.get('mtype').setValue(parseInt(dataEn.contentImage.mediaTypeId));
-
-          this.categoryCode = dataEn.contentCategories[0].categoryCode;
-          this.categoryName = dataEn.contentCategories[0].categoryName;
 
           this.createdBy = dataEn.createdBy;
           this.getUserInfo(this.createdBy);
 
-          //get list of images if slider
-          if(this.categoryCode === 4){
-            this.getImageList();
-          }
+          this.categoryCode = dataEn.contentCategories[0].categoryCode;
+          this.categoryName = dataEn.contentCategories[0].categoryName;
 
-          //get list of images if besides slider
-          else{
-            this.getFileList(dataEn.contentImage.mediaTypeId);
-          }
-      
-          if(dataEn.contentImage != null){
-            this.selectedFileEn = dataEn.contentImage.mediaFile;
-            this.selectedFileMy = dataBm.contentImage.mediaFile;
+          //check contentImage element exist or not.
+          let getObjKeys = Object.keys(dataEn);
+          let valMT = getObjKeys.filter(fmt => fmt === "contentImage");
+          
+          if(valMT.length > 0){
+            this.updateForm.get('mtype').setValue(parseInt(dataEn.contentImage.mediaTypeId)); 
 
-            this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
-            this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
+            //get list of images if slider
+            if(this.categoryCode === this.commonservice.sliderCategoryCode){
+              this.getImageList();
+            }
+
+            //get list of images if besides slider
+            else{
+              this.getFileList(dataEn.contentImage.mediaTypeId);
+            }
+        
+            if(dataEn.contentImage != null){
+              this.selectedFileEn = dataEn.contentImage.mediaFile;
+              this.selectedFileMy = dataBm.contentImage.mediaFile;
+
+              this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
+              this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
+            }
+
+            //get path
+            if(dataEn.contentImage.mediaTypeId === 1){
+              this.mediaPath = "documents";
+            }else if(dataEn.contentImage.mediaTypeId === 2){
+              this.mediaPath = "images";
+            }else if(dataEn.contentImage.mediaTypeId === 3){
+              this.mediaPath = "audios";
+            }else if(dataEn.contentImage.mediaTypeId === 4){
+              this.mediaPath = "videos";
+            }
           }
 
           if(dataEn.isApprovedFlag == true){
             this.appPublisher = false;
           }
+
+
+          let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
+          let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
+          let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
+          let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
+          let addClassforTable = addClassforSpan.replace('class="table">', '>');
+
+
+          let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
+          let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
+          let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
+          let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
+          let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
+
+          this.rawValEn = addClassforTable;
+          this.rawValBm = addClassforTable_BM;
+
+          //set value at input field
+          this.htmlContentEn.setValue(addClassforTable);
+          this.htmlContentMy.setValue(addClassforTable_BM);
+
+          //set  value after preview
+          this.contentTxtEn = addClassforTable;
+          this.contentTxtMy = addClassforTable_BM;  
 
           this.disableApprove = dataEn.isApprovedFlag;
 
@@ -432,17 +471,6 @@ export class PublisherComponent implements OnInit {
           this.publisherIdEn = dataEn.contentId;
           this.publisherIdBm = dataBm.contentId;
           this.sendForApporval = dataEn.isSendForApproval;          
-
-          //get path
-          if(dataEn.contentImage.mediaTypeId === 1){
-            this.mediaPath = "documents";
-          }else if(dataEn.contentImage.mediaTypeId === 2){
-            this.mediaPath = "images";
-          }else if(dataEn.contentImage.mediaTypeId === 3){
-            this.mediaPath = "audios";
-          }else if(dataEn.contentImage.mediaTypeId === 4){
-            this.mediaPath = "videos";
-          }
 
           this.checkReqValues();
 
@@ -837,13 +865,15 @@ export class PublisherComponent implements OnInit {
   approvePublisher(){
 
     let appVal = this.updateForm.get('approve');
-
+    
     if(appVal.value == true){
       this.appPublisher = true;
+      this.approve.enable();
     }
 
     else{
       this.appPublisher = false;
+      this.approve.disable();
     }    
   }
 

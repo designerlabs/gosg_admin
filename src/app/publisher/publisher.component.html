@@ -104,7 +104,7 @@
         </div>  
      
         <!-- Start Only for Slider -->   
-        <div class="row" *ngIf="categoryCode == 4">
+        <div class="row" *ngIf="categoryCode == commonservice.sliderCategoryCode">
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
                   <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100">                  
@@ -121,7 +121,7 @@
 
 
         <!-- Start Only for Gallery --> 
-        <div class="row" *ngIf="categoryCode == 39">    
+        <div class="row" *ngIf="categoryCode == commonservice.galleryCategoryCode">    
           <div class="col-md-6">
               <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
               <mat-form-field class="example-full-width">
@@ -151,7 +151,7 @@
         <!-- End Only for Gallery --> 
 
         <!-- Start Only for Gallery -->        
-        <div class="row" *ngIf="categoryCode == 39">
+        <div class="row" *ngIf="categoryCode == commonservice.galleryCategoryCode">
           <div class="col-md-12">
               <label class="font-size-s">Media Type</label>
               <mat-form-field class="example-full-width">
@@ -168,7 +168,7 @@
         <!-- End Only for Gallery -->
 
         <!-- Start Only for Slider & Gallery --> 
-        <div class="row" *ngIf="categoryCode == 4 || categoryCode == 39"> 
+        <div class="row" *ngIf="categoryCode == commonservice.sliderCategoryCode || categoryCode == commonservice.galleryCategoryCode"> 
             <div class="col-md-6">
               <mat-form-field  class="example-full-width">
                   <mat-select formControlName="imgEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
@@ -238,7 +238,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row" *ngIf="categoryCode != commonservice.sliderCategoryCode && categoryCode != commonservice.galleryCategoryCode">
           <div class="col-md-12">
             <div class="example-full-width editor block">
               <label for="htmlContentEn">English Content</label>
@@ -250,14 +250,15 @@
             </div>
           </div>
         </div>
-        <div class="row">
+       
+        <div class="row" *ngIf="categoryCode != commonservice.sliderCategoryCode && categoryCode != commonservice.galleryCategoryCode">
           <div class="col-md-12">
             <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary" 
             class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view"></i></button>
           </div>
         </div>
           
-        <div class="row">
+        <div class="row" *ngIf="categoryCode != commonservice.sliderCategoryCode && categoryCode != commonservice.galleryCategoryCode">
           <div class="col-md-12">            
               <div class="example-full-width editor block">
                 <label for="htmlContentMy">Malay Content</label>
@@ -268,7 +269,7 @@
           </div>
         </div>
     
-        <div class="row">
+        <div class="row" *ngIf="categoryCode != commonservice.sliderCategoryCode && categoryCode != commonservice.galleryCategoryCode">
           <div class="col-md-12"> 
             <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary" 
             class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view"></i></button>
@@ -284,20 +285,20 @@
 
         <div class="row">
           <div class="col-md-12">
-            <mat-checkbox class="example-full-width" formControlName="citizenflag" tabindex="10">{{ 'lifeeventtbl.citizenflag' | translate }}</mat-checkbox>
+            <mat-checkbox  formControlName="citizenflag" tabindex="10"></mat-checkbox><span class="">&nbsp;{{ 'lifeeventtbl.citizenflag' | translate }}</span>
           </div>
         </div>
     
         <div class="row">
           <div class="col-md-12">
-            <mat-checkbox class="example-full-width" formControlName="noncitizenflag" tabindex="11">{{ 'lifeeventtbl.noncitizenflag' | translate }}</mat-checkbox>
+            <mat-checkbox formControlName="noncitizenflag" tabindex="11"></mat-checkbox><span class="">&nbsp;{{ 'lifeeventtbl.noncitizenflag' | translate }}</span>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
-            <mat-checkbox formControlName="approve" (change)="approvePublisher()" [disabled]="disableApprove"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.approve' | translate }}</span>
+            <mat-checkbox formControlName="approve" (change)="approvePublisher()" ></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.approve' | translate }}</span>
           </div>
         </div>
 

@@ -18,6 +18,13 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./lifeevent.component.css']
 })
 export class LifeeventComponent implements OnInit {
+
+  showPlaceHolderEn = "Category Parents";
+  showPlaceHolderBm = "Induk Kategori";
+  showFilterEn = "Type your filter here...";
+  showFilterBm = "Taip tapisan di sini...";
+
+
   rawValBm: any;
   rawValEn: any;
 
@@ -63,6 +70,9 @@ export class LifeeventComponent implements OnInit {
   public filterPlaceholder = "";
   public urlEdit = "";
 
+  public parentValEn: any;
+  public parentValBm: any;
+
   sendForApporval: any;
 
   editor = { enVal: '', bmVal: '', treeVal: '' };
@@ -107,6 +117,7 @@ export class LifeeventComponent implements OnInit {
               this.languageId = val.languageId;
               this.changeLanguageAddEdit();
               this.changePlaceHolder();
+              this.getData();
             }
           }.bind(this));
         })
@@ -445,17 +456,20 @@ export class LifeeventComponent implements OnInit {
         this.contentTxtEn = addClassforTable;
         this.contentTxtMy = addClassforTable_BM;      
 
+        this.parentValEn = dataEn.contentCategories[0].categoryId;
+        this.parentValBm = dataBm.contentCategories[0].categoryId;
+
         this.parseEnBtn = true;
         this.parseMyBtn = true;
 
         if(this.languageId == 1){          
-          this.categoryPlaceholder = dataEn.contentTitle;
-          this.filterPlaceholder = "Type your filter here..."          
+          this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
+          this.filterPlaceholder = this.showFilterEn;          
         }
 
         else{
-          this.categoryPlaceholder = dataBm.contentTitle;
-          this.filterPlaceholder = "Taip tapisan di sini..."
+          this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
+          this.filterPlaceholder = this.showFilterBm;
         }
         
       });
@@ -466,9 +480,7 @@ export class LifeeventComponent implements OnInit {
   draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
     let txt = "";
-    let parentValEn: any;
-    let parentValBm: any;
-
+  
     // add form
     if(this.urlEdit === 'add'){
 
@@ -528,23 +540,12 @@ export class LifeeventComponent implements OnInit {
       body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
       body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
-
-
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
-      }
-
-      else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
-      }
+         
+      this.parentValEn = formValues.parentsEn;
+      this.parentValBm = formValues.parentsBm;
+      body[0].contentCategoryId = this.parentValEn.id[0];
+      body[1].contentCategoryId = this.parentValEn.id[1];       
+      
 
       console.log(JSON.stringify(body))
      
@@ -630,21 +631,17 @@ export class LifeeventComponent implements OnInit {
       body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
-
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
+      if(formValues.parentsEn == null || formValues.parentsEn == ""){
+       
+        body[0].contentCategoryId = this.parentValEn;
+        body[1].contentCategoryId = this.parentValBm;
       }
 
       else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
+        this.parentValEn = formValues.parentsEn;
+        this.parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = this.parentValEn.id[0];
+        body[1].contentCategoryId = this.parentValEn.id[1];       
       }
       
 
@@ -674,8 +671,7 @@ export class LifeeventComponent implements OnInit {
   submit(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
     let txt = "";
-    let parentValEn: any;
-    let parentValBm: any;
+    
 
     // add form
     if(this.urlEdit === 'add'){
@@ -737,23 +733,11 @@ export class LifeeventComponent implements OnInit {
       body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
-
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
-      }
-
-      else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
-      }
-
+      this.parentValEn = formValues.parentsEn;
+      this.parentValBm = formValues.parentsBm;
+      body[0].contentCategoryId = this.parentValEn.id[0];
+      body[1].contentCategoryId = this.parentValEn.id[1];       
+      
       console.log(JSON.stringify(body))
      
       this.loading = true;
@@ -835,25 +819,22 @@ export class LifeeventComponent implements OnInit {
       body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
+      if(formValues.parentsEn == null || formValues.parentsEn == ""){
+   
+        body[0].contentCategoryId = this.parentValEn;
+        body[1].contentCategoryId = this.parentValBm;
       }
 
       else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
+        this.parentValEn = formValues.parentsEn;
+        this.parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = this.parentValEn.id[0];
+        body[1].contentCategoryId = this.parentValEn.id[1];       
       }
       
 
-      console.log("UPDATE: ");
-      console.log(body);
+      console.log("UPDATE NOT DRAFT: ");
+      console.log(JSON.stringify(body))
 
       this.loading = true;
       // Update 
@@ -947,8 +928,8 @@ export class LifeeventComponent implements OnInit {
 
     if(this.languageId == 1){
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = "Category Parents";
-        this.filterPlaceholder = "Type your filter here..."
+        this.categoryPlaceholder = this.showPlaceHolderEn;
+        this.filterPlaceholder = this.showFilterEn;
       }
 
       else{
@@ -958,8 +939,8 @@ export class LifeeventComponent implements OnInit {
 
     else{
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = "Induk Kategori";        
-        this.filterPlaceholder = "Taip tapisan di sini..."
+        this.categoryPlaceholder = this.showPlaceHolderBm;        
+        this.filterPlaceholder = this.showFilterBm;
       }
 
       else{

@@ -21,6 +21,13 @@ import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 export class ContentComponent implements OnInit {
 
   filterPlaceholder: string;
+  parentValEn: any;
+  parentValBm: any;
+
+  showPlaceHolderEn = "Category Parents";
+  showPlaceHolderBm = "Induk Kategori";
+  showFilterEn = "Type your filter here...";
+  showFilterBm = "Taip tapisan di sini...";
 
   rawValBm: any;
   rawValEn: any;
@@ -277,7 +284,7 @@ export class ContentComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/643')
+    return this.commonservice.readProtected('content/dropdown')
      .subscribe(data => {
   
       console.log("GET CATEGORY: ");
@@ -434,13 +441,13 @@ export class ContentComponent implements OnInit {
         this.parseMyBtn = true;
 
         if(this.languageId == 1){          
-          this.categoryPlaceholder = dataEn.contentTitle;
-          this.filterPlaceholder = "Type your filter here..."          
+          this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
+          this.filterPlaceholder = this.showFilterEn;          
         }
 
         else{
-          this.categoryPlaceholder = dataBm.contentTitle;
-          this.filterPlaceholder = "Taip tapisan di sini..."
+          this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
+          this.filterPlaceholder = this.showFilterBm;
         }
         
       });
@@ -508,23 +515,11 @@ export class ContentComponent implements OnInit {
 
       body[0].contents[0].lifeEventActiveFlag = formValues.active;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
-
-
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
-      }
-
-      else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
-      }
+    
+      this.parentValEn = formValues.parentsEn;
+      this.parentValBm = formValues.parentsBm;
+      body[0].contentCategoryId = this.parentValEn.id[0];
+      body[1].contentCategoryId = this.parentValEn.id[1];             
 
       console.log(JSON.stringify(body))
      
@@ -605,21 +600,17 @@ export class ContentComponent implements OnInit {
       body[0].contents[0].lifeEventActiveFlag = formValues.active;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
-
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
+      if(formValues.parentsEn == null || formValues.parentsEn == ""){
+       
+        body[0].contentCategoryId = this.parentValEn;
+        body[1].contentCategoryId = this.parentValBm;
       }
 
       else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
+        this.parentValEn = formValues.parentsEn;
+        this.parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = this.parentValEn.id[0];
+        body[1].contentCategoryId = this.parentValEn.id[1];       
       }
       
 
@@ -707,22 +698,10 @@ export class ContentComponent implements OnInit {
       body[0].contents[0].lifeEventActiveFlag = formValues.active;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
-
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
-      }
-
-      else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
-      }
+      this.parentValEn = formValues.parentsEn;
+      this.parentValBm = formValues.parentsBm;
+      body[0].contentCategoryId = this.parentValEn.id[0];
+      body[1].contentCategoryId = this.parentValEn.id[1];   
 
       console.log(JSON.stringify(body))
      
@@ -800,20 +779,17 @@ export class ContentComponent implements OnInit {
       body[0].contents[0].lifeEventActiveFlag = formValues.active;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
 
-      //predefined super parent id;
-      if(formValues.parentsEn == null){
-        parentValEn = -1;
-        parentValBm = -2;
-
-        body[0].contentCategoryId = parentValEn;
-        body[1].contentCategoryId = parentValBm;
+      if(formValues.parentsEn == null || formValues.parentsEn == ""){
+   
+        body[0].contentCategoryId = this.parentValEn;
+        body[1].contentCategoryId = this.parentValBm;
       }
 
       else {      
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = parentValEn.id[0];
-        body[1].contentCategoryId = parentValEn.id[1];       
+        this.parentValEn = formValues.parentsEn;
+        this.parentValBm = formValues.parentsBm;
+        body[0].contentCategoryId = this.parentValEn.id[0];
+        body[1].contentCategoryId = this.parentValEn.id[1];       
       }
       
 
@@ -912,8 +888,8 @@ export class ContentComponent implements OnInit {
 
     if(this.languageId == 1){
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = "Category Parents";
-        this.filterPlaceholder = "Type your filter here..."
+        this.categoryPlaceholder = this.showPlaceHolderEn;
+        this.filterPlaceholder = this.showFilterEn;
       }
 
       else{
@@ -923,8 +899,8 @@ export class ContentComponent implements OnInit {
 
     else{
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = "Induk Kategori";
-        this.filterPlaceholder = "Taip tapisan di sini..."
+        this.categoryPlaceholder = this.showPlaceHolderBm;        
+        this.filterPlaceholder = this.showFilterBm;
       }
 
       else{

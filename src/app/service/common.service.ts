@@ -17,6 +17,10 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
 export class CommonService {
+
+  sliderCategoryCode = 4;
+  galleryCategoryCode = 39; 
+ 
   isAdmin: boolean;
   getDataT: any;
   userID: any;
