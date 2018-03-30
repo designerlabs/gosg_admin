@@ -138,10 +138,12 @@ export class ContenttblComponent implements OnInit {
 
   getCategoryCode(){ 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/643')
+    return this.commonservice.readProtected('content/dropdown')
+    // return this.http.get('http://localhost:3000/content_json')
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
-          this.leCategoryCode = resCatData['list'];          
+          this.leCategoryCode = resCatData['list'];
+          // this.leCategoryCode = resCatData[0]['list'];          
 
           let countFlag = false;
 
@@ -337,7 +339,8 @@ export class ContenttblComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/643')
+    return this.commonservice.readProtected('content/dropdown')
+    // return this.http.get('http://localhost:3000/content_json')
      .subscribe(data => {
   
       console.log("GET CATEGORY: ");
@@ -345,7 +348,8 @@ export class ContenttblComponent implements OnInit {
         
       this.commonservice.errorHandling(data, (function(){
 
-          this.categoryData = data["list"];   
+          this.categoryData = data["list"];
+          // this.categoryData = data[0]["list"];   
           console.log(this.categoryData);    
           let arrCatEn = [];      
           let arrCatBm = [];     
