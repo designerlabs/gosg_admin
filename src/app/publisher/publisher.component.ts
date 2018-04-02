@@ -758,7 +758,7 @@ export class PublisherComponent implements OnInit {
       console.log(JSON.stringify(body))
 
       this.loading = true;
-      this.commonservice.update(body, 'slider/creator/draft').subscribe(
+      this.commonservice.update(body, 'slider/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
@@ -844,7 +844,7 @@ export class PublisherComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.update(body, 'slider/creator').subscribe(
+      this.commonservice.update(body, 'slider').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.draftsubmitted'), ''); 
