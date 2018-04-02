@@ -11,6 +11,7 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
 import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
+import * as $ from 'jquery';
 
 @Component({
   selector: 'app-lifeevent',
