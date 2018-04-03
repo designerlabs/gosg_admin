@@ -762,7 +762,7 @@ export class PublisherComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
-            this.router.navigate(['slider']);
+            this.router.navigate(['publisher']);
 
           }).bind(this));
           this.loading = false;
@@ -848,7 +848,7 @@ export class PublisherComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.draftsubmitted'), ''); 
-            this.router.navigate(['slider']);
+            this.router.navigate(['publisher']);
 
           }).bind(this));
           this.loading = false;
