@@ -322,18 +322,18 @@ export class LifeeventComponent implements OnInit {
                   
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[0].categoryId,
-                      refCode: this.categoryData[i].refCode,
+                      // refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[0].parentId,
                       text: this.categoryData[i].list[0].categoryName,
-                      checked: false,
+                      // checked: false,
                       children: []});      
                     
                 arrCatBm.push({
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[1].categoryId,
-                      refCode: this.categoryData[i].refCode,
+                      // refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[1].parentId,
-                      checked: false,
+                      // checked: false,
                       text: this.categoryData[i].list[1].categoryName,
                       children: []}); 
                     
@@ -423,6 +423,15 @@ export class LifeeventComponent implements OnInit {
         this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
         this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
         this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventCitizenFlag);   
+
+        let setParentEn = {
+          "id": [dataEn.contentCategories[0].categoryId,dataBm.contentCategories[0].categoryId],
+          "text":dataEn.contentCategories[0].categoryName,
+          "value": dataEn.contentCategories[0].categoryId
+        };
+
+        this.updateForm.get('parentsEn').setValue(setParentEn);  
+        
 
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
