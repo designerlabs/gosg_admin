@@ -253,6 +253,10 @@ mat-header-cell{
         padding-left:30px !important;
     }
 
+    .pdg_R_30px {
+        padding-right:30px !important;
+    }
+
     .pdg_L_15px {
         padding-left:15px !important;
     }

@@ -410,32 +410,42 @@ export class ContentComponent implements OnInit {
         this.sendForApporval = dataEn.isSendForApproval;
 
         this.checkReqValues();
+
+        //check contentImage element exist or not.
+        let getObjKeys = Object.keys(dataEn);
+        let valMT = getObjKeys.filter(fmt => fmt === "contentText");
+
+        if(valMT.length > 0){
       
-        let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
-        let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
-        let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
-        let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
-        let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
-        let addClassforTable = addClassforSpan.replace('class="table">', '>');
+          let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
+          let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
+          let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
+          let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
+          let addClassforTable = addClassforSpan.replace('class="table">', '>');
 
 
-        let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
-        let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
-        let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
-        let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
-        let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
-        let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
+          let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
+          let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
+          let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
+          let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
+          let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');        
 
-        this.rawValEn = addClassforTable;
-        this.rawValBm = addClassforTable_BM;
+          this.rawValEn = addClassforTable;
+          this.rawValBm = addClassforTable_BM;
+        
+          //set value at input field
+          this.htmlContentEn.setValue(addClassforTable);
+          this.htmlContentMy.setValue(addClassforTable_BM);
 
-        //set value at input field
-        this.htmlContentEn.setValue(addClassforTable);
-        this.htmlContentMy.setValue(addClassforTable_BM);
+          //set  value after preview
+          this.contentTxtEn = addClassforTable;
+          this.contentTxtMy = addClassforTable_BM;      
+        }
 
-        //set  value after preview
-        this.contentTxtEn = addClassforTable;
-        this.contentTxtMy = addClassforTable_BM;      
+        this.parentValEn = dataEn.contentCategories[0].categoryId;
+        this.parentValBm = dataBm.contentCategories[0].categoryId;
 
         this.parseEnBtn = true;
         this.parseMyBtn = true;
@@ -469,18 +479,18 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
        
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentSort": null,
+            "contentUrl": null,
             "language": {
               "languageId": 1
               },          
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         },
@@ -488,33 +498,33 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
+            "contentSort": null,
+            "contentUrl": null,
             "language": {
               "languageId": 2
               },        
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         }
       ];    
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].contents[0].contentTitle = formValues.titleEn;
+      body[1].contents[0].contentTitle = formValues.titleBm;
+      body[0].contents[0].contentText = this.contentTxtEn;
+      body[1].contents[0].contentText = this.contentTxtMy;
+      body[0].contents[0].contentDescription = formValues.descEn;
+      body[1].contents[0].contentDescription = formValues.descBm;
+      body[0].contents[0].contentSort = formValues.seqEng;
+      body[1].contents[0].contentSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].contents[0].contentActiveFlag = formValues.active;
+      body[1].contents[0].contentActiveFlag = formValues.active;
     
       this.parentValEn = formValues.parentsEn;
       this.parentValBm = formValues.parentsBm;
@@ -525,11 +535,11 @@ export class ContentComponent implements OnInit {
      
       this.loading = true;
       // Add
-      this.commonservice.create(body, 'life/event/draft').subscribe(
+      this.commonservice.create(body, 'content/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
-            this.router.navigate(['lifeevent']);
+            this.router.navigate(['content']);
 
           }).bind(this));
           this.loading = false;
@@ -548,19 +558,19 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventId":  this.getIdEn,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
+            "contentId":  this.getIdEn,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
        
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentSort": null,
+            "contentUrl": null,
             "language": {
               "languageId": 1
               },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         },
@@ -568,18 +578,18 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventId":  this.getIdBm,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentId":  this.getIdBm,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
+            "contentSort": null,
+            "contentUrl": null,
             "language": {
               "languageId": 2
               },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         }
@@ -588,17 +598,17 @@ export class ContentComponent implements OnInit {
       console.log("kkkkkkkkkkkkkkkkkkkkk");
       console.log(this.contentTxtEn);
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].contents[0].contentTitle = formValues.titleEn;
+      body[1].contents[0].contentTitle = formValues.titleBm;
+      body[0].contents[0].contentText = this.contentTxtEn;
+      body[1].contents[0].contentText = this.contentTxtMy;
+      body[0].contents[0].contentDescription = formValues.descEn;
+      body[1].contents[0].contentDescription = formValues.descBm;
+      body[0].contents[0].contentSort = formValues.seqEng;
+      body[1].contents[0].contentSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].contents[0].contentActiveFlag = formValues.active;
+      body[1].contents[0].contentActiveFlag = formValues.active;
 
       if(formValues.parentsEn == null || formValues.parentsEn == ""){
        
@@ -619,11 +629,11 @@ export class ContentComponent implements OnInit {
 
       this.loading = true;
       // Update 
-      this.commonservice.update(body, 'life/event/draft').subscribe(
+      this.commonservice.update(body, 'content/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
-            this.router.navigate(['lifeevent']);
+            this.router.navigate(['content']);
 
           }).bind(this));
           this.loading = false;
@@ -651,18 +661,18 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
        
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentSort": null,
+            "contenttUrl": null,
             "language": {
               "languageId": 1
               },          
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         },
@@ -670,33 +680,33 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
+            "contentSort": null,
+            "contentUrl": null,
             "language": {
               "languageId": 2
               },          
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         }
       ];    
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].contents[0].contentTitle = formValues.titleEn;
+      body[1].contents[0].contentTitle = formValues.titleBm;
+      body[0].contents[0].contentText = this.contentTxtEn;
+      body[1].contents[0].contentText = this.contentTxtMy;
+      body[0].contents[0].contentDescription = formValues.descEn;
+      body[1].contents[0].contentDescription = formValues.descBm;
+      body[0].contents[0].contentSort = formValues.seqEng;
+      body[1].contents[0].contentSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].contents[0].contentActiveFlag = formValues.active;
+      body[1].contents[0].contentActiveFlag = formValues.active;
 
       this.parentValEn = formValues.parentsEn;
       this.parentValBm = formValues.parentsBm;
@@ -707,11 +717,11 @@ export class ContentComponent implements OnInit {
      
       this.loading = true;
       // Add
-      this.commonservice.create(body, 'life/event').subscribe(
+      this.commonservice.create(body, 'content').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
-            this.router.navigate(['lifeevent']);
+            this.router.navigate(['content']);
 
           }).bind(this));
           this.loading = false;
@@ -730,19 +740,19 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventId":  this.getIdEn,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
+            "contentId":  this.getIdEn,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
        
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentSort": null,
+            "contentUrl": null,
             "language": {
               "languageId": 1
               },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         },
@@ -750,34 +760,34 @@ export class ContentComponent implements OnInit {
           "contentCategoryId": null,
           "contents": [
             {
-            "lifeEventId":  this.getIdBm,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "contentId":  this.getIdBm,
+            "contentTitle": null,
+            "contentText": null,
+            "contentDescription": null,
+            "contentSort": null,
+            "contentUrl": null,
             "language": {
               "languageId": 2
               },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "contentCitizenFlag": false,
+            "contentNonCitizenFlag":false,
+            "contentActiveFlag":false
             }
           ]
         }
       ];    
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].contents[0].contentTitle = formValues.titleEn;
+      body[1].contents[0].contentTitle = formValues.titleBm;
+      body[0].contents[0].contentText = this.contentTxtEn;
+      body[1].contents[0].contentText = this.contentTxtMy;
+      body[0].contents[0].contentDescription = formValues.descEn;
+      body[1].contents[0].contentDescription = formValues.descBm;
+      body[0].contents[0].contentSort = formValues.seqEng;
+      body[1].contents[0].contentSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].contents[0].contentActiveFlag = formValues.active;
+      body[1].contents[0].contentActiveFlag = formValues.active;
 
       if(formValues.parentsEn == null || formValues.parentsEn == ""){
    
@@ -798,11 +808,11 @@ export class ContentComponent implements OnInit {
 
       this.loading = true;
       // Update 
-      this.commonservice.update(body, 'life/event').subscribe(
+      this.commonservice.update(body, 'content').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
-            this.router.navigate(['lifeevent']);
+            this.router.navigate(['content']);
 
           }).bind(this));
           this.loading = false;

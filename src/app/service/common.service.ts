@@ -64,6 +64,23 @@ export class CommonService {
   ];
   defaultPageSize = this.pageSize[0].size;
 
+  valueContent = [
+    {"id": 1, "text": "Slider"},
+    {"id": 2, "text": "Gallery"},
+    {"id": 3, "text": "Life Event"},
+    {"id": 4, "text": "Content"}
+  ];
+
+  defaultValContent = this.valueContent[0].id;
+
+  listApprove = [
+    {"id": 1, "text": "All"},
+    {"id": 2, "text": "Approved"},
+    {"id": 3, "text": "Non - Approved"}
+  ];
+
+  defaultApprove = this.listApprove[0].id;
+
   // tslint:disable-next-line:max-line-length
   constructor(
     public http: Http,

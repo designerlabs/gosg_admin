@@ -91,6 +91,13 @@
                             {{element.list[1]?.contentTitle }}
                         </mat-cell>
                     </ng-container>
+
+                    <ng-container matColumnDef="category">
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category </mat-header-cell>
+                        <mat-cell class="text-align-Left" *matCellDef="let element">
+                            {{element.list[1]?.contentCategories[0].categoryName }}
+                        </mat-cell>
+                    </ng-container>
     
                     <!-- Default Column -->
                     <ng-container matColumnDef="default_status">

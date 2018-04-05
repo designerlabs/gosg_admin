@@ -21,7 +21,7 @@ export class LifeeventtblComponent implements OnInit {
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['num','name', 'url', 'default_status', 'status', 'action'];
+  displayedColumns = ['num','name', 'url', 'category','default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;

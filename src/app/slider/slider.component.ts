@@ -8,6 +8,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-slider',
@@ -16,6 +17,14 @@ import { LangChangeEvent } from '@ngx-translate/core';
   encapsulation: ViewEncapsulation.None
 })
 export class SliderComponent implements OnInit {
+
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  minDate: any;
+  publish: FormControl
+  endD: FormControl
 
   sliderData: Object;
   dataUrl: any;
@@ -98,7 +107,10 @@ export class SliderComponent implements OnInit {
     this.refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.getImageList();
+    this.getMinEventDate();
 
+    this.publish = new FormControl()
+    this.endD = new FormControl
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
@@ -113,6 +125,8 @@ export class SliderComponent implements OnInit {
     this.seqMy = new FormControl();
 
     this.updateForm = new FormGroup({
+      endD: this.endD,
+      publish: this.publish,
       titleEn: this.titleEn,
       descEn: this.descEn,
       imgEn: this.imgEn,
@@ -184,6 +198,12 @@ export class SliderComponent implements OnInit {
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
           this.updateForm.get('seqMy').setValue(dataBm.contentSort);
 
+          this.dateFormatExample = "";
+          this.publishdt = dataEn.publishDate;
+          this.enddt = dataEn.endDate;
+          this.updateForm.get('publish').setValue(dataEn.publishDate);
+          this.updateForm.get('endD').setValue(dataEn.publishDate);
+
           if(dataEn.contentImage != null){
             this.selectedFileEn = dataEn.contentImage.mediaFile;
             this.selectedFileMy = dataBm.contentImage.mediaFile;
@@ -213,6 +233,33 @@ export class SliderComponent implements OnInit {
         this.loading = false;
       });
 
+  }
+
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+
+    this.minDate = new Date(year, month, todaysdt);
+  }
+
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("START: "+type);
+    console.log(event.value);
+    this.publishdt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.publishdt);
+    this.checkReqValues()
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("END: "+type);
+    console.log(event.value);
+    this.enddt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.enddt);
+    this.checkReqValues()
   }
 
   isChecked(e) {
@@ -370,7 +417,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         },
@@ -389,7 +438,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         }
@@ -413,6 +464,15 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+
+      if(formValues.publish != null || formValues.publish != ""){
+
+        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+
+        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      }
 
       console.log(JSON.stringify(body))
 
@@ -451,7 +511,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         },
@@ -470,7 +532,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         }
@@ -486,6 +550,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].sliderActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
+
       body[1].contentCategoryId = 16;
       body[1].contents[0].sliderId = this.sliderIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
@@ -495,6 +560,15 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+
+      if(formValues.publish != null || formValues.publish != ""){
+
+        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+
+        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      }
 
 
       console.log(JSON.stringify(body))
@@ -539,7 +613,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         },
@@ -558,7 +634,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         }
@@ -582,6 +660,15 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+
+      if(formValues.publish != null || formValues.publish != ""){
+
+        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+
+        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      }
 
       console.log(JSON.stringify(body))
 
@@ -623,7 +710,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         },
@@ -643,7 +732,9 @@ export class SliderComponent implements OnInit {
               "sliderActiveFlag": false,
               "language": {
                 "languageId": null
-              }
+              },
+              "sliderPublishDate": null,
+              "sliderEndDate": null
             }
           ]
         }
@@ -668,6 +759,15 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
+      if(formValues.publish != null || formValues.publish != ""){
+
+        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+
+        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      }
+
       console.log(JSON.stringify(body))
 
       this.loading = true;
@@ -688,7 +788,6 @@ export class SliderComponent implements OnInit {
       });
 
     }
-
     
   }
 }

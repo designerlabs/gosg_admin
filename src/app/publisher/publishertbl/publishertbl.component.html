@@ -28,16 +28,42 @@
 
 <div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
+    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+      <div class="row">
+        <div class="col-md-3 paddingTop-10 pdg_L_30px">
+            <mat-form-field class="example-full-width">
+                <mat-select  placeholder="" formControlName="typeFilter" [(ngModel)]="commonservice.defaultValContent" (change)="filterType($event)">
+                    <mat-option *ngFor="let typeFilter of commonservice.valueContent" [value]="typeFilter.id">{{typeFilter.text}}</mat-option>
+                    <!-- <mat-option [value]="1">Slider</mat-option>
+                    <mat-option [value]="2">Gallery</mat-option>
+                    <mat-option [value]="3">Life Event</mat-option>
+                    <mat-option [value]="3">Content</mat-option> -->
+                </mat-select>
+            </mat-form-field>
+        </div>      
 
-    <div class="col-md-12 paddingTop-10">
-      <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
-          <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
-              <mat-icon>close</mat-icon>
-          </button>
-      </mat-form-field>
-    </div>
+        <div class="col-md-3 paddingTop-10">
+          <mat-form-field>
+              <input matInput formControlName="keyword" (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+              <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+                  <mat-icon>close</mat-icon>
+              </button>
+          </mat-form-field>
+        </div>
 
+        <div class="col-md-3 paddingTop-10 pdg_R_30px">
+            <mat-form-field class="example-full-width">
+                <mat-select  placeholder="" formControlName="statusApprove" [(ngModel)]="commonservice.defaultApprove" (change)="filterType($event)">
+                    <mat-option *ngFor="let typeFilter of commonservice.listApprove" [value]="typeFilter.id">{{typeFilter.text}}</mat-option>
+                    <!-- <mat-option [value]="1">Slider</mat-option>
+                    <mat-option [value]="2">Gallery</mat-option>
+                    <mat-option [value]="3">Life Event</mat-option>
+                    <mat-option [value]="3">Content</mat-option> -->
+                </mat-select>
+            </mat-form-field>
+        </div> 
+      </div>
+    </form>
     <mat-table #table [dataSource]="dataSource">
 
       <!-- No Column -->
