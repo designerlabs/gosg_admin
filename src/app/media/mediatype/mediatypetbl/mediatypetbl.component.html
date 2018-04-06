@@ -37,11 +37,17 @@
         <ng-container matColumnDef="catName">
           <mat-header-cell *matHeaderCellDef > {{ 'mediatype.tableHeader.category' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" >
-            <mat-chip-list>
+            <span class="tag-style" *ngFor="let ele of element.mediaTypeCategories.length > 3 ? element.mediaTypeCategories.slice(0,3): element.mediaTypeCategories">
+                {{ele.category.categoryName | truncate:[12, '...']}}
+            </span>
+            <span *ngIf="element.mediaTypeCategories.length > 3">
+                +{{element.mediaTypeCategories.length - 3}}
+            </span>
+            <!-- <mat-chip-list >
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.mediaTypeCategories.length > 3 ? element.mediaTypeCategories.slice(0,3): element.mediaTypeCategories">
                 {{ele.category.categoryName | truncate:[12, '...']}}</mat-chip>
               <mat-chip color="default" *ngIf="element.mediaTypeCategories.length > 3">+{{element.mediaTypeCategories.length - 3}}</mat-chip>
-            </mat-chip-list>
+            </mat-chip-list> -->
             <span align="end" *ngIf="element.mediaTypeCategories.length==0">{{ 'mediatype.msg.clickadd' | translate }}</span>
           </mat-cell>
           

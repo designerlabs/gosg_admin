@@ -116,10 +116,16 @@
         <ng-container matColumnDef="moduleGroupName">
           <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> {{ 'table.moduleGroupName' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" style="flex: 0 0 35%;" > 
-              <mat-chip-list >
+            <span class="tag-style" *ngFor="let ele of (element.items.length > 3 ? element.items.slice(0,3):  element.items)">
+                {{ele.moduleGroupName | truncate:[12, '...']}}
+            </span>
+            <span *ngIf="element.items.length > 3">
+                +{{element.items.length - 3}}
+            </span>
+              <!-- <mat-chip-list >
                   <mat-chip color="primary" selected="true" *ngFor="let ele of (element.items.length > 3 ? element.items.slice(0,3):  element.items)">{{ele.moduleGroupName | truncate:[12, '...']}}</mat-chip> 
                   <mat-chip color="default" *ngIf="element.items.length > 3">+{{element.items.length - 3}}</mat-chip> 
-              </mat-chip-list> 
+              </mat-chip-list>  -->
           </mat-cell>
         </ng-container>
         

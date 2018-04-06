@@ -32,6 +32,15 @@ mat-header-cell{
     margin-top: 10%;
   }
 
+  .tag-style{
+    background: #666666;
+    color: #fff;
+    padding: 5px 5px;
+    margin: 0px;
+    border-radius: 3px;
+    margin-right: 5px;
+  }
+
   .bg_header{
     height: 55px;
     border: none;

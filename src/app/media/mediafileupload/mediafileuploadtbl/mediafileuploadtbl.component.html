@@ -52,10 +52,13 @@
         <ng-container matColumnDef="catName">
           <mat-header-cell *matHeaderCellDef > {{ 'mediauploadtbl.tableHeader.category' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" >
-            <mat-chip-list>
+            <span class="tag-style" *ngFor="let ele of element.list[0].mediaCategories">
+                {{ele.categoryName}}
+            </span>
+            <!-- <mat-chip-list>
               <mat-chip color="primary" selected="true" *ngFor="let ele of element.list[0].mediaCategories">
                 {{ele.categoryName}}</mat-chip>
-            </mat-chip-list>
+            </mat-chip-list> -->
           </mat-cell>
         </ng-container>
         <!-- ActiveFlag Column -->
