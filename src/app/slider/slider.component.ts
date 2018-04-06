@@ -447,7 +447,7 @@ export class SliderComponent implements OnInit {
       ];
 
       // console.log(formValues)
-      body[0].contentCategoryId = 15;
+      body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
       body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
@@ -456,7 +456,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].sliderActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = 16;
+      body[1].contentCategoryId = this.commonservice.sliderContentCategoryIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
       body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
@@ -540,7 +540,7 @@ export class SliderComponent implements OnInit {
         }
       ];
 
-      body[0].contentCategoryId = 15;
+      body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderId = this.sliderIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -551,7 +551,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].language.languageId = 1;
 
 
-      body[1].contentCategoryId = 16;
+      body[1].contentCategoryId = this.commonservice.sliderContentCategoryIdBm;
       body[1].contents[0].sliderId = this.sliderIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
@@ -643,7 +643,7 @@ export class SliderComponent implements OnInit {
       ];
 
       // console.log(formValues)
-      body[0].contentCategoryId = 15;
+      body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
       body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
@@ -652,7 +652,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].sliderActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = 16;
+      body[1].contentCategoryId = this.commonservice.sliderContentCategoryIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
       body[1].contents[0].sliderImage.mediaId = formValues.imgBm;
@@ -741,7 +741,7 @@ export class SliderComponent implements OnInit {
       ];
 
       // console.log(formValues)
-      body[0].contentCategoryId = 15;
+      body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
       body[0].contents[0].sliderImage.mediaId = formValues.imgEn;
@@ -750,7 +750,7 @@ export class SliderComponent implements OnInit {
       body[0].contents[0].sliderActiveFlag = formValues.active;
       body[0].contents[0].language.languageId = 1;
 
-      body[1].contentCategoryId = 16;
+      body[1].contentCategoryId = this.commonservice.sliderContentCategoryIdBm;
       body[1].contents[0].sliderTitle = formValues.titleBm;
       body[1].contents[0].sliderDescription = formValues.descBm;
       body[1].contents[0].sliderImage.mediaId = formValues.imgBm;

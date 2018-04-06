@@ -35,7 +35,8 @@ export class SlidertblComponent implements OnInit {
   lang:any;
   languageId: any;
   public loading = false;
-
+  nameStatus=1;
+  keywordVal="";
   recordTable = null;
 
   showNoData = false;
@@ -46,9 +47,9 @@ export class SlidertblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.sliderList);
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
-      this.getFilterList(this.pageCount, this.sliderPageSize, e);
+      this.getFilterList(this.pageCount, this.sliderPageSize, e, this.nameStatus);
     }
     else{
       this.getSlidersData(this.pageCount, this.sliderPageSize);
@@ -57,6 +58,11 @@ export class SlidertblComponent implements OnInit {
 
   resetSearch() {
     this.getSlidersData(this.pageCount, this.sliderPageSize);
+  }
+
+  filterStatus(e){
+    console.log(e);
+    this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e);
   }
 
   constructor(
@@ -142,12 +148,30 @@ export class SlidertblComponent implements OnInit {
       });
   }
 
-  getFilterList(page, size, keyword) {
+  getFilterList(page, size, keyword, valStatus) {
     this.sliderList = null;
+
+    let generalUrl = "";
+
+    if(this.nameStatus == 1){
+      generalUrl = 'slider/search/4';
+    }
+
+    else if(this.nameStatus == 3){
+      generalUrl = 'slider/search/4';
+    }
+
+    else if(this.nameStatus == 3){
+      generalUrl = 'slider/search/4';
+    }
+
+    else if(this.nameStatus == 4){
+      generalUrl = 'slider/search/4';
+    }
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('slider/search/4',page, size, keyword).subscribe(
+      this.commonservice.readProtected(generalUrl,page, size, keyword).subscribe(
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){

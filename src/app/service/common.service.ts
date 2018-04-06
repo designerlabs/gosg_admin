@@ -20,6 +20,9 @@ export class CommonService {
 
   sliderCategoryCode = 4;
   galleryCategoryCode = 39; 
+
+  sliderContentCategoryIdEn = 15;
+  sliderContentCategoryIdBm = 16;
  
   isAdmin: boolean;
   getDataT: any;
@@ -70,7 +73,6 @@ export class CommonService {
     {"id": 3, "text": "Life Event"},
     {"id": 4, "text": "Content"}
   ];
-
   defaultValContent = this.valueContent[0].id;
 
   listApprove = [
@@ -78,8 +80,15 @@ export class CommonService {
     {"id": 2, "text": "Approved"},
     {"id": 3, "text": "Non - Approved"}
   ];
-
   defaultApprove = this.listApprove[0].id;
+
+  listStatusCreator = [
+    {"id": 1, "textEn": "All", "textBm": "Semua"},
+    {"id": 2, "textEn": "Draft", "textBm": "Draf"},
+    {"id": 3, "textEn": "Pending for Approval", "textBm": "Menunggu untuk Kelulusan"},
+    {"id": 4, "textEn": "Approved", "textBm": "Telah Lulus"}
+  ]
+  defaultStatusCreator = this.listStatusCreator[0].id;
 
   // tslint:disable-next-line:max-line-length
   constructor(

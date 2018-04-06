@@ -28,15 +28,34 @@
 
 <div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
+    <div class="row">
+      <div class="col-md-9 paddingTop-10 pdg_L_30px">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="keywordVal" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+            <button mat-button *ngIf="keywordVal" matSuffix mat-icon-button aria-label="Clear" (click)="keywordVal=''; resetSearch()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+      </div>
 
-    <div class="col-md-12 paddingTop-10">
-      <mat-form-field>
-          <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
-          <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
-              <mat-icon>close</mat-icon>
-          </button>
-      </mat-form-field>
-    </div>
+      <div class="col-md-3 paddingTop-10 pdg_R_30px" *ngIf="languageId == 1">
+        <mat-form-field class="example-full-width">
+          <mat-select  placeholder="" [(ngModel)]="nameStatus" (change)="filterStatus($event)">
+              <mat-option *ngFor="let statusCreator of commonservice.listStatusCreator" 
+              [value]="statusCreator.id">{{statusCreator.textEn}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-3 paddingTop-10 pdg_R_30px" *ngIf="languageId == 2">
+        <mat-form-field class="example-full-width">
+          <mat-select  placeholder="" [(ngModel)]="nameStatus" (change)="filterStatus($event)">
+              <mat-option *ngFor="let statusCreator of commonservice.listStatusCreator" 
+              [value]="statusCreator.id">{{statusCreator.textBm}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>  
 
     <mat-table #table [dataSource]="dataSource">
 
