@@ -144,6 +144,7 @@ export class SliderComponent implements OnInit {
     if (this.refCode == "add") {
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
+
     } else {
       this.commonservice.pageModeChange(true);
       this.getRow(this.refCode);
@@ -464,19 +465,17 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+      
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-      console.log(formValues.publish);
-
-      if(formValues.publish != null || formValues.publish != ""){
-
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      
 
       console.log(JSON.stringify(body))
+      console.log(body)
+      console.log(formValues.publish);
 
       this.loading = true;
       // Add Slider Service
@@ -563,15 +562,12 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
-      if(formValues.publish != null || formValues.publish != ""){
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
-
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      
 
       console.log(JSON.stringify(body))
 
@@ -661,16 +657,14 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderSort = formValues.seqMy;
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;
+      body[1].contents[0].language.languageId = 2;    
 
-      if(formValues.publish != null || formValues.publish != ""){
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      
 
       console.log(JSON.stringify(body))
 
@@ -759,16 +753,14 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderSort = formValues.seqMy;
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;
+      body[1].contents[0].language.languageId = 2;    
 
-      if(formValues.publish != null || formValues.publish != ""){
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      
 
       console.log(JSON.stringify(body))
 
