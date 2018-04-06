@@ -10,11 +10,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-slidertbl',
-  templateUrl: './slidertbl.component.html',
-  styleUrls: ['./slidertbl.component.css']
+  selector: 'app-sliderpublishertbl',
+  templateUrl: './sliderpublishertbl.component.html',
+  styleUrls: ['./sliderpublishertbl.component.css']
 })
-export class SlidertblComponent implements OnInit {
+export class SliderpublishertblComponent implements OnInit {
 
   sliderData: Object;
   sliderList = null;
@@ -62,17 +62,10 @@ export class SlidertblComponent implements OnInit {
 
   filterStatus(e){
     console.log(e);
-    if(this.keywordVal != ""){
-      this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e.value);
-    }
-
-    else{
-      this.getSlidersData(this.pageCount, this.sliderPageSize);
-    }
+    this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e);
   }
-
-  constructor(
-    private http: HttpClient, 
+  
+  constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private dialogsService: DialogsService,
@@ -119,27 +112,9 @@ export class SlidertblComponent implements OnInit {
 
   // get Slider Data 
   getSlidersData(page, size) {
-
-    let generalUrl = ""
-
-    if(this.nameStatus == 1){
-      generalUrl = 'slider/creator/state/all';
-    }
-
-    else if(this.nameStatus == 2){
-      generalUrl = 'slider/creator/state/draft';
-    }
-
-    else if(this.nameStatus == 3){
-      generalUrl = 'slider/creator/state/pending';
-    }
-
-    else if(this.nameStatus == 4){
-      generalUrl = 'slider/creator/state/approved';
-    }
     
     this.loading = true;
-    this.commonservice.readProtected(generalUrl,page, size).subscribe(
+    this.commonservice.readProtected('slider/publisher/state/all',page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -177,20 +152,16 @@ export class SlidertblComponent implements OnInit {
 
     let generalUrl = "";
 
-    if(valStatus == 1){
-      generalUrl = 'slider/search/4';
+    if(this.nameStatus == 1){
+      generalUrl = 'slider/publisher/search/state/all';
     }
 
-    else if(valStatus == 2){
-      generalUrl = 'slider/search/4';
+    else if(this.nameStatus == 2){
+      generalUrl = 'slider/publisher/search/state/nonapproved';
     }
 
-    else if(valStatus == 3){
-      generalUrl = 'slider/search/4';
-    }
-
-    else if(valStatus == 4){
-      generalUrl = 'slider/search/4';
+    else if(this.nameStatus == 3){
+      generalUrl = 'publisher/search/state/approved';
     }
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
@@ -254,20 +225,16 @@ export class SlidertblComponent implements OnInit {
     this.noPrevData = true;
   }
 
-  addBtn() {
-    this.commonservice.pageModeChange(false);
-    this.router.navigate(['slider', "add"]);
-  }
   
   updateRow(row) {
     this.commonservice.pageModeChange(true);
-    this.router.navigate(['slider', row]);
+    this.router.navigate(['publisher/slider', row]);
   }
 
   deleteItem(refcode) {
 
     this.loading = true;
-    this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
+    this.commonservice.delete(refcode, 'slider/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -284,13 +251,5 @@ export class SlidertblComponent implements OnInit {
       });
 
   }
-
-  // changePageMode(isEdit) {
-  //   if (isEdit == false) {
-  //     this.pageMode = "Add";
-  //   } else if (isEdit == true) {
-  //     this.pageMode = "Update";
-  //   }
-  // }
 
 }

@@ -121,6 +121,8 @@ import { InboxComponent } from './inbox/inbox.component';
 import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
 import { InboxsentComponent } from './inboxsent/inboxsent.component';
 import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
+import { SliderpublisherComponent } from './sliderpublisher/sliderpublisher.component';
+import { SliderpublishertblComponent } from './sliderpublisher/sliderpublishertbl/sliderpublishertbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -220,6 +222,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InboxtblComponent,
     InboxsentComponent,
     InboxsenttblComponent,
+    SliderpublisherComponent,
+    SliderpublishertblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [

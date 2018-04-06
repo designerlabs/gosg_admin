@@ -998,6 +998,7 @@
   },
   "slider": {
     "header": "Slider Management",
+    "publisher": "Slider Publisher Management",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",

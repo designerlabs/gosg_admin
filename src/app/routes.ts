@@ -94,6 +94,8 @@ import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
 
 import { InboxsentComponent } from './inboxsent/inboxsent.component';
 import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
+import { SliderpublisherComponent } from './sliderpublisher/sliderpublisher.component';
+import { SliderpublishertblComponent } from './sliderpublisher/sliderpublishertbl/sliderpublishertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -156,6 +158,10 @@ export const appRoutes: Routes = [
 {path: 'slider', component: SlidertblComponent},
 {path: 'slider/add', component: SliderComponent},
 {path: 'slider/:id', component: SliderComponent},
+
+{path: 'publisher/slider', component: SliderpublishertblComponent},
+{path: 'publisher/slider/:id', component: SliderpublisherComponent},
+
 {path: 'gallery', component: GallerytblComponent},
 {path: 'gallery/add', component: GalleryComponent},
 {path: 'gallery/:id', component: GalleryComponent},

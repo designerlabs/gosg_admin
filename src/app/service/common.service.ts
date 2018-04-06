@@ -75,12 +75,12 @@ export class CommonService {
   ];
   defaultValContent = this.valueContent[0].id;
 
-  listApprove = [
-    {"id": 1, "text": "All"},
-    {"id": 2, "text": "Approved"},
-    {"id": 3, "text": "Non - Approved"}
+  listStatusPublisher = [
+    {"id": 1, "textEn": "All", "textBm": "Semua"},
+    {"id": 2, "textEn": "Draft", "textBm": "Draf"},
+    {"id": 3, "textEn": "Approved", "textBm": "Telah Lulus"}
   ];
-  defaultApprove = this.listApprove[0].id;
+  defaultStatusPublisher = this.listStatusPublisher[0].id;
 
   listStatusCreator = [
     {"id": 1, "textEn": "All", "textBm": "Semua"},

@@ -11,12 +11,12 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
-  selector: 'app-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.css'],
+  selector: 'app-sliderpublisher',
+  templateUrl: './sliderpublisher.component.html',
+  styleUrls: ['./sliderpublisher.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SliderComponent implements OnInit {
+export class SliderpublisherComponent implements OnInit {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -167,7 +167,7 @@ export class SliderComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['slider']);
+    this.router.navigate(['publisher/slider']);
   }
 
   // get, add, update, delete
@@ -465,8 +465,6 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
-      console.log(formValues.publish);
-
       if(formValues.publish != null || formValues.publish != ""){
 
         body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
@@ -480,11 +478,11 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.create(body, 'slider/creator/draft').subscribe(
+      this.commonservice.create(body, 'slider/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
-            this.router.navigate(['slider']);
+            this.router.navigate(['publisher/slider']);
 
           }).bind(this));
           this.loading = false;
@@ -577,11 +575,11 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Update Slider Service
-      this.commonservice.update(body, 'slider/creator/draft').subscribe(
+      this.commonservice.update(body, 'slider/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
-            this.router.navigate(['slider']);
+            this.router.navigate(['publisher/slider']);
 
           }).bind(this));
           this.loading = false;
@@ -676,11 +674,11 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.create(body, 'slider/creator').subscribe(
+      this.commonservice.create(body, 'slider').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
-            this.router.navigate(['slider']);
+            this.router.navigate(['publisher/slider']);
 
           }).bind(this));
           this.loading = false;
@@ -774,11 +772,11 @@ export class SliderComponent implements OnInit {
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.update(body, 'slider/creator').subscribe(
+      this.commonservice.update(body, 'slider').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
-            this.router.navigate(['slider']);
+            this.router.navigate(['publisher/slider']);
 
           }).bind(this));
           this.loading = false;
@@ -792,4 +790,5 @@ export class SliderComponent implements OnInit {
     }
     
   }
+
 }
