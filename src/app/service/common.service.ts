@@ -78,7 +78,8 @@ export class CommonService {
   listStatusPublisher = [
     {"id": 1, "textEn": "All", "textBm": "Semua"},
     {"id": 2, "textEn": "Draft", "textBm": "Draf"},
-    {"id": 3, "textEn": "Approved", "textBm": "Telah Lulus"}
+    {"id": 3, "textEn": "Pending for Approval", "textBm": "Menunggu untuk Kelulusan"},
+    {"id": 4, "textEn": "Approved", "textBm": "Telah Lulus"}
   ];
   defaultStatusPublisher = this.listStatusPublisher[0].id;
 

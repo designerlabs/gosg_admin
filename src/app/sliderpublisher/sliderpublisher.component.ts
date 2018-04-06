@@ -56,6 +56,7 @@ export class SliderpublisherComponent implements OnInit {
   urlMy: FormControl
   seqEng: FormControl
   seqMy: FormControl
+  approve: FormControl
   resetMsg = this.resetMsg;
   imageData: any;
   public loading = false;
@@ -65,6 +66,9 @@ export class SliderpublisherComponent implements OnInit {
   selectedFileMy = '';
 
   sendForApporval: boolean;
+
+  appPublisher = false;
+  disableApprove: any;
 
   refCode = "";
 
@@ -104,7 +108,7 @@ export class SliderpublisherComponent implements OnInit {
 
   ngOnInit() {
 
-    this.refCode = this.router.url.split('/')[2];
+    this.refCode = this.router.url.split('/')[3];
     this.commonservice.getModuleId();
     this.getImageList();
     this.getMinEventDate();
@@ -123,6 +127,7 @@ export class SliderpublisherComponent implements OnInit {
     this.copyImg = new FormControl();
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
+    this.approve = new FormControl();
 
     this.updateForm = new FormGroup({
       endD: this.endD,
@@ -136,6 +141,7 @@ export class SliderpublisherComponent implements OnInit {
       descBm: this.descBm,
       imgBm: this.imgBm,
       active: this.active,
+      approve: this.approve,
       copyImg: this.copyImg,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
@@ -198,11 +204,19 @@ export class SliderpublisherComponent implements OnInit {
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
           this.updateForm.get('seqMy').setValue(dataBm.contentSort);
 
+          this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
+
           this.dateFormatExample = "";
           this.publishdt = dataEn.publishDate;
           this.enddt = dataEn.endDate;
           this.updateForm.get('publish').setValue(dataEn.publishDate);
           this.updateForm.get('endD').setValue(dataEn.publishDate);
+          
+          if(dataEn.isApprovedFlag == true){
+            this.appPublisher = false;
+          }
+
+          this.disableApprove = dataEn.isApprovedFlag;
 
           if(dataEn.contentImage != null){
             this.selectedFileEn = dataEn.contentImage.mediaFile;
@@ -464,21 +478,19 @@ export class SliderpublisherComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+    
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-      if(formValues.publish != null || formValues.publish != ""){
-
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      
 
       console.log(JSON.stringify(body))
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.create(body, 'slider/draft').subscribe(
+      this.commonservice.create(body, 'slider/publisher/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
@@ -560,22 +572,18 @@ export class SliderpublisherComponent implements OnInit {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
+    
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-      if(formValues.publish != null || formValues.publish != ""){
-
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
-
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
       console.log(JSON.stringify(body))
 
       this.loading = true;
       // Update Slider Service
-      this.commonservice.update(body, 'slider/draft').subscribe(
+      this.commonservice.update(body, 'slider/publisher/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
@@ -661,20 +669,17 @@ export class SliderpublisherComponent implements OnInit {
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
-      if(formValues.publish != null || formValues.publish != ""){
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
-
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      
       console.log(JSON.stringify(body))
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.create(body, 'slider').subscribe(
+      this.commonservice.create(body, 'slider/publisher').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
@@ -759,20 +764,18 @@ export class SliderpublisherComponent implements OnInit {
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
 
-      if(formValues.publish != null || formValues.publish != ""){
+      body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
-        body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-
-        body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-        body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      }
+      body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
+      
 
       console.log(JSON.stringify(body))
 
       this.loading = true;
       // Add Slider Service
-      this.commonservice.update(body, 'slider').subscribe(
+      this.commonservice.update(body, 'slider/publisher').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
@@ -789,6 +792,21 @@ export class SliderpublisherComponent implements OnInit {
 
     }
     
+  }
+
+  approvePublisher(){
+
+    let appVal = this.updateForm.get('approve');
+    
+    if(appVal.value == true){
+      this.appPublisher = true;
+      this.approve.enable();
+    }
+
+    else{
+      this.appPublisher = false;
+      this.approve.disable();
+    }    
   }
 
 }

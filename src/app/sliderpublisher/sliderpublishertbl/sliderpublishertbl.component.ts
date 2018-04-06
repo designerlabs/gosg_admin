@@ -62,7 +62,13 @@ export class SliderpublishertblComponent implements OnInit {
 
   filterStatus(e){
     console.log(e);
-    this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e);
+    if(this.keywordVal != ""){
+      this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e.value);
+    }
+
+    else{
+      this.getSlidersData(this.pageCount, this.sliderPageSize);
+    }
   }
   
   constructor(private http: HttpClient, 
@@ -112,9 +118,27 @@ export class SliderpublishertblComponent implements OnInit {
 
   // get Slider Data 
   getSlidersData(page, size) {
+
+    let generalUrl = ""
+
+    if(this.nameStatus == 1){
+      generalUrl = 'slider/publisher/state/all';
+    }
+
+    else if(this.nameStatus == 2){
+      generalUrl = 'slider/publisher/state/draft';
+    }
+
+    else if(this.nameStatus == 3){
+      generalUrl = 'slider/publisher/state/pending';
+    }
+
+    else if(this.nameStatus == 4){
+      generalUrl = 'slider/publisher/state/approved';
+    }
     
     this.loading = true;
-    this.commonservice.readProtected('slider/publisher/state/all',page, size).subscribe(
+    this.commonservice.readProtected(generalUrl,page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -157,11 +181,15 @@ export class SliderpublishertblComponent implements OnInit {
     }
 
     else if(this.nameStatus == 2){
-      generalUrl = 'slider/publisher/search/state/nonapproved';
+      generalUrl = 'slider/publisher/search/state/draft';
     }
 
     else if(this.nameStatus == 3){
-      generalUrl = 'publisher/search/state/approved';
+      generalUrl = 'slider/publisher/search/state/pending';
+    }
+
+    else if(this.nameStatus == 4){
+      generalUrl = 'slider/publisher/search/state/approved';
     }
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {

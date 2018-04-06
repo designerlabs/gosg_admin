@@ -178,19 +178,19 @@ export class SlidertblComponent implements OnInit {
     let generalUrl = "";
 
     if(valStatus == 1){
-      generalUrl = 'slider/search/4';
+      generalUrl = 'slider/creator/search/state/all';
     }
 
     else if(valStatus == 2){
-      generalUrl = 'slider/search/4';
+      generalUrl = 'slider/creator/search/state/draft';
     }
 
     else if(valStatus == 3){
-      generalUrl = 'slider/search/4';
+      generalUrl = 'slider/creator/search/state/pending';
     }
 
     else if(valStatus == 4){
-      generalUrl = 'slider/search/4';
+      generalUrl = 'slider/creator/search/state/approved';
     }
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
