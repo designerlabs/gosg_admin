@@ -115,6 +115,7 @@ import { PublishertblComponent } from './publisher/publishertbl/publishertbl.com
 import { LifeeventComponent, DialogResultExampleDialog } from './lifeevent/lifeevent.component';
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
 // import { JoditAngularModule } from 'jodit-angular';
+import "froala-editor/js/froala_editor.pkgd.min.js";
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { InboxComponent } from './inbox/inbox.component';
 import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
