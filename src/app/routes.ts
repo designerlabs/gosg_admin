@@ -96,6 +96,8 @@ import { InboxsentComponent } from './inboxsent/inboxsent.component';
 import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
 import { SliderpublisherComponent } from './sliderpublisher/sliderpublisher.component';
 import { SliderpublishertblComponent } from './sliderpublisher/sliderpublishertbl/sliderpublishertbl.component';
+import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.component';
+import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -165,6 +167,10 @@ export const appRoutes: Routes = [
 {path: 'gallery', component: GallerytblComponent},
 {path: 'gallery/add', component: GalleryComponent},
 {path: 'gallery/:id', component: GalleryComponent},
+
+{path: 'publisher/gallery', component: GallerypublishertblComponent},
+{path: 'publisher/gallery/:id', component: GallerypublisherComponent},
+
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
 {path: 'reference/state', component: StateComponent},

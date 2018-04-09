@@ -742,6 +742,7 @@
     "name": "Gallery",
     "galleryimg": "Gallery Information",
     "header": "Gallery Management",
+    "publisher": "Gallery Publisher Management",
     "copy": "Copy",
     "publishDt" : "Start Publish Date",
     "endDt" : "End Publish Date",

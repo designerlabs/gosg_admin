@@ -123,6 +123,8 @@ import { InboxsentComponent } from './inboxsent/inboxsent.component';
 import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
 import { SliderpublisherComponent } from './sliderpublisher/sliderpublisher.component';
 import { SliderpublishertblComponent } from './sliderpublisher/sliderpublishertbl/sliderpublishertbl.component';
+import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.component';
+import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -224,6 +226,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     InboxsenttblComponent,
     SliderpublisherComponent,
     SliderpublishertblComponent,
+    GallerypublisherComponent,
+    GallerypublishertblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
