@@ -221,6 +221,7 @@
   "common":{
     "buttons":{
       "delete":"Delete",
+      "archiveAll": "Archive All",
       "update":"Update",
       "submit":"Submit",
       "reset":"Reset",
@@ -266,6 +267,7 @@
       "notfound":"Not Found.",
       "reset":"Reset this form?",
       "delete":"Are you sure to delete the record?",
+      "archive": "Are you sure you want to move this record to archive?",
       "unauthorized": "You are not authorized to access this page!",
       "nodata": "No Data Found"
     },

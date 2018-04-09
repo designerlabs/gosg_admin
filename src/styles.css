@@ -231,6 +231,10 @@ mat-header-cell{
         background: red !important;
     }
 
+    .bg_coral{
+        background: darkred !important;
+    }
+
     .table_footer_pagecount{
         width:50px !important; 
         margin-top: -10px !important;

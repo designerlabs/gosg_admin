@@ -221,6 +221,7 @@
   "common":{
     "buttons":{
       "delete":"Padam",
+      "archiveAll": "Arkib All",
       "update":"Kemaskini",
       "submit":"Hantar",
       "reset":"Set Semula",
@@ -266,6 +267,7 @@
       "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
       "delete":"Padam mesej ini?",
+      "archive": "Adakah anda pasti untuk tukar ke arkib?",
       "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!",
       "nodata": "Tiada Data Ditemui"
     },

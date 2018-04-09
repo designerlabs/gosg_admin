@@ -60,7 +60,8 @@ export class CommonService {
     arrLeft: 'fa fa-angle-left',
     arrRight: 'fa fa-angle-right',
     refresh: 'fa fa-refresh',
-    view: 'fa fa-eye'
+    view: 'fa fa-eye',
+    archive: 'fa fa-archive'
   }
 
   pageSize =  [
