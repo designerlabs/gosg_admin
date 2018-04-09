@@ -5,6 +5,7 @@ import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { DialogsService } from '../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
@@ -35,10 +36,12 @@ export class GallerytblComponent implements OnInit {
   languageId: any;
 
   showNoData = false;
-
   recordTable = null;
   
   public loading = false;
+
+  nameStatus=1;
+  keywordVal="";
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -48,7 +51,7 @@ export class GallerytblComponent implements OnInit {
   applyFilter(e) {
     console.log(e);
     if(e){
-      this.getFilterList(this.pageCount, this.galleryPageSize, e);
+      this.getFilterList(this.pageCount, this.galleryPageSize, e, this.nameStatus);
     }
     else{
       this.getGalleryData(this.pageCount, this.galleryPageSize);
@@ -57,6 +60,17 @@ export class GallerytblComponent implements OnInit {
 
   resetSearch() {
     this.getGalleryData(this.pageCount, this.galleryPageSize);
+  }
+
+  filterStatus(e){
+    console.log(e);
+    if(this.keywordVal != ""){
+      this.getFilterList(this.pageCount, this.galleryPageSize, this.keywordVal, e.value);
+    }
+
+    else{
+      this.getGalleryData(this.pageCount, this.galleryPageSize);
+    }
   }
 
   constructor(
@@ -106,12 +120,31 @@ export class GallerytblComponent implements OnInit {
   // get gallery Data 
   getGalleryData(page, size) {
     // console.log(this.appConfig.urlgalleryList + '/?page=' + count + '&size=' + size)
+
+    let generalUrl = ""
+
+    if(this.nameStatus == 1){
+      generalUrl = 'gallery/creator/state/all';
+    }
+
+    else if(this.nameStatus == 2){
+      generalUrl = 'gallery/creator/state/draft';
+    }
+
+    else if(this.nameStatus == 3){
+      generalUrl = 'gallery/creator/state/pending';
+    }
+
+    else if(this.nameStatus == 4){
+      generalUrl = 'gallery/creator/state/approved';
+    }
     this.dataUrl = this.appConfig.urlSlides;
     this.loading = true;
 
+    // gallery/39
     // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
-    this.commonservice.readProtected('gallery/39',page, size).subscribe(
+    this.commonservice.readProtected(generalUrl,page, size).subscribe(
       data => {
         
           this.commonservice.errorHandling(data, (function(){
@@ -142,15 +175,33 @@ export class GallerytblComponent implements OnInit {
       });
   }
 
-  getFilterList(page, size, keyword) {
+  getFilterList(page, size, keyword, valStatus) {
 
     this.galleryList = null;
+
+    let generalUrl = "";
+
+    if(valStatus == 1){
+      generalUrl = 'gallery/creator/search/state/all';
+    }
+
+    else if(valStatus == 2){
+      generalUrl = 'gallery/creator/search/state/draft';
+    }
+
+    else if(valStatus == 3){
+      generalUrl = 'gallery/creator/search/state/pending';
+    }
+
+    else if(valStatus == 4){
+      generalUrl = 'gallery/creator/search/state/approved';
+    }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
       this.loading = true;
 
-      this.commonservice.readProtected('gallery/search/39',page, size, keyword).subscribe(
+      this.commonservice.readProtected(generalUrl,page, size, keyword).subscribe(
         data => {
           
             this.commonservice.errorHandling(data, (function(){
@@ -221,7 +272,7 @@ export class GallerytblComponent implements OnInit {
   deleteItem(refcode) {
 
     this.loading = true;      
-    this.commonservice.delete(refcode, 'gallery/delete/').subscribe(
+    this.commonservice.delete(refcode, 'gallery/creator/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){

@@ -797,6 +797,10 @@ export class SliderpublisherComponent implements OnInit {
   approvePublisher(){
 
     let appVal = this.updateForm.get('approve');
+
+    if(this.disableApprove == true){
+      this.approve.disable();
+    }
     
     if(appVal.value == true){
       this.appPublisher = true;
