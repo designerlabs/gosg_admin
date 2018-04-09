@@ -44,6 +44,7 @@ export class GallerypublisherComponent implements OnInit {
   imgEn: FormControl
   imgBm: FormControl
   active: FormControl
+  approve: FormControl
   copyImg: FormControl
   seqEng: FormControl
   seqMy: FormControl
@@ -67,6 +68,9 @@ export class GallerypublisherComponent implements OnInit {
   contentCategoryIdMy='';
 
   sendForApporval: boolean;
+
+  appPublisher = false;
+  disableApprove: any;
 
   constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -116,6 +120,7 @@ export class GallerypublisherComponent implements OnInit {
       this.imgEn = new FormControl()
       this.imgBm = new FormControl()
       this.active = new FormControl()
+      this.approve = new FormControl()
       this.copyImg = new FormControl()
       this.seqEng = new FormControl()
       this.seqMy = new FormControl()
@@ -132,6 +137,7 @@ export class GallerypublisherComponent implements OnInit {
         descBm: this.descBm,
         imgBm: this.imgBm,
         active: this.active,
+        approve: this.approve,
         copyImg: this.copyImg,
         seqEng: this.seqEng,
         seqMy: this.seqMy,
@@ -207,8 +213,16 @@ export class GallerypublisherComponent implements OnInit {
             this.updateForm.get('seqEng').setValue(dataEn.contentSort);
             this.updateForm.get('seqMy').setValue(dataBm.contentSort);
             this.updateForm.get('active').setValue(dataEn.isActiveFlag);
+
+            this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
   
             this.updateForm.get('mtype').setValue(parseInt(dataEn.contentImage.mediaTypeId));
+
+            if(dataEn.isApprovedFlag == true){
+              this.appPublisher = false;
+            }
+  
+            this.disableApprove = dataEn.isApprovedFlag;
   
             this.selectedFileEn = dataEn.contentImage.mediaFile;
             this.selectedFileMy= dataBm.contentImage.mediaFile;
@@ -520,7 +534,7 @@ export class GallerypublisherComponent implements OnInit {
         ];
   
         // console.log(formValues)
-        body[0].contentCategoryId = 2;
+        body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
         body[0].contents[0].galleryDescription = formValues.descEn;
         body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
@@ -531,7 +545,7 @@ export class GallerypublisherComponent implements OnInit {
         body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
   
-        body[1].contentCategoryId = 10;
+        body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
         body[1].contents[0].galleryTitle = formValues.titleBm;
         body[1].contents[0].galleryDescription = formValues.descBm;
         body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
@@ -546,7 +560,7 @@ export class GallerypublisherComponent implements OnInit {
   
   
         // Add gallery Service
-        this.commonservice.create(body, 'gallery').subscribe(
+        this.commonservice.create(body, 'gallery/publisher').subscribe(
           data => {
             this.commonservice.errorHandling(data, (function () {
               this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), '');
@@ -606,7 +620,7 @@ export class GallerypublisherComponent implements OnInit {
             ]
           }
         ];
-        body[0].contentCategoryId = 2;
+        body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
         // body[0].contents[0].galleryCode = this.galleryCode;
         body[0].contents[0].galleryId = this.galleryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
@@ -619,7 +633,7 @@ export class GallerypublisherComponent implements OnInit {
         body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
   
-        body[1].contentCategoryId = 10;
+        body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
         body[1].contents[0].galleryId = this.galleryIdBm;
         body[1].contents[0].galleryTitle = formValues.titleBm;
         body[1].contents[0].galleryDescription = formValues.descBm;
@@ -633,7 +647,7 @@ export class GallerypublisherComponent implements OnInit {
         console.log(body);
         // Update gallery Service
         // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-          this.commonservice.update(body, 'gallery').subscribe(
+          this.commonservice.update(body, 'gallery/publisher').subscribe(
           data => {
             this.commonservice.errorHandling(data, (function () {
               this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), '');
@@ -692,7 +706,7 @@ export class GallerypublisherComponent implements OnInit {
         ];
   
         // console.log(formValues)
-        body[0].contentCategoryId = 2;
+        body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
         body[0].contents[0].galleryDescription = formValues.descEn;
         body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
@@ -703,7 +717,7 @@ export class GallerypublisherComponent implements OnInit {
         body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
   
-        body[1].contentCategoryId = 10;
+        body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
         body[1].contents[0].galleryTitle = formValues.titleBm;
         body[1].contents[0].galleryDescription = formValues.descBm;
         body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
@@ -718,7 +732,7 @@ export class GallerypublisherComponent implements OnInit {
   
   
         // Add gallery Service
-        this.commonservice.create(body, 'gallery/draft').subscribe(
+        this.commonservice.create(body, 'gallery/publisher/draft').subscribe(
           data => {
             this.commonservice.errorHandling(data, (function () {
               this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
@@ -778,7 +792,7 @@ export class GallerypublisherComponent implements OnInit {
             ]
           }
         ];
-        body[0].contentCategoryId = 2;
+        body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
         // body[0].contents[0].galleryCode = this.galleryCode;
         body[0].contents[0].galleryId = this.galleryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
@@ -791,7 +805,7 @@ export class GallerypublisherComponent implements OnInit {
         body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
   
-        body[1].contentCategoryId = 10;
+        body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
         body[1].contents[0].galleryId = this.galleryIdBm;
         body[1].contents[0].galleryTitle = formValues.titleBm;
         body[1].contents[0].galleryDescription = formValues.descBm;
@@ -805,7 +819,7 @@ export class GallerypublisherComponent implements OnInit {
         console.log(body);
         // Update gallery Service
         // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-          this.commonservice.update(body, 'gallery/draft').subscribe(
+          this.commonservice.update(body, 'gallery/publisher/draft').subscribe(
           data => {
             this.commonservice.errorHandling(data, (function () {
               this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
@@ -819,6 +833,25 @@ export class GallerypublisherComponent implements OnInit {
             this.loading = false;
           });
       }
+    }
+
+    approvePublisher(){
+
+      let appVal = this.updateForm.get('approve');
+  
+      if(this.disableApprove == true){
+        this.approve.disable();
+      }
+      
+      if(appVal.value == true){
+        this.appPublisher = true;
+        this.approve.enable();
+      }
+  
+      else{
+        this.appPublisher = false;
+        this.approve.disable();
+      }    
     }
 
 }

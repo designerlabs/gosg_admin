@@ -523,7 +523,7 @@ export class GalleryComponent implements OnInit {
       ];
 
       // console.log(formValues)
-      body[0].contentCategoryId = 2;
+      body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
       body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
@@ -534,7 +534,7 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      body[1].contentCategoryId = 10;
+      body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
       body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
@@ -549,7 +549,7 @@ export class GalleryComponent implements OnInit {
 
 
       // Add gallery Service
-      this.commonservice.create(body, 'gallery').subscribe(
+      this.commonservice.create(body, 'gallery/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), '');
@@ -609,7 +609,7 @@ export class GalleryComponent implements OnInit {
           ]
         }
       ];
-      body[0].contentCategoryId = 2;
+      body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
       // body[0].contents[0].galleryCode = this.galleryCode;
       body[0].contents[0].galleryId = this.galleryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
@@ -622,7 +622,7 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      body[1].contentCategoryId = 10;
+      body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
       body[1].contents[0].galleryId = this.galleryIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
@@ -636,7 +636,7 @@ export class GalleryComponent implements OnInit {
       console.log(body);
       // Update gallery Service
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-        this.commonservice.update(body, 'gallery').subscribe(
+        this.commonservice.update(body, 'gallery/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), '');
@@ -695,7 +695,7 @@ export class GalleryComponent implements OnInit {
       ];
 
       // console.log(formValues)
-      body[0].contentCategoryId = 2;
+      body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
       body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
@@ -706,7 +706,7 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      body[1].contentCategoryId = 10;
+      body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
       body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
@@ -721,7 +721,7 @@ export class GalleryComponent implements OnInit {
 
 
       // Add gallery Service
-      this.commonservice.create(body, 'gallery/draft').subscribe(
+      this.commonservice.create(body, 'gallery/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
@@ -781,7 +781,7 @@ export class GalleryComponent implements OnInit {
           ]
         }
       ];
-      body[0].contentCategoryId = 2;
+      body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
       // body[0].contents[0].galleryCode = this.galleryCode;
       body[0].contents[0].galleryId = this.galleryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
@@ -794,7 +794,7 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      body[1].contentCategoryId = 10;
+      body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
       body[1].contents[0].galleryId = this.galleryIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
@@ -808,7 +808,7 @@ export class GalleryComponent implements OnInit {
       console.log(body);
       // Update gallery Service
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-        this.commonservice.update(body, 'gallery/draft').subscribe(
+        this.commonservice.update(body, 'gallery/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');

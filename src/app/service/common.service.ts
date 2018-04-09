@@ -23,6 +23,9 @@ export class CommonService {
 
   sliderContentCategoryIdEn = 15;
   sliderContentCategoryIdBm = 16;
+
+  galleryContentCategoryIdEn = 2;
+  galleryContentCategoryIdBm = 10;
  
   isAdmin: boolean;
   getDataT: any;
