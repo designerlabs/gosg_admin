@@ -98,6 +98,8 @@ import { SliderpublisherComponent } from './sliderpublisher/sliderpublisher.comp
 import { SliderpublishertblComponent } from './sliderpublisher/sliderpublishertbl/sliderpublishertbl.component';
 import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.component';
 import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
+import { SitemapComponent } from './sitemap/sitemap.component';
+import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -156,6 +158,10 @@ export const appRoutes: Routes = [
 {path: 'poll/questions/:id', component: PollquestionComponent},
 {path: 'poll/questions/add', component: PollquestionComponent},
 {path: 'poll/results', component: PollresultComponent},
+
+{path: 'sitemap', component: SitemaptblComponent },
+{path: 'sitemap/add', component: SitemapComponent},
+{path: 'sitemap/:id', component: SitemapComponent},
 
 {path: 'slider', component: SlidertblComponent},
 {path: 'slider/add', component: SliderComponent},

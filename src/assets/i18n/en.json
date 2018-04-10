@@ -880,6 +880,16 @@
       "religion": "religion list"
     }
   },
+  "sitemap": {
+    "header": "Site Map",
+    "tableHeader":{
+      "name": "Name",
+      "code": "Code",
+      "nameEn": "Name (EN)",
+      "nameBm": "Name (BM)",
+      "url": "Url"
+    }
+  },
   "state": {
     "header": "State",
     "tableHeader":{
