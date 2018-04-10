@@ -299,3 +299,33 @@ mat-header-cell{
 .mat-dialog-container{
     padding: 24px !important;
 }
+
+.mat-expansion-panel-header{
+    padding: 0 5px !important;
+}
+
+.mat-expansion-panel-body {
+    padding: 0 0px 16px !important;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none !important;
+}
+
+
+.mat-mini-fab {
+    min-width: 0;
+    border-radius: 0% !important;
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+.mat-mini-fab .mat-button-wrapper {
+    padding: 0px 0px !important;
+    display: inline-block;
+    line-height: 10px !important;
+    top: -2px;
+    position: relative;
+}
