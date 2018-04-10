@@ -490,7 +490,8 @@
       "header": "Permohonan Agensi",
       "isdoc": "adalah dokumen",
       "websiteURL": "URL Laman Web"
-    }
+    },
+    "select":"Pilih Aplikasi Agensi"
   },
   "category": {
     "header": "Pengurusan Kategori",
@@ -878,6 +879,16 @@
     },
     "tablebottom":{
       "religion": "senarai agama"
+    }
+  },
+  "sitemap": {
+    "header": "Peta Laman",
+    "tableHeader":{
+      "name": "Nama",
+      "code": "Kod",
+      "nameEn": "Nama (EN)",
+      "nameBm": "Nama (BM)",
+      "url": "Url"
     }
   },
   "state": {

@@ -490,7 +490,8 @@
       "header": "Agency Application",
       "isdoc": "is Document",
       "websiteURL": "Website URL"
-    }
+    },
+    "select":"Select Agency Application"
   },
   "category": {
     "header": "Category Management",
@@ -878,6 +879,16 @@
     },
     "tablebottom":{
       "religion": "religion list"
+    }
+  },
+  "sitemap": {
+    "header": "Site Map",
+    "tableHeader":{
+      "name": "Name",
+      "code": "Code",
+      "nameEn": "Name (EN)",
+      "nameBm": "Name (BM)",
+      "url": "Url"
     }
   },
   "state": {

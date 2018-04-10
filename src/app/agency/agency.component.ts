@@ -229,7 +229,7 @@ export class AgencyComponent implements OnInit {
           this.updateForm.get('address').setValue(dataBm.agencyAddress);
           this.updateForm.get('agclat').setValue(dataBm.agencyLatitude);
           this.updateForm.get('agclong').setValue(dataBm.agencyLongitude);
-          this.updateForm.get('phoneno').setValue(dataBm.agencyPhone);
+          this.updateForm.get('phoneno').setValue(dataBm.agencyPhoneNo);
           this.updateForm.get('faxno').setValue(dataBm.agencyFax);
           this.updateForm.get('email').setValue(dataBm.agencyEmail);
           this.updateForm.get('contactperson').setValue(dataBm.agencyContactPerson);
