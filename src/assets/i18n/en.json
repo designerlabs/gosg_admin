@@ -490,7 +490,8 @@
       "header": "Agency Application",
       "isdoc": "is Document",
       "websiteURL": "Website URL"
-    }
+    },
+    "select":"Select Agency Application"
   },
   "category": {
     "header": "Category Management",
