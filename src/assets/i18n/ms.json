@@ -881,6 +881,16 @@
       "religion": "senarai agama"
     }
   },
+  "sitemap": {
+    "header": "Peta Laman",
+    "tableHeader":{
+      "name": "Nama",
+      "code": "Kod",
+      "nameEn": "Nama (EN)",
+      "nameBm": "Nama (BM)",
+      "url": "Url"
+    }
+  },
   "state": {
     "header": "Negeri",
     "tableHeader":{
