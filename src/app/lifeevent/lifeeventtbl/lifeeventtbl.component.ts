@@ -168,14 +168,18 @@ export class LifeeventtblComponent implements OnInit {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
 
-          let countFlag = false;
+          //let countFlag = false;
+          let test = this.updateForm.get('parentsEn').value; 
+
+          console.log("NAMA CATEGORY");
+          console.log(this.leCategoryCode);          
 
           for(let i=0; i<this.leCategoryCode.length; i++){     
 
-            if(countFlag == false && this.leCategoryCode[i].list[0].articleCount > 0){
-              countFlag = true;
-              this.countArticle = this.leCategoryCode[i].list[0].articleCount;
-              this.catCode = this.leCategoryCode[i].refCode;
+            if(this.leCategoryCode[i].refCode == this.commonservice.lifeEventCategoryCode){
+              
+              // this.countArticle = this.leCategoryCode[i].list[0].articleCount;
+              // this.catCode = this.leCategoryCode[i].refCode;
 
               if(this.languageId == 1){
                 this.catName = this.leCategoryCode[i].list[0].categoryName;
@@ -193,14 +197,14 @@ export class LifeeventtblComponent implements OnInit {
                 this.filterPlaceholder = "Taip tapisan di sini..."
               }
             }
-          }
-
+          }        
           
+          if (this.catCode == undefined){
+            this.catCode = this.commonservice.lifeEventCategoryCode;
+            this.categoryPlaceholder = this.catName;
+          }
   
-          //this.updateForm.get('parentsEn').setValue(setParentEn);  
-
           this.categoryPlaceholder = this.catName;
-
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
 
         }).bind(this));
