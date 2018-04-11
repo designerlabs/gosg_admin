@@ -34,6 +34,7 @@ export class LifeeventtblComponent implements OnInit {
 
   itemEn: any;
   itemBm: any;
+  public nameStatus: FormControl;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
   public keys: FormControl;
@@ -55,6 +56,11 @@ export class LifeeventtblComponent implements OnInit {
   valkey = false;
   recordTable = null;
   showNoData = false;
+
+  //nameStatus=1;
+  keywordVal="";
+
+  editor = {treeVal: '' };
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -62,9 +68,11 @@ export class LifeeventtblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(e) {
-    console.log(e);
+
+    this.nameStatus = this.updateForm.get('nameStatus').value;
+ 
     if(e){
-      this.getFilterList(this.pageCount, this.pageSize, e);
+      this.getFilterList(this.pageCount, this.pageSize, e, this.nameStatus);
     }
     else{
       this.getCategoryCode();
@@ -73,7 +81,21 @@ export class LifeeventtblComponent implements OnInit {
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
+    this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryCode();
+  }
+
+  filterStatus(e){
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal != ""){
+      this.getFilterList(this.pageCount, this.pageSize, this.keywordVal, e.value);
+    }
+
+    else{
+      this.getCategoryCode();
+    }
   }
 
   constructor(private http: HttpClient, 
@@ -82,7 +104,8 @@ export class LifeeventtblComponent implements OnInit {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
-    private dialogsService: DialogsService) {
+    private dialogsService: DialogsService,
+    public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -120,16 +143,19 @@ export class LifeeventtblComponent implements OnInit {
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl({disabled: true});
     this.keys = new FormControl();
+    this.nameStatus = new FormControl();
     this.kataKunci = new FormControl({value: '', disabled: true});
 
     this.updateForm = new FormGroup({   
       
+      nameStatus: this.nameStatus,
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       keys: this.keys,
       kataKunci: this.kataKunci
     });
 
+    this.updateForm.get('nameStatus').setValue(1);   
     this.getCategory();
     this.valkey = false;
 
@@ -154,6 +180,12 @@ export class LifeeventtblComponent implements OnInit {
               if(this.languageId == 1){
                 this.catName = this.leCategoryCode[i].list[0].categoryName;
                 this.filterPlaceholder = "Type your filter here..."
+
+                // setParentEn = {
+                //   "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],
+                //   "text":this.leCategoryCode[i].list[0].categoryName,
+                //   "value": this.leCategoryCode[i].list[0].categoryName
+                // };
               }
 
               else{
@@ -163,11 +195,14 @@ export class LifeeventtblComponent implements OnInit {
             }
           }
 
+          
+  
+          //this.updateForm.get('parentsEn').setValue(setParentEn);  
+
           this.categoryPlaceholder = this.catName;
 
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
 
-          console.log(this.categoryPlaceholder);
         }).bind(this));
         this.loading = false;
       },
@@ -179,17 +214,95 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   getRecordList(page, size, code) {  
+  
+    this.recordList = null;
+    let nameStatus = this.updateForm.get('nameStatus').value;
+    let generalUrl = ""
+
+    if(nameStatus == 1){
+      generalUrl = 'life/event/creator/state/all/';
+    }
+
+    else if(nameStatus == 2){
+      generalUrl = 'life/event/creator/state/draft/';
+    }
+
+    else if(nameStatus == 3){
+      generalUrl = 'life/event/creator/state/pending/';
+    }
+
+    else if(nameStatus == 4){
+      generalUrl = 'life/event/creator/state/approved/';
+    }
+    
+    if(code != undefined){
+      this.loading = true;
+      this.commonservice.readProtected(generalUrl+code, page, size).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+    
+            this.recordList = data;
+          
+            if(this.recordList.list.length > 0){  
+              this.dataSource.data = this.recordList.list;
+              this.seqPageNum = this.recordList.pageNumber;
+              this.seqPageSize = this.recordList.pageSize;
+              this.recordTable = this.recordList;
+              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+
+              this.showNoData = false;
+            }
+
+            else{
+              this.dataSource.data = []; 
+
+              this.showNoData = true;
+              this.seqPageNum = this.recordList.pageNumber;
+              this.seqPageSize = this.recordList.pageSize;
+              this.recordTable = this.recordList;
+              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            }
+          }).bind(this)); 
+          this.loading = false;
+        },
+        error => {
+    
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          console.log(error);
+        });
+    }
+
+  }
+
+  getFilterList(page, size, e, valStatus) {  
 
     this.recordList = null;
+    let generalUrl = "";
+
+    if(valStatus == 1){
+      generalUrl = 'life/event/creator/search/state/all';
+    }
+
+    else if(valStatus == 2){
+      generalUrl = 'life/event/creator/search/state/draft';
+    }
+
+    else if(valStatus == 3){
+      generalUrl = 'life/event/creator/search/state/pending';
+    }
+
+    else if(valStatus == 4){
+      generalUrl = 'life/event/creator/search/state/approved';
+    }
 
     this.loading = true;
-    this.commonservice.readProtected('life/event/'+code, page, size).subscribe(
+    this.commonservice.readProtected(generalUrl, page, size,e).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
           if(this.recordList.list.length > 0){  
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -219,57 +332,6 @@ export class LifeeventtblComponent implements OnInit {
         console.log(error);
       });
 
-  }
-
-  getFilterList(page, size, e) {  
-
-    this.recordList = null;
-
-    this.loading = true;
-    this.commonservice.readProtected('life/event/search/643', page, size,e).subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
-  
-          this.recordList = data;
-          console.log("data");
-          console.log(data);
-          if(this.recordList.list.length > 0){  
-            this.dataSource.data = this.recordList.list;
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-            this.showNoData = false;
-          }
-
-          else{
-            this.dataSource.data = []; 
-
-            this.showNoData = true;
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-          }
-        }).bind(this)); 
-        this.loading = false;
-      },
-      error => {
-  
-        this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-      });
-
-  }
-
-  searchCode(formValues: any){
-
-    console.log("OOOOOOOO");
-    this.catCode = formValues.parentsEn.refCode;
-    this.getRecordList(this.pageCount, this.pageSize, this.catCode);
-    console.log(this.catCode);
   }
 
   paginatorL(page) {
@@ -292,16 +354,14 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   updateRow(row) {
-    console.log(row);
     this.router.navigate(['lifeevent/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(id) {
 
-    console.log(id);
     this.loading = true;
-    this.commonservice.delete(id,'life/event/delete/').subscribe(
+    this.commonservice.delete(id,'life/event/creator/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -336,14 +396,10 @@ export class LifeeventtblComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('life/event/dropdown/643')
      .subscribe(data => {
-  
-      console.log("GET CATEGORY: ");
-      console.log(data);
-        
+          
       this.commonservice.errorHandling(data, (function(){
 
           this.categoryData = data["list"];   
-          console.log(this.categoryData);    
           let arrCatEn = [];      
           let arrCatBm = [];     
 
@@ -382,7 +438,6 @@ export class LifeeventtblComponent implements OnInit {
           }
           
           this.itemEn = this.treeEn;
-          console.log(this.itemEn);
           
         }).bind(this));
         this.loading = false;
@@ -449,6 +504,12 @@ export class LifeeventtblComponent implements OnInit {
       this.parentsEn.enable();
       this.getCategoryCode();
     }    
+  }
+
+  onChange(ele){    
+
+    this.catCode = ele.refCode;
+    this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
   }
 }
 // System.import('http://www.google.com/jsapi')

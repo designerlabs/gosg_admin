@@ -1144,25 +1144,51 @@ export class LifeeventComponent implements OnInit {
   getAgencyAppEnBm(getAgencyAppEnBm){
 
     this.loading = true;   
+
+    let flagNoOfRecord: any; 
+    
     if(getAgencyAppEnBm != undefined){
       return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
         .subscribe(resMinData => {
-          this.agencyAppDataCode = resMinData['agencyApplicationList'];
 
-          let a = [{ "agencyName": this.agencyAppDataCode[0].agencyName,
-                    "agencyID": this.agencyAppDataCode[0].agencyApplicationId,
-                    "agencyApplicationName": this.agencyAppDataCode[0].agencyApplicationName,
-                    "agencyUrl":this.agencyAppDataCode[0].agencyApplicationUrl},
-                    {"agencyName": this.agencyAppDataCode[1].agencyName,
-                    "agencyID": this.agencyAppDataCode[1].agencyApplicationId,
-                    "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
-                    "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl}]
-          this.arrAgencyApp.push(a);
+          this.commonservice.errorHandling(resMinData, (function () {
+            this.agencyAppDataCode = resMinData['agencyApplicationList'];
 
-          console.log(this.arrAgencyApp);
+            let a = [{ "agencyName": this.agencyAppDataCode[0].agencyName,
+                      "agencyID": this.agencyAppDataCode[0].agencyApplicationId,
+                      "agencyApplicationName": this.agencyAppDataCode[0].agencyApplicationName,
+                      "agencyUrl":this.agencyAppDataCode[0].agencyApplicationUrl,
+                      "agencyCode":this.agencyAppDataCode[0].agencyApplicationCode},
+                      {"agencyName": this.agencyAppDataCode[1].agencyName,
+                      "agencyID": this.agencyAppDataCode[1].agencyApplicationId,
+                      "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
+                      "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl,
+                      "agencyCode":this.agencyAppDataCode[1].agencyApplicationCode}]        
+      
+            if(this.arrAgencyApp.length>0){
+              flagNoOfRecord = false;
+      
+              for(let i=0; i<this.arrAgencyApp.length; i++){
+                if(this.arrAgencyApp[i][0].agencyCode == getAgencyAppEnBm){
+                  flagNoOfRecord = true;
+                }           
+              }
+            }
+
+            else{
+              this.arrAgencyApp.push(a);
+            }
+
+            if(flagNoOfRecord == false){
+              this.arrAgencyApp.push(a);
+            }
+
+            console.log(JSON.stringify(this.arrAgencyApp));
+          }).bind(this));
+
           this.loading = false;
         },
-        Error => {
+        error => {
           this.loading = false;
         });
     }
@@ -1375,6 +1401,15 @@ export class LifeeventComponent implements OnInit {
     }, err => {
       this.loading = false;
     });
+  }
+
+  deleteApp(agenCode){
+    console.log(agenCode);
+    for(let i=0; i<this.arrAgencyApp.length; i++){
+      if(this.arrAgencyApp[i][0].agencyCode == agenCode){
+        this.arrAgencyApp.splice(i,1);
+      }         
+    }
   }
 
 }

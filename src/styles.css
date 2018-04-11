@@ -280,6 +280,10 @@ mat-header-cell{
         padding-left:15px !important;
     }
 
+    .pdg_R_15px {
+        padding-right:15px !important;
+    }
+
     .datetimeMask {
         color:#333; 
         margin-bottom: 0%

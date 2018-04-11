@@ -274,24 +274,24 @@
 
       <div class="example-header" *ngIf="arrAgencyApp.length > 0">
         <table class="tableInfo" border="1">
-          <tr>
-            <td class="pdg_L_15px">Agency Name</td>
-            <td class="pdg_L_15px">Agency Url</td>
-            <td class="pdg_L_15px">Nama Agensi</td>
-            <td class="pdg_L_15px">Url Agensi</td>
-            <td class="pdg_L_15px">Action</td>
+          <tr style="background: grey;">
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">Agency Name</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%">Agency Url</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">Nama Agensi</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%">Url Agensi</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="10%">Action</td>
 
           </tr>
           <tr *ngFor="let a of arrAgencyApp" style="vertical-align: top;">
-            <td class="pdg_L_15px">{{a[0].agencyName}}</td>
-            <td class="pdg_L_15px">{{a[0].agencyUrl}}</td>
-            <td class="pdg_L_15px">{{a[1].agencyName}}</td>
-            <td class="pdg_L_15px">{{a[1].agencyUrl}}</td>
-            <td class="pdg_L_15px"><button  mat-mini-fab class="bg_red tiny">
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">{{a[0].agencyName}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%" style="word-wrap: break-word;">{{a[0].agencyUrl}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">{{a[1].agencyName}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%" style="word-wrap: break-word;">{{a[1].agencyUrl}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="10%"><button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(a[0].agencyCode)">
               <i [ngClass]="commonservice.icon.trash"></i></button></td>
           </tr>
         </table>            
-      </div>
+      </div><br>
 
       <div class="example-header">
         <div class="col-md-12">
