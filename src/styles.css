@@ -132,6 +132,12 @@ mat-header-cell{
     /* min-height: 312px; */
     min-height: auto;
 }
+
+.tableInfo{
+    width: 97% !important;
+    margin-left: 15px !important;
+}
+
 .actionColumn {
     display:flex;
     justify-content:center;

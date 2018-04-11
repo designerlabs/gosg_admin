@@ -273,15 +273,22 @@
       </div>
 
       <div class="example-header" *ngIf="arrAgencyApp.length > 0">
-        <table>
+        <table class="tableInfo" border="1">
           <tr>
-            <td>Agency Name</td>
-            <td>Agency Url</td>
+            <td class="pdg_L_15px">Agency Name</td>
+            <td class="pdg_L_15px">Agency Url</td>
+            <td class="pdg_L_15px">Nama Agensi</td>
+            <td class="pdg_L_15px">Url Agensi</td>
+            <td class="pdg_L_15px">Action</td>
 
           </tr>
-          <tr *ngFor="let a of arrAgencyApp">
-            <td>{{a[0].agencyName}}</td>
-            <td>{{a[0].agencyUrl}}</td>
+          <tr *ngFor="let a of arrAgencyApp" style="vertical-align: top;">
+            <td class="pdg_L_15px">{{a[0].agencyName}}</td>
+            <td class="pdg_L_15px">{{a[0].agencyUrl}}</td>
+            <td class="pdg_L_15px">{{a[1].agencyName}}</td>
+            <td class="pdg_L_15px">{{a[1].agencyUrl}}</td>
+            <td class="pdg_L_15px"><button  mat-mini-fab class="bg_red tiny">
+              <i [ngClass]="commonservice.icon.trash"></i></button></td>
           </tr>
         </table>            
       </div>

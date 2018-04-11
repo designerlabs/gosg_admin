@@ -1140,29 +1140,32 @@ export class LifeeventComponent implements OnInit {
     
   }
 
+  //onclick agenci application
   getAgencyAppEnBm(getAgencyAppEnBm){
 
     this.loading = true;   
-    return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
-      .subscribe(resMinData => {
-        this.agencyAppDataCode = resMinData['agencyApplicationList'];
+    if(getAgencyAppEnBm != undefined){
+      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
+        .subscribe(resMinData => {
+          this.agencyAppDataCode = resMinData['agencyApplicationList'];
 
-        let a = [{ "agencyName": this.agencyAppDataCode[0].agencyName,
-                   "agencyID": this.agencyAppDataCode[0].agencyApplicationId,
-                   "agencyApplicationName": this.agencyAppDataCode[0].agencyApplicationName,
-                   "agencyUrl":this.agencyAppDataCode[0].agencyApplicationUrl},
-                  {"agencyName": this.agencyAppDataCode[1].agencyName,
-                   "agencyID": this.agencyAppDataCode[1].agencyApplicationId,
-                   "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
-                   "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl}]
-        this.arrAgencyApp.push(a);
+          let a = [{ "agencyName": this.agencyAppDataCode[0].agencyName,
+                    "agencyID": this.agencyAppDataCode[0].agencyApplicationId,
+                    "agencyApplicationName": this.agencyAppDataCode[0].agencyApplicationName,
+                    "agencyUrl":this.agencyAppDataCode[0].agencyApplicationUrl},
+                    {"agencyName": this.agencyAppDataCode[1].agencyName,
+                    "agencyID": this.agencyAppDataCode[1].agencyApplicationId,
+                    "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
+                    "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl}]
+          this.arrAgencyApp.push(a);
 
-        console.log(this.arrAgencyApp);
-        this.loading = false;
-      },
-      Error => {
-        this.loading = false;
-      });
+          console.log(this.arrAgencyApp);
+          this.loading = false;
+        },
+        Error => {
+          this.loading = false;
+        });
+    }
   }
 
   getSearchData(keyword, langId){
