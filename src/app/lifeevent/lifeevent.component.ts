@@ -579,14 +579,10 @@ export class LifeeventComponent implements OnInit {
     console.log(this.arrAgencyApp);  
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
-      let a = {"agencyApplicationName": this.arrAgencyApp[i][0].agencyApplicationName,
-               "agencyApplicationDescription": this.arrAgencyApp[i][0].agencyApplicationName,
-               "agencyApplicationUrl": this.arrAgencyApp[i][0].agencyUrl,
-               "language": {
-                  "languageId": 1
-                }
-              }  
+      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
       appsEn.push(a);      
+      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}  
+      appsBm.push(b);
     }  
 
     console.log("KKKKKKKKKKKKK");  
@@ -597,53 +593,54 @@ export class LifeeventComponent implements OnInit {
 
       let body = [
         {
-          "contentCategoryId": {
-            "categoryId": null
-          },
+          "contentCategories": null,
           "contents": [
           {
             "lifeEventTitle": null,
             "lifeEventText": null,
             "lifeEventDescription": null,
-       
+            "lifeEventImage": {
+              "mediaId": null
+            },       
             "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 1
-            },          
+            "lifeEventUrl": null,   
+            "lifeEventActiveFlag":false,       
             "lifeEventCitizenFlag": false,
             "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false,
+            "lifeEventPublishDate": null,
+            "lifeEventEndDate": null,       
+            "language": {
+              "languageId": 1
+            },
             "agency": {
               "agencyId": null
-            },
-            "lifeEventPublishDate": null,
-            "lifeEventEndDate": null
+            }
           }],
           "agencyApplications": null
         },
         {
-          "contentCategoryId":  {
-            "categoryId": null
-          },
+          "contentCategories": null,
           "contents": [
           {
             "lifeEventTitle": null,
             "lifeEventText": null,
             "lifeEventDescription": null,
+            "lifeEventImage": {
+              "mediaId": null
+            },       
             "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 2
-            },        
+            "lifeEventUrl": null,   
+            "lifeEventActiveFlag":false,       
             "lifeEventCitizenFlag": false,
             "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false,
+            "lifeEventPublishDate": null,
+            "lifeEventEndDate": null,       
+            "language": {
+              "languageId": 1
+            },
             "agency": {
               "agencyId": null
-            },
-            "lifeEventPublishDate": null,
-            "lifeEventEndDate": null
+            }
           }],
           "agencyApplications": null
         }
@@ -669,8 +666,8 @@ export class LifeeventComponent implements OnInit {
       body[1].contents[0].agency.agencyId = this.agencyIdBm;        
       
 
-      body[0].contentCategoryId.categoryId = arrCatIDEn;
-      body[1].contentCategoryId.categoryId = arrCatIDBm;      
+      body[0].contentCategories = arrCatIDEn;
+      body[1].contentCategories = arrCatIDBm;      
 
       body[0].contents[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].lifeEventEndDate = new Date(formValues.endD).getTime();
@@ -678,24 +675,27 @@ export class LifeeventComponent implements OnInit {
       body[1].contents[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].lifeEventEndDate = new Date(formValues.endD).getTime();      
 
+      body[0].agencyApplications = appsEn;
+      body[1].agencyApplications = appsBm;  
+
       console.log(JSON.stringify(body))
      
-      // this.loading = true;
-      // // Add
-      // this.commonservice.create(body, 'life/event/draft').subscribe(
-      //   data => {
-      //     this.commonservice.errorHandling(data, (function () {
-      //       this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
-      //       this.router.navigate(['lifeevent']);
+      this.loading = true;
+      // Add
+      this.commonservice.create(body, 'life/event/creator/draft').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
+            this.router.navigate(['lifeevent']);
 
-      //     }).bind(this));
-      //     this.loading = false;
-      //   },
-      //   error => {
-      //     this.toastr.error(JSON.parse(error._body).statusDesc, '');
-      //     console.log(error);
-      //     this.loading = false;
-      //   });
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
     }
 
     // update form
@@ -708,8 +708,7 @@ export class LifeeventComponent implements OnInit {
             "lifeEventId":  this.getIdEn,
             "lifeEventTitle": null,
             "lifeEventText": null,
-            "lifeEventDescription": null,
-       
+            "lifeEventDescription": null,       
             "lifeEventSort": null,
             "lifeEventUrl": null,
             "language": {
