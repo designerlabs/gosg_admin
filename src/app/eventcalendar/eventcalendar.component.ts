@@ -208,12 +208,17 @@ export class EventcalendarComponent implements OnInit {
     // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
       // console.log(this.searchAgencyResultEn.length)
+      console.log(event)
+
+      let keywordVal;
       
       if(lngId == 1) {
-        this.getSearchData("", lngId, 1, this.searchAgencyResultEn.length+10)
+        keywordVal = this.updateForm.get("agencyEn").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
         console.log(this.searchAgencyResultEn)
       } else if(lngId == 2) {
-        this.getSearchData("", lngId, 1, this.searchAgencyResultBm.length+10)
+        keywordVal = this.updateForm.get("agencyBm").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
         console.log(this.searchAgencyResultBm)
       }
     }
