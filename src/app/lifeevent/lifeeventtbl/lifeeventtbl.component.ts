@@ -162,17 +162,14 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   getCategoryCode(){ 
+
     this.loading = true;
     return this.commonservice.readProtected('life/event/dropdown/643')
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
-
-          //let countFlag = false;
-          let test = this.updateForm.get('parentsEn').value; 
-
-          console.log("NAMA CATEGORY");
-          console.log(this.leCategoryCode);          
+                    
+          let setParentEn;
 
           for(let i=0; i<this.leCategoryCode.length; i++){     
 
@@ -185,26 +182,38 @@ export class LifeeventtblComponent implements OnInit {
                 this.catName = this.leCategoryCode[i].list[0].categoryName;
                 this.filterPlaceholder = "Type your filter here..."
 
-                // setParentEn = {
-                //   "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],
-                //   "text":this.leCategoryCode[i].list[0].categoryName,
-                //   "value": this.leCategoryCode[i].list[0].categoryName
-                // };
+                setParentEn = {
+                  "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],
+                  "text":this.leCategoryCode[i].list[0].categoryName,
+                  "value": this.leCategoryCode[i].list[0].categoryName,
+                  "refCode":this.leCategoryCode[i].refCode 
+                };
               }
 
               else{
                 this.catName = this.leCategoryCode[i].list[1].categoryName;
                 this.filterPlaceholder = "Taip tapisan di sini..."
+
+                setParentEn = {
+                  "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],
+                  "text":this.leCategoryCode[i].list[0].categoryName,
+                  "value": this.leCategoryCode[i].list[1].categoryName,
+                  "refCode":this.leCategoryCode[i].refCode 
+                };
               }
             }
           }        
           
-          if (this.catCode == undefined){
+          if (this.catCode == undefined || this.catCode == ""){
+            
             this.catCode = this.commonservice.lifeEventCategoryCode;
             this.categoryPlaceholder = this.catName;
           }
-  
+
+       
+          this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
+
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
 
         }).bind(this));
@@ -493,10 +502,14 @@ export class LifeeventtblComponent implements OnInit {
 
   keysFilter(){
 
+    this.catCode = undefined;
+    this.getCategoryCode();
+
     let keysVal = this.updateForm.get('keys');    
     this.updateForm.get('kataKunci').setValue('');
  
     if(keysVal.value == true){
+      
       this.valkey = true;      
       this.kataKunci.enable();
       this.parentsEn.disable();
@@ -506,7 +519,6 @@ export class LifeeventtblComponent implements OnInit {
       this.valkey = false;      
       this.kataKunci.disable();
       this.parentsEn.enable();
-      this.getCategoryCode();
     }    
   }
 

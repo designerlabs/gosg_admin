@@ -110,7 +110,7 @@
                         <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                             <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
                             <span class="tag-style"*ngFor="let ele of (element.list[0]?.contentCategories.length > 3 ? element.list[0]?.contentCategories.slice(0,3):  element.list[0]?.contentCategories)">
-                                {{ele.categoryName}}
+                                {{ele.categoryName | truncate:[12, '...']}}
                             </span>    
                             <span *ngIf="element.list[0]?.contentCategories.length > 3">
                                 +{{element.list[0]?.contentCategories.length - 3}}

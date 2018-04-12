@@ -246,7 +246,6 @@ export class LifeeventComponent implements OnInit {
       this.commonservice.pageModeChange(true);
       this.getData();
      
-      console.log(this.parseEnBtn);
     }
     this.commonservice.getModuleId();
   }
@@ -342,8 +341,6 @@ export class LifeeventComponent implements OnInit {
     else{
       this.parentFlag = true;
     }
-
-    console.log(ele);   
   }
 
   getMinEventDate(){
@@ -356,20 +353,16 @@ export class LifeeventComponent implements OnInit {
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("START: "+type);
-    console.log(event.value);
+   
     this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
-    console.log(this.publishdt);
     this.checkReqValues()
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("END: "+type);
-    console.log(event.value);
+  
     this.enddt = (event.value).getTime();
     this.dateFormatExample = "";
-    console.log(this.enddt);
     this.checkReqValues()
   }
 
@@ -378,14 +371,10 @@ export class LifeeventComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('life/event/dropdown/643')
      .subscribe(data => {
-  
-      console.log("GET CATEGORY: ");
-      console.log(data);
-        
+          
       this.commonservice.errorHandling(data, (function(){
 
           this.categoryData = data["list"];   
-          console.log(this.categoryData);    
           let arrCatEn = [];          
           let arrCatBm = [];          
 
@@ -425,7 +414,6 @@ export class LifeeventComponent implements OnInit {
           }
           
           this.itemEn = this.treeEn;
-          console.log(this.itemEn);
           
         }).bind(this));
         this.loading = false;
@@ -476,8 +464,6 @@ export class LifeeventComponent implements OnInit {
   }
 
   getData() {
-
-    console.log("KKKKKKKKKKKKKK");
 
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
@@ -567,48 +553,96 @@ export class LifeeventComponent implements OnInit {
   
   draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
-    let txt = "";
+
+    if(!this.agencyIdEn){
+      this.agencyIdEn = null;
+      this.agencyIdBm = null;
+    }
+
+    this.parentValEn = formValues.parentsEn;
+    this.parentValBm = formValues.parentsBm;
+
+    let arrCatIDEn = [];
+    let arrCatIDBm = [];
+
+    //get array of categoryId
+    for(let i=0; i<this.parentValEn.length; i++){
+      let a = this.parentValEn[i].id[0];
+      let b = this.parentValEn[i].id[1];
+
+      arrCatIDEn.push(a);
+      arrCatIDBm.push(b);      
+    }
+
+    let appsEn = [];
+    let appsBm = [];
+    console.log(this.arrAgencyApp);  
+    //get agencyapp
+    for(let i=0; i<this.arrAgencyApp.length; i++){
+      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
+      appsEn.push(a);      
+      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}  
+      appsBm.push(b);
+    }  
+
+    console.log("KKKKKKKKKKKKK");  
+    console.log(appsEn);  
   
     // add form
     if(this.urlEdit === 'add'){
 
       let body = [
         {
-          "contentCategoryId": null,
+          "contentCategories": null,
           "contents": [
-            {
+          {
             "lifeEventTitle": null,
             "lifeEventText": null,
             "lifeEventDescription": null,
-       
+            "lifeEventImage": {
+              "mediaId": null
+            },       
             "lifeEventSort": null,
-            "lifeEventUrl": null,
+            "lifeEventUrl": null,   
+            "lifeEventActiveFlag":false,       
+            "lifeEventCitizenFlag": false,
+            "lifeEventNonCitizenFlag":false,
+            "lifeEventPublishDate": null,
+            "lifeEventEndDate": null,       
             "language": {
               "languageId": 1
-              },          
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            },
+            "agency": {
+              "agencyId": null
             }
-          ]
+          }],
+          "agencyApplications": null
         },
         {
-          "contentCategoryId": null,
+          "contentCategories": null,
           "contents": [
-            {
+          {
             "lifeEventTitle": null,
             "lifeEventText": null,
             "lifeEventDescription": null,
+            "lifeEventImage": {
+              "mediaId": null
+            },       
             "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 2
-              },        
+            "lifeEventUrl": null,   
+            "lifeEventActiveFlag":false,       
             "lifeEventCitizenFlag": false,
             "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
+            "lifeEventPublishDate": null,
+            "lifeEventEndDate": null,       
+            "language": {
+              "languageId": 1
+            },
+            "agency": {
+              "agencyId": null
             }
-          ]
+          }],
+          "agencyApplications": null
         }
       ];    
 
@@ -624,22 +658,31 @@ export class LifeeventComponent implements OnInit {
       body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
       body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].contents[0].agency.agencyId = this.agencyIdEn;
 
       body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
       body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].contents[0].lifeEventActiveFlag = formValues.active;
-         
-      this.parentValEn = formValues.parentsEn;
-      this.parentValBm = formValues.parentsBm;
-      body[0].contentCategoryId = this.parentValEn.id[0];
-      body[1].contentCategoryId = this.parentValEn.id[1];       
+      body[1].contents[0].agency.agencyId = this.agencyIdBm;        
       
+
+      body[0].contentCategories = arrCatIDEn;
+      body[1].contentCategories = arrCatIDBm;      
+
+      body[0].contents[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].lifeEventEndDate = new Date(formValues.endD).getTime();
+
+      body[1].contents[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].lifeEventEndDate = new Date(formValues.endD).getTime();      
+
+      body[0].agencyApplications = appsEn;
+      body[1].agencyApplications = appsBm;  
 
       console.log(JSON.stringify(body))
      
       this.loading = true;
       // Add
-      this.commonservice.create(body, 'life/event/draft').subscribe(
+      this.commonservice.create(body, 'life/event/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
@@ -665,8 +708,7 @@ export class LifeeventComponent implements OnInit {
             "lifeEventId":  this.getIdEn,
             "lifeEventTitle": null,
             "lifeEventText": null,
-            "lifeEventDescription": null,
-       
+            "lifeEventDescription": null,       
             "lifeEventSort": null,
             "lifeEventUrl": null,
             "language": {
@@ -699,9 +741,6 @@ export class LifeeventComponent implements OnInit {
         }
       ];    
 
-      console.log("kkkkkkkkkkkkkkkkkkkkk");
-      console.log(this.contentTxtEn);
-
       body[0].contents[0].lifeEventTitle = formValues.titleEn;
       body[1].contents[0].lifeEventTitle = formValues.titleBm;
       body[0].contents[0].lifeEventText = this.contentTxtEn;
@@ -733,7 +772,7 @@ export class LifeeventComponent implements OnInit {
       }
       
 
-      console.log("UPDATE: ");
+      
       console.log(JSON.stringify(body))
 
       this.loading = true;
@@ -954,7 +993,6 @@ export class LifeeventComponent implements OnInit {
   }
 
   parseChkEn(e){
-    console.log(e);
 
     this.parseEnBtn = false;
   }
@@ -1077,7 +1115,7 @@ export class LifeeventComponent implements OnInit {
   }
 
   selectedMinistry(e, val){
-    console.log(e);
+   
     let getMinistryIdEn = e.value;
     let getMinistryIdBm = e.value;
     let dataList = this.ministryData;
@@ -1114,14 +1152,11 @@ export class LifeeventComponent implements OnInit {
     }
   }
 
-  selectedAgencyApp(e){
-    console.log(e);
+  selectedAgencyApp(e){ 
    
     let dataList = this.agencyAppData;
     let idAgencyApp: any;
     let codeAgencyApp: any;
-
-    console.log(dataList.length)
 
     for(let i=0; i<dataList.length; i++){
   
@@ -1154,13 +1189,15 @@ export class LifeeventComponent implements OnInit {
           this.commonservice.errorHandling(resMinData, (function () {
             this.agencyAppDataCode = resMinData['agencyApplicationList'];
 
-            let a = [{ "agencyName": this.agencyAppDataCode[0].agencyName,
-                      "agencyID": this.agencyAppDataCode[0].agencyApplicationId,
+            let a = [{"agencyName": this.agencyAppDataCode[0].agencyName,
+                      "agencyId": this.agencyAppDataCode[0].agencyId,
+                      "agencyAppID": this.agencyAppDataCode[0].agencyApplicationId,
                       "agencyApplicationName": this.agencyAppDataCode[0].agencyApplicationName,
                       "agencyUrl":this.agencyAppDataCode[0].agencyApplicationUrl,
                       "agencyCode":this.agencyAppDataCode[0].agencyApplicationCode},
-                      {"agencyName": this.agencyAppDataCode[1].agencyName,
-                      "agencyID": this.agencyAppDataCode[1].agencyApplicationId,
+                     {"agencyName": this.agencyAppDataCode[1].agencyName,
+                      "agencyId": this.agencyAppDataCode[1].agencyId,
+                      "agencyAppID": this.agencyAppDataCode[1].agencyApplicationId,
                       "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
                       "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl,
                       "agencyCode":this.agencyAppDataCode[1].agencyApplicationCode}]        
@@ -1183,7 +1220,6 @@ export class LifeeventComponent implements OnInit {
               this.arrAgencyApp.push(a);
             }
 
-            console.log(JSON.stringify(this.arrAgencyApp));
           }).bind(this));
 
           this.loading = false;
@@ -1208,16 +1244,13 @@ export class LifeeventComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      console.log(keyword)
-      console.log(keyword.length)
+      
       this.isActive = true;
       this.loading = true;
       this.commonservice.readPortal('agency/language/'+langId,'','', keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
-
-          console.log(data['agencyList'].length)
 
           if(data['agencyList'].length != 0) {
             if(langId == 1) {
@@ -1284,9 +1317,7 @@ export class LifeeventComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          console.log('refCode Data');
-          console.log(data);
-
+       
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
@@ -1312,16 +1343,13 @@ export class LifeeventComponent implements OnInit {
     //this.updateForm.get('agencyforApp').setValue("");
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      console.log(keyword)
-      console.log(keyword.length)
+   
       this.isActive = true;
       this.loading = true;
       this.commonservice.readPortal('agency/language/'+this.languageId,'','', keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
-
-          console.log(data['agencyList'].length)
 
           if(data['agencyList'].length != 0) {
             if(this.languageId == 1) {
@@ -1384,9 +1412,7 @@ export class LifeeventComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          console.log('refCode Data');
-          console.log(data);
-
+      
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
@@ -1404,7 +1430,7 @@ export class LifeeventComponent implements OnInit {
   }
 
   deleteApp(agenCode){
-    console.log(agenCode);
+
     for(let i=0; i<this.arrAgencyApp.length; i++){
       if(this.arrAgencyApp[i][0].agencyCode == agenCode){
         this.arrAgencyApp.splice(i,1);
