@@ -18,6 +18,9 @@ import { ValidateService } from '../common/validate.service';
   styleUrls: ['./eventcalendar.component.css']
 })
 export class EventcalendarComponent implements OnInit {
+  maskPostCode: RegExp[];
+  agencyIdBm: any;
+  agencyIdEn: any;
   searchAgencyResultBm: string[];
   searchAgencyResultEn: string[];
   getImgId: any;
@@ -115,6 +118,7 @@ export class EventcalendarComponent implements OnInit {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
     this.maskPhoneNo = this.validateService.getMask().telephone;
+    this.maskPostCode = this.validateService.getMask().postcode;
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
@@ -128,7 +132,7 @@ export class EventcalendarComponent implements OnInit {
     this.location = new FormControl()
     this.country = new FormControl()
     this.city = new FormControl()
-    this.zipcode = new FormControl()
+    this.zipcode = new FormControl('', [Validators.pattern(this.validateService.getPattern().numberOnly)])
     this.orgr = new FormControl()
     this.orgrEmail = new FormControl('', [Validators.pattern(this.validateService.getPattern().email)])
     this.orgrAddress = new FormControl()
@@ -196,6 +200,7 @@ export class EventcalendarComponent implements OnInit {
 
   ngAfterViewInit() {
     this.maskPhoneNo = this.validateService.getMask().telephone;
+    this.maskPostCode = this.validateService.getMask().postcode;
   }
 
   onScroll(event, lngId){
@@ -270,26 +275,29 @@ export class EventcalendarComponent implements OnInit {
         let dataBm = this.eventData['list'][1];
 
       // populate data
-      this.updateForm.get('agencyEn').setValue(dataEn.agency);
-      this.updateForm.get('agencyBm').setValue(dataBm.agency);
+      this.updateForm.get('agencyEn').setValue(dataEn.agency.agencyName);
+      this.updateForm.get('agencyBm').setValue(dataBm.agency.agencyName);
       this.updateForm.get('nameEn').setValue(dataEn.eventName);
       this.updateForm.get('descEn').setValue(dataEn.eventDescription);
       this.updateForm.get('nameBm').setValue(dataBm.eventName);
       this.updateForm.get('descBm').setValue(dataBm.eventDescription);
       this.updateForm.get('location').setValue(dataBm.eventLocation);
-      this.updateForm.get('country').setValue(dataBm.country);
+      this.updateForm.get('country').setValue(dataBm.eventCountry);
       this.updateForm.get('city').setValue(dataBm.eventCity);
       this.updateForm.get('zipcode').setValue(dataBm.eventZip);
       this.updateForm.get('orgr').setValue(dataBm.organizer);
       this.updateForm.get('orgrAddress').setValue(dataBm.organizerAddress);
       this.updateForm.get('orgrUrl').setValue(dataBm.organizerUrl);
+      this.updateForm.get('orgrEmail').setValue(dataBm.organizerEmail);
       this.updateForm.get('orgrFb').setValue(dataBm.organizerFb);
       this.updateForm.get('orgrPhone').setValue(dataBm.organizerPhone);
       this.updateForm.get('start').setValue(new Date(dataBm.eventStart).toISOString());
       this.updateForm.get('end').setValue(new Date(dataBm.eventEnd).toISOString());
+      this.agencyIdEn = dataEn.agency.agencyId;
+      this.agencyIdBm = dataBm.agency.agencyId;
 
       if(dataBm.image) {
-        this.selectedFile = dataBm.image.mediaId;
+        this.selectedFile = dataBm.image.mediaFile;
         this.updateForm.get('image').setValue(dataBm.image.mediaId);
       } else {
         this.updateForm.get('image').setValue(null);
@@ -340,40 +348,24 @@ export class EventcalendarComponent implements OnInit {
     });
   }
   
-  selectedImg(e, val){
+  selectedImg(e){
     console.log(e);
     this.getImgId = e.value;
     let dataList = this.imageData;
     let indexVal: any;
-    let idBm: any;
-    let idEn: any;
+    let id: any;
 
-   
-    if(val == 1){
-
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[0].mediaId;
-        if(indexVal == this.getImgId){
-          idBm = dataList[i].list[1].mediaId;
-          this.selectedFile=dataList[i].list[0].mediaFile;
-        }        
-      }
-
-      this.updateForm.get('image').setValue(idBm);  
+    for(let i=0; i<dataList.length; i++){
+      indexVal = dataList[i].list[0].mediaId;
+      if(indexVal == this.getImgId){
+        id = dataList[i].list[0].mediaId;
+        this.selectedFile=dataList[i].list[0].mediaFile;
+      }        
     }
-    // else{
 
-    //   for(let i=0; i<dataList.length; i++){
-    //     indexVal = dataList[i].list[1].mediaId;
-    //     if(indexVal == this.getImgIdBm){
-    //       idEn = dataList[i].list[0].mediaId;
-    //       this.selectedFileEn=dataList[i].list[0].mediaFile;
-    //       this.selectedFileMy=dataList[i].list[1].mediaFile;
-    //     }        
-    //   }
+    console.log(id)
 
-    //   this.updateForm.get('imgEn').setValue(idEn); 
-    // }
+    this.updateForm.get('image').setValue(id);  
     this.checkReqValues();
 
   }
@@ -448,8 +440,8 @@ export class EventcalendarComponent implements OnInit {
       this.isActiveListEn = false;
       this.searchAgencyResultEn = [''];
       this.updateForm.get('agencyEn').setValue(aName);
-      this.agencyEn = aId;
-      // this.agencyIdEn = aId;
+      // this.agencyEn = aId;
+      this.agencyIdEn = aId;
       // this.ministryNameEn = mName;
 
     } else {
@@ -457,8 +449,8 @@ export class EventcalendarComponent implements OnInit {
       this.isActive = false;
       this.isActiveListBm = false;
       this.updateForm.get('agencyBm').setValue(aName);
-      this.agencyBm = aId;
-      // this.agencyIdBm = aId;
+      // this.agencyBm = aId;
+      this.agencyIdBm = aId;
       // this.ministryNameBm = mName;
 
     }
@@ -619,7 +611,9 @@ export class EventcalendarComponent implements OnInit {
         "organizerFb": false,
         "organizerPhone": false,
         "enabled": false,
-        "agency": false,
+        "agency": {
+          "agencyId": null
+        },
         "externalData": false,
         "image": {
           "mediaId": null
@@ -644,7 +638,9 @@ export class EventcalendarComponent implements OnInit {
         "organizerFb": false,
         "organizerPhone": false,
         "enabled": false,
-        "agency": false,
+        "agency": {
+          "agencyId": null
+        },
         "externalData": false,
         "image": {
           "mediaId": null
@@ -668,10 +664,10 @@ export class EventcalendarComponent implements OnInit {
     body[0].organizer = formValues.orgr;
     body[0].organizerEmail = formValues.orgrEmail;
     body[0].organizerAddress = formValues.orgrAddress;
-    body[0].organizerUrl = formValues.organizerUrl;
+    body[0].organizerUrl = formValues.orgrUrl;
     body[0].organizerFb = formValues.orgrFb;
     body[0].organizerPhone = formValues.orgrPhone;
-    body[0].agency = formValues.agencyEn;
+    body[0].agency.agencyId = this.agencyIdEn;
     body[0].enabled = formValues.active;
     
     body[1].eventName = formValues.nameBm;
@@ -685,10 +681,10 @@ export class EventcalendarComponent implements OnInit {
     body[1].organizer = formValues.orgr;
     body[1].organizerEmail = formValues.orgrEmail;
     body[1].organizerAddress = formValues.orgrAddress;
-    body[1].organizerUrl = formValues.organizerUrl;
+    body[1].organizerUrl = formValues.orgrUrl;
     body[1].organizerFb = formValues.orgrFb;
     body[1].organizerPhone = formValues.orgrPhone;
-    body[1].agency = formValues.agencyBm;
+    body[1].agency.agencyId = this.agencyIdBm;
     body[1].enabled = formValues.active;
     
     if(formValues.image) {
@@ -700,23 +696,22 @@ export class EventcalendarComponent implements OnInit {
     }
 
     console.log(body)
+    this.loading = true;
 
-    // this.loading = true;
     // Add event Service
-    // this.commonservice.create(body,'calendar').subscribe(
-    //   data => {
-    //     this.commonservice.errorHandling(data, (function(){
-    //       this.toastr.success(this.translate.instant('common.success.added'), 'success');
-    //     }).bind(this));  
-    //   this.router.navigate(['calendar']);
-    //   this.loading = false;
-    //   this.loading = false;
-    //   },
-    //   error => {
-    //     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    //     console.log(error);
-    //     this.loading = false;
-    //   });
+    this.commonservice.create(body,'calendar').subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
+      this.router.navigate(['calendar']);
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });
 
     } else {
     
@@ -741,7 +736,9 @@ export class EventcalendarComponent implements OnInit {
         "organizerFb": false,
         "organizerPhone": false,
         "enabled": false,
-        "agency": false,
+        "agency": {
+          "agencyId": null
+        },
         "externalData": false,
         "image": {
           "mediaId": null
@@ -768,7 +765,9 @@ export class EventcalendarComponent implements OnInit {
         "organizerFb": false,
         "organizerPhone": false,
         "enabled": false,
-        "agency": false,
+        "agency": {
+          "agencyId": null
+        },
         "externalData": false,
         "image": {
           "mediaId": null
@@ -779,7 +778,9 @@ export class EventcalendarComponent implements OnInit {
       }
     ];
 
+    body[0].id = this.eventIdEn;
     body[0].eventName = formValues.nameEn;
+    body[0].eventCode = this.eventCode;
     body[0].eventDescription = formValues.descEn;
     body[0].eventStart = new Date(formValues.start).getTime();
     body[0].eventEnd =  new Date(formValues.end).getTime();
@@ -790,13 +791,15 @@ export class EventcalendarComponent implements OnInit {
     body[0].organizer = formValues.orgr;
     body[0].organizerEmail = formValues.orgrEmail;
     body[0].organizerAddress = formValues.orgrAddress;
-    body[0].organizerUrl = formValues.organizerUrl;
+    body[0].organizerUrl = formValues.orgrUrl;
     body[0].organizerFb = formValues.orgrFb;
     body[0].organizerPhone = formValues.orgrPhone;
-    body[0].agency = formValues.agencyEn;
+    body[0].agency.agencyId = this.agencyIdEn;
     body[0].enabled = formValues.active;
     
+    body[1].id = this.eventIdBm;
     body[1].eventName = formValues.nameBm;
+    body[1].eventCode = this.eventCode;
     body[1].eventDescription = formValues.descBm;
     body[1].eventStart = new Date(formValues.start).getTime();
     body[1].eventEnd =  new Date(formValues.end).getTime();
@@ -807,10 +810,10 @@ export class EventcalendarComponent implements OnInit {
     body[1].organizer = formValues.orgr;
     body[1].organizerEmail = formValues.orgrEmail;
     body[1].organizerAddress = formValues.orgrAddress;
-    body[1].organizerUrl = formValues.organizerUrl;
+    body[1].organizerUrl = formValues.orgrUrl;
     body[1].organizerFb = formValues.orgrFb;
     body[1].organizerPhone = formValues.orgrPhone;
-    body[1].agency = formValues.agencyBm;
+    body[1].agency.agencyId = this.agencyIdBm;
     body[1].enabled = formValues.active;
     
     if(formValues.image) {
@@ -822,22 +825,22 @@ export class EventcalendarComponent implements OnInit {
     }
 
     console.log(body);
-    // this.loading = true;
+    this.loading = true;
 
     // Update event Service
-    // this.commonservice.update(body,'calendar').subscribe(
-    //   data => {
-    //     this.commonservice.errorHandling(data, (function(){
-    //       this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-    //     }).bind(this));  
-    //     this.router.navigate(['calendar']);
-    //   this.loading = false;
-    //   },
-    //   error => {
-    //     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    //     console.log(error);
-    //     this.loading = false;
-    //   });
+    this.commonservice.update(body,'calendar').subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
+        this.router.navigate(['calendar']);
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });
     }
     
 

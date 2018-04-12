@@ -132,7 +132,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.country' | translate }}" formControlName="country" value="" (change)="checkReqValues()"
+            <input tabindex="8" matInput placeholder="{{ 'calendar.component.country' | translate }}" formControlName="country" value="" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.country.hasError('required')">
               {{ 'calendar.component.country' | translate }} {{ 'common.isrequired' | translate }}
@@ -141,7 +141,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.city' | translate }}" formControlName="city" value="" (change)="checkReqValues()"
+            <input tabindex="9" matInput placeholder="{{ 'calendar.component.city' | translate }}" formControlName="city" value="" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.city.hasError('required')">
               {{ 'calendar.component.city' | translate }} {{ 'common.isrequired' | translate }}
@@ -150,9 +150,9 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.zipcode' | translate }}" formControlName="zipcode" value="" (change)="checkReqValues()"
+            <input tabindex="10" matInput placeholder="{{ 'calendar.component.zipcode' | translate }}" [textMask]="{mask: maskPostCode}" formControlName="zipcode" value="" (change)="checkReqValues()"
               required>
-            <mat-error *ngIf="updateForm.controls.city.hasError('required')">
+            <mat-error *ngIf="updateForm.controls.zipcode.hasError('required')">
               {{ 'calendar.component.zipcode' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
           </mat-form-field>
@@ -168,7 +168,7 @@
         <div class="col-md-12">&nbsp;</div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.orgr' | translate }}" formControlName="orgr" value="" (change)="checkReqValues()">
+            <input tabindex="11" matInput placeholder="{{ 'calendar.component.orgr' | translate }}" formControlName="orgr" value="" (change)="checkReqValues()">
             <mat-error *ngIf="updateForm.controls.orgr.hasError('required')">
               {{ 'calendar.component.orgr' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -176,7 +176,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.orgrEmail' | translate }}" formControlName="orgrEmail" value="">
+            <input tabindex="12" matInput placeholder="{{ 'calendar.component.orgrEmail' | translate }}" formControlName="orgrEmail" value="">
             <mat-error *ngIf="updateForm.controls.orgrEmail.hasError('required')">
               {{ 'calendar.component.orgrEmail' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -187,7 +187,7 @@
         </div>
         <div class="col-md-12">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.orgrAddress' | translate }}" formControlName="orgrAddress" value="">
+            <input tabindex="13" matInput placeholder="{{ 'calendar.component.orgrAddress' | translate }}" formControlName="orgrAddress" value="">
             <mat-error *ngIf="updateForm.controls.orgrAddress.hasError('required')">
               {{ 'calendar.component.orgrAddress' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -195,7 +195,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.orgrPhone' | translate }}" formControlName="orgrPhone" [textMask]="{mask: maskPhoneNo}" value="">
+            <input tabindex="14" matInput placeholder="{{ 'calendar.component.orgrPhone' | translate }}" formControlName="orgrPhone" [textMask]="{mask: maskPhoneNo}" value="">
             <mat-error *ngIf="updateForm.controls.orgrPhone.hasError('required')">
               {{ 'calendar.component.orgrPhone' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -203,7 +203,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.orgrUrl' | translate }}" formControlName="orgrUrl" value="">
+            <input tabindex="15" matInput placeholder="{{ 'calendar.component.orgrUrl' | translate }}" formControlName="orgrUrl" value="">
             <mat-error *ngIf="updateForm.controls.orgrUrl.hasError('required')">
               {{ 'calendar.component.orgrUrl' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -211,7 +211,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="{{ 'calendar.component.orgrFb' | translate }}" formControlName="orgrFb" value="">
+            <input tabindex="16" matInput placeholder="{{ 'calendar.component.orgrFb' | translate }}" formControlName="orgrFb" value="">
             <mat-error *ngIf="updateForm.controls.orgrFb.hasError('required')">
               {{ 'calendar.component.orgrFb' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -226,7 +226,7 @@
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{sdt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input placeholder="" [owlDateTime]="start" style="display: none;" matInput formControlName="start" #start (dateTimeInput)="addStartEvent('input', $event)" (dateTimeChange)="addStartEvent('change', $event)" [min]="minDate" required />
-                <span [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right"></i></span>
+                <span tabindex="17" [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right"></i></span>
                 <owl-date-time #start></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.start.hasError('required')">
                   Start Date is required
@@ -238,7 +238,7 @@
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{edt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input [owlDateTime]="end" style="display: none;" matInput formControlName="end" #end (dateTimeInput)="addEndEvent('input', $event)" (dateTimeChange)="addEndEvent('change', $event)" [min]="minDate" required />
-                <span [owlDateTimeTrigger]="end"><i class="fa fa-calendar pull-right"></i></span>
+                <span tabindex="18" [owlDateTimeTrigger]="end"><i class="fa fa-calendar pull-right"></i></span>
                 <owl-date-time #end class="pull-right"></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.end.hasError('required')">
                   End Date is required
@@ -252,7 +252,7 @@
           </div>
         <div class="col-md-6" style="border: 0px solid #000">
           <mat-form-field class="example-full-width">
-            <mat-select formControlName="image" placeholder="{{ 'calendar.component.select' | translate }} {{ 'calendar.component.image' | translate }}" tabindex="7" (change)="selectedImg($event, 1)">
+            <mat-select tabindex="19" formControlName="image" placeholder="{{ 'calendar.component.select' | translate }} {{ 'calendar.component.image' | translate }}" (change)="selectedImg($event)">
                 <mat-option [value]=null>{{ 'calendar.component.select' | translate }} {{ 'calendar.component.image' | translate }}</mat-option>
                 <mat-option *ngFor="let img of imageData" 
                 [value]="img.list[0].mediaId">{{ img.list[0].mediaFile }}</mat-option>
@@ -268,7 +268,7 @@
           </mat-form-field>
             
           <div *ngIf="image.value != null">
-            <img [src]="appConfig.externalMediaURL +'/images/'+ selectedFileEn" style="width:200px">
+            <img [src]="appConfig.externalMediaURL +'/images/'+ selectedFile" style="width:100px">
           </div> 
         </div>
         <div class="col-md-12">
@@ -278,7 +278,7 @@
 
       <div class="row">
         <div class="col-md-12">
-          <mat-checkbox formControlName="active"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.active' | translate }}</span>
+          <mat-checkbox tabindex="20" formControlName="active"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.active' | translate }}</span>
         </div>
       </div>
       <div class="col-md-12">&nbsp;</div>
