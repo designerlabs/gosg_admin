@@ -988,6 +988,7 @@
     "tableHeader":{
       "eventNameEn": "Nama Acara (EN)",
       "eventNameBm": "Nama Acara (BM)",
+      "orgrDetails": "Maklumat Penganjur",
       "eventName": "Nama Acara"
     },
     "tablebottom":{
@@ -1001,7 +1002,16 @@
       "header": "Acara",
       "desc": "Keterangan",
       "location": "Lokasi",
+      "country": "Negara",
       "city": "Bandar",
+      "zipcode": "Poskod",
+      "orgr": "Penganjur",
+      "orgrAddress": "Alamat Penganjur",
+      "orgrEmail": "Emel Penganjur",
+      "orgrUrl": "Halaman Web Penganjur",
+      "orgrFb": "Fb Penganjur",
+      "orgrPhone": "Telefon Penganjur",
+      "agency": "Agensi",
       "startdate": "Tarikh Mula",
       "enddate": "Tarikh Akhir",
       "status": "Status Acara",
