@@ -127,6 +127,8 @@ import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.c
 import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
 import { SitemapComponent } from './sitemap/sitemap.component';
 import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { ArchivetblComponent } from './archive/archivetbl/archivetbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -232,6 +234,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     GallerypublishertblComponent,
     SitemapComponent,
     SitemaptblComponent,
+    ArchiveComponent,
+    ArchivetblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
