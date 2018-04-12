@@ -40,14 +40,6 @@
               </mat-cell>
           </ng-container>
   
-          <!-- errMsgCodeEn Column -->
-          <ng-container matColumnDef="code">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'sitemap.tableHeader.code' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element" style="flex: 0 0 25%;">
-                {{element.list[0].sitemapCode}}
-              </mat-cell>
-          </ng-container>
-  
           <!-- slideTitle Column -->
           <ng-container matColumnDef="nameEn">
             <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'sitemap.tableHeader.nameEn' | translate }}</mat-header-cell>
@@ -58,6 +50,14 @@
           <ng-container matColumnDef="nameBm">
             <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'sitemap.tableHeader.nameBm' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let element" style="flex: 0 0 25%;"> {{element.list[1].sitemapName}} </mat-cell>
+          </ng-container>
+  
+          <!-- url Column -->
+          <ng-container matColumnDef="url">
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'sitemap.tableHeader.url' | translate }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" style="flex: 0 0 25%;">
+                {{element.list[0].sitemapRelativeUrl}}
+              </mat-cell>
           </ng-container>
           
           <!-- Action Column -->
@@ -103,7 +103,7 @@
             <!-- <strong>{{commonservice.errMsgTable?.pageNumber}}</strong> of -->
             <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
             <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-            <strong>{{recordTable?.totalElements}}</strong> {{ 'errormsg.tablebottom.errmsg' | translate }}</span>
+            <strong>{{recordTable?.totalElements}}</strong> {{ 'sitemap.header' | translate }}</span>
           <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
             <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
           </button>

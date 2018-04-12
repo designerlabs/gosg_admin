@@ -94,9 +94,9 @@ export class SitemaptblComponent implements OnInit {
   ngOnInit() {
     this.displayedColumns = [
       'no', 
-      'code', 
       'nameEn', 
       'nameBm', 
+      'url', 
       'action'];
       this.commonservice.getModuleId();
   }

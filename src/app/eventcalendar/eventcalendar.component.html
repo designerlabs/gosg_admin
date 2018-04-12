@@ -36,7 +36,7 @@
         <div class="col-md-12">&nbsp;</div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Title" formControlName="nameEn" (change)="checkReqValues()"
+            <input tabindex="1" matInput placeholder="Title" formControlName="nameEn" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.nameEn.hasError('required')">
               Title is required
@@ -45,7 +45,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Tajuk" formControlName="nameBm" value="" (change)="checkReqValues()"
+            <input tabindex="2" matInput placeholder="Tajuk" formControlName="nameBm" value="" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.nameBm.hasError('required')">
               Tajuk diperlukan
@@ -57,7 +57,7 @@
       <div class="row">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+            <textarea tabindex="3" matInput placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
               required></textarea>
             <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
               Description is required
@@ -67,7 +67,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+            <textarea tabindex="4" matInput placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
               required></textarea>
             <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
               Keterangan diperlukan
@@ -75,18 +75,68 @@
             <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
           </mat-form-field>
         </div>
+      </div>
+        
+      <div class="row">
+        <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" (keyup)="getSearchData(agencyEn.value, 1)" (change)="checkReqValues()" required>
+            <button mat-button *ngIf="agencyEn.value" matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="updateForm.controls.agencyEn.hasError('required')">
+              Agency is required
+            </mat-error>
+          </mat-form-field>
+
+          <div *ngIf="isActiveListEn" [ngClass]="{'listParent':searchAgencyResultEn.length < 10,'listParent-w-scroll':searchAgencyResultEn.length >= 10}" (scroll)="onScroll($event,1)">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of searchAgencyResultEn">
+                <a class="list-link" (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.agencyName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="6" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" (keyup)="getSearchData(agencyBm.value, 2)" (change)="checkReqValues()" required>
+            <button mat-button *ngIf="agencyBm.value" matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="updateForm.controls.agencyBm.hasError('required')">
+              Agensi diperlukan
+            </mat-error>
+          </mat-form-field>
+
+          <div *ngIf="isActiveListBm" [ngClass]="{'listParent':searchAgencyResultBm.length < 10,'listParent-w-scroll':searchAgencyResultBm.length >= 10}" (scroll)="onScroll($event,2)">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of searchAgencyResultBm">
+                <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div class="col-md-12">&nbsp;</div>
       </div>
 
       <div class="row">
         <div class="col-md-12">
           <mat-form-field class="example-full-width">
-            <textarea matInput placeholder="{{ 'calendar.component.location' | translate }}" formControlName="location" #descBm maxLength="10000" (change)="checkReqValues()"
+            <textarea tabindex="7" matInput placeholder="{{ 'calendar.component.location' | translate }}" formControlName="location" #descBm maxLength="10000" (change)="checkReqValues()"
               required></textarea>
             <mat-error *ngIf="updateForm.controls.location.hasError('required')">
               {{ 'calendar.component.location' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
             <mat-hint align="end">{{location.value?.length || 0}}/10000</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.country' | translate }}" formControlName="country" value="" (change)="checkReqValues()"
+              required>
+            <mat-error *ngIf="updateForm.controls.country.hasError('required')">
+              {{ 'calendar.component.country' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
           </mat-form-field>
         </div>
         <div class="col-md-6">
@@ -98,12 +148,81 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.zipcode' | translate }}" formControlName="zipcode" value="" (change)="checkReqValues()"
+              required>
+            <mat-error *ngIf="updateForm.controls.city.hasError('required')">
+              {{ 'calendar.component.zipcode' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+
+      <!-- ORGANIZER DETAILS -->
+      <div class="row">
+        <div class="bg-form-header col-md-12">
+          <label class="">{{ 'calendar.tableHeader.orgrDetails' | translate }}</label>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.orgr' | translate }}" formControlName="orgr" value="" (change)="checkReqValues()">
+            <mat-error *ngIf="updateForm.controls.orgr.hasError('required')">
+              {{ 'calendar.component.orgr' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.orgrEmail' | translate }}" formControlName="orgrEmail" value="">
+            <mat-error *ngIf="updateForm.controls.orgrEmail.hasError('required')">
+              {{ 'calendar.component.orgrEmail' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+            <mat-error *ngIf="!validateCtrlChk(orgrEmail) &&  updateForm.controls.orgrEmail.errors.pattern">
+              {{ 'common.email' | translate }} {{ 'common.patternisnotvalid' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.orgrAddress' | translate }}" formControlName="orgrAddress" value="">
+            <mat-error *ngIf="updateForm.controls.orgrAddress.hasError('required')">
+              {{ 'calendar.component.orgrAddress' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.orgrPhone' | translate }}" formControlName="orgrPhone" [textMask]="{mask: maskPhoneNo}" value="">
+            <mat-error *ngIf="updateForm.controls.orgrPhone.hasError('required')">
+              {{ 'calendar.component.orgrPhone' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.orgrUrl' | translate }}" formControlName="orgrUrl" value="">
+            <mat-error *ngIf="updateForm.controls.orgrUrl.hasError('required')">
+              {{ 'calendar.component.orgrUrl' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="{{ 'calendar.component.orgrFb' | translate }}" formControlName="orgrFb" value="">
+            <mat-error *ngIf="updateForm.controls.orgrFb.hasError('required')">
+              {{ 'calendar.component.orgrFb' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
         <div class="col-md-12">&nbsp;</div>
       </div>
 
       <div class="row paddingTop-20">
         <div class="form-group col-md-6">
-              <label class="font-size-s">{{ 'calendar.component.startdate' | translate }}</label>
+              <label class="font-size-s">{{ 'calendar.component.startdate' | translate }} *</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{sdt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input placeholder="" [owlDateTime]="start" style="display: none;" matInput formControlName="start" #start (dateTimeInput)="addStartEvent('input', $event)" (dateTimeChange)="addStartEvent('change', $event)" [min]="minDate" required />
@@ -115,7 +234,7 @@
               </mat-form-field>
           </div>
           <div class="form-group col-md-6">
-              <label class="font-size-s">{{ 'calendar.component.enddate' | translate }}</label>
+              <label class="font-size-s">{{ 'calendar.component.enddate' | translate }} *</label>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{edt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input [owlDateTime]="end" style="display: none;" matInput formControlName="end" #end (dateTimeInput)="addEndEvent('input', $event)" (dateTimeChange)="addEndEvent('change', $event)" [min]="minDate" required />
@@ -133,7 +252,7 @@
           </div>
         <div class="col-md-6" style="border: 0px solid #000">
           <mat-form-field class="example-full-width">
-            <mat-select formControlName="image" placeholder="{{ 'calendar.component.select' | translate }} {{ 'calendar.component.image' | translate }}" tabindex="7">
+            <mat-select formControlName="image" placeholder="{{ 'calendar.component.select' | translate }} {{ 'calendar.component.image' | translate }}" tabindex="7" (change)="selectedImg($event, 1)">
                 <mat-option [value]=null>{{ 'calendar.component.select' | translate }} {{ 'calendar.component.image' | translate }}</mat-option>
                 <mat-option *ngFor="let img of imageData" 
                 [value]="img.list[0].mediaId">{{ img.list[0].mediaFile }}</mat-option>
@@ -147,6 +266,10 @@
                 ({{updateForm.get('imgEn')?.getError('maxContentSize').actualSize | byteFormat}}).
               </mat-error> -->
           </mat-form-field>
+            
+          <div *ngIf="image.value != null">
+            <img [src]="appConfig.externalMediaURL +'/images/'+ selectedFileEn" style="width:200px">
+          </div> 
         </div>
         <div class="col-md-12">
           &nbsp;

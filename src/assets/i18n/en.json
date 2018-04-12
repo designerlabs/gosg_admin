@@ -987,6 +987,7 @@
     "tableHeader":{
       "eventNameEn": "Event Name (EN)",
       "eventNameBm": "Event Name (BM)",
+      "orgrDetails": "Organizer Details",
       "eventName": "Event Name"
     },
     "tablebottom":{
@@ -1000,7 +1001,16 @@
       "header": "Event",
       "desc": "Description",
       "location": "Location",
+      "country": "Country",
       "city": "City",
+      "zipcode": "Postcode",
+      "orgr": "Organizer",
+      "orgrAddress": "Organizer Address",
+      "orgrEmail": "Organizer Email",
+      "orgrUrl": "Organizer Website",
+      "orgrFb": "Organizer Fb",
+      "orgrPhone": "Organizer Phone",
+      "agency": "Agency",
       "startdate": "Start Date",
       "enddate": "End Date",
       "status": "Event Status",
