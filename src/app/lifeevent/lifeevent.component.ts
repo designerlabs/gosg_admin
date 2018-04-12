@@ -12,6 +12,7 @@ import { DialogsService } from './../dialogs/dialogs.service';
 import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
 import * as $ from 'jquery';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-lifeevent',
@@ -25,6 +26,14 @@ export class LifeeventComponent implements OnInit {
   showFilterEn = "Type your filter here...";
   showFilterBm = "Taip tapisan di sini...";
 
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  minDate: any;
+  publish: FormControl
+  endD: FormControl
+
 
   rawValBm: any;
   rawValEn: any;
@@ -34,6 +43,12 @@ export class LifeeventComponent implements OnInit {
 
   updateForm: FormGroup;
   
+  public agencyApp: FormControl;  
+  public agencyforApp: FormControl;  
+  public agencyEn: FormControl;  
+  public agencyBm: FormControl;
+  public ministryEn: FormControl;  
+  public ministryBm: FormControl;
   public titleEn: FormControl;  
   public titleBm: FormControl;
   public descEn: FormControl;  
@@ -73,6 +88,27 @@ export class LifeeventComponent implements OnInit {
 
   public parentValEn: any;
   public parentValBm: any;
+
+  public ministryData: any;
+  selectedMinEn = '';
+  selectedMinBm = '';
+
+  arrAgencyApp = [];
+  public agencyAppData: any;
+  public agencyAppDataCode: any;
+  ministryNameEn:any;
+  ministryNameBm:any;
+  isActiveListEn: boolean;
+  isActiveListBm: boolean;
+  isActive: boolean;
+  searchAgencyResultEn: Object;
+  searchAgencyResultBm: Object;
+  agencyIdEn:any;
+  agencyIdBm:any;
+
+  isActiveList: boolean;
+  searchAgencyResult: Object;
+  agencyIdforApp: any;
 
   sendForApporval: any;
 
@@ -118,7 +154,7 @@ export class LifeeventComponent implements OnInit {
               this.languageId = val.languageId;
               this.changeLanguageAddEdit();
               this.changePlaceHolder();
-              this.getData();
+                    //this.getData();
             }
           }.bind(this));
         })
@@ -138,19 +174,25 @@ export class LifeeventComponent implements OnInit {
     })
   }
   
-
   ngOnInit() {  
 
-    // $('.fr-toolbar button').click(function(){
-    //   alert('dd')
-    // });
-   
+    this.getMinistry();
+    this.getMinEventDate();
+    
+    this.publish = new FormControl()
+    this.endD = new FormControl
     this.parseEnBtn = false;
     this.parseMyBtn = false;
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
     this.deleted = new FormControl();
 
+    this.agencyApp = new FormControl();
+    this.agencyforApp = new FormControl();
+    this.agencyEn = new FormControl();
+    this.agencyBm = new FormControl();
+    this.ministryEn = new FormControl();
+    this.ministryBm = new FormControl();
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
     this.descEn = new FormControl();
@@ -165,6 +207,14 @@ export class LifeeventComponent implements OnInit {
 
     this.updateForm = new FormGroup({   
 
+      endD: this.endD,
+      publish: this.publish,
+      agencyApp: this.agencyApp,
+      agencyforApp: this.agencyforApp,
+      agencyEn: this.agencyEn,
+      agencyBm: this.agencyBm,
+      ministryEn: this.ministryEn,
+      ministryBm: this.ministryBm,
       titleEn: this.titleEn,
       titleBm: this.titleBm,
       descEn: this.descEn,    
@@ -180,8 +230,6 @@ export class LifeeventComponent implements OnInit {
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
     });
-
-    
 
     this.getCategory();
 
@@ -298,6 +346,33 @@ export class LifeeventComponent implements OnInit {
     console.log(ele);   
   }
 
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+
+    this.minDate = new Date(year, month, todaysdt);
+  }
+
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("START: "+type);
+    console.log(event.value);
+    this.publishdt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.publishdt);
+    this.checkReqValues()
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+    console.log("END: "+type);
+    console.log(event.value);
+    this.enddt = (event.value).getTime();
+    this.dateFormatExample = "";
+    console.log(this.enddt);
+    this.checkReqValues()
+  }
+
   getCategory(){
 
     this.loading = true;
@@ -402,10 +477,12 @@ export class LifeeventComponent implements OnInit {
 
   getData() {
 
+    console.log("KKKKKKKKKKKKKK");
+
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
 
-    if(_getRefID != undefined){
+    if(_getRefID != undefined || _getRefID != "add"){
 
       this.commonservice.readProtectedById('content/publisher/', _getRefID)
       .subscribe(data => {
@@ -487,6 +564,7 @@ export class LifeeventComponent implements OnInit {
     
   }
 
+  
   draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
     let txt = "";
@@ -936,6 +1014,9 @@ export class LifeeventComponent implements OnInit {
   changePlaceHolder(){
     this.urlEdit = this.router.url.split('/')[2];
 
+    this.updateForm.get('agencyforApp').setValue('');
+    this.updateForm.get('agencyApp').setValue('');
+
     if(this.languageId == 1){
       if(this.urlEdit == "add"){
         this.categoryPlaceholder = this.showPlaceHolderEn;
@@ -966,6 +1047,369 @@ export class LifeeventComponent implements OnInit {
 
   back(){
     this.router.navigate(['lifeevent']);
+  }
+
+  getMinistry() {
+    this.loading = true;
+    return this.commonservice.readPortal('ministry', '0', '300')
+      .subscribe(resMinData => {
+        this.ministryData = resMinData['list'];
+        this.loading = false;
+      },
+      Error => {
+        this.loading = false;
+      });
+  }
+
+  getAgencyApp(agencyId) {
+    this.loading = true;
+
+   
+    return this.commonservice.readPortal('agency/application/agencyid/'+agencyId)
+      .subscribe(resMinData => {
+        this.agencyAppData = resMinData['agencyApplicationList'];
+        this.loading = false;
+      },
+      Error => {
+        this.loading = false;
+      });
+   
+  }
+
+  selectedMinistry(e, val){
+    console.log(e);
+    let getMinistryIdEn = e.value;
+    let getMinistryIdBm = e.value;
+    let dataList = this.ministryData;
+    let indexVal: any;
+    let idBm: any;
+    let idEn: any;
+
+   
+    if(val == 1){
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[0].ministryId;
+        if(indexVal == getMinistryIdEn){
+          idBm = dataList[i].list[1].ministryId;
+          this.selectedMinEn=dataList[i].list[0].ministryName;
+          this.selectedMinBm=dataList[i].list[1].ministryName;
+        }        
+      }
+
+      this.updateForm.get('ministryBm').setValue(idBm);  
+    }
+    else{
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[1].ministryId;
+        if(indexVal == getMinistryIdBm){
+          idEn = dataList[i].list[0].ministryId;
+          this.selectedMinEn=dataList[i].list[0].ministryName;
+          this.selectedMinBm=dataList[i].list[1].ministryName;
+        }        
+      }
+
+      this.updateForm.get('ministryEn').setValue(idEn); 
+    }
+  }
+
+  selectedAgencyApp(e){
+    console.log(e);
+   
+    let dataList = this.agencyAppData;
+    let idAgencyApp: any;
+    let codeAgencyApp: any;
+
+    console.log(dataList.length)
+
+    for(let i=0; i<dataList.length; i++){
+  
+      if(e.value == dataList[i].agencyApplicationId){
+        idAgencyApp = dataList[i].agencyApplicationId;
+        codeAgencyApp = dataList[i].agencyApplicationCode;
+      }            
+    }
+
+    console.log("AgencyAppID: "+idAgencyApp+" codeAgencyApp: "+codeAgencyApp);
+
+
+    this.updateForm.get('agencyApp').setValue(idAgencyApp);  
+
+    this.getAgencyAppEnBm(codeAgencyApp);
+    
+  }
+
+  //onclick agenci application
+  getAgencyAppEnBm(getAgencyAppEnBm){
+
+    this.loading = true;   
+
+    let flagNoOfRecord: any; 
+    
+    if(getAgencyAppEnBm != undefined){
+      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
+        .subscribe(resMinData => {
+
+          this.commonservice.errorHandling(resMinData, (function () {
+            this.agencyAppDataCode = resMinData['agencyApplicationList'];
+
+            let a = [{ "agencyName": this.agencyAppDataCode[0].agencyName,
+                      "agencyID": this.agencyAppDataCode[0].agencyApplicationId,
+                      "agencyApplicationName": this.agencyAppDataCode[0].agencyApplicationName,
+                      "agencyUrl":this.agencyAppDataCode[0].agencyApplicationUrl,
+                      "agencyCode":this.agencyAppDataCode[0].agencyApplicationCode},
+                      {"agencyName": this.agencyAppDataCode[1].agencyName,
+                      "agencyID": this.agencyAppDataCode[1].agencyApplicationId,
+                      "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
+                      "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl,
+                      "agencyCode":this.agencyAppDataCode[1].agencyApplicationCode}]        
+      
+            if(this.arrAgencyApp.length>0){
+              flagNoOfRecord = false;
+      
+              for(let i=0; i<this.arrAgencyApp.length; i++){
+                if(this.arrAgencyApp[i][0].agencyCode == getAgencyAppEnBm){
+                  flagNoOfRecord = true;
+                }           
+              }
+            }
+
+            else{
+              this.arrAgencyApp.push(a);
+            }
+
+            if(flagNoOfRecord == false){
+              this.arrAgencyApp.push(a);
+            }
+
+            console.log(JSON.stringify(this.arrAgencyApp));
+          }).bind(this));
+
+          this.loading = false;
+        },
+        error => {
+          this.loading = false;
+        });
+    }
+  }
+
+  getSearchData(keyword, langId){
+
+    let selLangField;
+      
+    if(langId == 1) {
+      selLangField = "agencyBm";
+      this.ministryNameBm = "";
+    } else {
+      selLangField = "agencyEn";
+      this.ministryNameEn = "";
+    }
+    this.updateForm.get(selLangField).setValue("");
+
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      console.log(keyword)
+      console.log(keyword.length)
+      this.isActive = true;
+      this.loading = true;
+      this.commonservice.readPortal('agency/language/'+langId,'','', keyword).subscribe(
+        data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          console.log(data['agencyList'].length)
+
+          if(data['agencyList'].length != 0) {
+            if(langId == 1) {
+              this.searchAgencyResultEn = data['agencyList'];
+              this.isActiveListEn = true;
+              this.isActiveListBm = false;
+            } else {
+              this.searchAgencyResultBm = data['agencyList'];
+              this.isActiveListBm = true;
+              this.isActiveListEn = false;
+            }
+          }
+        }).bind(this));
+          this.loading = false;
+      },err => {
+        this.loading = false;
+      });
+    } else {
+      this.isActiveListEn = false;
+      this.isActiveListBm = false;
+    }
+  }
+
+  getValue(aId,aName,mName, refCode, langId){
+
+    if(langId == 1) {
+      this.agencyEn = this.updateForm.get('agencyEn').value;
+      this.isActiveListEn = false;
+      this.searchAgencyResultEn = [''];
+      this.updateForm.get('agencyEn').setValue(aName);
+      this.agencyEn = aId;
+      this.agencyIdEn = aId;
+      this.ministryNameEn = mName;
+
+    } else {
+      this.agencyBm = this.updateForm.get('agencyBm').value;
+      this.isActive = false;
+      this.isActiveListBm = false;
+      this.updateForm.get('agencyBm').setValue(aName);
+      this.agencyBm = aId;
+      this.agencyIdBm = aId;
+      this.ministryNameBm = mName;
+
+    }
+    this.getAgencyByRefCode(refCode,langId);
+  }
+
+  getAgencyByRefCode(refCode, langId) {
+
+    let selLangField;
+    let mName;
+    let aName;
+    let aId;
+
+    if(langId == 1) {
+      langId = 2;
+      selLangField = "agencyBm";
+    } else {
+      langId = 1;
+      selLangField = "agencyEn";
+    }
+    this.loading = true;
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    .subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          console.log('refCode Data');
+          console.log(data);
+
+          mName = data['list'][0]['agencyMinistry']['ministryName'];
+          aName = data['list'][0]['agencyName'];
+          aId = data['list'][0]['agencyId'];
+          
+          this.updateForm.get(selLangField).setValue(aName);
+
+          if(langId == 1) {
+            this.agencyIdEn = aId;
+            this.ministryNameEn = mName;
+          } else {
+            this.agencyIdBm = aId;
+            this.ministryNameBm = mName;
+          }
+        }).bind(this));
+        this.loading = false;
+    }, err => {
+      this.loading = false;
+    });
+  }
+
+  getSearchDataApp(keyword){
+    
+    //this.updateForm.get('agencyforApp').setValue("");
+
+    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      console.log(keyword)
+      console.log(keyword.length)
+      this.isActive = true;
+      this.loading = true;
+      this.commonservice.readPortal('agency/language/'+this.languageId,'','', keyword).subscribe(
+        data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          console.log(data['agencyList'].length)
+
+          if(data['agencyList'].length != 0) {
+            if(this.languageId == 1) {
+              this.searchAgencyResult = data['agencyList'];
+              this.isActiveList = true;
+            } else {
+              this.searchAgencyResult = data['agencyList'];
+              this.isActiveList = true;
+            }
+          }
+        }).bind(this));
+          this.loading = false;
+      },err => {
+        this.loading = false;
+      });
+    } else {
+      this.isActiveList = false;
+    }
+  }
+
+  getValueApp(aId,aName,mName, refCode){
+
+    if(this.languageId == 1) {
+      this.agencyforApp = this.updateForm.get('agencyforApp').value;
+      this.isActiveList = false;
+      this.searchAgencyResult = [''];
+      this.updateForm.get('agencyforApp').setValue(aName);
+      this.agencyforApp = aName;
+      this.agencyIdforApp = aId;
+
+    } else {
+      this.agencyforApp = this.updateForm.get('agencyforApp').value;
+      this.isActive = false;
+      this.isActiveList = false;
+      this.searchAgencyResult = [''];
+      this.updateForm.get('agencyforApp').setValue(aName);
+      this.agencyforApp = aName;
+      this.agencyIdforApp = aId;
+
+    }
+    this.getAgencyByRefCodeApp(refCode);
+    this.getAgencyApp(this.agencyIdforApp);
+  }
+
+  getAgencyByRefCodeApp(refCode) {
+
+    let selLangField;
+    let mName;
+    let aName;
+    let aId;
+    let langId;
+
+    if(this.languageId == 1) {
+      langId = 2;
+    } else {
+      langId = 1;
+    }
+    this.loading = true;
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    .subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          console.log('refCode Data');
+          console.log(data);
+
+          mName = data['list'][0]['agencyMinistry']['ministryName'];
+          aName = data['list'][0]['agencyName'];
+          aId = data['list'][0]['agencyId'];
+          
+          if(langId == 1) {
+            this.agencyIdforApp = aId;
+          } else {
+            this.agencyIdforApp = aId;
+          }
+        }).bind(this));
+        this.loading = false;
+    }, err => {
+      this.loading = false;
+    });
+  }
+
+  deleteApp(agenCode){
+    console.log(agenCode);
+    for(let i=0; i<this.arrAgencyApp.length; i++){
+      if(this.arrAgencyApp[i][0].agencyCode == agenCode){
+        this.arrAgencyApp.splice(i,1);
+      }         
+    }
   }
 
 }

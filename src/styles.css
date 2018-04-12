@@ -132,6 +132,12 @@ mat-header-cell{
     /* min-height: 312px; */
     min-height: auto;
 }
+
+.tableInfo{
+    width: 97% !important;
+    margin-left: 15px !important;
+}
+
 .actionColumn {
     display:flex;
     justify-content:center;
@@ -274,6 +280,10 @@ mat-header-cell{
         padding-left:15px !important;
     }
 
+    .pdg_R_15px {
+        padding-right:15px !important;
+    }
+
     .datetimeMask {
         color:#333; 
         margin-bottom: 0%
@@ -298,4 +308,34 @@ mat-header-cell{
 
 .mat-dialog-container{
     padding: 24px !important;
+}
+
+.mat-expansion-panel-header{
+    padding: 0 5px !important;
+}
+
+.mat-expansion-panel-body {
+    padding: 0 0px 16px !important;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: none !important;
+}
+
+
+.mat-mini-fab {
+    min-width: 0;
+    border-radius: 0% !important;
+    width: 30px !important;
+    height: 30px !important;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+.mat-mini-fab .mat-button-wrapper {
+    padding: 0px 0px !important;
+    display: inline-block;
+    line-height: 10px !important;
+    top: -2px;
+    position: relative;
 }
