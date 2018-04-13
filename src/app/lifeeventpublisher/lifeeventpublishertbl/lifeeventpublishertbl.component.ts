@@ -10,13 +10,12 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 
-declare var System: any;
 @Component({
-  selector: 'app-lifeeventtbl',
-  templateUrl: './lifeeventtbl.component.html',
-  styleUrls: ['./lifeeventtbl.component.css']
+  selector: 'app-lifeeventpublishertbl',
+  templateUrl: './lifeeventpublishertbl.component.html',
+  styleUrls: ['./lifeeventpublishertbl.component.css']
 })
-export class LifeeventtblComponent implements OnInit {
+export class LifeeventpublishertblComponent implements OnInit {
 
   updateForm: FormGroup;
   public loading = false;
@@ -233,19 +232,19 @@ export class LifeeventtblComponent implements OnInit {
     let generalUrl = ""
 
     if(nameStatus == 1){
-      generalUrl = 'life/event/creator/state/all/';
+      generalUrl = 'life/event/publisher/state/all/';
     }
 
     else if(nameStatus == 2){
-      generalUrl = 'life/event/creator/state/draft/';
+      generalUrl = 'life/event/publisher/state/draft/';
     }
 
     else if(nameStatus == 3){
-      generalUrl = 'life/event/creator/state/pending/';
+      generalUrl = 'life/event/publisher/state/pending/';
     }
 
     else if(nameStatus == 4){
-      generalUrl = 'life/event/creator/state/approved/';
+      generalUrl = 'life/event/publisher/state/approved/';
     }
     
     if(code != undefined){
@@ -294,19 +293,19 @@ export class LifeeventtblComponent implements OnInit {
     let generalUrl = "";
 
     if(valStatus == 1){
-      generalUrl = 'life/event/creator/search/state/all';
+      generalUrl = 'life/event/publisher/search/state/all';
     }
 
     else if(valStatus == 2){
-      generalUrl = 'life/event/creator/search/state/draft';
+      generalUrl = 'life/event/publisher/search/state/draft';
     }
 
     else if(valStatus == 3){
-      generalUrl = 'life/event/creator/search/state/pending';
+      generalUrl = 'life/event/publisher/search/state/pending';
     }
 
     else if(valStatus == 4){
-      generalUrl = 'life/event/creator/search/state/approved';
+      generalUrl = 'life/event/publisher/search/state/approved';
     }
 
     this.loading = true;
@@ -360,21 +359,16 @@ export class LifeeventtblComponent implements OnInit {
     // this.noNextData = pageInc === totalPages;
     this.getRecordList(page + 1, this.pageSize, this.catCode);
   }
-
-  add() {
-    this.router.navigate(['lifeevent/add']);
-    this.commonservice.pageModeChange(false);
-  }
-
+  
   updateRow(row) {
-    this.router.navigate(['lifeevent/', row]);
+    this.router.navigate(['publisher/lifeevent/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(id) {
 
     this.loading = true;
-    this.commonservice.delete(id,'life/event/creator/delete/').subscribe(
+    this.commonservice.delete(id,'life/event/publisher/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -527,8 +521,5 @@ export class LifeeventtblComponent implements OnInit {
     this.catCode = ele.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
   }
+
 }
-// System.import('http://www.google.com/jsapi')
-//     .then(MyModule => {
-//        debugger;
-//     });

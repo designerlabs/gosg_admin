@@ -129,6 +129,8 @@ import { SitemapComponent } from './sitemap/sitemap.component';
 import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { ArchivetblComponent } from './archive/archivetbl/archivetbl.component';
+import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpublishertbl/lifeeventpublishertbl.component';
+import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -236,6 +238,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SitemaptblComponent,
     ArchiveComponent,
     ArchivetblComponent,
+    LifeeventpublishertblComponent,
+    LifeeventpublisherComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [

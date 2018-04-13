@@ -100,6 +100,8 @@ import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.c
 import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
 import { SitemapComponent } from './sitemap/sitemap.component';
 import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
+import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpublishertbl/lifeeventpublishertbl.component';
+import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -251,6 +253,9 @@ export const appRoutes: Routes = [
 {path: 'lifeevent', component: LifeeventtblComponent},
 {path: 'lifeevent/:id', component: LifeeventComponent},
 {path: 'lifeevent/add', component: LifeeventComponent},
+
+{path: 'publisher/lifeevent', component: LifeeventpublishertblComponent},
+{path: 'publisher/lifeevent/:id', component: LifeeventpublisherComponent},
 
 // Category & Content: N
 {path: 'category', component: CategorytblComponent},

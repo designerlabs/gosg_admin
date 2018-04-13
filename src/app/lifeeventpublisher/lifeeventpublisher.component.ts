@@ -13,13 +13,14 @@ import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
 import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 
 @Component({
-  selector: 'app-lifeevent',
-  templateUrl: './lifeevent.component.html',
-  styleUrls: ['./lifeevent.component.css']
+  selector: 'app-lifeeventpublisher',
+  templateUrl: './lifeeventpublisher.component.html',
+  styleUrls: ['./lifeeventpublisher.component.css']
 })
-export class LifeeventComponent implements OnInit {
+export class LifeeventpublisherComponent implements OnInit {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -130,6 +131,7 @@ export class LifeeventComponent implements OnInit {
   dataSource: any;
   // dataSource = new MatTableDataSource<object>(this.arrAgencyApp);
   displayedColumns = ['agencyNameEn', 'urlEn', 'agencyNameBm','urlBm', 'action'];
+  
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -172,7 +174,7 @@ export class LifeeventComponent implements OnInit {
       treeVal: ""
     })
   }
-  
+
   ngOnInit() {  
 
     this.getMinistry();
@@ -232,7 +234,7 @@ export class LifeeventComponent implements OnInit {
 
     this.getCategory();
 
-    this.urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[3];
     
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
@@ -327,7 +329,7 @@ export class LifeeventComponent implements OnInit {
 
   onChange(ele){    
 
-    this.urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[3];
 
     if(this.urlEdit === "add" && ele == ""){
       this.parentFlag = false;
@@ -464,7 +466,7 @@ export class LifeeventComponent implements OnInit {
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[2];
+    let _getRefID = this.router.url.split('/')[3];
     this.loading = true;
 
     if(_getRefID != undefined){
@@ -605,7 +607,7 @@ export class LifeeventComponent implements OnInit {
 
   
   draft(formValues: any) {
-    this.urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[3];
 
     if(!this.agencyIdEn){
       this.agencyIdEn = null;
@@ -846,7 +848,7 @@ export class LifeeventComponent implements OnInit {
   }
 
   submit(formValues: any) {
-    this.urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[3];
 
     if(!this.agencyIdEn){
       this.agencyIdEn = null;
@@ -1154,7 +1156,7 @@ export class LifeeventComponent implements OnInit {
   }
 
   changePlaceHolder(){
-    this.urlEdit = this.router.url.split('/')[2];
+    this.urlEdit = this.router.url.split('/')[3];
 
     this.updateForm.get('agencyforApp').setValue('');
     this.updateForm.get('agencyApp').setValue('');
@@ -1188,7 +1190,7 @@ export class LifeeventComponent implements OnInit {
   }
 
   back(){
-    this.router.navigate(['lifeevent']);
+    this.router.navigate(['publisher/lifeevent']);
   }
 
   getMinistry() {
@@ -1573,24 +1575,4 @@ export class LifeeventComponent implements OnInit {
     this.dataSource = new MatTableDataSource<object>(this.arrAgencyApp);
   }
 
-}
-
-
-@Component({
-  selector: 'dialog-result-example-dialog',
-  styleUrls: ['./lifeevent.component.css'],
-  template: `
-  <div class="dialogCloseBtn">
-    <button mat-fab color="warn" (click)="dialogRef.close()"><i class="fa fa-times"></i></button>
-  </div>
-  
-  <div mat-dialog-content>
-  <div [innerHTML]="content">
-  </div>
-</div>
-  `,
-})
-export class DialogResultExampleDialog {
-  content: string;
-  constructor(public dialogRef: MatDialogRef<DialogResultExampleDialog>) {}
 }

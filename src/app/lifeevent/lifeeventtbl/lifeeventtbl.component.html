@@ -105,7 +105,7 @@
                         </mat-cell>
                     </ng-container>
 
-                    <ng-container matColumnDef="category">
+                    <ng-container *ngIf="languageId == 1" matColumnDef="category">
                         <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category </mat-header-cell>
                         <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                             <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
@@ -114,6 +114,19 @@
                             </span>    
                             <span *ngIf="element.list[0]?.contentCategories.length > 3">
                                 +{{element.list[0]?.contentCategories.length - 3}}
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container *ngIf="languageId == 2" matColumnDef="category">
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Kategori </mat-header-cell>
+                        <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
+                            <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
+                            <span class="tag-style"*ngFor="let ele of (element.list[1]?.contentCategories.length > 3 ? element.list[1]?.contentCategories.slice(0,3):  element.list[1]?.contentCategories)">
+                                {{ele.categoryName | truncate:[12, '...']}}
+                            </span>    
+                            <span *ngIf="element.list[1]?.contentCategories.length > 3">
+                                +{{element.list[1]?.contentCategories.length - 3}}
                             </span>
                         </mat-cell>
                     </ng-container>
@@ -129,8 +142,8 @@
                 
                     <!-- status Column -->
                     <ng-container matColumnDef="status">
-                        <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
-                        <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                        <mat-header-cell class="text-align-Center" class="draftColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-Center" class="draftColumn" *matCellDef="let element">
                             <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
                             <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>
                             <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Approved" [disabled]="true"></button>

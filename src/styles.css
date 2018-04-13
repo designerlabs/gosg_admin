@@ -141,13 +141,19 @@ mat-header-cell{
 .actionColumn {
     display:flex;
     justify-content:center;
-    flex: 0 0 20% !important;
+    flex: 0 0 15% !important;
 }
 
 .statusColumn {
     flex: 0 0 10%  !important;
     display:flex;
     justify-content:center;
+}
+
+.draftColumn {
+    display:flex;
+    justify-content:center;
+    flex: 0 0 7% !important;
 }
 
 .noColumn {
