@@ -151,7 +151,7 @@
                                 <i [ngClass]="commonservice.icon.trash"></i>
                             </button>
                             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
-                                [disabled]="element.list[0].isSendForApproval == true">  
+                                [disabled]="element.list[0].isSendForApproval == true" (click)="delete.show()">  
                                 <i [ngClass]="commonservice.icon.trash"></i>
                             </button>
                             <app-confirm-dialog  #delete

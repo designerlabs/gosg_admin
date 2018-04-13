@@ -487,14 +487,22 @@ export class LifeeventComponent implements OnInit {
         this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
         this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventCitizenFlag);   
 
-        let setParentEn = {
-          "id": [dataEn.contentCategories[0].categoryId,dataBm.contentCategories[0].categoryId],
-          "text":dataEn.contentCategories[0].categoryName,
-          "value": dataEn.contentCategories[0].categoryId
-        };
+        let setParentEn = [];
 
-        this.updateForm.get('parentsEn').setValue(setParentEn);  
-        
+        //get array of categoryId
+        for(let i=0; i<dataEn.contentCategories.length; i++){
+          let a = {
+            "id": [dataEn.contentCategories[i].categoryId,dataBm.contentCategories[i].categoryId],
+            "text":dataEn.contentCategories[i].categoryName,
+            "value": dataEn.contentCategories[i].categoryId
+          };
+
+          setParentEn.push(a);    
+        }
+
+        console.log(setParentEn);
+
+        this.updateForm.get('parentsEn').setValue(setParentEn);          
 
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
@@ -535,6 +543,33 @@ export class LifeeventComponent implements OnInit {
         this.parseEnBtn = true;
         this.parseMyBtn = true;
 
+        //get details agency
+        let getObjKeys = Object.keys(dataEn);
+        let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
+
+        console.log("KEY OBJECT");
+        console.log(valMT.length);
+
+        let detAgenId;
+
+        if(valMT.length > 0){
+          if(this.languageId == 2){
+            detAgenId = dataBm.agencyId;
+          }
+          else{
+            detAgenId = dataEn.agencyId;
+          }
+
+          this.getDetailsAgency(detAgenId);
+        }
+
+        //get detail app agency
+        if(dataEn.agencyApplications.length > 0){
+          for(let i=0; i<dataEn.agencyApplications.length; i++){
+            this.getAgencyAppEnBm(dataEn.agencyApplications[i].agencyApplicationCode)
+          }
+        }
+
         if(this.languageId == 1){          
           this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
           this.filterPlaceholder = this.showFilterEn;          
@@ -565,10 +600,12 @@ export class LifeeventComponent implements OnInit {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
+    console.log(this.parentValEn);
+
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
-      let a = this.parentValEn[i].id[0];
-      let b = this.parentValEn[i].id[1];
+      let a = {"categoryId": this.parentValEn[i].id[0]};
+      let b = {"categoryId": this.parentValEn[i].id[1]};
 
       arrCatIDEn.push(a);
       arrCatIDBm.push(b);      
@@ -577,6 +614,7 @@ export class LifeeventComponent implements OnInit {
     let appsEn = [];
     let appsBm = [];
     console.log(this.arrAgencyApp);  
+
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
       let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
@@ -585,95 +623,85 @@ export class LifeeventComponent implements OnInit {
       appsBm.push(b);
     }  
 
-    console.log("KKKKKKKKKKKKK");  
-    console.log(appsEn);  
+    if(this.arrAgencyApp.length == 0){
+      appsEn = null;
+      appsBm = null;
+    }
   
     // add form
     if(this.urlEdit === 'add'){
 
       let body = [
         {
-          "contentCategories": null,
-          "contents": [
-          {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventImage": {
-              "mediaId": null
-            },       
-            "lifeEventSort": null,
-            "lifeEventUrl": null,   
-            "lifeEventActiveFlag":false,       
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventPublishDate": null,
-            "lifeEventEndDate": null,       
-            "language": {
-              "languageId": 1
-            },
-            "agency": {
-              "agencyId": null
-            }
-          }],
+          "contentCategories": null,   
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,     
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },        
           "agencyApplications": null
         },
         {
           "contentCategories": null,
-          "contents": [
-          {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventImage": {
-              "mediaId": null
-            },       
-            "lifeEventSort": null,
-            "lifeEventUrl": null,   
-            "lifeEventActiveFlag":false,       
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventPublishDate": null,
-            "lifeEventEndDate": null,       
-            "language": {
-              "languageId": 1
-            },
-            "agency": {
-              "agencyId": null
-            }
-          }],
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,      
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },
           "agencyApplications": null
         }
       ];    
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].lifeEventTitle = formValues.titleEn;
+      body[1].lifeEventTitle = formValues.titleBm;
+      body[0].lifeEventText = this.contentTxtEn;
+      body[1].lifeEventText = this.contentTxtMy;
+      body[0].lifeEventDescription = formValues.descEn;
+      body[1].lifeEventDescription = formValues.descBm;
+      body[0].lifeEventSort = formValues.seqEng;
+      body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
-      body[0].contents[0].agency.agencyId = this.agencyIdEn;
+      body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].lifeEventActiveFlag = formValues.active;
+      body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
-      body[1].contents[0].agency.agencyId = this.agencyIdBm;        
+      body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].lifeEventActiveFlag = formValues.active;
+      body[1].agency.agencyId = this.agencyIdBm;        
       
 
       body[0].contentCategories = arrCatIDEn;
       body[1].contentCategories = arrCatIDBm;      
 
-      body[0].contents[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[0].contents[0].lifeEventEndDate = new Date(formValues.endD).getTime();
+      body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
 
-      body[1].contents[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[1].contents[0].lifeEventEndDate = new Date(formValues.endD).getTime();      
+      body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
 
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;  
@@ -698,86 +726,90 @@ export class LifeeventComponent implements OnInit {
         });
     }
 
-    // update form
+    // update form 
     else{
       let body = [
         {
-          "contentCategoryId": null,
-          "contents": [
-            {
-            "lifeEventId":  this.getIdEn,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,       
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 1
-              },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
-            }
-          ]
+          "lifeEventId":  this.getIdEn,
+          "contentCategories": null,   
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,     
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },        
+          "agencyApplications": null
         },
         {
-          "contentCategoryId": null,
-          "contents": [
-            {
-            "lifeEventId":  this.getIdBm,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 2
-              },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
-            }
-          ]
+          "lifeEventId":  this.getIdBm,
+          "contentCategories": null,
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,      
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },
+          "agencyApplications": null
         }
       ];    
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].lifeEventTitle = formValues.titleEn;
+      body[1].lifeEventTitle = formValues.titleBm;
+      body[0].lifeEventText = this.contentTxtEn;
+      body[1].lifeEventText = this.contentTxtMy;
+      body[0].lifeEventDescription = formValues.descEn;
+      body[1].lifeEventDescription = formValues.descBm;
+      body[0].lifeEventSort = formValues.seqEng;
+      body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].lifeEventActiveFlag = formValues.active;
+      body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
-
-      if(formValues.parentsEn == null || formValues.parentsEn == ""){
-       
-        body[0].contentCategoryId = this.parentValEn;
-        body[1].contentCategoryId = this.parentValBm;
-      }
-
-      else {      
-        this.parentValEn = formValues.parentsEn;
-        this.parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = this.parentValEn.id[0];
-        body[1].contentCategoryId = this.parentValEn.id[1];       
-      }
+      body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].lifeEventActiveFlag = formValues.active;
+      body[1].agency.agencyId = this.agencyIdBm;        
       
 
+      body[0].contentCategories = arrCatIDEn;
+      body[1].contentCategories = arrCatIDBm;      
+
+      body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
+
+      body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
+
+      body[0].agencyApplications = appsEn;
+      body[1].agencyApplications = appsBm;       
       
       console.log(JSON.stringify(body))
 
       this.loading = true;
       // Update 
-      this.commonservice.update(body, 'life/event/draft').subscribe(
+      this.commonservice.update(body, 'life/event/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
@@ -797,79 +829,129 @@ export class LifeeventComponent implements OnInit {
 
   submit(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
-    let txt = "";
-    
+
+    if(!this.agencyIdEn){
+      this.agencyIdEn = null;
+      this.agencyIdBm = null;
+    }
+
+    this.parentValEn = formValues.parentsEn;
+    this.parentValBm = formValues.parentsBm;
+
+    let arrCatIDEn = [];
+    let arrCatIDBm = [];
+
+    console.log(this.parentValEn);
+
+    //get array of categoryId
+    for(let i=0; i<this.parentValEn.length; i++){
+      let a = {"categoryId": this.parentValEn[i].id[0]};
+      let b = {"categoryId": this.parentValEn[i].id[1]};
+
+      arrCatIDEn.push(a);
+      arrCatIDBm.push(b);      
+    }
+
+    let appsEn = [];
+    let appsBm = [];
+    console.log(this.arrAgencyApp);  
+
+    //get agencyapp
+    for(let i=0; i<this.arrAgencyApp.length; i++){
+      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
+      appsEn.push(a);      
+      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}  
+      appsBm.push(b);
+    }  
+
+    if(this.arrAgencyApp.length == 0){
+      appsEn = null;
+      appsBm = null;
+    }    
 
     // add form
     if(this.urlEdit === 'add'){
 
       let body = [
         {
-          "contentCategoryId": null,
-          "contents": [
-            {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-       
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 1
-              },          
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
-            }
-          ]
+          "contentCategories": null,   
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,     
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },        
+          "agencyApplications": null
         },
         {
-          "contentCategoryId": null,
-          "contents": [
-            {
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 2
-              },          
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
-            }
-          ]
+          "contentCategories": null,
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,      
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },
+          "agencyApplications": null
         }
       ];    
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].lifeEventTitle = formValues.titleEn;
+      body[1].lifeEventTitle = formValues.titleBm;
+      body[0].lifeEventText = this.contentTxtEn;
+      body[1].lifeEventText = this.contentTxtMy;
+      body[0].lifeEventDescription = formValues.descEn;
+      body[1].lifeEventDescription = formValues.descBm;
+      body[0].lifeEventSort = formValues.seqEng;
+      body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].lifeEventActiveFlag = formValues.active;
+      body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
+      body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].lifeEventActiveFlag = formValues.active;
+      body[1].agency.agencyId = this.agencyIdBm;        
+      
 
-      this.parentValEn = formValues.parentsEn;
-      this.parentValBm = formValues.parentsBm;
-      body[0].contentCategoryId = this.parentValEn.id[0];
-      body[1].contentCategoryId = this.parentValEn.id[1];       
+      body[0].contentCategories = arrCatIDEn;
+      body[1].contentCategories = arrCatIDBm;      
+
+      body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
+
+      body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
+
+      body[0].agencyApplications = appsEn;
+      body[1].agencyApplications = appsBm;         
       
       console.log(JSON.stringify(body))
      
       this.loading = true;
       // Add
-      this.commonservice.create(body, 'life/event').subscribe(
+      this.commonservice.create(body, 'life/event/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
@@ -889,83 +971,87 @@ export class LifeeventComponent implements OnInit {
     else{
       let body = [
         {
-          "contentCategoryId": null,
-          "contents": [
-            {
-            "lifeEventId":  this.getIdEn,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-       
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 1
-              },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
-            }
-          ]
+          "lifeEventId":  this.getIdEn,
+          "contentCategories": null,   
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,     
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },        
+          "agencyApplications": null
         },
         {
-          "contentCategoryId": null,
-          "contents": [
-            {
-            "lifeEventId":  this.getIdBm,
-            "lifeEventTitle": null,
-            "lifeEventText": null,
-            "lifeEventDescription": null,
-            "lifeEventSort": null,
-            "lifeEventUrl": null,
-            "language": {
-              "languageId": 2
-              },
-            "lifeEventCitizenFlag": false,
-            "lifeEventNonCitizenFlag":false,
-            "lifeEventActiveFlag":false
-            }
-          ]
+          "lifeEventId":  this.getIdBm,
+          "contentCategories": null,
+          "lifeEventTitle": null,
+          "lifeEventText": null,
+          "lifeEventDescription": null,      
+          "lifeEventSort": null,
+          "lifeEventUrl": null,   
+          "lifeEventActiveFlag":false,       
+          "lifeEventCitizenFlag": false,
+          "lifeEventNonCitizenFlag":false,
+          "lifeEventPublishDate": null,
+          "lifeEventEndDate": null,       
+          "language": {
+            "languageId": 1
+          },
+          "agency": {
+            "agencyId": null
+          },
+          "agencyApplications": null
         }
       ];    
 
-      body[0].contents[0].lifeEventTitle = formValues.titleEn;
-      body[1].contents[0].lifeEventTitle = formValues.titleBm;
-      body[0].contents[0].lifeEventText = this.contentTxtEn;
-      body[1].contents[0].lifeEventText = this.contentTxtMy;
-      body[0].contents[0].lifeEventDescription = formValues.descEn;
-      body[1].contents[0].lifeEventDescription = formValues.descBm;
-      body[0].contents[0].lifeEventSort = formValues.seqEng;
-      body[1].contents[0].lifeEventSort = formValues.seqMy;
+      body[0].lifeEventTitle = formValues.titleEn;
+      body[1].lifeEventTitle = formValues.titleBm;
+      body[0].lifeEventText = this.contentTxtEn;
+      body[1].lifeEventText = this.contentTxtMy;
+      body[0].lifeEventDescription = formValues.descEn;
+      body[1].lifeEventDescription = formValues.descBm;
+      body[0].lifeEventSort = formValues.seqEng;
+      body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].contents[0].lifeEventActiveFlag = formValues.active;
+      body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[0].lifeEventActiveFlag = formValues.active;
+      body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contents[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].contents[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].contents[0].lifeEventActiveFlag = formValues.active;
-
-      if(formValues.parentsEn == null || formValues.parentsEn == ""){
-   
-        body[0].contentCategoryId = this.parentValEn;
-        body[1].contentCategoryId = this.parentValBm;
-      }
-
-      else {      
-        this.parentValEn = formValues.parentsEn;
-        this.parentValBm = formValues.parentsBm;
-        body[0].contentCategoryId = this.parentValEn.id[0];
-        body[1].contentCategoryId = this.parentValEn.id[1];       
-      }
+      body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      body[1].lifeEventActiveFlag = formValues.active;
+      body[1].agency.agencyId = this.agencyIdBm;        
       
+
+      body[0].contentCategories = arrCatIDEn;
+      body[1].contentCategories = arrCatIDBm;      
+
+      body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
+
+      body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
+      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
+
+      body[0].agencyApplications = appsEn;
+      body[1].agencyApplications = appsBm;  
 
       console.log("UPDATE NOT DRAFT: ");
       console.log(JSON.stringify(body))
 
       this.loading = true;
       // Update 
-      this.commonservice.update(body, 'life/event').subscribe(
+      this.commonservice.update(body, 'life/event/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
@@ -1099,10 +1185,9 @@ export class LifeeventComponent implements OnInit {
       });
   }
 
+  //list of agency app for selected agency
   getAgencyApp(agencyId) {
-    this.loading = true;
-
-   
+    this.loading = true;   
     return this.commonservice.readPortal('agency/application/agencyid/'+agencyId)
       .subscribe(resMinData => {
         this.agencyAppData = resMinData['agencyApplicationList'];
@@ -1269,9 +1354,44 @@ export class LifeeventComponent implements OnInit {
         this.loading = false;
       });
     } else {
+      this.agencyIdEn = null;
+      this.agencyIdBm = null;
       this.isActiveListEn = false;
       this.isActiveListBm = false;
     }
+  }
+
+  //inthis case== english is 2, malay is 1
+  getDetailsAgency(agenId){
+
+    let detailsAgency;
+    let agenName;
+    let agenCode;
+    let minisName;
+
+    this.commonservice.readPortal('agency/agencyid/app','1','99999', '').subscribe(
+      data => {
+
+      this.commonservice.errorHandling(data, (function(){
+        
+        detailsAgency = data['list'];
+  
+        for(let i=0; i<detailsAgency.length; i++){
+
+          if(agenId == detailsAgency[i].agencyId){
+            agenName = detailsAgency[i].agencyName;
+            agenCode = detailsAgency[i].agencyCode;
+            minisName = detailsAgency[i].agencyMinistry.ministryName;
+          }
+        }
+
+        this.getValue(agenId,agenName,minisName,agenCode, this.languageId);
+        
+      }).bind(this));
+        this.loading = false;
+    },err => {
+      this.loading = false;
+    });
   }
 
   getValue(aId,aName,mName, refCode, langId){
