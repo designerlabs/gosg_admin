@@ -50,8 +50,8 @@ export class ContentComponent implements OnInit {
   public descEn: FormControl;  
   public descBm: FormControl;
   public active: FormControl;
-  public citizenflag:FormControl;
-  public noncitizenflag: FormControl;
+  // public citizenflag:FormControl;
+  // public noncitizenflag: FormControl;
   public seqEng: FormControl;
   public seqMy: FormControl;
   public contentTxtEn: FormControl;
@@ -200,8 +200,8 @@ export class ContentComponent implements OnInit {
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
     this.active = new FormControl();
-    this.citizenflag = new FormControl();
-    this.noncitizenflag = new FormControl();
+    // this.citizenflag = new FormControl();
+    // this.noncitizenflag = new FormControl();
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
 
@@ -224,8 +224,8 @@ export class ContentComponent implements OnInit {
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       active: this.active,
-      citizenflag: this.citizenflag,
-      noncitizenflag: this.noncitizenflag,
+      // citizenflag: this.citizenflag,
+      // noncitizenflag: this.noncitizenflag,
       deleted: this.deleted,
       htmlContentEn: this.htmlContentEn,
       htmlContentMy: this.htmlContentMy,
@@ -239,8 +239,8 @@ export class ContentComponent implements OnInit {
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder(); 
       this.updateForm.get('active').setValue(true)
-      this.updateForm.get('citizenflag').setValue(true)
-      this.updateForm.get('noncitizenflag').setValue(true)
+      // this.updateForm.get('citizenflag').setValue(true)
+      // this.updateForm.get('noncitizenflag').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -492,8 +492,8 @@ export class ContentComponent implements OnInit {
         this.updateForm.get('seqEng').setValue(dataEn.contentSort);
         this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
         this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
-        this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
-        this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
+        // this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
+        // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
 
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
@@ -665,9 +665,7 @@ export class ContentComponent implements OnInit {
           "contentDescription": null,     
           "contentSort": null,
           "contentUrl": null,   
-          "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
+          "contentActiveFlag":false,    
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -686,8 +684,6 @@ export class ContentComponent implements OnInit {
           "contentSort": null,
           "contentUrl": null,   
           "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -709,13 +705,13 @@ export class ContentComponent implements OnInit {
       body[0].contentSort = formValues.seqEng;
       body[1].contentSort = formValues.seqMy;
 
-      body[0].contentCitizenFlag = formValues.citizenflag;
-      body[0].contentNonCitizenFlag = formValues.noncitizenflag;
+      // body[0].contentCitizenFlag = formValues.citizenflag;
+      // body[0].contentNonCitizenFlag = formValues.noncitizenflag;
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contentCitizenFlag = formValues.citizenflag;
-      body[1].contentNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].contentCitizenFlag = formValues.citizenflag;
+      // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
@@ -763,9 +759,7 @@ export class ContentComponent implements OnInit {
           "contentDescription": null,     
           "contentSort": null,
           "contentUrl": null,   
-          "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
+          "contentActiveFlag":false,   
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -784,9 +778,7 @@ export class ContentComponent implements OnInit {
           "contentDescription": null,      
           "contentSort": null,
           "contentUrl": null,   
-          "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
+          "contentActiveFlag":false,     
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -808,13 +800,13 @@ export class ContentComponent implements OnInit {
       body[0].contentSort = formValues.seqEng;
       body[1].contentSort = formValues.seqMy;
 
-      body[0].contentCitizenFlag = formValues.citizenflag;
-      body[0].contentCitizenFlag = formValues.noncitizenflag;
+      // body[0].contentCitizenFlag = formValues.citizenflag;
+      // body[0].contentCitizenFlag = formValues.noncitizenflag;
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contentCitizenFlag = formValues.citizenflag;
-      body[1].contentNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].contentCitizenFlag = formValues.citizenflag;
+      // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
@@ -906,9 +898,7 @@ export class ContentComponent implements OnInit {
           "contentDescription": null,     
           "contentSort": null,
           "contentUrl": null,   
-          "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
+          "contentActiveFlag":false,    
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -926,9 +916,7 @@ export class ContentComponent implements OnInit {
           "contentDescription": null,      
           "contentSort": null,
           "contentUrl": null,   
-          "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
+          "contentActiveFlag":false,     
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -950,13 +938,13 @@ export class ContentComponent implements OnInit {
       body[0].contentSort = formValues.seqEng;
       body[1].contentSort = formValues.seqMy;
 
-      body[0].contentCitizenFlag = formValues.citizenflag;
-      body[0].contentNonCitizenFlag = formValues.noncitizenflag;
+      // body[0].contentCitizenFlag = formValues.citizenflag;
+      // body[0].contentNonCitizenFlag = formValues.noncitizenflag;
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contentCitizenFlag = formValues.citizenflag;
-      body[1].contentNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].contentCitizenFlag = formValues.citizenflag;
+      // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
@@ -1004,9 +992,7 @@ export class ContentComponent implements OnInit {
           "contentDescription": null,     
           "contentSort": null,
           "contentUrl": null,   
-          "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
+          "contentActiveFlag":false,      
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -1025,9 +1011,7 @@ export class ContentComponent implements OnInit {
           "contentDescription": null,      
           "contentSort": null,
           "contentUrl": null,   
-          "contentActiveFlag":false,       
-          "contentCitizenFlag": false,
-          "contentNonCitizenFlag":false,
+          "contentActiveFlag":false,     
           "contentPublishDate": null,
           "contentEndDate": null,       
           "language": {
@@ -1049,13 +1033,13 @@ export class ContentComponent implements OnInit {
       body[0].contentSort = formValues.seqEng;
       body[1].contentSort = formValues.seqMy;
 
-      body[0].contentCitizenFlag = formValues.citizenflag;
-      body[0].contentNonCitizenFlag = formValues.noncitizenflag;
+      // body[0].contentCitizenFlag = formValues.citizenflag;
+      // body[0].contentNonCitizenFlag = formValues.noncitizenflag;
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].contentCitizenFlag = formValues.citizenflag;
-      body[1].contentNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].contentCitizenFlag = formValues.citizenflag;
+      // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
