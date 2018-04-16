@@ -84,8 +84,6 @@ import { EventcalendarComponent } from './eventcalendar/eventcalendar.component'
 import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
 import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
 import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
-import { PublishertblComponent } from './publisher/publishertbl/publishertbl.component';
-import { PublisherComponent } from './publisher/publisher.component';
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
 import { LifeeventComponent } from './lifeevent/lifeevent.component';
 
@@ -102,6 +100,8 @@ import { SitemapComponent } from './sitemap/sitemap.component';
 import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
 import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpublishertbl/lifeeventpublishertbl.component';
 import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
+import { ContentpublishertblComponent } from './contentpublisher/contentpublishertbl/contentpublishertbl.component';
+import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -265,8 +265,9 @@ export const appRoutes: Routes = [
 {path: 'content/:id', component: ContentComponent},
 {path: 'content/add', component: ContentComponent},
 
-{path: 'publisher', component: PublishertblComponent},
-{path: 'publisher/:id', component: PublisherComponent},
+{path: 'publisher/content', component: ContentpublishertblComponent},
+{path: 'publisher/content/:id', component: ContentpublisherComponent},
+
 
 {path: '**', component: ErrorComponent}, // put at the last row
 // All Category
