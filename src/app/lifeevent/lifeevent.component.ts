@@ -690,7 +690,7 @@ export class LifeeventComponent implements OnInit {
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
-            "languageId": 1
+            "languageId": 2
           },
           "agency": {
             "agencyId": null
@@ -789,7 +789,7 @@ export class LifeeventComponent implements OnInit {
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
-            "languageId": 1
+            "languageId": 2
           },
           "agency": {
             "agencyId": null
@@ -931,7 +931,7 @@ export class LifeeventComponent implements OnInit {
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
-            "languageId": 1
+            "languageId": 2
           },
           "agency": {
             "agencyId": null
@@ -1030,7 +1030,7 @@ export class LifeeventComponent implements OnInit {
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
-            "languageId": 1
+            "languageId": 2
           },
           "agency": {
             "agencyId": null

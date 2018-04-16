@@ -16,12 +16,13 @@ import { DialogsService } from '../../dialogs/dialogs.service';
   styleUrls: ['./contenttbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class ContenttblComponent implements OnInit {
 
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['num','name', 'url', 'default_status', 'status', 'action'];
+  displayedColumns = ['num','name', 'url', 'category','default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -34,6 +35,7 @@ export class ContenttblComponent implements OnInit {
 
   itemEn: any;
   itemBm: any;
+  public nameStatus: FormControl;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
   public keys: FormControl;
@@ -55,6 +57,11 @@ export class ContenttblComponent implements OnInit {
   valkey = false;
   recordTable = null;
   showNoData = false;
+
+  //nameStatus=1;
+  keywordVal="";
+
+  editor = {treeVal: '' };
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -62,9 +69,11 @@ export class ContenttblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(e) {
-    console.log(e);
+
+    this.nameStatus = this.updateForm.get('nameStatus').value;
+ 
     if(e){
-      this.getFilterList(this.pageCount, this.pageSize, e);
+      this.getFilterList(this.pageCount, this.pageSize, e, this.nameStatus);
     }
     else{
       this.getCategoryCode();
@@ -73,7 +82,21 @@ export class ContenttblComponent implements OnInit {
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
+    this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryCode();
+  }
+
+  filterStatus(e){
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal != ""){
+      this.getFilterList(this.pageCount, this.pageSize, this.keywordVal, e.value);
+    }
+
+    else{
+      this.getCategoryCode();
+    }
   }
 
   constructor(private http: HttpClient, 
@@ -82,7 +105,8 @@ export class ContenttblComponent implements OnInit {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
-    private dialogsService: DialogsService) {
+    private dialogsService: DialogsService,
+    public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -113,64 +137,86 @@ export class ContenttblComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.valkey = false;
-
+    //this.getRecordList(this.pageCount, this.pageSize);
+    
     this.getCategoryCode();
-    this.commonservice.getModuleId();    
-    this.parentsBm = new FormControl();    
-    this.keys = new FormControl();   
+    this.commonservice.getModuleId();
+    this.parentsEn = new FormControl();
+    this.parentsBm = new FormControl({disabled: true});
+    this.keys = new FormControl();
+    this.nameStatus = new FormControl();
     this.kataKunci = new FormControl({value: '', disabled: true});
-    this.parentsEn = new FormControl({disabled: false});  
 
-   
     this.updateForm = new FormGroup({   
       
+      nameStatus: this.nameStatus,
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       keys: this.keys,
       kataKunci: this.kataKunci
     });
-    
 
+    this.updateForm.get('nameStatus').setValue(1);   
     this.getCategory();
+    this.valkey = false;
+
   }
 
   getCategoryCode(){ 
+
     this.loading = true;
     return this.commonservice.readProtected('content/dropdown')
-    // return this.http.get('http://localhost:3000/content_json')
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
-          this.leCategoryCode = resCatData['list'];
-          // this.leCategoryCode = resCatData[0]['list'];          
-
-          let countFlag = false;
+          this.leCategoryCode = resCatData['list'];          
+                    
+          let setParentEn;
 
           for(let i=0; i<this.leCategoryCode.length; i++){     
 
-            if(countFlag == false && this.leCategoryCode[i].list[0].articleCount > 0){
-              countFlag = true;
-              this.countArticle = this.leCategoryCode[i].list[0].articleCount;
-              this.catCode = this.leCategoryCode[i].refCode;
+            if(this.leCategoryCode[i].refCode == this.commonservice.contentCategoryCode){
+              
+              // this.countArticle = this.leCategoryCode[i].list[0].articleCount;
+              // this.catCode = this.leCategoryCode[i].refCode;
 
               if(this.languageId == 1){
                 this.catName = this.leCategoryCode[i].list[0].categoryName;
-                this.filterPlaceholder = "Type your filter here..."
+                this.filterPlaceholder = this.commonservice.showFilterEn;
+
+                setParentEn = {
+                  "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],
+                  "text":this.leCategoryCode[i].list[0].categoryName,
+                  "value": this.leCategoryCode[i].list[0].categoryName,
+                  "refCode":this.leCategoryCode[i].refCode 
+                };
               }
 
               else{
                 this.catName = this.leCategoryCode[i].list[1].categoryName;
-                this.filterPlaceholder = "Taip tapisan di sini..."
+                this.filterPlaceholder = this.commonservice.showFilterBm;
+
+                setParentEn = {
+                  "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],
+                  "text":this.leCategoryCode[i].list[0].categoryName,
+                  "value": this.leCategoryCode[i].list[1].categoryName,
+                  "refCode":this.leCategoryCode[i].refCode 
+                };
               }
             }
+          }        
+          
+          if (this.catCode == undefined || this.catCode == ""){
+            
+            this.catCode = this.commonservice.contentCategoryCode;
+            this.categoryPlaceholder = this.catName;
           }
 
+       
+          this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
 
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
 
-          console.log(this.categoryPlaceholder);
         }).bind(this));
         this.loading = false;
       },
@@ -182,62 +228,95 @@ export class ContenttblComponent implements OnInit {
   }
 
   getRecordList(page, size, code) {  
-
-    this.recordList = null;
-
-    this.loading = true;
-    this.commonservice.readProtected('life/event/'+code, page, size).subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
   
-          this.recordList = data;
-          console.log("data");
-          console.log(data);
+    this.recordList = null;
+    let nameStatus = this.updateForm.get('nameStatus').value;
+    let generalUrl = ""
 
-          if(this.recordList.list.length > 0){  
+    if(nameStatus == 1){
+      generalUrl = 'content/creator/state/all/';
+    }
+
+    else if(nameStatus == 2){
+      generalUrl = 'content/creator/state/draft/';
+    }
+
+    else if(nameStatus == 3){
+      generalUrl = 'content/creator/state/pending/';
+    }
+
+    else if(nameStatus == 4){
+      generalUrl = 'content/creator/state/approved/';
+    }
+    
+    if(code != undefined){
+      this.loading = true;
+      this.commonservice.readProtected(generalUrl+code, page, size).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+    
+            this.recordList = data;
           
-            this.dataSource.data = this.recordList.list;
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            if(this.recordList.list.length > 0){  
+              this.dataSource.data = this.recordList.list;
+              this.seqPageNum = this.recordList.pageNumber;
+              this.seqPageSize = this.recordList.pageSize;
+              this.recordTable = this.recordList;
+              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-            this.showNoData = false;
-          }
+              this.showNoData = false;
+            }
 
-          else{
-            this.dataSource.data = []; 
+            else{
+              this.dataSource.data = []; 
 
-            this.showNoData = true;
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-          }
-        }).bind(this)); 
-        this.loading = false;
-      },
-      error => {
-  
-        this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-      });
+              this.showNoData = true;
+              this.seqPageNum = this.recordList.pageNumber;
+              this.seqPageSize = this.recordList.pageSize;
+              this.recordTable = this.recordList;
+              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            }
+          }).bind(this)); 
+          this.loading = false;
+        },
+        error => {
+    
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          console.log(error);
+        });
+    }
 
   }
 
-  getFilterList(page, size, e) {  
+  getFilterList(page, size, e, valStatus) {  
 
     this.recordList = null;
+    let generalUrl = "";
+
+    if(valStatus == 1){
+      generalUrl = 'content/creator/search/state/all';
+    }
+
+    else if(valStatus == 2){
+      generalUrl = 'content/creator/search/state/draft';
+    }
+
+    else if(valStatus == 3){
+      generalUrl = 'content/creator/search/state/pending';
+    }
+
+    else if(valStatus == 4){
+      generalUrl = 'content/creator/search/state/approved';
+    }
 
     this.loading = true;
-    this.commonservice.readProtected('life/event/search/643', page, size,e).subscribe(
+    this.commonservice.readProtected(generalUrl, page, size,e).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
           if(this.recordList.list.length > 0){  
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -267,14 +346,6 @@ export class ContenttblComponent implements OnInit {
         console.log(error);
       });
 
-  }
-
-  searchCode(formValues: any){
-
-    console.log("OOOOOOOO");
-    this.catCode = formValues.parentsEn.refCode;
-    this.getRecordList(this.pageCount, this.pageSize, this.catCode);
-    console.log(this.catCode);
   }
 
   paginatorL(page) {
@@ -297,16 +368,14 @@ export class ContenttblComponent implements OnInit {
   }
 
   updateRow(row) {
-    console.log(row);
     this.router.navigate(['content/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(id) {
 
-    console.log(id);
     this.loading = true;
-    this.commonservice.delete(id,'life/event/delete/').subscribe(
+    this.commonservice.delete(id,'content/creator/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -340,17 +409,11 @@ export class ContenttblComponent implements OnInit {
 
     this.loading = true;
     return this.commonservice.readProtected('content/dropdown')
-    // return this.http.get('http://localhost:3000/content_json')
      .subscribe(data => {
-  
-      console.log("GET CATEGORY: ");
-      console.log(data);
-        
+          
       this.commonservice.errorHandling(data, (function(){
 
-          this.categoryData = data["list"];
-          // this.categoryData = data[0]["list"];   
-          console.log(this.categoryData);    
+          this.categoryData = data["list"];   
           let arrCatEn = [];      
           let arrCatBm = [];     
 
@@ -389,7 +452,6 @@ export class ContenttblComponent implements OnInit {
           }
           
           this.itemEn = this.treeEn;
-          console.log(this.itemEn);
           
         }).bind(this));
         this.loading = false;
@@ -441,21 +503,29 @@ export class ContenttblComponent implements OnInit {
 
   keysFilter(){
 
-    let keysVal = this.updateForm.get('keys');
-    this.updateForm.get('kataKunci').setValue('');
+    this.catCode = undefined;
+    this.getCategoryCode();
 
+    let keysVal = this.updateForm.get('keys');    
+    this.updateForm.get('kataKunci').setValue('');
+ 
     if(keysVal.value == true){
-      this.valkey = true;
+      
+      this.valkey = true;      
       this.kataKunci.enable();
       this.parentsEn.disable();
     }
 
     else{
-      this.valkey = false;
+      this.valkey = false;      
       this.kataKunci.disable();
       this.parentsEn.enable();
-      this.getCategoryCode();
     }    
   }
 
+  onChange(ele){    
+
+    this.catCode = ele.refCode;
+    this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
+  }
 }

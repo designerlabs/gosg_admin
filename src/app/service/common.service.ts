@@ -33,6 +33,7 @@ export class CommonService {
   galleryContentCategoryIdBm = 10;
 
   lifeEventCategoryCode = 643;
+  contentCategoryCode = 675;
  
   isAdmin: boolean;
   getDataT: any;

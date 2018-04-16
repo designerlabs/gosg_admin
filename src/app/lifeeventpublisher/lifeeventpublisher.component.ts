@@ -735,7 +735,7 @@ export class LifeeventpublisherComponent implements OnInit {
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
-            "languageId": 1
+            "languageId": 2
           },
           "agency": {
             "agencyId": null
@@ -878,7 +878,7 @@ export class LifeeventpublisherComponent implements OnInit {
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
-            "languageId": 1
+            "languageId": 2
           },
           "agency": {
             "agencyId": null
@@ -1388,7 +1388,7 @@ export class LifeeventpublisherComponent implements OnInit {
     
     this.isActive = true;
     this.loading = true;
-    
+
     setTimeout(()=>{      
       this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword).subscribe(
         data => {
