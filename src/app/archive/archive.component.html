@@ -1,3 +1,181 @@
-<p>
-  archive works!
-</p>
+<!-- VIEW: ADD/EDIT SLIDER -->
+<div class="container right-content">
+  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+      <h3>{{ pageMode }} {{ 'archive.header' | translate }}</h3>
+    </div>
+
+    <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+        <button type="button" mat-fab color="accent" (click)="back()">
+          <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="!commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+  </div>
+
+  <!-- EN -->
+  <div class="example-container mat-elevation-z8 col-md-12" *ngIf="commonservice.isRead || commonservice.isUpdate">
+    <div class="row">
+      <div class="bg-form-header col-md-6">
+        <label class="">English</label>
+      </div>
+      <div class="bg-form-header col-md-6">
+        <label class="">Bahasa Malaysia</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">&nbsp;</div>
+      <div class="col-md-6">
+        <label>Title</label>
+      </div>
+      <div class="col-md-6">
+        <label>Tajuk</label>
+      </div>
+      <div class="col-md-6">
+        <span>{{ titleEn }}</span>
+      </div>
+      <div class="col-md-6">
+        <span>{{ titleBm }}</span>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label>Content Description</label>
+      </div>
+      <div class="col-md-6">
+        <label>Keterangan Kandungan</label>
+      </div>
+      <div class="col-md-6">
+        <span>{{ descEn }}</span>
+      </div>
+      <div class="col-md-6">
+        <span>{{ descBm }}</span>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label>Content Text</label>
+      </div>
+      <div class="col-md-6">
+        <label>Teks Kandungan</label>
+      </div>
+      <div class="col-md-6">
+        <span>{{ textEn }}</span>
+      </div>
+      <div class="col-md-6">
+        <span>{{ textBm }}</span>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label>Content Keyword</label>
+      </div>
+      <div class="col-md-6">
+        <label>Kata Kunci Kandungan</label>
+      </div>
+      <div class="col-md-6">
+        <span>{{ keywordEn }}</span>
+      </div>
+      <div class="col-md-6">
+        <span>{{ keywordBm }}</span>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label>Content URL</label>
+      </div>
+      <div class="col-md-6">
+        <label>URL Kandungan</label>
+      </div>
+      <div class="col-md-6">
+        <span style="word-wrap: normal">{{ urlEn }}</span>
+      </div>
+      <div class="col-md-6">
+        <span style="word-wrap: normal">{{ urlBm }}</span>
+      </div>
+      <div class="bg-form-header col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="row paddingTop-20">
+      <div *ngIf="pdt" class="form-group col-md-6">
+        <label class="textBold">{{ 'archive.component.publishdate' | translate }}</label>
+        <div>{{pdt | date:'dd/MM/yyyy hh:mm a' }}</div>
+      </div>
+      <div *ngIf="edt" class="form-group col-md-6">
+        <label class="textBold">{{ 'archive.component.enddate' | translate }}</label>
+        <div>{{edt | date:'dd/MM/yyyy hh:mm a' }}</div>
+      </div>
+      <div *ngIf="cdt" class="form-group col-md-6">
+        <label class="textBold">{{ 'archive.component.createddate' | translate }}</label>
+        <div>{{cdt | date:'dd/MM/yyyy hh:mm a' }}</div>
+      </div>
+      <div *ngIf="mdt" class="form-group col-md-6">
+        <label class="textBold">{{ 'archive.component.modifieddate' | translate }}</label>
+        <div>{{mdt | date:'dd/MM/yyyy hh:mm a' }}</div>
+      </div>
+    </div>
+    <div *ngIf="image" class="row">
+      <div class="col-md-12">
+        <label class="">{{ 'calendar.component.image' | translate }}</label>
+      </div>
+      <div class="col-md-6" style="border: 0px solid #000">
+        <div>
+          <img [src]="appConfig.externalMediaURL +'/images/'+ image" style="width: 50%">
+        </div>
+      </div>
+      <div class="col-md-12"> &nbsp;</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">&nbsp;</div>
+      <div class="col-md-12">
+        <label>{{ 'archive.component.sort' | translate }}</label>
+      </div>
+      <div class="col-md-12">
+        <span>{{ sort }}</span>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-checkbox [checked]="forCitizen?'true':'false'"></mat-checkbox>
+        <span class="">&nbsp;{{ 'archive.component.lifeEventCitizen' | translate }}</span>
+      </div>
+      <div class="col-md-6">
+        <mat-checkbox [checked]="forNonCitizen?'true':'false'"></mat-checkbox>
+        <span class="">&nbsp;{{ 'archive.component.lifeEventNonCitizen' | translate }}</span>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
+    <div class="col-md-12">&nbsp;</div>
+    <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+        (click)="revertItem(code)">
+      <i class="fa fa-undo"></i>&nbsp;{{ 'common.buttons.revert' | translate }}</button>
+      <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="btn btn-md btn-warning pull-right"
+        (click)="deleteModal.show()">
+        <i [ngClass]="commonservice.icon.trash"></i>&nbsp;{{ 'common.buttons.delete' | translate }}</button>
+      <div class="col-md-12">&nbsp;</div>
+  </div>
+  <app-confirm-dialog #deleteModal [title]="'common.icon.warn'" [content]="'common.msg.delete'" [state]="'bg_header bg_warn_header'"
+    [isReset]="'true'" (resetMethod)="deleteItem(code)">
+  </app-confirm-dialog>

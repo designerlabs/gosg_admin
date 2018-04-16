@@ -280,8 +280,8 @@ export class EventcalendarComponent implements OnInit {
         let dataBm = this.eventData['list'][1];
 
       // populate data
-      this.updateForm.get('agencyEn').setValue(dataEn.agency.agencyName);
-      this.updateForm.get('agencyBm').setValue(dataBm.agency.agencyName);
+      this.updateForm.get('agencyEn').setValue(dataEn.agency?dataEn.agency.agencyName:'');
+      this.updateForm.get('agencyBm').setValue(dataBm.agency?dataBm.agency.agencyName:'');
       this.updateForm.get('nameEn').setValue(dataEn.eventName);
       this.updateForm.get('descEn').setValue(dataEn.eventDescription);
       this.updateForm.get('nameBm').setValue(dataBm.eventName);
@@ -298,8 +298,8 @@ export class EventcalendarComponent implements OnInit {
       this.updateForm.get('orgrPhone').setValue(dataBm.organizerPhone);
       this.updateForm.get('start').setValue(new Date(dataBm.eventStart).toISOString());
       this.updateForm.get('end').setValue(new Date(dataBm.eventEnd).toISOString());
-      this.agencyIdEn = dataEn.agency.agencyId;
-      this.agencyIdBm = dataBm.agency.agencyId;
+      this.agencyIdEn = dataEn.agency?dataEn.agency.agencyId:null;
+      this.agencyIdBm = dataBm.agency?dataBm.agency.agencyId:null;
 
       if(dataBm.image) {
         this.selectedFile = dataBm.image.mediaFile;
@@ -390,6 +390,8 @@ export class EventcalendarComponent implements OnInit {
 
   getSearchData(keyword, langId, count, page){
 
+    this.searchAgencyResultEn = []
+    this.searchAgencyResultBm = []
     let selLangField;
 
     if(langId == 1) {
@@ -402,8 +404,8 @@ export class EventcalendarComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      console.log(keyword)
-      console.log(keyword.length)
+      // console.log(keyword)
+      // console.log(keyword.length)
       this.isActive = true;
       this.loading = true;
       
@@ -510,21 +512,29 @@ export class EventcalendarComponent implements OnInit {
   checkReqValues() {
 
     let nameEn = "nameEn";
-    let descEn = "descEn";
     let nameBm = "nameBm";
+    let agencyEn = "agencyEn";
+    let descEn = "descEn";
+    let agencyBm = "agencyBm";
     let descBm = "descBm";
     let location = "location";
+    let country = "location";
     let city = "city";
+    let zipcode = "zipcode";
     let start = "start";
     let end = "end";
-    let image = "image";
+    // let image = "image";
 
     let reqVal: any = [
                         nameEn, 
-                        descEn, 
                         nameBm, 
+                        agencyEn, 
+                        descEn, 
+                        agencyBm, 
                         descBm, 
+                        country, 
                         location, 
+                        zipcode, 
                         city, 
                         start, 
                         end

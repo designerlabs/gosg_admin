@@ -232,6 +232,7 @@
       "home":"Home",
       "active": "Active",
       "darft": "Save Draft",
+      "revert": "Re-use",
       "approve": "Approve"
     },
     "err":{
@@ -1046,5 +1047,27 @@
       
     },
     "header2": "Publisher"
+  },
+  "archive": {
+    "header": "Archive Management",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)"
+    },
+    "component":{
+      "header": "Archive",
+      "desc": "Description",
+      "url": "Content URL",
+      "keyword": "Keyword",
+      "sort": "Content Sort",
+      "publishdate": "Publish Date",
+      "enddate": "End Date",
+      "createddate": "Created Date",
+      "modifieddate": "Modified Date",
+      "lifeEventCitizen": "Life Event for Citizen",
+      "lifeEventNonCitizen": "Life Event for Non-Citizen",
+      "image": "Image",
+      "imageerr": "Please select a file"
+    }
   }
 }

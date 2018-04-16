@@ -232,6 +232,7 @@
       "home":"Laman Utama",
       "active": "Aktif",
       "darft": "Simpan Draf",
+      "revert": "Guna Semula",
       "approve": "Lulus"
     },
     "err":{
@@ -1046,5 +1047,30 @@
       
     },
     "header2": "Percetakan"
+  },
+  "archive": {
+    "header": "Pengurusan Arkib",
+    "tableHeader":{
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)"
+    },
+    "component":{
+      "header": "Arkib",
+      "desc": "Keterangan",
+      "url": "Pautan Kandungan",
+      "keyword": "Kata Kunci",
+      "sort": "Susunan Kandungan",
+      "publishdate": "Tarikh Cetakan",
+      "enddate": "Tarikh Tamat",
+      "createddate": "Tarikh Cipta",
+      "modifieddate": "Tarikh Diubah",
+      "lifeEventCitizen": "Peristiwa Kehidupan untuk Warganegara",
+      "lifeEventNonCitizen": "Peristiwa Kehidupan untuk Warga Asing",
+      "image": "Gambar",
+      "imageerr": "Sila pilih gambar"
+    },
+    "button": {
+      "revert": "Revert"
+    }
   }
 }

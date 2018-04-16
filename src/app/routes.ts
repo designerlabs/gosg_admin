@@ -100,6 +100,8 @@ import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.c
 import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
 import { SitemapComponent } from './sitemap/sitemap.component';
 import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
+import { ArchivetblComponent } from './archive/archivetbl/archivetbl.component';
+import { ArchiveComponent } from './archive/archive.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -152,6 +154,10 @@ export const appRoutes: Routes = [
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},
+
+// ARCHIVE
+{path: 'archive', component: ArchivetblComponent},
+{path: 'archive/:id', component: ArchiveComponent},
 
 // Poll: N
 {path: 'poll/questions', component: PollquestiontblComponent},
