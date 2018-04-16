@@ -98,13 +98,13 @@ export class LifeeventpublisherComponent implements OnInit {
   isActiveListEn: boolean;
   isActiveListBm: boolean;
   isActive: boolean;
-  searchAgencyResultEn: Object;
-  searchAgencyResultBm: Object;
+  searchAgencyResultEn: string[];
+  searchAgencyResultBm: string[];
   agencyIdEn:any;
   agencyIdBm:any;
 
   isActiveList: boolean;
-  searchAgencyResult: Object;
+  searchAgencyResult: string[];
   agencyIdforApp: any;
 
   categoryCode: any;
@@ -1190,9 +1190,61 @@ export class LifeeventpublisherComponent implements OnInit {
     }
   }
 
-  getSearchData(keyword, langId){
+  onScroll(event, lngId){
+
+    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
+      // console.log(this.searchAgencyResultEn.length)
+      console.log(event)
+
+      let keywordVal;
+      
+      if(lngId == 1) {
+        keywordVal = this.updateForm.get("agencyEn").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
+        console.log(this.searchAgencyResultEn)
+      } else if(lngId == 2) {
+        keywordVal = this.updateForm.get("agencyBm").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
+        console.log(this.searchAgencyResultBm)
+      }
+    }
+  }
+
+  onScrollApp(event){
+
+    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
+      // console.log(this.searchAgencyResultEn.length)
+      console.log(event)
+
+      let keywordVal;
+   
+        keywordVal = this.updateForm.get("agencyforApp").value;
+        this.getSearchDataApp(keywordVal, 1, this.searchAgencyResult.length+10);
+    }
+  }
+
+  resetSearch() {
+    this.updateForm.get('agencyEn').setValue('');
+    this.updateForm.get('agencyBm').setValue('');
+    this.isActiveListEn = false;
+    this.isActiveListBm = false;
+    this.agencyIdEn = null;
+    this.agencyIdBm = null;
+    // this.getModuleData(this.pageCount, this.pageSize);
+  }
+
+  resetSearchApp() {
+    this.updateForm.get('agencyforApp').setValue('');
+    this.isActiveList = false;
+  }
+
+  getSearchData(keyword, langId, count, page){
 
     let selLangField;
+    this.searchAgencyResultEn = [];
+    this.searchAgencyResultBm = [];
       
     if(langId == 1) {
       selLangField = "agencyBm";
@@ -1203,11 +1255,11 @@ export class LifeeventpublisherComponent implements OnInit {
     }
     this.updateForm.get(selLangField).setValue("");
 
-    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      
+    //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+    setTimeout(()=>{  
       this.isActive = true;
       this.loading = true;
-      this.commonservice.readPortal('agency/language/'+langId,'','', keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1228,12 +1280,13 @@ export class LifeeventpublisherComponent implements OnInit {
       },err => {
         this.loading = false;
       });
-    } else {
-      this.agencyIdEn = null;
-      this.agencyIdBm = null;
-      this.isActiveListEn = false;
-      this.isActiveListBm = false;
-    }
+    }, 2000);  
+    // else {
+    //   this.agencyIdEn = null;
+    //   this.agencyIdBm = null;
+    //   this.isActiveListEn = false;
+    //   this.isActiveListBm = false;
+    // }
   }
 
   //inthis case== english is 2, malay is 1
@@ -1326,15 +1379,18 @@ export class LifeeventpublisherComponent implements OnInit {
     });
   }
 
-  getSearchDataApp(keyword){
+  getSearchDataApp(keyword,count, page){
     
+    this.searchAgencyResult = [];
     //this.updateForm.get('agencyforApp').setValue("");
 
-    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-   
-      this.isActive = true;
-      this.loading = true;
-      this.commonservice.readPortal('agency/language/'+this.languageId,'','', keyword).subscribe(
+    //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+    
+    this.isActive = true;
+    this.loading = true;
+    
+    setTimeout(()=>{      
+      this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1353,9 +1409,10 @@ export class LifeeventpublisherComponent implements OnInit {
       },err => {
         this.loading = false;
       });
-    } else {
-      this.isActiveList = false;
-    }
+    }, 2000);  
+    // else {
+    //   this.isActiveList = false;
+    // }
   }
 
   getValueApp(aId,aName,mName, refCode){

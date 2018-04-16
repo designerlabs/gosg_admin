@@ -1,4 +1,5 @@
 <div class="container-fluid">
+  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
@@ -144,12 +145,12 @@
             <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" required />
+              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" />
               <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #publish></owl-date-time>
-              <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+              <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
                 {{ 'gallerytbl.errorStartDate' | translate }}
-              </mat-error>
+              </mat-error> -->
             </mat-form-field>
         </div>
 
@@ -157,12 +158,12 @@
             <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" required />
+              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" />
               <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #endD></owl-date-time>
-              <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
+              <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
                 {{ 'gallerytbl.errorEndDate' | translate }}
-              </mat-error>
+              </mat-error> -->
             </mat-form-field>
         </div>
       </div>
@@ -190,10 +191,15 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (keyup)="getSearchData(agencyEn.value, 1)">
+            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)"
+            (keyup)="getSearchData(agencyEn.value, 1)">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
           </mat-form-field>
 
-          <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+          <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
+          [ngClass]="{'listParent':searchAgencyResultEn.length < 10,'listParent-w-scroll':searchAgencyResultEn.length >= 10}" (scroll)="onScroll($event,1)">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of searchAgencyResultEn">
                 <a class="list-link" (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.agencyName}}</a>
@@ -204,10 +210,15 @@
 
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (keyup)="getSearchData(agencyBm.value, 2)">
+            <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)"
+            (keyup)="getSearchData(agencyBm.value, 2)">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
           </mat-form-field>
 
-          <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+          <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
+          [ngClass]="{'listParent':searchAgencyResultBm.length < 10,'listParent-w-scroll':searchAgencyResultBm.length >= 10}" (scroll)="onScroll($event,2)">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of searchAgencyResultBm">
                 <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</a>
@@ -275,10 +286,15 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp (keyup)="getSearchDataApp(agencyforApp.value)">
+            <input matInput tabindex="5" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp 
+            (click)="getSearchDataApp(agencyforApp.value)" (keyup)="getSearchDataApp(agencyforApp.value)">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyforApp.value=''; resetSearchApp()">
+              <mat-icon>close</mat-icon>
+            </button>
           </mat-form-field>
 
-          <div *ngIf="isActiveList" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+          <div *ngIf="isActiveList" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
+          [ngClass]="{'listParent':searchAgencyResult.length < 10,'listParent-w-scroll':searchAgencyResult.length >= 10}" (scroll)="onScrollApp($event)">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of searchAgencyResult">
                 <a class="list-link" (click)="getValueApp(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode)">{{data?.agencyName}}</a>
@@ -355,7 +371,7 @@
           <ng-container matColumnDef="action">
             <mat-header-cell class="text-align-Left statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
             <mat-cell class="text-align-Left statusColumn" *matCellDef="let element">
-              <button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(element[0].agencyCode)">
+              <button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(element[0].agencyCode)" [disabled]="disableApprove">
                 <i [ngClass]="commonservice.icon.trash"></i></button>
             </mat-cell>
           </ng-container>     
