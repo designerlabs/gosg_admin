@@ -39,6 +39,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
   updateForm: FormGroup;
   
+  approve: FormControl
   public agencyApp: FormControl;  
   public agencyforApp: FormControl;  
   public agencyEn: FormControl;  
@@ -106,7 +107,13 @@ export class LifeeventpublisherComponent implements OnInit {
   searchAgencyResult: Object;
   agencyIdforApp: any;
 
-  sendForApporval: any;
+  categoryCode: any;
+  appPublisher = false;
+  disableApprove: any;
+
+  userDetails: any;
+  fullName: any;
+  email: any;
 
   editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
@@ -155,7 +162,7 @@ export class LifeeventpublisherComponent implements OnInit {
               this.languageId = val.languageId;
               this.changeLanguageAddEdit();
               this.changePlaceHolder();
-                    this.getData();
+              //this.getData();
             }
           }.bind(this));
         })
@@ -182,8 +189,8 @@ export class LifeeventpublisherComponent implements OnInit {
     
     this.publish = new FormControl()
     this.endD = new FormControl
-    this.parseEnBtn = false;
-    this.parseMyBtn = false;
+    // this.parseEnBtn = false;
+    // this.parseMyBtn = false;
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl();
     this.deleted = new FormControl();
@@ -205,9 +212,11 @@ export class LifeeventpublisherComponent implements OnInit {
     this.noncitizenflag = new FormControl();
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
+    this.approve = new FormControl();
 
     this.updateForm = new FormGroup({   
 
+      approve: this.approve,
       endD: this.endD,
       publish: this.publish,
       agencyApp: this.agencyApp,
@@ -329,19 +338,18 @@ export class LifeeventpublisherComponent implements OnInit {
 
   onChange(ele){    
 
-    this.urlEdit = this.router.url.split('/')[3];
-
-    if(this.urlEdit === "add" && ele == ""){
-      this.parentFlag = false;
-    }
-
-    else if(this.urlEdit === "add" && ele != ""){
+    if(ele.length > 0 ){
       this.parentFlag = true;
     }
 
     else{
-      this.parentFlag = true;
+      this.parentFlag = false;
     }
+
+    console.log("ELEMMM");
+    console.log(this.parentFlag);
+    console.log(ele.length);
+    
   }
 
   getMinEventDate(){
@@ -464,6 +472,30 @@ export class LifeeventpublisherComponent implements OnInit {
     return out  
   }
 
+  getUserInfo(id) {
+   
+    console.log(id);
+    this.loading = true;
+    return this.commonservice.readProtected('usermanagement/' + id)
+      .subscribe(resUser => {
+
+        this.commonservice.errorHandling(resUser, (function () {
+          
+            this.userDetails = resUser["user"];
+
+            this.fullName = this.userDetails.fullName;
+            this.email = this.userDetails.email;
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
@@ -473,133 +505,150 @@ export class LifeeventpublisherComponent implements OnInit {
 
       this.commonservice.readProtectedById('content/publisher/', _getRefID)
       .subscribe(data => {
-        this.recordList = data;
 
-        let dataEn = this.recordList['contentDetailList'][0];
-        let dataBm = this.recordList['contentDetailList'][1];
+        this.commonservice.errorHandling(data, (function () {
+          this.recordList = data;
 
-        this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
-        this.updateForm.get('titleBm').setValue(dataBm.contentTitle);   
-        this.updateForm.get('descEn').setValue(dataEn.contentDescription);
-        this.updateForm.get('descBm').setValue(dataBm.contentDescription);  
-        this.updateForm.get('seqEng').setValue(dataEn.contentSort);
-        this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
-        this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
-        this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
-        this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
+          let dataEn = this.recordList['contentDetailList'][0];
+          let dataBm = this.recordList['contentDetailList'][1];
 
-        this.getIdEn = dataEn.contentId;
-        this.getIdBm = dataBm.contentId;
-        this.getRefCode = this.recordList.refCode;
-        this.sendForApporval = dataEn.isSendForApproval;
+          this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
+          this.updateForm.get('titleBm').setValue(dataBm.contentTitle);   
+          this.updateForm.get('descEn').setValue(dataEn.contentDescription);
+          this.updateForm.get('descBm').setValue(dataBm.contentDescription);  
+          this.updateForm.get('seqEng').setValue(dataEn.contentSort);
+          this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
+          this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
+          this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
+          this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
+          this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
 
-        this.checkReqValues();       
-        
-        let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
-        let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
-        let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
-        let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
-        let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
-        let addClassforTable = addClassforSpan.replace('class="table">', '>');
+          this.getIdEn = dataEn.contentId;
+          this.getIdBm = dataBm.contentId;
+          this.getRefCode = this.recordList.refCode;
 
-
-        let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
-        let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
-        let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
-        let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
-        let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
-        let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
-
-        this.rawValEn = addClassforTable;
-        this.rawValBm = addClassforTable_BM;
-
-        //set value at input field
-        this.htmlContentEn.setValue(addClassforTable);
-        this.htmlContentMy.setValue(addClassforTable_BM);
-
-        //set  value after preview
-        this.contentTxtEn = addClassforTable;
-        this.contentTxtMy = addClassforTable_BM;      
-
-        this.parentValEn = dataEn.contentCategories[0].categoryId;
-        this.parentValBm = dataBm.contentCategories[0].categoryId;
-
-        this.parseEnBtn = true;
-        this.parseMyBtn = true;
-
-        //get details agency
-        let getObjKeys = Object.keys(dataEn);
-        let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
-
-        console.log("KEY OBJECT");
-        console.log(valMT.length);
-
-        let detAgenId;
-        let detAgenCode;
-
-        if(valMT.length > 0){
-          if(this.languageId == 2){
-            detAgenId = dataBm.agencyId;
-            detAgenCode = dataBm.agencyCode;
-          }
-          else{
-            detAgenId = dataEn.agencyId;
-            detAgenCode = dataEn.agencyCode;
+          if(dataEn.isApprovedFlag == true){
+            this.appPublisher = false;
+            this.approve.disable();
+            this.parentsEn.disable();
           }
 
-          this.getDetailsAgency(detAgenId, detAgenCode);
-        }
+          this.disableApprove = dataEn.isApprovedFlag;
+          
+          let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
+          let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
+          let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
+          let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
+          let addClassforTable = addClassforSpan.replace('class="table">', '>');
 
-        //get detail app agency
-        if(dataEn.agencyApplications.length > 0){
-          for(let i=0; i<dataEn.agencyApplications.length; i++){
-            this.getAgencyAppEnBm(dataEn.agencyApplications[i].agencyApplicationCode)
-          }
-        }
 
-        let setParentEn = [];
+          let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
+          let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
+          let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
+          let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
+          let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
 
-        //get array of categoryId
-        
+          this.rawValEn = addClassforTable;
+          this.rawValBm = addClassforTable_BM;
 
-        console.log("GET CATEGORY TREE");
-        console.log(setParentEn);
+          //set value at input field
+          this.htmlContentEn.setValue(addClassforTable);
+          this.htmlContentMy.setValue(addClassforTable_BM);
 
-        this.updateForm.get('parentsEn').setValue(setParentEn);  
+          //set  value after preview
+          this.contentTxtEn = addClassforTable;
+          this.contentTxtMy = addClassforTable_BM;      
 
-        if(this.languageId == 1){          
-          for(let i=0; i<dataEn.contentCategories.length; i++){
-            let a;
+          this.getUserInfo(dataEn.createdBy);
 
-            a = {
-              "id": [dataEn.contentCategories[i].categoryId,dataBm.contentCategories[i].categoryId],
-              "text":dataEn.contentCategories[i].categoryName,
-              "value": dataEn.contentCategories[i].categoryId
+          this.parentValEn = dataEn.contentCategories[0].categoryId;
+          this.parentValBm = dataBm.contentCategories[0].categoryId;
+
+          this.parseEnBtn = true;
+          this.parseMyBtn = true;
+
+          //get details agency
+          let getObjKeys = Object.keys(dataEn);
+          let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
+
+          console.log("KEY OBJECT");
+          console.log(valMT.length);
+
+          let detAgenId;
+          let detAgenCode;
+
+          if(valMT.length > 0){
+            if(this.languageId == 2){
+              detAgenId = dataBm.agencyId;
+              detAgenCode = dataBm.agencyCode;
             }
-              
-            setParentEn.push(a);    
-          }
-          this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
-          this.filterPlaceholder = this.commonservice.showFilterEn;          
-        }
+            else{
+              detAgenId = dataEn.agencyId;
+              detAgenCode = dataEn.agencyCode;
+            }
 
-        else{
-
-          for(let i=0; i<dataBm.contentCategories.length; i++){
-            let a;
-      
-            a = {
-              "id": [dataEn.contentCategories[i].categoryId,dataBm.contentCategories[i].categoryId],
-              "text":dataBm.contentCategories[i].categoryName,
-              "value": dataBm.contentCategories[i].categoryId
-            };
-        
-            setParentEn.push(a);    
+            this.getDetailsAgency(detAgenId, detAgenCode);
           }
-          this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
-          this.filterPlaceholder = this.commonservice.showFilterBm;
-        }
+
+          //get detail app agency
+          if(dataEn.agencyApplications.length > 0){
+            for(let i=0; i<dataEn.agencyApplications.length; i++){
+              this.getAgencyAppEnBm(dataEn.agencyApplications[i].agencyApplicationCode)
+            }
+          }
+
+          let setParentEn = [];
+
+          //get array of categoryId   
+
+          console.log("GET CATEGORY TREE");
+          console.log(setParentEn);
+
+          if(this.languageId == 1){          
+            for(let i=0; i<dataEn.contentCategories.length; i++){
+              let a;
+
+              a = {
+                "id": [dataEn.contentCategories[i].categoryId,dataBm.contentCategories[i].categoryId],
+                "text":dataEn.contentCategories[i].categoryName,
+                "value": dataEn.contentCategories[i].categoryId
+              }
+                
+              setParentEn.push(a);    
+            }
+            //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
+            this.filterPlaceholder = this.commonservice.showFilterEn;          
+          }
+
+          else{
+
+            for(let i=0; i<dataBm.contentCategories.length; i++){
+              let a;
         
+              a = {
+                "id": [dataEn.contentCategories[i].categoryId,dataBm.contentCategories[i].categoryId],
+                "text":dataBm.contentCategories[i].categoryName,
+                "value": dataBm.contentCategories[i].categoryId
+              };
+          
+              setParentEn.push(a);    
+            }
+            //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
+            this.filterPlaceholder = this.commonservice.showFilterBm;
+          }
+
+          this.updateForm.get('parentsEn').setValue(setParentEn);  
+
+          this.checkReqValues(); 
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
       });
     }
     
@@ -646,108 +695,10 @@ export class LifeeventpublisherComponent implements OnInit {
     if(this.arrAgencyApp.length == 0){
       appsEn = null;
       appsBm = null;
-    }
+    }  
   
-    // add form
-    if(this.urlEdit === 'add'){
-
-      let body = [
-        {
-          "contentCategories": null,   
-          "lifeEventTitle": null,
-          "lifeEventText": null,
-          "lifeEventDescription": null,     
-          "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
-          "language": {
-            "languageId": 1
-          },
-          "agency": {
-            "agencyId": null
-          },        
-          "agencyApplications": null
-        },
-        {
-          "contentCategories": null,
-          "lifeEventTitle": null,
-          "lifeEventText": null,
-          "lifeEventDescription": null,      
-          "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
-          "language": {
-            "languageId": 1
-          },
-          "agency": {
-            "agencyId": null
-          },
-          "agencyApplications": null
-        }
-      ];    
-
-      body[0].lifeEventTitle = formValues.titleEn;
-      body[1].lifeEventTitle = formValues.titleBm;
-      body[0].lifeEventText = this.contentTxtEn;
-      body[1].lifeEventText = this.contentTxtMy;
-      body[0].lifeEventDescription = formValues.descEn;
-      body[1].lifeEventDescription = formValues.descBm;
-      body[0].lifeEventSort = formValues.seqEng;
-      body[1].lifeEventSort = formValues.seqMy;
-
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].lifeEventActiveFlag = formValues.active;
-      body[0].agency.agencyId = this.agencyIdEn;
-
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].lifeEventActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
-
-      body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
-
-      body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
-
-      body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
-
-      body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;  
-
-      console.log(JSON.stringify(body))
-     
-      this.loading = true;
-      // Add
-      this.commonservice.create(body, 'life/event/creator/draft').subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
-            this.router.navigate(['lifeevent']);
-
-          }).bind(this));
-          this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-        });
-    }
-
     // update form 
-    else{
+    if(this.urlEdit != 'add'){
       let body = [
         {
           "lifeEventId":  this.getIdEn,
@@ -829,11 +780,11 @@ export class LifeeventpublisherComponent implements OnInit {
 
       this.loading = true;
       // Update 
-      this.commonservice.update(body, 'life/event/creator/draft').subscribe(
+      this.commonservice.update(body, 'life/event/publisher/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
-            this.router.navigate(['lifeevent']);
+            this.router.navigate(['publisher/lifeevent']);
 
           }).bind(this));
           this.loading = false;
@@ -843,7 +794,7 @@ export class LifeeventpublisherComponent implements OnInit {
           console.log(error);
           this.loading = false;
         });
-    }
+      }   
     
   }
 
@@ -889,106 +840,8 @@ export class LifeeventpublisherComponent implements OnInit {
       appsBm = null;
     }    
 
-    // add form
-    if(this.urlEdit === 'add'){
-
-      let body = [
-        {
-          "contentCategories": null,   
-          "lifeEventTitle": null,
-          "lifeEventText": null,
-          "lifeEventDescription": null,     
-          "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
-          "language": {
-            "languageId": 1
-          },
-          "agency": {
-            "agencyId": null
-          },        
-          "agencyApplications": null
-        },
-        {
-          "contentCategories": null,
-          "lifeEventTitle": null,
-          "lifeEventText": null,
-          "lifeEventDescription": null,      
-          "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
-          "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
-          "language": {
-            "languageId": 1
-          },
-          "agency": {
-            "agencyId": null
-          },
-          "agencyApplications": null
-        }
-      ];    
-
-      body[0].lifeEventTitle = formValues.titleEn;
-      body[1].lifeEventTitle = formValues.titleBm;
-      body[0].lifeEventText = this.contentTxtEn;
-      body[1].lifeEventText = this.contentTxtMy;
-      body[0].lifeEventDescription = formValues.descEn;
-      body[1].lifeEventDescription = formValues.descBm;
-      body[0].lifeEventSort = formValues.seqEng;
-      body[1].lifeEventSort = formValues.seqMy;
-
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[0].lifeEventActiveFlag = formValues.active;
-      body[0].agency.agencyId = this.agencyIdEn;
-
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
-      body[1].lifeEventActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
-
-      body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
-
-      body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
-
-      body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
-
-      body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;         
-      
-      console.log(JSON.stringify(body))
-     
-      this.loading = true;
-      // Add
-      this.commonservice.create(body, 'life/event/creator').subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
-            this.router.navigate(['lifeevent']);
-
-          }).bind(this));
-          this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-        });
-    }
-
     // update form
-    else{
+    if(this.urlEdit != 'add'){
       let body = [
         {
           "lifeEventId":  this.getIdEn,
@@ -1071,11 +924,11 @@ export class LifeeventpublisherComponent implements OnInit {
 
       this.loading = true;
       // Update 
-      this.commonservice.update(body, 'life/event/creator').subscribe(
+      this.commonservice.update(body, 'life/event/publisher').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
-            this.router.navigate(['lifeevent']);
+            this.router.navigate(['publisher/lifeevent']);
 
           }).bind(this));
           this.loading = false;
@@ -1163,7 +1016,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
     if(this.languageId == 1){
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+        //this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
         this.filterPlaceholder = this.commonservice.showFilterEn;
       }
 
@@ -1573,6 +1426,21 @@ export class LifeeventpublisherComponent implements OnInit {
     }
 
     this.dataSource = new MatTableDataSource<object>(this.arrAgencyApp);
+  }
+
+  approvePublisher(){
+
+    let appVal = this.updateForm.get('approve');
+    
+    if(appVal.value == true){
+      this.appPublisher = true;
+      //this.approve.enable();
+    }
+
+    else{
+      this.appPublisher = false;
+      //this.approve.disable();
+    }    
   }
 
 }

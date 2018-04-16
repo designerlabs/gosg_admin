@@ -3,7 +3,7 @@
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ 'lifeeventtbl.header' | translate }}</h3>
+          <h3>{{ 'lifeeventtbl.publisher' | translate }}</h3>
       </div>
       
       <div class="col-md-2 curdHeadingRight">
@@ -25,7 +25,7 @@
               <br>              
               <div class="row">                
 
-                  <div class="col-md-4 10 pdg_L_30px">
+                  <div class="col-md-5 10 pdg_L_30px">
                       <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                       [items]="itemEn"
                       textField ="text"
@@ -46,7 +46,7 @@
                       expandMode="All"></tree-select>
                   </div>
 
-                  <div class="col-md-5"> 
+                  <div class="col-md-4"> 
                       <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                       <mat-form-field>                        
                           <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
@@ -164,7 +164,7 @@
                           <i [ngClass]="commonservice.icon.trash"></i>
                       </button>
                       <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
-                          [disabled]="element.list[0].isApprovedFlag == true" (click)="delete.show()">  
+                          [disabled]="element.list[0].isApprovedFlag == true">  
                           <i [ngClass]="commonservice.icon.trash"></i>
                       </button>
                       <app-confirm-dialog  #delete

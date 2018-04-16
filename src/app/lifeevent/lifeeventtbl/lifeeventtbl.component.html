@@ -25,7 +25,7 @@
                     <br>              
                     <div class="row">                
     
-                        <div class="col-md-4 10 pdg_L_30px">
+                        <div class="col-md-5 10 pdg_L_30px">
                             <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                             [items]="itemEn"
                             textField ="text"
@@ -46,7 +46,7 @@
                             expandMode="All"></tree-select>
                         </div>
     
-                        <div class="col-md-5"> 
+                        <div class="col-md-4"> 
                             <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                             <mat-form-field>                        
                                 <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 

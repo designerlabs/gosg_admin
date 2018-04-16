@@ -214,6 +214,7 @@ export class SliderpublisherComponent implements OnInit {
           
           if(dataEn.isApprovedFlag == true){
             this.appPublisher = false;
+            this.approve.disable();
           }
 
           this.disableApprove = dataEn.isApprovedFlag;
@@ -798,10 +799,6 @@ export class SliderpublisherComponent implements OnInit {
 
     let appVal = this.updateForm.get('approve');
 
-    if(this.disableApprove == true){
-      this.approve.disable();
-    }
-    
     if(appVal.value == true){
       this.appPublisher = true;
       this.approve.enable();

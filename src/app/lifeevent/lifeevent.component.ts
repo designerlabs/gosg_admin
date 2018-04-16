@@ -327,18 +327,26 @@ export class LifeeventComponent implements OnInit {
 
   onChange(ele){    
 
-    this.urlEdit = this.router.url.split('/')[2];
+    // this.urlEdit = this.router.url.split('/')[2];
 
-    if(this.urlEdit === "add" && ele == ""){
-      this.parentFlag = false;
-    }
+    // if(this.urlEdit === "add" && ele == ""){
+    //   this.parentFlag = false;
+    // }
 
-    else if(this.urlEdit === "add" && ele != ""){
+    // else if(this.urlEdit === "add" && ele != ""){
+    //   this.parentFlag = true;
+    // }
+
+    // else{
+    //   this.parentFlag = true;
+    // }
+
+    if(ele.length > 0 ){
       this.parentFlag = true;
     }
 
     else{
-      this.parentFlag = true;
+      this.parentFlag = false;
     }
   }
 
@@ -557,13 +565,10 @@ export class LifeeventComponent implements OnInit {
 
         let setParentEn = [];
 
-        //get array of categoryId
-        
+        //get array of categoryId        
 
         console.log("GET CATEGORY TREE");
-        console.log(setParentEn);
-
-        this.updateForm.get('parentsEn').setValue(setParentEn);  
+        console.log(setParentEn);        
 
         if(this.languageId == 1){          
           for(let i=0; i<dataEn.contentCategories.length; i++){
@@ -577,7 +582,7 @@ export class LifeeventComponent implements OnInit {
               
             setParentEn.push(a);    
           }
-          this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
+          //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterEn;          
         }
 
@@ -594,9 +599,11 @@ export class LifeeventComponent implements OnInit {
         
             setParentEn.push(a);    
           }
-          this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
+          //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
         }
+
+        this.updateForm.get('parentsEn').setValue(setParentEn);  
         
       });
     }

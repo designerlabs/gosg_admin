@@ -316,7 +316,8 @@
           (click)="sliderDraft(updateForm.value)" [disabled]="!complete || appPublisher || !parseMyBtn || !parseEnBtn ">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
             <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
-          <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" (click)="resetModal.show()">
+          <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
+          (click)="resetModal.show()" [disabled]="disableApprove">
             <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
         </div>
       <!-- <div class="col-md-12">&nbsp;</div> -->
