@@ -220,7 +220,8 @@
           (click)="galleryDraft(updateForm.value)" [disabled]="!complete || sendForApporval">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
             <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
-          <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" (click)="resetModal.show()">
+          <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
+          (click)="resetModal.show()" [disabled]="sendForApporval">
             <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
         </div>
       <!-- <div class="col-md-12">&nbsp;</div> -->

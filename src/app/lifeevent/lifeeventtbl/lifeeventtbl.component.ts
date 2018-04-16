@@ -180,7 +180,7 @@ export class LifeeventtblComponent implements OnInit {
 
               if(this.languageId == 1){
                 this.catName = this.leCategoryCode[i].list[0].categoryName;
-                this.filterPlaceholder = "Type your filter here..."
+                this.filterPlaceholder = this.commonservice.showFilterEn;
 
                 setParentEn = {
                   "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],
@@ -192,7 +192,7 @@ export class LifeeventtblComponent implements OnInit {
 
               else{
                 this.catName = this.leCategoryCode[i].list[1].categoryName;
-                this.filterPlaceholder = "Taip tapisan di sini..."
+                this.filterPlaceholder = this.commonservice.showFilterBm;
 
                 setParentEn = {
                   "id": [this.leCategoryCode[i].list[0].categoryId,this.leCategoryCode[i].list[1].categoryId],

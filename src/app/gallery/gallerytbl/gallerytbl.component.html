@@ -85,8 +85,8 @@
 
       <!-- slideActiveFlag Column -->
       <ng-container matColumnDef="galleryDraft">
-        <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'slider.tableHeader.statusdraft' | translate }}</mat-header-cell>
-        <mat-cell *matCellDef="let element" class="statusColumn">
+        <mat-header-cell *matHeaderCellDef class="draftColumn"> {{ 'slider.tableHeader.statusdraft' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element" class="draftColumn">
             <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
             <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>
             <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Approved" [disabled]="true"></button>

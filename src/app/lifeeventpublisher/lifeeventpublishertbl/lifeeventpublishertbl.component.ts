@@ -11,13 +11,11 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 
 @Component({
-  selector: 'app-contenttbl',
-  templateUrl: './contenttbl.component.html',
-  styleUrls: ['./contenttbl.component.css'],
-  encapsulation: ViewEncapsulation.None
+  selector: 'app-lifeeventpublishertbl',
+  templateUrl: './lifeeventpublishertbl.component.html',
+  styleUrls: ['./lifeeventpublishertbl.component.css']
 })
-
-export class ContenttblComponent implements OnInit {
+export class LifeeventpublishertblComponent implements OnInit {
 
   updateForm: FormGroup;
   public loading = false;
@@ -165,7 +163,7 @@ export class ContenttblComponent implements OnInit {
   getCategoryCode(){ 
 
     this.loading = true;
-    return this.commonservice.readProtected('content/dropdown')
+    return this.commonservice.readProtected('life/event/dropdown/643')
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
@@ -174,7 +172,7 @@ export class ContenttblComponent implements OnInit {
 
           for(let i=0; i<this.leCategoryCode.length; i++){     
 
-            if(this.leCategoryCode[i].refCode == this.commonservice.contentCategoryCode){
+            if(this.leCategoryCode[i].refCode == this.commonservice.lifeEventCategoryCode){
               
               // this.countArticle = this.leCategoryCode[i].list[0].articleCount;
               // this.catCode = this.leCategoryCode[i].refCode;
@@ -207,7 +205,7 @@ export class ContenttblComponent implements OnInit {
           
           if (this.catCode == undefined || this.catCode == ""){
             
-            this.catCode = this.commonservice.contentCategoryCode;
+            this.catCode = this.commonservice.lifeEventCategoryCode;
             this.categoryPlaceholder = this.catName;
           }
 
@@ -234,19 +232,19 @@ export class ContenttblComponent implements OnInit {
     let generalUrl = ""
 
     if(nameStatus == 1){
-      generalUrl = 'content/creator/state/all/';
+      generalUrl = 'life/event/publisher/state/all/';
     }
 
     else if(nameStatus == 2){
-      generalUrl = 'content/creator/state/draft/';
+      generalUrl = 'life/event/publisher/state/draft/';
     }
 
     else if(nameStatus == 3){
-      generalUrl = 'content/creator/state/pending/';
+      generalUrl = 'life/event/publisher/state/pending/';
     }
 
     else if(nameStatus == 4){
-      generalUrl = 'content/creator/state/approved/';
+      generalUrl = 'life/event/publisher/state/approved/';
     }
     
     if(code != undefined){
@@ -295,19 +293,19 @@ export class ContenttblComponent implements OnInit {
     let generalUrl = "";
 
     if(valStatus == 1){
-      generalUrl = 'content/creator/search/state/all';
+      generalUrl = 'life/event/publisher/search/state/all';
     }
 
     else if(valStatus == 2){
-      generalUrl = 'content/creator/search/state/draft';
+      generalUrl = 'life/event/publisher/search/state/draft';
     }
 
     else if(valStatus == 3){
-      generalUrl = 'content/creator/search/state/pending';
+      generalUrl = 'life/event/publisher/search/state/pending';
     }
 
     else if(valStatus == 4){
-      generalUrl = 'content/creator/search/state/approved';
+      generalUrl = 'life/event/publisher/search/state/approved';
     }
 
     this.loading = true;
@@ -361,21 +359,16 @@ export class ContenttblComponent implements OnInit {
     // this.noNextData = pageInc === totalPages;
     this.getRecordList(page + 1, this.pageSize, this.catCode);
   }
-
-  add() {
-    this.router.navigate(['content/add']);
-    this.commonservice.pageModeChange(false);
-  }
-
+  
   updateRow(row) {
-    this.router.navigate(['content/', row]);
+    this.router.navigate(['publisher/lifeevent/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(id) {
 
     this.loading = true;
-    this.commonservice.delete(id,'content/creator/delete/').subscribe(
+    this.commonservice.delete(id,'life/event/publisher/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -408,7 +401,7 @@ export class ContenttblComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/dropdown')
+    return this.commonservice.readProtected('life/event/dropdown/643')
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -528,4 +521,5 @@ export class ContenttblComponent implements OnInit {
     this.catCode = ele.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
   }
+
 }

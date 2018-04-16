@@ -21,11 +21,11 @@
         <div *ngIf="commonservice.isRead">
             <div class="example-container mat-elevation-z8">
                 
-                <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
-                    <br>
-                    <div class="example-header">                
+                <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>      
+                    <br>              
+                    <div class="row">                
     
-                        <div class="col-md-4">
+                        <div class="col-md-5 10 pdg_L_30px">
                             <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                             [items]="itemEn"
                             textField ="text"
@@ -38,20 +38,16 @@
                             tabindex="5"
                             required=true
                             #simpleSelect
+                            [(ngModel)]="editor.treeVal"
+                            (ngModelChange)="onChange($event)"
                             [placeholder]="categoryPlaceholder"
                             [allowFilter]=true
                             [allowParentSelection]=true
-                            expandMode="All" ></tree-select>
+                            expandMode="All"></tree-select>
                         </div>
     
-                        <div class="col-md-1">
-                            <button mat-mini-fab class="bg_green" (click)="searchCode(updateForm.value)" [disabled]="valkey">
-                                <i [ngClass]="commonservice.icon.arrRight"></i>
-                            </button>
-                        </div>
-    
-                        <div class="col-md-7"> 
-                            <mat-checkbox class="example-full-width" formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
+                        <div class="col-md-4"> 
+                            <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                             <mat-form-field>                        
                                 <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
                                 placeholder="{{ 'common.placeholder.keywords' | translate }}">
@@ -61,9 +57,28 @@
                                 </button>
                             </mat-form-field>
                         </div>
+
+                        <div class="col-md-3 pdg_R_30px" *ngIf="languageId == 1">
+                            <mat-form-field style="width: 100%;">
+                                <mat-select  placeholder="" formControlName="nameStatus" (change)="filterStatus($event)">
+                                    <mat-option *ngFor="let statusCreator of commonservice.listStatusCreator" 
+                                    [value]="statusCreator.id">{{statusCreator.textEn}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-3 pdg_R_30px" *ngIf="languageId == 2">
+                            <mat-form-field style="width: 100%;">
+                                <mat-select  placeholder="" formControlName="nameStatus" (change)="filterStatus($event)">
+                                    <mat-option *ngFor="let statusCreator of commonservice.listStatusCreator" 
+                                    [value]="statusCreator.id">{{statusCreator.textBm}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
+                   
                 </form>
-    
+        
                 <mat-table #table [dataSource]="dataSource">           
                 
                     <!-- num Column -->
@@ -89,6 +104,32 @@
                             {{element.list[1]?.contentTitle }}
                         </mat-cell>
                     </ng-container>
+
+                    <ng-container *ngIf="languageId == 1" matColumnDef="category">
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category </mat-header-cell>
+                        <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
+                            <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
+                            <span class="tag-style"*ngFor="let ele of (element.list[0]?.contentCategories.length > 3 ? element.list[0]?.contentCategories.slice(0,3):  element.list[0]?.contentCategories)">
+                                {{ele.categoryName | truncate:[12, '...']}}
+                            </span>    
+                            <span *ngIf="element.list[0]?.contentCategories.length > 3">
+                                +{{element.list[0]?.contentCategories.length - 3}}
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container *ngIf="languageId == 2" matColumnDef="category">
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Kategori </mat-header-cell>
+                        <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
+                            <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
+                            <span class="tag-style"*ngFor="let ele of (element.list[1]?.contentCategories.length > 3 ? element.list[1]?.contentCategories.slice(0,3):  element.list[1]?.contentCategories)">
+                                {{ele.categoryName | truncate:[12, '...']}}
+                            </span>    
+                            <span *ngIf="element.list[1]?.contentCategories.length > 3">
+                                +{{element.list[1]?.contentCategories.length - 3}}
+                            </span>
+                        </mat-cell>
+                    </ng-container>
     
                     <!-- Default Column -->
                     <ng-container matColumnDef="default_status">
@@ -101,8 +142,8 @@
                 
                     <!-- status Column -->
                     <ng-container matColumnDef="status">
-                        <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
-                        <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                        <mat-header-cell class="text-align-Center" class="draftColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-Center" class="draftColumn" *matCellDef="let element">
                             <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_orange tiny" title="Send for Apporval" [disabled]="true"></button>
                             <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" mat-mini-fab class="bg_gray tiny" title="Draft" [disabled]="true"></button>
                             <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" title="Approved" [disabled]="true"></button>
@@ -123,7 +164,7 @@
                                 <i [ngClass]="commonservice.icon.trash"></i>
                             </button>
                             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
-                                [disabled]="element.list[0].isSendForApproval == true">  
+                                [disabled]="element.list[0].isSendForApproval == true" (click)="delete.show()">  
                                 <i [ngClass]="commonservice.icon.trash"></i>
                             </button>
                             <app-confirm-dialog  #delete
@@ -157,7 +198,7 @@
                     <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
                         <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
                         <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-                        <strong>{{recordTable?.totalElements}}</strong> {{ 'contentmgmt.tablebottom.contentmgmt' | translate }}
+                        <strong>{{recordTable?.totalElements}}</strong> {{ 'lifeeventtbl.tablebottom.contentmgmt' | translate }}
                     </span>
                     <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
                     <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>

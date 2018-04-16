@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PublisherComponent } from './publisher.component';
+import { LifeeventpublisherComponent } from './lifeeventpublisher.component';
 
-describe('PublisherComponent', () => {
-  let component: PublisherComponent;
-  let fixture: ComponentFixture<PublisherComponent>;
+describe('LifeeventpublisherComponent', () => {
+  let component: LifeeventpublisherComponent;
+  let fixture: ComponentFixture<LifeeventpublisherComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PublisherComponent ]
+      declarations: [ LifeeventpublisherComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PublisherComponent);
+    fixture = TestBed.createComponent(LifeeventpublisherComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

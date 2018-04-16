@@ -72,6 +72,10 @@ export class GallerypublisherComponent implements OnInit {
   appPublisher = false;
   disableApprove: any;
 
+  userDetails: any;
+  fullName: any;
+  email: any;
+
   constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService,
@@ -183,6 +187,30 @@ export class GallerypublisherComponent implements OnInit {
     back() {
       this.router.navigate(['publisher/gallery']);
     }
+
+    getUserInfo(id) {
+   
+      console.log(id);
+      this.loading = true;
+      return this.commonservice.readProtected('usermanagement/' + id)
+        .subscribe(resUser => {
+  
+          this.commonservice.errorHandling(resUser, (function () {
+            
+              this.userDetails = resUser["user"];
+  
+              this.fullName = this.userDetails.fullName;
+              this.email = this.userDetails.email;
+  
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+    }
   
     // get, add, update, delete
     getRow(row) {
@@ -220,9 +248,12 @@ export class GallerypublisherComponent implements OnInit {
 
             if(dataEn.isApprovedFlag == true){
               this.appPublisher = false;
+              this.approve.disable();
             }
   
             this.disableApprove = dataEn.isApprovedFlag;
+
+            this.getUserInfo(dataEn.createdBy);
   
             this.selectedFileEn = dataEn.contentImage.mediaFile;
             this.selectedFileMy= dataBm.contentImage.mediaFile;
@@ -838,11 +869,7 @@ export class GallerypublisherComponent implements OnInit {
     approvePublisher(){
 
       let appVal = this.updateForm.get('approve');
-  
-      if(this.disableApprove == true){
-        this.approve.disable();
-      }
-      
+        
       if(appVal.value == true){
         this.appPublisher = true;
         this.approve.enable();

@@ -708,7 +708,8 @@
     }
   },
   "lifeeventtbl":{
-    "header": "Life Event",
+    "header": "Life Event Management",
+    "publisher": "Life Event Publisher Management",
     "tableHeader":{
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",

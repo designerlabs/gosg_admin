@@ -18,6 +18,11 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 @Injectable()
 export class CommonService {
 
+  showPlaceHolderEn = "Category Parents";
+  showPlaceHolderBm = "Induk Kategori";
+  showFilterEn = "Type your filter here...";
+  showFilterBm = "Taip tapisan di sini...";
+
   sliderCategoryCode = 4;
   galleryCategoryCode = 39; 
 
@@ -28,6 +33,7 @@ export class CommonService {
   galleryContentCategoryIdBm = 10;
 
   lifeEventCategoryCode = 643;
+  contentCategoryCode = 675;
  
   isAdmin: boolean;
   getDataT: any;

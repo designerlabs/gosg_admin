@@ -110,8 +110,6 @@ import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/even
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
 import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
-import { PublisherComponent } from './publisher/publisher.component';
-import { PublishertblComponent } from './publisher/publishertbl/publishertbl.component';
 import { LifeeventComponent, DialogResultExampleDialog } from './lifeevent/lifeevent.component';
 import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
 // import { JoditAngularModule } from 'jodit-angular';
@@ -129,6 +127,10 @@ import { SitemapComponent } from './sitemap/sitemap.component';
 import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
 import { ArchiveComponent } from './archive/archive.component';
 import { ArchivetblComponent } from './archive/archivetbl/archivetbl.component';
+import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpublishertbl/lifeeventpublishertbl.component';
+import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
+import { ContentpublishertblComponent } from './contentpublisher/contentpublishertbl/contentpublishertbl.component';
+import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -219,8 +221,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     EventcalendartblComponent,
     EventcalendarextComponent,
     EventcalendarexttblComponent,
-    PublisherComponent,
-    PublishertblComponent,
     LifeeventComponent,
     LifeeventtblComponent,
     DialogResultExampleDialog,
@@ -236,6 +236,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SitemaptblComponent,
     ArchiveComponent,
     ArchivetblComponent,
+    LifeeventpublishertblComponent,
+    LifeeventpublisherComponent,
+    ContentpublishertblComponent,
+    ContentpublisherComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [

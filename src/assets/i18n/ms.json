@@ -708,7 +708,8 @@
     }
   },
   "lifeeventtbl":{
-    "header": "Peristiwa Kehidupan",
+    "header": "Pengurusan Peristiwa Kehidupan",
+    "publisher": "Pengurusan Percetakan Peristiwa Kehidupan",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
       "titleBm": "Tajuk (BM)",

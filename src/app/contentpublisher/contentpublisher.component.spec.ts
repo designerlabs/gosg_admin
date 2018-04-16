@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PublishertblComponent } from './publishertbl.component';
+import { ContentpublisherComponent } from './contentpublisher.component';
 
-describe('PublishertblComponent', () => {
-  let component: PublishertblComponent;
-  let fixture: ComponentFixture<PublishertblComponent>;
+describe('ContentpublisherComponent', () => {
+  let component: ContentpublisherComponent;
+  let fixture: ComponentFixture<ContentpublisherComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PublishertblComponent ]
+      declarations: [ ContentpublisherComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PublishertblComponent);
+    fixture = TestBed.createComponent(ContentpublisherComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

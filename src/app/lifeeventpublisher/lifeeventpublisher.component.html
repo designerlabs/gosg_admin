@@ -18,13 +18,39 @@
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
 
     <div class="example-container mat-elevation-z8 paddingBottom-10">
+
+      <div class="example-header">
+          <div class="bg-form-header col-md-12">
+            <label class="">{{ 'publisher.tableHeader.userInfo' | translate }}</label>
+          </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-1">
+            <span class="bold">Email</span>
+        </div>
+        <div class="col-md-11">
+            <span>>> {{email}} </span>
+        </div>
+        <div class="col-md-1">
+            <span class="bold">Name</span>
+        </div>
+        <div class="col-md-11">
+            <span>>> {{fullName}} </span>
+        </div>
+      </div>
+
+      <div class="example-header">
+          <div class="bg-form-header col-md-12">&nbsp;</div>
+      </div>
       
       <div class="bg-form-header col-md-12">
         <div class="row">
             <label class="col-md-12">{{ 'category.component.parent' | translate }}</label>
         </div>
       </div><br>
-      <!-- [multiple]="true" -->
+
       <div class="example-header"> 
           <div class="col-md-12">
               <tree-select  class="font-size-m example-full-width" name="simpleSelect"
@@ -119,7 +145,7 @@
             <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate"  />
+              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate" />
               <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #publish></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
@@ -132,7 +158,7 @@
             <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate"  />
+              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" />
               <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #endD></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
@@ -165,7 +191,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" 
+            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)"
             (keyup)="getSearchData(agencyEn.value, 1)">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
@@ -184,7 +210,7 @@
 
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" 
+            <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)"
             (keyup)="getSearchData(agencyBm.value, 2)">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
@@ -206,12 +232,12 @@
         <div class="col-md-6">
           <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Ministry</label>
           <br />
-          <span>{{ ministryNameEn }}</span>
+          <span>{{ ministryNameEn }} {{agencyIdEn}}</span>
         </div>
         <div class="col-md-6">
           <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Kementerian</label>
           <br />
-          <span>{{ ministryNameBm }}</span>
+          <span>{{ ministryNameBm }} {{agencyIdBm}}</span>
         </div>
       </div><br>
 
@@ -345,7 +371,7 @@
           <ng-container matColumnDef="action">
             <mat-header-cell class="text-align-Left statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
             <mat-cell class="text-align-Left statusColumn" *matCellDef="let element">
-              <button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(element[0].agencyCode)" [disabled]="sendForApporval">
+              <button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(element[0].agencyCode)" [disabled]="disableApprove">
                 <i [ngClass]="commonservice.icon.trash"></i></button>
             </mat-cell>
           </ng-container>     
@@ -373,20 +399,26 @@
         </div>
       </div>
 
+      <div class="example-header">
+        <div class="col-md-12">
+          <mat-checkbox formControlName="approve" (change)="approvePublisher()" ></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.approve' | translate }}</span>
+        </div>
+      </div>
+
     </div>
 
     <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite" >
         
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
-      (click)="submit(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn || !parentFlag">
+      (click)="submit(updateForm.value)" [disabled]="!complete || !appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
-      (click)="draft(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn || !parentFlag">
+      (click)="draft(updateForm.value)" [disabled]="!complete || appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag || disableApprove">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
       <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
-      (click)="resetModal.show()" [disabled]="sendForApporval">
+      (click)="resetModal.show()" [disabled]="disableApprove"> 
         <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
        
     </div>
