@@ -384,8 +384,15 @@ export class CategoryComponent implements OnInit {
             
           setParentEn.push(a);    
           
-          //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
-          this.filterPlaceholder = this.commonservice.showFilterEn;          
+          //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;          
+          this.filterPlaceholder = this.commonservice.showFilterEn;         
+          if(this.recordList.list[0].parentId.categoryId != -1){
+            this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
+          }
+  
+          else{
+            this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+          } 
         }
 
         else{
@@ -399,6 +406,13 @@ export class CategoryComponent implements OnInit {
           
           //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
+          if(this.recordList.list[0].parentId.categoryId != -2){
+            this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
+          }
+  
+          else{
+            this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+          } 
         }
 
         console.log(setParentEn);           
@@ -452,6 +466,9 @@ export class CategoryComponent implements OnInit {
 
     let parentValEn = formValues.parentsEn;
     let parentValBm = formValues.parentsBm;
+
+    console.log("PARENTSSSSSSSS");
+    console.log(formValues.parentsEn);
 
     let valImgEn: any;
     let valImgBm: any;
@@ -532,16 +549,20 @@ export class CategoryComponent implements OnInit {
       body[1].isDeleted = formValues.deleted; 
 
       //predefined super parent id;
-      // if(formValues.parentsEn == null){
-      //     parentValEn = -1;
-      //     parentValBm = -2;
+      if(formValues.parentsEn == null || formValues.parentsEn == ""){
 
-      //     body[0].parentId.categoryId = parentValEn;
-      //     body[1].parentId.categoryId = parentValBm;
-      // }
+          parentValEn = -1;
+          parentValBm = -2;
+
+          body[0].parentId.categoryId = parentValEn;
+          body[1].parentId.categoryId = parentValBm;
+      }
+
+      else{
       
-      body[0].parentId.categoryId = parentValEn.id[0];
-      body[1].parentId.categoryId = parentValEn.id[1];       
+        body[0].parentId.categoryId = parentValEn.id[0];
+        body[1].parentId.categoryId = parentValEn.id[1];      
+      }
 
       if(formValues.imageBm != null && formValues.imageEn != null){
           body[0].image.mediaId = formValues.imageEn;      
@@ -632,14 +653,21 @@ export class CategoryComponent implements OnInit {
         console.log(formValues.imageEn +" : "+ formValues.imageBm);
       }
 
-      // if(formValues.parentsEn == null){
+      // if(formValues.parentsEn == null || formValues.parentsEn == ""){
+
+      //   parentValEn = -1;
+      //   parentValBm = -2;
             
       //   body[0].parentId.categoryId = this.parentsValEn;
       //   body[1].parentId.categoryId = this.parentsValBm; 
       // }
+
+      // else{
     
-      body[0].parentId.categoryId = parentValEn.id[0];
-      body[1].parentId.categoryId = parentValEn.id[1];          
+        body[0].parentId.categoryId = parentValEn[0].id[0];
+        body[1].parentId.categoryId = parentValEn[0].id[1];  
+
+      //}        
       
       console.log(JSON.stringify(body))
       this.loading = true;

@@ -92,8 +92,8 @@
       <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'common.tableHeader.status' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let element" class="statusColumn">
         <!-- <i [ngClass]="[element.active ? 'fa fa-check activeFontColor' : 'fa fa-times inactiveFontColor']"></i> -->
-        <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
-        <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+        <i *ngIf="element.list[0].isActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+        <i *ngIf="element.list[0].isActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
       </mat-cell>
     </ng-container>
 
