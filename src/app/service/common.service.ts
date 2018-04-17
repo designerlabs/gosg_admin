@@ -61,6 +61,7 @@ export class CommonService {
 
   icon = {
     update: 'fa fa-edit',
+    undo: 'fa fa-undo',
     check: 'fa fa-check',
     times: 'fa fa-times',
     trash: 'fa fa-trash',
@@ -562,6 +563,7 @@ getMediaByCateId(id){
 
   update(data,moduleName) {
     let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId;
+    console.log(updateUrl)
 
     return this.http.put(updateUrl, data)
     .map((response: Response) => response.json())

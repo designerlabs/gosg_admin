@@ -31,7 +31,7 @@
           
   <div class="row">
       
-      <div class="col-md-9 paddingTop-10 pdg_L_30px" *ngIf="filterTypeVal != 1">
+      <div class="col-md-8 paddingTop-10 pdg_L_30px" *ngIf="filterTypeVal != 1">
           <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate}}">
             <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
@@ -39,15 +39,38 @@
             </button>
           </mat-form-field>
       </div>
+      <div class="col-md-2 paddingTop-10 paddingRight-0 align_right">
+        <button [disabled]="!multipleSel.length > 0" mat-raised-button color="primary" (click)="revertAllModal.show()"><i [ngClass]="commonservice.icon.undo"></i> {{'common.buttons.revert' | translate}}</button>
+        <app-confirm-dialog  #revertAllModal 
+        [title]="'common.icon.warn'" 
+        [content]="'common.msg.revertAll'"
+        [state]="'common.state.warn'"
+        [isReset]="'true'"
+        (resetMethod)="revertAll()">
+        </app-confirm-dialog>
+      </div>
+      <div class="col-md-2 paddingTop-10 pdg_R_30px">
+        <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>
+        <app-confirm-dialog  #deleteAllModal 
+        [title]="'common.icon.warn'" 
+        [content]="'common.msg.deleteAll'"
+        [state]="'common.state.warn'"
+        [isReset]="'true'"
+        (resetMethod)="deleteAll()">
+        </app-confirm-dialog>
+      </div>
   </div>
 
   <mat-table #table [dataSource]="dataSource">
   
     <!-- No Column -->
     <ng-container matColumnDef="no">
-      <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+      <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef>{{ 'common.tableHeader.num' | translate }}
+        <!-- <mat-checkbox class="example-margin" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"></mat-checkbox> -->
+      </mat-header-cell>
       <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-        {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+        <!-- {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }} -->
+        <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event, element.refCode);"></mat-checkbox>
       </mat-cell>
     </ng-container>
 

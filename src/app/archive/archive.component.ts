@@ -102,15 +102,15 @@ export class ArchiveComponent implements OnInit {
 
     this.loading = true;
     // Update event Service
-    return this.commonservice.readProtectedById('archive/code/', row).subscribe(
+    return this.commonservice.readProtectedById('archive/', row).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.archiveList = Rdata;
           console.log(this.archiveList) 
-          let dataEn = this.archiveList['archiveEntityList'][0];
-          let dataBm = this.archiveList['archiveEntityList'][1];
+          let dataEn = this.archiveList['contentEntityList'][0];
+          let dataBm = this.archiveList['contentEntityList'][1];
 
           // populate data
           this.code = dataEn.contentCode;
@@ -148,28 +148,27 @@ export class ArchiveComponent implements OnInit {
   }
 
   revertItem(refCode) {
-    alert(refCode)
-    // this.loading = true;
-    //   this.commonservice.delete(refCode,'archive/revert/code/').subscribe(
-    //     data => {
-    //       this.commonservice.errorHandling(data, (function(){
-    //         // this.getArchiveData(this.pageCount, this.pageSize);
-    //         this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
-    //       }).bind(this));  
-    //      this.loading = false;
-    //      this.back()
-    //     },
-    //     error => {
-    //       this.loading = false;
-    //       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-    //     });
+    this.loading = true;
+      this.commonservice.update(null, 'archive/revert/'+refCode).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            // this.getArchiveData(this.pageCount, this.pageSize);
+            this.toastr.success(this.translate.instant('common.success.updatesuccess'), 'success');
+          }).bind(this));  
+         this.loading = false;
+         this.back()
+        },
+        error => {
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        });
 
   }
 
   deleteItem(refCode) {
-    alert(refCode)
+    // alert(refCode)
     this.loading = true;
-      this.commonservice.delete(refCode,'archive/delete/code/').subscribe(
+      this.commonservice.delete(refCode,'archive/delete/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             // this.getArchiveData(this.pageCount, this.pageSize);

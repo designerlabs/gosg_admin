@@ -222,6 +222,7 @@
     "buttons":{
       "delete":"Delete",
       "archiveAll": "Archive All",
+      "revertAll": "Re-use All",
       "update":"Update",
       "submit":"Submit",
       "reset":"Reset",
@@ -268,7 +269,10 @@
       "notfound":"Not Found.",
       "reset":"Reset this form?",
       "delete":"Are you sure to delete the record?",
+      "deleteAll":"Are you sure to delete all selected records?",
       "archive": "Are you sure you want to move this record to archive?",
+      "revert": "Are you sure you want to re-use this record?",
+      "revertAll": "Are you sure you want to re-use all selected records?",
       "unauthorized": "You are not authorized to access this page!",
       "nodata": "No Data Found"
     },
@@ -1020,6 +1024,9 @@
       "image": "Image",
       "select": "Select",
       "imageerr": "Please select a file"
+    },
+    "err": {
+      "length": "Data Input length not valid"
     }
   },
   "slider": {

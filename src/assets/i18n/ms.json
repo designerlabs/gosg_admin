@@ -222,6 +222,7 @@
     "buttons":{
       "delete":"Padam",
       "archiveAll": "Arkib All",
+      "revertAll": "Guna Semula Semua",
       "update":"Kemaskini",
       "submit":"Hantar",
       "reset":"Set Semula",
@@ -268,7 +269,10 @@
       "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
       "delete":"Padam mesej ini?",
+      "deleteAll":"Adakah anda pasti untuk memadam semua data terpilih?",
       "archive": "Adakah anda pasti untuk tukar ke arkib?",
+      "revert": "Adakah anda pasti untuk guna semula data ini?",
+      "revertAll": "Are you sure you want to re-use all selected records?",
       "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!",
       "nodata": "Tiada Data Ditemui"
     },
@@ -1020,6 +1024,9 @@
       "image": "Imej",
       "select": "Pilih",
       "imageerr": "Sila pilih fail"
+    },
+    "err": {
+      "length": "Bilangan data yang diisi tidak tepat"
     }
   },
   "slider": {

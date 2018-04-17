@@ -35,6 +35,7 @@ export class ArchivetblComponent implements OnInit {
   filterTypeVal: any;
   public loading = false;
   showNoData = false;
+  multipleSel: any = [];
 
   recordTable = null;
   recordList = null;
@@ -143,7 +144,7 @@ export class ArchivetblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readPortal('agency/application/code/', count, size, keyword)
+      this.commonservice.readProtected('archive/search', count, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -154,7 +155,7 @@ export class ArchivetblComponent implements OnInit {
             console.log("data");
             console.log(data);
             
-            this.dataSource.data = this.recordList.list;
+            this.dataSource.data = this.recordList.contentEntityList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
             this.recordTable = this.recordList;
@@ -216,7 +217,7 @@ export class ArchivetblComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getArchiveData(this.pageCount, this.pageSize);
-            this.toastr.success(this.translate.instant('common.success.delete'), 'success');
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
          this.loading = false;
         },
@@ -233,6 +234,78 @@ export class ArchivetblComponent implements OnInit {
     } else if (isEdit == true) {
       this.pageMode = "Update";
     }
+  }
+
+  isChecked(e) {
+    // console.log(val)
+    if(e.checked){
+      this.multipleSel.push(e.source.value)
+    } else{
+      let index = this.multipleSel.indexOf(e.source.value);
+      this.multipleSel.splice(index, 1);
+    }
+    return false;
+  }
+  
+  // checkAll(ev) {
+  //   this.cb.forEach(x => x.state = ev.target.checked)
+  // }
+
+  // isAllChecked() {
+  //   console.log('fired');
+  //   return this.sizes.every(_ => _.state);
+  // }
+
+  resetAllMethod(){
+    this.revertAll();
+  }
+
+  revertAll(){
+    let archiveIds = this.multipleSel.join(',');
+    this.commonservice.update('', `archive/revert/multiple/${archiveIds}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updatesuccess'), '');
+          this.getArchiveData(this.pageCount, this.pageSize);
+
+      }).bind(this)); 
+      this.multipleSel = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.multipleSel = [];
+        this.loading = false;
+      });
+
+  }
+
+  deleteAllMethod(){
+    this.deleteAll();
+  }
+
+  deleteAll(){
+    let archiveIds = this.multipleSel.join(',');
+    this.commonservice.delete('', `archive/delete/multiple/${archiveIds}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getArchiveData(this.pageCount, this.pageSize);
+
+      }).bind(this)); 
+      this.multipleSel = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.multipleSel = [];
+        this.loading = false;
+      });
+
   }
 
   navigateBack() {

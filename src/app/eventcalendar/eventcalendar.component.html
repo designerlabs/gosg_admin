@@ -150,7 +150,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input tabindex="10" matInput placeholder="{{ 'calendar.component.zipcode' | translate }}" [textMask]="{mask: maskPostCode}" formControlName="zipcode" value="" (change)="checkReqValues()"
+            <input tabindex="10" matInput placeholder="{{ 'calendar.component.zipcode' | translate }}" [textMask]="{mask: maskPostCode}" formControlName="zipcode" (change)="checkReqValues()"
               required>
             <mat-error *ngIf="updateForm.controls.zipcode.hasError('required')">
               {{ 'calendar.component.zipcode' | translate }} {{ 'common.isrequired' | translate }}

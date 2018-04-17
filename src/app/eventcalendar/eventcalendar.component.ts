@@ -132,7 +132,7 @@ export class EventcalendarComponent implements OnInit {
     this.location = new FormControl()
     this.country = new FormControl()
     this.city = new FormControl()
-    this.zipcode = new FormControl('', [Validators.pattern(this.validateService.getPattern().numberOnly)])
+    this.zipcode = new FormControl()
     this.orgr = new FormControl()
     this.orgrEmail = new FormControl('', [Validators.pattern(this.validateService.getPattern().email)])
     this.orgrAddress = new FormControl()
