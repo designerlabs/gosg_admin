@@ -551,9 +551,11 @@
   "contentmgmt": {
     "name": "Kandungan",
     "header": "Pengurusan Kandungan",
+    "publisher": "Pengurusan Percetakan Kandungan",
     "tableHeader":{
       "categoryEn": "Kategori (EN)",
-      "categoryBm": "Kategori (BM)"
+      "categoryBm": "Kategori (BM)",
+      "category": "Kategori"
     },
     "tablebottom":{
       "contentmgmt": "pengurusan kandungan"

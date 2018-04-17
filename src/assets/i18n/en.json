@@ -551,9 +551,11 @@
   "contentmgmt": {
     "name": "Content",
     "header": "Content Management",
+    "publisher": "Content Publisher Management",
     "tableHeader":{
       "categoryEn": "Category (EN)",
-      "categoryBm": "Category (BM)"
+      "categoryBm": "Category (BM)",
+      "category": "Category"
     },
     "tablebottom":{
       "contentmgmt": "content management"

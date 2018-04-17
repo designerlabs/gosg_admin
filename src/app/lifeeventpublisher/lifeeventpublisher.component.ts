@@ -640,8 +640,8 @@ export class LifeeventpublisherComponent implements OnInit {
           }
 
           this.updateForm.get('parentsEn').setValue(setParentEn);  
-
           this.checkReqValues(); 
+          
         }).bind(this));
         this.loading = false;
       },

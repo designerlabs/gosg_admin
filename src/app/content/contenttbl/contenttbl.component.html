@@ -106,7 +106,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="languageId == 1" matColumnDef="category">
-                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category </mat-header-cell>
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'contentmgmt.tableHeader.category' | translate }} </mat-header-cell>
                         <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                             <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
                             <span class="tag-style"*ngFor="let ele of (element.list[0]?.contentCategories.length > 3 ? element.list[0]?.contentCategories.slice(0,3):  element.list[0]?.contentCategories)">
@@ -119,7 +119,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="languageId == 2" matColumnDef="category">
-                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Kategori </mat-header-cell>
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'contentmgmt.tableHeader.category' | translate }} </mat-header-cell>
                         <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                             <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
                             <span class="tag-style"*ngFor="let ele of (element.list[1]?.contentCategories.length > 3 ? element.list[1]?.contentCategories.slice(0,3):  element.list[1]?.contentCategories)">

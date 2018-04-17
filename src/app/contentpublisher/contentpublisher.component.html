@@ -1,3 +1,404 @@
-<p>
-  contentpublisher works!
-</p>
+<div class="container-fluid">
+  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+      <h3>{{commonservice.pageMode}} {{ 'contentmgmt.name' | translate }} </h3>
+    </div>
+
+    <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+        <button type="button" mat-fab color="accent" (click)="back()">
+          <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate>
+
+    <div class="example-container mat-elevation-z8 paddingBottom-10">
+      
+      <div class="bg-form-header col-md-12">
+        <div class="row">
+            <label class="col-md-12">{{ 'category.component.parent' | translate }}</label>
+        </div>
+      </div><br>
+      <!-- [multiple]="true" -->
+      <div class="example-header"> 
+          <div class="col-md-12">
+              <tree-select  class="font-size-m example-full-width" name="simpleSelect"
+              [items]="itemEn"
+              textField ="text"
+              idField = "value"
+              childrenField="children"
+              formControlName="parentsEn"
+              [filterPlaceholder]="filterPlaceholder"
+              minlength="2"
+              maxlength="4"
+              tabindex="5"
+              required=true
+              #simpleSelect
+              [multiple]="true"
+              [placeholder]="categoryPlaceholder"
+              [allowFilter]=true
+              [allowParentSelection]=true
+              [(ngModel)]="editor.treeVal"
+              (ngModelChange)="onChange($event)"
+              expandMode="All"></tree-select>
+          </div>
+
+      </div>
+
+      <div class="bg-form-header col-md-12">
+        <div class="row">
+          <label class="col-md-6">English</label>
+          <label class="col-md-6">Bahasa Malaysia</label>
+        </div>
+      </div>
+      <br>
+
+      <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" required tabindex="3">
+            <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Tajuk" formControlName="titleBm" (keyup)="checkReqValues()" required tabindex="3">
+            <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
+              Tajuk diperlukan
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" (keyup)="checkReqValues()"
+              required tabindex="5"></textarea>
+            <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{descEn.value?.length || 0}}/200</mat-hint>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Keterangan" formControlName="descBm" #pollMalay maxlength="200" (keyup)="checkReqValues()"
+              required tabindex="6"></textarea>
+            <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
+              Keterangan diperlukan
+            </mat-error>
+            <mat-hint align="end">{{descBm.value?.length || 0}}/200</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-6">
+            <mat-form-field class="example-full-width" >
+                <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="example-full-width" >
+                <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+            </mat-form-field>
+        </div>
+      </div>
+
+      <div class="example-header">    
+        <div class="col-md-6">
+            <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
+            <mat-form-field class="example-full-width">
+              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
+              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate"  />
+              <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
+              <owl-date-time #publish></owl-date-time>
+              <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+                {{ 'gallerytbl.errorStartDate' | translate }}
+              </mat-error> -->
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
+            <mat-form-field class="example-full-width">
+              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
+              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate"  />
+              <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
+              <owl-date-time #endD></owl-date-time>
+              <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
+                {{ 'gallerytbl.errorEndDate' | translate }}
+              </mat-error> -->
+            </mat-form-field>
+        </div>
+      </div>
+
+      <!-- <div class="example-header">  
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+              <mat-select formControlName="ministryEn" placeholder="Select Ministry" (change)="selectedMinistry($event, 1)">
+                <mat-option [value]=null>Select Ministry</mat-option>
+                <mat-option *ngFor="let minEng of ministryData" [value]="minEng.list[0].ministryId">{{ minEng.list[0].ministryName }}</mat-option>                      
+              </mat-select>                          
+          </mat-form-field>   
+        </div>     
+      
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <mat-select formControlName="ministryBm" placeholder="Pilih Kementerian" (change)="selectedMinistry($event, 2)">
+              <mat-option [value]=null>Pilih Kementerian</mat-option>
+              <mat-option *ngFor="let minMy of ministryData" [value]="minMy.list[1].ministryId">{{ minMy.list[1].ministryName }}</mat-option>
+            </mat-select>           
+          </mat-form-field>
+        </div>  
+      </div> -->
+
+      <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" 
+            (keyup)="getSearchData(agencyEn.value, 1)">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
+          [ngClass]="{'listParent':searchAgencyResultEn.length < 10,'listParent-w-scroll':searchAgencyResultEn.length >= 10}" (scroll)="onScroll($event,1)">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of searchAgencyResultEn">
+                <a class="list-link" (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.agencyName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" 
+            (keyup)="getSearchData(agencyBm.value, 2)">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
+          [ngClass]="{'listParent':searchAgencyResultBm.length < 10,'listParent-w-scroll':searchAgencyResultBm.length >= 10}" (scroll)="onScroll($event,2)">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of searchAgencyResultBm">
+                <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-6">
+          <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Ministry</label>
+          <br />
+          <span>{{ ministryNameEn }}</span>
+        </div>
+        <div class="col-md-6">
+          <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Kementerian</label>
+          <br />
+          <span>{{ ministryNameBm }}</span>
+        </div>
+      </div><br>
+
+      <div class="example-header">
+        <div class="col-md-12">
+          <div class="example-full-width editor block">
+            <label for="htmlContentEn">English Content</label>
+            <div [froalaEditor] formControlName="htmlContentEn" [(ngModel)]="editor.enVal" (ngModelChange)="onChangeEn($event)" 
+            (keyup)="parseChkEn($event)" #htmlContentEn class="article_content"></div>
+            <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentEn" #htmlContentEn></app-ngx-editor> -->
+          </div>
+        </div>
+      </div>
+      <div class="example-header">
+        <div class="col-md-12">
+          <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary" 
+          class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view"></i></button>
+        </div>
+      </div>
+      
+      <div class="example-header">
+        <div class="col-md-12">            
+            <div class="example-full-width editor block">
+              <label for="htmlContentMy">Malay Content</label>
+              <div [froalaEditor] formControlName="htmlContentMy" [(ngModel)]="editor.bmVal" (ngModelChange)="onChangeBm($event)" 
+              (keyup)="parseChkMy($event)" #htmlContentMy  class="article_content"></div>
+              <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentMy" #htmlContentMy></app-ngx-editor> -->
+            </div>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-12"> 
+          <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary" 
+          class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view"></i></button>
+        </div>
+      </div><br>
+
+      <div class="bg-form-header col-md-12">
+        <div class="row">
+          <label class="col-md-12">{{ 'agencyapp.component.header' | translate }}</label>
+        </div>
+      </div>
+      <br>
+
+      <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="5" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp 
+            (click)="getSearchDataApp(agencyforApp.value)" (keyup)="getSearchDataApp(agencyforApp.value)">
+            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyforApp.value=''; resetSearchApp()">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <div *ngIf="isActiveList" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
+          [ngClass]="{'listParent':searchAgencyResult.length < 10,'listParent-w-scroll':searchAgencyResult.length >= 10}" (scroll)="onScrollApp($event)">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of searchAgencyResult">
+                <a class="list-link" (click)="getValueApp(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode)">{{data?.agencyName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <mat-select formControlName="agencyApp" placeholder="{{ 'agencyapp.select' | translate }}" (change)="selectedAgencyApp($event)">
+              <mat-option [value]=null>Select Agency Application</mat-option>
+              <mat-option *ngFor="let aa of agencyAppData" [value]="aa.agencyApplicationId">{{ aa.agencyApplicationName }}</mat-option>
+            </mat-select>           
+          </mat-form-field>
+        </div>  
+      </div>
+
+      <div class="example-header tableInfo" *ngIf="arrAgencyApp.length > 0">
+        <!-- <table class="tableInfo" border="1">
+          <tr style="background: grey;">
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">Agency Name</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%">Agency Url</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">Nama Agensi</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%">Url Agensi</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="10%">Action</td>
+
+          </tr>
+          <tr *ngFor="let a of arrAgencyApp" style="vertical-align: top;">
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">{{a[0].agencyName}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%" style="word-wrap: break-word;">{{a[0].agencyUrl}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="15%">{{a[1].agencyName}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="26%" style="word-wrap: break-word;">{{a[1].agencyUrl}}</td>
+            <td class="pdg_L_15px pdg_R_15px" item-width="10%"><button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(a[0].agencyCode)">
+              <i [ngClass]="commonservice.icon.trash"></i></button></td>
+          </tr>
+        </table>  -->
+
+        <mat-table #table [dataSource]="dataSource" matSort>           
+                 
+          <!-- add en Column -->
+          <ng-container matColumnDef="agencyNameEn">
+              <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'agency.name' | translate }} (EN) </mat-header-cell>
+              <mat-cell class="text-align-Left" *matCellDef="let element">
+                  {{element[0].agencyName}} 
+              </mat-cell>
+          </ng-container>
+
+          <!-- add bm Column -->
+          <ng-container matColumnDef="urlEn">
+              <mat-header-cell class="text-align-Left" *matHeaderCellDef> Url (EN)</mat-header-cell>
+              <mat-cell class="text-align-Left" *matCellDef="let element">
+                  {{element[0].agencyUrl}}
+              </mat-cell>
+          </ng-container>
+
+          <!-- add en Column -->
+          <ng-container matColumnDef="agencyNameBm">
+            <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'agency.name' | translate }} (BM) </mat-header-cell>
+            <mat-cell class="text-align-Left" *matCellDef="let element">
+                {{element[1].agencyName}} 
+            </mat-cell>
+          </ng-container>
+
+          <!-- add bm Column -->
+          <ng-container matColumnDef="urlBm">
+            <mat-header-cell class="text-align-Left" *matHeaderCellDef> Url (BM) </mat-header-cell>
+            <mat-cell class="text-align-Left" *matCellDef="let element">
+                {{element[1].agencyUrl}}
+            </mat-cell>
+          </ng-container>
+
+          <!-- add bm Column -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell class="text-align-Left statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+            <mat-cell class="text-align-Left statusColumn" *matCellDef="let element">
+              <button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(element[0].agencyCode)" [disabled]="disableApprove">
+                <i [ngClass]="commonservice.icon.trash"></i></button>
+            </mat-cell>
+          </ng-container>     
+         
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      </div><br>
+
+      <div class="example-header">
+        <div class="col-md-12">
+          <mat-checkbox class="example-full-width" formControlName="active" tabindex="9">{{ 'common.buttons.active' | translate }}</mat-checkbox>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-12">
+          <mat-checkbox formControlName="approve" (change)="approvePublisher()" ></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.approve' | translate }}</span>
+        </div>
+      </div>
+
+      <!-- <div class="example-header">
+        <div class="col-md-12">
+          <mat-checkbox class="example-full-width" formControlName="citizenflag" tabindex="10">{{ 'lifeeventtbl.citizenflag' | translate }}</mat-checkbox>
+        </div>
+      </div>
+
+      <div class="example-header">
+        <div class="col-md-12">
+          <mat-checkbox class="example-full-width" formControlName="noncitizenflag" tabindex="11">{{ 'lifeeventtbl.noncitizenflag' | translate }}</mat-checkbox>
+        </div>
+      </div> -->
+
+    </div>
+
+    <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite" >
+        
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+      (click)="submit(updateForm.value)" [disabled]="!complete || !appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag">
+        <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+        <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+      (click)="draft(updateForm.value)" [disabled]="!complete || appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag || disableApprove">
+        <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+        <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
+      <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
+      (click)="resetModal.show()" [disabled]="disableApprove"> 
+        <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
+       
+    </div>
+  </form>
+</div>
+
+<app-confirm-dialog #resetModal [title]="'common.icon.warn'" [content]="'common.msg.reset'" [state]="'bg_header bg_warn_header'"
+  [isReset]="'true'" (resetMethod)="myFunction()">
+</app-confirm-dialog>

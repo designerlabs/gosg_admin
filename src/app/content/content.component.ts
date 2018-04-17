@@ -328,20 +328,6 @@ export class ContentComponent implements OnInit {
 
   onChange(ele){    
 
-    // this.urlEdit = this.router.url.split('/')[2];
-
-    // if(this.urlEdit === "add" && ele == ""){
-    //   this.parentFlag = false;
-    // }
-
-    // else if(this.urlEdit === "add" && ele != ""){
-    //   this.parentFlag = true;
-    // }
-
-    // else{
-    //   this.parentFlag = true;
-    // }
-
     if(ele.length > 0 ){
       this.parentFlag = true;
     }
@@ -349,6 +335,8 @@ export class ContentComponent implements OnInit {
     else{
       this.parentFlag = false;
     }
+
+    console.log(ele);
   }
 
   getMinEventDate(){
@@ -377,7 +365,7 @@ export class ContentComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/dropdown')
+    return this.commonservice.readProtected('content/dropdown/'+this.commonservice.contentCategoryCode)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -500,7 +488,9 @@ export class ContentComponent implements OnInit {
         this.getRefCode = this.recordList.refCode;
         this.sendForApporval = dataEn.isSendForApproval;
 
-        this.checkReqValues();       
+        if(this.sendForApporval == true){
+          this.parentsEn.disable();
+        }       
         
         let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
         let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
@@ -569,9 +559,11 @@ export class ContentComponent implements OnInit {
         //get array of categoryId        
 
         console.log("GET CATEGORY TREE");
-        console.log(setParentEn);        
+        console.log(this.languageId);
+             
 
-        if(this.languageId == 1){          
+        if(this.languageId == 1){    
+          console.log("ENGLISH");      
           for(let i=0; i<dataEn.contentCategories.length; i++){
             let a;
 
@@ -588,7 +580,7 @@ export class ContentComponent implements OnInit {
         }
 
         else{
-
+          console.log("BAHASA MALAYSIA");   
           for(let i=0; i<dataBm.contentCategories.length; i++){
             let a;
       
@@ -604,7 +596,10 @@ export class ContentComponent implements OnInit {
           this.filterPlaceholder = this.commonservice.showFilterBm;
         }
 
-        this.updateForm.get('parentsEn').setValue(setParentEn);  
+        console.log(setParentEn);   
+        
+        this.updateForm.get('parentsEn').setValue(setParentEn);          
+        this.checkReqValues();
         
       });
     }

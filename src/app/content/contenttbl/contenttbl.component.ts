@@ -165,7 +165,7 @@ export class ContenttblComponent implements OnInit {
   getCategoryCode(){ 
 
     this.loading = true;
-    return this.commonservice.readProtected('content/dropdown')
+    return this.commonservice.readProtected('content/dropdown/'+this.commonservice.contentCategoryCode)
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
@@ -408,7 +408,7 @@ export class ContenttblComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/dropdown')
+    return this.commonservice.readProtected('content/dropdown/'+this.commonservice.contentCategoryCode)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){

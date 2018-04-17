@@ -497,9 +497,11 @@ export class LifeeventComponent implements OnInit {
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
         this.getRefCode = this.recordList.refCode;
-        this.sendForApporval = dataEn.isSendForApproval;
-
-        this.checkReqValues();       
+        this.sendForApporval = dataEn.isSendForApproval;       
+        
+        if(this.sendForApporval == true){
+          this.parentsEn.disable();
+        }
         
         let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
         let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
@@ -604,6 +606,7 @@ export class LifeeventComponent implements OnInit {
         }
 
         this.updateForm.get('parentsEn').setValue(setParentEn);  
+        this.checkReqValues();  
         
       });
     }
