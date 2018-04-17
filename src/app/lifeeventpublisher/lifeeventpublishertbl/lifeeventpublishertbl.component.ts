@@ -17,6 +17,8 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class LifeeventpublishertblComponent implements OnInit {
 
+  archiveId= [];
+
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
@@ -163,7 +165,7 @@ export class LifeeventpublishertblComponent implements OnInit {
   getCategoryCode(){ 
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/643')
+    return this.commonservice.readProtected('life/event/dropdown/'+this.commonservice.lifeEventCategoryCode)
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
@@ -401,7 +403,7 @@ export class LifeeventpublishertblComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/643')
+    return this.commonservice.readProtected('life/event/dropdown/'+this.commonservice.lifeEventCategoryCode)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -520,6 +522,62 @@ export class LifeeventpublishertblComponent implements OnInit {
 
     this.catCode = ele.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
+  }
+
+  resetAllMethod(){
+    this.archiveAll();
+  }
+
+  archiveAll(){
+    let archiveIds = this.archiveId.join(',');
+    this.commonservice.update('', `archive/update/multiple/${archiveIds}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+      }).bind(this)); 
+      this.archiveId = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.archiveId = [];
+        this.loading = false;
+      });
+
+  }
+
+  isChecked(event) {
+    if(event.checked){
+      this.archiveId.push(event.source.value);
+    }else{
+      let index = this.archiveId.indexOf(event.source.value);
+      this.archiveId.splice(index, 1);
+    }
+    return false;
+  }
+
+  archiveItem(refcode) {
+    this.loading = true;
+    this.commonservice.update('', `archive/update/${refcode}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+      }).bind(this)); 
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });
+
   }
 
 }

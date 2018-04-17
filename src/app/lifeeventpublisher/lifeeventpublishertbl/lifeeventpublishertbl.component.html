@@ -25,7 +25,7 @@
               <br>              
               <div class="row">                
 
-                  <div class="col-md-5 10 pdg_L_30px">
+                  <div class="col-md-5 pdg_L_30px">
                       <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                       [items]="itemEn"
                       textField ="text"
@@ -46,7 +46,7 @@
                       expandMode="All"></tree-select>
                   </div>
 
-                  <div class="col-md-4"> 
+                  <div class="col-md-3"> 
                       <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                       <mat-form-field>                        
                           <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
@@ -58,7 +58,7 @@
                       </mat-form-field>
                   </div>
 
-                  <div class="col-md-3 pdg_R_30px" *ngIf="languageId == 1">
+                  <div class="col-md-2" *ngIf="languageId == 1">
                       <mat-form-field style="width: 100%;">
                           <mat-select  placeholder="" formControlName="nameStatus" (change)="filterStatus($event)">
                               <mat-option *ngFor="let statusCreator of commonservice.listStatusPublisher" 
@@ -67,13 +67,33 @@
                       </mat-form-field>
                   </div>
 
-                  <div class="col-md-3 pdg_R_30px" *ngIf="languageId == 2">
+                  <div class="col-md-2" *ngIf="languageId == 2">
                       <mat-form-field style="width: 100%;">
                           <mat-select  placeholder="" formControlName="nameStatus" (change)="filterStatus($event)">
                               <mat-option *ngFor="let statusCreator of commonservice.listStatusPublisher" 
                               [value]="statusCreator.id">{{statusCreator.textBm}}</mat-option>
                           </mat-select>
                       </mat-form-field>
+                  </div>
+
+                  <div class="col-md-2 pdg_R_30px">
+                    <button [disabled]="!archiveId.length > 0" mat-raised-button color="warn" (click)="archiveAllModal.show()"><i [ngClass]="commonservice.icon.archive"></i> {{'common.buttons.archiveAll' | translate}}</button>
+                    <app-confirm-dialog  #archiveAllModal 
+                    [title]="'common.icon.warn'" 
+                    [content]="'common.msg.archive'"
+                    [state]="'common.state.warn'"
+                    [isReset]="'true'"
+                    (resetMethod)="resetAllMethod()">
+                    </app-confirm-dialog>
+
+                    <app-confirm-dialog  #archiveRow 
+                    [title]="'common.icon.warn'" 
+                    [content]="'common.msg.archive'"
+                    [state]="'common.state.warn'"
+                    [isReset]="'true'"
+                    (resetMethod)="archiveItem(element.refCode)">
+                    </app-confirm-dialog>
+                    
                   </div>
               </div>
              
@@ -85,7 +105,10 @@
               <ng-container matColumnDef="num">
                   <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                   <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-                      {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                    <span *ngIf="element.list[0].isApprovedFlag == false">
+                        {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}</span>
+                    <span *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true">
+                        <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event);"></mat-checkbox></span>
                   </mat-cell>
               </ng-container>
           
@@ -106,7 +129,7 @@
               </ng-container>
 
               <ng-container *ngIf="languageId == 1" matColumnDef="category">
-                  <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category </mat-header-cell>
+                  <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.category' | translate }} </mat-header-cell>
                   <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                       <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
                       <span class="tag-style"*ngFor="let ele of (element.list[0]?.contentCategories.length > 3 ? element.list[0]?.contentCategories.slice(0,3):  element.list[0]?.contentCategories)">
@@ -119,7 +142,7 @@
               </ng-container>
 
               <ng-container *ngIf="languageId == 2" matColumnDef="category">
-                  <mat-header-cell class="text-align-Left" *matHeaderCellDef> Kategori </mat-header-cell>
+                  <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.category' | translate }} </mat-header-cell>
                   <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                       <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
                       <span class="tag-style"*ngFor="let ele of (element.list[1]?.contentCategories.length > 3 ? element.list[1]?.contentCategories.slice(0,3):  element.list[1]?.contentCategories)">
@@ -163,10 +186,14 @@
                           (click)="delete.show()" title="Delete {{ element.refCode }}">
                           <i [ngClass]="commonservice.icon.trash"></i>
                       </button>
-                      <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
+                      <button mat-mini-fab class="bg_coral" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
+                      (click)="archiveRow.show()" title="Archive {{ element.refCode }}">
+                          <i [ngClass]="commonservice.icon.archive"></i>
+                      </button>
+                      <!-- <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
                           [disabled]="element.list[0].isApprovedFlag == true">  
                           <i [ngClass]="commonservice.icon.trash"></i>
-                      </button>
+                      </button> -->
                       <app-confirm-dialog  #delete
                       [title]="'common.icon.warn'" 
                       [content]="'common.msg.delete'"

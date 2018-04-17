@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
@@ -17,11 +17,11 @@ import { forEach } from '@angular/router/src/utils/collection';
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
+
 export class CategoryComponent implements OnInit {
   value: any;
   itemEn: any;
   itemBm: any;
-  
 
   updateForm: FormGroup;
   
@@ -57,11 +57,13 @@ export class CategoryComponent implements OnInit {
   public catCode: any;
   public loading = false;
 
-  public parentsValEn : any;
-  public parentsValBm : any;
+  public parentFlag = false;
 
   public categoryPlaceholder = "";
+  public filterPlaceholder = "";
   public urlEdit = "";
+
+  editor = {treeVal: '' };
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -69,7 +71,8 @@ export class CategoryComponent implements OnInit {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
-    private dialogsService: DialogsService) {
+    private dialogsService: DialogsService,
+    public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -96,6 +99,10 @@ export class CategoryComponent implements OnInit {
       //this.getData();
     }
     /* LANGUAGE FUNC */
+
+    // this.updateForm = builder.group({
+    //   treeVal: ""
+    // })
    
   }
 
@@ -153,61 +160,8 @@ export class CategoryComponent implements OnInit {
     
   }
 
-  selectedCat(e, val){
-
-    // console.log(e);
-    // this.getCatIdEn = e.value;
-    // this.getCatIdBm = e.value;
-    // let dataListEn = this.treeEn;
-    // let dataListBm = this.treeBm;
-    // let indexVal: any;
-    // let idBm: any;
-    // let idEn: any;
-    // let refCodeVal: any;
-
-    // // if english
-    // if(val == 1){
-
-    //   //get the refcode
-    //   for(let i=0; i<dataListEn.length; i++){
-    //     indexVal = dataListEn[i].id;
-    //     if(indexVal == this.getCatIdEn){
-    //       refCodeVal = dataListEn[i].refCode;
-    //     }        
-    //   }
-
-    //   //comprare refcode to get id for bm
-    //   for(let i=0; i<dataListBm.length; i++){
-    //     if(refCodeVal ==  dataListBm[i].refCode){
-    //       idBm = dataListBm[i].id;
-    //     }        
-    //   }
-
-    //   this.updateForm.get('parentsBm').setValue(idBm);  
-    // }
-
-    // else{ //if malay
-
-    //   for(let i=0; i<dataListBm.length; i++){
-    //     indexVal = dataListBm[i].id;
-    //     if(indexVal == this.getCatIdBm){
-    //       refCodeVal = dataListBm[i].refCode;
-    //     }        
-    //   }
-
-    //   for(let i=0; i<dataListEn.length; i++){
-    //     if(refCodeVal ==  dataListEn[i].refCode){
-    //       idBm = dataListEn[i].id;
-    //     }        
-    //   }
-
-    //   this.updateForm.get('parentsEn').setValue(idEn); 
-    // }
-  }
-
   selectedImage(e, val){
 
-    console.log(e);
     this.imageEn = e.value;
     this.imageBm = e.value;
    
@@ -249,14 +203,11 @@ export class CategoryComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('content/category')
      .subscribe(data => {
-  
-      console.log("GET CATEGORY: ");
-      console.log(data);
-        
+          
       this.commonservice.errorHandling(data, (function(){
 
-          this.categoryData = data["list"];   
-          console.log(this.categoryData);    
+          this.categoryData = data["list"]; 
+
           let arrCatEn = [];          
           let parentEn;
           let arrCatBm = [];          
@@ -273,9 +224,9 @@ export class CategoryComponent implements OnInit {
                     parent: this.categoryData[i].list[0].parentId.categoryId,
                     parentEn: this.categoryData[i].list[0].parentId.categoryId,
                     parentBm: this.categoryData[i].list[1].parentId.categoryId,
-                    // categoryName: this.categoryData[i].list[0].categoryName,
-                    text: this.categoryData[i].list[0].categoryName,
+                    categoryName: this.categoryData[i].list[0].categoryName,                    
                     checked: false,
+                    text: this.categoryData[i].list[0].categoryName,
                     children: []});      
                   
               arrCatBm.push({
@@ -285,7 +236,7 @@ export class CategoryComponent implements OnInit {
                     parent: this.categoryData[i].list[1].parentId.categoryId,
                     parentEn: this.categoryData[i].list[0].parentId.categoryId,
                     parentBm: this.categoryData[i].list[1].parentId.categoryId,
-                    // categoryName: this.categoryData[i].list[1].categoryName,
+                    categoryName: this.categoryData[i].list[1].categoryName,
                     checked: false,
                     text: this.categoryData[i].list[1].categoryName,
                     children: []}); 
@@ -303,7 +254,6 @@ export class CategoryComponent implements OnInit {
           }
           
           this.itemEn = this.treeEn;
-          console.log(this.itemEn);
           
         }).bind(this));
         this.loading = false;
@@ -312,7 +262,6 @@ export class CategoryComponent implements OnInit {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
     });
   }
 
@@ -365,8 +314,6 @@ export class CategoryComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
 
         this.recordList = data;
-        console.log("data");
-        console.log(data);
 
         this.updateForm.get('titleEn').setValue(this.recordList.list[0].categoryName);
         this.updateForm.get('titleBm').setValue(this.recordList.list[1].categoryName);   
@@ -393,41 +340,87 @@ export class CategoryComponent implements OnInit {
           this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
         }
         
-        this.parentsValEn = this.recordList.list[0].parentId.categoryId;
-        this.parentsValBm = this.recordList.list[1].parentId.categoryId;  
-
-        if(this.languageId == 1){
+        // if(this.languageId == 1){
       
-        //  this.updateForm.get('parentsEn').setValue(this.recordList.list[0].parentId.categoryId);
-          if(this.recordList.list[0].parentId.categoryId != -1){
-          this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
-          }
+        //   if(this.recordList.list[0].parentId.categoryId != -1){
+        //   this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
+        //   }
 
-          else{
-            this.categoryPlaceholder = "Category Parents";
+        //   else{
+        //     this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+        //   }
+        // }
+
+        // else{
+     
+        //   if(this.recordList.list[1].parentId.categoryId != -2){
+        //     this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
+        //   }
+
+        //   else{
+        //     this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
+        //   }
+        // }
+
+        let setParentEn = [];
+
+        //get array of categoryId        
+        console.log("GET CATEGORY TREE");
+        console.log(this.languageId);             
+
+        if(this.languageId == 1){    
+          console.log("ENGLISH");    
+
+          let a = {
+            "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
+            "text":this.recordList.list[0].parentId.categoryName,
+            "value": this.recordList.list[0].parentId.categoryId
           }
+            
+          setParentEn.push(a);    
+          
+          //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;          
+          this.filterPlaceholder = this.commonservice.showFilterEn;         
+          if(this.recordList.list[0].parentId.categoryId != -1){
+            this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
+          }
+  
+          else{
+            this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+          } 
         }
 
         else{
-        //  this.updateForm.get('parentsEn').setValue(this.recordList.list[1].parentId.categoryId);
-          if(this.recordList.list[1].parentId.categoryId != -2){
+          console.log("BAHASA MALAYSIA");   
+
+          let a = {
+            "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
+            "text":this.recordList.list[1].parentId.categoryName,
+            "value": this.recordList.list[1].parentId.categoryId
+          }  
+          
+          //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
+          this.filterPlaceholder = this.commonservice.showFilterBm;
+          if(this.recordList.list[0].parentId.categoryId != -2){
             this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
           }
-
+  
           else{
-            this.categoryPlaceholder = "Induk Kategori";
-          }
+            this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+          } 
         }
-       
+
+        console.log(setParentEn);           
+        this.updateForm.get('parentsEn').setValue(setParentEn);  
         this.checkReqValues();
+
       }).bind(this));
       this.loading = false;
     },
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      this.loading = false;
-      console.log(error);      
+      this.loading = false;    
     });
   }
 
@@ -439,7 +432,6 @@ export class CategoryComponent implements OnInit {
       this.commonservice.errorHandling(resCatData, (function(){
 
         this.imageData = resCatData['list'];       
-        console.log(this.imageData);
 
       }).bind(this));
       this.loading = false;
@@ -447,14 +439,31 @@ export class CategoryComponent implements OnInit {
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       this.loading = false;
-      console.log(error);
     });
+  }
+
+  onChange(ele){    
+
+    if(ele){
+      this.parentFlag = true;
+    }
+
+    else{
+      this.parentFlag = false;
+    }
+
+    console.log(ele);
+    console.log(this.parentFlag);
   }
 
   submit(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
-    let parentValEn: any;
-    let parentValBm: any;
+
+    let parentValEn = formValues.parentsEn;
+    let parentValBm = formValues.parentsBm;
+
+    console.log("PARENTSSSSSSSS");
+    console.log(formValues.parentsEn);
 
     let valImgEn: any;
     let valImgBm: any;
@@ -535,7 +544,8 @@ export class CategoryComponent implements OnInit {
       body[1].isDeleted = formValues.deleted; 
 
       //predefined super parent id;
-      if(formValues.parentsEn == null){
+      if(formValues.parentsEn == null || formValues.parentsEn == ""){
+
           parentValEn = -1;
           parentValBm = -2;
 
@@ -543,13 +553,11 @@ export class CategoryComponent implements OnInit {
           body[1].parentId.categoryId = parentValBm;
       }
 
-      else {      
-          parentValEn = formValues.parentsEn;
-          parentValBm = formValues.parentsBm;
-          body[0].parentId.categoryId = parentValEn.id[0];
-          body[1].parentId.categoryId = parentValEn.id[1];       
-      } 
-
+      else{
+      
+        body[0].parentId.categoryId = parentValEn.id[0];
+        body[1].parentId.categoryId = parentValEn.id[1];      
+      }
 
       if(formValues.imageBm != null && formValues.imageEn != null){
           body[0].image.mediaId = formValues.imageEn;      
@@ -574,7 +582,6 @@ export class CategoryComponent implements OnInit {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           this.loading = false;   
-          console.log(error);
       });
     }
 
@@ -641,18 +648,26 @@ export class CategoryComponent implements OnInit {
         console.log(formValues.imageEn +" : "+ formValues.imageBm);
       }
 
-      if(formValues.parentsEn == null){
-            
-        body[0].parentId.categoryId = this.parentsValEn;
-        body[1].parentId.categoryId = this.parentsValBm; 
-      }
+      // if(formValues.parentsEn == null || formValues.parentsEn == ""){
 
-      else {    
-        parentValEn = formValues.parentsEn;
-        parentValBm = formValues.parentsBm;
+      //   parentValEn = -1;
+      //   parentValBm = -2;
+            
+      //   body[0].parentId.categoryId = this.parentsValEn;
+      //   body[1].parentId.categoryId = this.parentsValBm; 
+      // }
+      console.log(parentValEn.length);
+
+      if(parentValEn.length == undefined){
         body[0].parentId.categoryId = parentValEn.id[0];
-        body[1].parentId.categoryId = parentValEn.id[1];    
-      } 
+        body[1].parentId.categoryId = parentValEn.id[1]; 
+      }
+    
+      else{
+        body[0].parentId.categoryId = parentValEn[0].id[0];
+        body[1].parentId.categoryId = parentValEn[0].id[1];  
+      }
+          
       
       console.log(JSON.stringify(body))
       this.loading = true;
@@ -671,7 +686,6 @@ export class CategoryComponent implements OnInit {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           this.loading = false;  
-          console.log(error);
       });
     }
     
@@ -710,11 +724,11 @@ export class CategoryComponent implements OnInit {
 
   changePlaceHolder(){
     if(this.languageId == 1){
-      this.categoryPlaceholder = "Category Parents";
+      this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
     }
 
     else{
-      this.categoryPlaceholder = "Induk Kategori";
+      this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
     }
   }
 

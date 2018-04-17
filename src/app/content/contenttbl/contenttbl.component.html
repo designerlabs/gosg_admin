@@ -25,7 +25,7 @@
                     <br>              
                     <div class="row">                
     
-                        <div class="col-md-5 10 pdg_L_30px">
+                        <div class="col-md-5 pdg_L_30px">
                             <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                             [items]="itemEn"
                             textField ="text"
@@ -46,7 +46,7 @@
                             expandMode="All"></tree-select>
                         </div>
     
-                        <div class="col-md-4"> 
+                        <div class="col-md-5"> 
                             <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                             <mat-form-field>                        
                                 <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
@@ -58,7 +58,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-3 pdg_R_30px" *ngIf="languageId == 1">
+                        <div class="col-md-2 pdg_R_30px" *ngIf="languageId == 1">
                             <mat-form-field style="width: 100%;">
                                 <mat-select  placeholder="" formControlName="nameStatus" (change)="filterStatus($event)">
                                     <mat-option *ngFor="let statusCreator of commonservice.listStatusCreator" 
@@ -67,7 +67,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-md-3 pdg_R_30px" *ngIf="languageId == 2">
+                        <div class="col-md-2 pdg_R_30px" *ngIf="languageId == 2">
                             <mat-form-field style="width: 100%;">
                                 <mat-select  placeholder="" formControlName="nameStatus" (change)="filterStatus($event)">
                                     <mat-option *ngFor="let statusCreator of commonservice.listStatusCreator" 
@@ -106,7 +106,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="languageId == 1" matColumnDef="category">
-                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Category </mat-header-cell>
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'contentmgmt.tableHeader.category' | translate }} </mat-header-cell>
                         <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                             <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
                             <span class="tag-style"*ngFor="let ele of (element.list[0]?.contentCategories.length > 3 ? element.list[0]?.contentCategories.slice(0,3):  element.list[0]?.contentCategories)">
@@ -119,7 +119,7 @@
                     </ng-container>
 
                     <ng-container *ngIf="languageId == 2" matColumnDef="category">
-                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> Kategori </mat-header-cell>
+                        <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'contentmgmt.tableHeader.category' | translate }} </mat-header-cell>
                         <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                             <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
                             <span class="tag-style"*ngFor="let ele of (element.list[1]?.contentCategories.length > 3 ? element.list[1]?.contentCategories.slice(0,3):  element.list[1]?.contentCategories)">

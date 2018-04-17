@@ -26,7 +26,7 @@
                 </div>
             </div><br>
             
-            <div class="example-header">
+            <div class="example-header"> 
                 <div class="col-md-12">
                     <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                     [items]="itemEn"
@@ -34,6 +34,7 @@
                     idField = "value"
                     childrenField="children"
                     formControlName="parentsEn"
+                    [filterPlaceholder]="filterPlaceholder"
                     minlength="2"
                     maxlength="4"
                     tabindex="5"
@@ -42,9 +43,10 @@
                     [placeholder]="categoryPlaceholder"
                     [allowFilter]=true
                     [allowParentSelection]=true
+                    [(ngModel)]="editor.treeVal"
+                    (ngModelChange)="onChange($event)"
                     expandMode="All"></tree-select>
-                </div>
-  
+                </div>    
             </div>
 
             <div class="bg-form-header col-md-12">
