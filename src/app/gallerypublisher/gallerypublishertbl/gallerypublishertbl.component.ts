@@ -304,7 +304,7 @@ export class GallerypublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.getGalleryData(this.pageCount, this.galleryPageSize);
 
       }).bind(this)); 
       this.archiveId = [];
@@ -336,7 +336,7 @@ export class GallerypublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.getGalleryData(this.pageCount, this.galleryPageSize);
 
       }).bind(this)); 
       this.loading = false;
