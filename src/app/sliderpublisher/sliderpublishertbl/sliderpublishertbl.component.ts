@@ -285,7 +285,6 @@ export class SliderpublishertblComponent implements OnInit {
     this.archiveAll();
   }
 
-
   archiveAll(){
     let archiveIds = this.archiveId.join(',');
     this.commonservice.create('', `archive/multiple/${archiveIds}`).subscribe(
@@ -317,7 +316,6 @@ export class SliderpublishertblComponent implements OnInit {
     }
     return false;
   }
-
 
   archiveItem(refcode) {
     this.loading = true;

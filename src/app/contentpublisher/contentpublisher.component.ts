@@ -469,6 +469,30 @@ export class ContentpublisherComponent implements OnInit {
     return out  
   }
 
+  getUserInfo(id) {
+   
+    console.log(id);
+    this.loading = true;
+    return this.commonservice.readProtected('usermanagement/' + id)
+      .subscribe(resUser => {
+
+        this.commonservice.errorHandling(resUser, (function () {
+          
+            this.userDetails = resUser["user"];
+
+            this.fullName = this.userDetails.fullName;
+            this.email = this.userDetails.email;
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[3];
@@ -530,7 +554,9 @@ export class ContentpublisherComponent implements OnInit {
 
         //set  value after preview
         this.contentTxtEn = addClassforTable;
-        this.contentTxtMy = addClassforTable_BM;      
+        this.contentTxtMy = addClassforTable_BM;     
+        
+        this.getUserInfo(dataEn.createdBy);
 
         this.parentValEn = dataEn.contentCategories[0].categoryId;
         this.parentValBm = dataBm.contentCategories[0].categoryId;

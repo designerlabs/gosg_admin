@@ -17,6 +17,8 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class LifeeventpublishertblComponent implements OnInit {
 
+  archiveId= [];
+
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
@@ -520,6 +522,62 @@ export class LifeeventpublishertblComponent implements OnInit {
 
     this.catCode = ele.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
+  }
+
+  resetAllMethod(){
+    this.archiveAll();
+  }
+
+  archiveAll(){
+    let archiveIds = this.archiveId.join(',');
+    this.commonservice.create('', `archive/multiple/${archiveIds}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+      }).bind(this)); 
+      this.archiveId = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.archiveId = [];
+        this.loading = false;
+      });
+
+  }
+
+  isChecked(event) {
+    if(event.checked){
+      this.archiveId.push(event.source.value);
+    }else{
+      let index = this.archiveId.indexOf(event.source.value);
+      this.archiveId.splice(index, 1);
+    }
+    return false;
+  }
+
+  archiveItem(refcode) {
+    this.loading = true;
+    this.commonservice.create('', `archive/${refcode}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+      }).bind(this)); 
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.loading = false;
+      });
+
   }
 
 }
