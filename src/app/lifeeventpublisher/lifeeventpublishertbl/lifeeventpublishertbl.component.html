@@ -76,7 +76,7 @@
                       </mat-form-field>
                   </div>
 
-                  <div class="col-md-2 paddingTop-10 pdg_R_30px">
+                  <div class="col-md-2 pdg_R_30px">
                     <button [disabled]="!archiveId.length > 0" mat-raised-button color="warn" (click)="archiveAllModal.show()"><i [ngClass]="commonservice.icon.archive"></i> {{'common.buttons.archiveAll' | translate}}</button>
                     <app-confirm-dialog  #archiveAllModal 
                     [title]="'common.icon.warn'" 
