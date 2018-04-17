@@ -57,8 +57,6 @@ export class CategoryComponent implements OnInit {
   public catCode: any;
   public loading = false;
 
-  public parentsValEn : any;
-  public parentsValBm : any;
   public parentFlag = false;
 
   public categoryPlaceholder = "";
@@ -342,9 +340,6 @@ export class CategoryComponent implements OnInit {
           this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
         }
         
-        this.parentsValEn = this.recordList.list[0].parentId.categoryId;
-        this.parentsValBm = this.recordList.list[1].parentId.categoryId;  
-
         // if(this.languageId == 1){
       
         //   if(this.recordList.list[0].parentId.categoryId != -1){
@@ -661,13 +656,18 @@ export class CategoryComponent implements OnInit {
       //   body[0].parentId.categoryId = this.parentsValEn;
       //   body[1].parentId.categoryId = this.parentsValBm; 
       // }
+      console.log(parentValEn.length);
 
-      // else{
+      if(parentValEn.length == undefined){
+        body[0].parentId.categoryId = parentValEn.id[0];
+        body[1].parentId.categoryId = parentValEn.id[1]; 
+      }
     
+      else{
         body[0].parentId.categoryId = parentValEn[0].id[0];
         body[1].parentId.categoryId = parentValEn[0].id[1];  
-
-      //}        
+      }
+          
       
       console.log(JSON.stringify(body))
       this.loading = true;
