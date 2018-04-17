@@ -91,7 +91,7 @@
 }
 
     
-.permission_container{
+.permission_container_blk{
     text-align: right;
     display: inline-block;
     width: 50%;
@@ -104,7 +104,8 @@
     display: inline-block;
 }
 
-.permission_container span{
-    padding: 0px 7px;
+.permission_container_blk span{
+    padding: 0px 6px;
     font-weight: bold;
+    font-size: 16px;
 }
