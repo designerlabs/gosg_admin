@@ -376,7 +376,7 @@ export class LifeeventComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/643')
+    return this.commonservice.readProtected('life/event/creator/dropdown/643')
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){

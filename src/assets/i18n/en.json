@@ -286,7 +286,7 @@
         "num": "No.",
         "action": "Action",
         "status": "Status",
-        "activestatus": "Active Status",
+        "activestatus": "Status Active",
         "default": "Default",
         "icno": "IC No.",
         "bm": "BM",
@@ -341,6 +341,16 @@
       "youtube": "Youtube URL",
       "instagram": "Instagram URL",
       "flickr": "Filckr URL"
+    },
+    "title":{
+      "draft": "Draft",
+      "sending": "Sending for Approval",
+      "waiting": "Waiting for Approval",
+      "approved": "Approved",
+      "view": "View",
+      "delete": "Delete",
+      "update": "Update",
+      "archive": "Archive"
     },
     "mdecstatus": "MDEC Status",
     "agency": "Agency",
@@ -657,7 +667,7 @@
       "feedbacktype": "Feedback Type",
       "name": "Name",
       "email": "Email",
-      "draftstatus": "Draft Status"
+      "draftstatus": "Status Draft"
     },
     "tablebottom":{
       "feedback": "feedback message"

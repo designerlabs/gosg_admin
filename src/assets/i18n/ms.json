@@ -221,7 +221,7 @@
   "common":{
     "buttons":{
       "delete":"Padam",
-      "archiveAll": "Arkib All",
+      "archiveAll": "Arkib Semua",
       "revertAll": "Guna Semula Semua",
       "update":"Kemaskini",
       "submit":"Hantar",
@@ -286,7 +286,7 @@
         "num": "Bil.",
         "action": "Tindakan",
         "status": "Status",
-        "activestatus": "Status Aktif",
+        "activestatus": "Aktif Status",
         "default": "Default",
         "icno": "No. KP",
         "bm": "BM",
@@ -341,6 +341,16 @@
       "youtube": "URL Youtube",
       "instagram": "URL Instagram",
       "flickr": "URL Filckr"
+    },
+    "title":{
+      "draft": "Draf",
+      "sending": "Hantar untuk diluluskan",
+      "waiting": "Menunggu untuk diluluskan",
+      "approved": "Telah diluluskan",
+      "view": "Lihat",
+      "delete": "Padam",
+      "update": "Kemaskini",
+      "archive": "Arkib"
     },
     "mdecstatus": "Status MDEC",
     "agency": "Agensi",
@@ -657,7 +667,7 @@
       "feedbacktype": "Jenis Maklum Balas",
       "name": "Nama",
       "email": "Emel",
-      "draftstatus": "Status Draf"
+      "draftstatus": "Draf Status"
     },
     "tablebottom":{
       "feedback": "mesej maklum balas"

@@ -104,6 +104,8 @@ import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpu
 import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
 import { ContentpublishertblComponent } from './contentpublisher/contentpublishertbl/contentpublishertbl.component';
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
+import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
+import { ParticipationComponent } from './participation/participation.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -184,6 +186,13 @@ export const appRoutes: Routes = [
 
 {path: 'publisher/gallery', component: GallerypublishertblComponent},
 {path: 'publisher/gallery/:id', component: GallerypublisherComponent},
+
+{path: 'participation', component: ParticipationtblComponent},
+{path: 'participation/add', component: ParticipationComponent},
+{path: 'participation/:id', component: ParticipationComponent},
+
+// {path: 'publisher/participation', component: GallerypublishertblComponent},
+// {path: 'publisher/participation/:id', component: GallerypublisherComponent},
 
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},

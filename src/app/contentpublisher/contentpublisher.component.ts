@@ -375,7 +375,7 @@ export class ContentpublisherComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/dropdown/'+this.commonservice.contentCategoryCode)
+    return this.commonservice.readProtected('content/publisher/dropdown/'+this.commonservice.contentCategoryCode)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){

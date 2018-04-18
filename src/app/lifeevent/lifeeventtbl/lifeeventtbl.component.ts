@@ -164,7 +164,7 @@ export class LifeeventtblComponent implements OnInit {
   getCategoryCode(){ 
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/'+this.commonservice.lifeEventCategoryCode)
+    return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode)
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
@@ -407,7 +407,7 @@ export class LifeeventtblComponent implements OnInit {
   getCategory(){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/dropdown/'+this.commonservice.lifeEventCategoryCode)
+    return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -523,6 +523,8 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   onChange(ele){    
+
+    console.log(ele);
 
     this.catCode = ele.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);   

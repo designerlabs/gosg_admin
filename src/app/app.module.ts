@@ -131,6 +131,8 @@ import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpu
 import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
 import { ContentpublishertblComponent } from './contentpublisher/contentpublishertbl/contentpublishertbl.component';
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
+import { ParticipationComponent } from './participation/participation.component';
+import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -240,6 +242,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     LifeeventpublisherComponent,
     ContentpublishertblComponent,
     ContentpublisherComponent,
+    ParticipationComponent,
+    ParticipationtblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
