@@ -535,7 +535,7 @@ export class LifeeventpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode); 
 
       }).bind(this)); 
       this.archiveId = [];
@@ -567,7 +567,7 @@ export class LifeeventpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
 
       }).bind(this)); 
       this.loading = false;

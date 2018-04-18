@@ -201,6 +201,14 @@
                       [isReset]="'true'"
                       (resetMethod)="deleteRow(element.refCode)">
                       </app-confirm-dialog>
+
+                      <app-confirm-dialog  #archiveRow 
+                        [title]="'common.icon.warn'" 
+                        [content]="'common.msg.archive'"
+                        [state]="'common.state.warn'"
+                        [isReset]="'true'"
+                        (resetMethod)="archiveItem(element.refCode)">
+                      </app-confirm-dialog>
                   </mat-cell>
               </ng-container>
           
