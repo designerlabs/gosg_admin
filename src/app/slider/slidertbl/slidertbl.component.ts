@@ -16,6 +16,8 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class SlidertblComponent implements OnInit {
 
+  selectedItem = [];
+
   sliderData: Object;
   sliderList = null;
   displayedColumns: any;
@@ -92,6 +94,7 @@ export class SlidertblComponent implements OnInit {
               this.languageId = val.languageId;
               this.getSlidersData(this.pageCount, this.sliderPageSize);
               this.commonservice.getModuleId();
+              this.selectedItem = [];
             }
           }.bind(this));
         })
@@ -107,7 +110,7 @@ export class SlidertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
+    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
@@ -264,6 +267,29 @@ export class SlidertblComponent implements OnInit {
     this.router.navigate(['slider', row]);
   }
 
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log(deletedCodes);
+    this.commonservice.delete('', `slider/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.selectedItem = [];
+        this.loading = false;
+      });
+  }
+
   deleteItem(refcode) {
 
     this.loading = true;
@@ -283,6 +309,21 @@ export class SlidertblComponent implements OnInit {
         this.loading = false;
       });
 
+  }
+
+  isChecked(event) {
+
+    console.log(event);
+    
+    if(event.checked){
+      this.selectedItem.push(event.source.value);
+    }else{
+      let index = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(index, 1);
+    }
+
+    console.log(this.selectedItem);
+    return false;
   }
 
   // changePageMode(isEdit) {

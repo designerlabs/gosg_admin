@@ -15,7 +15,9 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./sliderpublishertbl.component.css']
 })
 export class SliderpublishertblComponent implements OnInit {
-  archiveId= [];
+  archiveId = [];
+  arrStatus = [];
+  selectedItem = [];
 
   sliderData: Object;
   sliderList = null;
@@ -107,7 +109,7 @@ export class SliderpublishertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
+    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
@@ -307,13 +309,30 @@ export class SliderpublishertblComponent implements OnInit {
 
   }
 
-  isChecked(event) {
+  isChecked(event, statusApproved) {
+    
+    console.log(statusApproved);
+
     if(event.checked){
       this.archiveId.push(event.source.value);
+
+      if(statusApproved == true){
+        this.arrStatus.push(statusApproved);
+      }
+      
     }else{
       let index = this.archiveId.indexOf(event.source.value);
       this.archiveId.splice(index, 1);
+
+      for(let i=0; i<this.arrStatus.length; i++){
+        if(this.arrStatus[i] == true){
+          this.arrStatus.splice(i,1);
+        }         
+      }
     }
+
+    console.log(this.arrStatus);
+
     return false;
   }
 
