@@ -1124,7 +1124,7 @@
       "descBm": "Keterangan (BM)"
     }
   },
-  "digitalserviceitem": {
+  "digitalservicetype": {
     "header": "Pengurusan Perkhidmatan Digital",
     "tableHeader":{
       "servicenameEn": "Service Name (EN)",

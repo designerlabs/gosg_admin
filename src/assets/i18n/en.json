@@ -1121,8 +1121,8 @@
       "descBm": "Description (BM)"
     }
   },
-  "digitalserviceitem": {
-    "header": "Digital Service Item Management",
+  "digitalservicetype": {
+    "header": "Digital Service Type Management",
     "tableHeader":{
       "servicenameEn": "Service Name (EN)",
       "servicenameBm": "Service Name (BM)"
@@ -1135,6 +1135,6 @@
       "isdoc": "is Document",
       "serviceURL": "Service URL"
     },
-    "select":"Select Digital Service Item"
+    "select":"Select Digital Service Type"
   }
 }
