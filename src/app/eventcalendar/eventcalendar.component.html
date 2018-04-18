@@ -4,7 +4,7 @@
 
 <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-        <h3>{{ pageMode }} {{ 'calendar.component.header' | translate }}</h3>
+        <h3>{{ pageMode  | translate }} {{ 'calendar.component.header' | translate }}</h3>
     </div>
     
     <div class="col-md-2 curdHeadingRight">
@@ -289,7 +289,7 @@
       <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
       (click)="updateAction(updateForm.value)" [disabled]="!complete">
       <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
-      <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode }}</button>
+      <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode | translate }}</button>
       <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="btn btn-md btn-warning pull-right"
       (click)="resetModal.show()">
       <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>

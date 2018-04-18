@@ -106,6 +106,10 @@ import { ContentpublishertblComponent } from './contentpublisher/contentpublishe
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
 import { ParticipationComponent } from './participation/participation.component';
+import { DigitalservicetblComponent } from './digitalservice/digitalservicetbl/digitalservicetbl.component';
+import { DigitalserviceComponent } from './digitalservice/digitalservice.component';
+import { DigitalservicetypetblComponent } from './digitalservice/digitalservicetype/digitalservicetypetbl/digitalservicetypetbl.component';
+import { DigitalservicetypeComponent } from './digitalservice/digitalservicetype/digitalservicetype.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -162,6 +166,14 @@ export const appRoutes: Routes = [
 // ARCHIVE
 {path: 'archive', component: ArchivetblComponent},
 {path: 'archive/:id', component: ArchiveComponent},
+
+// DIGITAL SERVICES
+{path: 'digitalservice', component: DigitalservicetblComponent},
+{path: 'digitalservice/add', component: DigitalserviceComponent},
+{path: 'digitalservice/:id', component: DigitalserviceComponent},
+{path: 'digitalservice/type', component: DigitalservicetypetblComponent},
+{path: 'digitalservice/type/add', component: DigitalservicetypeComponent},
+{path: 'digitalservice/type/:id', component: DigitalservicetypeComponent},
 
 // Poll: N
 {path: 'poll/questions', component: PollquestiontblComponent},

@@ -1104,5 +1104,38 @@
     "button": {
       "revert": "Revert"
     }
+  },
+  "digitalservice": {
+    "header": "Pengurusan Perkhidmatan Digital",
+    "tableHeader":{
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)"
+    },
+    "tablebottom":{
+      "services": "Perkhidmatan"
+    },
+    "name":"Nama Agensi",
+    "component": {
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "descEn": "Keterangan (EN)",
+      "descBm": "Keterangan (BM)"
+    }
+  },
+  "digitalserviceitem": {
+    "header": "Pengurusan Perkhidmatan Digital",
+    "tableHeader":{
+      "servicenameEn": "Service Name (EN)",
+      "servicenameBm": "Service Name (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Jenis Perkhidmatan Digital",
+      "isdoc": "is Document",
+      "serviceURL": "URL Perkhidmatan"
+    },
+    "select":"Pilih Jenis Perkhidmatan Digital"
   }
 }

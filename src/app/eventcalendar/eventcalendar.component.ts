@@ -171,11 +171,11 @@ export class EventcalendarComponent implements OnInit {
 
     if(refCode == "add") {
       this.isEdit = false;
-      this.pageMode = "Add";
+      this.pageMode = 'common.add';
       this.updateForm.get('active').setValue(true);
     } else {
       this.isEdit = true;
-      this.pageMode = "Update";
+      this.pageMode = 'common.update';
       this.getRow(refCode);
     }
     

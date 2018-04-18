@@ -1101,5 +1101,38 @@
       "image": "Image",
       "imageerr": "Please select a file"
     }
+  },
+  "digitalservice": {
+    "header": "Digital Service Management",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)"
+    },
+    "tablebottom":{
+      "services": "Services"
+    },
+    "name":"Agency Name",
+    "component": {
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "descEn": "Description (EN)",
+      "descBm": "Description (BM)"
+    }
+  },
+  "digitalserviceitem": {
+    "header": "Digital Service Item Management",
+    "tableHeader":{
+      "servicenameEn": "Service Name (EN)",
+      "servicenameBm": "Service Name (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Digital Service Type",
+      "isdoc": "is Document",
+      "serviceURL": "Service URL"
+    },
+    "select":"Select Digital Service Item"
   }
 }

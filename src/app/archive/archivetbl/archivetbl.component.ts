@@ -96,7 +96,7 @@ export class ArchivetblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','titleEn', 'titleBm', 'contentAction'];
+    this.displayedColumns = ['cb','no','titleEn', 'titleBm', 'contentAction'];
     this.commonservice.getModuleId();
   }
 

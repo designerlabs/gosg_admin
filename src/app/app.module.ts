@@ -133,6 +133,10 @@ import { ContentpublishertblComponent } from './contentpublisher/contentpublishe
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 import { ParticipationComponent } from './participation/participation.component';
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
+import { DigitalserviceComponent } from './digitalservice/digitalservice.component';
+import { DigitalservicetblComponent } from './digitalservice/digitalservicetbl/digitalservicetbl.component';
+import { DigitalservicetypeComponent } from './digitalservice/digitalservicetype/digitalservicetype.component';
+import { DigitalservicetypetblComponent } from './digitalservice/digitalservicetype/digitalservicetypetbl/digitalservicetypetbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -244,6 +248,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContentpublisherComponent,
     ParticipationComponent,
     ParticipationtblComponent,
+    DigitalserviceComponent,
+    DigitalservicetblComponent,
+    DigitalservicetypeComponent,
+    DigitalservicetypetblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
