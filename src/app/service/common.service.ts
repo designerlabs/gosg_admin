@@ -69,6 +69,7 @@ export class CommonService {
     times: 'fa fa-times',
     trash: 'fa fa-trash',
     plus: 'fa fa-plus',
+    plusSquare: 'fa fa-plus-square',
     arrLeft: 'fa fa-angle-left',
     arrRight: 'fa fa-angle-right',
     refresh: 'fa fa-refresh',

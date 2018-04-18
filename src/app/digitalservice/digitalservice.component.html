@@ -1,0 +1,146 @@
+<!-- VIEW: ADD/EDIT AGENCY APP  -->
+<div class="container right-content">
+  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+      <h3>{{ pageMode | translate }} {{ 'digitalservice.tableHeader.header' | translate }} </h3>
+    </div>
+
+    <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+        <button type="button" mat-fab color="accent" (click)="back()">
+          <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+  </div>
+
+  <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off"
+    role="form" novalidate>
+
+    <div class="example-container mat-elevation-z8 col-md-12">
+      <div class="row">
+        <div class="bg-form-header col-md-6">
+          <label>English</label>
+        </div>
+        <div class="bg-form-header col-md-6">
+          <label>Bahasa Malaysia</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width ">
+            <input matInput tabindex="1" placeholder="Title" formControlName="titleEn" (change)="checkReqValues()" required>
+            <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
+              Title is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width ">
+            <input matInput tabindex="2" placeholder="Tajuk" formControlName="titleBm" value="" (change)="checkReqValues()" required>
+            <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
+              Tajuk diperlukan
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width ">
+            <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+              required></textarea>
+            <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
+              Description is required
+            </mat-error>
+            <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width ">
+            <textarea matInput tabindex="4" placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+              required></textarea>
+            <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
+              Keterangan diperlukan
+            </mat-error>
+            <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+            <!-- <mat-error *ngIf="!validateCtrlChk(feedback_message) && feedbackFormgrp.controls.feedback_message.errors.required">{{'feedback.err.drop' | translate }}</mat-error> -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)"
+              (keyup)="getSearchData(agencyEn.value, 1)" (change)="checkReqValues()" required>
+            <button mat-button *ngIf="agencyEn.value" matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="updateForm.controls.agencyEn.hasError('required')">
+              Agency is required
+            </mat-error>
+          </mat-form-field>
+
+          <div *ngIf="isActiveListEn" [ngClass]="{'listParent':searchAgencyResultEn.length < 10,'listParent-w-scroll':searchAgencyResultEn.length >= 10}"
+            (scroll)="onScroll($event,1)">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of searchAgencyResultEn">
+                <a class="list-link" (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.agencyName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="6" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)"
+              (keyup)="getSearchData(agencyBm.value, 2)" (change)="checkReqValues()" required>
+            <button mat-button *ngIf="agencyBm.value" matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
+              <mat-icon>close</mat-icon>
+            </button>
+            <mat-error *ngIf="updateForm.controls.agencyBm.hasError('required')">
+              Agensi diperlukan
+            </mat-error>
+          </mat-form-field>
+
+          <div *ngIf="isActiveListBm" [ngClass]="{'listParent':searchAgencyResultBm.length < 10,'listParent-w-scroll':searchAgencyResultBm.length >= 10}"
+            (scroll)="onScroll($event,2)">
+            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+              <li class="list-group-item" *ngFor="let data of searchAgencyResultBm">
+                <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <mat-checkbox tabindex="7" formControlName="active" [checked]="true"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.active' | translate }}</span>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+    </div>
+
+    <div class="col-md-12">&nbsp;</div>
+    <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success  pull-right" (click)="updateAction(updateForm.value)"
+        style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+        <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>{{ pageMode | translate}}</button>
+      <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning  pull-right" style="width: 100px; font-family: Roboto"
+        (click)="myFunction()">
+        <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
+    </div>
+    <div class="col-md-12">&nbsp;</div>
+  </form>
+</div>

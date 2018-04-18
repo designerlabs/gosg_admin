@@ -108,8 +108,8 @@ import { ParticipationtblComponent } from './participation/participationtbl/part
 import { ParticipationComponent } from './participation/participation.component';
 import { DigitalservicetblComponent } from './digitalservice/digitalservicetbl/digitalservicetbl.component';
 import { DigitalserviceComponent } from './digitalservice/digitalservice.component';
-import { DigitalservicetypetblComponent } from './digitalservice/digitalservicetype/digitalservicetypetbl/digitalservicetypetbl.component';
-import { DigitalservicetypeComponent } from './digitalservice/digitalservicetype/digitalservicetype.component';
+import { DigitalservicedetailstblComponent } from './digitalservice/digitalservicedetails/digitalservicedetailstbl/digitalservicedetailstbl.component';
+import { DigitalservicedetailsComponent } from './digitalservice/digitalservicedetails/digitalservicedetails.component';
 import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
 import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
 
@@ -173,9 +173,9 @@ export const appRoutes: Routes = [
 {path: 'digitalservice', component: DigitalservicetblComponent},
 {path: 'digitalservice/add', component: DigitalserviceComponent},
 {path: 'digitalservice/:id', component: DigitalserviceComponent},
-{path: 'digitalservice/type', component: DigitalservicetypetblComponent},
-{path: 'digitalservice/type/add', component: DigitalservicetypeComponent},
-{path: 'digitalservice/type/:id', component: DigitalservicetypeComponent},
+{path: 'digitalservicedetails', component: DigitalservicedetailstblComponent},
+{path: 'digitalservicedetails/add', component: DigitalservicedetailsComponent},
+{path: 'digitalservicedetails/:id', component: DigitalservicedetailsComponent},
 
 // Poll: N
 {path: 'poll/questions', component: PollquestiontblComponent},

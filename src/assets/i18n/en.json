@@ -1107,6 +1107,7 @@
   "digitalservice": {
     "header": "Digital Service Management",
     "tableHeader":{
+      "header": "Digital Service",
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)"
     },
@@ -1121,9 +1122,10 @@
       "descBm": "Description (BM)"
     }
   },
-  "digitalservicetype": {
-    "header": "Digital Service Type Management",
+  "digitalservicedetails": {
+    "header": "Digital Service Details Management",
     "tableHeader":{
+    "header": "Digital Service Details",
       "servicenameEn": "Service Name (EN)",
       "servicenameBm": "Service Name (BM)"
     },
@@ -1131,10 +1133,13 @@
       "agency": "applications"
     },
     "component": {
-      "header": "Digital Service Type",
+      "header": "Digital Service Details",
       "isdoc": "is Document",
       "serviceURL": "Service URL"
     },
-    "select":"Select Digital Service Type"
+    "select":"Select Digital Service Details"
+  },
+  "err": {
+
   }
 }

@@ -1,0 +1,133 @@
+<!-- VIEW: ADD/EDIT AGENCY APP  -->
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+        <h3>{{ pageMode | translate }} {{ 'digitalservicedetails.tableHeader.header' | translate }} </h3>
+      </div>
+  
+      <div class="col-md-2 curdHeadingRight">
+        <span class="pull-right">
+          <button type="button" mat-fab color="accent" (click)="back()">
+            <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+  
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+    </div>
+  
+    <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off"
+      role="form" novalidate>
+  
+      <div class="example-container mat-elevation-z8 col-md-12">
+        <div class="row">
+          <div class="bg-form-header col-md-6">
+            <label>English</label>
+          </div>
+          <div class="bg-form-header col-md-6">
+            <label>Bahasa Malaysia</label>
+          </div>
+        </div>
+  
+        <div class="row">
+            <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="1" placeholder="Category" formControlName="categoryEn" #categoryEn (click)="getSearchData(categoryEn.value, 1)"
+                (keyup)="getSearchData(categoryEn.value, 1)" (change)="checkReqValues()" required>
+              <button mat-button *ngIf="categoryEn.value" matSuffix mat-icon-button aria-label="Clear" (click)="categoryEn.value=''; resetSearch()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="updateForm.controls.categoryEn.hasError('required')">
+                Category is required
+              </mat-error>
+            </mat-form-field>
+  
+            <div *ngIf="isActiveListEn" [ngClass]="{'listParent':searchCategoryResultEn.length < 10,'listParent-w-scroll':searchCategoryResultEn.length >= 10}"
+              (scroll)="onScroll($event,1)">
+              <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+                <li class="list-group-item" *ngFor="let data of searchCategoryResultEn">
+                  <a class="list-link" (click)="getValue(data?.id,data?.title, data?.code,1)">{{data?.title}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6" style="border: 0px solid #000; text-align: left">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="2" placeholder="Kategori" formControlName="categoryBm" #categoryBm (click)="getSearchData(categoryBm.value, 2)"
+                (keyup)="getSearchData(categoryBm.value, 2)" (change)="checkReqValues()" required>
+              <button mat-button *ngIf="categoryBm.value" matSuffix mat-icon-button aria-label="Clear" (click)="categoryBm.value=''; resetSearch()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="updateForm.controls.categoryBm.hasError('required')">
+                Kategori diperlukan
+              </mat-error>
+            </mat-form-field>
+  
+            <div *ngIf="isActiveListBm" [ngClass]="{'listParent':searchCategoryResultBm.length < 10,'listParent-w-scroll':searchCategoryResultBm.length >= 10}"
+              (scroll)="onScroll($event,2)">
+              <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+                <li class="list-group-item" *ngFor="let data of searchCategoryResultBm">
+                  <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width ">
+              <input matInput tabindex="3" placeholder="Title" formControlName="titleEn" (change)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
+                Title is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width ">
+              <input matInput tabindex="4" placeholder="Tajuk" formControlName="titleBm" value="" (change)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.titleBm.hasError('required')">
+                Tajuk diperlukan
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width ">
+              <input matInput tabindex="5" placeholder="Service Url" formControlName="serviceUrl" (change)="checkReqValues()" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.serviceUrl.hasError('required')">
+                Service Url is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">
+            <mat-checkbox tabindex="5" formControlName="active" [checked]="true"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.active' | translate }}</span>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+      </div>
+  
+      <div class="col-md-12">&nbsp;</div>
+      <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
+        <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success  pull-right" (click)="updateAction(updateForm.value)"
+          style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+          <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+          <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>{{ pageMode | translate}}</button>
+        <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning  pull-right" style="width: 100px; font-family: Roboto"
+          (click)="myFunction()">
+          <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
+      </div>
+      <div class="col-md-12">&nbsp;</div>
+    </form>
+  </div>

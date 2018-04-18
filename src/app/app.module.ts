@@ -135,8 +135,8 @@ import { ParticipationComponent } from './participation/participation.component'
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
 import { DigitalserviceComponent } from './digitalservice/digitalservice.component';
 import { DigitalservicetblComponent } from './digitalservice/digitalservicetbl/digitalservicetbl.component';
-import { DigitalservicetypeComponent } from './digitalservice/digitalservicetype/digitalservicetype.component';
-import { DigitalservicetypetblComponent } from './digitalservice/digitalservicetype/digitalservicetypetbl/digitalservicetypetbl.component';
+import { DigitalservicedetailsComponent } from './digitalservice/digitalservicedetails/digitalservicedetails.component';
+import { DigitalservicedetailstblComponent } from './digitalservice/digitalservicedetails/digitalservicedetailstbl/digitalservicedetailstbl.component';
 import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
 import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -252,8 +252,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ParticipationtblComponent,
     DigitalserviceComponent,
     DigitalservicetblComponent,
-    DigitalservicetypeComponent,
-    DigitalservicetypetblComponent,
+    DigitalservicedetailsComponent,
+    DigitalservicedetailstblComponent,
     ParticipationpublisherComponent,
     ParticipationpublishertblComponent,
   ],

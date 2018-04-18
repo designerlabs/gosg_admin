@@ -1110,6 +1110,7 @@
   "digitalservice": {
     "header": "Pengurusan Perkhidmatan Digital",
     "tableHeader":{
+      "header": "Perkhidmatan Digital",
       "titleEn": "Tajuk (EN)",
       "titleBm": "Tajuk (BM)"
     },
@@ -1124,9 +1125,10 @@
       "descBm": "Keterangan (BM)"
     }
   },
-  "digitalservicetype": {
-    "header": "Pengurusan Perkhidmatan Digital",
+  "digitalservicedetails": {
+    "header": "Pengurusan Kandungan Perkhidmatan Digital",
     "tableHeader":{
+    "header": "Kandungan Perkhidmatan Digital",
       "servicenameEn": "Service Name (EN)",
       "servicenameBm": "Service Name (BM)"
     },
@@ -1134,10 +1136,10 @@
       "agency": "applications"
     },
     "component": {
-      "header": "Jenis Perkhidmatan Digital",
+      "header": "Kandungan Perkhidmatan Digital",
       "isdoc": "is Document",
       "serviceURL": "URL Perkhidmatan"
     },
-    "select":"Pilih Jenis Perkhidmatan Digital"
+    "select":"Pilih Kandungan Perkhidmatan Digital"
   }
 }
