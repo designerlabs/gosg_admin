@@ -62,6 +62,8 @@ export class ParticipationComponent implements OnInit {
   seqMy: FormControl
   urlEng: FormControl
   urlMy: FormControl
+  public agencyEn: FormControl;  
+  public agencyBm: FormControl;
   resetMsg = this.resetMsg;
 
   isRead: boolean;
@@ -70,6 +72,15 @@ export class ParticipationComponent implements OnInit {
   isDelete: boolean;
   languageId: any;
   public loading = false;
+
+  ministryNameEn:any;
+  ministryNameBm:any;
+  isActiveListEn: boolean;
+  isActiveListBm: boolean;
+  searchAgencyResultEn: string[];
+  searchAgencyResultBm: string[];
+  agencyIdEn:any;
+  agencyIdBm:any;
 
   sendForApporval: boolean;
 
@@ -150,6 +161,8 @@ export class ParticipationComponent implements OnInit {
     this.seqMy = new FormControl()
     this.urlEng = new FormControl();
     this.urlMy = new FormControl();
+    this.agencyEn = new FormControl();
+    this.agencyBm = new FormControl();
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
 
@@ -158,6 +171,8 @@ export class ParticipationComponent implements OnInit {
 
     this.updateForm = new FormGroup({
 
+      agencyEn: this.agencyEn,
+      agencyBm: this.agencyBm,
       endD: this.endD,
       publish: this.publish,
       titleEn: this.titleEn,
@@ -265,6 +280,29 @@ export class ParticipationComponent implements OnInit {
           //set  value after preview
           this.contentTxtEn = addClassforTable;
           this.contentTxtMy = addClassforTable_BM;
+
+          //get details agency
+          let getObjKeys = Object.keys(dataEn);
+          let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
+
+          console.log("KEY OBJECT");
+          console.log(valMT.length);
+
+          let detAgenId;
+          let detAgenCode;
+
+          if(valMT.length > 0){
+            if(this.languageId == 2){
+              detAgenId = dataBm.agencyId;
+              detAgenCode = dataBm.agencyCode;
+            }
+            else{
+              detAgenId = dataEn.agencyId;
+              detAgenCode = dataEn.agencyCode;
+            }
+
+            this.getDetailsAgency(detAgenId, detAgenCode);
+          }
 
           this.checkReqValues();
         }).bind(this));
@@ -402,8 +440,10 @@ export class ParticipationComponent implements OnInit {
     let endD = "endD";
     let urlEng = "urlEng";
     let urlMy = "urlMy";
+    let agencyEn = "agencyEn";
+    let agencyBm = "agencyBm"
 
-    let reqVal: any = [titleEn, descEn, titleBm, descBm, publish, endD, urlEng, urlMy];
+    let reqVal: any = [titleEn, descEn, titleBm, descBm, publish, endD, urlEng, urlMy, agencyEn, agencyBm];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -665,6 +705,9 @@ export class ParticipationComponent implements OnInit {
             "language": {
               "languageId": 1
             },
+            "agency": {
+              "agencyId": null
+            }, 
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -681,6 +724,9 @@ export class ParticipationComponent implements OnInit {
             "language": {
               "languageId": 2
             },
+            "agency": {
+              "agencyId": null
+            }, 
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -694,6 +740,7 @@ export class ParticipationComponent implements OnInit {
       body[0].contents[0].eparticipationText = this.contentTxtEn;
       body[0].contents[0].eparticipationSort = formValues.seqEng;
       body[0].contents[0].eparticipationActiveFlag = formValues.active;
+      body[0].contents[0].agency.agencyId = this.agencyIdEn;
       body[0].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
@@ -704,6 +751,7 @@ export class ParticipationComponent implements OnInit {
       body[1].contents[0].eparticipationText = this.contentTxtMy;
       body[1].contents[0].eparticipationSort = formValues.seqMy;
       body[1].contents[0].eparticipationActiveFlag = formValues.active;
+      body[1].contents[0].agency.agencyId = this.agencyIdBm;
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
@@ -739,6 +787,9 @@ export class ParticipationComponent implements OnInit {
             "language": {
               "languageId": 1
             },
+            "agency": {
+              "agencyId": null
+            }, 
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -756,6 +807,9 @@ export class ParticipationComponent implements OnInit {
             "language": {
               "languageId": 2
             },
+            "agency": {
+              "agencyId": null
+            }, 
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -770,6 +824,7 @@ export class ParticipationComponent implements OnInit {
       body[0].contents[0].eparticipationText = this.contentTxtEn;
       body[0].contents[0].eparticipationSort = formValues.seqEng;
       body[0].contents[0].eparticipationActiveFlag = formValues.active;
+      body[0].contents[0].agency.agencyId = this.agencyIdEn;
       body[0].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
@@ -781,6 +836,7 @@ export class ParticipationComponent implements OnInit {
       body[1].contents[0].eparticipationText = this.contentTxtMy;
       body[1].contents[0].eparticipationSort = formValues.seqMy;
       body[1].contents[0].eparticipationActiveFlag = formValues.active;
+      body[1].contents[0].agency.agencyId = this.agencyIdBm;
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
@@ -803,4 +859,182 @@ export class ParticipationComponent implements OnInit {
     }
   }
 
+  onScroll(event, lngId){
+
+    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
+      // console.log(this.searchAgencyResultEn.length)
+      console.log(event)
+
+      let keywordVal;
+      
+      if(lngId == 1) {
+        keywordVal = this.updateForm.get("agencyEn").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
+        console.log(this.searchAgencyResultEn)
+      } else if(lngId == 2) {
+        keywordVal = this.updateForm.get("agencyBm").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
+        console.log(this.searchAgencyResultBm)
+      }
+    }
+  }
+
+  resetSearch() {
+    this.updateForm.get('agencyEn').setValue('');
+    this.updateForm.get('agencyBm').setValue('');
+    this.isActiveListEn = false;
+    this.isActiveListBm = false;
+    this.agencyIdEn = null;
+    this.agencyIdBm = null;
+    this.ministryNameEn = "";
+    this.ministryNameBm = "";
+    
+    this.checkReqValues();
+    // this.getModuleData(this.pageCount, this.pageSize);
+  }
+
+  getSearchData(keyword, langId, count, page){
+    
+    let selLangField;
+
+    this.searchAgencyResultEn = [];
+    this.searchAgencyResultBm = [];
+      
+    if(langId == 1) {
+      selLangField = "agencyBm";
+      this.ministryNameBm = "";
+    } else {
+      selLangField = "agencyEn";
+      this.ministryNameEn = "";
+    }
+    this.updateForm.get(selLangField).setValue("");
+
+    //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+    this.loading = true;  
+    //this.isActive = true;    
+
+    setTimeout(()=>{
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
+        data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          if(data['agencyList'].length != 0) {
+            if(langId == 1) {
+              this.searchAgencyResultEn = data['agencyList'];
+              this.isActiveListEn = true;
+              this.isActiveListBm = false;
+            } else {
+              this.searchAgencyResultBm = data['agencyList'];
+              this.isActiveListBm = true;
+              this.isActiveListEn = false;
+            }
+          }
+        }).bind(this));
+          this.loading = false;
+      },error => {
+        this.loading = false;
+      });
+    }, 2000); 
+    // else {
+    //   this.agencyIdEn = null;
+    //   this.agencyIdBm = null;
+    //   this.isActiveListEn = false;
+    //   this.isActiveListBm = false;
+    // }
+  }
+
+  //inthis case== english is 2, malay is 1
+  getDetailsAgency(agenId, agenCode){
+
+    let detailsAgency;
+    let agenName;
+    let minisName;
+  
+    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '').subscribe(
+      data => {
+
+      this.commonservice.errorHandling(data, (function(){
+        
+        detailsAgency = data['list'];
+  
+        agenName = detailsAgency[0].agencyName;
+        minisName = detailsAgency[0].agencyMinistry.ministryName;       
+
+        this.getValue(agenId,agenName,minisName,agenCode, this.languageId);
+        
+      }).bind(this));
+        this.loading = false;
+    },err => {
+      this.loading = false;
+    });
+  }
+
+  getValue(aId,aName,mName, refCode, langId){
+
+    if(langId == 1) {
+      this.agencyEn = this.updateForm.get('agencyEn').value;
+      this.isActiveListEn = false;
+      this.searchAgencyResultEn = [''];
+      this.updateForm.get('agencyEn').setValue(aName);
+      this.agencyEn = aId;
+      this.agencyIdEn = aId;
+      this.ministryNameEn = mName;
+
+    } else {
+      this.agencyBm = this.updateForm.get('agencyBm').value;
+      this.isActiveListBm = false;
+      this.updateForm.get('agencyBm').setValue(aName);
+      this.agencyBm = aId;
+      this.agencyIdBm = aId;
+      this.ministryNameBm = mName;
+
+    }
+
+    this.checkReqValues();
+    this.getAgencyByRefCode(refCode,langId);
+  }
+
+  getAgencyByRefCode(refCode, langId) {
+
+    let selLangField;
+    let mName;
+    let aName;
+    let aId;
+
+    if(langId == 1) {
+      langId = 2;
+      selLangField = "agencyBm";
+    } else {
+      langId = 1;
+      selLangField = "agencyEn";
+    }
+    this.loading = true;
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    .subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+       
+          mName = data['list'][0]['agencyMinistry']['ministryName'];
+          aName = data['list'][0]['agencyName'];
+          aId = data['list'][0]['agencyId'];
+          
+          this.updateForm.get(selLangField).setValue(aName);
+
+          if(langId == 1) {
+            this.agencyIdEn = aId;
+            this.ministryNameEn = mName;
+          } else {
+            this.agencyIdBm = aId;
+            this.ministryNameBm = mName;
+          }
+
+          this.checkReqValues();
+        }).bind(this));
+        this.loading = false;
+    }, err => {
+      this.loading = false;
+    });
+  }
 }

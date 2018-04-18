@@ -1239,6 +1239,8 @@ export class LifeeventpublisherComponent implements OnInit {
     this.isActiveListBm = false;
     this.agencyIdEn = null;
     this.agencyIdBm = null;
+    this.ministryNameEn = "";
+    this.ministryNameBm = "";
     // this.getModuleData(this.pageCount, this.pageSize);
   }
 

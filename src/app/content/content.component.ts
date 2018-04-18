@@ -351,7 +351,7 @@ export class ContentComponent implements OnInit {
    
     this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
-    this.checkReqValues()
+    this.checkReqValues();
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
@@ -1370,6 +1370,8 @@ export class ContentComponent implements OnInit {
     this.isActiveListBm = false;
     this.agencyIdEn = null;
     this.agencyIdBm = null;
+    this.ministryNameEn = "";
+    this.ministryNameBm = "";
     // this.getModuleData(this.pageCount, this.pageSize);
   }
 
