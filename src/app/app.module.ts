@@ -133,6 +133,8 @@ import { ContentpublishertblComponent } from './contentpublisher/contentpublishe
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 import { ParticipationComponent } from './participation/participation.component';
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
+import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
+import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -244,6 +246,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContentpublisherComponent,
     ParticipationComponent,
     ParticipationtblComponent,
+    ParticipationpublisherComponent,
+    ParticipationpublishertblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
