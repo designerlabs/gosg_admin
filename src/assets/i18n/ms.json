@@ -257,7 +257,9 @@
       "ledraft": "Peristiwa Kehidupan  berjaya disimpan sebagai deraf!",
       "lesubmitted":"Peristiwa Kehidupan berjaya dihantar!",
       "contentdraft": "Kandungan berjaya disimpan sebagai deraf!",
-      "contentsubmitted":"Kandungan  berjaya dihantar!"
+      "contentsubmitted":"Kandungan  berjaya dihantar!",
+      "eparticipationdraft": "Kandungan berjaya disimpan sebagai deraf!",
+      "eparticipationsubmitted":"Kandungan  berjaya dihantar!"
     },
     "icon":{
       "success":"fa fa-check",

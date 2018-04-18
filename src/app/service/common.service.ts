@@ -25,15 +25,18 @@ export class CommonService {
 
   sliderCategoryCode = 4;
   galleryCategoryCode = 39; 
+  lifeEventCategoryCode = 643;
+  contentCategoryCode = 675;
+  participationCategoryCode = 658;
 
   sliderContentCategoryIdEn = 15;
   sliderContentCategoryIdBm = 16;
 
   galleryContentCategoryIdEn = 2;
-  galleryContentCategoryIdBm = 10;
+  galleryContentCategoryIdBm = 10;  
 
-  lifeEventCategoryCode = 643;
-  contentCategoryCode = 675;
+  participationContentCategoryIdEn = 665;
+  participationContentCategoryIdBm = 666; 
  
   isAdmin: boolean;
   getDataT: any;

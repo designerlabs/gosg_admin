@@ -111,7 +111,7 @@
                   <i [ngClass]="commonservice.icon.trash"></i>
                 </button>
                 <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
-                  [disabled]="element.list[0].isSendForApproval == true"><i [ngClass]="commonservice.icon.trash"></i>
+                  [disabled]="element.list[0].isSendForApproval == true" (click)="deleteRow.show()"><i [ngClass]="commonservice.icon.trash"></i>
                 </button>
                 <app-confirm-dialog  #deleteRow 
                 [title]="'common.icon.warn'" 

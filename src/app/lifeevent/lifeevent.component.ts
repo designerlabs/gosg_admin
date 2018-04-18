@@ -502,6 +502,13 @@ export class LifeeventComponent implements OnInit {
         if(this.sendForApporval == true){
           this.parentsEn.disable();
         }
+
+        this.dateFormatExample = "";
+
+        this.publishdt = dataEn.publishDate;
+        this.enddt = dataEn.endDate;
+        this.updateForm.get('publish').setValue(dataEn.publishDate);
+        this.updateForm.get('endD').setValue(dataEn.publishDate);
         
         let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
         let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');

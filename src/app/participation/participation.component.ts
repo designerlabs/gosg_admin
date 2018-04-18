@@ -34,8 +34,8 @@ export class ParticipationComponent implements OnInit {
   parseEnBtn: boolean;
   parseMyBtn: boolean;
 
-  // public contentTxtEn: FormControl;
-  // public contentTxtMy: FormControl;
+  public contentTxtEn: FormControl;
+  public contentTxtMy: FormControl;
   public htmlContentEn: FormControl;
   public htmlContentMy: FormControl;
 
@@ -173,8 +173,7 @@ export class ParticipationComponent implements OnInit {
       htmlContentMy: this.htmlContentMy
     });
 
-    let now = new Date();
-    
+    let now = new Date();    
 
     if (refCode == "add") {
       this.isEdit = false;
@@ -217,13 +216,13 @@ export class ParticipationComponent implements OnInit {
           
           let dataEn = this.participantData['contentDetailList'][0];
           let dataBm = this.participantData['contentDetailList'][1];
-          this.getFileList(parseInt(dataEn.contentImage.mediaTypeId)); 
           // populate data
           this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
           this.updateForm.get('descEn').setValue(dataEn.contentDescription);
-
           this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
           this.updateForm.get('descBm').setValue(dataBm.contentDescription);
+          this.updateForm.get('urlEng').setValue(dataEn.contentUrl);
+          this.updateForm.get('urlMy').setValue(dataBm.contentUrl);
        
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
           this.updateForm.get('seqMy').setValue(dataBm.contentSort);
@@ -239,8 +238,33 @@ export class ParticipationComponent implements OnInit {
           this.participantCode = this.participantData.refCode;          
           this.participantIdEn = dataEn.contentId;
           this.participantIdBm = dataBm.contentId;
-
           this.sendForApporval = dataEn.isSendForApproval;
+
+          let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
+          let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
+          let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
+          let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
+          let addClassforTable = addClassforSpan.replace('class="table">', '>');
+
+
+          let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
+          let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
+          let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
+          let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
+          let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
+          let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
+
+          this.rawValEn = addClassforTable;
+          this.rawValBm = addClassforTable_BM;
+
+          //set value at input field
+          this.htmlContentEn.setValue(addClassforTable);
+          this.htmlContentMy.setValue(addClassforTable_BM);
+
+          //set  value after preview
+          this.contentTxtEn = addClassforTable;
+          this.contentTxtMy = addClassforTable_BM;
 
           this.checkReqValues();
         }).bind(this));
@@ -333,10 +357,12 @@ export class ParticipationComponent implements OnInit {
   parseChkEn(e){
 
     this.parseEnBtn = false;
+    this.checkReqValues();
   }
 
   parseChkMy(e){
     this.parseMyBtn = false;
+    this.checkReqValues();
   }
 
   getMinEventDate(){
@@ -630,73 +656,64 @@ export class ParticipationComponent implements OnInit {
         {
           "contentCategoryId": null,
           "contents": [{
-            "galleryTitle": null,
-            "galleryDescription": null,
-            "galleryImage": {
-              "mediaId": null,
-              "mediaTypeId": null
-            },
-            "gallerySort": null,
-            "galleryActiveFlag": null,
+            "eparticipationTitle": null,
+            "eparticipationDescription": null,
+            "eparticipationUrl": null,
+            "eparticipationText": null,
+            "eparticipationSort": null,
+            "eparticipationActiveFlag": null,
             "language": {
-              "languageId": null
+              "languageId": 1
             },
-            "galleryPublishDate": null,
-            "galleryEndDate": null
+            "eparticipationPublishDate": null,
+            "eparticipationEndDate": null
           }]
         },
         {
           "contentCategoryId": null,
           "contents": [{
-            "galleryTitle": null,
-            "galleryDescription": null,
-            "galleryImage": {
-              "mediaId": null,
-              "mediaTypeId": null
-            },
-            "gallerySort": null,
-            "galleryActiveFlag": null,
+            "eparticipationTitle": null,
+            "eparticipationDescription": null,
+            "eparticipationUrl": null,
+            "eparticipationText": null,
+            "eparticipationSort": null,
+            "eparticipationActiveFlag": null,
             "language": {
-              "languageId": null
+              "languageId": 2
             },
-            "galleryPublishDate": null,
-            "galleryEndDate": null
+            "eparticipationPublishDate": null,
+            "eparticipationEndDate": null
           }]
         }
       ];
 
-      // console.log(formValues)
-      body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
-      body[0].contents[0].galleryTitle = formValues.titleEn;
-      body[0].contents[0].galleryDescription = formValues.descEn;
-      body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
-      body[0].contents[0].galleryImage.mediaTypeId = formValues.mtype;
-      body[0].contents[0].gallerySort = formValues.seqEng;
-      body[0].contents[0].galleryActiveFlag = formValues.active;
-      body[0].contents[0].language.languageId = 1;
-      body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
-      body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
+      body[0].contentCategoryId = this.commonservice.participationContentCategoryIdEn;
+      body[0].contents[0].eparticipationTitle = formValues.titleEn;
+      body[0].contents[0].eparticipationDescription = formValues.descEn;
+      body[0].contents[0].eparticipationUrl = formValues.urlEng;
+      body[0].contents[0].eparticipationText = this.contentTxtEn;
+      body[0].contents[0].eparticipationSort = formValues.seqEng;
+      body[0].contents[0].eparticipationActiveFlag = formValues.active;
+      body[0].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
-      body[1].contents[0].galleryTitle = formValues.titleBm;
-      body[1].contents[0].galleryDescription = formValues.descBm;
-      body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
-      body[1].contents[0].galleryImage.mediaTypeId = formValues.mtype;
-      body[1].contents[0].gallerySort = formValues.seqMy;
-      body[1].contents[0].galleryActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;
-      body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
-      body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
+      body[1].contentCategoryId = this.commonservice.participationContentCategoryIdBm;
+      body[1].contents[0].eparticipationTitle = formValues.titleBm;
+      body[1].contents[0].eparticipationDescription = formValues.descBm;
+      body[1].contents[0].eparticipationUrl = formValues.urlMy;
+      body[1].contents[0].eparticipationText = this.contentTxtMy;
+      body[1].contents[0].eparticipationSort = formValues.seqMy;
+      body[1].contents[0].eparticipationActiveFlag = formValues.active;
+      body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
       console.log(JSON.stringify(body))
 
-
-      // Add gallery Service
-      this.commonservice.create(body, 'gallery/creator/draft').subscribe(
+      this.commonservice.create(body, 'e-participation/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
-            this.router.navigate(['gallery']);
+            this.toastr.success(this.translate.instant('common.success.eparticipationdraft'), '');
+            this.router.navigate(['eparticipation']);
           }).bind(this));
           this.loading = false;
         },
@@ -711,78 +728,69 @@ export class ParticipationComponent implements OnInit {
       let body = [
         {
           "contentCategoryId": null,
-          "contents": [
-            {
-              "galleryId": null,
-              "galleryTitle": null,
-              "galleryDescription": null,
-              "galleryImage": {
-                "mediaId": null,
-                "mediaTypeId": null
-              },
-              "gallerySort": null,
-              "galleryActiveFlag": null,
-              "language": {
-                "languageId": null
-              },
-              "galleryPublishDate": null,
-              "galleryEndDate": null
-            }
-          ]
+          "contents": [{
+            "eparticipationId": null,
+            "eparticipationTitle": null,
+            "eparticipationDescription": null,
+            "eparticipationUrl": null,
+            "eparticipationText": null,
+            "eparticipationSort": null,
+            "eparticipationActiveFlag": null,
+            "language": {
+              "languageId": 1
+            },
+            "eparticipationPublishDate": null,
+            "eparticipationEndDate": null
+          }]
         },
         {
           "contentCategoryId": null,
-          "contents": [
-            {
-              "galleryId": null,
-              "galleryTitle": null,
-              "galleryDescription": null,
-              "galleryImage": {
-                "mediaId": null,
-                "mediaTypeId": null
-              },
-              "gallerySort": null,
-              "galleryActiveFlag": null,
-              "language": {
-                "languageId": null
-              },
-              "galleryPublishDate": null,
-              "galleryEndDate": null
-            }
-          ]
+          "contents": [{
+            "eparticipationId": null,
+            "eparticipationTitle": null,
+            "eparticipationDescription": null,
+            "eparticipationUrl": null,
+            "eparticipationText": null,
+            "eparticipationSort": null,
+            "eparticipationActiveFlag": null,
+            "language": {
+              "languageId": 2
+            },
+            "eparticipationPublishDate": null,
+            "eparticipationEndDate": null
+          }]
         }
       ];
-      body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
-      // body[0].contents[0].participantCode = this.participantCode;
-      body[0].contents[0].galleryId = this.participantIdEn;
-      body[0].contents[0].galleryTitle = formValues.titleEn;
-      body[0].contents[0].galleryDescription = formValues.descEn;
-      body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
-      body[0].contents[0].galleryImage.mediaTypeId = formValues.mtype;
-      body[0].contents[0].gallerySort = formValues.seqEng;
-      body[0].contents[0].galleryActiveFlag = formValues.active;
-      body[0].contents[0].language.languageId = 1;
-      body[0].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
-      body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
+      
+      body[0].contentCategoryId = this.commonservice.participationContentCategoryIdEn;
+      body[0].contents[0].eparticipationId = this.participantIdEn;
+      body[0].contents[0].eparticipationTitle = formValues.titleEn;
+      body[0].contents[0].eparticipationDescription = formValues.descEn;
+      body[0].contents[0].eparticipationUrl = formValues.urlEng;
+      body[0].contents[0].eparticipationText = this.contentTxtEn;
+      body[0].contents[0].eparticipationSort = formValues.seqEng;
+      body[0].contents[0].eparticipationActiveFlag = formValues.active;
+      body[0].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
+      body[0].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
-      body[1].contents[0].galleryId = this.participantIdBm;
-      body[1].contents[0].galleryTitle = formValues.titleBm;
-      body[1].contents[0].galleryDescription = formValues.descBm;
-      body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
-      body[1].contents[0].galleryImage.mediaTypeId = formValues.mtype;
-      body[1].contents[0].gallerySort = formValues.seqMy;
-      body[1].contents[0].galleryActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;
-      body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
-      body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
-      console.log(body);
-      // Update gallery Service
+      body[1].contentCategoryId = this.commonservice.participationContentCategoryIdBm;
+      body[1].contents[0].eparticipationId = this.participantIdBm;
+      body[1].contents[0].eparticipationTitle = formValues.titleBm;
+      body[1].contents[0].eparticipationDescription = formValues.descBm;
+      body[1].contents[0].eparticipationUrl = formValues.urlMy;
+      body[1].contents[0].eparticipationText = this.contentTxtMy;
+      body[1].contents[0].eparticipationSort = formValues.seqMy;
+      body[1].contents[0].eparticipationActiveFlag = formValues.active;
+      body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
+      body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
+
+      console.log(JSON.stringify(body));
+
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-        this.commonservice.update(body, 'gallery/creator/draft').subscribe(
+        this.commonservice.update(body, 'participation/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
+            this.toastr.success(this.translate.instant('common.success.eparticipationdraft'), '');
             this.router.navigate(['gallery']);
           }).bind(this));
           this.loading = false;
