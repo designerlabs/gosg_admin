@@ -34,6 +34,7 @@ export class ParticipationpublisherComponent implements OnInit {
   parseEnBtn: boolean;
   parseMyBtn: boolean;
 
+  approve: FormControl
   public contentTxtEn: FormControl;
   public contentTxtMy: FormControl;
   public htmlContentEn: FormControl;
@@ -82,7 +83,12 @@ export class ParticipationpublisherComponent implements OnInit {
   agencyIdEn:any;
   agencyIdBm:any;
 
-  sendForApporval: boolean;
+  appPublisher = false;
+  disableApprove: any;
+
+  userDetails: any;
+  fullName: any;
+  email: any;
 
   editor = { enVal: '', bmVal: ''};
   editorConfig = {
@@ -165,12 +171,14 @@ export class ParticipationpublisherComponent implements OnInit {
     this.agencyBm = new FormControl();
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
+    this.approve = new FormControl();
 
     this.parseEnBtn = false;
     this.parseMyBtn = false;
 
     this.updateForm = new FormGroup({
 
+      approve: this.approve,
       agencyEn: this.agencyEn,
       agencyBm: this.agencyBm,
       endD: this.endD,
@@ -218,6 +226,30 @@ export class ParticipationpublisherComponent implements OnInit {
     this.router.navigate(['publisher/eparticipation']);
   }
 
+  getUserInfo(id) {
+   
+    console.log(id);
+    this.loading = true;
+    return this.commonservice.readProtected('usermanagement/' + id)
+      .subscribe(resUser => {
+
+        this.commonservice.errorHandling(resUser, (function () {
+          
+            this.userDetails = resUser["user"];
+
+            this.fullName = this.userDetails.fullName;
+            this.email = this.userDetails.email;
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+  }
+
   // get, add, update, delete
   getRow(row) {
     this.loading = true;
@@ -253,7 +285,14 @@ export class ParticipationpublisherComponent implements OnInit {
           this.participantCode = this.participantData.refCode;          
           this.participantIdEn = dataEn.contentId;
           this.participantIdBm = dataBm.contentId;
-          this.sendForApporval = dataEn.isSendForApproval;
+          
+          if(dataEn.isApprovedFlag == true){
+            this.appPublisher = false;
+            this.approve.disable();
+            this.parentsEn.disable();
+          }
+  
+          this.disableApprove = dataEn.isApprovedFlag;   
 
           let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
           let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
@@ -281,6 +320,7 @@ export class ParticipationpublisherComponent implements OnInit {
           this.contentTxtEn = addClassforTable;
           this.contentTxtMy = addClassforTable_BM;
 
+          this.getUserInfo(dataEn.createdBy);
           //get details agency
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
@@ -874,6 +914,22 @@ export class ParticipationpublisherComponent implements OnInit {
     }, err => {
       this.loading = false;
     });
+  }
+
+  approvePublisher(){
+
+    let appVal = this.updateForm.get('approve');
+    
+    if(appVal.value == true){
+      this.appPublisher = true;
+      this.updateForm.get('active').setValue(true);
+      //this.approve.enable();
+    }
+
+    else{
+      this.appPublisher = false;
+      //this.approve.disable();
+    }    
   }
 
 }
