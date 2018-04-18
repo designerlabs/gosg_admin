@@ -30,7 +30,6 @@ export class ContentpublisherComponent implements OnInit {
   publish: FormControl
   endD: FormControl
 
-
   rawValBm: any;
   rawValEn: any;
 
@@ -1486,6 +1485,7 @@ export class ContentpublisherComponent implements OnInit {
     
     if(appVal.value == true){
       this.appPublisher = true;
+      this.updateForm.get('active').setValue(true);
       //this.approve.enable();
     }
 

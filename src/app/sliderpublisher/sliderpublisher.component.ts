@@ -830,12 +830,13 @@ export class SliderpublisherComponent implements OnInit {
 
     if(appVal.value == true){
       this.appPublisher = true;
-      this.approve.enable();
+      //this.approve.enable();
+      this.updateForm.get('active').setValue(true);
     }
 
     else{
       this.appPublisher = false;
-      this.approve.disable();
+      //this.approve.disable();
     }    
   }
 

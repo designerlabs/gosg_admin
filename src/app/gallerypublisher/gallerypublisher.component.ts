@@ -872,12 +872,13 @@ export class GallerypublisherComponent implements OnInit {
         
       if(appVal.value == true){
         this.appPublisher = true;
-        this.approve.enable();
+        this.updateForm.get('active').setValue(true);
+        //this.approve.enable();
       }
   
       else{
         this.appPublisher = false;
-        this.approve.disable();
+        //this.approve.disable();
       }    
     }
 

@@ -1500,6 +1500,7 @@ export class LifeeventpublisherComponent implements OnInit {
     
     if(appVal.value == true){
       this.appPublisher = true;
+      this.updateForm.get('active').setValue(true);
       //this.approve.enable();
     }
 
