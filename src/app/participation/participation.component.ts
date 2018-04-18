@@ -1,29 +1,45 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import { CommonService } from '../service/common.service';
-import { Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
-import { LangChangeEvent } from '@ngx-translate/core';
+import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { DialogsService } from './../dialogs/dialogs.service';
+import { stringify } from '@angular/core/src/util';
+import { forEach } from '@angular/router/src/utils/collection';
+import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
+import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
-  selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.css']
+  selector: 'app-participation',
+  templateUrl: './participation.component.html',
+  styleUrls: ['./participation.component.css']
 })
-export class GalleryComponent implements OnInit {
-  
+export class ParticipationComponent implements OnInit {
+
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
   publishdt:number;  
   enddt: number;
   minDate: any;
 
-  galleryData: Object;
+  rawValBm: any;
+  rawValEn: any;
+
+  parseEnBtn: boolean;
+  parseMyBtn: boolean;
+
+  // public contentTxtEn: FormControl;
+  // public contentTxtMy: FormControl;
+  public htmlContentEn: FormControl;
+  public htmlContentMy: FormControl;
+
+  participantData: Object;
   dataUrl: any;
   date = new Date();
   updateForm: FormGroup
@@ -31,9 +47,9 @@ export class GalleryComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-  galleryCode: any;
-  galleryIdEn: any;
-  galleryIdBm: any;
+  participantCode: any;
+  participantIdEn: any;
+  participantIdBm: any;
 
   publish: FormControl
   endD: FormControl
@@ -41,13 +57,11 @@ export class GalleryComponent implements OnInit {
   titleBm: FormControl
   descEn: FormControl
   descBm: FormControl
-  imgEn: FormControl
-  imgBm: FormControl
   active: FormControl
-  copyImg: FormControl
   seqEng: FormControl
   seqMy: FormControl
-  mtype: FormControl
+  urlEng: FormControl
+  urlMy: FormControl
   resetMsg = this.resetMsg;
 
   isRead: boolean;
@@ -55,26 +69,39 @@ export class GalleryComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
-  fileData = [];
-  mediaTypes: any;
   public loading = false;
-  getImgIdEn: any;
-  getImgIdBm: any;
-  selectedFileEn = '';
-  selectedFileMy = '';
-  mediaPath = '';
-  contentCategoryIdEn='';
-  contentCategoryIdMy='';
 
   sendForApporval: boolean;
 
-  constructor(
-    private http: HttpClient,
+  editor = { enVal: '', bmVal: ''};
+  editorConfig = {
+    "editable": true,
+    "spellcheck": true,
+    "height": "600px",
+    "minHeight": "0",
+    "width": "auto",
+    "minWidth": "0",
+    "translate": "yes",
+    "enableToolbar": true,
+    "showToolbar": true,
+    "placeholder": "Enter text here...",
+    "toolbar": [
+        ["bold", "italic"],
+        ["cut", "copy", "delete", "undo", "redo"],
+        ["paragraph", "orderedList", "unorderedList"],
+        ["link", "unlink"]
+    ]
+  }
+
+  constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService,
     private translate: TranslateService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialogsService: DialogsService,
+    public dialog: MatDialog,
+    public builder: FormBuilder
   ) {
 
     /* LANGUAGE FUNC */
@@ -97,7 +124,12 @@ export class GalleryComponent implements OnInit {
       this.languageId = localStorage.getItem('langID');
       this.commonservice.getModuleId();
     }
-    /* LANGUAGE FUNC */ 
+    /* LANGUAGE FUNC */
+
+    this.updateForm = builder.group({
+      enVal: "",
+      bmVal: ""
+    })
   }
 
   ngOnInit() {
@@ -107,21 +139,22 @@ export class GalleryComponent implements OnInit {
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.getMinEventDate();
-    // this.getFileList();
-    this.getMediaTypes()
     this.publish = new FormControl()
     this.endD = new FormControl
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
     this.descEn = new FormControl()
     this.descBm = new FormControl()
-    this.imgEn = new FormControl()
-    this.imgBm = new FormControl()
     this.active = new FormControl()
-    this.copyImg = new FormControl()
     this.seqEng = new FormControl()
     this.seqMy = new FormControl()
-    this.mtype = new FormControl()
+    this.urlEng = new FormControl();
+    this.urlMy = new FormControl();
+    this.htmlContentEn = new FormControl();
+    this.htmlContentMy = new FormControl();
+
+    this.parseEnBtn = false;
+    this.parseMyBtn = false;
 
     this.updateForm = new FormGroup({
 
@@ -129,15 +162,15 @@ export class GalleryComponent implements OnInit {
       publish: this.publish,
       titleEn: this.titleEn,
       descEn: this.descEn,
-      imgEn: this.imgEn,
       titleBm: this.titleBm,
       descBm: this.descBm,
-      imgBm: this.imgBm,
       active: this.active,
-      copyImg: this.copyImg,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
-      mtype: this.mtype,
+      urlEng: this.urlEng,
+      urlMy: this.urlMy,
+      htmlContentEn: this.htmlContentEn,
+      htmlContentMy: this.htmlContentMy
     });
 
     let now = new Date();
@@ -167,53 +200,34 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  isSameImg(enImg, bmImg) {
-    console.log(enImg)
-    if (enImg != null && enImg == bmImg) {
-      this.updateForm.get('copyImg').setValue(true);
-    } else {
-      this.updateForm.get('copyImg').setValue(false);
-    }
-  }
-
   back() {
-    this.router.navigate(['gallery']);
+    this.router.navigate(['eparticipation']);
   }
 
   // get, add, update, delete
   getRow(row) {
     this.loading = true;
-    // Update gallery Service
     // return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
     return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
       Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function () {
-          this.galleryData = Rdata;
-          console.log(this.galleryData);
+          this.participantData = Rdata;
+          console.log(this.participantData);
           
-          let dataEn = this.galleryData['contentDetailList'][0];
-          let dataBm = this.galleryData['contentDetailList'][1];
+          let dataEn = this.participantData['contentDetailList'][0];
+          let dataBm = this.participantData['contentDetailList'][1];
           this.getFileList(parseInt(dataEn.contentImage.mediaTypeId)); 
           // populate data
           this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
           this.updateForm.get('descEn').setValue(dataEn.contentDescription);
-          this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
 
           this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
           this.updateForm.get('descBm').setValue(dataBm.contentDescription);
-          this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
-
        
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
           this.updateForm.get('seqMy').setValue(dataBm.contentSort);
           this.updateForm.get('active').setValue(dataEn.isActiveFlag);
-
-          this.updateForm.get('mtype').setValue(parseInt(dataEn.contentImage.mediaTypeId));
-
-          this.selectedFileEn = dataEn.contentImage.mediaFile;
-          this.selectedFileMy= dataBm.contentImage.mediaFile;
 
           this.dateFormatExample = "";
 
@@ -222,23 +236,12 @@ export class GalleryComponent implements OnInit {
           this.updateForm.get('publish').setValue(dataEn.publishDate);
           this.updateForm.get('endD').setValue(dataEn.publishDate);
 
-          this.galleryCode = this.galleryData.refCode;          
-          this.galleryIdEn = dataEn.contentId;
-          this.galleryIdBm = dataBm.contentId;
+          this.participantCode = this.participantData.refCode;          
+          this.participantIdEn = dataEn.contentId;
+          this.participantIdBm = dataBm.contentId;
 
           this.sendForApporval = dataEn.isSendForApproval;
 
-          if(dataEn.contentImage.mediaTypeId === 1){
-            this.mediaPath = "documents";
-          }else if(dataEn.contentImage.mediaTypeId === 2){
-            this.mediaPath = "images";
-          }else if(dataEn.contentImage.mediaTypeId === 3){
-            this.mediaPath = "audios";
-          }else if(dataEn.contentImage.mediaTypeId === 4){
-            this.mediaPath = "videos";
-          }
-
-          //this.isSameImg(dataEn.galleryImage.mediaFile, dataBm.galleryImage.mediaFile);
           this.checkReqValues();
         }).bind(this));
         this.loading = false;
@@ -248,6 +251,92 @@ export class GalleryComponent implements OnInit {
         this.loading = false;
       });
 
+  }
+
+  previewEn() {
+    // htmlcontent/formathtml
+    this.loading = true;
+    return this.commonservice.create(this.htmlContentEn.value, 'htmlcontent/formathtml')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () { 
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+
+          dialogRef.componentInstance.content = addClassforSpan;
+          this.contentTxtEn = dialogRef.componentInstance.content;
+          this.parseEnBtn = true;
+      }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+  }
+
+  previewMy(){
+    this.loading = true;
+    return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
+      .subscribe(resCatData => {
+        this.commonservice.errorHandling(resCatData, (function () { 
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+          dialogRef.componentInstance.content = addClassforSpan;
+          this.parseMyBtn = true;
+          this.contentTxtMy = dialogRef.componentInstance.content;
+
+      }).bind(this));
+        this.loading = false;
+      },
+      error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          console.log(error);
+          this.loading = false;
+        });
+  }
+
+  onChangeEn(ele){
+    if(ele == this.rawValEn){
+      this.parseEnBtn = true;        
+    }
+    else{
+      this.parseEnBtn = false;
+    }   
+  }
+
+  onChangeBm(ele){
+    if(ele == this.rawValBm){
+      this.parseMyBtn = true;
+    }
+    else{
+      this.parseMyBtn = false;
+    }
+  }
+
+  parseChkEn(e){
+
+    this.parseEnBtn = false;
+  }
+
+  parseChkMy(e){
+    this.parseMyBtn = false;
   }
 
   getMinEventDate(){
@@ -277,30 +366,18 @@ export class GalleryComponent implements OnInit {
     this.checkReqValues()
   }
 
-  isChecked(e) {
-
-    if (e.checked) {
-      this.updateForm.get("imgBm").setValue(this.imgEn.value);
-    } else {
-      this.updateForm.get("imgBm").setValue("");
-    }
-    this.copyImg = e.checked;
-    this.checkReqValues();
-  }
-
   checkReqValues() {
 
     let titleEn = "titleEn";
     let descEn = "descEn";
-    let imgEn = "imgEn";
     let titleBm = "titleBm";
     let descBm = "descBm";
-    let imgBm = "imgBm";
     let publish = "publish";
     let endD = "endD";
-    let mtype = "mtype";
+    let urlEng = "urlEng";
+    let urlMy = "urlMy";
 
-    let reqVal: any = [titleEn, descEn, imgEn, titleBm, descBm, imgBm, publish, endD, mtype];
+    let reqVal: any = [titleEn, descEn, titleBm, descBm, publish, endD, urlEng, urlMy];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -312,9 +389,6 @@ export class GalleryComponent implements OnInit {
       }
     }
 
-   // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
-
-    // console.log(nullPointers)
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -346,109 +420,6 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  getFileList(mediaId) {
-   
-    console.log(mediaId);
-    this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
-      .subscribe(resCatData => {
-
-        this.commonservice.errorHandling(resCatData, (function () {
-            this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
-
-            console.log(this.fileData);
-            
-            // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
-            if(this.fileData.length>0){
-              this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
-              this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
-            }
-        }).bind(this));
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
-        this.loading = false;
-      });
-  }
-
-  getMediaTypes(){
-    this.loading = true;
-    return this.commonservice.readProtected('mediatype')
-      .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () {
-          this.mediaTypes = resCatData['mediaTypes'];
-
-          console.log(this.mediaTypes);
-        }).bind(this));
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
-        this.loading = false;
-      });
-  }
-
-  selectedmType(e){
-
-    let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
-
-    console.log("###########");
-    console.log(resMT);
-
-    if(resMT[0].mediaTypeName === "Images"){
-      this.mediaPath = "images";
-    }else if(resMT[0].mediaTypeName === "Documents"){
-      this.mediaPath = "documents";
-    }else if(resMT[0].mediaTypeName === "Videos"){
-      this.mediaPath = "videos";
-    }else if(resMT[0].mediaTypeName === "Audios"){
-      this.mediaPath = "audios";
-    }
-
-    this.getFileList(e.value);
-    this.checkReqValues();
-  }
-    
-  selectedImg(e, val){
-    console.log(e);
-    this.getImgIdEn = e.value;
-    this.getImgIdBm = e.value;
-    let dataList = this.fileData;
-    let indexVal: any;
-    let idBm: any;
-    let idEn: any;
-
-    console.log("EN: "+this.getImgIdEn+" BM: "+this.getImgIdBm + " value: " + val);
-
-    if(val == 1){
-
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[0].mediaId;
-        if(indexVal == this.getImgIdEn){
-          idBm = dataList[i].list[1].mediaId;
-          this.selectedFileEn=dataList[i].list[0].mediaFile;
-          this.selectedFileMy=dataList[i].list[1].mediaFile;
-        }        
-      }
-      this.updateForm.get('imgBm').setValue(idBm);  
-    }
-    else{
-      for(let i=0; i<dataList.length; i++){
-        indexVal = dataList[i].list[1].mediaId;
-        if(indexVal == this.getImgIdBm){
-          idEn = dataList[i].list[0].mediaId;
-          this.selectedFileEn=dataList[i].list[0].mediaFile;
-          this.selectedFileMy=dataList[i].list[1].mediaFile;
-        }        
-      }
-      this.updateForm.get('imgEn').setValue(idEn); 
-    }
-    this.checkReqValues();
-  }
-
   copyValue(type) {
     let elemOne = this.updateForm.get('seqEng');
     let elemTwo = this.updateForm.get('seqMy');
@@ -462,6 +433,7 @@ export class GalleryComponent implements OnInit {
     this.stripspaces(elemTwo)
 
   }
+
   stripspaces(input) {
     if (input.value != null) {
       let word = input.value.toString();
@@ -479,7 +451,7 @@ export class GalleryComponent implements OnInit {
     this.checkReqValues();
   }
 
-  gallerySubmit(formValues: any) {  
+  participationSubmit(formValues: any) {  
     this.loading = true;
     if (!this.isEdit) {
       let body = [
@@ -609,8 +581,8 @@ export class GalleryComponent implements OnInit {
         }
       ];
       body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
-      // body[0].contents[0].galleryCode = this.galleryCode;
-      body[0].contents[0].galleryId = this.galleryIdEn;
+      // body[0].contents[0].participantCode = this.participantCode;
+      body[0].contents[0].galleryId = this.participantIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
       body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
@@ -622,7 +594,7 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
       body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
-      body[1].contents[0].galleryId = this.galleryIdBm;
+      body[1].contents[0].galleryId = this.participantIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
       body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
@@ -651,7 +623,7 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  galleryDraft(formValues: any) {  
+  participationDraft(formValues: any) {  
     this.loading = true;
     if (!this.isEdit) {
       let body = [
@@ -781,8 +753,8 @@ export class GalleryComponent implements OnInit {
         }
       ];
       body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
-      // body[0].contents[0].galleryCode = this.galleryCode;
-      body[0].contents[0].galleryId = this.galleryIdEn;
+      // body[0].contents[0].participantCode = this.participantCode;
+      body[0].contents[0].galleryId = this.participantIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
       body[0].contents[0].galleryImage.mediaId = formValues.imgEn;
@@ -794,7 +766,7 @@ export class GalleryComponent implements OnInit {
       body[0].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
       body[1].contentCategoryId = this.commonservice.galleryContentCategoryIdBm;
-      body[1].contents[0].galleryId = this.galleryIdBm;
+      body[1].contents[0].galleryId = this.participantIdBm;
       body[1].contents[0].galleryTitle = formValues.titleBm;
       body[1].contents[0].galleryDescription = formValues.descBm;
       body[1].contents[0].galleryImage.mediaId = formValues.imgBm;
@@ -822,4 +794,5 @@ export class GalleryComponent implements OnInit {
         });
     }
   }
+
 }

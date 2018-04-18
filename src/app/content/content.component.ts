@@ -30,7 +30,6 @@ export class ContentComponent implements OnInit {
   publish: FormControl
   endD: FormControl
 
-
   rawValBm: any;
   rawValEn: any;
 

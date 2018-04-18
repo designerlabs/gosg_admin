@@ -1053,6 +1053,18 @@
       
     }
   },
+  "participation": {
+    "header": "e-Participation Management",
+    "publisher": "e-Participation Publisher Management",
+    "tableHeader":{
+      "titleEn": "Title (EN)",
+      "titleBm": "Title (BM)",
+      "statusdraft": "Status Draft"
+    },
+    "tableBottom":{    
+      "participation":"e-Participation"  
+    }
+  },
   "publisher": {
     "header": "Publisher Management",
     "tableHeader":{

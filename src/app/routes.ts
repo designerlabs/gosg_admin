@@ -187,9 +187,9 @@ export const appRoutes: Routes = [
 {path: 'publisher/gallery', component: GallerypublishertblComponent},
 {path: 'publisher/gallery/:id', component: GallerypublisherComponent},
 
-{path: 'participation', component: ParticipationtblComponent},
-{path: 'participation/add', component: ParticipationComponent},
-{path: 'participation/:id', component: ParticipationComponent},
+{path: 'eparticipation', component: ParticipationtblComponent},
+{path: 'eparticipation/add', component: ParticipationComponent},
+{path: 'eparticipation/:id', component: ParticipationComponent},
 
 // {path: 'publisher/participation', component: GallerypublishertblComponent},
 // {path: 'publisher/participation/:id', component: GallerypublisherComponent},

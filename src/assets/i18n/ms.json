@@ -1053,6 +1053,18 @@
       
     }
   },
+  "participation": {
+    "header": "Pengurusan e-Penyertaan",
+    "publisher": "Pengurusan Percetakan e-Penyertaan",
+    "tableHeader":{
+      "titleEn": "Tajuk (EN)",
+      "titleBm": "Tajuk (BM)",
+      "statusdraft": "Draf Status"
+    },
+    "tableBottom":{      
+      "participation":"e-Penyertaan"  
+    }
+  },
   "publisher": {
     "header": "Pengurusan Percetakan",
     "tableHeader":{
