@@ -106,10 +106,15 @@ import { ContentpublishertblComponent } from './contentpublisher/contentpublishe
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
 import { ParticipationComponent } from './participation/participation.component';
+<<<<<<< HEAD
 import { DigitalservicetblComponent } from './digitalservice/digitalservicetbl/digitalservicetbl.component';
 import { DigitalserviceComponent } from './digitalservice/digitalservice.component';
 import { DigitalservicetypetblComponent } from './digitalservice/digitalservicetype/digitalservicetypetbl/digitalservicetypetbl.component';
 import { DigitalservicetypeComponent } from './digitalservice/digitalservicetype/digitalservicetype.component';
+=======
+import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
+import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
+>>>>>>> 4c68aa2a2771d15f1783c5c7ced9143350e3b664
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -203,8 +208,8 @@ export const appRoutes: Routes = [
 {path: 'eparticipation/add', component: ParticipationComponent},
 {path: 'eparticipation/:id', component: ParticipationComponent},
 
-// {path: 'publisher/participation', component: GallerypublishertblComponent},
-// {path: 'publisher/participation/:id', component: GallerypublisherComponent},
+{path: 'publisher/eparticipation', component: ParticipationpublishertblComponent},
+{path: 'publisher/eparticipation/:id', component: ParticipationpublisherComponent},
 
 {path: 'reference/country', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},

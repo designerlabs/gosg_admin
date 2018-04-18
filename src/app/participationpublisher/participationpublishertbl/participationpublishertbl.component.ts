@@ -10,18 +10,19 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-sliderpublishertbl',
-  templateUrl: './sliderpublishertbl.component.html',
-  styleUrls: ['./sliderpublishertbl.component.css']
+  selector: 'app-participationpublishertbl',
+  templateUrl: './participationpublishertbl.component.html',
+  styleUrls: ['./participationpublishertbl.component.css']
 })
-export class SliderpublishertblComponent implements OnInit {
+export class ParticipationpublishertblComponent implements OnInit {
+
   archiveId= [];
 
-  sliderData: Object;
-  sliderList = null;
+  participantData: Object;
+  participantList = null;
   displayedColumns: any;
   displayedColumns2: any;
-  sliderPageSize = 10;
+  participantPageSize = 10;
   pageCount = 1;
   noPrevData = true;
   noNextData = false;
@@ -45,33 +46,32 @@ export class SliderpublishertblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.sliderList);
+  dataSource = new MatTableDataSource<object>(this.participantList);
 
   applyFilter(e) {
     
     if(e){
-      this.getFilterList(this.pageCount, this.sliderPageSize, e, this.nameStatus);
+      this.getFilterList(this.pageCount, this.participantPageSize, e, this.nameStatus);
     }
     else{
-      this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.getParticipantsData(this.pageCount, this.participantPageSize);
     }
   }
 
   resetSearch() {
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+    this.getParticipantsData(this.pageCount, this.participantPageSize);
   }
 
   filterStatus(e){
     console.log(e);
     if(this.keywordVal != ""){
-      this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e.value);
+      this.getFilterList(this.pageCount, this.participantPageSize, this.keywordVal, e.value);
     }
 
     else{
-      this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.getParticipantsData(this.pageCount, this.participantPageSize);
     }
   }
-  
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
@@ -90,7 +90,7 @@ export class SliderpublishertblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getSlidersData(this.pageCount, this.sliderPageSize);
+              this.getParticipantsData(this.pageCount, this.participantPageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -99,7 +99,7 @@ export class SliderpublishertblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.getParticipantsData(this.pageCount, this.participantPageSize);
       this.commonservice.getModuleId();
     }
 
@@ -109,7 +109,7 @@ export class SliderpublishertblComponent implements OnInit {
   ngOnInit() {
     this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+    this.getParticipantsData(this.pageCount, this.participantPageSize);
   }
 
   ngAfterViewInit() {
@@ -117,25 +117,25 @@ export class SliderpublishertblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get Slider Data 
-  getSlidersData(page, size) {
+  // get e-participation Data 
+  getParticipantsData(page, size) {
 
     let generalUrl = ""
 
     if(this.nameStatus == 1){
-      generalUrl = 'slider/publisher/state/all';
+      generalUrl = 'e-participation/publisher/state/all';
     }
 
     else if(this.nameStatus == 2){
-      generalUrl = 'slider/publisher/state/draft';
+      generalUrl = 'e-participation/publisher/state/draft';
     }
 
     else if(this.nameStatus == 3){
-      generalUrl = 'slider/publisher/state/pending';
+      generalUrl = 'e-participation/publisher/state/pending';
     }
 
     else if(this.nameStatus == 4){
-      generalUrl = 'slider/publisher/state/approved';
+      generalUrl = 'e-participation/publisher/state/approved';
     }
     
     this.loading = true;
@@ -143,16 +143,16 @@ export class SliderpublishertblComponent implements OnInit {
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.sliderList = data;
-        console.log(this.sliderList);
-        console.log(this.sliderList.list.length);               
+        this.participantList = data;
+        console.log(this.participantList);
+        console.log(this.participantList.list.length);               
 
-        if(this.sliderList.list.length > 0){
-          this.dataSource.data = this.sliderList.list;
-          this.seqPageNum = this.sliderList.pageNumber;
-          this.seqPageSize = this.sliderList.pageSize;
-          this.recordTable = this.sliderList;
-          this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+        if(this.participantList.list.length > 0){
+          this.dataSource.data = this.participantList.list;
+          this.seqPageNum = this.participantList.pageNumber;
+          this.seqPageSize = this.participantList.pageSize;
+          this.recordTable = this.participantList;
+          this.noNextData = this.participantList.pageNumber === this.participantList.totalPages;
 
           this.showNoData = false;
         }
@@ -173,24 +173,24 @@ export class SliderpublishertblComponent implements OnInit {
   }
 
   getFilterList(page, size, keyword, valStatus) {
-    this.sliderList = null;
+    this.participantList = null;
 
     let generalUrl = "";
 
-    if(this.nameStatus == 1){
-      generalUrl = 'slider/publisher/search/state/all';
+    if(valStatus == 1){
+      generalUrl = 'e-participation/publisher/search/state/all';
     }
 
-    else if(this.nameStatus == 2){
-      generalUrl = 'slider/publisher/search/state/draft';
+    else if(valStatus == 2){
+      generalUrl = 'e-participation/publisher/search/state/draft';
     }
 
-    else if(this.nameStatus == 3){
-      generalUrl = 'slider/publisher/search/state/pending';
+    else if(valStatus == 3){
+      generalUrl = 'e-participation/publisher/search/state/pending';
     }
 
-    else if(this.nameStatus == 4){
-      generalUrl = 'slider/publisher/search/state/approved';
+    else if(valStatus == 4){
+      generalUrl = 'e-participation/publisher/search/state/approved';
     }
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
@@ -199,16 +199,16 @@ export class SliderpublishertblComponent implements OnInit {
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-          this.sliderList = data;
-          console.log(this.sliderList);
-          console.log(this.sliderList.list.length);               
+          this.participantList = data;
+          console.log(this.participantList);
+          console.log(this.participantList.list.length);               
 
-          if(this.sliderList.list.length > 0){
-            this.dataSource.data = this.sliderList.list;
-            this.seqPageNum = this.sliderList.pageNumber;
-            this.seqPageSize = this.sliderList.pageSize;
-            this.recordTable = this.sliderList;
-            this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+          if(this.participantList.list.length > 0){
+            this.dataSource.data = this.participantList.list;
+            this.seqPageNum = this.participantList.pageNumber;
+            this.seqPageSize = this.participantList.pageSize;
+            this.recordTable = this.participantList;
+            this.noNextData = this.participantList.pageNumber === this.participantList.totalPages;
 
             this.showNoData = false;
           }
@@ -217,10 +217,10 @@ export class SliderpublishertblComponent implements OnInit {
             this.dataSource.data = []; 
             this.showNoData = true;
 
-            this.seqPageNum = this.sliderList.pageNumber;
-            this.seqPageSize = this.sliderList.pageSize;
-            this.recordTable = this.sliderList;
-            this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
+            this.seqPageNum = this.participantList.pageNumber;
+            this.seqPageSize = this.participantList.pageSize;
+            this.recordTable = this.participantList;
+            this.noNextData = this.participantList.pageNumber === this.participantList.totalPages;
           }
             
         }).bind(this));
@@ -235,7 +235,7 @@ export class SliderpublishertblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+    this.getParticipantsData(this.pageCount, this.participantPageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -245,30 +245,29 @@ export class SliderpublishertblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSlidersData(page + 1, this.sliderPageSize);
+    this.getParticipantsData(page + 1, this.participantPageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getSlidersData(this.pageCount, event.value);
-    this.sliderPageSize = event.value;
+    this.getParticipantsData(this.pageCount, event.value);
+    this.participantPageSize = event.value;
     this.noPrevData = true;
   }
 
-  
   updateRow(row) {
     this.commonservice.pageModeChange(true);
-    this.router.navigate(['publisher/slider', row]);
+    this.router.navigate(['publisher/eparticipation', row]);
   }
 
   deleteItem(refcode) {
 
     this.loading = true;
-    this.commonservice.delete(refcode, 'slider/publisher/delete/').subscribe(
+    this.commonservice.delete(refcode, 'e-participation/publisher/delete/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.getParticipantsData(this.pageCount, this.participantPageSize);
 
       }).bind(this)); 
       this.loading = false;
@@ -292,7 +291,7 @@ export class SliderpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.getParticipantsData(this.pageCount, this.participantPageSize);
 
       }).bind(this)); 
       this.archiveId = [];
@@ -324,7 +323,7 @@ export class SliderpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.getParticipantsData(this.pageCount, this.participantPageSize);
 
       }).bind(this)); 
       this.loading = false;

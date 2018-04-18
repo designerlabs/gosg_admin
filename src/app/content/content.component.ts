@@ -351,7 +351,7 @@ export class ContentComponent implements OnInit {
    
     this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
-    this.checkReqValues()
+    this.checkReqValues();
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
@@ -480,7 +480,14 @@ export class ContentComponent implements OnInit {
         this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
         this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
         // this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
-        // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
+        // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);  
+        
+        this.dateFormatExample = "";
+
+        this.publishdt = dataEn.publishDate;
+        this.enddt = dataEn.endDate;
+        this.updateForm.get('publish').setValue(dataEn.publishDate);
+        this.updateForm.get('endD').setValue(dataEn.publishDate);
 
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
@@ -1363,6 +1370,8 @@ export class ContentComponent implements OnInit {
     this.isActiveListBm = false;
     this.agencyIdEn = null;
     this.agencyIdBm = null;
+    this.ministryNameEn = "";
+    this.ministryNameBm = "";
     // this.getModuleData(this.pageCount, this.pageSize);
   }
 

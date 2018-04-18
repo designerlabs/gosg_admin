@@ -16,11 +16,11 @@ import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
-  selector: 'app-participation',
-  templateUrl: './participation.component.html',
-  styleUrls: ['./participation.component.css']
+  selector: 'app-participationpublisher',
+  templateUrl: './participationpublisher.component.html',
+  styleUrls: ['./participationpublisher.component.css']
 })
-export class ParticipationComponent implements OnInit {
+export class ParticipationpublisherComponent implements OnInit {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -147,7 +147,7 @@ export class ParticipationComponent implements OnInit {
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
 
-    let refCode = this.router.url.split('/')[2];
+    let refCode = this.router.url.split('/')[3];
     this.commonservice.getModuleId();
     this.getMinEventDate();
     this.publish = new FormControl()
@@ -215,7 +215,7 @@ export class ParticipationComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['eparticipation']);
+    this.router.navigate(['publisher/eparticipation']);
   }
 
   // get, add, update, delete
@@ -464,7 +464,7 @@ export class ParticipationComponent implements OnInit {
 
   changeLanguageAddEdit(){
 
-    let refCode = this.router.url.split('/')[2];
+    let refCode = this.router.url.split('/')[3];
 
     if (refCode == "add") {
       if(this.languageId==1)
@@ -519,87 +519,7 @@ export class ParticipationComponent implements OnInit {
 
   participationSubmit(formValues: any) {  
     this.loading = true;
-    if (!this.isEdit) {
-      let body = [
-        {
-          "contentCategoryId": null,
-          "contents": [{
-            "eparticipationTitle": null,
-            "eparticipationDescription": null,
-            "eparticipationUrl": null,
-            "eparticipationText": null,
-            "eparticipationSort": null,
-            "eparticipationActiveFlag": null,
-            "language": {
-              "languageId": 1
-            },
-            "agency": {
-              "agencyId": null
-            }, 
-            "eparticipationPublishDate": null,
-            "eparticipationEndDate": null
-          }]
-        },
-        {
-          "contentCategoryId": null,
-          "contents": [{
-            "eparticipationTitle": null,
-            "eparticipationDescription": null,
-            "eparticipationUrl": null,
-            "eparticipationText": null,
-            "eparticipationSort": null,
-            "eparticipationActiveFlag": null,
-            "language": {
-              "languageId": 2
-            },
-            "agency": {
-              "agencyId": null
-            }, 
-            "eparticipationPublishDate": null,
-            "eparticipationEndDate": null
-          }]
-        }
-      ];
-
-      body[0].contentCategoryId = this.commonservice.participationContentCategoryIdEn;
-      body[0].contents[0].eparticipationTitle = formValues.titleEn;
-      body[0].contents[0].eparticipationDescription = formValues.descEn;
-      body[0].contents[0].eparticipationUrl = formValues.urlEng;
-      body[0].contents[0].eparticipationText = this.contentTxtEn;
-      body[0].contents[0].eparticipationSort = formValues.seqEng;
-      body[0].contents[0].eparticipationActiveFlag = formValues.active;
-      body[0].contents[0].agency.agencyId = this.agencyIdEn;
-      body[0].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
-      body[0].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
-
-      body[1].contentCategoryId = this.commonservice.participationContentCategoryIdBm;
-      body[1].contents[0].eparticipationTitle = formValues.titleBm;
-      body[1].contents[0].eparticipationDescription = formValues.descBm;
-      body[1].contents[0].eparticipationUrl = formValues.urlMy;
-      body[1].contents[0].eparticipationText = this.contentTxtMy;
-      body[1].contents[0].eparticipationSort = formValues.seqMy;
-      body[1].contents[0].eparticipationActiveFlag = formValues.active;
-      body[1].contents[0].agency.agencyId = this.agencyIdBm;
-      body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
-      body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
-
-      console.log(JSON.stringify(body))
-
-      this.commonservice.create(body, 'e-participation/creator').subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.eparticipationsubmitted'), '');
-            this.router.navigate(['eparticipation']);
-          }).bind(this));
-          this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-        });
-
-    } else {
+    if (this.isEdit) {
 
       let body = [
         {
@@ -671,11 +591,11 @@ export class ParticipationComponent implements OnInit {
       console.log(JSON.stringify(body));
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-        this.commonservice.update(body, 'e-participation/creator').subscribe(
+        this.commonservice.update(body, 'e-participation/publisher').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.eparticipationsubmitted'), '');
-            this.router.navigate(['eparticipation']);
+            this.router.navigate(['publisher/eparticipation']);
           }).bind(this));
           this.loading = false;
         },
@@ -689,87 +609,7 @@ export class ParticipationComponent implements OnInit {
 
   participationDraft(formValues: any) {  
     this.loading = true;
-    if (!this.isEdit) {
-      let body = [
-        {
-          "contentCategoryId": null,
-          "contents": [{
-            "eparticipationTitle": null,
-            "eparticipationDescription": null,
-            "eparticipationUrl": null,
-            "eparticipationText": null,
-            "eparticipationSort": null,
-            "eparticipationActiveFlag": null,
-            "language": {
-              "languageId": 1
-            },
-            "agency": {
-              "agencyId": null
-            }, 
-            "eparticipationPublishDate": null,
-            "eparticipationEndDate": null
-          }]
-        },
-        {
-          "contentCategoryId": null,
-          "contents": [{
-            "eparticipationTitle": null,
-            "eparticipationDescription": null,
-            "eparticipationUrl": null,
-            "eparticipationText": null,
-            "eparticipationSort": null,
-            "eparticipationActiveFlag": null,
-            "language": {
-              "languageId": 2
-            },
-            "agency": {
-              "agencyId": null
-            }, 
-            "eparticipationPublishDate": null,
-            "eparticipationEndDate": null
-          }]
-        }
-      ];
-
-      body[0].contentCategoryId = this.commonservice.participationContentCategoryIdEn;
-      body[0].contents[0].eparticipationTitle = formValues.titleEn;
-      body[0].contents[0].eparticipationDescription = formValues.descEn;
-      body[0].contents[0].eparticipationUrl = formValues.urlEng;
-      body[0].contents[0].eparticipationText = this.contentTxtEn;
-      body[0].contents[0].eparticipationSort = formValues.seqEng;
-      body[0].contents[0].eparticipationActiveFlag = formValues.active;
-      body[0].contents[0].agency.agencyId = this.agencyIdEn;
-      body[0].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
-      body[0].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
-
-      body[1].contentCategoryId = this.commonservice.participationContentCategoryIdBm;
-      body[1].contents[0].eparticipationTitle = formValues.titleBm;
-      body[1].contents[0].eparticipationDescription = formValues.descBm;
-      body[1].contents[0].eparticipationUrl = formValues.urlMy;
-      body[1].contents[0].eparticipationText = this.contentTxtMy;
-      body[1].contents[0].eparticipationSort = formValues.seqMy;
-      body[1].contents[0].eparticipationActiveFlag = formValues.active;
-      body[1].contents[0].agency.agencyId = this.agencyIdBm;
-      body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
-      body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
-
-      console.log(JSON.stringify(body))
-
-      this.commonservice.create(body, 'e-participation/creator/draft').subscribe(
-        data => {
-          this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.eparticipationdraft'), '');
-            this.router.navigate(['eparticipation']);
-          }).bind(this));
-          this.loading = false;
-        },
-        error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
-          this.loading = false;
-        });
-
-    } else {
+    if (this.isEdit) {
 
       let body = [
         {
@@ -841,11 +681,11 @@ export class ParticipationComponent implements OnInit {
       console.log(JSON.stringify(body));
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-        this.commonservice.update(body, 'e-participation/creator/draft').subscribe(
+        this.commonservice.update(body, 'e-participation/publisher/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
             this.toastr.success(this.translate.instant('common.success.eparticipationdraft'), '');
-            this.router.navigate(['eparticipation']);
+            this.router.navigate(['publisher/eparticipation']);
           }).bind(this));
           this.loading = false;
         },
@@ -1035,4 +875,5 @@ export class ParticipationComponent implements OnInit {
       this.loading = false;
     });
   }
+
 }
