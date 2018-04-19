@@ -144,7 +144,6 @@ resetSearch() {
   getFilterList(keyword) {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      console.log(keyword);
       this.loading = true;
       this.commonservice.readProtected('authorization/module/search', '','', keyword)
       .subscribe(data => {
@@ -160,7 +159,6 @@ resetSearch() {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
       });
     }
   }
@@ -182,7 +180,6 @@ resetSearch() {
     this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       //debugger;
-      console.log(this.menulst);
       this.loading = false;
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));

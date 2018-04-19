@@ -259,7 +259,9 @@
       "contentdraft": "Content has been saved has draft!",
       "contentsubmitted":"Content has been submitted successfully!",
       "eparticipationdraft": "e-Participation has been saved has draft!",
-      "eparticipationsubmitted":"e-Participation has been submitted successfully!"
+      "eparticipationsubmitted":"e-Participation has been submitted successfully!",
+      "archivesuccess":"Record has been archived successfully!",
+      "archivesuccess_multi":"Selected Record has been archived successfully!"
     },
     "icon":{
       "success":"fa fa-check",

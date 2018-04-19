@@ -188,7 +188,6 @@ export class CommonService {
       return this.http.get(this.appConfig.urlCommon + 'article/category/1?language='+this.languageId)
       .subscribe(Rdata => {
         this.dataTbl = Rdata;
-        // console.log(this.dataTbl);
         this.router.navigate(['articletbl', topicID]);
       });
     }else if (this.mainid === 1 && topicID === 4) {
@@ -196,7 +195,6 @@ export class CommonService {
       .subscribe(Rdata => {
         this.dataTbl = Rdata;
         this.router.navigate(['userlist']);
-        // console.log(this.dataTbl);
       });
     }else {
       this.dataTbl = [];
@@ -317,7 +315,6 @@ export class CommonService {
 
 
   getCategoryData() {
-    console.log(this.appConfig.urlCategory);
     return this.http.get(this.appConfig.urlCategory + '?language='+this.languageId)
     .map((response: Response) => response.json())
     .catch(this.handleError);
@@ -347,7 +344,6 @@ export class CommonService {
   // Media Ends
 // Media Types starts
 getMediaType() {
-  console.log(this.appConfig.urlMediaType + '?language='+this.languageId);
   return this.http.get(this.appConfig.urlMediaType)
   .map((response: Response) => response.json())
   .catch(this.handleError);
@@ -375,7 +371,6 @@ delMediaType(mediaTypeId) {
 
 // Media File upload starts 
 getMediaFileUpload() {
-  console.log(this.appConfig.urlMediaFileUpload);
   return this.http.get(this.appConfig.urlMediaFileUpload)
   .map((response: Response) => response.json())
   .catch(this.handleError);
@@ -440,7 +435,6 @@ getMediaByCateId(id){
   //ANNOUNCEMENT STARTS
 
   getAnnounceTblData() { //For view table
-    console.log(this.appConfig.urlAnnounceList);
     return this.http.get(this.appConfig.urlAnnounceList)
     .map((response: Response) => response.json())
     .catch(this.handleError);
@@ -504,16 +498,12 @@ getMediaByCateId(id){
     let readUrl;
     
     if(!keyword && page) {
-      console.log(1);
       readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
     } else if(keyword) {
-      console.log(2);
       readUrl = this.appConfig.urlService + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
     } else {
-      console.log(3);
       readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
     }
-    console.log(readUrl)
 
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
@@ -532,8 +522,6 @@ getMediaByCateId(id){
       readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
     }
 
-    console.log(readUrl)
-
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)
@@ -542,7 +530,6 @@ getMediaByCateId(id){
   
   readPortalById(moduleName, id): Observable<any[]> {
     let readUrl = this.appConfig.urlService + moduleName + id + '?language='+this.languageId;
-    console.log(readUrl)
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)
@@ -567,7 +554,6 @@ getMediaByCateId(id){
 
   update(data,moduleName) {
     let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId;
-    console.log(updateUrl)
 
     return this.http.put(updateUrl, data)
     .map((response: Response) => response.json())
@@ -576,7 +562,6 @@ getMediaByCateId(id){
 
   delete(id,moduleName) {
     let deleteUrl = this.appConfig.urlCommon  + moduleName + id+ '?language='+this.languageId;
-    console.log(deleteUrl)
 
     return this.http.delete(deleteUrl, null)
     .map((response: Response) => response.json())

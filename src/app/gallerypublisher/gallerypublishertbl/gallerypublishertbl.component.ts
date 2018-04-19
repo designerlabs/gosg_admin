@@ -16,7 +16,10 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class GallerypublishertblComponent implements OnInit {
 
-  archiveId= [];
+  archiveId = [];
+  arrStatus = [];
+  selectedItem = [];
+  flagApprove: boolean;
 
   galleryData: Object;
   galleryList = null;
@@ -51,7 +54,7 @@ export class GallerypublishertblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.galleryList);
 
   applyFilter(e) {
-    console.log(e);
+
     if(e){
       this.getFilterList(this.pageCount, this.galleryPageSize, e, this.nameStatus);
     }
@@ -65,7 +68,7 @@ export class GallerypublishertblComponent implements OnInit {
   }
 
   filterStatus(e){
-    console.log(e);
+
     if(this.keywordVal != ""){
       this.getFilterList(this.pageCount, this.galleryPageSize, this.keywordVal, e.value);
     }
@@ -95,6 +98,9 @@ export class GallerypublishertblComponent implements OnInit {
               this.languageId = val.languageId;
               this.getGalleryData(this.pageCount, this.galleryPageSize);
               this.commonservice.getModuleId();
+              this.archiveId = [];
+              this.arrStatus = [];
+              this.selectedItem = [];
             }
           }.bind(this));
         })
@@ -109,7 +115,7 @@ export class GallerypublishertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
+    this.displayedColumns = ['cbox','no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
     this.commonservice.getModuleId();
     this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
@@ -140,12 +146,9 @@ export class GallerypublishertblComponent implements OnInit {
     else if(this.nameStatus == 4){
       generalUrl = 'gallery/publisher/state/approved';
     }
-    this.dataUrl = this.appConfig.urlSlides;
     this.loading = true;
-
-    // gallery/39
-    // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
-      // this.http.get(this.dataUrl).subscribe(
+   
+    // this.http.get(this.dataUrl).subscribe(
     this.commonservice.readProtected(generalUrl,page, size).subscribe(
       data => {
         
@@ -308,7 +311,11 @@ export class GallerypublishertblComponent implements OnInit {
 
       }).bind(this)); 
       this.archiveId = [];
+      this.selectedItem = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
       this.loading = false;
+      console.log("AFTER ARCHIVE ALL: "+this.flagApprove);
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
@@ -317,16 +324,6 @@ export class GallerypublishertblComponent implements OnInit {
         this.loading = false;
       });
 
-  }
-
-  isChecked(event) {
-    if(event.checked){
-      this.archiveId.push(event.source.value);
-    }else{
-      let index = this.archiveId.indexOf(event.source.value);
-      this.archiveId.splice(index, 1);
-    }
-    return false;
   }
 
   archiveItem(refcode) {
@@ -347,6 +344,76 @@ export class GallerypublishertblComponent implements OnInit {
         this.loading = false;
       });
 
+  }
+
+  isChecked(event, statusApproved) {
+    this.flagApprove = true;
+
+    if(this.archiveId.length == 0){
+      this.flagApprove = false;
+    }
+
+    if(event.checked){
+      //this.archiveId.push(event.source.value);
+      this.selectedItem.push(event.source.value);
+      this.arrStatus.push(statusApproved);
+
+      if(statusApproved == true){        
+        this.archiveId.push(event.source.value);
+      }
+      
+    }else{
+      let index = this.archiveId.indexOf(event.source.value);
+      this.archiveId.splice(index, 1);
+
+      let indexDel = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(indexDel, 1);
+
+      let indexStatus = this.arrStatus.indexOf(statusApproved);
+      this.arrStatus.splice(indexStatus, 1);   
+    }
+
+    if(this.flagApprove == true){
+      for(let i=0; i<this.arrStatus.length; i++){
+        //check if item can be archive or not
+        if(this.arrStatus[i] == false){
+          this.flagApprove = false;
+        }         
+      }
+    }
+
+    console.log(this.arrStatus);
+    console.log(this.archiveId);
+    console.log(this.selectedItem);
+    console.log("Flag Approved: "+this.flagApprove);
+    return false;
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `slider/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getGalleryData(this.pageCount, this.galleryPageSize);
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.archiveId = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
+      this.loading = false;
+      console.log("AFTER DELETE ALL: "+this.flagApprove);
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.selectedItem = [];
+        this.loading = false;
+      });
   }
 
 }
