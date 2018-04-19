@@ -348,12 +348,16 @@ export class GallerypublishertblComponent implements OnInit {
 
   isChecked(event, statusApproved) {
     this.flagApprove = true;
+    let checkStatus = true;
 
+    
     if(this.archiveId.length == 0){
       this.flagApprove = false;
     }
 
     if(event.checked){
+      console.log("STATUS iTEM M: "+statusApproved);
+
       //this.archiveId.push(event.source.value);
       this.selectedItem.push(event.source.value);
       this.arrStatus.push(statusApproved);
@@ -363,14 +367,34 @@ export class GallerypublishertblComponent implements OnInit {
       }
       
     }else{
+
+      console.log("STATUS iTEM KELUAR: "+statusApproved);
+      console.log(event);  
+      console.log(event.source.value);  
+
       let index = this.archiveId.indexOf(event.source.value);
-      this.archiveId.splice(index, 1);
+      this.archiveId.splice(index, 1);          
 
       let indexDel = this.selectedItem.indexOf(event.source.value);
       this.selectedItem.splice(indexDel, 1);
 
       let indexStatus = this.arrStatus.indexOf(statusApproved);
-      this.arrStatus.splice(indexStatus, 1);   
+      this.arrStatus.splice(indexStatus, 1); 
+      
+      checkStatus = false;
+
+      // if(checkStatus == false){
+      //   for(let i=0; i<this.arrStatus.length; i++){
+      //     //check if item can be archive or not
+      //     if(this.arrStatus[i] == statusApproved){
+      //       //let indexStatus = this.arrStatus.indexOf(statusApproved);
+      //       //this.arrStatus.splice(statusApproved, 1);   
+      //       checkStatus = true;
+      //     }         
+      //   }
+      // }
+        
+      
     }
 
     if(this.flagApprove == true){
@@ -383,6 +407,7 @@ export class GallerypublishertblComponent implements OnInit {
     }
 
     console.log(this.arrStatus);
+    console.log("ACHIVE: ");
     console.log(this.archiveId);
     console.log(this.selectedItem);
     console.log("Flag Approved: "+this.flagApprove);
