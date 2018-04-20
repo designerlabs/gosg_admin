@@ -12,6 +12,9 @@
     text-decoration: none;
 }
 
+.module_title{
+    width:80% !important;
+}
 
 .module_counts{
     width: 25px;
@@ -21,7 +24,7 @@
     border-radius: 20px;
     font-size: 12px;
     padding: 5px;
-    margin-left: 65%;
+    margin-left: 10%;
 }
 
 

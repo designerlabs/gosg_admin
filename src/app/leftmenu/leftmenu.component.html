@@ -24,7 +24,7 @@
 			<mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" >
 				<mat-expansion-panel-header>
 					<mat-panel-title style="font-weight: bold;">
-						{{ 'home.content.allmodules' | translate }} <span class="module_counts" *ngIf="menulst">{{menulst?.moduleList?.length }}</span>
+						<span class="module_title">{{ 'home.content.allmodules' | translate }}</span><span class="module_counts" *ngIf="menulst">{{menulst?.moduleList?.length }}</span>
 					</mat-panel-title>
 				</mat-expansion-panel-header>
 				<div style="padding-bottom: 0px; border-bottom: 1px solid #e6e6e6;" *ngFor="let menu of menulst.moduleList">
