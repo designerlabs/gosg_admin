@@ -538,7 +538,7 @@ export class ContentpublishertblComponent implements OnInit {
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.toastr.success(this.translate.instant('common.success.archivesuccess_multi'), '');
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
 
       }).bind(this)); 
@@ -564,7 +564,7 @@ export class ContentpublishertblComponent implements OnInit {
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.toastr.success(this.translate.instant('common.success.archivesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
           this.archiveId = [];
           this.selectedItem = [];
