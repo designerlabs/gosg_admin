@@ -18,6 +18,7 @@ export class SliderpublishertblComponent implements OnInit {
   archiveId = [];
   arrStatus = [];
   selectedItem = [];
+  flagApprove: boolean;
 
   sliderData: Object;
   sliderList = null;
@@ -64,7 +65,7 @@ export class SliderpublishertblComponent implements OnInit {
   }
 
   filterStatus(e){
-    console.log(e);
+
     if(this.keywordVal != ""){
       this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e.value);
     }
@@ -94,6 +95,9 @@ export class SliderpublishertblComponent implements OnInit {
               this.languageId = val.languageId;
               this.getSlidersData(this.pageCount, this.sliderPageSize);
               this.commonservice.getModuleId();
+              this.archiveId = [];
+              this.arrStatus = [];
+              this.selectedItem = [];
             }
           }.bind(this));
         })
@@ -145,9 +149,7 @@ export class SliderpublishertblComponent implements OnInit {
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.sliderList = data;
-        console.log(this.sliderList);
-        console.log(this.sliderList.list.length);               
+        this.sliderList = data;             
 
         if(this.sliderList.list.length > 0){
           this.dataSource.data = this.sliderList.list;
@@ -169,7 +171,6 @@ export class SliderpublishertblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
         this.loading = false;
       });
   }
@@ -201,9 +202,7 @@ export class SliderpublishertblComponent implements OnInit {
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-          this.sliderList = data;
-          console.log(this.sliderList);
-          console.log(this.sliderList.list.length);               
+          this.sliderList = data;             
 
           if(this.sliderList.list.length > 0){
             this.dataSource.data = this.sliderList.list;
@@ -230,7 +229,6 @@ export class SliderpublishertblComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);  
           this.loading = false;
       });
     }
@@ -277,7 +275,6 @@ export class SliderpublishertblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.loading = false;
       });
 
@@ -289,52 +286,30 @@ export class SliderpublishertblComponent implements OnInit {
 
   archiveAll(){
     let archiveIds = this.archiveId.join(',');
+
+    console.log("SEMUA ID");
+    console.log(archiveIds);
     this.commonservice.update('', `archive/update/multiple/${archiveIds}`).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.toastr.success(this.translate.instant('common.success.archivesuccess_multi'), '');
           this.getSlidersData(this.pageCount, this.sliderPageSize);
 
       }).bind(this)); 
       this.archiveId = [];
+      this.selectedItem = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
       this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.archiveId = [];
         this.loading = false;
       });
 
-  }
-
-  isChecked(event, statusApproved) {
-    
-    console.log(statusApproved);
-
-    if(event.checked){
-      this.archiveId.push(event.source.value);
-
-      if(statusApproved == true){
-        this.arrStatus.push(statusApproved);
-      }
-      
-    }else{
-      let index = this.archiveId.indexOf(event.source.value);
-      this.archiveId.splice(index, 1);
-
-      for(let i=0; i<this.arrStatus.length; i++){
-        if(this.arrStatus[i] == true){
-          this.arrStatus.splice(i,1);
-        }         
-      }
-    }
-
-    console.log(this.arrStatus);
-
-    return false;
-  }
+  }  
 
   archiveItem(refcode) {
     this.loading = true;
@@ -342,7 +317,7 @@ export class SliderpublishertblComponent implements OnInit {
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.toastr.success(this.translate.instant('common.success.archivesuccess'), '');
           this.getSlidersData(this.pageCount, this.sliderPageSize);
 
       }).bind(this)); 
@@ -350,10 +325,94 @@ export class SliderpublishertblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.loading = false;
       });
 
+  }
+
+  isChecked(event, statusApproved) {
+        
+    if(this.archiveId.length == 0){
+      this.flagApprove = false;
+    }
+
+    if(event.checked){
+
+      this.selectedItem.push(event.source.value);
+      this.arrStatus.push(statusApproved);
+
+      if(statusApproved == true){        
+        this.archiveId.push(event.source.value);
+      }
+      
+    }else{
+      
+      for(let i=0; i<this.archiveId.length; i++){
+        //check if item can be archive or not
+        if(this.archiveId[i] == event.source.value){
+          let index = this.archiveId.indexOf(event.source.value);
+          this.archiveId.splice(index, 1);       
+        }         
+      }      
+
+      let indexDel = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(indexDel, 1);
+
+      let indexStatus = this.arrStatus.indexOf(statusApproved);
+      this.arrStatus.splice(indexStatus, 1);       
+    }
+
+    let countTrue = 0;
+
+    for(let i=0; i<this.arrStatus.length; i++){         
+
+      if(this.arrStatus[i] == true){
+        countTrue = countTrue + 1;
+      }
+    } 
+
+    //approved record only = archive
+    if(countTrue > 0 && countTrue == this.arrStatus.length){
+      this.flagApprove = true;
+    }
+
+    //record not only approved. cannot be archived
+    else if(countTrue > 0 && countTrue != this.arrStatus.length){
+      this.flagApprove = false;
+    }
+
+    console.log(this.arrStatus);
+    console.log("ACHIVE: ");
+    console.log(this.archiveId);
+    console.log(this.selectedItem);
+    console.log("Flag Approved: "+this.flagApprove);
+    return false;
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `slider/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.archiveId = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.selectedItem = [];
+        this.loading = false;
+      });
   }
 
 }

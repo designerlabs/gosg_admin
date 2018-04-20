@@ -16,6 +16,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 
 export class ParticipationtblComponent implements OnInit {
+  selectedItem = [];
 
   participantData: Object;
   participantList = null;
@@ -62,7 +63,7 @@ export class ParticipationtblComponent implements OnInit {
   }
 
   filterStatus(e){
-    console.log(e);
+    
     if(this.keywordVal != ""){
       this.getFilterList(this.pageCount, this.participantPageSize, this.keywordVal, e.value);
     }
@@ -91,6 +92,7 @@ export class ParticipationtblComponent implements OnInit {
               this.languageId = val.languageId;
               this.getParticipantsData(this.pageCount, this.participantPageSize);
               this.commonservice.getModuleId();
+              this.selectedItem = [];
             }
           }.bind(this));
         })
@@ -106,7 +108,7 @@ export class ParticipationtblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
+    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getParticipantsData(this.pageCount, this.participantPageSize);
   }
@@ -142,9 +144,7 @@ export class ParticipationtblComponent implements OnInit {
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.participantList = data;
-        console.log(this.participantList);
-        console.log(this.participantList.list.length);               
+        this.participantList = data;          
 
         if(this.participantList.list.length > 0){
           this.dataSource.data = this.participantList.list;
@@ -165,8 +165,7 @@ export class ParticipationtblComponent implements OnInit {
       this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
       });
   }
@@ -198,9 +197,7 @@ export class ParticipationtblComponent implements OnInit {
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-          this.participantList = data;
-          console.log(this.participantList);
-          console.log(this.participantList.list.length);               
+          this.participantList = data;              
 
           if(this.participantList.list.length > 0){
             this.dataSource.data = this.participantList.list;
@@ -227,7 +224,6 @@ export class ParticipationtblComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);  
           this.loading = false;
       });
     }
@@ -278,10 +274,44 @@ export class ParticipationtblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.loading = false;
       });
 
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `e-participation/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getParticipantsData(this.pageCount, this.participantPageSize);
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.selectedItem = [];
+        this.loading = false;
+      });
+  }
+
+  isChecked(event) {
+    
+    if(event.checked){
+      this.selectedItem.push(event.source.value);
+    }else{
+      let index = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(index, 1);
+    }
+
+    return false;
   }
 
 }

@@ -23,7 +23,7 @@
     <div class="example-container mat-elevation-z8">
       
       <div class="row">
-        <div class="col-md-8 paddingTop-10 pdg_L_30px">
+        <div class="col-md-7 paddingTop-10 pdg_L_30px">
           <mat-form-field>
               <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="keywordVal" 
                 placeholder="{{ 'common.placeholder.keywords' | translate }}">
@@ -51,29 +51,47 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-2 paddingTop-15 pdg_R_30px">
-          <button [disabled]="!archiveId.length > 0" mat-raised-button color="warn" (click)="archiveAllModal.show()"><i 
-            [ngClass]="commonservice.icon.archive"></i> {{'common.buttons.archiveAll' | translate}}</button>
-            <app-confirm-dialog  #archiveAllModal 
-            [title]="'common.icon.warn'" 
-            [content]="'common.msg.archive'"
-            [state]="'common.state.warn'"
-            [isReset]="'true'"
-            (resetMethod)="resetAllMethod()">
-            </app-confirm-dialog>
+        <div class="col-md-3 paddingTop-15 pdg_R_30px">
+          <button [disabled]="!selectedItem.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()" 
+            class="pull-right mgn_L_5px"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>            
+          <button [disabled]="(!flagApprove)" mat-raised-button color="warn" (click)="archiveAllModal.show()" class="pull-right">
+            <i [ngClass]="commonservice.icon.archive"></i> {{'common.buttons.archiveAll' | translate}}</button>
+          <app-confirm-dialog  #archiveAllModal 
+          [title]="'common.icon.warn'" 
+          [content]="'common.msg.archive'"
+          [state]="'common.state.warn'"
+          [isReset]="'true'"
+          (resetMethod)="resetAllMethod()">
+          </app-confirm-dialog>
+
+          <app-confirm-dialog  #deleteAllModal 
+          [title]="'common.icon.warn'" 
+          [content]="'common.msg.deleteAll'"
+          [state]="'common.state.warn'" 
+          [isReset]="'true'"
+          (resetMethod)="deleteAll()">
+          </app-confirm-dialog>
         </div>
       </div>
 
       <mat-table #table [dataSource]="dataSource">
 
+        <ng-container matColumnDef="cbox">
+          <mat-header-cell class="text-align-left cbox" *matHeaderCellDef>&nbsp;</mat-header-cell>
+          <mat-cell class="text-align-left cbox"  *matCellDef="let element; let i = index;"> 
+            <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event,element.list[0].isApprovedFlag);"></mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
         <!-- No Column -->
         <ng-container matColumnDef="no">
           <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
           <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-            <span *ngIf="element.list[0].isApprovedFlag == false">
-              {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}</span>
-            <span *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true">
-              <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event);"></mat-checkbox></span>
+            <!-- <span *ngIf="element.list[0].isApprovedFlag == false"> -->
+              {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+            <!-- </span> -->
+            <!-- <span *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true">
+              <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event);"></mat-checkbox></span> -->
           </mat-cell>
         </ng-container>
 

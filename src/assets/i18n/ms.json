@@ -259,7 +259,9 @@
       "contentdraft": "Kandungan berjaya disimpan sebagai deraf!",
       "contentsubmitted":"Kandungan  berjaya dihantar!",
       "eparticipationdraft": "e-Penyataan berjaya disimpan sebagai deraf!",
-      "eparticipationsubmitted":"e-Penyataan  berjaya dihantar!"
+      "eparticipationsubmitted":"e-Penyataan  berjaya dihantar!",
+      "archivesuccess":"Rekod berjaya diarkib!",
+      "archivesuccess_multi":"Rekod yang dipilih berjaya diarkib!"
     },
     "icon":{
       "success":"fa fa-check",

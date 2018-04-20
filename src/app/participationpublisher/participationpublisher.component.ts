@@ -228,7 +228,6 @@ export class ParticipationpublisherComponent implements OnInit {
 
   getUserInfo(id) {
    
-    console.log(id);
     this.loading = true;
     return this.commonservice.readProtected('usermanagement/' + id)
       .subscribe(resUser => {
@@ -245,7 +244,6 @@ export class ParticipationpublisherComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -259,7 +257,6 @@ export class ParticipationpublisherComponent implements OnInit {
 
         this.commonservice.errorHandling(Rdata, (function () {
           this.participantData = Rdata;
-          console.log(this.participantData);
           
           let dataEn = this.participantData['contentDetailList'][0];
           let dataBm = this.participantData['contentDetailList'][1];
@@ -274,6 +271,7 @@ export class ParticipationpublisherComponent implements OnInit {
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
           this.updateForm.get('seqMy').setValue(dataBm.contentSort);
           this.updateForm.get('active').setValue(dataEn.isActiveFlag);
+          this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
 
           this.dateFormatExample = "";
 
@@ -289,7 +287,6 @@ export class ParticipationpublisherComponent implements OnInit {
           if(dataEn.isApprovedFlag == true){
             this.appPublisher = false;
             this.approve.disable();
-            this.parentsEn.disable();
           }
   
           this.disableApprove = dataEn.isApprovedFlag;   
@@ -380,7 +377,6 @@ export class ParticipationpublisherComponent implements OnInit {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
@@ -409,7 +405,6 @@ export class ParticipationpublisherComponent implements OnInit {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
@@ -453,20 +448,14 @@ export class ParticipationpublisherComponent implements OnInit {
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("START: "+type);
-    console.log(event.value);
     this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
-    console.log(this.publishdt);
     this.checkReqValues()
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("END: "+type);
-    console.log(event.value);
     this.enddt = (event.value).getTime();
     this.dateFormatExample = "";
-    console.log(this.enddt);
     this.checkReqValues()
   }
 
@@ -641,7 +630,6 @@ export class ParticipationpublisherComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -731,7 +719,6 @@ export class ParticipationpublisherComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -741,19 +728,15 @@ export class ParticipationpublisherComponent implements OnInit {
 
     // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
-
+ 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
       }
     }
   }
