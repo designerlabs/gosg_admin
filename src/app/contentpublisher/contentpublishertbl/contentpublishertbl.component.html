@@ -25,7 +25,7 @@
                 <br>              
                 <div class="row">                
 
-                    <div class="col-md-5 pdg_L_30px">
+                    <div class="col-md-4 pdg_L_30px">
                         <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                         [items]="itemEn"
                         textField ="text"
@@ -76,8 +76,10 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-2 pdg_R_30px">
-                        <button [disabled]="!archiveId.length > 0" mat-raised-button color="warn" (click)="archiveAllModal.show()">
+                    <div class="col-md-3 pdg_R_30px">
+                        <button [disabled]="!selectedItem.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()" 
+                            class="pull-right mgn_L_5px"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>            
+                        <button [disabled]="(!flagApprove)" mat-raised-button color="warn" (click)="archiveAllModal.show()" class="pull-right">
                             <i [ngClass]="commonservice.icon.archive"></i> {{'common.buttons.archiveAll' | translate}}</button>
                         <app-confirm-dialog  #archiveAllModal 
                         [title]="'common.icon.warn'" 
@@ -86,13 +88,13 @@
                         [isReset]="'true'"
                         (resetMethod)="resetAllMethod()">
                         </app-confirm-dialog>
-
-                        <app-confirm-dialog  #archiveRow 
+                
+                        <app-confirm-dialog  #deleteAllModal 
                         [title]="'common.icon.warn'" 
-                        [content]="'common.msg.archive'"
-                        [state]="'common.state.warn'"
+                        [content]="'common.msg.deleteAll'"
+                        [state]="'common.state.warn'" 
                         [isReset]="'true'"
-                        (resetMethod)="archiveItem(element.refCode)">
+                        (resetMethod)="deleteAll()">
                         </app-confirm-dialog>
                     </div>
                 </div>
@@ -101,14 +103,22 @@
     
             <mat-table #table [dataSource]="dataSource">           
             
+                <ng-container matColumnDef="cbox">
+                    <mat-header-cell class="text-align-left cbox" *matHeaderCellDef>&nbsp;</mat-header-cell>
+                    <mat-cell class="text-align-left cbox"  *matCellDef="let element; let i = index;"> 
+                        <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event,element.list[0].isApprovedFlag);"></mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
                     <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-                        <span *ngIf="element.list[0].isApprovedFlag == false">
-                            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}</span>
+                        <!-- <span *ngIf="element.list[0].isApprovedFlag == false"> -->
+                            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                        <!-- </span>
                         <span *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true">
-                            <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event);"></mat-checkbox></span>
+                            <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event);"></mat-checkbox></span> -->
                     </mat-cell>
                 </ng-container>
             

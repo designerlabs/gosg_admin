@@ -63,7 +63,7 @@
               [filterPlaceholder]="filterPlaceholder"
               minlength="2"
               maxlength="4"
-              tabindex="5"
+              tabindex="1"
               required=true
               #simpleSelect
               [multiple]="true"
@@ -88,7 +88,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" required tabindex="3">
+            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" required tabindex="2">
             <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
               Title is required
             </mat-error>
@@ -108,7 +108,7 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" (keyup)="checkReqValues()"
-              required tabindex="5"></textarea>
+              required tabindex="4"></textarea>
             <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
               Description is required
             </mat-error>
@@ -119,7 +119,7 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Keterangan" formControlName="descBm" #pollMalay maxlength="200" (keyup)="checkReqValues()"
-              required tabindex="6"></textarea>
+              required tabindex="5"></textarea>
             <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
               Keterangan diperlukan
             </mat-error>
@@ -131,12 +131,14 @@
       <div class="example-header">
         <div class="col-md-6">
             <mat-form-field class="example-full-width" >
-                <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+                <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng 
+                (keyup)="copyValue(1)" maxlength="100" tabindex="6">
             </mat-form-field>
         </div>
         <div class="col-md-6">
             <mat-form-field class="example-full-width" >
-                <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+                <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy 
+                (keyup)="copyValue(2)" maxlength="100" tabindex="7">
             </mat-form-field>
         </div>
       </div>
@@ -146,7 +148,8 @@
             <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate"  />
+              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish 
+              (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate"  tabindex="8"/>
               <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #publish></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
@@ -159,7 +162,8 @@
             <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate"  />
+              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD 
+              (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate" tabindex="9" />
               <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #endD></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
@@ -192,7 +196,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" 
+            <input matInput tabindex="10" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" 
             (keyup)="getSearchData(agencyEn.value, 1)">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
@@ -211,7 +215,7 @@
 
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" 
+            <input matInput tabindex="11" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" 
             (keyup)="getSearchData(agencyBm.value, 2)">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
@@ -287,7 +291,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp 
+            <input matInput tabindex="12" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp 
             (click)="getSearchDataApp(agencyforApp.value)" (keyup)="getSearchDataApp(agencyforApp.value)">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyforApp.value=''; resetSearchApp()">
               <mat-icon>close</mat-icon>
@@ -384,13 +388,13 @@
 
       <div class="example-header">
         <div class="col-md-12">
-          <mat-checkbox class="example-full-width" formControlName="active" tabindex="9">{{ 'common.buttons.active' | translate }}</mat-checkbox>
+          <mat-checkbox class="example-full-width" formControlName="active" tabindex="13">{{ 'common.buttons.active' | translate }}</mat-checkbox>
         </div>
       </div>
 
       <div class="example-header">
         <div class="col-md-12">
-          <mat-checkbox formControlName="approve" (change)="approvePublisher()" ></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.approve' | translate }}</span>
+          <mat-checkbox formControlName="approve" (change)="approvePublisher()" tabindex="14"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.approve' | translate }}</span>
         </div>
       </div>
 
