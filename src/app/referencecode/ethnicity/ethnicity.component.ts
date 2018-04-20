@@ -34,6 +34,9 @@ export class EthnicityComponent implements OnInit {
   public getRefCodeEng: any;
   public getRaceActive: any;
 
+  public raceCodeEn: any;
+  public raceCodeBm: any;
+
   complete: boolean;
   public languageId: any;
   public loading = false;
@@ -118,6 +121,10 @@ export class EthnicityComponent implements OnInit {
       this.getRefCodeMy = this.recordList.raceList[0].refCode;
       this.getRefCodeEng = this.recordList.raceList[1].refCode;
       this.getRaceActive = this.recordList.raceList[0].active;
+      this.raceCodeEn = this.recordList.raceList[0].raceCode;
+      this.raceCodeBm = this.recordList.raceList[1].raceCode;
+
+      this.checkReqValues();
 
     }).bind(this));   
     this.loading = false;
@@ -221,7 +228,8 @@ export class EthnicityComponent implements OnInit {
           "active": false,
           "language": {
               "languageId": null
-          }
+          },
+          "raceCode": null
         },
         {
           "race": null,
@@ -230,19 +238,22 @@ export class EthnicityComponent implements OnInit {
           "active": false,
           "language": {
               "languageId": null
-          }
+          },
+          "raceCode": null
         }
       ]    
 
 
       body[0].race = formValues.raceMy;
       body[0].raceId = this.getRaceIdMy;
+      body[0].raceCode = this.raceCodeBm;
       body[0].refCode = this.getRefCodeMy;
       body[0].language.languageId = 2;
       body[0].active = formValues.active;
 
       body[1].race = formValues.raceEng; 
       body[1].raceId = this.getRaceIdEng; 
+      body[1].raceCode = this.raceCodeEn;
       body[1].refCode = this.getRefCodeEng; 
       body[1].language.languageId = 1;
       body[1].active = formValues.active;
