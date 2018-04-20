@@ -271,6 +271,7 @@ export class SlidertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.selectedItem = [];
 
       }).bind(this)); 
       this.loading = false;

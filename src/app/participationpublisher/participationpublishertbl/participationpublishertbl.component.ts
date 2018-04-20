@@ -268,6 +268,10 @@ export class ParticipationpublishertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getParticipantsData(this.pageCount, this.participantPageSize);
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
 
       }).bind(this)); 
       this.loading = false;
@@ -289,7 +293,7 @@ export class ParticipationpublishertblComponent implements OnInit {
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.toastr.success(this.translate.instant('common.success.archivesuccess_multi'), '');
           this.getParticipantsData(this.pageCount, this.participantPageSize);
 
       }).bind(this)); 
@@ -315,8 +319,12 @@ export class ParticipationpublishertblComponent implements OnInit {
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.toastr.success(this.translate.instant('common.success.archivesuccess'), '');
           this.getParticipantsData(this.pageCount, this.participantPageSize);
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
 
       }).bind(this)); 
       this.loading = false;

@@ -19,10 +19,12 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 
 export class ContenttblComponent implements OnInit {
 
+  selectedItem = [];
+
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['num','name', 'url', 'category','default_status', 'status', 'action'];
+  displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -121,6 +123,7 @@ export class ContenttblComponent implements OnInit {
               //this.getRecordList(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
               this.getCategory();
+              this.selectedItem = [];
               
             }
           }.bind(this));
@@ -222,7 +225,6 @@ export class ContenttblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -283,7 +285,6 @@ export class ContenttblComponent implements OnInit {
     
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
         });
     }
 
@@ -343,7 +344,6 @@ export class ContenttblComponent implements OnInit {
   
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
       });
 
   }
@@ -382,6 +382,8 @@ export class ContenttblComponent implements OnInit {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.selectedItem = [];
+
         }).bind(this)); 
         this.loading = false;
       },
@@ -389,7 +391,6 @@ export class ContenttblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
     });
   
   }
@@ -460,7 +461,6 @@ export class ContenttblComponent implements OnInit {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
     });
   }
 
@@ -527,5 +527,40 @@ export class ContenttblComponent implements OnInit {
 
     this.catCode = ele.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `content/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.selectedItem = [];
+        this.loading = false;
+      });
+  }
+
+  isChecked(event) {
+    
+    if(event.checked){
+      this.selectedItem.push(event.source.value);
+    }else{
+      let index = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(index, 1);
+    }
+
+    return false;
   }
 }

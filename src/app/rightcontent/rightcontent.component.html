@@ -2,9 +2,9 @@
 <div *ngIf="menulst" style="display: inline-block;">
   
 
-  <h1>
+  <h3>
     {{ 'home.content.groupingPermisionModules' | translate }}
-  </h1>
+  </h3>
 
   <div>
       <a class="card" routerLink="/groupmodule">
@@ -26,10 +26,10 @@
 
 </div>
 
-<h1>
-  {{ 'home.content.modules' | translate }} <mat-chip-list *ngIf="menulst"><mat-chip color="primary" selected="true">{{menulst?.moduleList?.length }}</mat-chip></mat-chip-list>
-  <mat-chip-list *ngIf="menulist_non_admin"><mat-chip color="primary" selected="true">{{menulist_non_admin?.items?.length }}</mat-chip></mat-chip-list>
-</h1>
+<h3>
+  {{ 'home.content.modules' | translate }} <span *ngIf="menulst" class="totalct">({{menulst?.moduleList?.length }})</span>
+  <span *ngIf="menulist_non_admin" class="totalct">({{menulist_non_admin?.items?.length }})</span>
+</h3>
 
 
 <div *ngIf="menulst">

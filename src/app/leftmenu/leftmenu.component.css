@@ -7,11 +7,14 @@
 
 .submenu_link:hover{
     text-decoration: none;
-    background: #dddddd;
-    color: #000;
+    color: #fff;
+    background: #1ebebc;
     text-decoration: none;
 }
 
+.module_title{
+    width:80% !important;
+}
 
 .module_counts{
     width: 25px;
@@ -21,20 +24,20 @@
     border-radius: 20px;
     font-size: 12px;
     padding: 5px;
-    margin-left: 65%;
+    margin-left: 10%;
 }
 
 
 .submenu_link_active {
     text-decoration: none;
-    color: #000;
-    background: #dddddd;
+    color: #fff;
+    background: #1ebebc;
     text-decoration: none;
 }
 
 .submenu_link_active:focus{
     text-decoration: none;
-    color: #000;
+    color: #fff;
 }
 
 .searchMod{
@@ -42,4 +45,10 @@
     padding: 10px 5px;
     font-size: 14px;
     color: #000;
+}
+
+.grouping_title{
+    height: 25px;
+    font-weight: bold;
+    padding-left: 5px;
 }

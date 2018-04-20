@@ -18,8 +18,10 @@
   display:block;
   float: left;
   margin:5px;
+  margin-bottom: 25px;
   padding: 0px 10px;
-  border:1px solid #ccc;
+  border-top:2px solid #1ebebc;
+  background: #f3f3f3;
   width:200px;
   height: 100px;
   text-decoration: none;
@@ -31,8 +33,10 @@
   display: block;
   float: left;
   margin: 5px;
+  margin-bottom: 25px;
   padding: 0px 10px;
-  border: 1px solid #ccc;
+  border-top:2px solid #1ebebc;
+  background: #f3f3f3;
   width: 260px;
   height: 120px;
   text-decoration: none;
@@ -48,10 +52,12 @@
 
 .card-title{
   font-size:18px;
+  color: #1ebebc;
 }
 
 .card-text{
   font-size:12px;
+  color: #000;
   text-transform: capitalize;
 }
 
@@ -87,4 +93,8 @@
 .activeState{
   background:rgb(27, 179, 77);
   color: #fff;
+}
+
+.totalct{
+  color: #1ebebc;
 }

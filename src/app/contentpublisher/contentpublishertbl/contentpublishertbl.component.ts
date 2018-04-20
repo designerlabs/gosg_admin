@@ -17,12 +17,15 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 })
 export class ContentpublishertblComponent implements OnInit {
 
-  archiveId= [];
+  archiveId = [];
+  arrStatus = [];
+  selectedItem = [];
+  flagApprove: boolean;
 
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['num','name', 'url', 'category','default_status', 'status', 'action'];
+  displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -120,6 +123,9 @@ export class ContentpublishertblComponent implements OnInit {
               //this.getRecordList(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
               this.getCategory();
+              this.archiveId = [];
+              this.arrStatus = [];
+              this.selectedItem = [];
               
             }
           }.bind(this));
@@ -221,7 +227,6 @@ export class ContentpublishertblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -282,7 +287,6 @@ export class ContentpublishertblComponent implements OnInit {
     
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
         });
     }
 
@@ -342,7 +346,6 @@ export class ContentpublishertblComponent implements OnInit {
   
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
       });
 
   }
@@ -376,6 +379,10 @@ export class ContentpublishertblComponent implements OnInit {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
         }).bind(this)); 
         this.loading = false;
       },
@@ -383,7 +390,6 @@ export class ContentpublishertblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
     });
   
   }
@@ -454,7 +460,6 @@ export class ContentpublishertblComponent implements OnInit {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
     });
   }
 
@@ -533,12 +538,16 @@ export class ContentpublishertblComponent implements OnInit {
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode); 
+          this.toastr.success(this.translate.instant('common.success.archivesuccess_multi'), '');
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
 
       }).bind(this)); 
       this.archiveId = [];
+      this.selectedItem = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
       this.loading = false;
+      console.log("AFTER ARCHIVE ALL: "+this.flagApprove);
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
@@ -549,34 +558,113 @@ export class ContentpublishertblComponent implements OnInit {
 
   }
 
-  isChecked(event) {
-    if(event.checked){
-      this.archiveId.push(event.source.value);
-    }else{
-      let index = this.archiveId.indexOf(event.source.value);
-      this.archiveId.splice(index, 1);
-    }
-    return false;
-  }
-
   archiveItem(refcode) {
     this.loading = true;
     this.commonservice.update('', `archive/update/${refcode}`).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode); 
+          this.toastr.success(this.translate.instant('common.success.archivesuccess'), '');
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
 
       }).bind(this)); 
       this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.loading = false;
       });
 
+  }
+
+  isChecked(event, statusApproved) {
+        
+    if(this.archiveId.length == 0){
+      this.flagApprove = false;
+    }
+
+    if(event.checked){
+
+      this.selectedItem.push(event.source.value);
+      this.arrStatus.push(statusApproved);
+
+      if(statusApproved == true){        
+        this.archiveId.push(event.source.value);
+      }
+      
+    }else{
+      
+      for(let i=0; i<this.archiveId.length; i++){
+        //check if item can be archive or not
+        if(this.archiveId[i] == event.source.value){
+          let index = this.archiveId.indexOf(event.source.value);
+          this.archiveId.splice(index, 1);       
+        }         
+      }      
+
+      let indexDel = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(indexDel, 1);
+
+      let indexStatus = this.arrStatus.indexOf(statusApproved);
+      this.arrStatus.splice(indexStatus, 1);       
+    }
+
+    let countTrue = 0;
+
+    for(let i=0; i<this.arrStatus.length; i++){         
+
+      if(this.arrStatus[i] == true){
+        countTrue = countTrue + 1;
+      }
+    } 
+
+    //approved record only = archive
+    if(countTrue > 0 && countTrue == this.arrStatus.length){
+      this.flagApprove = true;
+    }
+
+    //record not only approved. cannot be archived
+    else if(countTrue > 0 && countTrue != this.arrStatus.length){
+      this.flagApprove = false;
+    }
+
+    console.log(this.arrStatus);
+    console.log("ACHIVE: ");
+    console.log(this.archiveId);
+    console.log(this.selectedItem);
+    console.log("Flag Approved: "+this.flagApprove);
+    return false;
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `content/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.archiveId = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
+      this.loading = false;
+      console.log("AFTER DELETE ALL: "+this.flagApprove);
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.selectedItem = [];
+        this.loading = false;
+      });
   }
 
 }

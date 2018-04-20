@@ -381,6 +381,8 @@ export class LifeeventtblComponent implements OnInit {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.selectedItem = [];
+          
         }).bind(this)); 
         this.loading = false;
       },

@@ -269,6 +269,10 @@ export class SliderpublishertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
 
       }).bind(this)); 
       this.loading = false;
@@ -319,6 +323,10 @@ export class SliderpublishertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.archivesuccess'), '');
           this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
 
       }).bind(this)); 
       this.loading = false;

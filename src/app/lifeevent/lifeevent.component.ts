@@ -274,7 +274,6 @@ export class LifeeventComponent implements OnInit {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
@@ -302,7 +301,6 @@ export class LifeeventComponent implements OnInit {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
@@ -429,7 +427,6 @@ export class LifeeventComponent implements OnInit {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
     });
   }
 
@@ -546,9 +543,6 @@ export class LifeeventComponent implements OnInit {
         let getObjKeys = Object.keys(dataEn);
         let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
 
-        console.log("KEY OBJECT");
-        console.log(valMT.length);
-
         let detAgenId;
         let detAgenCode;
 
@@ -575,10 +569,6 @@ export class LifeeventComponent implements OnInit {
         let setParentEn = [];
 
         //get array of categoryId        
-
-        console.log("GET CATEGORY TREE");
-        console.log(setParentEn);        
-
         if(this.languageId == 1){          
           for(let i=0; i<dataEn.contentCategories.length; i++){
             let a;
@@ -635,8 +625,6 @@ export class LifeeventComponent implements OnInit {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
-
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
       let a = {"categoryId": this.parentValEn[i].id[0]};
@@ -648,7 +636,6 @@ export class LifeeventComponent implements OnInit {
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);  
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
@@ -756,7 +743,6 @@ export class LifeeventComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -855,7 +841,6 @@ export class LifeeventComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -876,8 +861,6 @@ export class LifeeventComponent implements OnInit {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
-
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
       let a = {"categoryId": this.parentValEn[i].id[0]};
@@ -889,7 +872,6 @@ export class LifeeventComponent implements OnInit {
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);  
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
@@ -997,7 +979,6 @@ export class LifeeventComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -1097,7 +1078,6 @@ export class LifeeventComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -1286,9 +1266,6 @@ export class LifeeventComponent implements OnInit {
       }            
     }
 
-    console.log("AgencyAppID: "+idAgencyApp+" codeAgencyApp: "+codeAgencyApp);
-
-
     this.updateForm.get('agencyApp').setValue(idAgencyApp);  
 
     this.getAgencyAppEnBm(codeAgencyApp);
@@ -1356,29 +1333,22 @@ export class LifeeventComponent implements OnInit {
 
     // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
       }
     }
   }
 
   onScrollApp(event){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
 
       let keywordVal;
    
