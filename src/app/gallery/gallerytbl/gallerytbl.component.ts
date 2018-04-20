@@ -16,6 +16,8 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class GallerytblComponent implements OnInit {
 
+  selectedItem = [];
+
   galleryData: Object;
   galleryList = null;
   displayedColumns: any;
@@ -49,7 +51,7 @@ export class GallerytblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.galleryList);
 
   applyFilter(e) {
-    console.log(e);
+
     if(e){
       this.getFilterList(this.pageCount, this.galleryPageSize, e, this.nameStatus);
     }
@@ -63,7 +65,7 @@ export class GallerytblComponent implements OnInit {
   }
 
   filterStatus(e){
-    console.log(e);
+
     if(this.keywordVal != ""){
       this.getFilterList(this.pageCount, this.galleryPageSize, this.keywordVal, e.value);
     }
@@ -93,6 +95,7 @@ export class GallerytblComponent implements OnInit {
               this.languageId = val.languageId;
               this.getGalleryData(this.pageCount, this.galleryPageSize);
               this.commonservice.getModuleId();
+              this.selectedItem = [];
             }
           }.bind(this));
         })
@@ -107,7 +110,7 @@ export class GallerytblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
+    this.displayedColumns = ['cbox','no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
     this.commonservice.getModuleId();
     this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
@@ -119,7 +122,6 @@ export class GallerytblComponent implements OnInit {
 
   // get gallery Data 
   getGalleryData(page, size) {
-    // console.log(this.appConfig.urlgalleryList + '/?page=' + count + '&size=' + size)
 
     let generalUrl = ""
 
@@ -278,13 +280,13 @@ export class GallerytblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getGalleryData(this.pageCount, this.galleryPageSize);
+          this.selectedItem = [];
 
       }).bind(this)); 
       this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.loading = false;
       });    
   }
@@ -295,5 +297,40 @@ export class GallerytblComponent implements OnInit {
     } else if (isEdit == true) {
       this.pageMode = "Update";
     }
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `gallery/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getGalleryData(this.pageCount, this.galleryPageSize);
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.selectedItem = [];
+        this.loading = false;
+      });
+  }
+
+  isChecked(event) {
+    
+    if(event.checked){
+      this.selectedItem.push(event.source.value);
+    }else{
+      let index = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(index, 1);
+    }
+
+    return false;
   }
 }

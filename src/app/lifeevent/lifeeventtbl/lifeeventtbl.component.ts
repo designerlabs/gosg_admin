@@ -18,10 +18,12 @@ declare var System: any;
 })
 export class LifeeventtblComponent implements OnInit {
 
+  selectedItem = [];
+
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['num','name', 'url', 'category','default_status', 'status', 'action'];
+  displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -120,6 +122,7 @@ export class LifeeventtblComponent implements OnInit {
               //this.getRecordList(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
               this.getCategory();
+              this.selectedItem = [];
               
             }
           }.bind(this));
@@ -221,7 +224,6 @@ export class LifeeventtblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -282,7 +284,6 @@ export class LifeeventtblComponent implements OnInit {
     
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
         });
     }
 
@@ -342,7 +343,6 @@ export class LifeeventtblComponent implements OnInit {
   
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
       });
 
   }
@@ -381,6 +381,8 @@ export class LifeeventtblComponent implements OnInit {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.selectedItem = [];
+          
         }).bind(this)); 
         this.loading = false;
       },
@@ -388,7 +390,6 @@ export class LifeeventtblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
     });
   
   }
@@ -421,25 +422,23 @@ export class LifeeventtblComponent implements OnInit {
               if(this.categoryData[i].list.length === 2){
                 arrCatEn.push({
                   
-                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                      value:this.categoryData[i].list[0].categoryId,
-                      refCode: this.categoryData[i].refCode,
-                      parent: this.categoryData[i].list[0].parentId,
-                      text: this.categoryData[i].list[0].categoryName,
-                      checked: false,
-                      children: []});      
+                  id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                  value:this.categoryData[i].list[0].categoryId,
+                  refCode: this.categoryData[i].refCode,
+                  parent: this.categoryData[i].list[0].parentId,
+                  text: this.categoryData[i].list[0].categoryName,
+                  checked: false,
+                  children: []});      
                     
                 arrCatBm.push({
-                      id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
-                      value:this.categoryData[i].list[1].categoryId,
-                      refCode: this.categoryData[i].refCode,
-                      parent: this.categoryData[i].list[1].parentId,
-                      checked: false,
-                      text: this.categoryData[i].list[1].categoryName,
-                      children: []}); 
-                    
+                  id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
+                  value:this.categoryData[i].list[1].categoryId,
+                  refCode: this.categoryData[i].refCode,
+                  parent: this.categoryData[i].list[1].parentId,
+                  checked: false,
+                  text: this.categoryData[i].list[1].categoryName,
+                  children: []});                     
               }
-
           }
           
           if(this.languageId == 1){
@@ -459,7 +458,6 @@ export class LifeeventtblComponent implements OnInit {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
     });
   }
 
@@ -524,10 +522,43 @@ export class LifeeventtblComponent implements OnInit {
 
   onChange(ele){    
 
-    console.log(ele);
-
     this.catCode = ele.refCode;
     this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `life/event/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.selectedItem = [];
+        this.loading = false;
+      });
+  }
+
+  isChecked(event) {
+    
+    if(event.checked){
+      this.selectedItem.push(event.source.value);
+    }else{
+      let index = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(index, 1);
+    }
+
+    return false;
   }
 }
 // System.import('http://www.google.com/jsapi')

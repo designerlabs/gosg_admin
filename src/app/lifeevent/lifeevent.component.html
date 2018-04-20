@@ -36,7 +36,7 @@
               [filterPlaceholder]="filterPlaceholder"
               minlength="2"
               maxlength="4"
-              tabindex="5"
+              tabindex="1"
               required=true
               #simpleSelect
               [multiple]="true"
@@ -61,7 +61,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" required tabindex="3">
+            <input matInput placeholder="Title" formControlName="titleEn" (keyup)="checkReqValues()" required tabindex="2">
             <mat-error *ngIf="updateForm.controls.titleEn.hasError('required')">
               Title is required
             </mat-error>
@@ -81,7 +81,7 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" (keyup)="checkReqValues()"
-              required tabindex="5"></textarea>
+              required tabindex="4"></textarea>
             <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
               Description is required
             </mat-error>
@@ -92,7 +92,7 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <textarea matInput placeholder="Keterangan" formControlName="descBm" #pollMalay maxlength="200" (keyup)="checkReqValues()"
-              required tabindex="6"></textarea>
+              required tabindex="5"></textarea>
             <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
               Keterangan diperlukan
             </mat-error>
@@ -104,12 +104,14 @@
       <div class="example-header">
         <div class="col-md-6">
             <mat-form-field class="example-full-width" >
-                <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+                <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" 
+                #seqEng (keyup)="copyValue(1)" maxlength="100" tabindex="6">
             </mat-form-field>
         </div>
         <div class="col-md-6">
             <mat-form-field class="example-full-width" >
-                <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+                <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" 
+                #seqMy (keyup)="copyValue(2)" maxlength="100" tabindex="7">
             </mat-form-field>
         </div>
       </div>
@@ -119,7 +121,9 @@
             <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="minDate"  />
+              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" 
+              #publish (dateTimeInput)="publishEvent('input', $event)" 
+              (dateTimeChange)="publishEvent('change', $event)" [min]="minDate"  tabindex="8"/>
               <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #publish></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
@@ -132,7 +136,9 @@
             <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
-              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="minDate"  />
+              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" 
+              #endD (dateTimeInput)="endEvent('input', $event)" 
+              (dateTimeChange)="endEvent('change', $event)" [min]="minDate"  tabindex="9" />
               <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #endD></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
@@ -165,18 +171,20 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" 
-            (keyup)="getSearchData(agencyEn.value, 1)">
+            <input matInput placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" 
+            (keyup)="getSearchData(agencyEn.value, 1)" tabindex="10">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
 
           <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
-          [ngClass]="{'listParent':searchAgencyResultEn.length < 10,'listParent-w-scroll':searchAgencyResultEn.length >= 10}" (scroll)="onScroll($event,1)">
+          [ngClass]="{'listParent':searchAgencyResultEn.length < 10,'listParent-w-scroll':searchAgencyResultEn.length >= 10}" 
+          (scroll)="onScroll($event,1)">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of searchAgencyResultEn">
-                <a class="list-link" (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">{{data?.agencyName}}</a>
+                <a class="list-link" (click)="getValue(data?.agencyId,data?.agencyName,data?.agencyMinistry.ministryName, data?.agencyCode,1)">
+                  {{data?.agencyName}}</a>
               </li>
             </ul>
           </div>
@@ -184,18 +192,20 @@
 
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" 
-            (keyup)="getSearchData(agencyBm.value, 2)">
+            <input matInput placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" 
+            (keyup)="getSearchData(agencyBm.value, 2)" tabindex="11">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
 
           <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
-          [ngClass]="{'listParent':searchAgencyResultBm.length < 10,'listParent-w-scroll':searchAgencyResultBm.length >= 10}" (scroll)="onScroll($event,2)">
+          [ngClass]="{'listParent':searchAgencyResultBm.length < 10,'listParent-w-scroll':searchAgencyResultBm.length >= 10}" 
+          (scroll)="onScroll($event,2)">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of searchAgencyResultBm">
-                <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">{{data?.agencyName}}</a>
+                <a class="list-link" (click)="getValue(data?.agencyId, data?.agencyName, data?.agencyMinistry.ministryName, data?.agencyCode, 2)">
+                  {{data?.agencyName}}</a>
               </li>
             </ul>
           </div>
@@ -260,7 +270,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp 
+            <input matInput placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp 
             (click)="getSearchDataApp(agencyforApp.value)" (keyup)="getSearchDataApp(agencyforApp.value)">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyforApp.value=''; resetSearchApp()">
               <mat-icon>close</mat-icon>
@@ -357,19 +367,19 @@
 
       <div class="example-header">
         <div class="col-md-12">
-          <mat-checkbox class="example-full-width" formControlName="active" tabindex="9">{{ 'common.buttons.active' | translate }}</mat-checkbox>
+          <mat-checkbox class="example-full-width" formControlName="active" tabindex="12">{{ 'common.buttons.active' | translate }}</mat-checkbox>
         </div>
       </div>
 
       <div class="example-header">
         <div class="col-md-12">
-          <mat-checkbox class="example-full-width" formControlName="citizenflag" tabindex="10">{{ 'lifeeventtbl.citizenflag' | translate }}</mat-checkbox>
+          <mat-checkbox class="example-full-width" formControlName="citizenflag" tabindex="13">{{ 'lifeeventtbl.citizenflag' | translate }}</mat-checkbox>
         </div>
       </div>
 
       <div class="example-header">
         <div class="col-md-12">
-          <mat-checkbox class="example-full-width" formControlName="noncitizenflag" tabindex="11">{{ 'lifeeventtbl.noncitizenflag' | translate }}</mat-checkbox>
+          <mat-checkbox class="example-full-width" formControlName="noncitizenflag" tabindex="14">{{ 'lifeeventtbl.noncitizenflag' | translate }}</mat-checkbox>
         </div>
       </div>
 

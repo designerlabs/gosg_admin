@@ -63,7 +63,7 @@ export class SlidertblComponent implements OnInit {
   }
 
   filterStatus(e){
-    console.log(e);
+
     if(this.keywordVal != ""){
       this.getFilterList(this.pageCount, this.sliderPageSize, this.keywordVal, e.value);
     }
@@ -146,9 +146,7 @@ export class SlidertblComponent implements OnInit {
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.sliderList = data;
-        console.log(this.sliderList);
-        console.log(this.sliderList.list.length);               
+        this.sliderList = data;              
 
         if(this.sliderList.list.length > 0){
           this.dataSource.data = this.sliderList.list;
@@ -169,8 +167,7 @@ export class SlidertblComponent implements OnInit {
       this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');     
         this.loading = false;
       });
   }
@@ -203,8 +200,7 @@ export class SlidertblComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
           this.sliderList = data;
-          console.log(this.sliderList);
-          console.log(this.sliderList.list.length);               
+
 
           if(this.sliderList.list.length > 0){
             this.dataSource.data = this.sliderList.list;
@@ -231,7 +227,6 @@ export class SlidertblComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);  
           this.loading = false;
       });
     }
@@ -267,9 +262,31 @@ export class SlidertblComponent implements OnInit {
     this.router.navigate(['slider', row]);
   }
 
+  deleteItem(refcode) {
+
+    this.loading = true;
+    this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSlidersData(this.pageCount, this.sliderPageSize);
+          this.selectedItem = [];
+
+      }).bind(this)); 
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+      });
+
+  }
+
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
+    console.log("DELETED REFCODE: ");
     console.log(deletedCodes);
     this.commonservice.delete('', `slider/delete/multiple/${deletedCodes}`).subscribe(
       data => {
@@ -284,36 +301,12 @@ export class SlidertblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.selectedItem = [];
         this.loading = false;
       });
   }
 
-  deleteItem(refcode) {
-
-    this.loading = true;
-    this.commonservice.delete(refcode, 'slider/creator/delete/').subscribe(
-      data => {
-
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSlidersData(this.pageCount, this.sliderPageSize);
-
-      }).bind(this)); 
-      this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-        this.loading = false;
-      });
-
-  }
-
   isChecked(event) {
-
-    console.log(event);
     
     if(event.checked){
       this.selectedItem.push(event.source.value);
@@ -322,7 +315,6 @@ export class SlidertblComponent implements OnInit {
       this.selectedItem.splice(index, 1);
     }
 
-    console.log(this.selectedItem);
     return false;
   }
 
