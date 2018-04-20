@@ -331,14 +331,13 @@ export class SliderpublishertblComponent implements OnInit {
   }
 
   isChecked(event, statusApproved) {
-    this.flagApprove = true;
-
+        
     if(this.archiveId.length == 0){
       this.flagApprove = false;
     }
 
     if(event.checked){
-      //this.archiveId.push(event.source.value);
+
       this.selectedItem.push(event.source.value);
       this.arrStatus.push(statusApproved);
 
@@ -347,26 +346,43 @@ export class SliderpublishertblComponent implements OnInit {
       }
       
     }else{
-      let index = this.archiveId.indexOf(event.source.value);
-      this.archiveId.splice(index, 1);
+      
+      for(let i=0; i<this.archiveId.length; i++){
+        //check if item can be archive or not
+        if(this.archiveId[i] == event.source.value){
+          let index = this.archiveId.indexOf(event.source.value);
+          this.archiveId.splice(index, 1);       
+        }         
+      }      
 
       let indexDel = this.selectedItem.indexOf(event.source.value);
       this.selectedItem.splice(indexDel, 1);
 
       let indexStatus = this.arrStatus.indexOf(statusApproved);
-      this.arrStatus.splice(indexStatus, 1);   
+      this.arrStatus.splice(indexStatus, 1);       
     }
 
-    if(this.flagApprove == true){
-      for(let i=0; i<this.arrStatus.length; i++){
-        //check if item can be archive or not
-        if(this.arrStatus[i] == false){
-          this.flagApprove = false;
-        }         
+    let countTrue = 0;
+
+    for(let i=0; i<this.arrStatus.length; i++){         
+
+      if(this.arrStatus[i] == true){
+        countTrue = countTrue + 1;
       }
+    } 
+
+    //approved record only = archive
+    if(countTrue > 0 && countTrue == this.arrStatus.length){
+      this.flagApprove = true;
+    }
+
+    //record not only approved. cannot be archived
+    else if(countTrue > 0 && countTrue != this.arrStatus.length){
+      this.flagApprove = false;
     }
 
     console.log(this.arrStatus);
+    console.log("ACHIVE: ");
     console.log(this.archiveId);
     console.log(this.selectedItem);
     console.log("Flag Approved: "+this.flagApprove);

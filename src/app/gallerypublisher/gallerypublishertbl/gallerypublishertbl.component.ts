@@ -347,18 +347,13 @@ export class GallerypublishertblComponent implements OnInit {
   }
 
   isChecked(event, statusApproved) {
-    this.flagApprove = true;
-    let checkStatus = true;
-
-    
+        
     if(this.archiveId.length == 0){
       this.flagApprove = false;
     }
 
     if(event.checked){
-      console.log("STATUS iTEM M: "+statusApproved);
 
-      //this.archiveId.push(event.source.value);
       this.selectedItem.push(event.source.value);
       this.arrStatus.push(statusApproved);
 
@@ -367,43 +362,39 @@ export class GallerypublishertblComponent implements OnInit {
       }
       
     }else{
-
-      console.log("STATUS iTEM KELUAR: "+statusApproved);
-      console.log(event);  
-      console.log(event.source.value);  
-
-      let index = this.archiveId.indexOf(event.source.value);
-      this.archiveId.splice(index, 1);          
+      
+      for(let i=0; i<this.archiveId.length; i++){
+        //check if item can be archive or not
+        if(this.archiveId[i] == event.source.value){
+          let index = this.archiveId.indexOf(event.source.value);
+          this.archiveId.splice(index, 1);       
+        }         
+      }      
 
       let indexDel = this.selectedItem.indexOf(event.source.value);
       this.selectedItem.splice(indexDel, 1);
 
       let indexStatus = this.arrStatus.indexOf(statusApproved);
-      this.arrStatus.splice(indexStatus, 1); 
-      
-      checkStatus = false;
-
-      // if(checkStatus == false){
-      //   for(let i=0; i<this.arrStatus.length; i++){
-      //     //check if item can be archive or not
-      //     if(this.arrStatus[i] == statusApproved){
-      //       //let indexStatus = this.arrStatus.indexOf(statusApproved);
-      //       //this.arrStatus.splice(statusApproved, 1);   
-      //       checkStatus = true;
-      //     }         
-      //   }
-      // }
-        
-      
+      this.arrStatus.splice(indexStatus, 1);       
     }
 
-    if(this.flagApprove == true){
-      for(let i=0; i<this.arrStatus.length; i++){
-        //check if item can be archive or not
-        if(this.arrStatus[i] == false){
-          this.flagApprove = false;
-        }         
+    let countTrue = 0;
+
+    for(let i=0; i<this.arrStatus.length; i++){         
+
+      if(this.arrStatus[i] == true){
+        countTrue = countTrue + 1;
       }
+    } 
+
+    //approved record only = archive
+    if(countTrue > 0 && countTrue == this.arrStatus.length){
+      this.flagApprove = true;
+    }
+
+    //record not only approved. cannot be archived
+    else if(countTrue > 0 && countTrue != this.arrStatus.length){
+      this.flagApprove = false;
     }
 
     console.log(this.arrStatus);
