@@ -95,7 +95,7 @@ export class AgencyapptblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','agencyAppNameEn', 'agencyAppNameBm', 'agencyAppAction'];
+    this.displayedColumns = ['no','agencyAppNameEn', 'agencyAppNameBm', 'agencyAppStatus', 'agencyAppAction'];
     this.commonservice.getModuleId();
   }
 

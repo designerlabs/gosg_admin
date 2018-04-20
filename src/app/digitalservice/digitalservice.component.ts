@@ -153,14 +153,18 @@ export class DigitalserviceComponent implements OnInit {
         this.updateForm.get('descEn').setValue(dataEn.description);
         this.updateForm.get('titleBm').setValue(dataBm.title);
         this.updateForm.get('descBm').setValue(dataBm.description);
-        this.updateForm.get('agencyEn').setValue(dataEn.agency.agencyName);
-        this.updateForm.get('agencyBm').setValue(dataBm.agency.agencyName);
+
+        if(dataEn.agency) {
+          this.updateForm.get('agencyEn').setValue(dataEn.agency.agencyName);
+          this.updateForm.get('agencyBm').setValue(dataBm.agency.agencyName);
+          this.agencyIdEn = dataEn.agency.agencyId;
+          this.agencyIdBm = dataBm.agency.agencyId;
+        }
+
         this.updateForm.get('active').setValue(dataBm.enabled);
         this.refCode = dataEn.code;
         this.idEn = dataEn.id;
         this.idBm = dataBm.id;
-        this.agencyIdEn = dataEn.agency.agencyId;
-        this.agencyIdBm = dataBm.agency.agencyId;
         
         this.checkReqValues();
       }).bind(this));

@@ -63,6 +63,15 @@
         <mat-cell *matCellDef="let element"> {{element.list[1].agencyApplicationName}} </mat-cell>
       </ng-container>
 
+      <!-- agencyAppStatus Column -->
+      <ng-container matColumnDef="agencyAppStatus">
+        <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
+        <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+          <i *ngIf="element.list[1].enabled == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+          <i *ngIf="element.list[1].enabled == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+        </mat-cell>
+      </ng-container>
+
       <!-- Action Column -->
       <ng-container matColumnDef="agencyAppAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>

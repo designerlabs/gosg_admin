@@ -46,8 +46,9 @@ export class DigitalservicedetailsComponent implements OnInit {
   categoryEn: FormControl;
   titleBm: FormControl;
   titleEn: FormControl;
-  serviceUrl: FormControl;
   descBm: FormControl;
+  descEn: FormControl;
+  serviceUrl: FormControl;
   active: FormControl;
 
   resetMsg = this.resetMsg;
@@ -93,6 +94,8 @@ export class DigitalservicedetailsComponent implements OnInit {
 
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
+    this.descEn = new FormControl()
+    this.descBm = new FormControl()
     this.serviceUrl = new FormControl()
     this.categoryEn = new FormControl()
     this.categoryBm = new FormControl()
@@ -100,8 +103,10 @@ export class DigitalservicedetailsComponent implements OnInit {
 
     this.updateForm = new FormGroup({
       titleEn: this.titleEn,
+      descEn: this.descEn,
       serviceUrl: this.serviceUrl,
       titleBm: this.titleBm,
+      descBm: this.descBm,
       categoryEn: this.categoryEn,
       categoryBm: this.categoryBm,
       active: this.active
@@ -153,6 +158,8 @@ export class DigitalservicedetailsComponent implements OnInit {
         this.updateForm.get('titleBm').setValue(dataBm.title);
         this.updateForm.get('categoryEn').setValue(dataEn.service.title);
         this.updateForm.get('categoryBm').setValue(dataBm.service.title);
+        this.updateForm.get('descEn').setValue(dataEn.description);
+        this.updateForm.get('descBm').setValue(dataBm.description);
         this.updateForm.get('active').setValue(dataBm.enabled);
         this.refCode = dataEn.code;
         this.idEn = dataEn.id;
@@ -200,7 +207,7 @@ export class DigitalservicedetailsComponent implements OnInit {
 
   getDigitalServices() {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice').subscribe(
+    this.commonservice.readProtected('digitalservice/details').subscribe(
         Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
             this.AgencyData = Rdata['list'];
@@ -332,12 +339,14 @@ export class DigitalservicedetailsComponent implements OnInit {
   checkReqValues() {
 
     let titleEn = "titleEn";
-    let serviceUrl = "serviceUrl";
     let titleBm = "titleBm";
     let categoryEn = "categoryEn";
     let categoryBm = "categoryBm";
+    let descEn = "descEn";
+    let descBm = "descBm";
+    let serviceUrl = "serviceUrl";
 
-    let reqVal: any = [titleEn, serviceUrl, titleBm, categoryEn, categoryBm];
+    let reqVal: any = [titleEn, serviceUrl, titleBm, categoryEn, categoryBm, descEn, descBm];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -373,6 +382,7 @@ export class DigitalservicedetailsComponent implements OnInit {
         "title": null,
         "url": null,
         "enabled": null,
+        "description": null,
         "language": {
           "languageId": 1
         },
@@ -384,6 +394,7 @@ export class DigitalservicedetailsComponent implements OnInit {
         "title": null,
         "url": null,
         "enabled": null,
+        "description": null,
         "language": {
           "languageId": 2
         },
@@ -397,11 +408,13 @@ export class DigitalservicedetailsComponent implements OnInit {
 
     body[0].title = formValues.titleEn;
     body[0].url = formValues.serviceUrl;
+    body[0].description = formValues.descEn;
     body[0].service.id = this.categoryIdEn;
     body[0].enabled = formValues.active;
     
     body[1].title = formValues.titleBm;
     body[1].url = formValues.serviceUrl;
+    body[1].description = formValues.descBm;
     body[1].service.id = this.categoryIdBm;
     body[1].enabled = formValues.active;
 
@@ -432,6 +445,7 @@ export class DigitalservicedetailsComponent implements OnInit {
         "code":  null,
         "title": null,
         "url": null,
+        "description": null,
         "enabled": null,
         "language": {
           "languageId": 1
@@ -445,6 +459,7 @@ export class DigitalservicedetailsComponent implements OnInit {
         "code":  null,
         "title": null,
         "url": null,
+        "description": null,
         "enabled": null,
         "language": {
           "languageId": 2
@@ -459,6 +474,7 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[0].code = this.refCode;
     body[0].title = formValues.titleEn;
     body[0].url = formValues.serviceUrl;
+    body[0].description = formValues.descEn;
     body[0].service.id = this.categoryIdEn;
     body[0].enabled = formValues.active;
     
@@ -466,6 +482,7 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[1].code = this.refCode;
     body[1].title = formValues.titleBm;
     body[1].url = formValues.serviceUrl;
+    body[1].description = formValues.descBm;
     body[1].service.id = this.categoryIdBm;
     body[1].enabled = formValues.active;
 
