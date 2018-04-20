@@ -53,6 +53,7 @@ export class AgencyappComponent implements OnInit {
   agencyEn: FormControl
   agencyBm: FormControl
   websiteUrl: FormControl
+  active: FormControl
   public loading = false;
   isDoc: FormControl
   resetMsg = this.resetMsg;
@@ -105,6 +106,7 @@ export class AgencyappComponent implements OnInit {
     this.agencyBm = new FormControl()
     this.websiteUrl = new FormControl()
     this.isDoc = new FormControl()
+    this.active = new FormControl()
 
     this.updateForm = new FormGroup({
       agencyAppNameEn: this.agencyAppNameEn,
@@ -115,6 +117,7 @@ export class AgencyappComponent implements OnInit {
       agencyBm: this.agencyBm,
       websiteUrl: this.websiteUrl,
       isDoc: this.isDoc,
+      active: this.active
     });
     this.getAgency();
 
@@ -166,6 +169,7 @@ export class AgencyappComponent implements OnInit {
         this.updateForm.get('agencyBm').setValue(dataBm.agencyName);
         this.updateForm.get('websiteUrl').setValue(dataBm.agencyApplicationUrl);
         this.updateForm.get('isDoc').setValue(dataBm.isDocument);
+        this.updateForm.get('active').setValue(dataBm.enabled);
         this.refCode = dataEn.agencyApplicationCode;
         this.agencyAppIdEn = dataEn.agencyApplicationId;
         this.agencyAppIdBm = dataBm.agencyApplicationId;
@@ -366,6 +370,7 @@ export class AgencyappComponent implements OnInit {
         "agencyApplicationDescription": null,
         "isDocument": false,
         "agencyApplicationUrl": null,
+        "enabled": null,
         "language": {
           "languageId": 1
         },
@@ -376,6 +381,7 @@ export class AgencyappComponent implements OnInit {
         "agencyApplicationDescription": null,
         "isDocument": false,
         "agencyApplicationUrl": null,
+        "enabled": null,
         "language": {
           "languageId": 2
         },
@@ -388,12 +394,14 @@ export class AgencyappComponent implements OnInit {
     body[0].agencyApplicationName = formValues.agencyAppNameEn;
     body[0].agencyApplicationDescription = formValues.descEn;
     body[0].isDocument = formValues.isDoc;
+    body[0].enabled = formValues.active;
     body[0].agencyApplicationUrl = formValues.websiteUrl;
     body[0].agencyId = this.agencyIdEn;
 
     body[1].agencyApplicationName = formValues.agencyAppNameBm;
     body[1].agencyApplicationDescription = formValues.descBm;
     body[1].isDocument = formValues.isDoc;
+    body[1].enabled = formValues.active;
     body[1].agencyApplicationUrl = formValues.websiteUrl;
     body[1].agencyId = this.agencyIdBm;
 
@@ -425,6 +433,7 @@ export class AgencyappComponent implements OnInit {
         "agencyApplicationCode": null,
         "agencyApplicationDescription": null,
         "isDocument": false,
+        "enabled": null,
         "agencyApplicationUrl": null,
         "language": {
           "languageId": 1
@@ -437,6 +446,7 @@ export class AgencyappComponent implements OnInit {
         "agencyApplicationCode": null,
         "agencyApplicationDescription": null,
         "isDocument": false,
+        "enabled": null,
         "agencyApplicationUrl": null,
         "language": {
           "languageId": 2
@@ -450,6 +460,7 @@ export class AgencyappComponent implements OnInit {
     body[0].agencyApplicationName = formValues.agencyAppNameEn;
     body[0].agencyApplicationDescription = formValues.descEn;
     body[0].isDocument = formValues.isDoc;
+    body[0].enabled = formValues.active;
     body[0].agencyApplicationUrl = formValues.websiteUrl;
     body[0].agencyId = this.agencyIdEn;
     
@@ -458,6 +469,7 @@ export class AgencyappComponent implements OnInit {
     body[1].agencyApplicationName = formValues.agencyAppNameBm;
     body[1].agencyApplicationDescription = formValues.descBm;
     body[1].isDocument = formValues.isDoc;
+    body[1].enabled = formValues.active;
     body[1].agencyApplicationUrl = formValues.websiteUrl;
     body[1].agencyId = this.agencyIdBm;
 

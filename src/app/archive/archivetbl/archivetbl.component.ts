@@ -155,7 +155,7 @@ export class ArchivetblComponent implements OnInit {
             console.log("data");
             console.log(data);
             
-            this.dataSource.data = this.recordList.contentEntityList;
+            this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
             this.recordTable = this.recordList;
@@ -211,9 +211,9 @@ export class ArchivetblComponent implements OnInit {
   }
 
   deleteItem(refCode) {
-    alert(refCode)
+    // alert(refCode)
     this.loading = true;
-      this.commonservice.delete(refCode,'archive/delete/code/').subscribe(
+      this.commonservice.delete(refCode,'archive/delete/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getArchiveData(this.pageCount, this.pageSize);

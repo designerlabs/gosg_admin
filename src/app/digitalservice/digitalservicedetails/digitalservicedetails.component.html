@@ -97,6 +97,30 @@
             </mat-form-field>
           </div>
         </div>
+
+        <!-- <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width ">
+              <textarea matInput tabindex="3" placeholder="Description" formControlName="descEn" #descEn maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
+                Description is required
+              </mat-error>
+              <mat-hint align="end">{{descEn.value?.length || 0}}/10000</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width ">
+              <textarea matInput tabindex="4" placeholder="Keterangan" formControlName="descBm" #descBm maxLength="10000" (change)="checkReqValues()"
+                required></textarea>
+              <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
+                Keterangan diperlukan
+              </mat-error>
+              <mat-hint align="end">{{descBm.value?.length || 0}}/10000</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div> -->
   
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
