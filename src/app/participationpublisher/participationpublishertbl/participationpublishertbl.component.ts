@@ -16,7 +16,10 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class ParticipationpublishertblComponent implements OnInit {
 
-  archiveId= [];
+  archiveId = [];
+  arrStatus = [];
+  selectedItem = [];
+  flagApprove: boolean;
 
   participantData: Object;
   participantList = null;
@@ -63,7 +66,7 @@ export class ParticipationpublishertblComponent implements OnInit {
   }
 
   filterStatus(e){
-    console.log(e);
+
     if(this.keywordVal != ""){
       this.getFilterList(this.pageCount, this.participantPageSize, this.keywordVal, e.value);
     }
@@ -92,6 +95,9 @@ export class ParticipationpublishertblComponent implements OnInit {
               this.languageId = val.languageId;
               this.getParticipantsData(this.pageCount, this.participantPageSize);
               this.commonservice.getModuleId();
+              this.archiveId = [];
+              this.arrStatus = [];
+              this.selectedItem = [];
             }
           }.bind(this));
         })
@@ -107,7 +113,7 @@ export class ParticipationpublishertblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
+    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getParticipantsData(this.pageCount, this.participantPageSize);
   }
@@ -143,9 +149,7 @@ export class ParticipationpublishertblComponent implements OnInit {
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.participantList = data;
-        console.log(this.participantList);
-        console.log(this.participantList.list.length);               
+        this.participantList = data;           
 
         if(this.participantList.list.length > 0){
           this.dataSource.data = this.participantList.list;
@@ -166,8 +170,7 @@ export class ParticipationpublishertblComponent implements OnInit {
       this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');    
         this.loading = false;
       });
   }
@@ -199,9 +202,7 @@ export class ParticipationpublishertblComponent implements OnInit {
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-          this.participantList = data;
-          console.log(this.participantList);
-          console.log(this.participantList.list.length);               
+          this.participantList = data;           
 
           if(this.participantList.list.length > 0){
             this.dataSource.data = this.participantList.list;
@@ -228,7 +229,6 @@ export class ParticipationpublishertblComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);  
           this.loading = false;
       });
     }
@@ -274,7 +274,6 @@ export class ParticipationpublishertblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.loading = false;
       });
 
@@ -295,7 +294,11 @@ export class ParticipationpublishertblComponent implements OnInit {
 
       }).bind(this)); 
       this.archiveId = [];
+      this.selectedItem = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
       this.loading = false;
+      console.log("AFTER ARCHIVE ALL: "+this.flagApprove);
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
@@ -304,16 +307,6 @@ export class ParticipationpublishertblComponent implements OnInit {
         this.loading = false;
       });
 
-  }
-
-  isChecked(event) {
-    if(event.checked){
-      this.archiveId.push(event.source.value);
-    }else{
-      let index = this.archiveId.indexOf(event.source.value);
-      this.archiveId.splice(index, 1);
-    }
-    return false;
   }
 
   archiveItem(refcode) {
@@ -334,6 +327,92 @@ export class ParticipationpublishertblComponent implements OnInit {
         this.loading = false;
       });
 
+  }
+
+  isChecked(event, statusApproved) {
+        
+    if(this.archiveId.length == 0){
+      this.flagApprove = false;
+    }
+
+    if(event.checked){
+
+      this.selectedItem.push(event.source.value);
+      this.arrStatus.push(statusApproved);
+
+      if(statusApproved == true){        
+        this.archiveId.push(event.source.value);
+      }
+      
+    }else{
+      
+      for(let i=0; i<this.archiveId.length; i++){
+        //check if item can be archive or not
+        if(this.archiveId[i] == event.source.value){
+          let index = this.archiveId.indexOf(event.source.value);
+          this.archiveId.splice(index, 1);       
+        }         
+      }      
+
+      let indexDel = this.selectedItem.indexOf(event.source.value);
+      this.selectedItem.splice(indexDel, 1);
+
+      let indexStatus = this.arrStatus.indexOf(statusApproved);
+      this.arrStatus.splice(indexStatus, 1);       
+    }
+
+    let countTrue = 0;
+
+    for(let i=0; i<this.arrStatus.length; i++){         
+
+      if(this.arrStatus[i] == true){
+        countTrue = countTrue + 1;
+      }
+    } 
+
+    //approved record only = archive
+    if(countTrue > 0 && countTrue == this.arrStatus.length){
+      this.flagApprove = true;
+    }
+
+    //record not only approved. cannot be archived
+    else if(countTrue > 0 && countTrue != this.arrStatus.length){
+      this.flagApprove = false;
+    }
+
+    console.log(this.arrStatus);
+    console.log("ACHIVE: ");
+    console.log(this.archiveId);
+    console.log(this.selectedItem);
+    console.log("Flag Approved: "+this.flagApprove);
+    return false;
+  }
+
+  deleteAll(){
+    let deletedCodes = this.selectedItem.join(',');
+
+    console.log("DELETED REFCODE: ");
+    console.log(deletedCodes);
+    this.commonservice.delete('', `e-participation/delete/multiple/${deletedCodes}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getParticipantsData(this.pageCount, this.participantPageSize);
+
+      }).bind(this)); 
+      this.selectedItem = [];
+      this.archiveId = [];
+      this.arrStatus = [];
+      this.flagApprove = false;
+      this.loading = false;
+      console.log("AFTER DELETE ALL: "+this.flagApprove);
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.selectedItem = [];
+        this.loading = false;
+      });
   }
 
 }

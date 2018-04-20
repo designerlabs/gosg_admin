@@ -410,7 +410,7 @@ export class GallerypublishertblComponent implements OnInit {
 
     console.log("DELETED REFCODE: ");
     console.log(deletedCodes);
-    this.commonservice.delete('', `slider/delete/multiple/${deletedCodes}`).subscribe(
+    this.commonservice.delete('', `gallery/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
