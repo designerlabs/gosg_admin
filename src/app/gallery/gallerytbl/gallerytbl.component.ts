@@ -280,6 +280,7 @@ export class GallerytblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getGalleryData(this.pageCount, this.galleryPageSize);
+          this.selectedItem = [];
 
       }).bind(this)); 
       this.loading = false;

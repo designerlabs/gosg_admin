@@ -277,6 +277,10 @@ export class GallerypublishertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getGalleryData(this.pageCount, this.galleryPageSize);
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
 
       }).bind(this)); 
       this.loading = false;
@@ -334,6 +338,10 @@ export class GallerypublishertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getGalleryData(this.pageCount, this.galleryPageSize);
+          this.archiveId = [];
+          this.selectedItem = [];
+          this.arrStatus = [];
+          this.flagApprove = false;
 
       }).bind(this)); 
       this.loading = false;

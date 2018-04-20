@@ -268,6 +268,7 @@ export class ParticipationtblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getParticipantsData(this.pageCount, this.participantPageSize);
+          this.selectedItem = [];
 
       }).bind(this)); 
       this.loading = false;
