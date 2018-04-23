@@ -403,12 +403,13 @@ export class CategoryComponent implements OnInit {
           
           //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
-          if(this.recordList.list[0].parentId.categoryId != -2){
+          if(this.recordList.list[1].parentId.categoryId != -2){
             this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
           }
   
           else{
-            this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+            console.log("HAHHAHAHAH");
+            this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
           } 
         }
 
