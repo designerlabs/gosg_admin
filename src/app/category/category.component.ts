@@ -398,6 +398,8 @@ export class CategoryComponent implements OnInit {
             "text":this.recordList.list[1].parentId.categoryName,
             "value": this.recordList.list[1].parentId.categoryId
           }  
+
+          setParentEn.push(a);    
           
           //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
@@ -410,7 +412,8 @@ export class CategoryComponent implements OnInit {
           } 
         }
 
-        console.log(setParentEn);           
+        console.log(setParentEn);  
+        console.log("OOOOO");         
         this.updateForm.get('parentsEn').setValue(setParentEn);  
         this.checkReqValues();
 
@@ -656,6 +659,9 @@ export class CategoryComponent implements OnInit {
       //   body[0].parentId.categoryId = this.parentsValEn;
       //   body[1].parentId.categoryId = this.parentsValBm; 
       // }
+
+      console.log("LENGTH: ");
+      console.log(parentValEn);
       console.log(parentValEn.length);
 
       if(parentValEn.length == undefined){

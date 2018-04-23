@@ -256,6 +256,15 @@ export class GalleryComponent implements OnInit {
     let year = today.getFullYear();
     let month = today.getMonth();
 
+    let now = new Date();
+    now.getTime();
+
+    console.log(this.publishdt);
+    console.log(this.enddt);
+    console.log("Year : "+year);
+    console.log("Month: "+month);
+    console.log("Toda : "+todaysdt);
+
     this.minDate = new Date(year, month, todaysdt);
   }
 
@@ -265,6 +274,7 @@ export class GalleryComponent implements OnInit {
     this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
     console.log(this.publishdt);
+    this.getMinEventDate();
     this.checkReqValues()
   }
 
@@ -274,6 +284,7 @@ export class GalleryComponent implements OnInit {
     this.enddt = (event.value).getTime();
     this.dateFormatExample = "";
     console.log(this.enddt);
+    this.getMinEventDate();
     this.checkReqValues()
   }
 
