@@ -526,7 +526,8 @@
       "parent": "Induk",
       "ismainmenu": "adalah Menu Utama",
       "subscription":"benarkan untuk langganan",
-      "deleted":"tidak dibenarkan padam"
+      "deleted":"tidak dibenarkan padam",
+      "rss":"adalah Suapan RSS"
     }
   },
   "city": {
