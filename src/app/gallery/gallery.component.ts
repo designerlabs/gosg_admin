@@ -105,8 +105,7 @@ export class GalleryComponent implements OnInit {
     // this.changePageMode(this.isEdit); 
 
     let refCode = this.router.url.split('/')[2];
-    this.commonservice.getModuleId();
-    this.getMinEventDate();
+    this.commonservice.getModuleId();    
     // this.getFileList();
     this.getMediaTypes()
     this.publish = new FormControl()
@@ -140,8 +139,7 @@ export class GalleryComponent implements OnInit {
       mtype: this.mtype,
     });
 
-    let now = new Date();
-    
+    let now = new Date();    
 
     if (refCode == "add") {
       this.isEdit = false;
@@ -159,6 +157,7 @@ export class GalleryComponent implements OnInit {
       this.getRow(refCode);
     }
 
+    this.getMinEventDate();
     // #### for disable non update user ---1
     if (!this.commonservice.isUpdate && this.commonservice.isWrite) {
       this.updateForm.enable();
@@ -219,8 +218,12 @@ export class GalleryComponent implements OnInit {
 
           this.publishdt = dataEn.publishDate;
           this.enddt = dataEn.endDate;
+
+          // this.setEventDate(dataBm.eventStart,'publish')
+          // this.setEventDate(dataBm.eventEnd, 'endD')
+
           this.updateForm.get('publish').setValue(dataEn.publishDate);
-          this.updateForm.get('endD').setValue(dataEn.publishDate);
+          this.updateForm.get('endD').setValue(dataEn.endDate);
 
           this.galleryCode = this.galleryData.refCode;          
           this.galleryIdEn = dataEn.contentId;
@@ -254,13 +257,8 @@ export class GalleryComponent implements OnInit {
     let today = new Date();
     let todaysdt = today.getDate();
     let year = today.getFullYear();
-    let month = today.getMonth();
+    let month = today.getMonth() + 1; 
 
-    let now = new Date();
-    now.getTime();
-
-    console.log(this.publishdt);
-    console.log(this.enddt);
     console.log("Year : "+year);
     console.log("Month: "+month);
     console.log("Toda : "+todaysdt);
@@ -269,23 +267,53 @@ export class GalleryComponent implements OnInit {
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("START: "+type);
-    console.log(event.value);
+    let year, month, day;
+    this.events = [];
+    this.events.push(`${event.value}`);
+
     this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
-    console.log(this.publishdt);
-    this.getMinEventDate();
+
+    year = new Date(this.events[0]).getFullYear();
+    month = new Date(this.events[0]).getMonth();
+    day = new Date(this.events[0]).getDate();
+
+    this.minDate = new Date(year,month,day);
+    this.updateForm.get('endD').reset();
+    this.enddt = null;
+    //this.getMinEventDate();
+
     this.checkReqValues()
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("END: "+type);
-    console.log(event.value);
+
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.enddt = new Date(this.events[0]).getTime();
     this.enddt = (event.value).getTime();
     this.dateFormatExample = "";
-    console.log(this.enddt);
-    this.getMinEventDate();
+    //this.getMinEventDate();
     this.checkReqValues()
+  }
+
+  setEventDate(tsd,type) {
+    let res;    
+    this.events = [];
+    this.events.push(tsd);
+
+    console.log(tsd);
+    // this.events.push(`${event.value}`);
+    if(type == 'start')
+      this.publishdt = new Date(this.events[0]).getTime();
+    else
+      this.enddt = new Date(this.events[0]).getTime();
+
+    this.dateFormatExample = "";
+ 
+    // console.log(res)
+
+    return res;
   }
 
   isChecked(e) {

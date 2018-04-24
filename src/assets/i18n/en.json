@@ -526,7 +526,8 @@
       "parent": "Parent",
       "ismainmenu": "is Main Menu",
       "subscription":"allow for subscription",
-      "deleted":"not allow to delete"
+      "deleted":"not allow to delete",
+      "rss":"is RSS Feeder"
     }
   },
   "city": {

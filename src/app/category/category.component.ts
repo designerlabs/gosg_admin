@@ -42,6 +42,7 @@ export class CategoryComponent implements OnInit {
   public getCatIdBm: any;
   public subcription: FormControl;
   public deleted: FormControl;
+  public rss: FormControl;  
 
   public getIdEn: any;
   public getIdBm: any;
@@ -119,7 +120,7 @@ export class CategoryComponent implements OnInit {
     this.imageBm = new FormControl();
     this.subcription = new FormControl();
     this.deleted = new FormControl();
-
+    this.rss = new FormControl();
     this.active = new FormControl();
 
     this.updateForm = new FormGroup({   
@@ -135,7 +136,8 @@ export class CategoryComponent implements OnInit {
       imageBm: this.imageBm,
       active: this.active,
       subcription: this.subcription,
-      deleted: this.deleted
+      deleted: this.deleted,
+      rss: this.rss
       
     });
 
@@ -328,6 +330,7 @@ export class CategoryComponent implements OnInit {
         this.updateForm.get('active').setValue(this.recordList.list[0].isActiveFlag);  
         this.updateForm.get('subcription').setValue(this.recordList.list[0].isSubscribable);  
         this.updateForm.get('deleted').setValue(this.recordList.list[0].isDeleted);  
+        this.updateForm.get('rss').setValue(this.recordList.list[0].isRssFeeder);  
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -403,12 +406,13 @@ export class CategoryComponent implements OnInit {
           
           //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
-          if(this.recordList.list[0].parentId.categoryId != -2){
+          if(this.recordList.list[1].parentId.categoryId != -2){
             this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
           }
   
           else{
-            this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
+            console.log("HAHHAHAHAH");
+            this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
           } 
         }
 
@@ -484,6 +488,10 @@ export class CategoryComponent implements OnInit {
       formValues.deleted = false;
     }
 
+    if(formValues.rss == null){
+      formValues.rss = false;
+    }
+
     if(formValues.imageEn == null){
       valImgEn = null;
       valImgBm = null;
@@ -513,7 +521,8 @@ export class CategoryComponent implements OnInit {
           },
           "isActiveFlag":false,
           "isSubscribable":false,
-          "isDeleted":false
+          "isDeleted":false,
+          "isRssFeeder":false
         },{
           "categoryName": null,
           "categoryDescription":null,
@@ -527,7 +536,8 @@ export class CategoryComponent implements OnInit {
           },
           "isActiveFlag":false,
           "isSubscribable":false,
-          "isDeleted":false
+          "isDeleted":false,
+          "isRssFeeder":false
         }
       ]         
 
@@ -538,6 +548,7 @@ export class CategoryComponent implements OnInit {
       body[0].isActiveFlag = formValues.active;   
       body[0].isSubscribable = formValues.subcription;   
       body[0].isDeleted = formValues.deleted; 
+      body[0].isRssFeeder = formValues.deleted; 
     
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;      
@@ -545,6 +556,7 @@ export class CategoryComponent implements OnInit {
       body[1].isActiveFlag = formValues.active; 
       body[1].isSubscribable = formValues.subcription;     
       body[1].isDeleted = formValues.deleted; 
+      body[1].isRssFeeder = formValues.deleted; 
 
       //predefined super parent id;
       if(formValues.parentsEn == null || formValues.parentsEn == ""){
@@ -608,7 +620,8 @@ export class CategoryComponent implements OnInit {
           },
           "isActiveFlag":false,
           "isSubscribable":false,
-          "isDeleted":false
+          "isDeleted":false,
+          "isRssFeeder":false
         },{
           "categoryId": this.getIdBm,
           "categoryName": null,
@@ -624,7 +637,8 @@ export class CategoryComponent implements OnInit {
           },
           "isActiveFlag":false,
           "isSubscribable":false,
-          "isDeleted":false
+          "isDeleted":false,
+          "isRssFeeder":false
         }
       ]    
      
@@ -635,6 +649,7 @@ export class CategoryComponent implements OnInit {
       //body[0].image.mediaId = formValues.imageEn;
       body[0].isSubscribable = formValues.subcription;   
       body[0].isDeleted = formValues.deleted; 
+      body[0].isRssFeeder = formValues.deleted; 
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;      
@@ -643,6 +658,7 @@ export class CategoryComponent implements OnInit {
       //body[1].image.mediaId = formValues.imageBm;     
       body[1].isSubscribable = formValues.subcription;  
       body[1].isDeleted = formValues.deleted;   
+      body[1].isRssFeeder = formValues.deleted; 
 
       if(formValues.imageBm != null && formValues.imageEn != null){
         body[0].image.mediaId = formValues.imageEn;      
