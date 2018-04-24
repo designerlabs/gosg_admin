@@ -112,6 +112,8 @@ import { DigitalservicedetailstblComponent } from './digitalservice/digitalservi
 import { DigitalservicedetailsComponent } from './digitalservice/digitalservicedetails/digitalservicedetails.component';
 import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
 import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
+import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -176,6 +178,11 @@ export const appRoutes: Routes = [
 {path: 'digitalservicedetails', component: DigitalservicedetailstblComponent},
 {path: 'digitalservicedetails/add', component: DigitalservicedetailsComponent},
 {path: 'digitalservicedetails/:id', component: DigitalservicedetailsComponent},
+
+// SUBSCRIPTION
+{path: 'subscription', component: SubscriptiontblComponent},
+{path: 'subscription/add', component: SubscriptionComponent},
+{path: 'subscription/:id', component: SubscriptionComponent},
 
 // Poll: N
 {path: 'poll/questions', component: PollquestiontblComponent},

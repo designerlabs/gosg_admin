@@ -18,6 +18,7 @@ import { ValidateService } from '../common/validate.service';
   styleUrls: ['./eventcalendar.component.css']
 })
 export class EventcalendarComponent implements OnInit {
+  
   maskPostCode: RegExp[];
   agencyIdBm: any;
   agencyIdEn: any;
@@ -341,7 +342,7 @@ export class EventcalendarComponent implements OnInit {
       this.commonservice.errorHandling(resCatData, (function(){
 
         this.imageData = resCatData['list'];       
-        console.log(this.imageData);
+        // console.log(this.imageData);
 
       }).bind(this));
       this.loading = false;
@@ -396,10 +397,8 @@ export class EventcalendarComponent implements OnInit {
 
     if(langId == 1) {
       selLangField = "agencyBm";
-      // this.ministryNameBm = "";
     } else {
       selLangField = "agencyEn";
-      // this.ministryNameEn = "";
     }
     this.updateForm.get(selLangField).setValue("");
 
@@ -588,6 +587,7 @@ export class EventcalendarComponent implements OnInit {
     this.edt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
     console.log(this.edt)
+    console.log(this.events[0])
     this.checkReqValues()
   }
 

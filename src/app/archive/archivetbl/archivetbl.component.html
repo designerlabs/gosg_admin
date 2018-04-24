@@ -39,7 +39,7 @@
             </button>
           </mat-form-field>
       </div>
-      <div class="col-md-2 paddingTop-10 paddingRight-0 align_right">
+      <div class="col-md-4 paddingTop-10 pdg_R_30px text-align-Right">
         <button [disabled]="!multipleSel.length > 0" mat-raised-button color="primary" (click)="revertAllModal.show()"><i [ngClass]="commonservice.icon.undo"></i> {{'common.buttons.revert' | translate}}</button>
         <app-confirm-dialog  #revertAllModal 
         [title]="'common.icon.warn'" 
@@ -48,8 +48,7 @@
         [isReset]="'true'"
         (resetMethod)="revertAll()">
         </app-confirm-dialog>
-      </div>
-      <div class="col-md-2 paddingTop-10 pdg_R_30px">
+        &nbsp;
         <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>
         <app-confirm-dialog  #deleteAllModal 
         [title]="'common.icon.warn'" 
@@ -93,6 +92,12 @@
     <ng-container matColumnDef="titleBm">
       <mat-header-cell *matHeaderCellDef> {{ 'archive.tableHeader.titleBm' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.list[1].contentTitle}} </mat-cell>
+    </ng-container>
+
+    <!-- nameBm Column -->
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef class="actionColumn text-align-Center"> {{ 'archive.tableHeader.category' | translate }}</mat-header-cell>
+      <mat-cell *matCellDef="let element" class="actionColumn text-align-Center"> {{ ((element.list[0].contentCategories.length != 0)?element.list[0].contentCategories[0].categoryName: '-') }} </mat-cell>
     </ng-container>
 
     <!-- Action Column -->

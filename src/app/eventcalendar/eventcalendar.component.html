@@ -226,7 +226,7 @@
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{sdt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input placeholder="" [owlDateTime]="start" style="display: none;" matInput formControlName="start" #start (dateTimeInput)="addStartEvent('input', $event)" (dateTimeChange)="addStartEvent('change', $event)" [min]="minDate" required />
-                <span tabindex="17" [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right"></i></span>
+                <span tabindex="17" [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right" style="cursor: pointer;"></i></span>
                 <owl-date-time #start></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.start.hasError('required')">
                   Start Date is required
@@ -238,7 +238,7 @@
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{edt | date:'dd/MM/yyyy hh:mm a' }}</div>
                 <input [owlDateTime]="end" style="display: none;" matInput formControlName="end" #end (dateTimeInput)="addEndEvent('input', $event)" (dateTimeChange)="addEndEvent('change', $event)" [min]="minDate" required />
-                <span tabindex="18" [owlDateTimeTrigger]="end"><i class="fa fa-calendar pull-right"></i></span>
+                <span tabindex="18" [owlDateTimeTrigger]="end"><i class="fa fa-calendar pull-right" style="cursor: pointer;"></i></span>
                 <owl-date-time #end class="pull-right"></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.end.hasError('required')">
                   End Date is required

@@ -1088,7 +1088,8 @@
     "header": "Pengurusan Arkib",
     "tableHeader":{
       "titleEn": "Tajuk (EN)",
-      "titleBm": "Tajuk (BM)"
+      "titleBm": "Tajuk (BM)",
+      "category": "Kategori"
     },
     "component":{
       "header": "Arkib",
@@ -1143,5 +1144,28 @@
       "serviceURL": "URL Perkhidmatan"
     },
     "select":"Pilih Kandungan Perkhidmatan Digital"
+  },
+  "subscription": {
+    "header": "Pengurusan Langganan",
+    "tableHeader":{
+      "categoryName": "Category Name",
+      "categoryDesc": "Category Desc",
+      "email": "Email"
+    },
+    "component":{
+      "header": "Langganan",
+      "desc": "Keterangan",
+      "url": "Pautan Kandungan",
+      "keyword": "Kata Kunci",
+      "sort": "Susunan Kandungan",
+      "publishdate": "Tarikh Cetakan",
+      "enddate": "Tarikh Tamat",
+      "createddate": "Tarikh Cipta",
+      "modifieddate": "Tarikh Diubah",
+      "lifeEventCitizen": "Peristiwa Kehidupan untuk Warganegara",
+      "lifeEventNonCitizen": "Peristiwa Kehidupan untuk Warga Asing",
+      "image": "Gambar",
+      "imageerr": "Sila pilih gambar"
+    }
   }
 }

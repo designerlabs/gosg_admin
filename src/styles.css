@@ -128,6 +128,10 @@ mat-header-cell{
     padding-right: 0;
 }
 
+.paddingLeft-0 {
+    padding-left: 0;
+}
+
 .marginRight-less10 {
     margin-right: -10px;
 }
@@ -277,6 +281,10 @@ mat-header-cell{
 
     .text-align-Left {
         text-align: left !important;
+    }
+
+    .text-align-Right {
+        text-align: right !important;
     }
 
     .text-align-Center {

@@ -1088,7 +1088,8 @@
     "header": "Archive Management",
     "tableHeader":{
       "titleEn": "Title (EN)",
-      "titleBm": "Title (BM)"
+      "titleBm": "Title (BM)",
+      "category": "Category"
     },
     "component":{
       "header": "Archive",
@@ -1143,5 +1144,28 @@
   },
   "err": {
 
+  },
+  "subscription": {
+    "header": "Subscription Management",
+    "tableHeader":{
+      "categoryName": "Category Name",
+      "categoryDesc": "Category Desc",
+      "email": "Email"
+    },
+    "component":{
+      "header": "Subscription",
+      "desc": "Description",
+      "url": "Content URL",
+      "keyword": "Keyword",
+      "sort": "Content Sort",
+      "publishdate": "Publish Date",
+      "enddate": "End Date",
+      "createddate": "Created Date",
+      "modifieddate": "Modified Date",
+      "lifeEventCitizen": "Life Event for Citizen",
+      "lifeEventNonCitizen": "Life Event for Non-Citizen",
+      "image": "Image",
+      "imageerr": "Please select a file"
+    }
   }
 }

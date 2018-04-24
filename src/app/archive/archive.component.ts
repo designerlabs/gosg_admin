@@ -48,6 +48,7 @@ export class ArchiveComponent implements OnInit {
   forCitizen: boolean;
   forNonCitizen: boolean;
   code: any;
+  category: any;
 
   constructor(
     private http: HttpClient,
@@ -130,6 +131,11 @@ export class ArchiveComponent implements OnInit {
           this.mdt = dataEn.modifiedDate;
           this.sort = this.valueChecker(dataEn.contentSort);
 
+          if(dataEn.contentCategories)
+            this.category = dataEn.contentCategories[0].categoryName;
+          else
+            this.category = "-";
+
           if(dataEn.contentImage)
             this.image = dataEn.contentImage.mediaFile;
             
@@ -153,7 +159,7 @@ export class ArchiveComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             // this.getArchiveData(this.pageCount, this.pageSize);
-            this.toastr.success(this.translate.instant('common.success.updatesuccess'), 'success');
+            this.toastr.success(this.translate.instant('common.success.updated'), 'success');
           }).bind(this));  
          this.loading = false;
          this.back()

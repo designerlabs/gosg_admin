@@ -139,6 +139,8 @@ import { DigitalservicedetailsComponent } from './digitalservice/digitalserviced
 import { DigitalservicedetailstblComponent } from './digitalservice/digitalservicedetails/digitalservicedetailstbl/digitalservicedetailstbl.component';
 import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
 import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
+import { SubscriptionComponent } from './subscription/subscription.component';
+import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -256,6 +258,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     DigitalservicedetailstblComponent,
     ParticipationpublisherComponent,
     ParticipationpublishertblComponent,
+    SubscriptionComponent,
+    SubscriptiontblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [

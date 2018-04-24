@@ -1,0 +1,138 @@
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+  <!-- <div class="col-md-12">
+    <h2 class="staticLabel"></h2>
+    <span class="pull-right editBtn">
+      <button type="button" mat-fab color="warn" (click)="addBtn()" [ngClass]="{ 'editBtn-active': isActive, 'editBtn': !isActive  }">
+        <i class="fa fa-plus font-size-l"></i>
+      </button>
+    </span>
+  </div> -->
+  
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+        <h3>{{ 'subscription.header' | translate }}</h3>
+    </div>
+    
+    <!-- <div class="col-md-2 curdHeadingRight">
+        <span class="pull-right">
+            <button type="button" mat-fab color="warn" *ngIf="commonservice.isWrite" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+              <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
+        </span>
+    </div>  -->
+  </div>
+  
+  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+  {{'common.msg.unauthorized' | translate}}
+  </div>
+  
+  <div *ngIf="commonservice.isRead">
+  <div class="example-container mat-elevation-z8">
+            
+    <div class="row">
+        <div class="col-md-8 paddingTop-10 pdg_L_30px" *ngIf="filterTypeVal != 1">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate}}">
+              <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4 paddingTop-10 pdg_R_30px text-align-Right">
+          <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>
+          <app-confirm-dialog  #deleteAllModal 
+          [title]="'common.icon.warn'" 
+          [content]="'common.msg.deleteAll'"
+          [state]="'common.state.warn'"
+          [isReset]="'true'"
+          (resetMethod)="deleteAll()">
+          </app-confirm-dialog>
+        </div>
+    </div>
+  
+    <mat-table #table [dataSource]="dataSource">
+    
+      <!-- CB Column -->
+      <ng-container matColumnDef="cb">
+        <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef>&nbsp;</mat-header-cell>
+        <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+          <mat-checkbox class="example-margin" [value]="element.id" (change)="isChecked($event, element.id);"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+    
+      <!-- No Column -->
+      <ng-container matColumnDef="no">
+        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef>{{ 'common.tableHeader.num' | translate }}
+          <!-- <mat-checkbox class="example-margin" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"></mat-checkbox> -->
+        </mat-header-cell>
+        <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+          {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+        </mat-cell>
+      </ng-container>
+  
+      <!-- email Column -->
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef> {{ 'subscription.tableHeader.email' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+      </ng-container>
+  
+      <!-- categoryName Column -->
+      <ng-container matColumnDef="categoryName">
+        <mat-header-cell *matHeaderCellDef> {{ 'subscription.tableHeader.categoryName' | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.contentCategory.categoryName}} </mat-cell>
+      </ng-container>
+  
+      <!-- Action Column -->
+      <ng-container matColumnDef="subsAction">
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actionColumn">
+            <!-- <button mat-mini-fab class="bg_orange" (click)="updateRow(element.id)" title="Update {{ element.id }}">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.id }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.id }}" ></i>
+            </button>
+            &nbsp; -->
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.id }}">
+              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.id }}"></i>
+            </button>
+            <app-confirm-dialog  #deleteRow 
+            [title]="'common.icon.warn'" 
+            [content]="'common.msg.delete'"
+            [state]="'common.state.warn'"
+            [isReset]="'true'"
+            (resetMethod)="deleteItem(element.id)">
+            </app-confirm-dialog> 
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+    <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+  </div>
+  
+  <div class="float-right paddingTop-15">
+    <mat-form-field class="table_footer_pagecount">
+      <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+        <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+        <!-- <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option> -->
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+      <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+        <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+        <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+        <strong>{{recordTable?.totalElements}}</strong> {{ 'agencyapp.tablebottom.agency' | translate}}</span>
+      <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+        <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+      </button>
+      <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
+        <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+      </button>
+    </span>
+  </div>
+  </div>
+  
+  </div>

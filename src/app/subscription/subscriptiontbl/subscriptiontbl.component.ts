@@ -9,17 +9,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-archivetbl',
-  templateUrl: './archivetbl.component.html',
-  styleUrls: ['./archivetbl.component.css']
+  selector: 'app-subscriptiontbl',
+  templateUrl: './subscriptiontbl.component.html',
+  styleUrls: ['./subscriptiontbl.component.css']
 })
-export class ArchivetblComponent implements OnInit {
+export class SubscriptiontblComponent implements OnInit {
 
-  archiveData: Object;
-  archiveList = null;
+  subsData: Object;
+  subsList = null;
   displayedColumns: any;
   pageSize = 10;
   pageCount = 1;
+  totalElems = 0;
   noPrevData = true;
   noNextData = false;
   rerender = false;
@@ -43,7 +44,7 @@ export class ArchivetblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.archiveList);
+  dataSource = new MatTableDataSource<object>(this.subsList);
 
   applyFilter(val) {   
 
@@ -53,13 +54,13 @@ export class ArchivetblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getArchiveData(this.pageCount, this.pageSize);
+      this.getSubsData(this.pageCount, this.pageSize);
     }
   
   }
 
   resetSearch() {
-    this.getArchiveData(this.pageCount, this.pageSize);
+    this.getSubsData(this.pageCount, this.pageSize);
   }
 
   constructor(
@@ -68,8 +69,7 @@ export class ArchivetblComponent implements OnInit {
     private commonservice: CommonService, 
     private translate: TranslateService,
     private router: Router,
-    private toastr: ToastrService
-  ) { 
+    private toastr: ToastrService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -79,7 +79,7 @@ export class ArchivetblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getArchiveData(this.pageCount, this.pageSize);
+              this.getSubsData(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -88,15 +88,14 @@ export class ArchivetblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getArchiveData(this.pageCount, this.pageSize);
+      this.getSubsData(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
     }
 
-    /* LANGUAGE FUNC */
-  }
+    /* LANGUAGE FUNC */ }
 
   ngOnInit() {
-    this.displayedColumns = ['cb','no','titleEn', 'titleBm', 'category', 'contentAction'];
+    this.displayedColumns = ['cb','no','email', 'categoryName', 'subsAction'];
     this.commonservice.getModuleId();
   }
 
@@ -106,26 +105,30 @@ export class ArchivetblComponent implements OnInit {
   }
 
   // get agencyapp Data 
-  getArchiveData(count, size) {
+  getSubsData(count, size) {
     this.loading = true;
-    this.commonservice.readProtected('archive',count, size)
+    this.commonservice.readProtected('subscription',count, size)
     .subscribe(
-      // this.http.get(this.dataUrl).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.archiveList = data;
-          console.log(this.archiveList)
-          console.log(this.archiveList.list)
+          this.subsList = data;
 
-          if(this.archiveList.list.length > 0){
-            this.dataSource.data = this.archiveList.list;
-            this.seqPageNum = this.archiveList.pageNumber;
-            this.seqPageSize = this.archiveList.pageSize;
-            this.recordTable = this.archiveList;
-            this.noNextData = this.archiveList.pageNumber === this.archiveList.totalPages;
+          console.log(this.subsList)
+          // console.log(this.subsList.totalPages)
+          if(this.subsList.subscriptionEntityList.length > 0){
+            this.dataSource.data = this.subsList.subscriptionEntityList;
+            this.seqPageNum = this.subsList.pageNumber;
+            this.seqPageSize = this.subsList.pageSize;
+            this.recordTable = this.subsList;
+            this.noNextData = this.subsList.pageNumber === this.subsList.totalPages;
+            this.totalElems = this.subsList.totalElements;
 
-            this.showNoData = false;
+            if(this.totalElems <= 10) {
+              this.noNextData = true;
+            } else {
+              this.noNextData = false;
+            }
           }
 
           else{
@@ -144,27 +147,33 @@ export class ArchivetblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('archive/search', count, size, keyword)
+      this.commonservice.readProtected('subscription/search', count, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
+          console.log(this.recordList)
 
-          if(this.recordList.list.length > 0){
+          if(this.recordList.subscriptionEntityList.length > 0){
             console.log("data");
             console.log(data);
             
-            this.dataSource.data = this.recordList.list;
+            this.dataSource.data = this.recordList.subscriptionEntityList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
             this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            this.totalElems = this.subsList.totalElements;
 
             this.showNoData = false;
-          }
 
-          else{
+            if(this.totalElems <= 10) {
+              this.noNextData = true;
+            } else {
+              this.noNextData = false;
+            }
+          } else{
             this.dataSource.data = []; 
             this.showNoData = true;
             this.seqPageNum = this.recordList.pageNumber;
@@ -185,38 +194,42 @@ export class ArchivetblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getArchiveData(this.pageCount, this.pageSize);
+    this.getSubsData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
-    this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
+    this.getSubsData(page + 1, this.pageSize);
     // this.noNextData = pageInc === totalPages;
-    this.getArchiveData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getArchiveData(this.pageCount, event.value);
+    this.getSubsData(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
 
+  addBtn() {
+    this.isEdit = false;
+    this.changePageMode(this.isEdit);
+    this.router.navigate(['subscription', "add"]);
+  }
+  
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['archive', row]);
+    this.router.navigate(['subscription', row]);
   }
 
   deleteItem(refCode) {
-    // alert(refCode)
     this.loading = true;
-      this.commonservice.delete(refCode,'archive/delete/').subscribe(
+      this.commonservice.delete(refCode,'subscription/delete/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-            this.getArchiveData(this.pageCount, this.pageSize);
+            this.getSubsData(this.pageCount, this.pageSize);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
          this.loading = false;
@@ -228,9 +241,31 @@ export class ArchivetblComponent implements OnInit {
 
   }
 
+  deleteAll(){
+    let archiveIds = this.multipleSel.join(',');
+    this.commonservice.delete('', `subscription/delete/multiple/${archiveIds}`).subscribe(
+      data => {
+
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getSubsData(this.pageCount, this.pageSize);
+
+      }).bind(this)); 
+      this.multipleSel = [];
+      this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        console.log(error);
+        this.multipleSel = [];
+        this.loading = false;
+      });
+
+  }
+
   changePageMode(isEdit) {
     if (isEdit == false) {
-      this.pageMode = "View";
+      this.pageMode = "Add";
     } else if (isEdit == true) {
       this.pageMode = "Update";
     }
@@ -246,67 +281,14 @@ export class ArchivetblComponent implements OnInit {
     }
     return false;
   }
-  
-  // checkAll(ev) {
-  //   this.cb.forEach(x => x.state = ev.target.checked)
-  // }
-
-  // isAllChecked() {
-  //   console.log('fired');
-  //   return this.sizes.every(_ => _.state);
-  // }
-
-  revertAll(){
-    let archiveIds = this.multipleSel.join(',');
-    this.commonservice.update('', `archive/revert/multiple/${archiveIds}`).subscribe(
-      data => {
-
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.updated'), '');
-          this.getArchiveData(this.pageCount, this.pageSize);
-
-      }).bind(this)); 
-      this.multipleSel = [];
-      this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-        this.multipleSel = [];
-        this.loading = false;
-      });
-
-  }
-
-  deleteAll(){
-    let archiveIds = this.multipleSel.join(',');
-    this.commonservice.delete('', `archive/delete/multiple/${archiveIds}`).subscribe(
-      data => {
-
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getArchiveData(this.pageCount, this.pageSize);
-
-      }).bind(this)); 
-      this.multipleSel = [];
-      this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
-        this.multipleSel = [];
-        this.loading = false;
-      });
-
-  }
 
   navigateBack() {
     this.isEdit = false;
-    this.router.navigate(['archive']);
+    this.router.navigate(['subscription']);
   }
 
   back(){
-    this.router.navigate(['archive']);
+    this.router.navigate(['subscription']);
   }
 
 }
