@@ -167,7 +167,7 @@ export class GalleryComponent implements OnInit {
   }
 
   isSameImg(enImg, bmImg) {
-    console.log(enImg)
+    
     if (enImg != null && enImg == bmImg) {
       this.updateForm.get('copyImg').setValue(true);
     } else {
@@ -183,14 +183,11 @@ export class GalleryComponent implements OnInit {
   getRow(row) {
     this.loading = true;
     // Update gallery Service
-    // return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
     return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
       Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function () {
           this.galleryData = Rdata;
-          console.log(this.galleryData);
           
           let dataEn = this.galleryData['contentDetailList'][0];
           let dataBm = this.galleryData['contentDetailList'][1];
@@ -216,14 +213,14 @@ export class GalleryComponent implements OnInit {
 
           this.dateFormatExample = "";
 
-          this.publishdt = dataEn.publishDate;
-          this.enddt = dataEn.endDate;
+          // this.publishdt = dataEn.publishDate;
+          // this.enddt = dataEn.endDate;
 
           this.setEventDate(dataBm.publishDate,'publish')
           this.setEventDate(dataBm.endDate, 'endD')
 
-          this.updateForm.get('publish').setValue(dataEn.publishDate);
-          this.updateForm.get('endD').setValue(dataEn.endDate);
+          this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
+          this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
 
           this.galleryCode = this.galleryData.refCode;          
           this.galleryIdEn = dataEn.contentId;
@@ -258,10 +255,6 @@ export class GalleryComponent implements OnInit {
     let todaysdt = today.getDate();
     let year = today.getFullYear();
     let month = today.getMonth() + 1; 
-
-    console.log("Year : "+year);
-    console.log("Month: "+month);
-    console.log("Toda : "+todaysdt);
 
     this.minDate = new Date(year, month, todaysdt);
   }
@@ -304,17 +297,12 @@ export class GalleryComponent implements OnInit {
     let res;    
     this.events = [];
     this.events.push(tsd);
-
-    console.log(tsd);
-    // this.events.push(`${event.value}`);
     if(type == 'publish')
       this.publishdt = new Date(this.events[0]).getTime();
     else
       this.enddt = new Date(this.events[0]).getTime();
 
     this.dateFormatExample = "";
- 
-    // console.log(res)
 
     return res;
   }
@@ -354,9 +342,6 @@ export class GalleryComponent implements OnInit {
       }
     }
 
-   // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
-
-    // console.log(nullPointers)
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -390,7 +375,6 @@ export class GalleryComponent implements OnInit {
 
   getFileList(mediaId) {
    
-    console.log(mediaId);
     this.loading = true;
     return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
       .subscribe(resCatData => {
@@ -398,9 +382,6 @@ export class GalleryComponent implements OnInit {
         this.commonservice.errorHandling(resCatData, (function () {
             this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
 
-            console.log(this.fileData);
-            
-            // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
             if(this.fileData.length>0){
               this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
               this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
@@ -410,7 +391,6 @@ export class GalleryComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -421,14 +401,11 @@ export class GalleryComponent implements OnInit {
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.mediaTypes = resCatData['mediaTypes'];
-
-          console.log(this.mediaTypes);
         }).bind(this));
         this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -436,9 +413,6 @@ export class GalleryComponent implements OnInit {
   selectedmType(e){
 
     let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
-
-    console.log("###########");
-    console.log(resMT);
 
     if(resMT[0].mediaTypeName === "Images"){
       this.mediaPath = "images";
@@ -455,15 +429,13 @@ export class GalleryComponent implements OnInit {
   }
     
   selectedImg(e, val){
-    console.log(e);
+  
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
     let dataList = this.fileData;
     let indexVal: any;
     let idBm: any;
     let idEn: any;
-
-    console.log("EN: "+this.getImgIdEn+" BM: "+this.getImgIdBm + " value: " + val);
 
     if(val == 1){
 
@@ -567,7 +539,6 @@ export class GalleryComponent implements OnInit {
         }
       ];
 
-      // console.log(formValues)
       body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
@@ -592,7 +563,6 @@ export class GalleryComponent implements OnInit {
 
       console.log(JSON.stringify(body))
 
-
       // Add gallery Service
       this.commonservice.create(body, 'gallery/creator').subscribe(
         data => {
@@ -604,7 +574,6 @@ export class GalleryComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
 
@@ -678,9 +647,10 @@ export class GalleryComponent implements OnInit {
       body[1].contents[0].language.languageId = 2;
       body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
-      console.log(body);
+
+      console.log(JSON.stringify(body))
+
       // Update gallery Service
-      // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'gallery/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
@@ -691,7 +661,6 @@ export class GalleryComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -739,7 +708,6 @@ export class GalleryComponent implements OnInit {
         }
       ];
 
-      // console.log(formValues)
       body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
       body[0].contents[0].galleryTitle = formValues.titleEn;
       body[0].contents[0].galleryDescription = formValues.descEn;
@@ -764,7 +732,6 @@ export class GalleryComponent implements OnInit {
 
       console.log(JSON.stringify(body))
 
-
       // Add gallery Service
       this.commonservice.create(body, 'gallery/creator/draft').subscribe(
         data => {
@@ -776,7 +743,6 @@ export class GalleryComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
 
@@ -850,9 +816,10 @@ export class GalleryComponent implements OnInit {
       body[1].contents[0].language.languageId = 2;
       body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
-      console.log(body);
+
+      console.log(JSON.stringify(body))
+      
       // Update gallery Service
-      // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'gallery/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
@@ -863,7 +830,6 @@ export class GalleryComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
