@@ -49,6 +49,8 @@ export class DigitalservicedetailsComponent implements OnInit {
   descBm: FormControl;
   descEn: FormControl;
   serviceUrl: FormControl;
+  forCitizen: FormControl;
+  forNonCitizen: FormControl;
   active: FormControl;
 
   resetMsg = this.resetMsg;
@@ -99,6 +101,8 @@ export class DigitalservicedetailsComponent implements OnInit {
     this.serviceUrl = new FormControl()
     this.categoryEn = new FormControl()
     this.categoryBm = new FormControl()
+    this.forCitizen = new FormControl()
+    this.forNonCitizen = new FormControl()
     this.active = new FormControl()
 
     this.updateForm = new FormGroup({
@@ -109,6 +113,8 @@ export class DigitalservicedetailsComponent implements OnInit {
       descBm: this.descBm,
       categoryEn: this.categoryEn,
       categoryBm: this.categoryBm,
+      forCitizen: this.forCitizen,
+      forNonCitizen: this.forNonCitizen,
       active: this.active
     });
     this.getDigitalServices();
@@ -160,12 +166,17 @@ export class DigitalservicedetailsComponent implements OnInit {
         this.updateForm.get('categoryBm').setValue(dataBm.service.title);
         this.updateForm.get('descEn').setValue(dataEn.description);
         this.updateForm.get('descBm').setValue(dataBm.description);
+        this.updateForm.get('forCitizen').setValue(dataEn.citizen);
+        this.updateForm.get('forNonCitizen').setValue(dataBm.nonCitizen);
         this.updateForm.get('active').setValue(dataBm.enabled);
         this.refCode = dataEn.code;
         this.idEn = dataEn.id;
         this.idBm = dataBm.id;
         this.categoryIdEn = dataEn.service.id;
         this.categoryIdBm = dataBm.service.id;
+            
+        // this.forCitizen = dataEn.citizen;
+        // this.forNonCitizen = dataEn.nonCitizen;
         
         this.checkReqValues();
       }).bind(this));
@@ -344,9 +355,11 @@ export class DigitalservicedetailsComponent implements OnInit {
     let categoryBm = "categoryBm";
     let descEn = "descEn";
     let descBm = "descBm";
+    let forCitizen = "forCitizen";
+    let forNonCitizen = "forNonCitizen";
     let serviceUrl = "serviceUrl";
 
-    let reqVal: any = [titleEn, serviceUrl, titleBm, categoryEn, categoryBm, descEn, descBm];
+    let reqVal: any = [titleEn, serviceUrl, titleBm, categoryEn, categoryBm, descEn, descBm, forCitizen, forNonCitizen];
     let nullPointers: any = [];
 
     for (var reqData of reqVal) {
@@ -383,6 +396,8 @@ export class DigitalservicedetailsComponent implements OnInit {
         "url": null,
         "enabled": null,
         "description": null,
+        "citizen": null,
+        "nonCitizen": null,
         "language": {
           "languageId": 1
         },
@@ -395,6 +410,8 @@ export class DigitalservicedetailsComponent implements OnInit {
         "url": null,
         "enabled": null,
         "description": null,
+        "citizen": null,
+        "nonCitizen": null,
         "language": {
           "languageId": 2
         },
@@ -404,17 +421,21 @@ export class DigitalservicedetailsComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues)
+    // console.log(formValues) , 
 
     body[0].title = formValues.titleEn;
     body[0].url = formValues.serviceUrl;
     body[0].description = formValues.descEn;
+    body[0].citizen = formValues.forCitizen;
+    body[0].nonCitizen = formValues.forNonCitizen;
     body[0].service.id = this.categoryIdEn;
     body[0].enabled = formValues.active;
     
     body[1].title = formValues.titleBm;
     body[1].url = formValues.serviceUrl;
     body[1].description = formValues.descBm;
+    body[1].citizen = formValues.forCitizen;
+    body[1].nonCitizen = formValues.forNonCitizen;
     body[1].service.id = this.categoryIdBm;
     body[1].enabled = formValues.active;
 
@@ -446,6 +467,8 @@ export class DigitalservicedetailsComponent implements OnInit {
         "title": null,
         "url": null,
         "description": null,
+        "citizen": null,
+        "nonCitizen": null,
         "enabled": null,
         "language": {
           "languageId": 1
@@ -460,6 +483,8 @@ export class DigitalservicedetailsComponent implements OnInit {
         "title": null,
         "url": null,
         "description": null,
+        "citizen": null,
+        "nonCitizen": null,
         "enabled": null,
         "language": {
           "languageId": 2
@@ -475,6 +500,8 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[0].title = formValues.titleEn;
     body[0].url = formValues.serviceUrl;
     body[0].description = formValues.descEn;
+    body[0].citizen = formValues.forCitizen;
+    body[0].nonCitizen = formValues.forNonCitizen;
     body[0].service.id = this.categoryIdEn;
     body[0].enabled = formValues.active;
     
@@ -483,6 +510,8 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[1].title = formValues.titleBm;
     body[1].url = formValues.serviceUrl;
     body[1].description = formValues.descBm;
+    body[1].citizen = formValues.forCitizen;
+    body[1].nonCitizen = formValues.forNonCitizen;
     body[1].service.id = this.categoryIdBm;
     body[1].enabled = formValues.active;
 
