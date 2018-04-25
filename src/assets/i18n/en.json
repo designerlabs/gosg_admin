@@ -1043,7 +1043,10 @@
       "imageerr": "Please select a file"
     },
     "err": {
-      "length": "Data Input length not valid"
+      "length": "Data Input length not valid",
+      "dateInput": "Date Input not valid",
+      "sDateRequired": "Start date is required",
+      "eDateRequired": "End date is required"
     }
   },
   "slider": {

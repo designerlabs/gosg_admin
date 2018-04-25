@@ -46,7 +46,8 @@ export class EventcalendarComponent implements OnInit {
   eventCode:any;
   eventIdEn:any;
   eventIdBm:any;
-  minDate: any;
+  sMinDate: any;
+  eMinDate: any;
   imageData: any;
 
   isRead: boolean;
@@ -223,37 +224,6 @@ export class EventcalendarComponent implements OnInit {
         console.log(this.searchAgencyResultBm)
       }
     }
-  }
-
-  getMinEventDate(){
-    let today = new Date();
-    let todaysdt = today.getDate();
-    let year = today.getFullYear();
-    let month = today.getMonth();
-    // console.log(year)
-    // console.log(month)
-    // console.log(todaysdt)
-
-    this.minDate = new Date(year, month, todaysdt);
-  }
-
-  setEventDate(tsd,type) {
-    let res;    
-    this.events = [];
-    this.events.push(tsd);
-
-    console.log(tsd);
-    // this.events.push(`${event.value}`);
-    if(type == 'start')
-      this.sdt = new Date(this.events[0]).getTime();
-    else
-      this.edt = new Date(this.events[0]).getTime();
-
-    this.dateFormatExample = "";
- 
-    // console.log(res)
-
-    return res;
   }
 
   navigateBack() {
@@ -560,10 +530,43 @@ export class EventcalendarComponent implements OnInit {
 
   }
 
+  getMinEventDate(){
+    let today = new Date();
+    let todaysdt = today.getDate();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    // console.log(year)
+    // console.log(month)
+    // console.log(todaysdt)
+
+    this.sMinDate = new Date(year, month, todaysdt);
+    this.eMinDate = new Date(year, month, todaysdt);
+  }
+
+  setEventDate(tsd,type) {
+    let res;    
+    this.events = [];
+    this.events.push(tsd);
+
+    console.log(tsd);
+    // this.events.push(`${event.value}`);
+    if(type == 'start') {
+      this.sdt = new Date(this.events[0]).getTime();
+    } else {
+      this.edt = new Date(this.events[0]).getTime();
+    }
+
+    this.dateFormatExample = "";
+ 
+    // console.log(res)
+
+    return res;
+  }
+
   addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
     let year, month, day;
     console.log(type)
-    console.log(event.value)
+    // console.log(event.value)
     this.events = [];
     this.events.push(`${event.value}`);
     this.sdt = new Date(this.events[0]).getTime();
@@ -573,9 +576,15 @@ export class EventcalendarComponent implements OnInit {
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
 
-    this.minDate = new Date(year,month,day);
-    this.updateForm.get('end').reset();
+    this.eMinDate = new Date(year,month,day);
+    this.edt = new Date(year,month,day).getTime();
     this.edt = null;
+    this.updateForm.get('end').setValue('');
+    this.updateForm.get('end').reset();
+
+    // console.log(this.sdt)
+    // console.log(this.eMinDate)
+    // console.log(this.edt)
 
     this.checkReqValues()
   }
@@ -597,6 +606,7 @@ export class EventcalendarComponent implements OnInit {
     this.events = [];
     this.sdt = null;
     this.edt = null;
+    this.getMinEventDate();
     this.dateFormatExample = "";
   }
 
