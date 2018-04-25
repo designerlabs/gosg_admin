@@ -566,25 +566,20 @@ export class EventcalendarComponent implements OnInit {
   addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
     let year, month, day;
     console.log(type)
-    // console.log(event.value)
+    console.log(event.value)
     this.events = [];
     this.events.push(`${event.value}`);
     this.sdt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
-    // console.log(this.sdt)
+    
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
 
     this.eMinDate = new Date(year,month,day);
     this.edt = new Date(year,month,day).getTime();
+    this.updateForm.get('end').setValue(new Date(this.edt).toISOString());
     this.edt = null;
-    this.updateForm.get('end').setValue('');
-    this.updateForm.get('end').reset();
-
-    // console.log(this.sdt)
-    // console.log(this.eMinDate)
-    // console.log(this.edt)
 
     this.checkReqValues()
   }

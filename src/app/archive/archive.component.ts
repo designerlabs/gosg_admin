@@ -131,7 +131,7 @@ export class ArchiveComponent implements OnInit {
           this.mdt = dataEn.modifiedDate;
           this.sort = this.valueChecker(dataEn.contentSort);
 
-          if(dataEn.contentCategories)
+          if(dataEn.contentCategories.length != 0)
             this.category = dataEn.contentCategories[0].categoryName;
           else
             this.category = "-";
