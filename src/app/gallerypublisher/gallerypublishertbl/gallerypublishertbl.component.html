@@ -51,7 +51,7 @@
           </mat-form-field>
         </div>
 
-        <div class="col-md-3 paddingTop-15 pdg_R_30px largeScreen">
+        <div class="col-md-3 paddingTop-15 pdg_R_30px largeScreen" style="display: block;">
           <button [disabled]="!selectedItem.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()" 
             class="pull-right mgn_L_5px"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>            
           <button [disabled]="(!flagApprove)" mat-raised-button color="warn" (click)="archiveAllModal.show()" class="pull-right">
