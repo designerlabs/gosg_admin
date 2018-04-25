@@ -219,8 +219,8 @@ export class GalleryComponent implements OnInit {
           this.publishdt = dataEn.publishDate;
           this.enddt = dataEn.endDate;
 
-          // this.setEventDate(dataBm.eventStart,'publish')
-          // this.setEventDate(dataBm.eventEnd, 'endD')
+          this.setEventDate(dataBm.publishDate,'publish')
+          this.setEventDate(dataBm.endDate, 'endD')
 
           this.updateForm.get('publish').setValue(dataEn.publishDate);
           this.updateForm.get('endD').setValue(dataEn.endDate);
@@ -271,7 +271,8 @@ export class GalleryComponent implements OnInit {
     this.events = [];
     this.events.push(`${event.value}`);
 
-    this.publishdt = (event.value).getTime();
+    this.publishdt = new Date(this.events[0]).getTime();
+    //this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
 
     year = new Date(this.events[0]).getFullYear();
@@ -284,6 +285,8 @@ export class GalleryComponent implements OnInit {
     //this.getMinEventDate();
 
     this.checkReqValues()
+
+    
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
@@ -291,7 +294,7 @@ export class GalleryComponent implements OnInit {
     this.events = [];
     this.events.push(`${event.value}`);
     this.enddt = new Date(this.events[0]).getTime();
-    this.enddt = (event.value).getTime();
+    //this.enddt = (event.value).getTime();
     this.dateFormatExample = "";
     //this.getMinEventDate();
     this.checkReqValues()
@@ -304,7 +307,7 @@ export class GalleryComponent implements OnInit {
 
     console.log(tsd);
     // this.events.push(`${event.value}`);
-    if(type == 'start')
+    if(type == 'publish')
       this.publishdt = new Date(this.events[0]).getTime();
     else
       this.enddt = new Date(this.events[0]).getTime();
@@ -516,6 +519,10 @@ export class GalleryComponent implements OnInit {
     this.updateForm.reset();
     this.updateForm.get('active').setValue(true);
     this.checkReqValues();
+    this.events = [];
+    this.publishdt = null;
+    this.enddt = null;
+    this.dateFormatExample = "";
   }
 
   gallerySubmit(formValues: any) {  

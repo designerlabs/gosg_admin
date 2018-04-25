@@ -51,6 +51,9 @@ export class GallerytblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.galleryList);
 
   applyFilter(e) {
+    
+    // if(e.keyCode === 8)
+    //    alert('backspace trapped')
 
     if(e){
       this.getFilterList(this.pageCount, this.galleryPageSize, e, this.nameStatus);
