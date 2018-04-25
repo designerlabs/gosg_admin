@@ -22,6 +22,8 @@ export class GallerypublisherComponent implements OnInit {
   publishdt:number;  
   enddt: number;
   minDate: any;
+  sMinDate: any;
+  eMinDate: any;
 
   galleryData: Object;
   dataUrl: any;
@@ -260,10 +262,13 @@ export class GallerypublisherComponent implements OnInit {
   
             this.dateFormatExample = "";
   
-            this.publishdt = dataEn.publishDate;
-            this.enddt = dataEn.endDate;
-            this.updateForm.get('publish').setValue(dataEn.publishDate);
-            this.updateForm.get('endD').setValue(dataEn.publishDate);
+            // this.publishdt = dataEn.publishDate;
+            // this.enddt = dataEn.endDate;
+            this.setEventDate(dataBm.publishDate,'publish')
+            this.setEventDate(dataBm.endDate, 'endD')
+
+            this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
+            this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
   
             this.galleryCode = this.galleryData.refCode;          
             this.galleryIdEn = dataEn.contentId;
@@ -297,27 +302,61 @@ export class GallerypublisherComponent implements OnInit {
       let today = new Date();
       let todaysdt = today.getDate();
       let year = today.getFullYear();
-      let month = today.getMonth();
+      let month = today.getMonth(); 
   
-      this.minDate = new Date(year, month, todaysdt);
+      //this.minDate = new Date(year, month, todaysdt);
+      this.sMinDate = new Date(year, month, todaysdt);
+      this.eMinDate = new Date(year, month, todaysdt);
     }
   
     publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-      console.log("START: "+type);
-      console.log(event.value);
-      this.publishdt = (event.value).getTime();
+      let year, month, day;
+      this.events = [];
+      this.events.push(`${event.value}`);
+  
+      this.publishdt = new Date(this.events[0]).getTime();
       this.dateFormatExample = "";
-      console.log(this.publishdt);
-      this.checkReqValues()
+  
+      year = new Date(this.events[0]).getFullYear();
+      month = new Date(this.events[0]).getMonth();
+      day = new Date(this.events[0]).getDate();
+  
+      this.eMinDate = new Date(year,month,day);
+      console.log("DATE: "+this.enddt);
+  
+      //if(this.publishdt>this.enddt || this.enddt == undefined){
+        //this.enddt = new Date(year,month,day).getTime(); 
+        // this.enddt = new Date(this.events[0]).getTime();
+        // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      //}
+  
+      this.enddt = null;
+      this.updateForm.get('endD').setValue('');
+  
+      this.checkReqValues()    
     }
   
     endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-      console.log("END: "+type);
-      console.log(event.value);
-      this.enddt = (event.value).getTime();
+  
+      this.events = [];
+      this.events.push(`${event.value}`);
+      this.enddt = new Date(this.events[0]).getTime();    
       this.dateFormatExample = "";
-      console.log(this.enddt);
       this.checkReqValues()
+    }
+  
+    setEventDate(tsd,type) {
+      let res;    
+      this.events = [];
+      this.events.push(tsd);
+      if(type == 'publish')
+        this.publishdt = new Date(this.events[0]).getTime();
+      else
+        this.enddt = new Date(this.events[0]).getTime();
+  
+      this.dateFormatExample = "";
+  
+      return res;
     }
   
     isChecked(e) {

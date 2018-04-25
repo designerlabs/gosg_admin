@@ -373,3 +373,15 @@ mat-header-cell{
 .borderOn {
     border: 1px solid #000;
 }
+
+@media only screen and (max-width: 1500px) {
+    largeScreen {
+        background-color: lightblue;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    smallScreen {
+        background-color: lightblue;
+    }
+}

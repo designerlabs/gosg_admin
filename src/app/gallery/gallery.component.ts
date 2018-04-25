@@ -22,6 +22,8 @@ export class GalleryComponent implements OnInit {
   publishdt:number;  
   enddt: number;
   minDate: any;
+  sMinDate: any;
+  eMinDate: any;
 
   galleryData: Object;
   dataUrl: any;
@@ -146,10 +148,12 @@ export class GalleryComponent implements OnInit {
       this.pageMode = "Add";
       this.updateForm.get('active').setValue(true);
 
-      this.publishdt = now.getTime();
-      this.updateForm.get('publish').setValue(now.getTime());
-      this.enddt = now.getTime();
-      this.updateForm.get('endD').setValue(now.getTime());
+      // this.publishdt = now.getTime();
+      // this.updateForm.get('publish').setValue(now.getTime());
+      //this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
+      // this.enddt = now.getTime()+1;
+      // this.updateForm.get('endD').setValue(now.getTime()+1);
+      //this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       
     } else {
       this.isEdit = true;
@@ -254,9 +258,11 @@ export class GalleryComponent implements OnInit {
     let today = new Date();
     let todaysdt = today.getDate();
     let year = today.getFullYear();
-    let month = today.getMonth() + 1; 
+    let month = today.getMonth(); 
 
-    this.minDate = new Date(year, month, todaysdt);
+    //this.minDate = new Date(year, month, todaysdt);
+    this.sMinDate = new Date(year, month, todaysdt);
+    this.eMinDate = new Date(year, month, todaysdt);
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
@@ -265,31 +271,33 @@ export class GalleryComponent implements OnInit {
     this.events.push(`${event.value}`);
 
     this.publishdt = new Date(this.events[0]).getTime();
-    //this.publishdt = (event.value).getTime();
     this.dateFormatExample = "";
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
 
-    this.minDate = new Date(year,month,day);
-    this.updateForm.get('endD').reset();
+    this.eMinDate = new Date(year,month,day);
+    console.log("DATE: "+this.enddt);
+
+    //if(this.publishdt>this.enddt || this.enddt == undefined){
+      //this.enddt = new Date(year,month,day).getTime(); 
+      // this.enddt = new Date(this.events[0]).getTime();
+      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+    //}
+
     this.enddt = null;
-    //this.getMinEventDate();
+    this.updateForm.get('endD').setValue('');
 
-    this.checkReqValues()
-
-    
+    this.checkReqValues()    
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
 
     this.events = [];
     this.events.push(`${event.value}`);
-    this.enddt = new Date(this.events[0]).getTime();
-    //this.enddt = (event.value).getTime();
+    this.enddt = new Date(this.events[0]).getTime();    
     this.dateFormatExample = "";
-    //this.getMinEventDate();
     this.checkReqValues()
   }
 
@@ -818,7 +826,7 @@ export class GalleryComponent implements OnInit {
       body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
       console.log(JSON.stringify(body))
-      
+
       // Update gallery Service
         this.commonservice.update(body, 'gallery/creator/draft').subscribe(
         data => {
