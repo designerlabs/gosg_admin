@@ -548,7 +548,7 @@ export class CategoryComponent implements OnInit {
       body[0].isActiveFlag = formValues.active;   
       body[0].isSubscribable = formValues.subcription;   
       body[0].isDeleted = formValues.deleted; 
-      body[0].isRssFeeder = formValues.deleted; 
+      body[0].isRssFeeder = formValues.rss; 
     
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;      
@@ -556,7 +556,7 @@ export class CategoryComponent implements OnInit {
       body[1].isActiveFlag = formValues.active; 
       body[1].isSubscribable = formValues.subcription;     
       body[1].isDeleted = formValues.deleted; 
-      body[1].isRssFeeder = formValues.deleted; 
+      body[1].isRssFeeder = formValues.rss; 
 
       //predefined super parent id;
       if(formValues.parentsEn == null || formValues.parentsEn == ""){
@@ -649,7 +649,7 @@ export class CategoryComponent implements OnInit {
       //body[0].image.mediaId = formValues.imageEn;
       body[0].isSubscribable = formValues.subcription;   
       body[0].isDeleted = formValues.deleted; 
-      body[0].isRssFeeder = formValues.deleted; 
+      body[0].isRssFeeder = formValues.rss; 
 
       body[1].categoryName = formValues.titleBm;
       body[1].categoryDescription = formValues.descBm;      
@@ -658,7 +658,7 @@ export class CategoryComponent implements OnInit {
       //body[1].image.mediaId = formValues.imageBm;     
       body[1].isSubscribable = formValues.subcription;  
       body[1].isDeleted = formValues.deleted;   
-      body[1].isRssFeeder = formValues.deleted; 
+      body[1].isRssFeeder = formValues.rss; 
 
       if(formValues.imageBm != null && formValues.imageEn != null){
         body[0].image.mediaId = formValues.imageEn;      
