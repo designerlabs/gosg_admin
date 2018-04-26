@@ -149,11 +149,9 @@ resetSearch() {
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
-          if(data['adminUser']){
-            if(data['adminUser'].superAdmin){
-              this.menulst = data;
-            }
-          }
+
+          // this.menulst = data;
+          this.getUserData();
           this.step = 1;
 
         }).bind(this));
