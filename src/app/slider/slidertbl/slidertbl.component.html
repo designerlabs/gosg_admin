@@ -107,12 +107,12 @@
         <ng-container matColumnDef="slideDraft">
           <mat-header-cell *matHeaderCellDef class="draftColumn"> {{ 'slider.tableHeader.statusdraft' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="draftColumn">
-              <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" 
-                mat-mini-fab class="bg_orange tiny" title="{{ 'common.title.sending' | translate }}" [disabled]="true"></button>
-              <button *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" 
-                mat-mini-fab class="bg_gray tiny" title="{{ 'common.title.draft' | translate }}" [disabled]="true"></button>
-              <button *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" 
-                mat-mini-fab class="bg_green tiny" title="{{ 'common.title.approved' | translate }}" [disabled]="true"></button>
+              <span *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == false" 
+                class="dot bg_orange tiny" title="{{ 'common.title.sending' | translate }}"></span>
+              <span *ngIf="element.list[0].isSendForApproval == false && element.list[0].isApprovedFlag == false" 
+                class="dot bg_gray tiny" title="{{ 'common.title.draft' | translate }}"></span>
+              <span *ngIf="element.list[0].isSendForApproval == true && element.list[0].isApprovedFlag == true" 
+                class="dot bg_green tiny" title="{{ 'common.title.approved' | translate }}"></span>
           </mat-cell>
         </ng-container>
         

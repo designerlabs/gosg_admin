@@ -23,6 +23,8 @@ export class SliderpublisherComponent implements OnInit {
   publishdt:number;  
   enddt: number;
   minDate: any;
+  sMinDate: any;
+  eMinDate: any;
   publish: FormControl
   endD: FormControl
 
@@ -235,10 +237,16 @@ export class SliderpublisherComponent implements OnInit {
           this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
 
           this.dateFormatExample = "";
-          this.publishdt = dataEn.publishDate;
-          this.enddt = dataEn.endDate;
-          this.updateForm.get('publish').setValue(dataEn.publishDate);
-          this.updateForm.get('endD').setValue(dataEn.publishDate);
+          // this.publishdt = dataEn.publishDate;
+          // this.enddt = dataEn.endDate;
+
+          if(dataBm.publishDate != undefined){
+            this.setEventDate(dataBm.publishDate,'publish')
+            this.setEventDate(dataBm.endDate, 'endD')        
+  
+            this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
+            this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
+          }
           
           if(dataEn.isApprovedFlag == true){
             this.appPublisher = false;
@@ -283,38 +291,78 @@ export class SliderpublisherComponent implements OnInit {
     let today = new Date();
     let todaysdt = today.getDate();
     let year = today.getFullYear();
-    let month = today.getMonth();
+    let month = today.getMonth(); 
 
-    this.minDate = new Date(year, month, todaysdt);
+    //this.minDate = new Date(year, month, todaysdt);
+    this.sMinDate = new Date(year, month, todaysdt);
+    this.eMinDate = new Date(year, month, todaysdt);
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("START: "+type);
-    console.log(event.value);
-    this.publishdt = (event.value).getTime();
-    this.dateFormatExample = "";
-    console.log(this.publishdt);
-    this.checkReqValues()
+
+    let year, month, day;
+    this.events = [];
+    this.events.push(`${event.value}`);
+
+    this.publishdt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";   
+
+    year = new Date(this.events[0]).getFullYear();
+    month = new Date(this.events[0]).getMonth();
+    day = new Date(this.events[0]).getDate();
+ 
+    this.eMinDate = new Date(year,month,day);
+
+    //if(this.publishdt>this.enddt || this.enddt == undefined){
+      // this.enddt = new Date(year,month,day).getTime(); 
+      // this.enddt = new Date(this.events[0]).getTime();
+      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+    //}
+
+    if(this.publishdt>this.enddt || this.enddt == undefined){
+      this.enddt = new Date(this.events[0]).getTime();
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      this.enddt = null;
+    }
+    //this.updateForm.get('endD').setValue('');
+
+    this.checkReqValues()    
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-    console.log("END: "+type);
-    console.log(event.value);
-    this.enddt = (event.value).getTime();
+
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.enddt = new Date(this.events[0]).getTime();    
     this.dateFormatExample = "";
-    console.log(this.enddt);
     this.checkReqValues()
   }
 
-  isChecked(e) {
+  setEventDate(tsd,type) {
 
-    if (e.checked) {
-      this.updateForm.get("imgBm").setValue(this.imgEn.value);
-    } else {
-      this.updateForm.get("imgBm").setValue("");
+    let year, month, day;
+    let res;    
+    this.events = [];
+    var d = new Date(tsd); 
+    this.events.push(`${d}`);
+
+    year = new Date(this.events[0]).getFullYear();
+    month = new Date(this.events[0]).getMonth();
+    day = new Date(this.events[0]).getDate();
+
+    if(type == 'publish'){
+
+      this.eMinDate = new Date(year,month,day);
+      this.publishdt = new Date(this.events[0]).getTime();
+      this.enddt = new Date(this.events[0]).getTime();     
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     }
-    this.copyImg = e.checked;
-    this.checkReqValues();
+    else{
+      this.enddt = new Date(this.events[0]).getTime();
+    }
+
+    this.dateFormatExample = "";
+    return res;
   }
 
   changeLanguageAddEdit(){
@@ -360,6 +408,11 @@ export class SliderpublisherComponent implements OnInit {
   myFunction() {
     this.updateForm.reset();
     this.updateForm.get('active').setValue(true);
+    this.checkReqValues();
+    this.events = [];
+    this.publishdt = null;
+    this.enddt = null;
+    this.dateFormatExample = "";
   }
 
   getImageList() {

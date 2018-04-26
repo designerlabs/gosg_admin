@@ -177,13 +177,13 @@
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="draftColumn" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.statusdraft' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="draftColumn" *matCellDef="let element">
-                        <button *ngIf="element.list[0].isApproverDraftFlag == false && element.list[0].isApprovedFlag == false" 
-                            mat-mini-fab class="bg_orange tiny" title="{{ 'common.title.waiting' | translate }}" [disabled]="true"></button>
-                        <button *ngIf="element.list[0].isApproverDraftFlag == true && element.list[0].isApprovedFlag == false" 
-                            mat-mini-fab class="bg_gray tiny" title="{{ 'common.title.draft' | translate }}" [disabled]="true"></button>
-                        <button *ngIf="(element.list[0].isApproverDraftFlag == true || element.list[0].isApproverDraftFlag == false) 
-                            && element.list[0].isApprovedFlag == true" mat-mini-fab class="bg_green tiny" 
-                            title="{{ 'common.title.approved' | translate }}" [disabled]="true"></button>
+                        <span *ngIf="element.list[0].isApproverDraftFlag == false && element.list[0].isApprovedFlag == false" 
+                            class="dot bg_orange tiny" title="{{ 'common.title.waiting' | translate }}"></span>
+                        <span *ngIf="element.list[0].isApproverDraftFlag == true && element.list[0].isApprovedFlag == false" 
+                            class="dot bg_gray tiny" title="{{ 'common.title.draft' | translate }}"></span>
+                        <span *ngIf="(element.list[0].isApproverDraftFlag == true || element.list[0].isApproverDraftFlag == false) 
+                            && element.list[0].isApprovedFlag == true"
+                            class="dot bg_green tiny" title="{{ 'common.title.approved' | translate }}"></span>
                     </mat-cell>
                 </ng-container>
 

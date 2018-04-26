@@ -276,7 +276,7 @@
       "deleteAll":"Adakah anda pasti untuk memadam semua data terpilih?",
       "archive": "Adakah anda pasti untuk tukar ke arkib?",
       "revert": "Adakah anda pasti untuk guna semula data ini?",
-      "revertAll": "Are you sure you want to re-use all selected records?",
+      "revertAll": "Adakah anda pasti untuk guna semula semua data terpilih?",
       "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!",
       "nodata": "Tiada Data Ditemui"
     },

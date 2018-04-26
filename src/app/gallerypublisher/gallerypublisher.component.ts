@@ -264,11 +264,13 @@ export class GallerypublisherComponent implements OnInit {
   
             // this.publishdt = dataEn.publishDate;
             // this.enddt = dataEn.endDate;
-            this.setEventDate(dataBm.publishDate,'publish')
-            this.setEventDate(dataBm.endDate, 'endD')
-
-            this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
-            this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
+            if(dataBm.publishDate != undefined){
+              this.setEventDate(dataBm.publishDate,'publish')
+              this.setEventDate(dataBm.endDate, 'endD')        
+    
+              this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
+              this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
+            }
   
             this.galleryCode = this.galleryData.refCode;          
             this.galleryIdEn = dataEn.contentId;
@@ -310,28 +312,32 @@ export class GallerypublisherComponent implements OnInit {
     }
   
     publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+
       let year, month, day;
       this.events = [];
       this.events.push(`${event.value}`);
   
       this.publishdt = new Date(this.events[0]).getTime();
-      this.dateFormatExample = "";
+      this.dateFormatExample = "";   
   
       year = new Date(this.events[0]).getFullYear();
       month = new Date(this.events[0]).getMonth();
       day = new Date(this.events[0]).getDate();
-  
+   
       this.eMinDate = new Date(year,month,day);
-      console.log("DATE: "+this.enddt);
   
       //if(this.publishdt>this.enddt || this.enddt == undefined){
-        //this.enddt = new Date(year,month,day).getTime(); 
+        // this.enddt = new Date(year,month,day).getTime(); 
         // this.enddt = new Date(this.events[0]).getTime();
         // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       //}
   
-      this.enddt = null;
-      this.updateForm.get('endD').setValue('');
+      if(this.publishdt>this.enddt || this.enddt == undefined){
+        this.enddt = new Date(this.events[0]).getTime();
+        this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+        this.enddt = null;
+      }
+      //this.updateForm.get('endD').setValue('');
   
       this.checkReqValues()    
     }
@@ -346,16 +352,29 @@ export class GallerypublisherComponent implements OnInit {
     }
   
     setEventDate(tsd,type) {
+  
+      let year, month, day;
       let res;    
       this.events = [];
-      this.events.push(tsd);
-      if(type == 'publish')
+      var d = new Date(tsd); 
+      this.events.push(`${d}`);
+  
+      year = new Date(this.events[0]).getFullYear();
+      month = new Date(this.events[0]).getMonth();
+      day = new Date(this.events[0]).getDate();
+  
+      if(type == 'publish'){
+  
+        this.eMinDate = new Date(year,month,day);
         this.publishdt = new Date(this.events[0]).getTime();
-      else
+        this.enddt = new Date(this.events[0]).getTime();     
+        this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      }
+      else{
         this.enddt = new Date(this.events[0]).getTime();
+      }
   
       this.dateFormatExample = "";
-  
       return res;
     }
   
@@ -559,6 +578,10 @@ export class GallerypublisherComponent implements OnInit {
       this.updateForm.reset();
       this.updateForm.get('active').setValue(true);
       this.checkReqValues();
+      this.events = [];
+      this.publishdt = null;
+      this.enddt = null;
+      this.dateFormatExample = "";
     }
   
     gallerySubmit(formValues: any) {  
