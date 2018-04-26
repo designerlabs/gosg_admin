@@ -220,8 +220,8 @@ export class GalleryComponent implements OnInit {
           // this.publishdt = dataEn.publishDate;
           // this.enddt = dataEn.endDate;
 
-          this.setEventDate(dataBm.publishDate,'publish')
-          this.setEventDate(dataBm.endDate, 'endD')
+          this.setEventDate(dataBm.publishDate,'publish');
+          this.setEventDate(dataBm.endDate, 'endD');
 
           this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
           this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
@@ -242,7 +242,6 @@ export class GalleryComponent implements OnInit {
             this.mediaPath = "videos";
           }
 
-          //this.isSameImg(dataEn.galleryImage.mediaFile, dataBm.galleryImage.mediaFile);
           this.checkReqValues();
         }).bind(this));
         this.loading = false;
@@ -266,19 +265,19 @@ export class GalleryComponent implements OnInit {
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+
     let year, month, day;
     this.events = [];
     this.events.push(`${event.value}`);
 
     this.publishdt = new Date(this.events[0]).getTime();
-    this.dateFormatExample = "";
+    this.dateFormatExample = "";   
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
-
+ 
     this.eMinDate = new Date(year,month,day);
-    console.log("DATE: "+this.enddt);
 
     //if(this.publishdt>this.enddt || this.enddt == undefined){
       // this.enddt = new Date(year,month,day).getTime(); 
@@ -286,8 +285,12 @@ export class GalleryComponent implements OnInit {
       // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     //}
 
-    this.enddt = null;
-    this.updateForm.get('endD').setValue('');
+    if(this.publishdt>this.enddt){
+      this.enddt = new Date(this.events[0]).getTime();
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      this.enddt = null;
+    }
+    //this.updateForm.get('endD').setValue('');
 
     this.checkReqValues()    
   }
@@ -302,16 +305,29 @@ export class GalleryComponent implements OnInit {
   }
 
   setEventDate(tsd,type) {
+
+    let year, month, day;
     let res;    
     this.events = [];
-    this.events.push(tsd);
-    if(type == 'publish')
+    var d = new Date(tsd); 
+    this.events.push(`${d}`);
+
+    year = new Date(this.events[0]).getFullYear();
+    month = new Date(this.events[0]).getMonth();
+    day = new Date(this.events[0]).getDate();
+
+    if(type == 'publish'){
+
+      this.eMinDate = new Date(year,month,day);
       this.publishdt = new Date(this.events[0]).getTime();
-    else
+      this.enddt = new Date(this.events[0]).getTime();     
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+    }
+    else{
       this.enddt = new Date(this.events[0]).getTime();
+    }
 
     this.dateFormatExample = "";
-
     return res;
   }
 
