@@ -128,7 +128,7 @@
             <div class="col-md-6">
                 <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
                 <mat-form-field class="example-full-width">
-                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
+                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy hh:mm a' }}</div>
                   <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput 
                     formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" 
                     (dateTimeChange)="publishEvent('change', $event)" [min]="sMinDate" required />
@@ -143,7 +143,7 @@
             <div class="col-md-6">
                 <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
                 <mat-form-field class="example-full-width">
-                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
+                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy hh:mm a' }}</div>
                   <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput 
                     formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" 
                     (dateTimeChange)="endEvent('change', $event)" [min]="eMinDate" required />

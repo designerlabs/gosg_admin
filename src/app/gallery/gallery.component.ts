@@ -220,11 +220,13 @@ export class GalleryComponent implements OnInit {
           // this.publishdt = dataEn.publishDate;
           // this.enddt = dataEn.endDate;
 
-          this.setEventDate(dataBm.publishDate,'publish');
-          this.setEventDate(dataBm.endDate, 'endD');
-
-          this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
-          this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
+          if(dataBm.publishDate != undefined){
+            this.setEventDate(dataBm.publishDate,'publish')
+            this.setEventDate(dataBm.endDate, 'endD')        
+  
+            this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
+            this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
+          }
 
           this.galleryCode = this.galleryData.refCode;          
           this.galleryIdEn = dataEn.contentId;
@@ -285,7 +287,7 @@ export class GalleryComponent implements OnInit {
       // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     //}
 
-    if(this.publishdt>this.enddt){
+    if(this.publishdt>this.enddt || this.enddt == undefined){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       this.enddt = null;

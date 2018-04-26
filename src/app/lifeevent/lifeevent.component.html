@@ -120,10 +120,10 @@
         <div class="col-md-6">
             <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
             <mat-form-field class="example-full-width">
-              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy h:m a' }}</div>
+              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy hh:mm a' }}</div>
               <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" 
               #publish (dateTimeInput)="publishEvent('input', $event)" 
-              (dateTimeChange)="publishEvent('change', $event)" [min]="minDate"  tabindex="8"/>
+              (dateTimeChange)="publishEvent('change', $event)" [min]="sMinDate"  tabindex="8"/>
               <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #publish></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
@@ -135,10 +135,10 @@
         <div class="col-md-6">
             <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
             <mat-form-field class="example-full-width">
-              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy h:m a' }}</div>
+              <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy hh:mm a' }}</div>
               <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" 
               #endD (dateTimeInput)="endEvent('input', $event)" 
-              (dateTimeChange)="endEvent('change', $event)" [min]="minDate"  tabindex="9" />
+              (dateTimeChange)="endEvent('change', $event)" [min]="eMinDate"  tabindex="9" />
               <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time #endD></owl-date-time>
               <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
