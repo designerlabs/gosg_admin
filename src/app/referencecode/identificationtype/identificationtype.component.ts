@@ -255,7 +255,7 @@ export class IdentificationtypeComponent implements OnInit {
       console.log(body);
 
       this.loading = true;
-      this.commonservice.update(body,'identificationtype/update/multiple/').subscribe(
+      this.commonservice.update(body,'identificationtype/update/multiple').subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){

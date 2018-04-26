@@ -693,7 +693,7 @@ export class CategoryComponent implements OnInit {
       
       console.log(JSON.stringify(body))
       this.loading = true;
-      this.commonservice.update(body,'content/category/update/').subscribe(
+      this.commonservice.update(body,'content/category/update').subscribe(
         data => {
           
           this.commonservice.errorHandling(data, (function(){
