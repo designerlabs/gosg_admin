@@ -281,7 +281,7 @@ export class GalleryComponent implements OnInit {
     console.log("DATE: "+this.enddt);
 
     //if(this.publishdt>this.enddt || this.enddt == undefined){
-      //this.enddt = new Date(year,month,day).getTime(); 
+      // this.enddt = new Date(year,month,day).getTime(); 
       // this.enddt = new Date(this.events[0]).getTime();
       // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     //}
