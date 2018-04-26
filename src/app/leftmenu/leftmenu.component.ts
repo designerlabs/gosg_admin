@@ -142,39 +142,18 @@ resetSearch() {
   }
 
   getFilterList(keyword) {
-
+    debugger;
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
       this.commonservice.readProtected('authorization/module/search', '','', keyword)
       .subscribe(data => {
 
+        this.commonservice.errorHandling(data, (function(){
 
-        if(data['adminUser']){
-          if(data['adminUser'].superAdmin){
-            this.getMenuData();
-          }else{
-            this.loading = true;
-            this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
-              
-              this.menulist_non_admin = data;
-              this.loading = false;
-            },
-            error => {
-              this.loading = false;
-              });
-          }
-        }else{
-          
-        }
-        // this.loading = false;
+          this.menulst = data;
+          this.step = 1;
 
-
-        // this.commonservice.errorHandling(data, (function(){
-
-        //   this.menulst = data;
-        //   this.step = 1;
-
-        // }).bind(this));
+        }).bind(this));
         this.loading = false; 
       },
       error => {
