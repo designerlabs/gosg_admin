@@ -11,15 +11,18 @@
 	</div>
     
 	<div *ngIf='menulst'>
-		<div class="grouping_title">
-			Grouping and Permission Modules
+		<div *ngIf="isSuperAdmin">
+			<div class="grouping_title">
+				Grouping and Permission Modules
+			</div>
+			<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
+				<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['admin']">Admin Management</a>
+			</div>
+			<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
+				<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">Grouping Management</a>
+			</div>
 		</div>
-		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
-			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['admin']">Admin Management</a>
-		</div>
-		<div style="padding-bottom:0px; border-bottom: 1px solid #e6e6e6;">
-			<a class="submenu_link" routerLinkActive="submenu_link_active" [routerLink]="['groupmodule']">Grouping Management</a>
-		</div>
+		
 		<mat-accordion>
 			<mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" >
 				<mat-expansion-panel-header>

@@ -27,6 +27,7 @@ export class User {
 
 
 export class LeftmenuComponent implements OnInit {
+  isSuperAdmin = false;
   menulist_non_admin: any;
   @Output() menuClick = new EventEmitter();
   myControl = new FormControl();
@@ -109,9 +110,11 @@ resetSearch() {
         data => {
           if(data['adminUser']){
             if(data['adminUser'].superAdmin){
+              this.isSuperAdmin = true;
               this.getMenuData();
             }else{
               this.loading = true;
+              this.isSuperAdmin = false;
               this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
                 
                 this.menulist_non_admin = data.data[1];
@@ -142,7 +145,6 @@ resetSearch() {
   }
 
   getFilterList(keyword) {
-    debugger;
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
       this.commonservice.readProtected('authorization/module/search', '','', keyword)
@@ -150,8 +152,8 @@ resetSearch() {
 
         this.commonservice.errorHandling(data, (function(){
 
-          // this.menulst = data;
-          this.getUserData();
+          this.menulst = data;
+          // this.getUserData();
           this.step = 1;
 
         }).bind(this));
@@ -180,7 +182,6 @@ resetSearch() {
     this.loading = true;
     this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
-      //debugger;
       this.loading = false;
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
