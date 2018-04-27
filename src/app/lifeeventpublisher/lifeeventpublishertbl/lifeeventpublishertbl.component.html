@@ -25,7 +25,7 @@
                 <br>              
                 <div class="row">                
 
-                    <div class="col-md-4 pdg_L_30px">
+                    <div class="col-md-7 pdg_L_30px">
                         <tree-select  class="font-size-m example-full-width" name="simpleSelect"
                         [items]="itemEn"
                         textField ="text"
@@ -46,7 +46,7 @@
                         expandMode="All"></tree-select>
                     </div>
 
-                    <div class="col-md-3"> 
+                    <!-- <div class="col-md-3"> 
                         <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                         <mat-form-field>                        
                             <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
@@ -56,7 +56,7 @@
                                 <mat-icon>close</mat-icon>
                             </button>
                         </mat-form-field>
-                    </div>
+                    </div> -->
 
                     <div class="col-md-2" *ngIf="languageId == 1">
                         <mat-form-field style="width: 100%;">
@@ -100,6 +100,20 @@
                         [isReset]="'true'"
                         (resetMethod)="deleteAll()">
                         </app-confirm-dialog>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 pdg_L_30px"> 
+                        <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
+                        <mat-form-field>                        
+                            <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
+                            placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                            <button mat-button *ngIf="valkey" matSuffix mat-icon-button aria-label="Clear" 
+                            (click)="resetSearch()" >
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field>
                     </div>
                 </div>
                 

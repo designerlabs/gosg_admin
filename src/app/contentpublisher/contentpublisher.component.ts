@@ -695,7 +695,6 @@ export class ContentpublisherComponent implements OnInit {
     }
     
   }
-
   
   draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[3];
