@@ -118,8 +118,9 @@ export class LifeeventtblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
+              console.log("Get Category ON TRANSLATE: ");
               this.getCategoryCode();
-              //this.getRecordList(this.pageCount, this.pageSize);
+              //this.getRecordListLE(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
               this.getCategory();
               this.selectedItem = [];
@@ -131,15 +132,19 @@ export class LifeeventtblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getRecordList(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-      this.getCategory();
+      //this.getRecordListLE(this.pageCount, this.pageSize);
+      // console.log(this.languageId);
+      // this.getCategoryCode();
+      // this.commonservice.getModuleId();
+      // this.getCategory();
+      // this.selectedItem = [];
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-    //this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordListLE(this.pageCount, this.pageSize);
+    console.log("Get Category ON INIT: ");
     
     this.getCategoryCode();
     this.commonservice.getModuleId();
@@ -159,12 +164,14 @@ export class LifeeventtblComponent implements OnInit {
     });
 
     this.updateForm.get('nameStatus').setValue(1);   
-    this.getCategory();
+    //this.getCategory();
     this.valkey = false;
 
   }
 
   getCategoryCode(){ 
+
+    console.log("Call function getCategoryCode () ");
 
     this.loading = true;
     return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode)
@@ -217,7 +224,8 @@ export class LifeeventtblComponent implements OnInit {
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
 
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);
+          console.log("GET RECORD by default");
 
         }).bind(this));
         this.loading = false;
@@ -228,7 +236,7 @@ export class LifeeventtblComponent implements OnInit {
       });
   }
 
-  getRecordList(page, size, code) {  
+  getRecordListLE(page, size, code) {  
   
     this.recordList = null;
     let nameStatus = this.updateForm.get('nameStatus').value;
@@ -348,7 +356,7 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize, this.catCode);
+    this.getRecordListLE(page - 1, this.pageSize, this.catCode);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -358,7 +366,7 @@ export class LifeeventtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize, this.catCode);
+    this.getRecordListLE(page + 1, this.pageSize, this.catCode);
   }
 
   add() {
@@ -380,7 +388,7 @@ export class LifeeventtblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);
           this.selectedItem = [];
           
         }).bind(this)); 
@@ -400,7 +408,7 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value, this.catCode);
+    this.getRecordListLE(this.pageCount, event.value, this.catCode);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -523,7 +531,7 @@ export class LifeeventtblComponent implements OnInit {
   onChange(ele){    
 
     this.catCode = ele.refCode;
-    this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
+    this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);   
   }
 
   deleteAll(){
@@ -536,7 +544,7 @@ export class LifeeventtblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);  
 
       }).bind(this)); 
       this.selectedItem = [];
