@@ -164,7 +164,7 @@ export class LifeeventtblComponent implements OnInit {
     });
 
     this.updateForm.get('nameStatus').setValue(1);   
-    //this.getCategory();
+    this.getCategory();
     this.valkey = false;
 
   }
