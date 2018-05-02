@@ -67,6 +67,14 @@
     text-decoration: none
     }
 
+    .listParent-w-scroll {
+        position:absolute; left: 3%; top:70%; z-index: 1; overflow-y: scroll; height: 250px
+    }
+
+    .listParent {
+        position:absolute; left: 3%; top:70%; z-index: 1;
+    }
+
     .pmd-card-list {
         margin-bottom: 0;
         background-color: #fff;

@@ -60,32 +60,32 @@
           </div>
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryEn (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
+                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryEn (click)="getSearchData(ministryEn.value, 1)" (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
                 <mat-error *ngIf="updateForm.controls.ministryEn.hasError('required')">
                   Ministry is required
                 </mat-error>
               </mat-form-field>
 
-              <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+              <div *ngIf="isActiveListEn" [ngClass]="{'listParent':searchMinistryResultEn.length < 10,'listParent-w-scroll':searchMinistryResultEn.length >= 10}" (scroll)="onScroll($event,1)">
                 <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
                   <li class="list-group-item" *ngFor="let data of searchMinistryResultEn">
-                    <a class="list-link" (click)="getValue(data?.ministryId, data?.ministryName, data?.ministryCode, 1)"><span class="list-group-item-text">{{data?.ministryName}}</span></a>
+                    <a class="list-link" (click)="getValue(data?.ministryId, data?.ministryName, data?.ministryCode, 1)">{{data?.ministryName}}</a>
                   </li>
                 </ul>
               </div>
           </div>
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="6" placeholder="Kementerian" formControlName="ministryBm" #ministryBm (keyup)="getSearchData(ministryBm.value, 2)" (change)="checkReqValues()" required>
+                <input matInput tabindex="6" placeholder="Kementerian" formControlName="ministryBm" #ministryBm (click)="getSearchData(ministryBm.value, 2)" (keyup)="getSearchData(ministryBm.value, 2)" (change)="checkReqValues()" required>
                 <mat-error *ngIf="updateForm.controls.ministryBm.hasError('required')">
                   Kementerian diperlukan
                 </mat-error>
               </mat-form-field>
 
-              <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;">
+              <div *ngIf="isActiveListBm" [ngClass]="{'listParent':searchMinistryResultBm.length < 10,'listParent-w-scroll':searchMinistryResultBm.length >= 10}"  (scroll)="onScroll($event,2)">
                 <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
                   <li class="list-group-item" *ngFor="let data of searchMinistryResultBm">
-                    <a class="list-link" (click)="getValue(data?.ministryId,data?.ministryName, data?.ministryCode, 2)"><span class="list-group-item-text">{{data?.ministryName}}</span></a>
+                    <a class="list-link" (click)="getValue(data?.ministryId,data?.ministryName, data?.ministryCode, 2)">{{data?.ministryName}}</a>
                   </li>
                 </ul>
               </div>

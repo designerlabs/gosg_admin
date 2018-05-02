@@ -20,8 +20,8 @@ export class AgencyComponent implements OnInit {
   maskPhoneNo: (string | RegExp)[];
   maskFaxNo: (string | RegExp)[];
   
-  searchMinistryResultEn: Object;
-  searchMinistryResultBm: Object;
+  searchMinistryResultEn: string[];
+  searchMinistryResultBm: string[];
   isActiveListEn: boolean;
   isActiveListBm: boolean;
   isActive: boolean;
@@ -199,6 +199,27 @@ export class AgencyComponent implements OnInit {
     this.maskFaxNo = this.validateService.getMask().fax;
   }
 
+  onScroll(event, lngId){
+
+    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
+      // console.log(this.searchAgencyResultEn.length)
+      console.log(event)
+
+      let keywordVal;
+      
+      if(lngId == 1) {
+        keywordVal = this.updateForm.get("ministryEn").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchMinistryResultEn.length+10)
+        console.log(this.searchMinistryResultEn)
+      } else if(lngId == 2) {
+        keywordVal = this.updateForm.get("ministryBm").value
+        this.getSearchData(keywordVal, lngId, 1, this.searchMinistryResultBm.length+10)
+        console.log(this.searchMinistryResultBm)
+      }
+    }
+  }
+
   back(){
     this.router.navigate(['agency']);
   }
@@ -257,7 +278,7 @@ export class AgencyComponent implements OnInit {
     
   }
 
-  getSearchData(keyword, langId){
+  getSearchData(keyword, langId, count, page){
     console.log(keyword)
     console.log(langId)
 
@@ -273,10 +294,10 @@ export class AgencyComponent implements OnInit {
     this.updateForm.get(selLangField).reset();
     // console.log(selLangField)
     
-    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+    // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
-      this.commonservice.readPortal('ministry/language/'+langId, '', '' , keyword).subscribe(data => {
+      this.commonservice.readPortal('ministry/language/'+langId, count, page, keyword).subscribe(data => {
             this.commonservice.errorHandling(data, (function(){
               
           if(data['list'].length != 0) {
@@ -295,10 +316,10 @@ export class AgencyComponent implements OnInit {
           }, err =>{
             this.loading = false;
           });
-    } else {
-      this.isActiveListEn = false;
-      this.isActiveListBm = false;
-    }
+    // } else {
+    //   this.isActiveListEn = false;
+    //   this.isActiveListBm = false;
+    // }
   }
   
   getValue(mId,mName, refCode, langId){
