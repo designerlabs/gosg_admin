@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 
 @Component({
   selector: 'app-slidertbl',
@@ -18,6 +19,7 @@ export class SlidertblComponent implements OnInit {
 
   selectedItem = [];
 
+  updateForm: FormGroup;
   sliderData: Object;
   sliderList = null;
   displayedColumns: any;
@@ -37,9 +39,23 @@ export class SlidertblComponent implements OnInit {
   lang:any;
   languageId: any;
   public loading = false;
-  nameStatus=1;
+  // nameStatus=1;
   keywordVal="";
+  valkey = false;
   recordTable = null;
+
+  public kataKunci: FormControl;
+  public nameStatus: FormControl;
+
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  publish: FormControl
+  endD: FormControl  
+  disableSearch = false;
+  newPublishD: any;
+  newEndD: any;
 
   showNoData = false;
 
@@ -49,12 +65,14 @@ export class SlidertblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.sliderList);
 
   applyFilter(e) {
+
+    this.nameStatus = this.updateForm.get('nameStatus').value;
     
     if(e){
       this.getFilterList(this.pageCount, this.sliderPageSize, e, this.nameStatus);
     }
     else{
-      this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.getSlidersData(this.pageCount, this.sliderPageSize,);
     }
   }
 
@@ -110,6 +128,21 @@ export class SlidertblComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.nameStatus = new FormControl();
+    this.kataKunci = new FormControl();
+    this.publish = new FormControl();
+    this.endD = new FormControl ();
+
+    this.updateForm = new FormGroup({   
+      
+      nameStatus: this.nameStatus,
+      kataKunci: this.kataKunci,
+      endD: this.endD,
+      publish: this.publish
+    });
+    
+    this.updateForm.get('nameStatus').setValue(1);   
     this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getSlidersData(this.pageCount, this.sliderPageSize);
@@ -124,20 +157,23 @@ export class SlidertblComponent implements OnInit {
   getSlidersData(page, size) {
 
     let generalUrl = ""
+    let nameStatus = 1;
 
-    if(this.nameStatus == 1){
+    //alert(nameStatus);
+
+    if(nameStatus == 1){
       generalUrl = 'slider/creator/state/all';
     }
 
-    else if(this.nameStatus == 2){
+    else if(nameStatus == 2){
       generalUrl = 'slider/creator/state/draft';
     }
 
-    else if(this.nameStatus == 3){
+    else if(nameStatus == 3){
       generalUrl = 'slider/creator/state/pending';
     }
 
-    else if(this.nameStatus == 4){
+    else if(nameStatus == 4){
       generalUrl = 'slider/creator/state/approved';
     }
     
