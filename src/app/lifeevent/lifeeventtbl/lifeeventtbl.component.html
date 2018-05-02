@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 pdg_L_30px"> 
+                    <div class="col-md-4 pdg_L_30px"> 
                         <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                         <mat-form-field>                        
                             <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
@@ -99,6 +99,32 @@
                             (click)="resetSearch()" >
                                 <mat-icon>close</mat-icon>
                             </button>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!-- <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label> -->
+                        <mat-form-field class="example-full-width" >
+                          <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
+                          <input placeholder="{{ 'gallerytbl.publishDt' | translate }}" [owlDateTime]="publish" 
+                          style="display: none;" matInput formControlName="publish" 
+                          #publish (dateTimeInput)="publishEvent('input', $event)" 
+                          (dateTimeChange)="publishEvent('change', $event)"/>
+                          <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
+                          <owl-date-time [pickerType]="'calendar'" #publish></owl-date-time>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <!-- <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label> -->
+                        <mat-form-field class="example-full-width">
+                          <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
+                          <input placeholder="{{ 'gallerytbl.endDt' | translate }}" [owlDateTime]="endD" 
+                          style="display: none;" matInput formControlName="endD" 
+                          #endD (dateTimeInput)="endEvent('input', $event)" 
+                          (dateTimeChange)="endEvent('change', $event)"/>
+                          <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
+                          <owl-date-time [pickerType]="'calendar'" #endD></owl-date-time>
                         </mat-form-field>
                     </div>
                 </div>

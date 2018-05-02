@@ -9,6 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 declare var System: any;
 @Component({
@@ -48,6 +49,16 @@ export class LifeeventtblComponent implements OnInit {
   public categoryPlaceholder = "";
   public filterPlaceholder = "";
 
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  // minDate: any;
+  // sMinDate: any;
+  // eMinDate: any;
+  publish: FormControl
+  endD: FormControl
+
   dataUrl: any;  
   public languageId: any;
   leCategoryCode: any;
@@ -77,14 +88,14 @@ export class LifeeventtblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, e, this.nameStatus);
     }
     else{
-      this.getCategoryCode();
+      this.getCategoryCodeLE();
     }
   }
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
-    this.getCategoryCode();
+    this.getCategoryCodeLE();
   }
 
   filterStatus(e){
@@ -96,7 +107,7 @@ export class LifeeventtblComponent implements OnInit {
     }
 
     else{
-      this.getCategoryCode();
+      this.getCategoryCodeLE();
     }
   }
 
@@ -119,10 +130,10 @@ export class LifeeventtblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               console.log("Get Category ON TRANSLATE: ");
-              this.getCategoryCode();
+              this.getCategoryCodeLE();
               //this.getRecordListLE(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
-              this.getCategory();
+              this.getCategoryLE();
               this.selectedItem = [];
               
             }
@@ -134,9 +145,9 @@ export class LifeeventtblComponent implements OnInit {
       this.languageId = localStorage.getItem('langID');
       //this.getRecordListLE(this.pageCount, this.pageSize);
       // console.log(this.languageId);
-      // this.getCategoryCode();
+      // this.getCategoryCodeLE();
       // this.commonservice.getModuleId();
-      // this.getCategory();
+      // this.getCategoryLE();
       // this.selectedItem = [];
     }
     /* LANGUAGE FUNC */
@@ -146,13 +157,15 @@ export class LifeeventtblComponent implements OnInit {
     //this.getRecordListLE(this.pageCount, this.pageSize);
     console.log("Get Category ON INIT: ");
     
-    this.getCategoryCode();
+    this.getCategoryCodeLE();
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl({disabled: true});
     this.keys = new FormControl();
     this.nameStatus = new FormControl();
     this.kataKunci = new FormControl({value: '', disabled: true});
+    this.publish = new FormControl();
+    this.endD = new FormControl ();
 
     this.updateForm = new FormGroup({   
       
@@ -160,18 +173,20 @@ export class LifeeventtblComponent implements OnInit {
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       keys: this.keys,
-      kataKunci: this.kataKunci
+      kataKunci: this.kataKunci,
+      endD: this.endD,
+      publish: this.publish
     });
 
     this.updateForm.get('nameStatus').setValue(1);   
-    this.getCategory();
+    this.getCategoryLE();
     this.valkey = false;
 
   }
 
-  getCategoryCode(){ 
+  getCategoryCodeLE(){ 
 
-    console.log("Call function getCategoryCode () ");
+    console.log("Call function getCategoryCodeLE () ");
 
     this.loading = true;
     return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode)
@@ -355,6 +370,34 @@ export class LifeeventtblComponent implements OnInit {
 
   }
 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.publishdt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";    
+
+    if(this.publishdt>this.enddt || this.enddt == undefined){
+      this.enddt = new Date(this.events[0]).getTime();
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      this.enddt = null;
+    }    
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.enddt = new Date(this.events[0]).getTime();    
+    this.dateFormatExample = ""; 
+
+    if(this.publishdt>this.enddt || this.enddt == undefined){
+      this.publishdt = new Date(this.events[0]).getTime();
+      this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
+      this.publishdt = null;
+    }
+  }
+
   paginatorL(page) {
     this.getRecordListLE(page - 1, this.pageSize, this.catCode);
     this.noPrevData = page <= 2 ? true : false;
@@ -408,12 +451,13 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
+
     this.getRecordListLE(this.pageCount, event.value, this.catCode);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
 
-  getCategory(){
+  getCategoryLE(){
 
     this.loading = true;
     return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode)
@@ -509,7 +553,7 @@ export class LifeeventtblComponent implements OnInit {
   keysFilter(){
 
     this.catCode = undefined;
-    this.getCategoryCode();
+    this.getCategoryCodeLE();
 
     let keysVal = this.updateForm.get('keys');    
     this.updateForm.get('kataKunci').setValue('');
@@ -529,7 +573,7 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   onChange(ele){    
-
+    console.log("WHEN");
     this.catCode = ele.refCode;
     this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);   
   }

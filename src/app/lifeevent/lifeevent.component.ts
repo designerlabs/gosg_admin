@@ -180,8 +180,8 @@ export class LifeeventComponent implements OnInit {
     this.getMinistry();
     this.getMinEventDate();
     
-    this.publish = new FormControl()
-    this.endD = new FormControl
+    this.publish = new FormControl();
+    this.endD = new FormControl ();
     this.parseEnBtn = false;
     this.parseMyBtn = false;
     this.parentsEn = new FormControl();
@@ -712,7 +712,7 @@ export class LifeeventComponent implements OnInit {
       appsEn = null;
       appsBm = null;
     }
-  
+
     // add form
     if(this.urlEdit === 'add'){
 
@@ -728,7 +728,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventCitizenFlag": false,
           "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
+          "lifeEventEndDate": null,   
+
           "language": {
             "languageId": 1
           },
