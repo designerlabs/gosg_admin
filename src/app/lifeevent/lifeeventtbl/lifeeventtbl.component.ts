@@ -57,7 +57,10 @@ export class LifeeventtblComponent implements OnInit {
   // sMinDate: any;
   // eMinDate: any;
   publish: FormControl
-  endD: FormControl
+  endD: FormControl  
+  disableSearch = false;
+  newPublishD: any;
+  newEndD: any;
 
   dataUrl: any;  
   public languageId: any;
@@ -83,9 +86,10 @@ export class LifeeventtblComponent implements OnInit {
   applyFilter(e) {
 
     this.nameStatus = this.updateForm.get('nameStatus').value;
+    let d = this.updateForm.get('publish').value;
  
     if(e){
-      this.getFilterList(this.pageCount, this.pageSize, e, this.nameStatus);
+      this.getFilterList(this.pageCount, this.pageSize, e, this.nameStatus, d);
     }
     else{
       this.getCategoryCodeLE();
@@ -101,9 +105,10 @@ export class LifeeventtblComponent implements OnInit {
   filterStatus(e){
 
     this.keywordVal = this.updateForm.get('kataKunci').value;
+    let d = this.updateForm.get('publish').value;
 
     if(this.keywordVal != ""){
-      this.getFilterList(this.pageCount, this.pageSize, this.keywordVal, e.value);
+      this.getFilterList(this.pageCount, this.pageSize, this.keywordVal, e.value, d);
     }
 
     else{
@@ -258,24 +263,49 @@ export class LifeeventtblComponent implements OnInit {
     let generalUrl = ""
 
     if(nameStatus == 1){
-      generalUrl = 'life/event/creator/state/all/';
+
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'life/event/creator/state/all/'+code;
+      }
+
+      else{
+        generalUrl = 'life/event/creator/state/all/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(nameStatus == 2){
-      generalUrl = 'life/event/creator/state/draft/';
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'life/event/creator/state/draft/'+code;
+      }
+
+      else{
+        generalUrl = 'life/event/creator/state/draft/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(nameStatus == 3){
-      generalUrl = 'life/event/creator/state/pending/';
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'life/event/creator/state/pending/'+code;
+      }
+
+      else{
+        generalUrl = 'life/event/creator/state/pending/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(nameStatus == 4){
-      generalUrl = 'life/event/creator/state/approved/';
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'life/event/creator/state/approved/'+code;
+      }
+
+      else{
+        generalUrl = 'life/event/creator/state/approved/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
     
     if(code != undefined){
       this.loading = true;
-      this.commonservice.readProtected(generalUrl+code, page, size).subscribe(
+      this.commonservice.readProtected(generalUrl, page, size).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
@@ -312,25 +342,47 @@ export class LifeeventtblComponent implements OnInit {
 
   }
 
-  getFilterList(page, size, e, valStatus) {  
+  getFilterList(page, size, e, valStatus, dateP) {  
 
     this.recordList = null;
     let generalUrl = "";
 
-    if(valStatus == 1){
+    if(valStatus == 1 && (dateP == undefined || dateP == null)){
+  
       generalUrl = 'life/event/creator/search/state/all';
     }
 
-    else if(valStatus == 2){
+    else if (valStatus == 1 && (dateP != undefined || dateP != null)){
+
+      generalUrl = 'life/event/creator/search/state/all/'+this.newPublishD+"/"+this.newEndD;      
+    }
+
+    else if(valStatus == 2 && (dateP == undefined || dateP == null)){
+      
       generalUrl = 'life/event/creator/search/state/draft';
     }
 
-    else if(valStatus == 3){
+    else if(valStatus == 2 && (dateP != undefined || dateP != null)){
+
+      generalUrl = 'life/event/creator/search/state/draft/'+this.newPublishD+"/"+this.newEndD;
+    }
+
+    else if(valStatus == 3 && (dateP == undefined || dateP == null)){
+      
       generalUrl = 'life/event/creator/search/state/pending';
     }
 
-    else if(valStatus == 4){
+    else if(valStatus == 3 && (dateP != undefined || dateP != null)){
+      generalUrl = 'life/event/creator/search/state/pending/'+this.newPublishD+"/"+this.newEndD;
+    }
+
+    else if(valStatus == 4 && (dateP == undefined || dateP == null)){
+     
       generalUrl = 'life/event/creator/search/state/approved';
+    }
+
+    else if(valStatus == 4 && (dateP != undefined || dateP != null)){
+      generalUrl = 'life/event/creator/search/state/approved/'+this.newPublishD+"/"+this.newEndD;
     }
 
     this.loading = true;
@@ -377,11 +429,16 @@ export class LifeeventtblComponent implements OnInit {
     this.publishdt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";    
 
-    if(this.publishdt>this.enddt || this.enddt == undefined){
+    if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       this.enddt = null;
+      this.disableSearch = true;
     }    
+
+    else{
+      this.disableSearch = false;
+    }
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
@@ -391,11 +448,74 @@ export class LifeeventtblComponent implements OnInit {
     this.enddt = new Date(this.events[0]).getTime();    
     this.dateFormatExample = ""; 
 
-    if(this.publishdt>this.enddt || this.enddt == undefined){
+    if(this.publishdt>this.enddt || this.publishdt == undefined || this.publishdt == null){
       this.publishdt = new Date(this.events[0]).getTime();
       this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
       this.publishdt = null;
+      this.disableSearch = true;
     }
+
+    else{
+      this.disableSearch = false;
+    }
+  }
+
+  search(){
+    let year, month, day;   
+    
+    let e = '';
+    
+    if(this.publishdt != undefined){
+      this.events = [];
+      var d = new Date(this.publishdt); 
+      this.events.push(`${d}`);
+
+      year = new Date(this.events[0]).getFullYear();
+      month = new Date(this.events[0]).getMonth()+1;
+      day = new Date(this.events[0]).getDate();
+
+      this.newPublishD = year+"-"+month+"-"+day;
+    }
+
+    if(this.enddt != undefined){
+    
+      this.events = [];
+      var d = new Date(this.enddt); 
+      this.events.push(`${d}`);
+
+      year = new Date(this.events[0]).getFullYear();
+      month = new Date(this.events[0]).getMonth()+1;
+      day = new Date(this.events[0]).getDate();
+      
+      this.newEndD = year+"-"+month+"-"+day;
+    }
+
+    this.nameStatus = this.updateForm.get('nameStatus').value;
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.newPublishD != undefined || this.newPublishD != null){
+      this.getFilterList(this.pageCount, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+
+    else if(this.newPublishD == undefined || this.newPublishD == null){
+      this.getCategoryCodeLE();
+    }
+
+    console.log("Publish: "+this.publishdt);
+    console.log("End: "+this.enddt);
+    console.log("NEW Publish: "+this.newPublishD);
+    console.log("NEW End: "+this.newEndD);
+    console.log(this.updateForm.get('publish').value);
+  }
+
+  clearDate() {
+    this.newPublishD = undefined;
+    this.newEndD = undefined;
+    this.publishdt = undefined;
+    this.enddt = undefined;
+    this.disableSearch = false;
+    this.updateForm.get('publish').setValue(null);
+    this.updateForm.get('endD').setValue(null);
   }
 
   paginatorL(page) {

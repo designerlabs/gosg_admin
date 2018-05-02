@@ -190,7 +190,7 @@ export class LifeeventpublisherComponent implements OnInit {
     this.getMinEventDate();
     
     this.publish = new FormControl()
-    this.endD = new FormControl
+    this.endD = new FormControl();
     // this.parseEnBtn = false;
     // this.parseMyBtn = false;
     this.parentsEn = new FormControl();
