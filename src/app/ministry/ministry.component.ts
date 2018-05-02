@@ -315,7 +315,7 @@ export class MinistryComponent implements OnInit {
         "ministryFacebook": null,
         "ministryFlickr": null,
         "ministryInstagram": null,
-        "ministryMdecStatus": null,
+        "ministryMdecstatus": false,
         "ministryRss": null,
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
@@ -339,7 +339,7 @@ export class MinistryComponent implements OnInit {
         "ministryFacebook": null,
         "ministryFlickr": null,
         "ministryInstagram": null,
-        "ministryMdecStatus": null,
+        "ministryMdecstatus": false,
         "ministryRss": null,
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
@@ -366,7 +366,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryFacebook = formValues.fbUrl;
     body[0].ministryFlickr = formValues.flickrUrl;
     body[0].ministryInstagram = formValues.instagramUrl;
-    body[0].ministryMdecStatus = formValues.mdecStatus;
+    body[0].ministryMdecstatus = formValues.mdecStatus;
     body[0].ministryRss = formValues.rssUrl;
     body[0].ministryTwitter = formValues.twitterUrl;
     body[0].ministryWebsiteUrl = formValues.websiteUrl;
@@ -386,7 +386,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryFacebook = formValues.fbUrl;
     body[1].ministryFlickr = formValues.flickrUrl;
     body[1].ministryInstagram = formValues.instagramUrl;
-    body[1].ministryMdecStatus = formValues.mdecStatus;
+    body[1].ministryMdecstatus = formValues.mdecStatus;
     body[1].ministryRss = formValues.rssUrl;
     body[1].ministryTwitter = formValues.twitterUrl;
     body[1].ministryWebsiteUrl = formValues.websiteUrl;
@@ -433,7 +433,7 @@ export class MinistryComponent implements OnInit {
         "ministryFacebook": null,
         "ministryFlickr": null,
         "ministryInstagram": null,
-        "ministryMdecStatus": null,
+        "ministryMdecstatus": false,
         "ministryRss": null,
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
@@ -459,7 +459,7 @@ export class MinistryComponent implements OnInit {
         "ministryFacebook": null,
         "ministryFlickr": null,
         "ministryInstagram": null,
-        "ministryMdecStatus": null,
+        "ministryMdecstatus": false,
         "ministryRss": null,
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
@@ -486,7 +486,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryFacebook = formValues.fbUrl;
     body[0].ministryFlickr = formValues.flickrUrl;
     body[0].ministryInstagram = formValues.instagramUrl;
-    body[0].ministryMdecStatus = formValues.mdecStatus;
+    body[0].ministryMdecstatus = formValues.mdecStatus;
     body[0].ministryRss = formValues.rssUrl;
     body[0].ministryTwitter = formValues.twitterUrl;
     body[0].ministryWebsiteUrl = formValues.websiteUrl;
@@ -508,7 +508,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryFacebook = formValues.fbUrl;
     body[1].ministryFlickr = formValues.flickrUrl;
     body[1].ministryInstagram = formValues.instagramUrl;
-    body[1].ministryMdecStatus = formValues.mdecStatus;
+    body[1].ministryMdecstatus = formValues.mdecStatus;
     body[1].ministryRss = formValues.rssUrl;
     body[1].ministryTwitter = formValues.twitterUrl;
     body[1].ministryWebsiteUrl = formValues.websiteUrl;
@@ -521,8 +521,8 @@ export class MinistryComponent implements OnInit {
       data => {
                     
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.added'), '');
-          this.router.navigate(['font']);
+          this.toastr.success(this.translate.instant('common.success.updated'), '');
+          this.router.navigate(['ministry']);
         }).bind(this));      
         this.loading = false;      
         this.router.navigate(['ministry']);
