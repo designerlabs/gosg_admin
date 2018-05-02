@@ -9,6 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-contenttbl',
@@ -49,6 +50,16 @@ export class ContenttblComponent implements OnInit {
   public categoryPlaceholder = "";
   public filterPlaceholder = "";
 
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;  
+  enddt: number;
+  publish: FormControl
+  endD: FormControl  
+  disableSearch = false;
+  newPublishD: any;
+  newEndD: any;
+
   dataUrl: any;  
   public languageId: any;
   leCategoryCode: any;
@@ -73,31 +84,33 @@ export class ContenttblComponent implements OnInit {
   applyFilter(e) {
 
     this.nameStatus = this.updateForm.get('nameStatus').value;
+    let d = this.updateForm.get('publish').value;
  
     if(e){
-      this.getFilterList(this.pageCount, this.pageSize, e, this.nameStatus);
+      this.getFilterListC(this.pageCount, this.pageSize, e, this.nameStatus, d);
     }
     else{
-      this.getCategoryCode();
+      this.getCategoryCodeC();
     }
   }
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
-    this.getCategoryCode();
+    this.getCategoryCodeC();
   }
 
   filterStatus(e){
 
     this.keywordVal = this.updateForm.get('kataKunci').value;
+    let d = this.updateForm.get('publish').value;
 
     if(this.keywordVal != ""){
-      this.getFilterList(this.pageCount, this.pageSize, this.keywordVal, e.value);
+      this.getFilterListC(this.pageCount, this.pageSize, this.keywordVal, e.value, d);
     }
 
     else{
-      this.getCategoryCode();
+      this.getCategoryCodeC();
     }
   }
 
@@ -119,10 +132,10 @@ export class ContenttblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getCategoryCode();
-              //this.getRecordList(this.pageCount, this.pageSize);
+              this.getCategoryCodeC();
+              //this.getRecordListC(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
-              this.getCategory();
+              this.getCategoryC();
               this.selectedItem = [];
               
             }
@@ -132,23 +145,25 @@ export class ContenttblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getRecordList(this.pageCount, this.pageSize);
+      //this.getRecordListC(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
-      this.getCategory();
+      this.getCategoryC();
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-    //this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordListC(this.pageCount, this.pageSize);
     
-    this.getCategoryCode();
+    this.getCategoryCodeC();
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl({disabled: true});
     this.keys = new FormControl();
     this.nameStatus = new FormControl();
     this.kataKunci = new FormControl({value: '', disabled: true});
+    this.publish = new FormControl();
+    this.endD = new FormControl ();
 
     this.updateForm = new FormGroup({   
       
@@ -156,16 +171,18 @@ export class ContenttblComponent implements OnInit {
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
       keys: this.keys,
-      kataKunci: this.kataKunci
+      kataKunci: this.kataKunci,
+      endD: this.endD,
+      publish: this.publish
     });
 
     this.updateForm.get('nameStatus').setValue(1);   
-    this.getCategory();
+    this.getCategoryC();
     this.valkey = false;
 
   }
 
-  getCategoryCode(){ 
+  getCategoryCodeC(){ 
 
     this.loading = true;
     return this.commonservice.readProtected('content/creator/dropdown/'+this.commonservice.contentCategoryCode)
@@ -218,7 +235,7 @@ export class ContenttblComponent implements OnInit {
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
 
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListC(this.pageCount, this.pageSize, this.catCode);
 
         }).bind(this));
         this.loading = false;
@@ -229,31 +246,55 @@ export class ContenttblComponent implements OnInit {
       });
   }
 
-  getRecordList(page, size, code) {  
+  getRecordListC(page, size, code) {  
   
     this.recordList = null;
     let nameStatus = this.updateForm.get('nameStatus').value;
     let generalUrl = ""
 
     if(nameStatus == 1){
-      generalUrl = 'content/creator/state/all/';
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'content/creator/state/all/'+code;
+      }
+
+      else{
+        generalUrl = 'content/creator/state/all/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(nameStatus == 2){
-      generalUrl = 'content/creator/state/draft/';
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'content/creator/state/draft/'+code;
+      }
+
+      else{
+        generalUrl = 'content/creator/state/draft/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(nameStatus == 3){
-      generalUrl = 'content/creator/state/pending/';
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'content/creator/state/pending/'+code;
+      }
+
+      else{
+        generalUrl = 'content/creator/state/pending/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(nameStatus == 4){
-      generalUrl = 'content/creator/state/approved/';
+      if(this.newPublishD == undefined || this.newPublishD == null){
+        generalUrl = 'content/creator/state/approved/'+code;
+      }
+
+      else{
+        generalUrl = 'content/creator/state/approved/'+code+"/"+this.newPublishD+"/"+this.newEndD;
+      }
     }
     
     if(code != undefined){
       this.loading = true;
-      this.commonservice.readProtected(generalUrl+code, page, size).subscribe(
+      this.commonservice.readProtected(generalUrl, page, size).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
@@ -290,25 +331,48 @@ export class ContenttblComponent implements OnInit {
 
   }
 
-  getFilterList(page, size, e, valStatus) {  
+  getFilterListC(page, size, e, valStatus, dateP) {  
 
     this.recordList = null;
     let generalUrl = "";
 
     if(valStatus == 1){
-      generalUrl = 'content/creator/search/state/all';
+      if(dateP == undefined || dateP == null){
+        generalUrl = 'content/creator/search/state/all';
+      }
+
+      else{
+        generalUrl = 'content/creator/search/state/all/'+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(valStatus == 2){
-      generalUrl = 'content/creator/search/state/draft';
+      if(dateP == undefined || dateP == null){
+        generalUrl = 'content/creator/search/state/draft';
+      }
+
+      else{
+        generalUrl = 'content/creator/search/state/draft/'+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(valStatus == 3){
-      generalUrl = 'content/creator/search/state/pending';
+      if(dateP == undefined || dateP == null){
+        generalUrl = 'content/creator/search/state/pending';
+      }
+
+      else{
+        generalUrl = 'content/creator/search/state/pending/'+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     else if(valStatus == 4){
-      generalUrl = 'content/creator/search/state/approved';
+      if(dateP == undefined || dateP == null){
+        generalUrl = 'content/creator/search/state/approved';
+      }
+      else{
+        generalUrl = 'content/creator/search/state/approved/'+this.newPublishD+"/"+this.newEndD;
+      }
     }
 
     this.loading = true;
@@ -348,8 +412,104 @@ export class ContenttblComponent implements OnInit {
 
   }
 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.publishdt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";    
+
+    if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
+      this.enddt = new Date(this.events[0]).getTime();
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      this.enddt = null;
+      this.disableSearch = true;
+    }    
+
+    else{
+      this.disableSearch = false;
+    }
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.enddt = new Date(this.events[0]).getTime();    
+    this.dateFormatExample = ""; 
+
+    if(this.publishdt>this.enddt || this.publishdt == undefined || this.publishdt == null){
+      this.publishdt = new Date(this.events[0]).getTime();
+      this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
+      this.publishdt = null;
+      this.disableSearch = true;
+    }
+
+    else{
+      this.disableSearch = false;
+    }
+  }
+
+  search(){
+    let year, month, day;   
+    
+    let e = '';
+    
+    if(this.publishdt != undefined){
+      this.events = [];
+      var d = new Date(this.publishdt); 
+      this.events.push(`${d}`);
+
+      year = new Date(this.events[0]).getFullYear();
+      month = new Date(this.events[0]).getMonth()+1;
+      day = new Date(this.events[0]).getDate();
+
+      this.newPublishD = year+"-"+month+"-"+day;
+    }
+
+    if(this.enddt != undefined){
+    
+      this.events = [];
+      var d = new Date(this.enddt); 
+      this.events.push(`${d}`);
+
+      year = new Date(this.events[0]).getFullYear();
+      month = new Date(this.events[0]).getMonth()+1;
+      day = new Date(this.events[0]).getDate();
+      
+      this.newEndD = year+"-"+month+"-"+day;
+    }
+
+    this.nameStatus = this.updateForm.get('nameStatus').value;
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.newPublishD != undefined || this.newPublishD != null){
+      this.getFilterListC(this.pageCount, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+
+    else if(this.newPublishD == undefined || this.newPublishD == null){
+      this.getCategoryCodeC();
+    }
+
+    console.log("Publish: "+this.publishdt);
+    console.log("End: "+this.enddt);
+    console.log("NEW Publish: "+this.newPublishD);
+    console.log("NEW End: "+this.newEndD);
+    console.log(this.updateForm.get('publish').value);
+  }
+
+  clearDate() {
+    this.newPublishD = undefined;
+    this.newEndD = undefined;
+    this.publishdt = undefined;
+    this.enddt = undefined;
+    this.disableSearch = false;
+    this.updateForm.get('publish').setValue(null);
+    this.updateForm.get('endD').setValue(null);
+  }
+
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize, this.catCode);
+    this.getRecordListC(page - 1, this.pageSize, this.catCode);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -359,7 +519,7 @@ export class ContenttblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize, this.catCode);
+    this.getRecordListC(page + 1, this.pageSize, this.catCode);
   }
 
   add() {
@@ -381,7 +541,7 @@ export class ContenttblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListC(this.pageCount, this.pageSize, this.catCode);
           this.selectedItem = [];
 
         }).bind(this)); 
@@ -401,12 +561,12 @@ export class ContenttblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value, this.catCode);
+    this.getRecordListC(this.pageCount, event.value, this.catCode);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
 
-  getCategory(){
+  getCategoryC(){
 
     this.loading = true;
     return this.commonservice.readProtected('content/creator/dropdown/'+this.commonservice.contentCategoryCode)
@@ -504,7 +664,7 @@ export class ContenttblComponent implements OnInit {
   keysFilter(){
 
     this.catCode = undefined;
-    this.getCategoryCode();
+    this.getCategoryCodeC();
 
     let keysVal = this.updateForm.get('keys');    
     this.updateForm.get('kataKunci').setValue('');
@@ -526,7 +686,7 @@ export class ContenttblComponent implements OnInit {
   onChange(ele){    
 
     this.catCode = ele.refCode;
-    this.getRecordList(this.pageCount, this.pageSize, this.catCode);   
+    this.getRecordListC(this.pageCount, this.pageSize, this.catCode);   
   }
 
   deleteAll(){
@@ -539,7 +699,7 @@ export class ContenttblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListC(this.pageCount, this.pageSize, this.catCode);  
 
       }).bind(this)); 
       this.selectedItem = [];

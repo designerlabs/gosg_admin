@@ -234,7 +234,8 @@
       "active": "Aktif",
       "darft": "Simpan Draf",
       "revert": "Guna Semula",
-      "approve": "Lulus"
+      "approve": "Lulus",
+      "search": "Carian"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
