@@ -116,7 +116,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <!-- <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label> -->
                         <mat-form-field class="example-full-width" >
                           <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
@@ -133,14 +133,13 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <!-- <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label> -->
                         <mat-form-field class="example-full-width">
                           <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
                           <input placeholder="{{ 'gallerytbl.endDt' | translate }}" [owlDateTime]="endD" 
-                          style="display: none;" matInput formControlName="endD" 
-                          #endD (dateTimeInput)="endEvent('input', $event)" 
-                          (dateTimeChange)="endEvent('change', $event)"/>
+                            style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" 
+                            (dateTimeChange)="endEvent('change', $event)"/>
                           <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
                             <button mat-button matSuffix mat-icon-button aria-label="Clear" 
                                 (click)="clearDate()" >
@@ -151,8 +150,10 @@
                     </div>
 
                     <div class="col-md-3 pdg_R_30px">
-                        <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" class="pull-right">
-                            <i [ngClass]="commonservice.icon.search"></i> {{'common.buttons.search' | translate}}</button>
+                        <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" 
+                            class="pull-right" style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
+                            <i [ngClass]="commonservice.icon.search"></i>
+                            <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
                     </div>
                 </div>
             </form>

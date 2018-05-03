@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4 pdg_L_30px"> 
+                    <div class="col-md-3 pdg_L_30px"> 
                         <mat-checkbox formControlName="keys" (change)="keysFilter()" ></mat-checkbox>
                         <mat-form-field>                        
                             <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
@@ -133,7 +133,7 @@
                         </mat-form-field>
                     </div>
     
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <!-- <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label> -->
                         <mat-form-field class="example-full-width">
                           <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
@@ -151,8 +151,10 @@
                     </div>
     
                     <div class="col-md-3 pdg_R_30px">
-                        <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" class="pull-right">
-                            <i [ngClass]="commonservice.icon.search"></i> {{'common.buttons.search' | translate}}</button>
+                        <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" 
+                            class="pull-right" style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
+                            <i [ngClass]="commonservice.icon.search"></i>
+                            <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
                     </div>
                 </div>               
                 
