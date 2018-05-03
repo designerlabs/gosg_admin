@@ -422,7 +422,7 @@ export class SliderpublishertblComponent implements OnInit {
     this.disableSearch = false;
     this.updateForm.get('publish').setValue(null);
     this.updateForm.get('endD').setValue(null);
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+    //this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
 
   paginatorL(page) {

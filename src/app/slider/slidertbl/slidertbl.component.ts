@@ -428,7 +428,7 @@ export class SlidertblComponent implements OnInit {
     this.updateForm.get('publish').setValue(null);
     this.updateForm.get('endD').setValue(null);
 
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+    //this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
 
   paginatorL(page) {
