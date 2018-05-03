@@ -264,6 +264,10 @@ mat-header-cell{
         background: red !important;
     }
 
+    .bg_blue{
+        background: blue !important;
+    }
+
     .bg_coral{
         background: darkred !important;
     }

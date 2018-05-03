@@ -11,6 +11,7 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
+
 @Component({
   selector: 'app-contenttbl',
   templateUrl: './contenttbl.component.html',
@@ -26,6 +27,7 @@ export class ContenttblComponent implements OnInit {
   public loading = false;
   recordList = null;
   displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
+  displayedColumnsH = ['name', 'actions', 'time'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -71,6 +73,9 @@ export class ContenttblComponent implements OnInit {
   recordTable = null;
   showNoData = false;
 
+  showHistory: any;
+  listHistory = null;
+
   //nameStatus=1;
   keywordVal="";
 
@@ -80,6 +85,7 @@ export class ContenttblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  dataSourceH = new MatTableDataSource<object>(this.listHistory);
 
   applyFilter(e) {
 
@@ -179,6 +185,8 @@ export class ContenttblComponent implements OnInit {
     this.updateForm.get('nameStatus').setValue(1);   
     this.getCategoryC();
     this.valkey = false;
+
+    this.showHistory = "Display History";
 
   }
 
@@ -710,6 +718,34 @@ export class ContenttblComponent implements OnInit {
         this.selectedItem = [];
         this.loading = false;
       });
+  }
+
+  detailHistory(id){
+    console.log("ID: "+id);
+    let test = 20075;
+   
+      this.loading = true;
+      this.commonservice.readProtected('content/history/'+test).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+    
+            this.listHistory = data;
+          
+            if(this.listHistory.list.length > 0){  
+              this.dataSourceH.data = this.listHistory.list;
+            }
+
+            console.log(this.listHistory);
+
+          }).bind(this)); 
+          this.loading = false;
+        },
+        error => {
+    
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        });
+    
   }
 
   isChecked(event) {

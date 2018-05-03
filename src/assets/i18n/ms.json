@@ -235,7 +235,8 @@
       "darft": "Simpan Draf",
       "revert": "Guna Semula",
       "approve": "Lulus",
-      "search": "Carian"
+      "search": "Carian",
+      "history": "Sejarah"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",

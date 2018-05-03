@@ -235,7 +235,8 @@
       "darft": "Save Draft",
       "revert": "Re-use",
       "approve": "Approve",
-      "search": "Search"
+      "search": "Search",
+      "history": "History"
     },
     "err":{
       "servicedown": "Sorry, Server is down",

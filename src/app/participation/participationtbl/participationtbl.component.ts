@@ -44,7 +44,6 @@ export class ParticipationtblComponent implements OnInit {
   keywordVal="";
   recordTable = null;
 
-  keywordVal="";
   public kataKunci: FormControl;
   public nameStatus: FormControl;
 
