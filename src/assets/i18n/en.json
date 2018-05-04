@@ -356,7 +356,8 @@
       "view": "View",
       "delete": "Delete",
       "update": "Update",
-      "archive": "Archive"
+      "archive": "Archive",
+      "history": "History"
     },
     "mdecstatus": "MDEC Status",
     "agency": "Agency",

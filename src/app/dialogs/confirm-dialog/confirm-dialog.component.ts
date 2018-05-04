@@ -27,6 +27,7 @@ export class ConfirmDialogComponent {
     @Input() isErrMsg?:string;
     @Input() isReset?:string;
     @Input() mailId?:string;
+    @Input() isHistory?:string;
     @Output()
     resetMethod:EventEmitter<string> = new EventEmitter();
     
@@ -47,6 +48,7 @@ export class ConfirmDialogComponent {
 
     confirm(data){
       this.router.navigate([data]);
+      console.log(data);
     };
 
     onSubmit() {

@@ -356,7 +356,8 @@
       "view": "Lihat",
       "delete": "Padam",
       "update": "Kemaskini",
-      "archive": "Arkib"
+      "archive": "Arkib",
+      "history": "Sejarah"
     },
     "mdecstatus": "Status MDEC",
     "agency": "Agensi",

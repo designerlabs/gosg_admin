@@ -249,7 +249,7 @@
                             <i [ngClass]="commonservice.icon.trash"></i>
                         </button>&nbsp;
                         <button mat-mini-fab class="bg_blue" 
-                            (click)="historyBoard.show()" title="{{ 'common.title.delete' | translate }} {{ element.refCode }}">
+                            (click)="historyBoard.show()" title="{{ 'common.title.history' | translate }} {{ element.refCode }}">
                             <i [ngClass]="commonservice.icon.history"></i>
                         </button>
                         <app-confirm-dialog  #delete
@@ -261,10 +261,10 @@
                         </app-confirm-dialog>
 
                         <app-confirm-dialog  #historyBoard
-                        [title]="'common.icon.warn'" 
+                        [title]="'common.title.history'" 
                         [content]="showHistory"
-                        [state]="'bg_header bg_warn_header'"
-                        [isReset]="'true'"
+                        [state]="'bg_header bg_success_header'"
+                        [isHistory]="'true'"
                         (resetMethod)="detailHistory(element.refCode)">
                         </app-confirm-dialog>
                     </mat-cell>

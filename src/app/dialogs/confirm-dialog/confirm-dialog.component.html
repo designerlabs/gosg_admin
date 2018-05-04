@@ -21,6 +21,8 @@ tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="tru
      
      <button *ngIf="isReset" type="button" class="btn btn-success" (click)="onSubmit($event)"><i class="fa fa-check"></i> {{'common.buttons.yes' | translate:param}}</button>
      <button *ngIf="isReset" type="button" class="btn btn-danger" (click)="hide()"><i class="fa fa-times"></i> {{'common.buttons.no' | translate:param}}</button>
+     <button *ngIf="isHistory" type="button" class="btn btn-danger" (click)="hide()"><i class="fa fa-times"></i> {{'common.buttons.no' | translate:param}}</button>
+     
 
    </div>
  </div>
