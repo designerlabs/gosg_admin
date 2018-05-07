@@ -62,22 +62,22 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Answer" formControlName="faqAEng" #faqAEng maxlength="100" 
-                        (keyup)="checkReqValues()" required>
+                        <textarea matInput placeholder="Answer" formControlName="faqAEng" #faqAEng maxlength="1000" 
+                        (keyup)="checkReqValues()" required></textarea>
                         <mat-error *ngIf="updateForm.controls.faqAEng.hasError('required')">
                                 Answer is required
                         </mat-error>
-                        <!-- <mat-hint align="end">{{faqAEng.value?.length || 0}}/100</mat-hint> -->
+                        <mat-hint align="end">{{faqAEng.value?.length || 0}}/1000</mat-hint>
                     </mat-form-field>
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width" >
-                        <input matInput placeholder="Jawapan" formControlName="faqAMy" #faqAMy maxlength="100" 
-                        (keyup)="checkReqValues()" required>
+                        <textarea matInput placeholder="Jawapan" formControlName="faqAMy" #faqAMy maxlength="1000" 
+                        (keyup)="checkReqValues()" required></textarea>
                         <mat-error *ngIf="updateForm.controls.faqAMy.hasError('required')">
                                 Jawapan diperlukan
                         </mat-error>
-                        <!-- <mat-hint align="end">{{faqAMy.value?.length || 0}}/100</mat-hint> -->
+                        <mat-hint align="end">{{faqAMy.value?.length || 0}}/1000</mat-hint>
                     </mat-form-field>
                 </div>
             </div>

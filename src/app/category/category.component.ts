@@ -57,6 +57,8 @@ export class CategoryComponent implements OnInit {
   public imageData: any;
   public getImgEn: any;
   public getImgdBm: any;
+  selectedFileEn = '';
+  selectedFileMy = '';
   public catCode: any;
   public loading = false;
 
@@ -163,30 +165,41 @@ export class CategoryComponent implements OnInit {
       this.getData();
     }
 
+    console.log("Image b4 set null: "+this.imageEn.value);
+
+    if(this.imageEn.value == null){
+      this.updateForm.get('imageEn').setValue(0);  
+      this.updateForm.get('imageBm').setValue(0);  
+    }
+
+    console.log("after set null: "+this.imageEn.value);
+
     this.commonservice.getModuleId();
 
     
   }
 
   selectedImage(e, val){
-
+    console.log(e);
     this.imageEn = e.value;
     this.imageBm = e.value;
-   
+    let dataList = this.imageData;
     let indexVal: any;
     let idBm: any;
     let idEn: any;   
 
-    console.log("EN: "+this.imageEn+" BM: "+this.imageBm+ " value: " +val);
-
+    
+    
     // if english
     if(val == 1){
 
     
-      for(let i=0; i<this.imageData.length; i++){
-        indexVal = this.imageData[i].list[0].mediaId;
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[0].mediaId;
         if(indexVal == this.imageEn){
-          idBm = this.imageData[i].list[1].mediaId;
+          idBm = dataList[i].list[1].mediaId;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
         }            
       }   
 
@@ -195,15 +208,22 @@ export class CategoryComponent implements OnInit {
 
     else{ //if malay
 
-      for(let i=0; i<this.imageData.length; i++){
-        indexVal = this.imageData[i].list[1].mediaId;
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[1].mediaId;
         if(indexVal == this.imageBm){
-          idBm = this.imageData[i].list[0].mediaId;
+          idEn = dataList[i].list[0].mediaId;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
         }        
       }
 
       this.updateForm.get('imageEn').setValue(idEn); 
     }
+
+    console.log("EN: "+idEn+" BM: "+idBm+ " value: " +val);
+    console.log("Onchange: "+this.selectedFileEn);
+    console.log(this.imageEn);
+    this.checkReqValues();
   }
 
   getCategory(){
@@ -371,11 +391,24 @@ export class CategoryComponent implements OnInit {
         this.getRefCode = this.recordList.list[0].refCode;
         this.catCode = this.recordList.list[0].categoryCode;
 
-        if(this.recordList.list[0].image != null){
+        let getObjKeys = Object.keys(this.recordList.list[0]);
+        let valMT = getObjKeys.filter(fmt => fmt === "image");
 
-          this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
-          this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
+        // if(this.recordList.list[0].image != null){
+
+        //   this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
+        //   this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
+        // }
+
+        if(valMT.length > 0){
+          this.selectedFileEn = this.recordList.list[0].image.mediaFile;
+          this.selectedFileMy = this.recordList.list[1].image.mediaFile;
+
+          this.updateForm.get('imageEn').setValue(parseInt(this.recordList.list[0].image.mediaId));
+          this.updateForm.get('imageBm').setValue(parseInt(this.recordList.list[1].image.mediaId));
         }
+        console.log("******************UPDATE*****************************");
+        console.log("EN: "+this.selectedFileEn+ " BM: "+this.selectedFileMy);
         
         // if(this.languageId == 1){
       
