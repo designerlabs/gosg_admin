@@ -181,16 +181,16 @@
             
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                    <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.list[0]?.contentTitle}}
                     </mat-cell>
                 </ng-container>
 
                 <!-- Url Column -->
                 <ng-container matColumnDef="url">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.list[1]?.contentTitle }}
                     </mat-cell>
                 </ng-container>

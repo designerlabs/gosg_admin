@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
@@ -9,6 +9,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
@@ -64,6 +65,7 @@ export class GallerypublishertblComponent implements OnInit {
   newPublishD: any;
   newEndD: any;
   valkey = false;
+  listHistory = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -108,7 +110,9 @@ export class GallerypublishertblComponent implements OnInit {
     private commonservice: CommonService, 
     private translate: TranslateService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialogsService: DialogsService,
+    public dialog: MatDialog,
   ) { 
     
     /* LANGUAGE FUNC */
@@ -628,6 +632,63 @@ export class GallerypublishertblComponent implements OnInit {
         this.selectedItem = [];
         this.loading = false;
       });
+  }
+
+  detailHistory(id){
+    console.log("ID: "+id);
+   
+      this.loading = true;
+      this.commonservice.readProtected('content/history/'+id).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+    
+            this.listHistory = data;
+            let config = new MatDialogConfig();
+            config.width = '800px';
+            config.height = '600px';
+            let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+
+            let displayTilte = "";
+            if(this.languageId == 1){
+              displayTilte = "<h3>HISTORY</h3>"
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Name</td>';
+              displayTilte += '<td width="20%">Activity</td>';
+              displayTilte += '<td width="40%">Time</td></tr>';    
+            }else{
+              displayTilte = "<h3>SEJARAH</h3>";
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Nama</td>';
+              displayTilte += '<td width="20%">Aktiviti</td>';
+              displayTilte += '<td width="40%">Masa</td></tr>';    
+            }
+            let display: any;                  
+
+            for(let i=0; i<this.listHistory.list.length; i++){
+
+              let newDate = new Date(this.listHistory.list[i].revisionDate);
+              displayTilte += '<tr><td>'+this.listHistory.list[i].user.firstName;
+              displayTilte += '<br>('+this.listHistory.list[i].user.email+')</td>';
+              displayTilte += '<td>'+this.listHistory.list[i].type+'</td>';
+              displayTilte += '<td>'+newDate+'</td></tr>';
+            }
+
+            displayTilte += '</table>';
+
+            dialogRef.componentInstance.content =  `${displayTilte}`;
+            display = dialogRef.componentInstance.content;
+          
+            // if(this.listHistory.list.length > 0){  
+            //   this.dataSourceH.data = this.listHistory.list;
+            // }
+
+          }).bind(this)); 
+          this.loading = false;
+        },
+        error => {
+    
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        });
+    
   }
 
 }
