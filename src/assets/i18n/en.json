@@ -296,7 +296,11 @@
         "default": "Default",
         "icno": "IC No.",
         "bm": "BM",
-        "en": "EN"
+        "en": "EN",
+        "name": "Name",
+        "email": "Email",
+        "activity": "Activity",
+        "time": "Time"
     },
     "tableBottom": {
         "page": "Page",

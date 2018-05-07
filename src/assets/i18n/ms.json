@@ -296,7 +296,11 @@
         "default": "Default",
         "icno": "No. KP",
         "bm": "BM",
-        "en": "EN"
+        "en": "EN",
+        "name": "Nama",
+        "email": "Email",
+        "activity": "Aktiviti",
+        "time": "Masa"
     },
     "tableBottom": {
         "page": "Halaman",

@@ -1,17 +1,14 @@
 <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static', keyboard: false}"
 tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <!-- <div class="modal-dialog modal-md"> -->
-  <div class="modal-dialog" [ngClass]="{'modal-lg':isHistory, 'modal-md':!isHistory}">
+  <div class="modal-dialog modal-md">
+  <!-- <div class="modal-dialog" [ngClass]="{'modal-lg':isHistory, 'modal-md':!isHistory}"> -->
     <div class="modal-content">
 
       <div class="{{state | translate:param}}">
         <h2 class="modal-title text-center"><i class='{{title | translate:param}}'></i></h2>
-          <!-- <span *ngIf="isHistory" (click)="hide()">
-            <i class="fa fa-times pull-right"></i> 
-          </span> -->
-          <button *ngIf="isHistory" mat-button matSuffix mat-icon-button (click)="hide()" class="pull-right">
+          <!-- <button *ngIf="isHistory" mat-button matSuffix mat-icon-button (click)="hide()" class="pull-right">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
       </div>
 
       <div class="modal-body">

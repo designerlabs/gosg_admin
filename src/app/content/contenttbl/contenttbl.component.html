@@ -249,7 +249,7 @@
                             <i [ngClass]="commonservice.icon.trash"></i>
                         </button>&nbsp;
                         <button mat-mini-fab class="bg_blue" 
-                            (click)="historyBoard.show()" title="{{ 'common.title.history' | translate }} {{ element.refCode }}">
+                            (click)="detailHistory(element.list[0].contentId)" title="{{ 'common.title.history' | translate }} {{ element.list[0].contentId }}">
                             <i [ngClass]="commonservice.icon.history"></i>
                         </button>
                         <app-confirm-dialog  #delete
@@ -260,13 +260,13 @@
                         (resetMethod)="deleteRow(element.refCode)">
                         </app-confirm-dialog>
 
-                        <app-confirm-dialog  #historyBoard
+                        <!-- <app-confirm-dialog  #historyBoard
                         [title]="'common.buttons.history'" 
                         [content]="showHistory"
                         [state]="'bg_header bg_success_header'"
                         [isHistory]="'true'"
                         (resetMethod)="detailHistory(element.refCode)">
-                        </app-confirm-dialog>
+                        </app-confirm-dialog> -->
                     </mat-cell>
                 </ng-container>
             
@@ -276,34 +276,32 @@
 
             <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
 
-            <!-- <mat-table #table2 [dataSource]="dataSourceH">           
-            
-                  
+            <mat-table #table2 [dataSource]="dataSourceH">           
                     <ng-container matColumnDef="names">
-                        <mat-header-cell class="text-align-left cbox" *matHeaderCellDef>Try</mat-header-cell>
-                        <mat-cell class="text-align-left cbox"  *matCellDef="let element; let i = index;">
-                            kkk
+                        <mat-header-cell class="text-align-left" style="flex: 0 0 60%;" *matHeaderCellDef> {{ 'common.tableHeader.name' | translate }}</mat-header-cell>
+                        <mat-cell class="text-align-left" style="flex: 0 0 60%;" *matCellDef="let element; let i = index;">
+                            {{element.user.firstName }}<br>({{element.user.email}})
                         </mat-cell>
                     </ng-container>
     
                     <ng-container matColumnDef="actions">
-                        <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-                        <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-                            hhh
+                        <mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'common.tableHeader.activity' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element; let i = index;">
+                            {{element.type }}
                         </mat-cell>
                     </ng-container>
                 
                     
                     <ng-container matColumnDef="time">
-                        <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
-                        <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
-                            yyy
+                        <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'common.tableHeader.time' | translate }} </mat-header-cell>
+                        <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
+                            {{element.revisionDate }}
                         </mat-cell>
                     </ng-container> 
                 
                     <mat-header-row *matHeaderRowDef="displayedColumnsH"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumnsH;"></mat-row>
-            </mat-table> -->
+            </mat-table>
 
             
         </div>

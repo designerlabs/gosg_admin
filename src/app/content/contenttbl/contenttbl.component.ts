@@ -4,11 +4,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
 import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 
@@ -127,6 +128,7 @@ export class ContenttblComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
+    public dialog: MatDialog,
     public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
@@ -725,11 +727,28 @@ export class ContenttblComponent implements OnInit {
     let test = 20075;
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+test).subscribe(
+      this.commonservice.readProtected('content/history/'+id).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
             this.listHistory = data;
+
+            let config = new MatDialogConfig();
+            config.width = '800px';
+            config.height = '600px';
+            let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+
+            let ok = "lllllllllllll";
+            let display: any;
+            // let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
+            // let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
+            // let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
+            // let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
+            // let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
+            // let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+
+            dialogRef.componentInstance.content = ok;
+            display = dialogRef.componentInstance.content;
           
             if(this.listHistory.list.length > 0){  
               this.dataSourceH.data = this.listHistory.list;
