@@ -1,31 +1,40 @@
 <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'static', keyboard: false}"
 tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-md">
-<div class="modal-content">
- <div class="{{state | translate:param}}">
-   <h2 class="modal-title text-center"><i class='{{title | translate:param}}'></i></h2>
- </div>
- <div class="modal-body">
-    <span *ngIf="isRegister">
-          <div style="font-weight:bold;"> {{content | translate:param}}</div>
-    </span>
+  <!-- <div class="modal-dialog modal-md"> -->
+  <div class="modal-dialog" [ngClass]="{'modal-lg':isHistory, 'modal-md':!isHistory}">
+    <div class="modal-content">
 
-    <span *ngIf="isErrMsg">
-      <div style="font-weight:bold;" [innerHTML]="content"></div>
-    </span>
-    <span *ngIf="!isErrMsg">{{content | translate:param}} </span>
-    <div class="modal-body text-center">
-     <button  *ngIf="isRegister" type="button" class="btn btn-success" (click)="hide()"><i class="fa fa-check"></i> {{'common.buttons.ok' | translate:param}}</button>
-     <button  *ngIf="isErrMsg" type="button" class="btn btn-success" (click)="hide()"><i class="fa fa-check"></i> {{'common.buttons.ok' | translate:param}}</button>
-     <button *ngIf="link" type="button" class="btn btn-default" (click)="confirm(link)" >{{'common.buttons.yes' | translate:param}}</button>
-     
-     <button *ngIf="isReset" type="button" class="btn btn-success" (click)="onSubmit($event)"><i class="fa fa-check"></i> {{'common.buttons.yes' | translate:param}}</button>
-     <button *ngIf="isReset" type="button" class="btn btn-danger" (click)="hide()"><i class="fa fa-times"></i> {{'common.buttons.no' | translate:param}}</button>
-     <button *ngIf="isHistory" type="button" class="btn btn-danger" (click)="hide()"><i class="fa fa-times"></i> {{'common.buttons.no' | translate:param}}</button>
-     
+      <div class="{{state | translate:param}}">
+        <h2 class="modal-title text-center"><i class='{{title | translate:param}}'></i></h2>
+          <!-- <span *ngIf="isHistory" (click)="hide()">
+            <i class="fa fa-times pull-right"></i> 
+          </span> -->
+          <button *ngIf="isHistory" mat-button matSuffix mat-icon-button (click)="hide()" class="pull-right">
+            <mat-icon>close</mat-icon>
+          </button>
+      </div>
 
-   </div>
- </div>
-</div>
-</div>
+      <div class="modal-body">
+          <span *ngIf="isRegister">
+                <div style="font-weight:bold;"> {{content | translate:param}}</div>
+          </span>
+
+          <span *ngIf="isErrMsg">
+            <div style="font-weight:bold;" [innerHTML]="content"></div>
+          </span>
+
+          <span *ngIf="!isErrMsg">{{content | translate:param}} </span>
+          <div class="modal-body text-center">
+            <button  *ngIf="isRegister" type="button" class="btn btn-success" (click)="hide()"><i class="fa fa-check"></i> {{'common.buttons.ok' | translate:param}}</button>
+            <button  *ngIf="isErrMsg" type="button" class="btn btn-success" (click)="hide()"><i class="fa fa-check"></i> {{'common.buttons.ok' | translate:param}}</button>
+            <button *ngIf="link" type="button" class="btn btn-default" (click)="confirm(link)" >{{'common.buttons.yes' | translate:param}}</button>
+            
+            <button *ngIf="isReset" type="button" class="btn btn-success" (click)="onSubmit($event)"><i class="fa fa-check"></i> {{'common.buttons.yes' | translate:param}}</button>
+            <button *ngIf="isReset" type="button" class="btn btn-danger" (click)="hide()"><i class="fa fa-times"></i> {{'common.buttons.no' | translate:param}}</button>
+            
+
+          </div>
+      </div>
+    </div>
+  </div>
 </div>

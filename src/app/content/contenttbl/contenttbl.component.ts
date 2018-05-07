@@ -27,7 +27,7 @@ export class ContenttblComponent implements OnInit {
   public loading = false;
   recordList = null;
   displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
-  displayedColumnsH = ['name', 'actions', 'time'];
+  displayedColumnsH = ['names', 'actions', 'time'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
