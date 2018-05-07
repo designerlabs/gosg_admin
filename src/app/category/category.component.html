@@ -112,7 +112,7 @@
                         </mat-select> 
                     </mat-form-field>
 
-                    <div *ngIf="imageEn.value != 0">
+                    <div *ngIf="selectedFileMy != ''">
                         <img [src]="appConfig.externalMediaURL +'/images/'+ selectedFileEn" style="width:200px">
                     </div> 
                 </div>
@@ -126,7 +126,7 @@
                         </mat-select>
                     </mat-form-field>
 
-                    <div *ngIf="imageEn.value != 0">
+                    <div *ngIf="selectedFileMy != ''">
                         <img [src]="appConfig.externalMediaURL +'/images/'+ selectedFileMy" style="width:200px">
                     </div> 
                 </div>

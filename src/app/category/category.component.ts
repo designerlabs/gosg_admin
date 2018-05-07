@@ -165,18 +165,7 @@ export class CategoryComponent implements OnInit {
       this.getData();
     }
 
-    console.log("Image b4 set null: "+this.imageEn.value);
-
-    if(this.imageEn.value == null){
-      this.updateForm.get('imageEn').setValue(0);  
-      this.updateForm.get('imageBm').setValue(0);  
-    }
-
-    console.log("after set null: "+this.imageEn.value);
-
-    this.commonservice.getModuleId();
-
-    
+    this.commonservice.getModuleId();    
   }
 
   selectedImage(e, val){
@@ -186,13 +175,10 @@ export class CategoryComponent implements OnInit {
     let dataList = this.imageData;
     let indexVal: any;
     let idBm: any;
-    let idEn: any;   
-
-    
+    let idEn: any;       
     
     // if english
     if(val == 1){
-
     
       for(let i=0; i<dataList.length; i++){
         indexVal = dataList[i].list[0].mediaId;
@@ -220,9 +206,15 @@ export class CategoryComponent implements OnInit {
       this.updateForm.get('imageEn').setValue(idEn); 
     }
 
+    if(e.value == 0){
+      this.selectedFileMy = '';
+      this.selectedFileEn = '';
+    }
+
     console.log("EN: "+idEn+" BM: "+idBm+ " value: " +val);
     console.log("Onchange: "+this.selectedFileEn);
-    console.log(this.imageEn);
+    console.log("apa: "+this.imageEn);
+    
     this.checkReqValues();
   }
 
