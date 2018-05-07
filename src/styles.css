@@ -265,7 +265,7 @@ mat-header-cell{
     }
 
     .bg_blue{
-        background: blue !important;
+        background: #0c5460 !important;
     }
 
     .bg_coral{
@@ -402,3 +402,9 @@ mat-header-cell{
     }
     
 }
+
+.tableHistory{
+    background: #0c5460 !important;
+    color: white !important;
+  
+  }

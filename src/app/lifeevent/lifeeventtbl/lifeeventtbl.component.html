@@ -167,16 +167,16 @@
             
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                    <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.list[0]?.contentTitle}}
                     </mat-cell>
                 </ng-container>
 
                 <!-- Url Column -->
                 <ng-container matColumnDef="url">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.list[1]?.contentTitle }}
                     </mat-cell>
                 </ng-container>
@@ -247,7 +247,17 @@
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
                             [disabled]="element.list[0].isSendForApproval == true" (click)="delete.show()">  
                             <i [ngClass]="commonservice.icon.trash"></i>
+                        </button>&nbsp;
+
+                        <button mat-mini-fab class="bg_blue" *ngIf="languageId == 1" 
+                            (click)="detailHistory(element.list[0]?.contentId)" title="{{ 'common.title.history' | translate }} {{ element.list[0]?.contentId }}">
+                            <i [ngClass]="commonservice.icon.history"></i>
                         </button>
+                        <button mat-mini-fab class="bg_blue" *ngIf="languageId == 2" 
+                            (click)="detailHistory(element.list[1]?.contentId)" title="{{ 'common.title.history' | translate }} {{ element.list[1]?.contentId }}">
+                            <i [ngClass]="commonservice.icon.history"></i>
+                        </button>
+
                         <app-confirm-dialog  #delete
                         [title]="'common.icon.warn'" 
                         [content]="'common.msg.delete'"

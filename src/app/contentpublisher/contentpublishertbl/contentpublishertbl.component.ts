@@ -4,11 +4,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
 import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
@@ -72,6 +73,8 @@ export class ContentpublishertblComponent implements OnInit {
   recordTable = null;
   showNoData = false;
 
+  listHistory = null;
+
   //nameStatus=1;
   keywordVal="";
 
@@ -121,6 +124,7 @@ export class ContentpublishertblComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
+    public dialog: MatDialog,
     public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
@@ -825,6 +829,63 @@ export class ContentpublishertblComponent implements OnInit {
         this.selectedItem = [];
         this.loading = false;
       });
+  }
+
+  detailHistory(id){
+    console.log("ID: "+id);
+   
+      this.loading = true;
+      this.commonservice.readProtected('content/history/'+id).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+    
+            this.listHistory = data;
+            let config = new MatDialogConfig();
+            config.width = '800px';
+            config.height = '600px';
+            let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+
+            let displayTilte = "";
+            if(this.languageId == 1){
+              displayTilte = "<h3>HISTORY</h3>"
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Name</td>';
+              displayTilte += '<td width="20%">Activity</td>';
+              displayTilte += '<td width="40%">Time</td></tr>';    
+            }else{
+              displayTilte = "<h3>SEJARAH</h3>";
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Nama</td>';
+              displayTilte += '<td width="20%">Aktiviti</td>';
+              displayTilte += '<td width="40%">Masa</td></tr>';    
+            }
+            let display: any;                  
+
+            for(let i=0; i<this.listHistory.list.length; i++){
+
+              let newDate = new Date(this.listHistory.list[i].revisionDate);
+              displayTilte += '<tr><td>'+this.listHistory.list[i].user.firstName;
+              displayTilte += '<br>('+this.listHistory.list[i].user.email+')</td>';
+              displayTilte += '<td>'+this.listHistory.list[i].type+'</td>';
+              displayTilte += '<td>'+newDate+'</td></tr>';
+            }
+
+            displayTilte += '</table>';
+
+            dialogRef.componentInstance.content =  `${displayTilte}`;
+            display = dialogRef.componentInstance.content;
+          
+            // if(this.listHistory.list.length > 0){  
+            //   this.dataSourceH.data = this.listHistory.list;
+            // }
+
+          }).bind(this)); 
+          this.loading = false;
+        },
+        error => {
+    
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        });
+    
   }
 
 }

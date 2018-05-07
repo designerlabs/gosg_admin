@@ -74,7 +74,6 @@ export class ContenttblComponent implements OnInit {
   recordTable = null;
   showNoData = false;
 
-  showHistory: any;
   listHistory = null;
 
   //nameStatus=1;
@@ -187,9 +186,6 @@ export class ContenttblComponent implements OnInit {
     this.updateForm.get('nameStatus').setValue(1);   
     this.getCategoryC();
     this.valkey = false;
-
-    this.showHistory = "Display History";
-
   }
 
   getCategoryCodeC(){ 
@@ -308,7 +304,7 @@ export class ContenttblComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
     
-            this.recordList = data;
+            this.recordList = data;         
           
             if(this.recordList.list.length > 0){  
               this.dataSource.data = this.recordList.list;
@@ -724,7 +720,6 @@ export class ContenttblComponent implements OnInit {
 
   detailHistory(id){
     console.log("ID: "+id);
-    let test = 20075;
    
       this.loading = true;
       this.commonservice.readProtected('content/history/'+id).subscribe(
@@ -732,29 +727,68 @@ export class ContenttblComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
     
             this.listHistory = data;
-
             let config = new MatDialogConfig();
             config.width = '800px';
             config.height = '600px';
             let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
 
-            let ok = "lllllllllllll";
-            let display: any;
-            // let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
-            // let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
-            // let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
-            // let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
-            // let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
-            // let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+            let displayTilte = "";
+            if(this.languageId == 1){
+              displayTilte = "<h3>HISTORY</h3>"
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Name</td>';
+              displayTilte += '<td width="20%">Activity</td>';
+              displayTilte += '<td width="40%">Time</td></tr>';    
+            }else{
+              displayTilte = "<h3>SEJARAH</h3>";
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Nama</td>';
+              displayTilte += '<td width="20%">Aktiviti</td>';
+              displayTilte += '<td width="40%">Masa</td></tr>';    
+            }
+            let display: any;                  
 
-            dialogRef.componentInstance.content = ok;
+            for(let i=0; i<this.listHistory.list.length; i++){
+
+              let newDate = new Date(this.listHistory.list[i].revisionDate);
+              displayTilte += '<tr><td>'+this.listHistory.list[i].user.firstName;
+              displayTilte += '<br>('+this.listHistory.list[i].user.email+')</td>';
+              displayTilte += '<td>'+this.listHistory.list[i].type+'</td>';
+              displayTilte += '<td>'+newDate+'</td></tr>';
+            }
+
+            displayTilte += '</table>';
+
+            // displayTilte += '<mat-table #table2 [dataSource]="dataSourceH">';          
+            // displayTilte += '<ng-container matColumnDef="names">';
+            // displayTilte += '<mat-header-cell class="text-align-left" style="flex: 0 0 60%;" *matHeaderCellDef> {{ "common.tableHeader.name" | translate }}</mat-header-cell>';
+            // displayTilte += '<mat-cell class="text-align-left" style="flex: 0 0 60%;" *matCellDef="let element; let i = index;">';
+            // displayTilte += '{{element.user.firstName }}<br>({{element.user.email}})';
+            // displayTilte += '</mat-cell>';
+            // displayTilte += '</ng-container>';
+            // displayTilte += '<ng-container matColumnDef="actions">';
+            // displayTilte += '<mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ "common.tableHeader.activity" | translate }} </mat-header-cell>';
+            // displayTilte += '<mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element; let i = index;">';
+            // displayTilte += '{{element.type }}';
+            // displayTilte += '</mat-cell>';
+            // displayTilte += '</ng-container>';
+        
+            
+            // displayTilte += '<ng-container matColumnDef="time">';
+            // displayTilte += '<mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ "common.tableHeader.time" | translate }} </mat-header-cell>';
+            // displayTilte += '<mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">';
+            // displayTilte += '{{element.revisionDate }}';
+            // displayTilte += '</mat-cell>';
+            // displayTilte += '</ng-container> ';
+        
+            // displayTilte += '<mat-header-row *matHeaderRowDef="displayedColumnsH"></mat-header-row>';
+            // displayTilte += '<mat-row *matRowDef="let row; columns: displayedColumnsH;"></mat-row>';
+            // displayTilte += '</mat-table>';
+
+            dialogRef.componentInstance.content =  `${displayTilte}`;
             display = dialogRef.componentInstance.content;
           
             if(this.listHistory.list.length > 0){  
               this.dataSourceH.data = this.listHistory.list;
             }
-
-            console.log(this.listHistory);
 
           }).bind(this)); 
           this.loading = false;
