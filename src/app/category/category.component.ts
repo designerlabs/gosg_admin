@@ -492,7 +492,7 @@ export class CategoryComponent implements OnInit {
 
   getImageList(){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article')
+    this.commonservice.readProtected('media/category/name/Article','1', '99999')
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){
