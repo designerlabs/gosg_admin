@@ -126,8 +126,13 @@ export class FaqComponent implements OnInit {
         this.updateForm.get('faqQMy').setValue(this.recordList.faqList[1].faqQuestion);
         this.updateForm.get('faqAMy').setValue(this.recordList.faqList[1].faqAnswer);
 
-        // this.updateForm.get('seqEng').setValue(this.recordList.faqList[0].faqSort);
-        // this.updateForm.get('seqMy').setValue(this.recordList.faqList[1].faqSort);
+        let getObjKeys = Object.keys(this.recordList.faqList[0]);
+        let valMT = getObjKeys.filter(fmt => fmt === "faqSort");
+
+        if(valMT.length > 0){
+          this.updateForm.get('seqEng').setValue(this.recordList.faqList[0].faqSort);
+          this.updateForm.get('seqMy').setValue(this.recordList.faqList[1].faqSort);
+        }
         
         this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
         this.getFaqIdEng = this.recordList.faqList[0].faqId;
