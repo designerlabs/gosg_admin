@@ -83,6 +83,19 @@
             </div>
 
             <div class="example-header">
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width" >
+                        <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                    <mat-form-field class="example-full-width" >
+                        <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="example-header">
                 <div class="col-md-12">
                     <mat-checkbox class="example-full-width font-size-s" formControlName="active" tabindex="13">{{ 'common.buttons.active' | translate }}</mat-checkbox>
                 </div>

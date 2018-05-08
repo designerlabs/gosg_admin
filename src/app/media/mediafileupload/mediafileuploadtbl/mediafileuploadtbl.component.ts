@@ -210,7 +210,15 @@ export class MediafileuploadtblComponent implements OnInit {
   }
   
   paginatorL(page) {    
-    this.getMediaList(page - 1, this.PageSize);
+    //this.getMediaList(page - 1, this.PageSize);
+    if(this.cateSelect !== "0" ){
+      this.getMediaList(page - 1, this.PageSize, "byCateId", this.cateSelect); 
+    } else if(this.fileName.length>0){
+      this.getMediaList(page - 1, this.PageSize, "byFileName", this.fileName); 
+    }else {
+      this.getMediaList(page - 1, this.PageSize);
+    }  
+
     this.noPrevData = page <= 2 ? true : false; 
     this.noNextData = false;
   }
@@ -219,8 +227,17 @@ export class MediafileuploadtblComponent implements OnInit {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
+
+    console.log(this.cateSelect);
     // this.noNextData = pageInc === totalPages;
-    this.getMediaList(pageInc , this.PageSize);
+    //this.getMediaList(pageInc , this.PageSize);
+    if(this.cateSelect !== "0" ){
+      this.getMediaList(pageInc, this.PageSize, "byCateId", this.cateSelect); 
+    } else if(this.fileName.length>0){
+      this.getMediaList(pageInc, this.PageSize, "byFileName", this.fileName); 
+    }else {
+      this.getMediaList(pageInc, this.PageSize);
+    }  
   }
 
   pageChange(event, totalPages) {
