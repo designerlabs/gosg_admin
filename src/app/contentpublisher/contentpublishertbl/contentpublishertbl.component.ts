@@ -130,6 +130,7 @@ export class ContentpublishertblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
+        
         this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
@@ -137,12 +138,11 @@ export class ContentpublishertblComponent implements OnInit {
               this.lang = val.languageCode;
               this.languageId = val.languageId;
               this.getCategoryCodeCP();
-              //this.getRecordListCP(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-              this.getCategoryCP();
+              this.getCategoryCP();         
               this.archiveId = [];
               this.arrStatus = [];
               this.selectedItem = [];
+              this.commonservice.getModuleId();
               
             }
           }.bind(this));
@@ -151,9 +151,8 @@ export class ContentpublishertblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getRecordListCP(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
-      this.getCategoryCP();
+      //this.getCategoryCP();
     }
     /* LANGUAGE FUNC */
   }

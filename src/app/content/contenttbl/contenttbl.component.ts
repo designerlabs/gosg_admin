@@ -23,7 +23,7 @@ import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-
 export class ContenttblComponent implements OnInit {
 
   selectedItem = [];
-
+  
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
@@ -133,18 +133,20 @@ export class ContenttblComponent implements OnInit {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
+        console.log("Languange: "+this.languageId);
+        console.log("Languange2: "+translate.currentLang);
         this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
+          
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getCategoryCodeC();
-              //this.getRecordListC(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
+              this.getCategoryCodeC();              
               this.getCategoryC();
-              this.selectedItem = [];
-              
+              this.selectedItem = [];         
+              this.commonservice.getModuleId();     
+              console.log("Languange3: "+this.languageId);
             }
           }.bind(this));
         })
@@ -152,15 +154,16 @@ export class ContenttblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getRecordListC(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
+      
+      this.getCategoryCodeC();              
       this.getCategoryC();
+      this.selectedItem = []; 
+      this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-    //this.getRecordListC(this.pageCount, this.pageSize);
     
     this.getCategoryCodeC();
     this.commonservice.getModuleId();
