@@ -178,45 +178,6 @@
             </div>
           </div>
   
-          <!-- PUBLISHING -->
-          <div class="row paddingTop-20">
-              <div class="col-md-12">
-                <label class="">{{ 'common.publishing.header' | translate }}</label>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <input matInput tabindex="13" placeholder="{{ 'common.publishing.publicationUrl' | translate }}" formControlName="publicationUrl" (change)="checkReqValues()" >
-                  <mat-error *ngIf="updateForm.controls.publicationUrl.hasError('required')">
-                    {{ 'common.publishing.publicationUrl' | translate }} {{ 'common.isrequired' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <input matInput tabindex="14" placeholder="{{ 'common.publishing.website' | translate }}" formControlName="websiteUrl" (change)="checkReqValues()" >
-                  <mat-error *ngIf="updateForm.controls.websiteUrl.hasError('required')">
-                    {{ 'common.publishing.website' | translate }} {{ 'common.isrequired' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <input matInput tabindex="15" placeholder="{{ 'common.publishing.rss' | translate }}" formControlName="rssUrl" (change)="checkReqValues()">
-                  <mat-error *ngIf="updateForm.controls.rssUrl.hasError('required')">
-                    {{ 'common.publishing.rss' | translate }} {{ 'common.isrequired' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="col-md-6">
-                <mat-form-field class="example-full-width">
-                  <input matInput tabindex="16" placeholder="{{ 'common.publishing.blog' | translate }}" formControlName="blogUrl" (change)="checkReqValues()">
-                  <mat-error *ngIf="updateForm.controls.blogUrl.hasError('required')">
-                    {{ 'common.publishing.blog' | translate }} {{ 'common.isrequired' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-  
         <!-- PUBLISHING -->
         <div class="row paddingTop-20">
             <div class="col-md-12">
