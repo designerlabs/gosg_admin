@@ -40,14 +40,14 @@
                 <ng-container matColumnDef="faqEng">
                     <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'faq.tableHeader.questionEn' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" *matCellDef="let element">
-                        {{element.list[0].facQuestion}}
+                        {{element.list[0].faqQuestion}}
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="faqMy">
                     <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'faq.tableHeader.questionBm' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-left" *matCellDef="let element">
-                        {{element.list[1].facQuestion}}
+                        {{element.list[1].faqQuestion}}
                     </mat-cell>
                 </ng-container>
                 <!-- status Column -->

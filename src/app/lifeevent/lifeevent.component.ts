@@ -1700,7 +1700,7 @@ export class LifeeventComponent implements OnInit {
     <button mat-fab color="warn" (click)="dialogRef.close()"><i class="fa fa-times"></i></button>
   </div>
   
-  <div mat-dialog-content>
+  <div mat-dialog-content style='min-width:100%;'>
   <div [innerHTML]="content">
   </div>
 </div>

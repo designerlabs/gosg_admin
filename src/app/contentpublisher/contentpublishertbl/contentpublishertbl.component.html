@@ -116,7 +116,7 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <!-- <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label> -->
                         <mat-form-field class="example-full-width" >
                           <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
@@ -133,14 +133,13 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <!-- <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label> -->
                         <mat-form-field class="example-full-width">
                           <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
                           <input placeholder="{{ 'gallerytbl.endDt' | translate }}" [owlDateTime]="endD" 
-                          style="display: none;" matInput formControlName="endD" 
-                          #endD (dateTimeInput)="endEvent('input', $event)" 
-                          (dateTimeChange)="endEvent('change', $event)"/>
+                            style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" 
+                            (dateTimeChange)="endEvent('change', $event)"/>
                           <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
                             <button mat-button matSuffix mat-icon-button aria-label="Clear" 
                                 (click)="clearDate()" >
@@ -151,8 +150,10 @@
                     </div>
 
                     <div class="col-md-3 pdg_R_30px">
-                        <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" class="pull-right">
-                            <i [ngClass]="commonservice.icon.search"></i> {{'common.buttons.search' | translate}}</button>
+                        <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" 
+                            class="pull-right" style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
+                            <i [ngClass]="commonservice.icon.search"></i>
+                            <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
                     </div>
                 </div>
             </form>
@@ -180,16 +181,16 @@
             
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">
-                    <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleEn' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.list[0]?.contentTitle}}
                     </mat-cell>
                 </ng-container>
 
                 <!-- Url Column -->
                 <ng-container matColumnDef="url">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.titleBm' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.list[1]?.contentTitle }}
                     </mat-cell>
                 </ng-container>
@@ -248,6 +249,8 @@
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
+                            <!-- <i *ngIf="commonservice.isUpdate" 
+                                [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }} {{ element.refCode }}" ></i> -->
                             <i *ngIf="commonservice.isUpdate && element.list[0].isApprovedFlag == false" 
                                 [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }} {{ element.refCode }}" ></i>
                             <i *ngIf="!commonservice.isUpdate || element.list[0].isApprovedFlag == true" 
@@ -261,11 +264,21 @@
                         <button mat-mini-fab class="bg_coral" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
                         (click)="archiveRow.show()" title="{{ 'common.title.archive' | translate }} {{ element.refCode }}">
                             <i [ngClass]="commonservice.icon.archive"></i>
-                        </button>
+                        </button> &nbsp;
                         <!-- <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
                             [disabled]="element.list[0].isApprovedFlag == true">  
                             <i [ngClass]="commonservice.icon.trash"></i>
                         </button> -->
+
+                        <button mat-mini-fab class="bg_blue" *ngIf="languageId == 1" 
+                            (click)="detailHistory(element.list[0]?.contentId)" title="{{ 'common.title.history' | translate }} {{ element.list[0]?.contentId }}">
+                            <i [ngClass]="commonservice.icon.history"></i>
+                        </button>
+                        <button mat-mini-fab class="bg_blue" *ngIf="languageId == 2" 
+                            (click)="detailHistory(element.list[1]?.contentId)" title="{{ 'common.title.history' | translate }} {{ element.list[1]?.contentId }}">
+                            <i [ngClass]="commonservice.icon.history"></i>
+                        </button>
+
                         <app-confirm-dialog  #delete
                             [title]="'common.icon.warn'" 
                             [content]="'common.msg.delete'"

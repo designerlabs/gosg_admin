@@ -60,7 +60,7 @@
           </div>
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryEn (click)="getSearchData(ministryEn.value, 1)" (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
+                <input matInput tabindex="5" placeholder="Ministry" formControlName="ministryEn" #ministryEn (keyup)="getSearchData(ministryEn.value, 1)" (keyup)="getSearchData(ministryEn.value, 1)" (change)="checkReqValues()" required>
                 <mat-error *ngIf="updateForm.controls.ministryEn.hasError('required')">
                   Ministry is required
                 </mat-error>
@@ -76,7 +76,7 @@
           </div>
           <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="6" placeholder="Kementerian" formControlName="ministryBm" #ministryBm (click)="getSearchData(ministryBm.value, 2)" (keyup)="getSearchData(ministryBm.value, 2)" (change)="checkReqValues()" required>
+                <input matInput tabindex="6" placeholder="Kementerian" formControlName="ministryBm" #ministryBm (keyup)="getSearchData(ministryBm.value, 2)" (keyup)="getSearchData(ministryBm.value, 2)" (change)="checkReqValues()" required>
                 <mat-error *ngIf="updateForm.controls.ministryBm.hasError('required')">
                   Kementerian diperlukan
                 </mat-error>
@@ -92,7 +92,7 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width font-size-s">
-              <input matInput placeholder="{{ 'agency.uniquecode' | translate }}" formControlName="uniqueCode" #UniqueCode (change)="checkReqValues()"
+              <input matInput placeholder="{{ 'agency.uniquecode' | translate }}" formControlName="uniqueCode" #UniqueCode (keyup)="checkReqValues()"
                 required>
               <mat-error *ngIf="updateForm.controls.uniqueCode.hasError('required')">
                 {{ 'agency.uniquecode' | translate }} {{ 'common.isrequired' | translate }}
@@ -143,7 +143,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="9" placeholder="{{ 'common.contact.person' | translate }}" formControlName="contactperson" (change)="checkReqValues()" required>
+                <input matInput tabindex="9" placeholder="{{ 'common.contact.person' | translate }}" formControlName="contactperson" (keyup)="checkReqValues()" required>
                 <mat-error *ngIf="updateForm.controls.contactperson.hasError('required')">
                   {{ 'common.contact.person' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -151,7 +151,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="10" placeholder="{{ 'common.email' | translate }}" formControlName="email" (change)="checkReqValues()" required>
+                <input matInput tabindex="10" placeholder="{{ 'common.email' | translate }}" formControlName="email" (keyup)="checkReqValues()" required>
                 <mat-error *ngIf="updateForm.controls.email.hasError('required')">
                   {{ 'common.email' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -162,7 +162,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="11" placeholder="{{ 'common.contact.phone' | translate }}" formControlName="phoneno" #phoneno [textMask]="{mask: maskPhoneNo}" (change)="checkReqValues()" required>
+                <input matInput tabindex="11" placeholder="{{ 'common.contact.phone' | translate }}" formControlName="phoneno" #phoneno [textMask]="{mask: maskPhoneNo}" (keyup)="checkReqValues()" required>
                 <mat-error *ngIf="updateForm.controls.phoneno.hasError('required')">
                   {{ 'common.contact.phone' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -170,7 +170,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="12" placeholder="{{ 'common.contact.fax' | translate }}" formControlName="faxno" #faxno [textMask]="{mask: maskFaxNo}" (change)="checkReqValues()">
+                <input matInput tabindex="12" placeholder="{{ 'common.contact.fax' | translate }}" formControlName="faxno" #faxno [textMask]="{mask: maskFaxNo}" (keyup)="checkReqValues()">
                 <mat-error *ngIf="updateForm.controls.faxno.hasError('required')">
                   {{ 'common.contact.fax' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -263,7 +263,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="13" placeholder="{{ 'common.publishing.ePartUrl' | translate }}" formControlName="ePartUrl" (change)="checkReqValues()" >
+                <input matInput tabindex="17" placeholder="{{ 'common.publishing.ePartUrl' | translate }}" formControlName="ePartUrl" (change)="checkReqValues()" >
                 <mat-error *ngIf="updateForm.controls.ePartUrl.hasError('required')">
                   {{ 'common.publishing.ePartUrl' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -271,7 +271,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="14" placeholder="{{ 'common.publishing.ePartArchiveUrl' | translate }}" formControlName="ePartArchiveUrl" (change)="checkReqValues()" >
+                <input matInput tabindex="18" placeholder="{{ 'common.publishing.ePartArchiveUrl' | translate }}" formControlName="ePartArchiveUrl" (change)="checkReqValues()" >
                 <mat-error *ngIf="updateForm.controls.ePartArchiveUrl.hasError('required')">
                   {{ 'common.publishing.ePartArchiveUrl' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -279,7 +279,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="15" placeholder="{{ 'common.publishing.ePartPolicyUrl' | translate }}" formControlName="ePartPolicyUrl" (change)="checkReqValues()">
+                <input matInput tabindex="19" placeholder="{{ 'common.publishing.ePartPolicyUrl' | translate }}" formControlName="ePartPolicyUrl" (change)="checkReqValues()">
                 <mat-error *ngIf="updateForm.controls.ePartPolicyUrl.hasError('required')">
                   {{ 'common.publishing.ePartPolicyUrl' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -295,7 +295,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="17" placeholder="{{ 'common.socmed.facebook' | translate }}" formControlName="fbUrl" (change)="checkReqValues()">
+                <input matInput tabindex="20" placeholder="{{ 'common.socmed.facebook' | translate }}" formControlName="fbUrl" (change)="checkReqValues()">
                 <mat-error *ngIf="updateForm.controls.fbUrl.hasError('required')">
                   {{ 'common.socmed.facebook' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -303,7 +303,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="17" placeholder="{{ 'common.socmed.twitter' | translate }}" formControlName="twitterUrl" (change)="checkReqValues()">
+                <input matInput tabindex="21" placeholder="{{ 'common.socmed.twitter' | translate }}" formControlName="twitterUrl" (keyup)="checkReqValues()">
                 <mat-error *ngIf="updateForm.controls.twitterUrl.hasError('required')">
                   {{ 'common.socmed.twitter' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -311,7 +311,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="18" placeholder="{{ 'common.socmed.youtube' | translate }}" formControlName="youtubeUrl" (change)="checkReqValues()">
+                <input matInput tabindex="22" placeholder="{{ 'common.socmed.youtube' | translate }}" formControlName="youtubeUrl" (keyup)="checkReqValues()">
                 <mat-error *ngIf="updateForm.controls.youtubeUrl.hasError('required')">
                   {{ 'common.socmed.youtube' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -319,7 +319,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="19" placeholder="{{ 'common.socmed.instagram' | translate }}" formControlName="instagramUrl" (change)="checkReqValues()">
+                <input matInput tabindex="23" placeholder="{{ 'common.socmed.instagram' | translate }}" formControlName="instagramUrl" (keyup)="checkReqValues()">
                 <mat-error *ngIf="updateForm.controls.instagramUrl.hasError('required')">
                   {{ 'common.socmed.instagram' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -327,7 +327,7 @@
             </div>
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="20" placeholder="{{ 'common.socmed.flickr' | translate }}" formControlName="flickrUrl" (change)="checkReqValues()">
+                <input matInput tabindex="24" placeholder="{{ 'common.socmed.flickr' | translate }}" formControlName="flickrUrl" (keyup)="checkReqValues()">
                 <mat-error *ngIf="updateForm.controls.flickrUrl.hasError('required')">
                   {{ 'common.socmed.flickr' | translate }} {{ 'common.isrequired' | translate }}
                 </mat-error>
@@ -337,11 +337,11 @@
   
         <div class="row paddingTop-20">
           <div class="col-md-6">
-            <mat-checkbox tabindex="21" formControlName="active" [checked]="true"></mat-checkbox>
+            <mat-checkbox tabindex="25" formControlName="active" [checked]="true"></mat-checkbox>
             <span>&nbsp;{{ 'common.buttons.active' | translate }}</span>
           </div>
           <div class="col-md-6">
-            <mat-checkbox tabindex="22" formControlName="mdecStatus"></mat-checkbox>
+            <mat-checkbox tabindex="26" formControlName="mdecStatus"></mat-checkbox>
             <span>&nbsp;{{ 'common.mdecstatus' | translate }}</span>
           </div>
         </div>

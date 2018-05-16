@@ -26,6 +26,8 @@ export class FaqComponent implements OnInit {
   public faqAEng: FormControl;
   public faqAMy: FormControl;
   public active: FormControl;
+  seqEng: FormControl
+  seqMy: FormControl
 
   public dataUrl: any;  
   public recordList: any;
@@ -73,6 +75,8 @@ export class FaqComponent implements OnInit {
     this.faqAEng = new FormControl();
     this.faqAMy = new FormControl();
     this.active = new FormControl();
+    this.seqEng = new FormControl();
+    this.seqMy = new FormControl();
 
     this.updateForm = new FormGroup({   
 
@@ -81,6 +85,8 @@ export class FaqComponent implements OnInit {
       faqAEng: this.faqAEng,
       faqAMy: this.faqAMy,
       active: this.active,      
+      seqEng: this.seqEng,
+      seqMy: this.seqMy
     });     
     
     this.urlEdit = this.router.url.split('/')[2];
@@ -113,12 +119,20 @@ export class FaqComponent implements OnInit {
 
         console.log(data);
 
-        this.updateForm.get('faqQEng').setValue(this.recordList.faqList[0].facQuestion);
-        this.updateForm.get('faqAEng').setValue(this.recordList.faqList[0].facAnswer);
+        this.updateForm.get('faqQEng').setValue(this.recordList.faqList[0].faqQuestion);
+        this.updateForm.get('faqAEng').setValue(this.recordList.faqList[0].faqAnswer);
         this.updateForm.get('active').setValue(this.recordList.faqList[0].faqActiveFlag);
 
-        this.updateForm.get('faqQMy').setValue(this.recordList.faqList[1].facQuestion);
-        this.updateForm.get('faqAMy').setValue(this.recordList.faqList[1].facAnswer);
+        this.updateForm.get('faqQMy').setValue(this.recordList.faqList[1].faqQuestion);
+        this.updateForm.get('faqAMy').setValue(this.recordList.faqList[1].faqAnswer);
+
+        let getObjKeys = Object.keys(this.recordList.faqList[0]);
+        let valMT = getObjKeys.filter(fmt => fmt === "faqSort");
+
+        if(valMT.length > 0){
+          this.updateForm.get('seqEng').setValue(this.recordList.faqList[0].faqSort);
+          this.updateForm.get('seqMy').setValue(this.recordList.faqList[1].faqSort);
+        }
         
         this.getFaqCodeEng = this.recordList.faqList[0].faqCode;
         this.getFaqIdEng = this.recordList.faqList[0].faqId;
@@ -153,18 +167,20 @@ export class FaqComponent implements OnInit {
       let body = [
         {
           "faqActiveFlag": false,
-          "facQuestion": null,
-          "facAnswer": null,
-          "facCode": null,
+          "faqQuestion": null,
+          "faqAnswer": null,
+          "faqCode": null,
+          "faqSort": null,
           "language": {
               "languageId": null
           }
         },
         {
           "faqActiveFlag": false,
-          "facQuestion": null,
-          "facAnswer": null,
-          "facCode": null,
+          "faqQuestion": null,
+          "faqAnswer": null,
+          "faqCode": null,
+          "faqSort": null,
           "language": {
               "languageId": null
           }
@@ -172,15 +188,17 @@ export class FaqComponent implements OnInit {
       ]   
  
       body[0].faqActiveFlag = formValues.active;
-      body[0].facQuestion = formValues.faqQEng;
-      body[0].facAnswer = formValues.faqAEng;
-      body[0].facCode = this.getFaqCodeEng;
+      body[0].faqQuestion = formValues.faqQEng;
+      body[0].faqAnswer = formValues.faqAEng;
+      body[0].faqCode = this.getFaqCodeEng;
+      body[0].faqSort = formValues.seqEng;
       body[0].language.languageId = 1;
 
       body[1].faqActiveFlag = formValues.active;
-      body[1].facQuestion = formValues.faqQMy;
-      body[1].facAnswer = formValues.faqAMy;
-      body[1].facCode = this.getFaqCodeMy;
+      body[1].faqQuestion = formValues.faqQMy;
+      body[1].faqAnswer = formValues.faqAMy;
+      body[1].faqCode = this.getFaqCodeMy;
+      body[1].faqSort = formValues.seqMy;
       body[1].language.languageId = 2;
 
       console.log(body);
@@ -211,8 +229,9 @@ export class FaqComponent implements OnInit {
           "faqId": null,
           "faqCode": null,
           "faqActiveFlag": false,
-          "facQuestion": null,
-          "facAnswer": null,
+          "faqQuestion": null,
+          "faqAnswer": null,
+          "faqSort": null,
           "language": {
               "languageId": null
           }
@@ -221,8 +240,9 @@ export class FaqComponent implements OnInit {
           "faqId": null,
           "faqCode": null,
           "faqActiveFlag": false,
-          "facQuestion": null,
-          "facAnswer": null,
+          "faqQuestion": null,
+          "faqAnswer": null,
+          "faqSort": null,
           "language": {
               "languageId": null
           }
@@ -230,16 +250,18 @@ export class FaqComponent implements OnInit {
       ]    
 
       body[0].faqId = this.getFaqIdEng;
-      body[0].facQuestion = formValues.faqQEng;
-      body[0].facAnswer = formValues.faqAEng;
+      body[0].faqQuestion = formValues.faqQEng;
+      body[0].faqAnswer = formValues.faqAEng;
       body[0].faqCode = this.getFaqCodeMy;
+      body[0].faqSort = formValues.seqEng;
       body[0].language.languageId = 1;
       body[0].faqActiveFlag = formValues.active;
 
       body[1].faqId = this.getFaqIdMy;
-      body[1].facQuestion = formValues.faqQMy; 
-      body[1].facAnswer = formValues.faqAMy; 
+      body[1].faqQuestion = formValues.faqQMy; 
+      body[1].faqAnswer = formValues.faqAMy; 
       body[1].faqCode = this.getFaqCodeEng; 
+      body[1].faqSort = formValues.seqMy;
       body[1].language.languageId = 2;
       body[1].faqActiveFlag = formValues.active;
 
@@ -298,6 +320,31 @@ export class FaqComponent implements OnInit {
 
     this.updateForm.reset();
     this.checkReqValues(); 
+  }
+
+  copyValue(type) {
+    let elemOne = this.updateForm.get('seqEng');
+    let elemTwo = this.updateForm.get('seqMy');
+
+    if (type == 1)
+      elemTwo.setValue(elemOne.value)
+    else
+      elemOne.setValue(elemTwo.value)
+
+    this.stripspaces(elemOne)
+    this.stripspaces(elemTwo)
+
+  }
+  stripspaces(input) {
+    if (input.value != null) {
+      let word = input.value.toString();
+      input.value = word.replace(/\s/gi, "");
+      return true;
+    }
+    else {
+      return false;
+    }
+
   }
 
 }

@@ -582,7 +582,7 @@ export class AgencyComponent implements OnInit {
       body[1].agencyYoutube = formValues.youtubeUrl;
       body[1].agencyMinistry.ministryId = this.ministryIdBm;
   
-      console.log(body)
+      console.log(JSON.stringify(body));
 
     // Add Agency Service
     this.loading = true;

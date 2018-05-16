@@ -571,6 +571,7 @@ export class ContentpublisherComponent implements OnInit {
         this.getRefCode = this.recordList.refCode;
 
         if(dataEn.isApprovedFlag == true){
+          //this.appPublisher = true;
           this.appPublisher = false;
           this.approve.disable();
           this.parentsEn.disable();

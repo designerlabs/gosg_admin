@@ -235,7 +235,8 @@
       "darft": "Save Draft",
       "revert": "Re-use",
       "approve": "Approve",
-      "search": "Search"
+      "search": "Search",
+      "history": "History"
     },
     "err":{
       "servicedown": "Sorry, Server is down",
@@ -295,7 +296,11 @@
         "default": "Default",
         "icno": "IC No.",
         "bm": "BM",
-        "en": "EN"
+        "en": "EN",
+        "name": "Name",
+        "email": "Email",
+        "activity": "Activity",
+        "time": "Time"
     },
     "tableBottom": {
         "page": "Page",
@@ -359,7 +364,8 @@
       "view": "View",
       "delete": "Delete",
       "update": "Update",
-      "archive": "Archive"
+      "archive": "Archive",
+      "history": "History"
     },
     "mdecstatus": "MDEC Status",
     "agency": "Agency",

@@ -75,7 +75,8 @@ export class CommonService {
     refresh: 'fa fa-refresh',
     view: 'fa fa-eye',
     archive: 'fa fa-archive',
-    search: 'fa fa-search'
+    search: 'fa fa-search',
+    history: 'fa fa-history'
   }
 
   pageSize =  [

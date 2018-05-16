@@ -4,12 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
 import { CommonService } from './../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+
 
 @Component({
   selector: 'app-contenttbl',
@@ -21,11 +23,12 @@ import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-
 export class ContenttblComponent implements OnInit {
 
   selectedItem = [];
-
+  
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
   displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
+  displayedColumnsH = ['names', 'actions', 'time'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -71,6 +74,8 @@ export class ContenttblComponent implements OnInit {
   recordTable = null;
   showNoData = false;
 
+  listHistory = null;
+
   //nameStatus=1;
   keywordVal="";
 
@@ -80,6 +85,7 @@ export class ContenttblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  dataSourceH = new MatTableDataSource<object>(this.listHistory);
 
   applyFilter(e) {
 
@@ -121,23 +127,26 @@ export class ContenttblComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
+    public dialog: MatDialog,
     public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
+        console.log("Languange: "+this.languageId);
+        console.log("Languange2: "+translate.currentLang);
         this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
           let myLangData =  getLang.filter(function(val) {
+          
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getCategoryCodeC();
-              //this.getRecordListC(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
+              this.getCategoryCodeC();              
               this.getCategoryC();
-              this.selectedItem = [];
-              
+              this.selectedItem = [];         
+              this.commonservice.getModuleId();     
+              console.log("Languange3: "+this.languageId);
             }
           }.bind(this));
         })
@@ -145,15 +154,16 @@ export class ContenttblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      //this.getRecordListC(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
+      
+      this.getCategoryCodeC();              
       this.getCategoryC();
+      this.selectedItem = []; 
+      this.commonservice.getModuleId();
     }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-    //this.getRecordListC(this.pageCount, this.pageSize);
     
     this.getCategoryCodeC();
     this.commonservice.getModuleId();
@@ -179,7 +189,6 @@ export class ContenttblComponent implements OnInit {
     this.updateForm.get('nameStatus').setValue(1);   
     this.getCategoryC();
     this.valkey = false;
-
   }
 
   getCategoryCodeC(){ 
@@ -298,7 +307,7 @@ export class ContenttblComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
     
-            this.recordList = data;
+            this.recordList = data;         
           
             if(this.recordList.list.length > 0){  
               this.dataSource.data = this.recordList.list;
@@ -710,6 +719,89 @@ export class ContenttblComponent implements OnInit {
         this.selectedItem = [];
         this.loading = false;
       });
+  }
+
+  detailHistory(id){
+    console.log("ID: "+id);
+   
+      this.loading = true;
+      this.commonservice.readProtected('content/history/'+id).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+    
+            this.listHistory = data;
+            let config = new MatDialogConfig();
+            config.width = '800px';
+            config.height = '600px';
+            let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+
+            let displayTilte = "";
+            if(this.languageId == 1){
+              displayTilte = "<h3>HISTORY</h3>"
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Name</td>';
+              displayTilte += '<td width="20%">Activity</td>';
+              displayTilte += '<td width="40%">Time</td></tr>';    
+            }else{
+              displayTilte = "<h3>SEJARAH</h3>";
+              displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Nama</td>';
+              displayTilte += '<td width="20%">Aktiviti</td>';
+              displayTilte += '<td width="40%">Masa</td></tr>';    
+            }
+            let display: any;                  
+
+            for(let i=0; i<this.listHistory.list.length; i++){
+
+              let newDate = new Date(this.listHistory.list[i].revisionDate);
+              displayTilte += '<tr><td>'+this.listHistory.list[i].user.firstName;
+              displayTilte += '<br>('+this.listHistory.list[i].user.email+')</td>';
+              displayTilte += '<td>'+this.listHistory.list[i].type+'</td>';
+              displayTilte += '<td>'+newDate+'</td></tr>';
+            }
+
+            displayTilte += '</table>';
+
+            // displayTilte += '<mat-table #table2 [dataSource]="dataSourceH">';          
+            // displayTilte += '<ng-container matColumnDef="names">';
+            // displayTilte += '<mat-header-cell class="text-align-left" style="flex: 0 0 60%;" *matHeaderCellDef> {{ "common.tableHeader.name" | translate }}</mat-header-cell>';
+            // displayTilte += '<mat-cell class="text-align-left" style="flex: 0 0 60%;" *matCellDef="let element; let i = index;">';
+            // displayTilte += '{{element.user.firstName }}<br>({{element.user.email}})';
+            // displayTilte += '</mat-cell>';
+            // displayTilte += '</ng-container>';
+            // displayTilte += '<ng-container matColumnDef="actions">';
+            // displayTilte += '<mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ "common.tableHeader.activity" | translate }} </mat-header-cell>';
+            // displayTilte += '<mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element; let i = index;">';
+            // displayTilte += '{{element.type }}';
+            // displayTilte += '</mat-cell>';
+            // displayTilte += '</ng-container>';
+        
+            
+            // displayTilte += '<ng-container matColumnDef="time">';
+            // displayTilte += '<mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ "common.tableHeader.time" | translate }} </mat-header-cell>';
+            // displayTilte += '<mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">';
+            // displayTilte += '{{element.revisionDate }}';
+            // displayTilte += '</mat-cell>';
+            // displayTilte += '</ng-container> ';
+        
+            // displayTilte += '<mat-header-row *matHeaderRowDef="displayedColumnsH"></mat-header-row>';
+            // displayTilte += '<mat-row *matRowDef="let row; columns: displayedColumnsH;"></mat-row>';
+            // displayTilte += '</mat-table>';
+
+            dialogRef.componentInstance.content =  `${displayTilte}`;
+            display = dialogRef.componentInstance.content;
+          
+            if(this.listHistory.list.length > 0){  
+              this.dataSourceH.data = this.listHistory.list;
+            }
+
+          }).bind(this)); 
+          this.loading = false;
+        },
+        error => {
+    
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        });
+    
   }
 
   isChecked(event) {

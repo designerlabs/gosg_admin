@@ -235,7 +235,8 @@
       "darft": "Simpan Draf",
       "revert": "Guna Semula",
       "approve": "Lulus",
-      "search": "Carian"
+      "search": "Carian",
+      "history": "Sejarah"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
@@ -295,7 +296,11 @@
         "default": "Default",
         "icno": "No. KP",
         "bm": "BM",
-        "en": "EN"
+        "en": "EN",
+        "name": "Nama",
+        "email": "Email",
+        "activity": "Aktiviti",
+        "time": "Masa"
     },
     "tableBottom": {
         "page": "Halaman",
@@ -359,7 +364,8 @@
       "view": "Lihat",
       "delete": "Padam",
       "update": "Kemaskini",
-      "archive": "Arkib"
+      "archive": "Arkib",
+      "history": "Sejarah"
     },
     "mdecstatus": "Status MDEC",
     "agency": "Agensi",
