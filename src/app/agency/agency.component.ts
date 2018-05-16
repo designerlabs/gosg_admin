@@ -69,6 +69,10 @@ export class AgencyComponent implements OnInit {
   instagramUrl: FormControl
   twitterUrl: FormControl
   youtubeUrl: FormControl
+  publicationUrl: FormControl
+  ePartUrl: FormControl
+  ePartArchiveUrl: FormControl
+  ePartPolicyUrl: FormControl
   mdecStatus: FormControl
   ministryEn: FormControl
   ministryBm: FormControl
@@ -146,6 +150,10 @@ export class AgencyComponent implements OnInit {
     this.instagramUrl = new FormControl()
     this.twitterUrl = new FormControl()
     this.flickrUrl = new FormControl()
+    this.publicationUrl = new FormControl()
+    this.ePartUrl = new FormControl()
+    this.ePartArchiveUrl = new FormControl()
+    this.ePartPolicyUrl = new FormControl()
     this.mdecStatus = new FormControl()
     this.ministryEn = new FormControl()
     this.ministryBm = new FormControl()
@@ -171,6 +179,10 @@ export class AgencyComponent implements OnInit {
       instagramUrl: this.instagramUrl,
       twitterUrl: this.twitterUrl,
       flickrUrl: this.flickrUrl,
+      publicationUrl: this.flickrUrl,
+      ePartUrl: this.flickrUrl,
+      ePartArchiveUrl: this.flickrUrl,
+      ePartPolicyUrl: this.flickrUrl,
       active: this.active,
       mdecStatus: this.mdecStatus,
       ministryEn: this.ministryEn,
@@ -255,6 +267,10 @@ export class AgencyComponent implements OnInit {
           this.updateForm.get('email').setValue(dataBm.agencyEmail);
           this.updateForm.get('contactperson').setValue(dataBm.agencyContactPerson);
           this.updateForm.get('websiteUrl').setValue(dataBm.agencyWebsiteUrl);
+          this.updateForm.get('publicationUrl').setValue(dataBm.agencyPublicationUrl);
+          this.updateForm.get('ePartUrl').setValue(dataBm.agencyEparticipationUrl);
+          this.updateForm.get('ePartArchiveUrl').setValue(dataBm.agencyEparticipationArchiveUrl);
+          this.updateForm.get('ePartPolicyUrl').setValue(dataBm.agencyEparticipationPolicyUrl);
           this.updateForm.get('rssUrl').setValue(dataBm.agencyRss);
           this.updateForm.get('youtubeUrl').setValue(dataBm.agencyYoutube);
           this.updateForm.get('twitterUrl').setValue(dataBm.agencyTwitter);
@@ -465,7 +481,11 @@ export class AgencyComponent implements OnInit {
           "agencyMdecStatus": null,
           "agencyRss": null,
           "agencyTwitter": null,
-          "agencyWebsiteUrl": null,
+          "agencyWebsiteUrl": null, 
+          "agencyPublicationUrl": null, 
+          "agencyEparticipationArchiveUrl": null, 
+          "agencyEparticipationPolicyUrl": null, 
+          "agencyEparticipationUrl": null, 
           "agencyYoutube": null,
           "language": {
             "languageId": 1
@@ -494,6 +514,10 @@ export class AgencyComponent implements OnInit {
           "agencyRss": null,
           "agencyTwitter": null,
           "agencyWebsiteUrl": null,
+          "agencyPublicationUrl": null, 
+          "agencyEparticipationArchiveUrl": null, 
+          "agencyEparticipationPolicyUrl": null, 
+          "agencyEparticipationUrl": null, 
           "agencyYoutube": null,
           "language": {
             "languageId": 2
@@ -504,7 +528,7 @@ export class AgencyComponent implements OnInit {
         }
       ];
     
-      // console.log(formValues)
+      // console.log(formValues)    ePartPolicyUrl
   
       body[0].agencyName = formValues.agencyNameEn;
       body[0].agencyDescription = formValues.descEn;
@@ -525,6 +549,10 @@ export class AgencyComponent implements OnInit {
       body[0].agencyRss = formValues.rssUrl;
       body[0].agencyTwitter = formValues.twitterUrl;
       body[0].agencyWebsiteUrl = formValues.websiteUrl;
+      body[0].agencyPublicationUrl = formValues.publicationUrl;
+      body[0].agencyEparticipationArchiveUrl = formValues.websiteUrl;
+      body[0].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+      body[0].agencyEparticipationUrl = formValues.ePartUrl;
       body[0].agencyYoutube = formValues.youtubeUrl;
       body[0].agencyMinistry.ministryId = this.ministryIdEn;
   
@@ -547,6 +575,10 @@ export class AgencyComponent implements OnInit {
       body[1].agencyRss = formValues.rssUrl;
       body[1].agencyTwitter = formValues.twitterUrl;
       body[1].agencyWebsiteUrl = formValues.websiteUrl;
+      body[1].agencyPublicationUrl = formValues.publicationUrl;
+      body[1].agencyEparticipationArchiveUrl = formValues.websiteUrl;
+      body[1].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+      body[1].agencyEparticipationUrl = formValues.ePartUrl;
       body[1].agencyYoutube = formValues.youtubeUrl;
       body[1].agencyMinistry.ministryId = this.ministryIdBm;
   
@@ -592,6 +624,10 @@ export class AgencyComponent implements OnInit {
         "agencyRss": "",
         "agencyTwitter": "",
         "agencyWebsiteUrl": "",
+        "agencyPublicationUrl": null, 
+        "agencyEparticipationArchiveUrl": null, 
+        "agencyEparticipationPolicyUrl": null, 
+        "agencyEparticipationUrl": null, 
         "agencyYoutube": "",
         "language": {
           "languageId": 1
@@ -622,6 +658,10 @@ export class AgencyComponent implements OnInit {
         "agencyRss": "",
         "agencyTwitter": "",
         "agencyWebsiteUrl": "",
+        "agencyPublicationUrl": null, 
+        "agencyEparticipationArchiveUrl": null, 
+        "agencyEparticipationPolicyUrl": null, 
+        "agencyEparticipationUrl": null, 
         "agencyYoutube": "",
         "language": {
           "languageId": 2
@@ -653,6 +693,10 @@ export class AgencyComponent implements OnInit {
     body[0].agencyRss = formValues.rssUrl;
     body[0].agencyTwitter = formValues.twitterUrl;
     body[0].agencyWebsiteUrl = formValues.websiteUrl;
+    body[0].agencyPublicationUrl = formValues.publicationUrl;
+    body[0].agencyEparticipationArchiveUrl = formValues.websiteUrl;
+    body[0].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+    body[0].agencyEparticipationUrl = formValues.ePartUrl;
     body[0].agencyYoutube = formValues.youtubeUrl;
     body[0].agencyMinistry.ministryId = this.ministryIdEn;
 
@@ -677,6 +721,10 @@ export class AgencyComponent implements OnInit {
     body[1].agencyRss = formValues.rssUrl;
     body[1].agencyTwitter = formValues.twitterUrl;
     body[1].agencyWebsiteUrl = formValues.websiteUrl;
+    body[1].agencyPublicationUrl = formValues.publicationUrl;
+    body[1].agencyEparticipationArchiveUrl = formValues.websiteUrl;
+    body[1].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+    body[1].agencyEparticipationUrl = formValues.ePartUrl;
     body[1].agencyYoutube = formValues.youtubeUrl;
     body[1].agencyMinistry.ministryId = this.ministryIdBm;
 

@@ -336,6 +336,10 @@
     "publishing": {
       "header": "Publishing",
       "website": "Website URL",
+      "publicationUrl": "Publication URL",
+      "ePartUrl": "e-Participation URL",
+      "ePartArchiveUrl": "e-Participation Archive URL",
+      "ePartPolicyUrl": "e-Participation Policy URL",
       "rss": "RSS URL",
       "blog": "Blog URL"
     },

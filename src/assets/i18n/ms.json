@@ -335,6 +335,10 @@
     },
     "publishing": {
       "header": "Penerbitan",
+      "publicationUrl": "URL Penerbitan",
+      "ePartUrl": "URL e-Penyertaan ",
+      "ePartArchiveUrl": "URL Arkib e-Penyertaan",
+      "ePartPolicyUrl": "URL Polisi e-Penyertaan",
       "website": "URL Laman Web",
       "rss": "URL RSS",
       "blog": "URL Blog"
