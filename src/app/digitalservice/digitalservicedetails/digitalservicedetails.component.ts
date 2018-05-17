@@ -35,6 +35,14 @@ export class DigitalservicedetailsComponent implements OnInit {
   isActiveListEn: boolean;
   searchCategoryResultBm: string[];
   searchCategoryResultEn: string[];
+  fileData = [];
+  mediaTypes: any;
+  public loading = false;
+  getManualIdEn: any;
+  getManualIdBm: any;
+  selectedFileEn = '';
+  selectedFileMy = '';
+  mediaPath = '';
 
   isRead: boolean;
   isCreate: boolean;
@@ -52,9 +60,10 @@ export class DigitalservicedetailsComponent implements OnInit {
   forCitizen: FormControl;
   forNonCitizen: FormControl;
   active: FormControl;
+  manualEn: FormControl
+  manualBm: FormControl
 
   resetMsg = this.resetMsg;
-  public loading = false;
 
   constructor(
     private http: HttpClient, 
@@ -93,7 +102,6 @@ export class DigitalservicedetailsComponent implements OnInit {
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
-
     this.titleEn = new FormControl()
     this.titleBm = new FormControl()
     this.descEn = new FormControl()
@@ -103,6 +111,8 @@ export class DigitalservicedetailsComponent implements OnInit {
     this.categoryBm = new FormControl()
     this.forCitizen = new FormControl()
     this.forNonCitizen = new FormControl()
+    this.manualEn = new FormControl()
+    this.manualBm = new FormControl()
     this.active = new FormControl()
 
     this.updateForm = new FormGroup({
@@ -113,6 +123,8 @@ export class DigitalservicedetailsComponent implements OnInit {
       descBm: this.descBm,
       categoryEn: this.categoryEn,
       categoryBm: this.categoryBm,
+      manualEn: this.manualEn,
+      manualBm: this.manualBm,
       forCitizen: this.forCitizen,
       forNonCitizen: this.forNonCitizen,
       active: this.active
@@ -134,6 +146,8 @@ export class DigitalservicedetailsComponent implements OnInit {
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
+
+    this.getFileList()
   }
 
   ngAfterViewInit() {
@@ -166,6 +180,8 @@ export class DigitalservicedetailsComponent implements OnInit {
         this.updateForm.get('categoryBm').setValue(dataBm.service.title);
         this.updateForm.get('descEn').setValue(dataEn.description);
         this.updateForm.get('descBm').setValue(dataBm.description);
+        this.updateForm.get('manualEn').setValue(dataEn.manual.mediaId);
+        this.updateForm.get('manualBm').setValue(dataBm.manual.mediaId);
         this.updateForm.get('forCitizen').setValue(dataEn.citizen);
         this.updateForm.get('forNonCitizen').setValue(dataBm.nonCitizen);
         this.updateForm.get('active').setValue(dataBm.enabled);
@@ -346,6 +362,64 @@ export class DigitalservicedetailsComponent implements OnInit {
       this.loading = false;
     });
   }
+    
+  selectedImg(e, val){
+  
+    this.getManualIdEn = e.value;
+    this.getManualIdBm = e.value;
+    let dataList = this.fileData;
+    let indexVal: any;
+    let idBm: any;
+    let idEn: any;
+
+    if(val == 1){
+
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[0].mediaId;
+        if(indexVal == this.getManualIdEn){
+          idBm = dataList[i].list[1].mediaId;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
+        }        
+      }
+      this.updateForm.get('manualBm').setValue(idBm);  
+    }
+    else{
+      for(let i=0; i<dataList.length; i++){
+        indexVal = dataList[i].list[1].mediaId;
+        if(indexVal == this.getManualIdBm){
+          idEn = dataList[i].list[0].mediaId;
+          this.selectedFileEn=dataList[i].list[0].mediaFile;
+          this.selectedFileMy=dataList[i].list[1].mediaFile;
+        }        
+      }
+      this.updateForm.get('manualEn').setValue(idEn); 
+    }
+    this.checkReqValues();
+  }
+
+  getFileList() {
+   
+    this.loading = true;
+    return this.commonservice.readProtected('media/category/name/Digital-Services', '0', '999999999')
+      .subscribe(resCatData => {
+
+        console.log(resCatData)
+        this.commonservice.errorHandling(resCatData, (function () {
+            this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == 1);
+
+            if(this.fileData.length>0){
+              this.contentCategoryIdEn = this.fileData[0].list[0];
+              this.contentCategoryIdMy = this.fileData[0].list[1];
+            }
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
+      });
+  }
 
   checkReqValues() {
 
@@ -403,6 +477,9 @@ export class DigitalservicedetailsComponent implements OnInit {
         },
         "service":{
           "id":  null
+        },
+        "manual": {
+          "mediaId": null
         }
       }, 
       {
@@ -417,6 +494,9 @@ export class DigitalservicedetailsComponent implements OnInit {
         },
         "service":{
           "id":  null
+        },
+        "manual": {
+          "mediaId": null
         }
       }
     ];
@@ -429,6 +509,7 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[0].citizen = formValues.forCitizen;
     body[0].nonCitizen = formValues.forNonCitizen;
     body[0].service.id = this.categoryIdEn;
+    body[0].manual.mediaId = formValues.manualEn;
     body[0].enabled = formValues.active;
     
     body[1].title = formValues.titleBm;
@@ -437,6 +518,7 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[1].citizen = formValues.forCitizen;
     body[1].nonCitizen = formValues.forNonCitizen;
     body[1].service.id = this.categoryIdBm;
+    body[1].manual.mediaId = formValues.manualBm;
     body[1].enabled = formValues.active;
 
     console.log(body)
@@ -475,6 +557,9 @@ export class DigitalservicedetailsComponent implements OnInit {
         },
         "service":{
           "id":  null
+        },
+        "manual": {
+          "mediaId": null
         }
       }, 
       {
@@ -491,6 +576,9 @@ export class DigitalservicedetailsComponent implements OnInit {
         },
         "service":{
           "id":  null
+        },
+        "manual": {
+          "mediaId": null
         }
       }
     ];
@@ -503,6 +591,7 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[0].citizen = formValues.forCitizen;
     body[0].nonCitizen = formValues.forNonCitizen;
     body[0].service.id = this.categoryIdEn;
+    body[0].manual.mediaId = formValues.manualEn;
     body[0].enabled = formValues.active;
     
     body[1].id = this.idBm;
@@ -513,6 +602,7 @@ export class DigitalservicedetailsComponent implements OnInit {
     body[1].citizen = formValues.forCitizen;
     body[1].nonCitizen = formValues.forNonCitizen;
     body[1].service.id = this.categoryIdBm;
+    body[1].manual.mediaId = formValues.manualBm;
     body[1].enabled = formValues.active;
 
     console.log(body);

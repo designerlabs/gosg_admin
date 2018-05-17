@@ -1148,7 +1148,8 @@
     "tableHeader":{
     "header": "Kandungan Perkhidmatan Digital",
       "servicenameEn": "Service Name (EN)",
-      "servicenameBm": "Service Name (BM)"
+      "servicenameBm": "Service Name (BM)",
+      "manual": "Manual Perkhidmatan Digital"
     },
     "tablebottom":{
       "agency": "applications"

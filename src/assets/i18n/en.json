@@ -1145,7 +1145,8 @@
     "tableHeader":{
     "header": "Digital Service Details",
       "servicenameEn": "Service Name (EN)",
-      "servicenameBm": "Service Name (BM)"
+      "servicenameBm": "Service Name (BM)",
+      "manual": "Digital Service Manual"
     },
     "tablebottom":{
       "agency": "applications"
