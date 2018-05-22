@@ -141,6 +141,8 @@ import { ParticipationpublisherComponent } from './participationpublisher/partic
 import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -260,6 +262,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ParticipationpublishertblComponent,
     SubscriptionComponent,
     SubscriptiontblComponent,
+    SchedulerComponent,
+    SchedulertblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [

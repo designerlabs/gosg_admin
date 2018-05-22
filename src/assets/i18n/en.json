@@ -1158,8 +1158,32 @@
     },
     "select":"Select Digital Service Details"
   },
-  "err": {
-
+  "scheduler": {
+    "header": "Scheduler Management",
+    "tableHeader":{
+      "header": "Schedule Management",
+      "moduleName": "Module Name",
+      "interval": "Interval",
+      "unit": "Units",
+      "lastExeDate": "Last Run Date",
+      "nextExeDate": "Next Run Date",
+      "exeStatus": "Execution Status",
+      "status": "Status"
+    },
+    "component": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "completed": "Completed",
+      "duration": {
+        "years": "Years",
+        "months": "Months",
+        "weeks": "Weeks",
+        "days": "Days",
+        "hours": "Hours",
+        "minutes": "Minutes",
+        "seconds": "Seconds"
+      }
+    }
   },
   "subscription": {
     "header": "Subscription Management",

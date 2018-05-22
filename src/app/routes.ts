@@ -114,6 +114,8 @@ import { ParticipationpublishertblComponent } from './participationpublisher/par
 import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
 import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -254,6 +256,9 @@ export const appRoutes: Routes = [
 {path: 'faq/:id', component: FaqComponent},
 {path: 'faq/add', component: FaqComponent},
 {path: 'editor', component: EditorComponent},
+
+{path: 'scheduler', component: SchedulertblComponent},
+{path: 'scheduler/:id',component: SchedulerComponent},
 
 //System Settings: N
 {path: 'systemsettings',component: SystemsettingstblComponent},

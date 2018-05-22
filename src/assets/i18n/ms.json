@@ -1161,6 +1161,33 @@
     },
     "select":"Pilih Kandungan Perkhidmatan Digital"
   },
+  "scheduler": {
+    "header": "Pengurusan Penjadual",
+    "tableHeader":{
+      "header": "Pengurusan Jadual",
+      "moduleName": "Nama Modul",
+      "interval": "Selang",
+      "unit": "Unit",
+      "lastExeDate": "Tarikh Perlaksanaan Lepas",
+      "nextExeDate": "Tarikh Perlaksanaan Seterusnya",
+      "exeStatus": "Status Perlaksanaan",
+      "status": "Status"
+    },
+    "component": {
+      "active": "Aktif",
+      "inactive": "Tidak Aktif",
+      "completed": "Selesai",
+      "duration": {
+        "years": "Tahun",
+        "months": "Bulan",
+        "weeks": "Minggu",
+        "days": "Hari",
+        "hours": "Jam",
+        "minutes": "Minit",
+        "seconds": "Saat"
+      }
+    }
+  },
   "subscription": {
     "header": "Pengurusan Langganan",
     "tableHeader":{
