@@ -1125,7 +1125,7 @@
       "revert": "Revert"
     }
   },
-  "digitalservice": {
+  "dservice": {
     "header": "Pengurusan Perkhidmatan Digital",
     "tableHeader":{
       "header": "Perkhidmatan Digital",
@@ -1143,7 +1143,42 @@
       "descBm": "Keterangan (BM)"
     }
   },
-  "digitalservicedetails": {
+  "dservicetype": {
+    "header": "Pengurusan Jenis Perkhidmatan Digital",
+    "tableHeader":{
+    "header": "Jenis Perkhidmatan Digital",
+      "nameEn": "Nama (EN)",
+      "nameBm": "Nama (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Jenis Perkhidmatan Digital",
+      "isdoc": "is Document",
+      "serviceURL": "Service URL"
+    },
+    "select":"Pilih Jenis Perkhidmatan Digital"
+  },
+  "dservicegroup": {
+    "header": "Pengurusan Kumpulan Perkhidmatan Digital",
+    "tableHeader":{
+    "header": "Kumpulan Perkhidmatan Digital",
+      "descEn": "Keterangan (EN)",
+      "descBm": "Keterangan (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Kumpulan Perkhidmatan Digital",
+      "inprogress": "Dalam Proses",
+      "success": "Berjaya",
+      "failed": "Gagal"
+    },
+    "select":"Sila Pilih Kumpulan Perkhidmatan Digital"
+  },
+  "dservicedetails": {
     "header": "Pengurusan Kandungan Perkhidmatan Digital",
     "tableHeader":{
     "header": "Kandungan Perkhidmatan Digital",

@@ -1122,7 +1122,7 @@
       "imageerr": "Please select a file"
     }
   },
-  "digitalservice": {
+  "dservice": {
     "header": "Digital Service Management",
     "tableHeader":{
       "header": "Digital Service",
@@ -1140,7 +1140,42 @@
       "descBm": "Description (BM)"
     }
   },
-  "digitalservicedetails": {
+  "dservicetype": {
+    "header": "Digital Service Type Management",
+    "tableHeader":{
+    "header": "Digital Service Type",
+      "nameEn": "Name (EN)",
+      "nameBm": "Name (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Digital Service Type",
+      "isdoc": "is Document",
+      "serviceURL": "Service URL"
+    },
+    "select":"Select Digital Service Type"
+  },
+  "dservicegroup": {
+    "header": "Digital Service Group Management",
+    "tableHeader":{
+    "header": "Digital Service Group",
+      "descEn": "Description (EN)",
+      "descBm": "Description (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Digital Service Group",
+      "inprogress": "In Progress",
+      "success": "Success",
+      "failed": "Failed"
+    },
+    "select":"Select Digital Service Group"
+  },
+  "dservicedetails": {
     "header": "Digital Service Details Management",
     "tableHeader":{
     "header": "Digital Service Details",

@@ -106,10 +106,14 @@ import { ContentpublishertblComponent } from './contentpublisher/contentpublishe
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
 import { ParticipationComponent } from './participation/participation.component';
-import { DigitalservicetblComponent } from './digitalservice/digitalservicetbl/digitalservicetbl.component';
-import { DigitalserviceComponent } from './digitalservice/digitalservice.component';
-import { DigitalservicedetailstblComponent } from './digitalservice/digitalservicedetails/digitalservicedetailstbl/digitalservicedetailstbl.component';
-import { DigitalservicedetailsComponent } from './digitalservice/digitalservicedetails/digitalservicedetails.component';
+import { DServicetblComponent } from './dservice/dservicetbl/dservicetbl.component';
+import { DServiceComponent } from './dservice/dservice.component';
+import { DServicedetailstblComponent } from './dservice/dservicedetails/dservicedetailstbl/dservicedetailstbl.component';
+import { DServicedetailsComponent } from './dservice/dservicedetails/dservicedetails.component';
+import { DServicetypetblComponent } from './dservice/dservicetype/dservicetypetbl/dservicetypetbl.component';
+import { DServicetypeComponent } from './dservice/dservicetype/dservicetype.component';
+import { DServicegrouptblComponent } from './dservice/dservicegroup/dservicegrouptbl/dservicegrouptbl.component';
+import { DServicegroupComponent } from './dservice/dservicegroup/dservicegroup.component';
 import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
 import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
 import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
@@ -174,12 +178,18 @@ export const appRoutes: Routes = [
 {path: 'archive/:id', component: ArchiveComponent},
 
 // DIGITAL SERVICES
-{path: 'digitalservice', component: DigitalservicetblComponent},
-{path: 'digitalservice/add', component: DigitalserviceComponent},
-{path: 'digitalservice/:id', component: DigitalserviceComponent},
-{path: 'digitalservicedetails', component: DigitalservicedetailstblComponent},
-{path: 'digitalservicedetails/add', component: DigitalservicedetailsComponent},
-{path: 'digitalservicedetails/:id', component: DigitalservicedetailsComponent},
+{path: 'dservice', component: DServicetblComponent},
+{path: 'dservice/add', component: DServiceComponent},
+{path: 'dservice/:id', component: DServiceComponent},
+{path: 'dservicedetails', component: DServicedetailstblComponent},
+{path: 'dservicedetails/add', component: DServicedetailsComponent},
+{path: 'dservicedetails/:id', component: DServicedetailsComponent},
+{path: 'dservicetype', component: DServicetypetblComponent},
+{path: 'dservicetype/add', component: DServicetypeComponent},
+{path: 'dservicetype/:id', component: DServicetypeComponent},
+{path: 'dservicegroup', component: DServicegrouptblComponent},
+{path: 'dservicegroup/add', component: DServicegroupComponent},
+{path: 'dservicegroup/:id', component: DServicegroupComponent},
 
 // SUBSCRIPTION
 {path: 'subscription', component: SubscriptiontblComponent},

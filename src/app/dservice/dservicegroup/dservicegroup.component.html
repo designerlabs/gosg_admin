@@ -1,0 +1,92 @@
+<!-- VIEW: ADD/EDIT AGENCY APP  -->
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    <div class="curdHeader">
+      <div class="col-md-10 curdHeadingLeft">
+        <h3>{{ pageMode | translate }} {{ 'dservicegroup.tableHeader.header' | translate }} </h3>
+      </div>
+  
+      <div class="col-md-2 curdHeadingRight">
+        <span class="pull-right">
+          <button type="button" mat-fab color="accent" (click)="back()">
+            <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i>
+          </button>
+        </span>
+      </div>
+    </div>
+  
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
+      {{'common.msg.unauthorized' | translate}}
+    </div>
+  
+    <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off"
+      role="form" novalidate>
+  
+      <div class="example-container mat-elevation-z8 col-md-12">
+        <div class="row">
+          <div class="bg-form-header col-md-6">
+            <label>English</label>
+          </div>
+          <div class="bg-form-header col-md-6">
+            <label>Bahasa Malaysia</label>
+          </div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width ">
+              <input matInput tabindex="1" placeholder="Status Description" formControlName="statusDescriptionEn" (change)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.statusDescriptionEn.hasError('required')">
+                Description is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width ">
+              <input matInput tabindex="2" placeholder="Keterangan Status" formControlName="statusDescriptionBm" value="" (change)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.statusDescriptionBm.hasError('required')">
+                Keterangan diperlukan
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="bg-form-header">&nbsp;</div>
+        </div>
+  
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <mat-form-field>
+              <input style="text-align: center" matInput tabindex="3" placeholder="Status Code" formControlName="statusCode" value="" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.statusCode.hasError('required')">
+                Status Code is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+              <mat-form-field class="example-full-width">
+                  <mat-select formControlName="groupId" placeholder="{{ 'dservicegroup.select' | translate }}" (change)="checkReqValues()" required>
+                      <mat-option [value]="1">{{ 'dservicegroup.component.inprogress' | translate }}</mat-option>
+                      <mat-option [value]="2">{{ 'dservicegroup.component.success' | translate }}</mat-option>
+                      <mat-option [value]="3">{{ 'dservicegroup.component.failed' | translate }}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+  
+      </div>
+  
+        <div class="col-md-12">&nbsp;</div>
+        <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success  pull-right" (click)="updateAction(updateForm.value)"
+            style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>{{ pageMode | translate}}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning  pull-right" style="width: 100px; font-family: Roboto"
+            (click)="myFunction()">
+            <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+    </form>
+    </div>
