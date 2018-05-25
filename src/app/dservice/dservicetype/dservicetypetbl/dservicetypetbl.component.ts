@@ -1,22 +1,22 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
-import { CommonService } from '../../service/common.service';
+import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
+import { CommonService } from '../../../service/common.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-digitalservicetbl',
-  templateUrl: './digitalservicetbl.component.html',
-  styleUrls: ['./digitalservicetbl.component.css']
+  selector: 'app-dservicetypetbl',
+  templateUrl: './dservicetypetbl.component.html',
+  styleUrls: ['./dservicetypetbl.component.css']
 })
-export class DigitalservicetblComponent implements OnInit {
+export class DServicetypetblComponent implements OnInit {
 
-  dsData: Object;
-  dsList = null;
+  dsTypeData: Object;
+  dsTypeList = null;
   displayedColumns: any;
   pageSize = 10;
   pageCount = 1;
@@ -42,7 +42,7 @@ export class DigitalservicetblComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  dataSource = new MatTableDataSource<object>(this.dsList);
+  dataSource = new MatTableDataSource<object>(this.dsTypeList);
 
   applyFilter(val) {   
 
@@ -52,13 +52,13 @@ export class DigitalservicetblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
+      this.getDigitalServicesTypeData(this.pageCount, this.pageSize);
     }
   
   }
 
   resetSearch() {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesTypeData(this.pageCount, this.pageSize);
   }
 
   constructor(
@@ -78,7 +78,7 @@ export class DigitalservicetblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getDigitalServicesData(this.pageCount, this.pageSize);
+              this.getDigitalServicesTypeData(this.pageCount, this.pageSize);
               this.commonservice.getModuleId();
             }
           }.bind(this));
@@ -87,7 +87,7 @@ export class DigitalservicetblComponent implements OnInit {
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
+      this.getDigitalServicesTypeData(this.pageCount, this.pageSize);
       this.commonservice.getModuleId();
     }
 
@@ -95,7 +95,7 @@ export class DigitalservicetblComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.displayedColumns = ['no','titleEn', 'titleBm', 'enabled', 'dsAction'];
+    this.displayedColumns = ['no','nameEn', 'nameBm', 'action'];
     this.commonservice.getModuleId();
   }
 
@@ -105,24 +105,24 @@ export class DigitalservicetblComponent implements OnInit {
   }
 
   // get agencyapp Data 
-  getDigitalServicesData(count, size) {
+  getDigitalServicesTypeData(count, size) {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice',count, size)
+    this.commonservice.readProtected('dservice/type',count, size)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.dsList = data;
-          console.log(this.dsList)
-          console.log(this.dsList.list)
+          this.dsTypeList = data;
+          console.log(this.dsTypeList)
+          console.log(this.dsTypeList.list)
 
-          if(this.dsList.list.length > 0){
-            this.dataSource.data = this.dsList.list;
-            this.seqPageNum = this.dsList.pageNumber;
-            this.seqPageSize = this.dsList.pageSize;
-            this.recordTable = this.dsList;
-            this.noNextData = this.dsList.pageNumber === this.dsList.totalPages;
+          if(this.dsTypeList.list.length > 0){
+            this.dataSource.data = this.dsTypeList.list;
+            this.seqPageNum = this.dsTypeList.pageNumber;
+            this.seqPageSize = this.dsTypeList.pageSize;
+            this.recordTable = this.dsTypeList;
+            this.noNextData = this.dsTypeList.pageNumber === this.dsTypeList.totalPages;
 
             this.showNoData = false;
           }
@@ -143,7 +143,7 @@ export class DigitalservicetblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('digitalservice', count, size, keyword)
+      this.commonservice.readProtected('dservice/type', count, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -184,7 +184,7 @@ export class DigitalservicetblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesTypeData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -194,11 +194,11 @@ export class DigitalservicetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getDigitalServicesData(page + 1, this.pageSize);
+    this.getDigitalServicesTypeData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {
-    this.getDigitalServicesData(this.pageCount, event.value);
+    this.getDigitalServicesTypeData(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -206,22 +206,22 @@ export class DigitalservicetblComponent implements OnInit {
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.router.navigate(['digitalservice', "add"]);
+    this.router.navigate(['dservicetype', "add"]);
   }
 
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['digitalservice', row]);
+    this.router.navigate(['dservicetype', row]);
   }
 
   deleteItem(refCode) {
     // alert(refCode)
     this.loading = true;
-      this.commonservice.delete(refCode,'digitalservice/').subscribe(
+      this.commonservice.delete(refCode,'dservice/type/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-            this.getDigitalServicesData(this.pageCount, this.pageSize);
+            this.getDigitalServicesTypeData(this.pageCount, this.pageSize);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
          this.loading = false;
@@ -241,85 +241,13 @@ export class DigitalservicetblComponent implements OnInit {
     }
   }
 
-  // isChecked(e) {
-  //   // console.log(val)
-  //   if(e.checked){
-  //     this.multipleSel.push(e.source.value)
-  //   } else{
-  //     let index = this.multipleSel.indexOf(e.source.value);
-  //     this.multipleSel.splice(index, 1);
-  //   }
-  //   return false;
-  // }
-  
-  // checkAll(ev) {
-  //   this.cb.forEach(x => x.state = ev.target.checked)
-  // }
-
-  // isAllChecked() {
-  //   console.log('fired');
-  //   return this.sizes.every(_ => _.state);
-  // }
-
-  // resetAllMethod(){
-  //   this.revertAll();
-  // }
-
-  // revertAll(){
-  //   let archiveIds = this.multipleSel.join(',');
-  //   this.commonservice.update('', `archive/revert/multiple/${archiveIds}`).subscribe(
-  //     data => {
-
-  //       this.commonservice.errorHandling(data, (function(){
-  //         this.toastr.success(this.translate.instant('common.success.updatesuccess'), '');
-  //         this.getDigitalServicesData(this.pageCount, this.pageSize);
-
-  //     }).bind(this)); 
-  //     this.multipleSel = [];
-  //     this.loading = false;
-  //     },
-  //     error => {
-  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-  //       console.log(error);
-  //       this.multipleSel = [];
-  //       this.loading = false;
-  //     });
-
-  // }
-
-  // deleteAllMethod(){
-  //   this.deleteAll();
-  // }
-
-  // deleteAll(){
-  //   let archiveIds = this.multipleSel.join(',');
-  //   this.commonservice.delete('', `archive/delete/multiple/${archiveIds}`).subscribe(
-  //     data => {
-
-  //       this.commonservice.errorHandling(data, (function(){
-  //         this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-  //         this.getDigitalServicesData(this.pageCount, this.pageSize);
-
-  //     }).bind(this)); 
-  //     this.multipleSel = [];
-  //     this.loading = false;
-  //     },
-  //     error => {
-  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-  //       console.log(error);
-  //       this.multipleSel = [];
-  //       this.loading = false;
-  //     });
-
-  // }
-
   navigateBack() {
     this.isEdit = false;
-    this.router.navigate(['digitalservice']);
+    this.router.navigate(['dservicetype']);
   }
 
   back(){
-    this.router.navigate(['digitalservice']);
+    this.router.navigate(['dservicetype']);
   }
 
 }

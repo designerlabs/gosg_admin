@@ -9,11 +9,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-digitalservicedetailstbl',
-  templateUrl: './digitalservicedetailstbl.component.html',
-  styleUrls: ['./digitalservicedetailstbl.component.css']
+  selector: 'app-dservicedetailstbl',
+  templateUrl: './dservicedetailstbl.component.html',
+  styleUrls: ['./dservicedetailstbl.component.css']
 })
-export class DigitalservicedetailstblComponent implements OnInit {
+export class DServicedetailstblComponent implements OnInit {
 
   dsData: Object;
   dsList = null;

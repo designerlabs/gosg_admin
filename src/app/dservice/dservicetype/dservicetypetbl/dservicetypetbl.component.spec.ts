@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DigitalservicetblComponent } from './digitalservicetbl.component';
+import { DServicetypetblComponent } from './dservicetypetbl.component';
 
-describe('DigitalservicetblComponent', () => {
-  let component: DigitalservicetblComponent;
-  let fixture: ComponentFixture<DigitalservicetblComponent>;
+describe('DServicetypetblComponent', () => {
+  let component: DServicetypetblComponent;
+  let fixture: ComponentFixture<DServicetypetblComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DigitalservicetblComponent ]
+      declarations: [ DServicetypetblComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DigitalservicetblComponent);
+    fixture = TestBed.createComponent(DServicetypetblComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

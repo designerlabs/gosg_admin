@@ -1125,7 +1125,7 @@
       "revert": "Revert"
     }
   },
-  "digitalservice": {
+  "dservice": {
     "header": "Pengurusan Perkhidmatan Digital",
     "tableHeader":{
       "header": "Perkhidmatan Digital",
@@ -1143,7 +1143,42 @@
       "descBm": "Keterangan (BM)"
     }
   },
-  "digitalservicedetails": {
+  "dservicetype": {
+    "header": "Pengurusan Jenis Perkhidmatan Digital",
+    "tableHeader":{
+    "header": "Jenis Perkhidmatan Digital",
+      "nameEn": "Nama (EN)",
+      "nameBm": "Nama (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Jenis Perkhidmatan Digital",
+      "isdoc": "is Document",
+      "serviceURL": "Service URL"
+    },
+    "select":"Pilih Jenis Perkhidmatan Digital"
+  },
+  "dservicegroup": {
+    "header": "Pengurusan Kumpulan Perkhidmatan Digital",
+    "tableHeader":{
+    "header": "Kumpulan Perkhidmatan Digital",
+      "descEn": "Keterangan (EN)",
+      "descBm": "Keterangan (BM)"
+    },
+    "tablebottom":{
+      "agency": "applications"
+    },
+    "component": {
+      "header": "Kumpulan Perkhidmatan Digital",
+      "inprogress": "Dalam Proses",
+      "success": "Berjaya",
+      "failed": "Gagal"
+    },
+    "select":"Sila Pilih Kumpulan Perkhidmatan Digital"
+  },
+  "dservicedetails": {
     "header": "Pengurusan Kandungan Perkhidmatan Digital",
     "tableHeader":{
     "header": "Kandungan Perkhidmatan Digital",
@@ -1160,6 +1195,33 @@
       "serviceURL": "URL Perkhidmatan"
     },
     "select":"Pilih Kandungan Perkhidmatan Digital"
+  },
+  "scheduler": {
+    "header": "Pengurusan Penjadual",
+    "tableHeader":{
+      "header": "Pengurusan Jadual",
+      "moduleName": "Nama Modul",
+      "interval": "Selang",
+      "unit": "Unit",
+      "lastExeDate": "Tarikh Perlaksanaan Lepas",
+      "nextExeDate": "Tarikh Perlaksanaan Seterusnya",
+      "exeStatus": "Status Perlaksanaan",
+      "status": "Status"
+    },
+    "component": {
+      "active": "Aktif",
+      "inactive": "Tidak Aktif",
+      "completed": "Selesai",
+      "duration": {
+        "years": "Tahun",
+        "months": "Bulan",
+        "weeks": "Minggu",
+        "days": "Hari",
+        "hours": "Jam",
+        "minutes": "Minit",
+        "seconds": "Saat"
+      }
+    }
   },
   "subscription": {
     "header": "Pengurusan Langganan",

@@ -1,0 +1,99 @@
+<div class="container right-content">
+  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+
+<div class="curdHeader">
+  <div class="col-md-10 curdHeadingLeft">
+      <h3>{{ 'scheduler.tableHeader.header' | translate }}</h3>
+  </div>
+      
+  <div class="col-md-2 curdHeadingRight">
+      <span class="pull-right">
+          <button type="button" mat-fab color="accent" (click)="back()" >
+          <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
+      </span>
+  </div> 
+  
+</div>
+  
+<div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+</div>
+
+<form [formGroup]="updateForm" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" autocomplete="off" role="form" novalidate>
+
+    <div class="example-container mat-elevation-z8 col-md-12">
+
+      <div class="row bg-form-header">
+        
+        <div class="col-md-12">
+          <label>{{ 'scheduler.tableHeader.moduleName' | translate }}</label>
+        </div>
+        <div class="col-md-12">
+          {{moduleName}}
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-6">
+          <label>{{ 'scheduler.tableHeader.interval' | translate }}</label>
+        </div>
+        <div class="col-md-6">
+            <label>{{ 'scheduler.tableHeader.unit' | translate }}</label>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field style="margin-top: -3%">
+            <input class="text-align-Center" matInput tabindex="1" formControlName="interval" maxlength="9">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="example-full-width" style="margin-top: -3%">
+                <mat-select formControlName="intervalUnit" >
+                    <mat-option value="years">{{ 'scheduler.component.duration.years' | translate }}</mat-option>
+                    <mat-option value="months">{{ 'scheduler.component.duration.months' | translate }}</mat-option>
+                    <mat-option value="weeks">{{ 'scheduler.component.duration.weeks' | translate }}</mat-option>
+                    <mat-option value="days">{{ 'scheduler.component.duration.days' | translate }}</mat-option>
+                    <mat-option value="hours">{{ 'scheduler.component.duration.hours' | translate }}</mat-option>
+                    <mat-option value="minutes">{{ 'scheduler.component.duration.minutes' | translate }}</mat-option>
+                    <mat-option value="seconds">{{ 'scheduler.component.duration.seconds' | translate }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-6">
+            <label>{{ 'scheduler.tableHeader.lastExeDate' | translate }}</label>
+        </div>
+        <div class="col-md-6">
+            <label>{{ 'scheduler.tableHeader.nextExeDate' | translate }}</label>
+        </div>
+        <div class="col-md-6">
+            {{lastExecutionDate | date:'dd/MM/yyyy hh:mm a'}}
+        </div>
+        <div class="col-md-6">
+            {{nextExecutionDate| date:'dd/MM/yyyy hh:mm a'}}
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-12">
+            <label>{{ 'scheduler.tableHeader.exeStatus' | translate }}</label>
+        </div>
+        <div class="col-md-12">
+            {{executionStatus }}
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+        <div class="col-md-12">
+            <label>{{ 'scheduler.component.active' | translate }}</label>
+        </div>
+        <div class="col-md-12" style="border-top: 0">
+            <mat-checkbox tabindex="3" formControlName="enabled" class="example-margin"></mat-checkbox>
+        </div>
+      </div>
+      
+    </div>
+    <!-- <div class="container"> -->
+    <div class="col-md-12">&nbsp;</div>
+      <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
+        <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" (click)="updateAction(updateForm.value)">
+          {{ 'common.buttons.submit' | translate }}</button>
+      </div>
+    <div class="col-md-12">&nbsp;</div>
+  <!-- </div> -->
+</form>
+
+</div>

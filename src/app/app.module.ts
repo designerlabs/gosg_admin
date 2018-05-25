@@ -133,14 +133,20 @@ import { ContentpublishertblComponent } from './contentpublisher/contentpublishe
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
 import { ParticipationComponent } from './participation/participation.component';
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
-import { DigitalserviceComponent } from './digitalservice/digitalservice.component';
-import { DigitalservicetblComponent } from './digitalservice/digitalservicetbl/digitalservicetbl.component';
-import { DigitalservicedetailsComponent } from './digitalservice/digitalservicedetails/digitalservicedetails.component';
-import { DigitalservicedetailstblComponent } from './digitalservice/digitalservicedetails/digitalservicedetailstbl/digitalservicedetailstbl.component';
+import { DServiceComponent } from './dservice/dservice.component';
+import { DServicetblComponent } from './dservice/dservicetbl/dservicetbl.component';
+import { DServicedetailsComponent } from './dservice/dservicedetails/dservicedetails.component';
+import { DServicedetailstblComponent } from './dservice/dservicedetails/dservicedetailstbl/dservicedetailstbl.component';
+import { DServicetypeComponent } from './dservice/dservicetype/dservicetype.component';
+import { DServicetypetblComponent } from './dservice/dservicetype/dservicetypetbl/dservicetypetbl.component';
+import { DServicegroupComponent } from './dservice/dservicegroup/dservicegroup.component';
+import { DServicegrouptblComponent } from './dservice/dservicegroup/dservicegrouptbl/dservicegrouptbl.component';
 import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
 import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
+import { SchedulerComponent } from './scheduler/scheduler.component';
+import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -252,14 +258,20 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContentpublisherComponent,
     ParticipationComponent,
     ParticipationtblComponent,
-    DigitalserviceComponent,
-    DigitalservicetblComponent,
-    DigitalservicedetailsComponent,
-    DigitalservicedetailstblComponent,
+    DServiceComponent,
+    DServicetblComponent,
+    DServicedetailsComponent,
+    DServicedetailstblComponent,
     ParticipationpublisherComponent,
     ParticipationpublishertblComponent,
     SubscriptionComponent,
     SubscriptiontblComponent,
+    SchedulerComponent,
+    SchedulertblComponent,
+    DServicetypeComponent,
+    DServicetypetblComponent,
+    DServicegroupComponent,
+    DServicegrouptblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
