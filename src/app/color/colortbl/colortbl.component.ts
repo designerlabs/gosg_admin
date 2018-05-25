@@ -16,6 +16,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 export class ColortblComponent implements OnInit {
 
+  translateLoader = false;
   colorData: Object;
   colorList = null;
   displayedColumns: any;
@@ -50,39 +51,52 @@ export class ColortblComponent implements OnInit {
   }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService,
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService) {
-    
+
       /* LANGUAGE FUNC */
       translate.onLangChange.subscribe((event: LangChangeEvent) => {
         translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.readPortal('language/all').subscribe((data:any) => {
-            let getLang = data.list;
-            let myLangData =  getLang.filter(function(val) {
-              if(val.languageCode == translate.currentLang){
-                this.lang = val.languageCode;
-                this.languageId = val.languageId;
-                this.getcolorData(this.pageCount, this.colorPageSize);
-                this.commonservice.getModuleId();
-              }
-            }.bind(this));
-          })
+          console.log(this.translateLoader);
+          if(this.translateLoader){
+            this.getcolorData(this.pageCount, this.colorPageSize);
+            this.commonservice.getModuleId();
+            this.translateLoader = false;
+          }
+
+          // console.log(translate.currentLang);
+          // this.getcolorData(this.pageCount, this.colorPageSize);
+          // this.commonservice.getModuleId();
+          // this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          //   let getLang = data.list;
+          //   let myLangData =  getLang.filter(function(val) {
+          //     if(val.languageCode == translate.currentLang){
+          //       this.lang = val.languageCode;
+          //       this.languageId = val.languageId;
+          //       this.getcolorData(this.pageCount, this.colorPageSize);
+          //       this.commonservice.getModuleId();
+          //     }
+          //   }.bind(this));
+          // })
         });
       });
       if(!this.languageId){
+        console.log(this.translateLoader);
         this.languageId = localStorage.getItem('langID');
-        this.getcolorData(this.pageCount, this.colorPageSize);
-        this.commonservice.getModuleId();
+        // this.getcolorData(this.pageCount, this.colorPageSize);
+        // this.commonservice.getModuleId();
       }
-  
+
       /* LANGUAGE FUNC */ }
 
   ngOnInit() {
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
+    console.log(this.translateLoader);
+    this.getcolorData(this.pageCount, this.colorPageSize);
     this.commonservice.getModuleId();
   }
 
@@ -91,7 +105,7 @@ export class ColortblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get color Data 
+  // get color Data
   getcolorData(count, size) {
     this.loading = true;
     this.commonservice.readPortal('color',count,size).subscribe(
@@ -109,7 +123,7 @@ export class ColortblComponent implements OnInit {
       }, err => {
         this.loading = false;
       });
-      
+
   }
 
   paginatorL(page) {
@@ -136,7 +150,7 @@ export class ColortblComponent implements OnInit {
     this.changePageMode(this.isEdit);
     this.router.navigate(['color', "add"]);
   }
-  
+
   updateRow(row) {
     this.isEdit = true;
     this.router.navigate(['color', row]);
@@ -149,12 +163,12 @@ export class ColortblComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
             this.getcolorData(this.pageCount, this.colorPageSize);
-          }).bind(this));  
+          }).bind(this));
           this.loading = false;
-          
+
         },
         error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           this.loading = false;
         });
 

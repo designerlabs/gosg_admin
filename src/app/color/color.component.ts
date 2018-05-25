@@ -29,10 +29,10 @@ export class ColorComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
-  
+
   colorId: any;
   maskColorCode: (string | RegExp)[];
-  
+
   updateForm: FormGroup
   colorName: FormControl
   colorCode: FormControl
@@ -43,34 +43,35 @@ export class ColorComponent implements OnInit {
   public loading = false;
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private validateService: ValidateService,
     private router: Router,
     private toastr: ToastrService
-  ) { 
-    
+  ) {
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
+        this.commonservice.getModuleId();
+        // this.commonservice.readPortal('language/all').subscribe((data:any) => {
+        //   let getLang = data.list;
+        //   let myLangData =  getLang.filter(function(val) {
+        //     if(val.languageCode == translate.currentLang){
+        //       this.lang = val.languageCode;
+        //       this.languageId = val.languageId;
+        //       this.commonservice.getModuleId();
+        //     }
+        //   }.bind(this));
+        // })
       });
     });
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
+      // this.commonservice.getModuleId();
     }
 
     /* LANGUAGE FUNC */
@@ -105,7 +106,7 @@ export class ColorComponent implements OnInit {
       this.pageMode = "Update";
       this.getRow(refId);
     }
-    
+
     // #### for disable non update user ---1
     if(!this.commonservice.isUpdate && this.commonservice.isWrite){
       this.updateForm.enable();
@@ -144,12 +145,12 @@ export class ColorComponent implements OnInit {
           this.colorId = this.colorData['colorId'];
 
           this.checkReqValues();
-        }).bind(this));  
+        }).bind(this));
         this.loading = false;
       }, err => {
         this.loading = false;
       });
-    
+
   }
 
   checkReqValues() {
@@ -203,7 +204,7 @@ export class ColorComponent implements OnInit {
   }
 
   updateColor(formValues: any) {
-    
+
     if(!this.isEdit) {
 
       let body = {
@@ -212,7 +213,7 @@ export class ColorComponent implements OnInit {
           "enabled": false,
           "defaultColor": false
       };
-      
+
       // console.log(formValues)
 
       body.colorName = formValues.colorName;
@@ -228,16 +229,16 @@ export class ColorComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), 'success');
-          }).bind(this));  
+          }).bind(this));
           this.router.navigate(['color']);
           this.loading = false;
         },
         error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           this.loading = false;
         });
 
-    } 
+    }
     else {
 
       let body = {
@@ -247,9 +248,9 @@ export class ColorComponent implements OnInit {
           "enabled": false,
           "defaultColor": null
       };
-      
+
       // console.log(formValues)
-  
+
       body.colorId = this.colorId;
       body.colorName = formValues.colorName;
       body.colorCode = formValues.colorCode;
@@ -264,7 +265,7 @@ export class ColorComponent implements OnInit {
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-          }).bind(this));  
+          }).bind(this));
           this.router.navigate(['color']);
           this.loading = false;
         },
@@ -273,12 +274,12 @@ export class ColorComponent implements OnInit {
           this.loading = false;
         });
     }
-      
+
   }
 
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
+    this.checkReqValues();
   }
 
 }

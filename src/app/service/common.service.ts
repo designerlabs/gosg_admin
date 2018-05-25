@@ -24,7 +24,7 @@ export class CommonService {
   showFilterBm = "Taip tapisan di sini...";
 
   sliderCategoryCode = 4;
-  galleryCategoryCode = 39; 
+  galleryCategoryCode = 39;
   lifeEventCategoryCode = 643;
   contentCategoryCode = 675;
   participationCategoryCode = 658;
@@ -33,11 +33,11 @@ export class CommonService {
   sliderContentCategoryIdBm = 16;
 
   galleryContentCategoryIdEn = 2;
-  galleryContentCategoryIdBm = 10;  
+  galleryContentCategoryIdBm = 10;
 
   participationContentCategoryIdEn = 665;
-  participationContentCategoryIdBm = 666; 
- 
+  participationContentCategoryIdBm = 666;
+
   isAdmin: boolean;
   getDataT: any;
   userID: any;
@@ -54,7 +54,7 @@ export class CommonService {
   recordTable: object;
   temp = null;
   strLang: String = "language=";
-  
+
   pageMode: String;
 
   isDelete:boolean;
@@ -141,7 +141,7 @@ export class CommonService {
       }else{
         this.languageId = 1;
       }
-      
+
     }
 
     /* LANGUAGE FUNC */
@@ -166,7 +166,7 @@ export class CommonService {
     }
   }
 
-  
+
   getSlidersData(): Observable<any[]> {
     return this.http.get(this.slidersUrl)
       .map((response: Response) => response.json())
@@ -225,7 +225,7 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  
+
   // MODULE
   getModMenuBySearch(keyword) {
     return this.http.get(this.appConfig.urlModule+'/menu/search?keyword='+keyword+'&language='+this.languageId)
@@ -250,7 +250,7 @@ export class CommonService {
     .catch(this.handleError);
   }
 
- 
+
   getModuleList(id){
     return this.http.get(this.appConfig.urlModuleList+'/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json()[0])
@@ -263,7 +263,7 @@ export class CommonService {
     .catch(this.handleError);
   }
 
-  
+
   getUserList(id){
     return this.http.get(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId)
     .map((response: Response) => response.json().adminUserDetails)
@@ -281,7 +281,7 @@ export class CommonService {
     .map((response: Response) => response.json())
     .catch(this.handleError);
   }
-  
+
 
   addUserList(id){
     return this.http.post(this.appConfig.urlCommon+'adminuser/'+id+'?language='+this.languageId,'')
@@ -371,7 +371,7 @@ delMediaType(mediaTypeId) {
 
 // Media Types ends urlMediaFileUpload
 
-// Media File upload starts 
+// Media File upload starts
 getMediaFileUpload() {
   return this.http.get(this.appConfig.urlMediaFileUpload)
   .map((response: Response) => response.json())
@@ -415,7 +415,7 @@ getMediaByCateId(id){
   }
 
   addGallery(gallery) {
-    
+
     return this.http.post(this.appConfig.urlSlides+ '?language='+this.languageId, gallery)
     .map((response: Response) => response.json())
     .catch(this.handleError);
@@ -450,7 +450,7 @@ getMediaByCateId(id){
     .catch(this.handleError);
   }
 
- 
+
   getFooterCategoryList(){
     let fullUrl = this.appConfig.urlFooterCategory + '?active=true' + "&language=" + this.languageId;
     return this.http.get(fullUrl, null)
@@ -459,7 +459,7 @@ getMediaByCateId(id){
   }
 
 
-  
+
   public handleError = (error: Response) => {
     return Observable.throw(error);
   }
@@ -495,10 +495,9 @@ getMediaByCateId(id){
 
 
   // NEW
-  
+
   readPortal(moduleName, page?, size?, keyword?): Observable<any[]> {
     let readUrl;
-    
     if(!keyword && page) {
       readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
     } else if(keyword) {
@@ -512,10 +511,10 @@ getMediaByCateId(id){
       .retry(5)
       .catch(this.handleError);
   }
-  
+
   readProtected(moduleName, page?, size?, keyword?): Observable<any[]> {
     let readUrl;
-    
+
     if(!keyword && page) {
       readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
     } else if(keyword) {
@@ -529,7 +528,7 @@ getMediaByCateId(id){
       .retry(5)
       .catch(this.handleError);
   }
-  
+
   readPortalById(moduleName, id): Observable<any[]> {
     let readUrl = this.appConfig.urlService + moduleName + id + '?language='+this.languageId;
     return this.http.get(readUrl)
@@ -537,7 +536,7 @@ getMediaByCateId(id){
       .retry(5)
       .catch(this.handleError);
   }
-  
+
   readProtectedById(moduleName, id): Observable<any[]> {
     let readUrl = this.appConfig.urlCommon + moduleName + id + '?language='+this.languageId;
     return this.http.get(readUrl)
@@ -545,10 +544,10 @@ getMediaByCateId(id){
       .retry(5)
       .catch(this.handleError);
   }
-    
+
   create(data, moduleName) {
     let createUrl = this.appConfig.urlCommon   + moduleName + '?language='+this.languageId;
-  
+
     return this.http.post(createUrl, data)
     .map((response: Response) => response.json())
     .catch(this.handleError);
@@ -573,7 +572,7 @@ getMediaByCateId(id){
   // END NEW
 
   errorResponse(data){
-      this.toastr.error(data.statusDesc, ''); 
+      this.toastr.error(data.statusDesc, '');
   }
 
   getLanguageId() {
@@ -611,19 +610,19 @@ getMediaByCateId(id){
           this.refModuleId = data.moduleId;
         },
         error => {
-          
+
         },() => {
             this.getUserData();
-          
+
         })
     };
     this.defaultPageSize = 10;
-    
+
   };
 
 
   getUserData(){
-  
+
     this.getUsersDetails().subscribe(
       dataC => {
 
@@ -637,24 +636,24 @@ getMediaByCateId(id){
           }else{
             this.isAdmin = false;
            this.userID = dataC['adminUser'].userId;
-            
+
           }
         }else{
-          
+
         }
-        
+
       },
     error => {
-      
+
       },() => {
         if(!this.isAdmin){
           this.getUserList(this.userID).subscribe(
             dataT => {
-              
+
               this.getDataT = dataT.data[1].items;
-  
+
               let firstLvlFltr =  this.getDataT.filter(function(fdata) {
-                
+
                 fdata.modules.filter(function(second){
                   if(second.moduleId == this.refModuleId){
                     this.isDelete = second.permission.isDelete;
@@ -662,15 +661,15 @@ getMediaByCateId(id){
                     this.isWrite = second.permission.isWrite;
                     this.isUpdate = second.permission.isUpdate;
                   }
-            
+
                 }.bind(this))
               }.bind(this));
-  
+
             }, error => {
-              
+
             });
         }
-       
+
       }
     )}
 }
