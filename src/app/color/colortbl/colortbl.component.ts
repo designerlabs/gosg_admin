@@ -36,7 +36,7 @@ export class ColortblComponent implements OnInit {
   lang:any;
   languageId: any;
   public loading = false;
-
+  
   recordTable =  null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -58,34 +58,37 @@ export class ColortblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService) {
 
+      let currUrl = this.router.url.split('/')[1];
       /* LANGUAGE FUNC */
-      translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        translate.get('HOME').subscribe((res: any) => {
-          console.log(this.translateLoader);
-          if(this.translateLoader){
+      if(currUrl == 'color'){
+        translate.onLangChange.subscribe((event: LangChangeEvent) => {
+          translate.get('HOME').subscribe((res: any) => {        
+            
+            console.log(currUrl);
             this.getcolorData(this.pageCount, this.colorPageSize);
             this.commonservice.getModuleId();
-            this.translateLoader = false;
-          }
+              //this.translateLoader = false;
+            
 
-          // console.log(translate.currentLang);
-          // this.getcolorData(this.pageCount, this.colorPageSize);
-          // this.commonservice.getModuleId();
-          // this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          //   let getLang = data.list;
-          //   let myLangData =  getLang.filter(function(val) {
-          //     if(val.languageCode == translate.currentLang){
-          //       this.lang = val.languageCode;
-          //       this.languageId = val.languageId;
-          //       this.getcolorData(this.pageCount, this.colorPageSize);
-          //       this.commonservice.getModuleId();
-          //     }
-          //   }.bind(this));
-          // })
+            // this.loading = true;
+            // this.commonservice.readPortal('language/all').subscribe((data:any) => {
+            //   let getLang = data.list;
+            //   let myLangData =  getLang.filter(function(val) {
+            //     if(val.languageCode == translate.currentLang){
+            //       this.lang = val.languageCode;
+            //       this.languageId = val.languageId;
+            //       this.getcolorData(this.pageCount, this.colorPageSize);
+            //       this.commonservice.getModuleId();
+            //     }
+            //   }.bind(this));
+            //   this.loading = false;
+            // }, err => {
+            //   this.loading = false;
+            // })
+          });
         });
-      });
+      }
       if(!this.languageId){
-        console.log(this.translateLoader);
         this.languageId = localStorage.getItem('langID');
         // this.getcolorData(this.pageCount, this.colorPageSize);
         // this.commonservice.getModuleId();
@@ -95,7 +98,6 @@ export class ColortblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
-    console.log(this.translateLoader);
     this.getcolorData(this.pageCount, this.colorPageSize);
     this.commonservice.getModuleId();
   }
