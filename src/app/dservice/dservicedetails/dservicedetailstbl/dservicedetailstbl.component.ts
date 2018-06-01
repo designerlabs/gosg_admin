@@ -206,13 +206,13 @@ export class DServicedetailstblComponent implements OnInit {
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.router.navigate(['digitalservicedetails', "add"]);
+    this.router.navigate(['dservicedetails', "add"]);
   }
 
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['digitalservicedetails', row]);
+    this.router.navigate(['dservicedetails', row]);
   }
 
   deleteItem(refCode) {

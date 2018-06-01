@@ -228,9 +228,8 @@ export class DServicegrouptblComponent implements OnInit {
         },
         error => {
           this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
         });
-
   }
 
   changePageMode(isEdit) {

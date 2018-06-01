@@ -206,13 +206,13 @@ export class DServicetblComponent implements OnInit {
   addBtn() {
     this.isEdit = false;
     this.changePageMode(this.isEdit);
-    this.router.navigate(['digitalservice', "add"]);
+    this.router.navigate(['dservice', "add"]);
   }
 
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
-    this.router.navigate(['digitalservice', row]);
+    this.router.navigate(['dservice', row]);
   }
 
   deleteItem(refCode) {
