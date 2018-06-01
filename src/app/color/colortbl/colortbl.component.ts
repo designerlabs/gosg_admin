@@ -60,34 +60,34 @@ export class ColortblComponent implements OnInit {
 
       let currUrl = this.router.url.split('/')[1];
       /* LANGUAGE FUNC */
-      if(currUrl == 'color'){
-        translate.onLangChange.subscribe((event: LangChangeEvent) => {
-          translate.get('HOME').subscribe((res: any) => {        
+      // if(currUrl == 'color'){
+      //   translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      //     translate.get('HOME').subscribe((res: any) => {        
             
-            console.log(currUrl);
-            this.getcolorData(this.pageCount, this.colorPageSize);
-            this.commonservice.getModuleId();
-              //this.translateLoader = false;
+      //       console.log(currUrl);
+      //       this.getcolorData(this.pageCount, this.colorPageSize);
+      //       this.commonservice.getModuleId();
+      //         //this.translateLoader = false;
             
 
-            // this.loading = true;
-            // this.commonservice.readPortal('language/all').subscribe((data:any) => {
-            //   let getLang = data.list;
-            //   let myLangData =  getLang.filter(function(val) {
-            //     if(val.languageCode == translate.currentLang){
-            //       this.lang = val.languageCode;
-            //       this.languageId = val.languageId;
-            //       this.getcolorData(this.pageCount, this.colorPageSize);
-            //       this.commonservice.getModuleId();
-            //     }
-            //   }.bind(this));
-            //   this.loading = false;
-            // }, err => {
-            //   this.loading = false;
-            // })
-          });
-        });
-      }
+      //       // this.loading = true;
+      //       // this.commonservice.readPortal('language/all').subscribe((data:any) => {
+      //       //   let getLang = data.list;
+      //       //   let myLangData =  getLang.filter(function(val) {
+      //       //     if(val.languageCode == translate.currentLang){
+      //       //       this.lang = val.languageCode;
+      //       //       this.languageId = val.languageId;
+      //       //       this.getcolorData(this.pageCount, this.colorPageSize);
+      //       //       this.commonservice.getModuleId();
+      //       //     }
+      //       //   }.bind(this));
+      //       //   this.loading = false;
+      //       // }, err => {
+      //       //   this.loading = false;
+      //       // })
+      //     });
+      //   });
+      // }
       if(!this.languageId){
         this.languageId = localStorage.getItem('langID');
         // this.getcolorData(this.pageCount, this.colorPageSize);
@@ -97,7 +97,29 @@ export class ColortblComponent implements OnInit {
       /* LANGUAGE FUNC */ }
 
   ngOnInit() {
+
+    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      // this.sharedService.errorHandling(event, (function(){
+        const myLang = this.translate.currentLang;
+        if (myLang === 'en') {
+           this.lang = 'en';
+           this.languageId = 1;
+           //this.getcolorData(this.pageCount, this.colorPageSize);
+           console.log('lang is ENGLISH');
+           
+        }
+        if (myLang === 'ms') {
+          this.lang = 'ms';
+          this.languageId = 2;
+          //this.getcolorData(this.pageCount, this.colorPageSize);
+          console.log('lang is MALAY');
+        }
+        console.log("Translate");
+        this.getcolorData(this.pageCount, this.colorPageSize);
+      // }).bind(this));
+    });
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
+    console.log("AFTER Trans");
     this.getcolorData(this.pageCount, this.colorPageSize);
     this.commonservice.getModuleId();
   }

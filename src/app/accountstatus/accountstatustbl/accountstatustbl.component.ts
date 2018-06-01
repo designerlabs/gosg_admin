@@ -33,6 +33,7 @@ export class AccountstatustblComponent implements OnInit {
   seqPageSize = 0 ;
 
   dataUrl: any;  
+  lang:any;
   public languageId: any;
   recordTable = null;
   
@@ -84,7 +85,22 @@ export class AccountstatustblComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    // this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    //   // this.sharedService.errorHandling(event, (function(){
+    //     const myLang = this.translate.currentLang;
+    //     if (myLang === 'en') {
+    //        this.lang = 'en';
+    //        this.languageId = 1;
+    //        console.log('english');
+           
+    //     }
+    //     if (myLang === 'ms') {
+    //       this.lang = 'ms';
+    //       this.languageId = 2;
+    //       console.log('from malay');
+    //     }
+    //   // }).bind(this));
+    // });
     this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
