@@ -80,23 +80,23 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width" >
-                        <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="200" 
+                        <textarea matInput placeholder="Description" formControlName="descEn" #pollEng maxlength="2000" 
                         (keyup)="checkReqValues()" required tabindex="3"></textarea>
                         <mat-error *ngIf="updateForm.controls.descEn.hasError('required')">
                             Description is required
                         </mat-error>
-                        <mat-hint align="end">{{descEn.value?.length || 0}}/200</mat-hint>
+                        <mat-hint align="end">{{descEn.value?.length || 0}}/2000</mat-hint>
                     </mat-form-field>
                 </div>
 
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width" >
-                        <textarea matInput placeholder="Penerangan" formControlName="descBm" #pollMalay maxlength="200" 
+                        <textarea matInput placeholder="Penerangan" formControlName="descBm" #pollMalay maxlength="2000" 
                         (keyup)="checkReqValues()" required tabindex="4"></textarea>
                         <mat-error *ngIf="updateForm.controls.descBm.hasError('required')">
                             Penerangan diperlukan
                         </mat-error>
-                        <mat-hint align="end">{{descBm.value?.length || 0}}/200</mat-hint>
+                        <mat-hint align="end">{{descBm.value?.length || 0}}/2000</mat-hint>
                     </mat-form-field>
                 </div>
             </div> 
