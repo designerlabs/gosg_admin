@@ -240,8 +240,8 @@ export class LifeeventComponent implements OnInit {
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder(); 
       this.updateForm.get('active').setValue(true)
-      this.updateForm.get('citizenflag').setValue(true)
-      this.updateForm.get('noncitizenflag').setValue(true)
+      // this.updateForm.get('citizenflag').setValue(true)
+      // this.updateForm.get('noncitizenflag').setValue(true)
     }
     else{
       this.commonservice.pageModeChange(true);
@@ -545,8 +545,8 @@ export class LifeeventComponent implements OnInit {
         this.updateForm.get('seqEng').setValue(dataEn.contentSort);
         this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
         this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
-        this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
-        this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
+        // this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
+        // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
 
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
@@ -725,8 +725,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,   
 
@@ -746,8 +746,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
@@ -769,13 +769,13 @@ export class LifeeventComponent implements OnInit {
       body[0].lifeEventSort = formValues.seqEng;
       body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[0].lifeEventActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].lifeEventActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
@@ -823,8 +823,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
@@ -844,8 +844,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
@@ -867,13 +867,13 @@ export class LifeeventComponent implements OnInit {
       body[0].lifeEventSort = formValues.seqEng;
       body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[0].lifeEventActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].lifeEventActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
@@ -962,8 +962,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
@@ -982,8 +982,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
@@ -1005,13 +1005,13 @@ export class LifeeventComponent implements OnInit {
       body[0].lifeEventSort = formValues.seqEng;
       body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[0].lifeEventActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].lifeEventActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
@@ -1059,8 +1059,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
@@ -1080,8 +1080,8 @@ export class LifeeventComponent implements OnInit {
           "lifeEventSort": null,
           "lifeEventUrl": null,   
           "lifeEventActiveFlag":false,       
-          "lifeEventCitizenFlag": false,
-          "lifeEventNonCitizenFlag":false,
+          // "lifeEventCitizenFlag": false,
+          // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
           "lifeEventEndDate": null,       
           "language": {
@@ -1103,13 +1103,13 @@ export class LifeeventComponent implements OnInit {
       body[0].lifeEventSort = formValues.seqEng;
       body[1].lifeEventSort = formValues.seqMy;
 
-      body[0].lifeEventCitizenFlag = formValues.citizenflag;
-      body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[0].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[0].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[0].lifeEventActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
 
-      body[1].lifeEventCitizenFlag = formValues.citizenflag;
-      body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
+      // body[1].lifeEventCitizenFlag = formValues.citizenflag;
+      // body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].lifeEventActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;        
       
