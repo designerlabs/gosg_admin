@@ -12,9 +12,8 @@ import { DialogsService } from './../dialogs/dialogs.service';
 import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
-import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
-
+declare var $ :any;
 @Component({
   selector: 'app-content',
   templateUrl: './content.component.html',
@@ -22,9 +21,11 @@ import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-
 })
 export class ContentComponent implements OnInit {
 
+
+
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
-  publishdt:number;  
+  publishdt:number;
   enddt: number;
   minDate: any;
   sMinDate: any;
@@ -39,16 +40,16 @@ export class ContentComponent implements OnInit {
   parseMyBtn: boolean;
 
   updateForm: FormGroup;
-  
-  public agencyApp: FormControl;  
-  public agencyforApp: FormControl;  
-  public agencyEn: FormControl;  
+
+  public agencyApp: FormControl;
+  public agencyforApp: FormControl;
+  public agencyEn: FormControl;
   public agencyBm: FormControl;
-  public ministryEn: FormControl;  
+  public ministryEn: FormControl;
   public ministryBm: FormControl;
-  public titleEn: FormControl;  
+  public titleEn: FormControl;
   public titleBm: FormControl;
-  public descEn: FormControl;  
+  public descEn: FormControl;
   public descBm: FormControl;
   public active: FormControl;
   // public citizenflag:FormControl;
@@ -63,7 +64,7 @@ export class ContentComponent implements OnInit {
   itemBm: any;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
-  public dataUrl: any;  
+  public dataUrl: any;
   public recordList: any;
   public categoryData: any;
   public deleted: FormControl;
@@ -89,7 +90,8 @@ export class ContentComponent implements OnInit {
   public ministryData: any;
   selectedMinEn = '';
   selectedMinBm = '';
-
+  public htmlContentEnEditor: Object = { key: 'bH3A7B5C5E4C2E3D3D2G2B5==' };
+  public htmlContentMyEditor: Object = { key: 'bH3A7B5C5E4C2E3D3D2G2B5==' };
   arrAgencyApp = [];
   public agencyAppData: any;
   public agencyAppDataCode: any;
@@ -133,10 +135,10 @@ export class ContentComponent implements OnInit {
   // dataSource = new MatTableDataSource<object>(this.arrAgencyApp);
   displayedColumns = ['agencyNameEn', 'urlEn', 'agencyNameBm','urlBm', 'action'];
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService, 
-    private router: Router, 
+    private commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
@@ -151,7 +153,7 @@ export class ContentComponent implements OnInit {
           let myLangData =  getLang.filter(function(val) {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
-              this.getCategory();           
+              this.getCategory();
               this.languageId = val.languageId;
               this.changeLanguageAddEdit();
               this.changePlaceHolder();
@@ -167,19 +169,31 @@ export class ContentComponent implements OnInit {
       //this.getData();
     }
     /* LANGUAGE FUNC */
-      
+
     this.updateForm = builder.group({
       enVal: "",
       bmVal: "",
       treeVal: ""
     })
   }
-  
-  ngOnInit() {  
+
+  ngOnInit() {
+
+    $.FroalaEditor.DefineIcon('alert', {NAME: 'info'});
+    $.FroalaEditor.RegisterCommand('alert', {
+      title: 'Hello',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: false,
+
+      callback: function () {
+        alert('Hello!');
+      }
+    });
 
     this.getMinistry();
     this.getMinEventDate();
-    
+
     this.publish = new FormControl()
     this.endD = new FormControl
     this.parseEnBtn = false;
@@ -206,7 +220,7 @@ export class ContentComponent implements OnInit {
     this.htmlContentEn = new FormControl();
     this.htmlContentMy = new FormControl();
 
-    this.updateForm = new FormGroup({   
+    this.updateForm = new FormGroup({
 
       endD: this.endD,
       publish: this.publish,
@@ -218,7 +232,7 @@ export class ContentComponent implements OnInit {
       ministryBm: this.ministryBm,
       titleEn: this.titleEn,
       titleBm: this.titleBm,
-      descEn: this.descEn,    
+      descEn: this.descEn,
       descBm: this.descBm,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
@@ -235,10 +249,10 @@ export class ContentComponent implements OnInit {
     this.getCategory();
 
     this.urlEdit = this.router.url.split('/')[2];
-    
+
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.changePlaceHolder(); 
+      this.changePlaceHolder();
       this.updateForm.get('active').setValue(true)
       // this.updateForm.get('citizenflag').setValue(true)
       // this.updateForm.get('noncitizenflag').setValue(true)
@@ -246,7 +260,7 @@ export class ContentComponent implements OnInit {
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
-     
+
     }
     this.commonservice.getModuleId();
   }
@@ -256,11 +270,11 @@ export class ContentComponent implements OnInit {
     this.loading = true;
     return this.commonservice.create(this.htmlContentEn.value, 'htmlcontent/formathtml')
       .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () { 
+        this.commonservice.errorHandling(resCatData, (function () {
           let config = new MatDialogConfig();
           config.width = '800px';
           config.height = '600px';
-          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
           let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
           let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
@@ -283,11 +297,11 @@ export class ContentComponent implements OnInit {
     this.loading = true;
     return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
       .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () { 
+        this.commonservice.errorHandling(resCatData, (function () {
           let config = new MatDialogConfig();
           config.width = '800px';
           config.height = '600px';
-          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
           let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
           let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
@@ -309,11 +323,11 @@ export class ContentComponent implements OnInit {
 
   onChangeEn(ele){
     if(ele == this.rawValEn){
-      this.parseEnBtn = true;        
+      this.parseEnBtn = true;
     }
     else{
       this.parseEnBtn = false;
-    }   
+    }
   }
 
   onChangeBm(ele){
@@ -325,7 +339,7 @@ export class ContentComponent implements OnInit {
     }
   }
 
-  onChange(ele){    
+  onChange(ele){
 
     if(ele.length > 0 ){
       this.parentFlag = true;
@@ -340,30 +354,30 @@ export class ContentComponent implements OnInit {
     let today = new Date();
     let todaysdt = today.getDate();
     let year = today.getFullYear();
-    let month = today.getMonth(); 
+    let month = today.getMonth();
 
     //this.minDate = new Date(year, month, todaysdt);
     this.sMinDate = new Date(year, month, todaysdt);
     this.eMinDate = new Date(year, month, todaysdt);
   }
 
-  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     let year, month, day;
     this.events = [];
     this.events.push(`${event.value}`);
 
     this.publishdt = new Date(this.events[0]).getTime();
-    this.dateFormatExample = "";   
+    this.dateFormatExample = "";
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
- 
+
     this.eMinDate = new Date(year,month,day);
 
     //if(this.publishdt>this.enddt || this.enddt == undefined){
-      // this.enddt = new Date(year,month,day).getTime(); 
+      // this.enddt = new Date(year,month,day).getTime();
       // this.enddt = new Date(this.events[0]).getTime();
       // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     //}
@@ -375,14 +389,14 @@ export class ContentComponent implements OnInit {
     }
     //this.updateForm.get('endD').setValue('');
 
-    this.checkReqValues()    
+    this.checkReqValues()
   }
 
-  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     this.events = [];
     this.events.push(`${event.value}`);
-    this.enddt = new Date(this.events[0]).getTime();    
+    this.enddt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
     this.checkReqValues()
   }
@@ -390,9 +404,9 @@ export class ContentComponent implements OnInit {
   setEventDate(tsd,type) {
 
     let year, month, day;
-    let res;    
+    let res;
     this.events = [];
-    var d = new Date(tsd); 
+    var d = new Date(tsd);
     this.events.push(`${d}`);
 
     year = new Date(this.events[0]).getFullYear();
@@ -403,7 +417,7 @@ export class ContentComponent implements OnInit {
 
       this.eMinDate = new Date(year,month,day);
       this.publishdt = new Date(this.events[0]).getTime();
-      this.enddt = new Date(this.events[0]).getTime();     
+      this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     }
     else{
@@ -419,27 +433,27 @@ export class ContentComponent implements OnInit {
     this.loading = true;
     return this.commonservice.readProtected('content/creator/dropdown/'+this.commonservice.contentCategoryCode)
      .subscribe(data => {
-          
+
       this.commonservice.errorHandling(data, (function(){
 
-          this.categoryData = data["list"];   
-          let arrCatEn = [];          
-          let arrCatBm = [];          
+          this.categoryData = data["list"];
+          let arrCatEn = [];
+          let arrCatBm = [];
 
 
-          for(let i=0; i<this.categoryData.length; i++){     
-    
+          for(let i=0; i<this.categoryData.length; i++){
+
               if(this.categoryData[i].list.length === 2){
                 arrCatEn.push({
-                  
+
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[0].categoryId,
                       // refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[0].parentId,
                       text: this.categoryData[i].list[0].categoryName,
                       // checked: false,
-                      children: []});      
-                    
+                      children: []});
+
                 arrCatBm.push({
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[1].categoryId,
@@ -447,12 +461,12 @@ export class ContentComponent implements OnInit {
                       parent: this.categoryData[i].list[1].parentId,
                       // checked: false,
                       text: this.categoryData[i].list[1].categoryName,
-                      children: []}); 
-                    
+                      children: []});
+
               }
 
           }
-          
+
           if(this.languageId == 1){
             this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           }else if(this.languageId == 2){
@@ -460,15 +474,15 @@ export class ContentComponent implements OnInit {
           }else{
             this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           }
-          
+
           this.itemEn = this.treeEn;
-          
+
         }).bind(this));
         this.loading = false;
       },
       error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
     });
   }
@@ -478,7 +492,7 @@ export class ContentComponent implements OnInit {
     var children = []
 
     for(var i in arr) {
-    
+
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenEn(arr, arr[i].value)
 
@@ -486,9 +500,9 @@ export class ContentComponent implements OnInit {
                  arr[i].children = children
             }
             out.push(arr[i])
-        }      
-    }    
-    return out  
+        }
+    }
+    return out
   }
 
   getNestedChildrenBm(arr, parent) {
@@ -496,7 +510,7 @@ export class ContentComponent implements OnInit {
     var children = []
 
     for(var i in arr) {
-    
+
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenBm(arr, arr[i].value)
 
@@ -505,9 +519,9 @@ export class ContentComponent implements OnInit {
             }
             out.push(arr[i])
         }
-      
-    }    
-    return out  
+
+    }
+    return out
   }
 
   getData() {
@@ -525,23 +539,23 @@ export class ContentComponent implements OnInit {
         let dataBm = this.recordList['contentDetailList'][1];
 
         this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
-        this.updateForm.get('titleBm').setValue(dataBm.contentTitle);   
+        this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
         this.updateForm.get('descEn').setValue(dataEn.contentDescription);
-        this.updateForm.get('descBm').setValue(dataBm.contentDescription);  
+        this.updateForm.get('descBm').setValue(dataBm.contentDescription);
         this.updateForm.get('seqEng').setValue(dataEn.contentSort);
-        this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
-        this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
-        // this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
-        // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);  
-        
+        this.updateForm.get('seqMy').setValue(dataBm.contentSort);
+        this.updateForm.get('active').setValue(dataEn.isActiveFlag);
+        // this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);
+        // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);
+
         this.dateFormatExample = "";
 
         // this.publishdt = dataEn.publishDate;
         // this.enddt = dataEn.endDate;
-        
+
         if(dataBm.publishDate != undefined){
           this.setEventDate(dataBm.publishDate,'publish')
-          this.setEventDate(dataBm.endDate, 'endD')        
+          this.setEventDate(dataBm.endDate, 'endD')
 
           this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
           this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
@@ -554,8 +568,8 @@ export class ContentComponent implements OnInit {
 
         if(this.sendForApporval == true){
           this.parentsEn.disable();
-        }       
-        
+        }
+
         let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
         let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
         let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
@@ -580,7 +594,7 @@ export class ContentComponent implements OnInit {
 
         //set  value after preview
         this.contentTxtEn = addClassforTable;
-        this.contentTxtMy = addClassforTable_BM;      
+        this.contentTxtMy = addClassforTable_BM;
 
         this.parentValEn = dataEn.contentCategories[0].categoryId;
         this.parentValBm = dataBm.contentCategories[0].categoryId;
@@ -617,9 +631,9 @@ export class ContentComponent implements OnInit {
 
         let setParentEn = [];
 
-        //get array of categoryId                     
+        //get array of categoryId
 
-        if(this.languageId == 1){       
+        if(this.languageId == 1){
           for(let i=0; i<dataEn.contentCategories.length; i++){
             let a;
 
@@ -628,38 +642,38 @@ export class ContentComponent implements OnInit {
               "text":dataEn.contentCategories[i].categoryName,
               "value": dataEn.contentCategories[i].categoryId
             }
-              
-            setParentEn.push(a);    
+
+            setParentEn.push(a);
           }
           //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
-          this.filterPlaceholder = this.commonservice.showFilterEn;          
+          this.filterPlaceholder = this.commonservice.showFilterEn;
         }
 
-        else{  
+        else{
           for(let i=0; i<dataBm.contentCategories.length; i++){
             let a;
-      
+
             a = {
               "id": [dataEn.contentCategories[i].categoryId,dataBm.contentCategories[i].categoryId],
               "text":dataBm.contentCategories[i].categoryName,
               "value": dataBm.contentCategories[i].categoryId
             };
-        
-            setParentEn.push(a);    
+
+            setParentEn.push(a);
           }
           //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
         }
-        
-        this.updateForm.get('parentsEn').setValue(setParentEn);          
+
+        this.updateForm.get('parentsEn').setValue(setParentEn);
         this.checkReqValues();
-        
+
       });
     }
-    
+
   }
 
-  
+
   draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
 
@@ -680,7 +694,7 @@ export class ContentComponent implements OnInit {
       let b = {"categoryId": this.parentValEn[i].id[1]};
 
       arrCatIDEn.push(a);
-      arrCatIDBm.push(b);      
+      arrCatIDBm.push(b);
     }
 
     let appsEn = [];
@@ -688,49 +702,49 @@ export class ContentComponent implements OnInit {
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
-      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
-      appsEn.push(a);      
-      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}  
+      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}
+      appsEn.push(a);
+      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}
       appsBm.push(b);
-    }  
+    }
 
     if(this.arrAgencyApp.length == 0){
       appsEn = null;
       appsBm = null;
     }
-  
+
     // add form
     if(this.urlEdit === 'add'){
 
       let body = [
         {
-          "contentCategories": null,   
+          "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,     
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,    
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 1
           },
           "agency": {
             "agencyId": null
-          },        
+          },
           "agencyApplications": null
         },
         {
           "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,      
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,       
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 2
           },
@@ -739,7 +753,7 @@ export class ContentComponent implements OnInit {
           },
           "agencyApplications": null
         }
-      ];    
+      ];
 
       body[0].contentTitle = formValues.titleEn;
       body[1].contentTitle = formValues.titleBm;
@@ -758,29 +772,29 @@ export class ContentComponent implements OnInit {
       // body[1].contentCitizenFlag = formValues.citizenflag;
       // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
+      body[1].agency.agencyId = this.agencyIdBm;
+
 
       body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
+      body[1].contentCategories = arrCatIDBm;
 
       body[0].contentPublishDate = new Date(formValues.publish).getTime();
       body[0].contentEndDate = new Date(formValues.endD).getTime();
 
       body[1].contentPublishDate = new Date(formValues.publish).getTime();
-      body[1].contentEndDate = new Date(formValues.endD).getTime();      
+      body[1].contentEndDate = new Date(formValues.endD).getTime();
 
       body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;  
+      body[1].agencyApplications = appsBm;
 
       console.log(JSON.stringify(body))
-     
+
       this.loading = true;
       // Add
       this.commonservice.create(body, 'content/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.contentdraft'), ''); 
+            this.toastr.success(this.translate.instant('common.success.contentdraft'), '');
             this.router.navigate(['content']);
 
           }).bind(this));
@@ -792,26 +806,26 @@ export class ContentComponent implements OnInit {
         });
     }
 
-    // update form 
+    // update form
     else{
       let body = [
         {
           "contentId":  this.getIdEn,
-          "contentCategories": null,   
+          "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,     
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,   
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 1
           },
           "agency": {
             "agencyId": null
-          },        
+          },
           "agencyApplications": null
         },
         {
@@ -819,12 +833,12 @@ export class ContentComponent implements OnInit {
           "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,      
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,     
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 2
           },
@@ -833,7 +847,7 @@ export class ContentComponent implements OnInit {
           },
           "agencyApplications": null
         }
-      ];    
+      ];
 
       body[0].contentTitle = formValues.titleEn;
       body[1].contentTitle = formValues.titleBm;
@@ -852,29 +866,29 @@ export class ContentComponent implements OnInit {
       // body[1].contentCitizenFlag = formValues.citizenflag;
       // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
+      body[1].agency.agencyId = this.agencyIdBm;
+
 
       body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
+      body[1].contentCategories = arrCatIDBm;
 
       body[0].contentPublishDate = new Date(formValues.publish).getTime();
       body[0].contentEndDate = new Date(formValues.endD).getTime();
 
       body[1].contentPublishDate = new Date(formValues.publish).getTime();
-      body[1].contentEndDate = new Date(formValues.endD).getTime();      
+      body[1].contentEndDate = new Date(formValues.endD).getTime();
 
       body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;       
-      
+      body[1].agencyApplications = appsBm;
+
       console.log(JSON.stringify(body))
 
       this.loading = true;
-      // Update 
+      // Update
       this.commonservice.update(body, 'content/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.contentdraft'), ''); 
+            this.toastr.success(this.translate.instant('common.success.contentdraft'), '');
             this.router.navigate(['content']);
 
           }).bind(this));
@@ -885,7 +899,7 @@ export class ContentComponent implements OnInit {
           this.loading = false;
         });
     }
-    
+
   }
 
   submit(formValues: any) {
@@ -908,7 +922,7 @@ export class ContentComponent implements OnInit {
       let b = {"categoryId": this.parentValEn[i].id[1]};
 
       arrCatIDEn.push(a);
-      arrCatIDBm.push(b);      
+      arrCatIDBm.push(b);
     }
 
     let appsEn = [];
@@ -916,49 +930,49 @@ export class ContentComponent implements OnInit {
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
-      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
-      appsEn.push(a);      
-      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}  
+      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}
+      appsEn.push(a);
+      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}
       appsBm.push(b);
-    }  
+    }
 
     if(this.arrAgencyApp.length == 0){
       appsEn = null;
       appsBm = null;
-    }    
+    }
 
     // add form
     if(this.urlEdit === 'add'){
 
       let body = [
         {
-          "contentCategories": null,   
+          "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,     
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,    
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 1
           },
           "agency": {
             "agencyId": null
-          },        
+          },
           "agencyApplications": null
         },
         {
           "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,      
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,     
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 2
           },
@@ -967,7 +981,7 @@ export class ContentComponent implements OnInit {
           },
           "agencyApplications": null
         }
-      ];    
+      ];
 
       body[0].contentTitle = formValues.titleEn;
       body[1].contentTitle = formValues.titleBm;
@@ -986,29 +1000,29 @@ export class ContentComponent implements OnInit {
       // body[1].contentCitizenFlag = formValues.citizenflag;
       // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
+      body[1].agency.agencyId = this.agencyIdBm;
+
 
       body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
+      body[1].contentCategories = arrCatIDBm;
 
       body[0].contentPublishDate = new Date(formValues.publish).getTime();
       body[0].contentEndDate = new Date(formValues.endD).getTime();
 
       body[1].contentPublishDate = new Date(formValues.publish).getTime();
-      body[1].contentEndDate = new Date(formValues.endD).getTime();      
+      body[1].contentEndDate = new Date(formValues.endD).getTime();
 
       body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;         
-      
+      body[1].agencyApplications = appsBm;
+
       console.log(JSON.stringify(body))
-     
+
       this.loading = true;
       // Add
       this.commonservice.create(body, 'content/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.contentsubmitted'), ''); 
+            this.toastr.success(this.translate.instant('common.success.contentsubmitted'), '');
             this.router.navigate(['content']);
 
           }).bind(this));
@@ -1025,21 +1039,21 @@ export class ContentComponent implements OnInit {
       let body = [
         {
           "contentId":  this.getIdEn,
-          "contentCategories": null,   
+          "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,     
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,      
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 1
           },
           "agency": {
             "agencyId": null
-          },        
+          },
           "agencyApplications": null
         },
         {
@@ -1047,12 +1061,12 @@ export class ContentComponent implements OnInit {
           "contentCategories": null,
           "contentTitle": null,
           "contentText": null,
-          "contentDescription": null,      
+          "contentDescription": null,
           "contentSort": null,
-          "contentUrl": null,   
-          "contentActiveFlag":false,     
+          "contentUrl": null,
+          "contentActiveFlag":false,
           "contentPublishDate": null,
-          "contentEndDate": null,       
+          "contentEndDate": null,
           "language": {
             "languageId": 2
           },
@@ -1061,7 +1075,7 @@ export class ContentComponent implements OnInit {
           },
           "agencyApplications": null
         }
-      ];    
+      ];
 
       body[0].contentTitle = formValues.titleEn;
       body[1].contentTitle = formValues.titleBm;
@@ -1080,30 +1094,30 @@ export class ContentComponent implements OnInit {
       // body[1].contentCitizenFlag = formValues.citizenflag;
       // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
+      body[1].agency.agencyId = this.agencyIdBm;
+
 
       body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
+      body[1].contentCategories = arrCatIDBm;
 
       body[0].contentPublishDate = new Date(formValues.publish).getTime();
       body[0].contentEndDate = new Date(formValues.endD).getTime();
 
       body[1].contentPublishDate = new Date(formValues.publish).getTime();
-      body[1].contentEndDate = new Date(formValues.endD).getTime();      
+      body[1].contentEndDate = new Date(formValues.endD).getTime();
 
       body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;  
+      body[1].agencyApplications = appsBm;
 
       console.log("UPDATE NOT DRAFT: ");
       console.log(JSON.stringify(body))
 
       this.loading = true;
-      // Update 
+      // Update
       this.commonservice.update(body, 'content/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.contentsubmitted'), ''); 
+            this.toastr.success(this.translate.instant('common.success.contentsubmitted'), '');
             this.router.navigate(['content']);
 
           }).bind(this));
@@ -1114,15 +1128,15 @@ export class ContentComponent implements OnInit {
           this.loading = false;
         });
     }
-    
+
   }
 
   changeLanguageAddEdit(){
     if (this.urlEdit === 'add'){
-      this.commonservice.pageModeChange(false);  
+      this.commonservice.pageModeChange(false);
     }
     else{
-      this.commonservice.pageModeChange(true);      
+      this.commonservice.pageModeChange(true);
     }
   }
 
@@ -1138,7 +1152,7 @@ export class ContentComponent implements OnInit {
   checkReqValues() {
     let reqVal:any;
 
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];    
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
 
     let nullPointers:any = [];
 
@@ -1150,7 +1164,7 @@ export class ContentComponent implements OnInit {
         nullPointers.push(null)
       }
     }
-      
+
     if(nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -1202,7 +1216,7 @@ export class ContentComponent implements OnInit {
 
     else{
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;        
+        this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
         this.filterPlaceholder = this.commonservice.showFilterBm;
       }
 
@@ -1214,7 +1228,7 @@ export class ContentComponent implements OnInit {
 
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
+    this.checkReqValues();
     this.events = [];
     this.publishdt = null;
     this.enddt = null;
@@ -1239,7 +1253,7 @@ export class ContentComponent implements OnInit {
 
   //list of agency app for selected agency
   getAgencyApp(agencyId) {
-    this.loading = true;   
+    this.loading = true;
     return this.commonservice.readPortal('agency/application/agencyid/'+agencyId)
       .subscribe(resMinData => {
         this.agencyAppData = resMinData['agencyApplicationList'];
@@ -1248,11 +1262,11 @@ export class ContentComponent implements OnInit {
       Error => {
         this.loading = false;
       });
-   
+
   }
 
   selectedMinistry(e, val){
-   
+
     let getMinistryIdEn = e.value;
     let getMinistryIdBm = e.value;
     let dataList = this.ministryData;
@@ -1260,7 +1274,7 @@ export class ContentComponent implements OnInit {
     let idBm: any;
     let idEn: any;
 
-   
+
     if(val == 1){
 
       for(let i=0; i<dataList.length; i++){
@@ -1269,10 +1283,10 @@ export class ContentComponent implements OnInit {
           idBm = dataList[i].list[1].ministryId;
           this.selectedMinEn=dataList[i].list[0].ministryName;
           this.selectedMinBm=dataList[i].list[1].ministryName;
-        }        
+        }
       }
 
-      this.updateForm.get('ministryBm').setValue(idBm);  
+      this.updateForm.get('ministryBm').setValue(idBm);
     }
     else{
 
@@ -1282,39 +1296,39 @@ export class ContentComponent implements OnInit {
           idEn = dataList[i].list[0].ministryId;
           this.selectedMinEn=dataList[i].list[0].ministryName;
           this.selectedMinBm=dataList[i].list[1].ministryName;
-        }        
+        }
       }
 
-      this.updateForm.get('ministryEn').setValue(idEn); 
+      this.updateForm.get('ministryEn').setValue(idEn);
     }
   }
 
-  selectedAgencyApp(e){ 
-   
+  selectedAgencyApp(e){
+
     let dataList = this.agencyAppData;
     let idAgencyApp: any;
     let codeAgencyApp: any;
 
     for(let i=0; i<dataList.length; i++){
-  
+
       if(e.value == dataList[i].agencyApplicationId){
         idAgencyApp = dataList[i].agencyApplicationId;
         codeAgencyApp = dataList[i].agencyApplicationCode;
-      }            
+      }
     }
 
-    this.updateForm.get('agencyApp').setValue(idAgencyApp);  
+    this.updateForm.get('agencyApp').setValue(idAgencyApp);
     this.getAgencyAppEnBm(codeAgencyApp);
-    
+
   }
 
   //onclick agenci application
   getAgencyAppEnBm(getAgencyAppEnBm){
 
-    this.loading = true;   
+    this.loading = true;
 
-    let flagNoOfRecord: any; 
-    
+    let flagNoOfRecord: any;
+
     if(getAgencyAppEnBm != undefined){
       return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
         .subscribe(resMinData => {
@@ -1333,15 +1347,15 @@ export class ContentComponent implements OnInit {
                       "agencyAppID": this.agencyAppDataCode[1].agencyApplicationId,
                       "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
                       "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl,
-                      "agencyCode":this.agencyAppDataCode[1].agencyApplicationCode}]        
-      
+                      "agencyCode":this.agencyAppDataCode[1].agencyApplicationCode}]
+
             if(this.arrAgencyApp.length>0){
               flagNoOfRecord = false;
-      
+
               for(let i=0; i<this.arrAgencyApp.length; i++){
                 if(this.arrAgencyApp[i][0].agencyCode == getAgencyAppEnBm){
                   flagNoOfRecord = true;
-                }           
+                }
               }
             }
 
@@ -1371,7 +1385,7 @@ export class ContentComponent implements OnInit {
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
-      
+
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
@@ -1386,9 +1400,9 @@ export class ContentComponent implements OnInit {
 
     // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-  
+
       let keywordVal;
-   
+
         keywordVal = this.updateForm.get("agencyforApp").value;
         this.getSearchDataApp(keywordVal, 1, this.searchAgencyResult.length+10);
     }
@@ -1412,12 +1426,12 @@ export class ContentComponent implements OnInit {
   }
 
   getSearchData(keyword, langId, count, page){
-    
+
     let selLangField;
 
     this.searchAgencyResultEn = [];
     this.searchAgencyResultBm = [];
-      
+
     if(langId == 1) {
       selLangField = "agencyBm";
       this.ministryNameBm = "";
@@ -1428,8 +1442,8 @@ export class ContentComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-    this.loading = true;  
-    this.isActive = true;    
+    this.loading = true;
+    this.isActive = true;
 
     setTimeout(()=>{
       this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
@@ -1453,7 +1467,7 @@ export class ContentComponent implements OnInit {
       },error => {
         this.loading = false;
       });
-    }, 2000); 
+    }, 2000);
     // else {
     //   this.agencyIdEn = null;
     //   this.agencyIdBm = null;
@@ -1468,19 +1482,19 @@ export class ContentComponent implements OnInit {
     let detailsAgency;
     let agenName;
     let minisName;
-  
+
     this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '').subscribe(
       data => {
 
       this.commonservice.errorHandling(data, (function(){
-        
+
         detailsAgency = data['list'];
-  
+
         agenName = detailsAgency[0].agencyName;
-        minisName = detailsAgency[0].agencyMinistry.ministryName;       
+        minisName = detailsAgency[0].agencyMinistry.ministryName;
 
         this.getValue(agenId,agenName,minisName,agenCode, this.languageId);
-        
+
       }).bind(this));
         this.loading = false;
     },err => {
@@ -1531,11 +1545,11 @@ export class ContentComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-       
+
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
-          
+
           this.updateForm.get(selLangField).setValue(aName);
 
           if(langId == 1) {
@@ -1555,14 +1569,14 @@ export class ContentComponent implements OnInit {
   getSearchDataApp(keyword, count, page){
 
     this.searchAgencyResult = [];
-    
+
     //this.updateForm.get('agencyforApp').setValue("");
     //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
     this.isActive = true;
     this.loading = true;
 
-    setTimeout(()=>{  
-      
+    setTimeout(()=>{
+
       this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword).subscribe(
         data => {
 
@@ -1582,7 +1596,7 @@ export class ContentComponent implements OnInit {
       },err => {
         this.loading = false;
       });
-    }, 2000);  
+    }, 2000);
     // else {
     //   this.isActiveList = false;
     // }
@@ -1630,11 +1644,11 @@ export class ContentComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-      
+
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
-          
+
           if(langId == 1) {
             this.agencyIdforApp = aId;
           } else {
@@ -1652,7 +1666,7 @@ export class ContentComponent implements OnInit {
     for(let i=0; i<this.arrAgencyApp.length; i++){
       if(this.arrAgencyApp[i][0].agencyCode == agenCode){
         this.arrAgencyApp.splice(i,1);
-      }         
+      }
     }
 
     this.dataSource = new MatTableDataSource<object>(this.arrAgencyApp);

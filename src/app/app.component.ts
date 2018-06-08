@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { CommonService} from './service/common.service';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
+declare var $ :any;
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent {
 
 ngOnInit() {
   this.getUserData();
+  $.FroalaEditor.DefineIcon('alert', {NAME: 'info'});
 }
 
 
@@ -42,7 +44,7 @@ ngOnInit() {
             localStorage.setItem('fullname',data['adminUser'].fullName);
             localStorage.setItem('email',data['adminUser'].email);
           }else{
-            
+
           }
           this.loading = false;
         },
@@ -54,7 +56,7 @@ ngOnInit() {
       )
     }
   }
-  
+
 }
 
 
