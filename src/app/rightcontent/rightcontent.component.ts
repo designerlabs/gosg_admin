@@ -24,7 +24,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
 
   // private subscriptionLang: ISubscription;
 
-  private subscriptionUserList: ISubscription;
+  // private subscriptionUserList: ISubscription;
   private subscriptionUsersDetails: ISubscription;
   private subscriptionModMenu: ISubscription;
   private subscriptionLocalMenu: ISubscription;
@@ -48,13 +48,11 @@ export class RightcontentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if(!environment.staging){
-    this.subscriptionUserList.unsubscribe();
+    // this.subscriptionUserList.unsubscribe();
     this.subscriptionUsersDetails.unsubscribe();
     this.subscriptionModMenu.unsubscribe();
     } else {
-      this.subscriptionUserList.unsubscribe();
-      this.subscriptionUsersDetails.unsubscribe();
-      this.subscriptionModMenu.unsubscribe();
+
       this.subscriptionLocalMenu.unsubscribe();
     }
   }
