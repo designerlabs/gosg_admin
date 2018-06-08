@@ -21,13 +21,14 @@ export class RightcontentComponent implements OnInit, OnDestroy {
   menulst: any;
   menulist_non_admin: any;
   public loading = false;
-  
+
   // private subscriptionLang: ISubscription;
+
   private subscriptionUserList: ISubscription;
   private subscriptionUsersDetails: ISubscription;
   private subscriptionModMenu: ISubscription;
   private subscriptionLocalMenu: ISubscription;
-  
+
   applyFilter(filterValue: string) {
 
     filterValue = filterValue.trim(); // Remove whitespace
@@ -51,6 +52,9 @@ export class RightcontentComponent implements OnInit, OnDestroy {
     this.subscriptionUsersDetails.unsubscribe();
     this.subscriptionModMenu.unsubscribe();
     } else {
+      this.subscriptionUserList.unsubscribe();
+      this.subscriptionUsersDetails.unsubscribe();
+      this.subscriptionModMenu.unsubscribe();
       this.subscriptionLocalMenu.unsubscribe();
     }
   }
@@ -64,7 +68,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.subscriptionUsersDetails = this.commonservice.getUsersDetails().subscribe(
         data => {
-      
+
           if(data['adminUser']){
             if(data['adminUser'].superAdmin){
               this.getMenuData();
@@ -79,7 +83,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
               });
             }
           }else{
-            
+
           }
           this.loading = false;
         },
@@ -90,7 +94,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
     }else{
       this.getMenuDataLocal();
     }
-    
+
   }
 
   getMenuData() {
