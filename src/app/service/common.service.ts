@@ -110,6 +110,8 @@ export class CommonService {
   ]
   defaultStatusCreator = this.listStatusCreator[0].id;
 
+  flagLang: any;
+
   // tslint:disable-next-line:max-line-length
   constructor(
     public http: Http,
@@ -151,6 +153,10 @@ export class CommonService {
   private slidersUrl: string = this.appConfig.urlSlides;
   private getUserUrl: string = this.appConfig.urlGetUser;
 
+
+  getEventLang(){
+    this.flagLang = true;
+  }
 
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
