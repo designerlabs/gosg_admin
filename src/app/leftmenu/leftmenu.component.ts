@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, Inject, OnDestroy } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
@@ -10,6 +10,7 @@ import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { ISubscription } from 'rxjs/Subscription';
 
 // import { Router } from '@angular/router/src/router';
 
@@ -24,9 +25,7 @@ export class User {
   encapsulation: ViewEncapsulation.None
 })
 
-
-
-export class LeftmenuComponent implements OnInit {
+export class LeftmenuComponent implements OnInit, OnDestroy {
   isSuperAdmin = false;
   menulist_non_admin: any;
   @Output() menuClick = new EventEmitter();
@@ -48,6 +47,11 @@ export class LeftmenuComponent implements OnInit {
 //   public objMenu: object;
 
 step = 0;
+
+private subscriptionUserList: ISubscription;
+private subscriptionUsersDetails: ISubscription;
+private subscriptionModMenu: ISubscription;
+private subscriptionLocalMenu: ISubscription;
 
 setStep(index: number) {
   this.step = index;
@@ -82,7 +86,7 @@ resetSearch() {
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router,
   private toastr: ToastrService ) { 
     
-    this.getUserData();
+    // this.getUserData();
   }
 
   ngOnInit() {
@@ -94,7 +98,16 @@ resetSearch() {
     );
 
     this.getUserData();
-   
+  }
+
+  ngOnDestroy() {
+    if(!environment.staging){
+    this.subscriptionUserList.unsubscribe();
+    this.subscriptionUsersDetails.unsubscribe();
+    this.subscriptionModMenu.unsubscribe();
+    } else {
+      this.subscriptionLocalMenu.unsubscribe();
+    }
   }
 
   
@@ -106,7 +119,7 @@ resetSearch() {
     this.languageId = localStorage.getItem('langID');
     if(!environment.staging){
       this.loading = true;
-      this.commonservice.getUsersDetails().subscribe(
+      this.subscriptionUsersDetails = this.commonservice.getUsersDetails().subscribe(
         data => {
           if(data['adminUser']){
             if(data['adminUser'].superAdmin){
@@ -115,7 +128,7 @@ resetSearch() {
             }else{
               this.loading = true;
               this.isSuperAdmin = false;
-              this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              this.subscriptionUserList = this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
                 
                 this.menulist_non_admin = data.data[1];
                 this.loading = false;
@@ -168,7 +181,7 @@ resetSearch() {
 
   getMenuData() {
     this.loading = true;
-    this.commonservice.getModMenu().subscribe((data:any) => {
+    this.subscriptionModMenu = this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
       this.loading = false;
     }, err => {
@@ -180,7 +193,7 @@ resetSearch() {
 
   getMenuDataLocal() {
     this.loading = true;
-    this.commonservice.getModMenuLocal().subscribe((data:any) => {
+    this.subscriptionLocalMenu = this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       this.loading = false;
       // let myLangData =  getLang.filter(function(val) {
