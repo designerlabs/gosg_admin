@@ -90,8 +90,49 @@ export class ContentComponent implements OnInit {
   public ministryData: any;
   selectedMinEn = '';
   selectedMinBm = '';
-  public htmlContentEnEditor: Object = { key: 'bH3A7B5C5E4C2E3D3D2G2B5==' };
-  public htmlContentMyEditor: Object = { key: 'bH3A7B5C5E4C2E3D3D2G2B5==' };
+
+
+  public htmlContentEnEditor: Object = {
+
+    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+
+    charCounterCount: true,
+    // Set the image upload parameter.
+    imageUploadParam: 'image_param',
+
+    // Set the image upload URL.
+    imageUploadURL: '../assets/upload_image',
+
+    // Set request type.
+    imageUploadMethod: 'POST',
+
+    // Set max image size to 5MB.
+    imageMaxSize: 5 * 1024 * 1024,
+
+    // Allow to upload PNG and JPG.
+    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+};
+
+  public htmlContentMyEditor: Object = {
+    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+
+    charCounterCount: true,
+    // Set the image upload parameter.
+    imageUploadParam: 'image_param',
+
+    // Set the image upload URL.
+    imageUploadURL: '../assets/upload_image',
+
+    // Set request type.
+    imageUploadMethod: 'POST',
+
+    // Set max image size to 5MB.
+    imageMaxSize: 5 * 1024 * 1024,
+
+    // Allow to upload PNG and JPG.
+    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+  };
+
   arrAgencyApp = [];
   public agencyAppData: any;
   public agencyAppDataCode: any;
