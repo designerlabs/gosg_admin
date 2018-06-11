@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { NavService } from './nav.service';
 
 @Component({
   selector: 'app-nav',
@@ -11,7 +12,7 @@ export class NavComponent implements OnInit {
   langId = this.langId;
   imgSrc: string = 'logo_en';
   lang = 'en';
-  constructor(private translate: TranslateService) {
+  constructor(private translate: TranslateService, private navservice:NavService) {
     this.lang = translate.currentLang;
     translate.addLangs(['en', 'ms']);
 
@@ -98,6 +99,7 @@ export class NavComponent implements OnInit {
       this.translate.use('en');
     }
     localStorage.setItem('langID', this.langId);
+    this.navservice.getEventLang();
  
   }
 }

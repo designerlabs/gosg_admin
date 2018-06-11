@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-dservicetbl',
@@ -47,6 +48,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   
   private subscription: ISubscription;
   private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   applyFilter(val) {   
 
@@ -70,39 +72,32 @@ export class DServicetblComponent implements OnInit, OnDestroy {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) { 
     /* LANGUAGE FUNC */
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
 
-      // const myLang = this.translate.currentLang;
-      // if (myLang === 'en') {
-      //    this.lang = 'en';
-      //    this.languageId = 1;
-      // }
-      // if (myLang === 'ms') {
-      //   this.lang = 'ms';
-      //   this.languageId = 2;
-      // }
-
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-            }
-          }.bind(this));
-        })
-
-      });
-
-      if(this.commonservice.flagLang){
-        this.getDigitalServicesData(this.pageCount, this.pageSize);
-        this.commonservice.getModuleId();
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
       }
+        if(this.navservice.flagLang){
+          this.getDigitalServicesData(this.pageCount, this.pageSize);
+          this.commonservice.getModuleId();
+        }
 
     });
 
@@ -124,6 +119,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
+    // this.subscriptionLangAll.unsubscribe();
   }
 
   ngAfterViewInit() {
