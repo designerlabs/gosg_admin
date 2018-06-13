@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-colortbl',
@@ -59,44 +60,33 @@ export class ColortblComponent implements OnInit, OnDestroy {
     private commonservice: CommonService,
     private translate: TranslateService,
     private router: Router,
+    private navservice: NavService,
     private toastr: ToastrService) {
 
-    let currUrl = this.router.url.split('/')[1];
     /* LANGUAGE FUNC */
-    
+
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {        
-        
-        console.log(currUrl);
-        this.getcolorData(this.pageCount, this.colorPageSize);
-        this.commonservice.getModuleId();
-          //this.translateLoader = false;
-        
+      const myLang = translate.currentLang;
 
-        // this.loading = true;
-        // this.commonservice.readPortal('language/all').subscribe((data:any) => {
-        //   let getLang = data.list;
-        //   let myLangData =  getLang.filter(function(val) {
-        //     if(val.languageCode == translate.currentLang){
-        //       this.lang = val.languageCode;
-        //       this.languageId = val.languageId;
-        //       this.getcolorData(this.pageCount, this.colorPageSize);
-        //       this.commonservice.getModuleId();
-        //     }
-        //   }.bind(this));
-        //   this.loading = false;
-        // }, err => {
-        //   this.loading = false;
-        // })
-      });
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+      }
+        if(this.navservice.flagLang){
+          this.getcolorData(this.pageCount, this.colorPageSize);
+          this.commonservice.getModuleId();
+        }
+
     });
-    
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      // this.getcolorData(this.pageCount, this.colorPageSize);
-      // this.commonservice.getModuleId();
-    }
-
     /* LANGUAGE FUNC */ 
   }
 
@@ -107,26 +97,12 @@ export class ColortblComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      // this.sharedService.errorHandling(event, (function(){
-        const myLang = this.translate.currentLang;
-        if (myLang === 'en') {
-           this.lang = 'en';
-           this.languageId = 1;
-           //this.getcolorData(this.pageCount, this.colorPageSize);
-           console.log('lang is ENGLISH');
-           
-        }
-        if (myLang === 'ms') {
-          this.lang = 'ms';
-          this.languageId = 2;
-          //this.getcolorData(this.pageCount, this.colorPageSize);
-          console.log('lang is MALAY');
-        }
-        console.log("Translate");
-        this.getcolorData(this.pageCount, this.colorPageSize);
-      // }).bind(this));
-    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+    
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
     console.log("AFTER Trans");
     this.getcolorData(this.pageCount, this.colorPageSize);
