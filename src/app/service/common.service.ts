@@ -565,7 +565,7 @@ getMediaByCateId(id){
       .catch(this.handleError);
   }
 
-  readProtectedById(moduleName, id, lng): Observable<any[]> {
+  readProtectedById(moduleName, id, lng?): Observable<any[]> {
     let readUrl = this.appConfig.urlCommon + moduleName + id + '?language='+lng;
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
