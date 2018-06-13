@@ -147,6 +147,7 @@ import { SubscriptionComponent } from './subscription/subscription.component';
 import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
+import { NavService } from './nav/nav.service';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -315,7 +316,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, NavService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -72,7 +72,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
               this.getMenuData();
             }else{
               this.loading = true;
-              this.subscriptionUserList = this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
                 this.menulist_non_admin = data.data[1];
                 this.loading = false;
               },

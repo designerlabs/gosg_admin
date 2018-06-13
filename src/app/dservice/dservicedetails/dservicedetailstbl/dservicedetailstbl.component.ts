@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-dservicedetailstbl',
   templateUrl: './dservicedetailstbl.component.html',
   styleUrls: ['./dservicedetailstbl.component.css']
 })
-export class DServicedetailstblComponent implements OnInit {
+export class DServicedetailstblComponent implements OnInit, OnDestroy {
 
   dsData: Object;
   dsList = null;
@@ -43,6 +45,10 @@ export class DServicedetailstblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.dsList);
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   applyFilter(val) {   
 
@@ -65,12 +71,15 @@ export class DServicedetailstblComponent implements OnInit {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private navservice: NavService, 
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
   ) { 
+    console.log(this.navservice.flagLang)
+
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
         this.commonservice.readPortal('language/all').subscribe((data:any) => {
           let getLang = data.list;
@@ -78,25 +87,36 @@ export class DServicedetailstblComponent implements OnInit {
             if(val.languageCode == translate.currentLang){
               this.lang = val.languageCode;
               this.languageId = val.languageId;
-              this.getDigitalServicesData(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
+
+              
+              // this.getDigitalServicesData(this.pageCount, this.pageSize);
+              // this.commonservice.getModuleId();
             }
           }.bind(this));
+          console.log(this.navservice.flagLang)
         })
       });
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
 
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.displayedColumns = ['no','titleEn', 'titleBm', 'enabled', 'dsAction'];
+    this.getDigitalServicesData(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionLangAll.unsubscribe();
   }
 
   ngAfterViewInit() {
