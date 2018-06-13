@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -14,13 +14,15 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-contentpublisher',
   templateUrl: './contentpublisher.component.html',
   styleUrls: ['./contentpublisher.component.css']
 })
-export class ContentpublisherComponent implements OnInit {
+export class ContentpublisherComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -75,6 +77,7 @@ export class ContentpublisherComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public lang: any;
   public treeEn: any;
   public treeBm: any;
   public loading = false;
@@ -116,6 +119,11 @@ export class ContentpublisherComponent implements OnInit {
   fullName: any;
   email: any;
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
   editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
     "editable": true,
@@ -146,33 +154,36 @@ export class ContentpublisherComponent implements OnInit {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
+    private navservice: NavService,
     private dialogsService: DialogsService,
     public dialog: MatDialog,
     public builder: FormBuilder ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.getCategory();           
-              this.languageId = val.languageId;
-              this.changeLanguageAddEdit();
-              this.changePlaceHolder();
-                    //this.getData();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.getCategory(this.languageId);
+        this.changeLanguageAddEdit();
+        this.changePlaceHolder();
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getCategory();
-      //this.getData();
-    }
     /* LANGUAGE FUNC */
       
     this.updateForm = builder.group({
@@ -182,9 +193,22 @@ export class ContentpublisherComponent implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    //this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
+  }
+
   ngOnInit() {  
 
-    this.getMinistry();
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.getMinistry(this.languageId);
     this.getMinEventDate();
     
     this.publish = new FormControl()
@@ -241,7 +265,7 @@ export class ContentpublisherComponent implements OnInit {
       htmlContentMy: this.htmlContentMy,
     });
 
-    this.getCategory();
+    this.getCategory(this.languageId);
 
     this.urlEdit = this.router.url.split('/')[3];
     
@@ -423,10 +447,10 @@ export class ContentpublisherComponent implements OnInit {
     return res;
   }
 
-  getCategory(){
+  getCategory(lang){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/publisher/dropdown/'+this.commonservice.contentCategoryCode)
+    return this.commonservice.readProtected('content/publisher/dropdown/'+this.commonservice.contentCategoryCode, '', '', '', lang)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -522,7 +546,7 @@ export class ContentpublisherComponent implements OnInit {
   getUserInfo(id) {
    
     this.loading = true;
-    return this.commonservice.readProtected('usermanagement/' + id)
+    return this.commonservice.readProtected('usermanagement/' + id, '','','',this.languageId)
       .subscribe(resUser => {
 
         this.commonservice.errorHandling(resUser, (function () {
@@ -548,7 +572,7 @@ export class ContentpublisherComponent implements OnInit {
 
     if(_getRefID != undefined){
 
-      this.commonservice.readProtectedById('content/publisher/', _getRefID)
+      this.commonservice.readProtectedById('content/publisher/', _getRefID, this.languageId)
       .subscribe(data => {
         this.recordList = data;
 
@@ -1075,9 +1099,9 @@ export class ContentpublisherComponent implements OnInit {
     this.router.navigate(['publisher/content']);
   }
 
-  getMinistry() {
+  getMinistry(lang) {
     this.loading = true;
-    return this.commonservice.readPortal('ministry', '0', '300')
+    return this.commonservice.readPortal('ministry', '0', '300','',lang)
       .subscribe(resMinData => {
         this.ministryData = resMinData['list'];
         this.loading = false;
@@ -1090,7 +1114,7 @@ export class ContentpublisherComponent implements OnInit {
   //list of agency app for selected agency
   getAgencyApp(agencyId) {
     this.loading = true;   
-    return this.commonservice.readPortal('agency/application/agencyid/'+agencyId)
+    return this.commonservice.readPortal('agency/application/agencyid/'+agencyId, '','','',this.languageId)
       .subscribe(resMinData => {
         this.agencyAppData = resMinData['agencyApplicationList'];
         this.loading = false;
@@ -1167,7 +1191,7 @@ export class ContentpublisherComponent implements OnInit {
     let flagNoOfRecord: any; 
     
     if(getAgencyAppEnBm != undefined){
-      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
+      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm, '', '', '', this.languageId)
         .subscribe(resMinData => {
 
           this.commonservice.errorHandling(resMinData, (function () {
@@ -1283,7 +1307,7 @@ export class ContentpublisherComponent implements OnInit {
     this.isActive = true;    
 
     setTimeout(()=>{
-      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1320,7 +1344,7 @@ export class ContentpublisherComponent implements OnInit {
     let agenName;
     let minisName;
   
-    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '').subscribe(
+    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '', this.languageId).subscribe(
       data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -1414,7 +1438,7 @@ export class ContentpublisherComponent implements OnInit {
 
     setTimeout(()=>{  
       
-      this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
