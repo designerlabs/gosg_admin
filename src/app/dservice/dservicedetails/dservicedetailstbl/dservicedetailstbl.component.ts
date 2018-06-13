@@ -58,13 +58,13 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
+      this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
@@ -76,26 +76,29 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastr: ToastrService
   ) { 
-    console.log(this.navservice.flagLang)
 
     /* LANGUAGE FUNC */
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
+      const myLang = translate.currentLang;
 
-              
-              // this.getDigitalServicesData(this.pageCount, this.pageSize);
-              // this.commonservice.getModuleId();
-            }
-          }.bind(this));
-          console.log(this.navservice.flagLang)
-        })
-      });
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
     });
 
     /* LANGUAGE FUNC */
@@ -110,7 +113,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
     }
 
     this.displayedColumns = ['no','titleEn', 'titleBm', 'enabled', 'dsAction'];
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
@@ -125,9 +128,9 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
   }
 
   // get agencyapp Data 
-  getDigitalServicesData(count, size) {
+  getDigitalServicesData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice/details',count, size)
+    this.commonservice.readProtected('digitalservice/details',count, size, '', lng)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
@@ -204,7 +207,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -214,11 +217,11 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getDigitalServicesData(page + 1, this.pageSize);
+    this.getDigitalServicesData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getDigitalServicesData(this.pageCount, event.value);
+    this.getDigitalServicesData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

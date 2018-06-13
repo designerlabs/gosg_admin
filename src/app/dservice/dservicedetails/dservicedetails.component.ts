@@ -129,7 +129,7 @@ export class DServicedetailsComponent implements OnInit {
       forNonCitizen: this.forNonCitizen,
       active: this.active
     });
-    this.getDigitalServices();
+    this.getDigitalServices(this.languageId);
 
     if(refCode == "add") {
       this.isEdit = false;
@@ -162,7 +162,7 @@ export class DServicedetailsComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readProtectedById('digitalservice/details/', row)
+    this.commonservice.readProtectedById('digitalservice/details/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
@@ -232,9 +232,9 @@ export class DServicedetailsComponent implements OnInit {
     }
   }
 
-  getDigitalServices() {
+  getDigitalServices(lng) {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice/details').subscribe(
+    this.commonservice.readProtected('digitalservice/details', '', '', '', lng).subscribe(
         Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
             this.AgencyData = Rdata['list'];
@@ -338,7 +338,7 @@ export class DServicedetailsComponent implements OnInit {
       selLangField = "categoryEn";
     }
     this.loading = true;
-    this.commonservice.readProtectedById('digitalservice/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readProtectedById('digitalservice/refcode/language/'+langId+'/', refCode, langId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){

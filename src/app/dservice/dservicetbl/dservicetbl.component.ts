@@ -58,13 +58,13 @@ export class DServicetblComponent implements OnInit, OnDestroy {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
+      this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
@@ -95,7 +95,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
         // alert(this.languageId + ',' + this.localeVal)
       }
         if(this.navservice.flagLang){
-          this.getDigitalServicesData(this.pageCount, this.pageSize);
+          this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
           this.commonservice.getModuleId();
         }
 
@@ -112,14 +112,13 @@ export class DServicetblComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
     this.displayedColumns = ['no','titleEn', 'titleBm', 'enabled', 'dsAction'];
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     console.log('onInit')
     this.commonservice.getModuleId();
   }
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    // this.subscriptionLangAll.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -128,9 +127,9 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   }
 
   // get agencyapp Data 
-  getDigitalServicesData(count, size) {
+  getDigitalServicesData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice',count, size)
+    this.commonservice.readProtected('digitalservice',count, size, '', lng)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
@@ -207,7 +206,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -217,11 +216,11 @@ export class DServicetblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getDigitalServicesData(page + 1, this.pageSize);
+    this.getDigitalServicesData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getDigitalServicesData(this.pageCount, event.value);
+    this.getDigitalServicesData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

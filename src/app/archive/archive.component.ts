@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonService } from '../service/common.service';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -7,13 +7,15 @@ import { ValidateService } from '../common/validate.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup } from '@angular/forms';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../nav/nav.service';
 
 @Component({
   selector: 'app-archive',
   templateUrl: './archive.component.html',
   styleUrls: ['./archive.component.css']
 })
-export class ArchiveComponent implements OnInit {
+export class ArchiveComponent implements OnInit, OnDestroy {
 
   date = new Date();
   dateFormatExample = "dd/mm/yyyy h:i:s";
@@ -27,6 +29,7 @@ export class ArchiveComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  lang: any;
   selectedFile = '';
 
   titleEn: String;
@@ -49,6 +52,10 @@ export class ArchiveComponent implements OnInit {
   forNonCitizen: boolean;
   code: any;
   category: any;
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   constructor(
     private http: HttpClient,
@@ -56,34 +63,43 @@ export class ArchiveComponent implements OnInit {
     private commonservice: CommonService,
     private translate: TranslateService,
     private validateService: ValidateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data: any) => {
-          let getLang = data.list;
-          let myLangData = getLang.filter(function (val) {
-            if (val.languageCode == translate.currentLang) {
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              // this.getMinistryData(this.pageCount, this.agencyPageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
     });
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-      // this.getMinistryData(this.pageCount, this.agencyPageSize);
-      this.commonservice.getModuleId();
-    }
     /* LANGUAGE FUNC */
 }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
@@ -98,12 +114,16 @@ export class ArchiveComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
   // get, add, update, delete
   getRow(row) {
 
     this.loading = true;
     // Update event Service
-    return this.commonservice.readProtectedById('archive/', row).subscribe(
+    return this.commonservice.readProtectedById('archive/', row, this.languageId).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {

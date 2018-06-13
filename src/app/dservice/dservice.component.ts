@@ -87,6 +87,12 @@ export class DServiceComponent implements OnInit {
 
   ngOnInit() {
 
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
 
@@ -107,7 +113,7 @@ export class DServiceComponent implements OnInit {
       agencyBm: this.agencyBm,
       active: this.active
     });
-    this.getAgency();
+    this.getAgency(this.languageId);
 
     if(refCode == "add") {
       this.isEdit = false;
@@ -138,7 +144,7 @@ export class DServiceComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readProtectedById('digitalservice/', row)
+    this.commonservice.readProtectedById('digitalservice/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
@@ -204,9 +210,9 @@ export class DServiceComponent implements OnInit {
     }
   }
 
-  getAgency() {
+  getAgency(lng) {
     this.loading = true;
-    this.commonservice.readPortal('agency/application/code').subscribe(
+    this.commonservice.readPortal('agency/application/code', '', '', '', lng).subscribe(
         Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
             this.AgencyData = Rdata['list'];
