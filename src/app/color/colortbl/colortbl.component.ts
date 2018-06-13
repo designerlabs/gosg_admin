@@ -82,7 +82,7 @@ export class ColortblComponent implements OnInit, OnDestroy {
         });
       }
         if(this.navservice.flagLang){
-          this.getcolorData(this.pageCount, this.colorPageSize);
+          this.getcolorData(this.pageCount, this.colorPageSize, this.languageId);
           this.commonservice.getModuleId();
         }
 
@@ -105,7 +105,7 @@ export class ColortblComponent implements OnInit, OnDestroy {
     
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
     console.log("AFTER Trans");
-    this.getcolorData(this.pageCount, this.colorPageSize);
+    this.getcolorData(this.pageCount, this.colorPageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
@@ -115,9 +115,9 @@ export class ColortblComponent implements OnInit, OnDestroy {
   }
 
   // get color Data
-  getcolorData(count, size) {
+  getcolorData(count, size, lang) {
     this.loading = true;
-    this.commonservice.readPortal('color',count,size).subscribe(
+    this.commonservice.readPortal('color',count,size, '', lang).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.colorList = data;
@@ -136,7 +136,7 @@ export class ColortblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getcolorData(this.pageCount, this.colorPageSize);
+    this.getcolorData(this.pageCount, this.colorPageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -145,11 +145,11 @@ export class ColortblComponent implements OnInit, OnDestroy {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    this.getcolorData(page + 1, this.colorPageSize);
+    this.getcolorData(page + 1, this.colorPageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getcolorData(this.pageCount, event.value);
+    this.getcolorData(this.pageCount, event.value, this.languageId);
     this.colorPageSize = event.value;
     this.noPrevData = true;
   }
