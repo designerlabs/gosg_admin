@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { ISubscription } from "rxjs/Subscription";
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -16,7 +17,7 @@ import { ValidateService } from '../common/validate.service';
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.css']
 })
-export class ColorComponent implements OnInit {
+export class ColorComponent implements OnInit, OnDestroy {
 
   colorData: Object;
   isActive: boolean;
@@ -41,6 +42,8 @@ export class ColorComponent implements OnInit {
 
   defStatus: any;
   public loading = false;
+  private subscriptionLang: ISubscription;
+  private subscription: ISubscription;
 
   constructor(
     private http: HttpClient,
@@ -54,19 +57,19 @@ export class ColorComponent implements OnInit {
   ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
         this.commonservice.getModuleId();
-        // this.commonservice.readPortal('language/all').subscribe((data:any) => {
-        //   let getLang = data.list;
-        //   let myLangData =  getLang.filter(function(val) {
-        //     if(val.languageCode == translate.currentLang){
-        //       this.lang = val.languageCode;
-        //       this.languageId = val.languageId;
-        //       this.commonservice.getModuleId();
-        //     }
-        //   }.bind(this));
-        // })
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
       });
     });
     if(!this.languageId){
@@ -75,6 +78,11 @@ export class ColorComponent implements OnInit {
     }
 
     /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionLang.unsubscribe();
+    //this.subscription.unsubscribe();
   }
 
   ngOnInit() {

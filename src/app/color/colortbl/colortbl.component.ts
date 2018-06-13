@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { ISubscription } from "rxjs/Subscription";
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -14,7 +15,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
   templateUrl: './colortbl.component.html',
   styleUrls: ['./colortbl.component.css']
 })
-export class ColortblComponent implements OnInit {
+export class ColortblComponent implements OnInit, OnDestroy {
 
   translateLoader = false;
   colorData: Object;
@@ -36,6 +37,8 @@ export class ColortblComponent implements OnInit {
   lang:any;
   languageId: any;
   public loading = false;
+  private subscriptionLang: ISubscription;
+  private subscription: ISubscription;
   
   recordTable =  null;
 
@@ -58,43 +61,49 @@ export class ColortblComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService) {
 
-      let currUrl = this.router.url.split('/')[1];
-      /* LANGUAGE FUNC */
-      // if(currUrl == 'color'){
-      //   translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      //     translate.get('HOME').subscribe((res: any) => {        
-            
-      //       console.log(currUrl);
-      //       this.getcolorData(this.pageCount, this.colorPageSize);
-      //       this.commonservice.getModuleId();
-      //         //this.translateLoader = false;
-            
+    let currUrl = this.router.url.split('/')[1];
+    /* LANGUAGE FUNC */
+    
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {        
+        
+        console.log(currUrl);
+        this.getcolorData(this.pageCount, this.colorPageSize);
+        this.commonservice.getModuleId();
+          //this.translateLoader = false;
+        
 
-      //       // this.loading = true;
-      //       // this.commonservice.readPortal('language/all').subscribe((data:any) => {
-      //       //   let getLang = data.list;
-      //       //   let myLangData =  getLang.filter(function(val) {
-      //       //     if(val.languageCode == translate.currentLang){
-      //       //       this.lang = val.languageCode;
-      //       //       this.languageId = val.languageId;
-      //       //       this.getcolorData(this.pageCount, this.colorPageSize);
-      //       //       this.commonservice.getModuleId();
-      //       //     }
-      //       //   }.bind(this));
-      //       //   this.loading = false;
-      //       // }, err => {
-      //       //   this.loading = false;
-      //       // })
-      //     });
-      //   });
-      // }
-      if(!this.languageId){
-        this.languageId = localStorage.getItem('langID');
-        // this.getcolorData(this.pageCount, this.colorPageSize);
-        // this.commonservice.getModuleId();
-      }
+        // this.loading = true;
+        // this.commonservice.readPortal('language/all').subscribe((data:any) => {
+        //   let getLang = data.list;
+        //   let myLangData =  getLang.filter(function(val) {
+        //     if(val.languageCode == translate.currentLang){
+        //       this.lang = val.languageCode;
+        //       this.languageId = val.languageId;
+        //       this.getcolorData(this.pageCount, this.colorPageSize);
+        //       this.commonservice.getModuleId();
+        //     }
+        //   }.bind(this));
+        //   this.loading = false;
+        // }, err => {
+        //   this.loading = false;
+        // })
+      });
+    });
+    
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      // this.getcolorData(this.pageCount, this.colorPageSize);
+      // this.commonservice.getModuleId();
+    }
 
-      /* LANGUAGE FUNC */ }
+    /* LANGUAGE FUNC */ 
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionLang.unsubscribe();
+    //this.subscription.unsubscribe();
+  }
 
   ngOnInit() {
 
