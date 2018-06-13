@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -11,6 +11,8 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
 import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../nav/nav.service';
 
 @Component({
   selector: 'app-category',
@@ -18,7 +20,7 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./category.component.css']
 })
 
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
   value: any;
   itemEn: any;
   itemBm: any;
@@ -54,6 +56,7 @@ export class CategoryComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public lang: any;
   public treeEn: any;
   public treeBm: any;
   public imageData: any;
@@ -71,6 +74,10 @@ export class CategoryComponent implements OnInit {
   public urlEdit = "";
 
   editor = {treeVal: '' };
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -78,33 +85,33 @@ export class CategoryComponent implements OnInit {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
+    private navservice: NavService,
     private dialogsService: DialogsService,
     public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.getCategory();
-              this.changePlaceHolder(); 
-              this.changeLanguageAddEdit();              
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      this.getCategory();
-      //this.getData();
-    }
     /* LANGUAGE FUNC */
 
     // this.updateForm = builder.group({
@@ -114,6 +121,12 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
@@ -155,8 +168,8 @@ export class CategoryComponent implements OnInit {
       
     });
 
-    this.getCategory();
-    this.getImageList();
+    this.getCategory(this.languageId);
+    this.getImageList(this.languageId);
 
     this.urlEdit = this.router.url.split('/')[2];
     
@@ -173,6 +186,11 @@ export class CategoryComponent implements OnInit {
 
     this.commonservice.getModuleId();    
   }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
 
   selectedImage(e, val){
     console.log(e);
@@ -224,10 +242,10 @@ export class CategoryComponent implements OnInit {
     this.checkReqValues();
   }
 
-  getCategory(){
+  getCategory(lng){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/category')
+    return this.commonservice.readProtected('content/category', '', '', '', lng)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -360,7 +378,7 @@ export class CategoryComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];
   
     this.loading = true;
-    this.commonservice.readProtectedById('content/category/',_getRefID)
+    this.commonservice.readProtectedById('content/category/',_getRefID, this.languageId)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -499,9 +517,9 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  getImageList(){
+  getImageList(lng){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article','1', '99999')
+    this.commonservice.readProtected('media/category/name/Article','1', '99999', '', lng)
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){

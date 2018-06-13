@@ -115,7 +115,7 @@ export class DServicegroupComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readProtectedById('dservice/group/', row)
+    this.commonservice.readProtectedById('dservice/group/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){

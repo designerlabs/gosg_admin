@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-dservicegrouptbl',
   templateUrl: './dservicegrouptbl.component.html',
   styleUrls: ['./dservicegrouptbl.component.css']
 })
-export class DServicegrouptblComponent implements OnInit {
+export class DServicegrouptblComponent implements OnInit, OnDestroy {
 
   dsGroupData: Object;
   dsGroupList = null;
@@ -43,6 +45,10 @@ export class DServicegrouptblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.dsGroupList);
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   applyFilter(val) {   
 
@@ -52,13 +58,13 @@ export class DServicegrouptblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getDigitalServicesGroupData(this.pageCount, this.pageSize);
+      this.getDigitalServicesGroupData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getDigitalServicesGroupData(this.pageCount, this.pageSize);
+    this.getDigitalServicesGroupData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
@@ -66,36 +72,48 @@ export class DServicegrouptblComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) { 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getDigitalServicesGroupData(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+      }
+
+      if(this.navservice.flagLang){
+        this.getDigitalServicesGroupData(this.pageCount, this.pageSize, this.languageId);
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getDigitalServicesGroupData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
 
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+    
     this.displayedColumns = ['no','descEn', 'descBm', 'action'];
+    this.getDigitalServicesGroupData(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
@@ -104,10 +122,14 @@ export class DServicegrouptblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
   // get agencyapp Data 
-  getDigitalServicesGroupData(count, size) {
+  getDigitalServicesGroupData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('dservice/group',count, size)
+    this.commonservice.readProtected('dservice/group',count, size, '', lng)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
@@ -184,7 +206,7 @@ export class DServicegrouptblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getDigitalServicesGroupData(this.pageCount, this.pageSize);
+    this.getDigitalServicesGroupData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -194,11 +216,11 @@ export class DServicegrouptblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getDigitalServicesGroupData(page + 1, this.pageSize);
+    this.getDigitalServicesGroupData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getDigitalServicesGroupData(this.pageCount, event.value);
+    this.getDigitalServicesGroupData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

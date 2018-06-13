@@ -68,7 +68,7 @@ prevStep() {
 applyFilter(keyword) {   
   
   if(keyword){
-    this.getFilterList(keyword);
+    this.getFilterList(keyword, this.languageId);
   }
   else{
     this.getUserData();
@@ -157,10 +157,10 @@ resetSearch() {
     document.documentElement.scrollTop = 0;
   }
 
-  getFilterList(keyword) {
+  getFilterList(keyword, lng) {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('authorization/module/search', '','', keyword)
+      this.commonservice.readProtected('authorization/module/search', '','', keyword, lng)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

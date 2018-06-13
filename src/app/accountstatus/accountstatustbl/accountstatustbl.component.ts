@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
@@ -9,6 +9,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 
 @Component({
@@ -17,7 +19,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
   styleUrls: ['./accountstatustbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class AccountstatustblComponent implements OnInit {
+export class AccountstatustblComponent implements OnInit, OnDestroy {
 
   recordList = null;
   displayedColumns = ['num','accEng', 'status'];
@@ -41,6 +43,10 @@ export class AccountstatustblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -53,63 +59,58 @@ export class AccountstatustblComponent implements OnInit {
     private commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
+    private navservice: NavService,
     private translate: TranslateService,
     private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.loading = true;
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-          this.loading = false;
-        }, err => {
-          this.loading = false;
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-    // this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-    //   // this.sharedService.errorHandling(event, (function(){
-    //     const myLang = this.translate.currentLang;
-    //     if (myLang === 'en') {
-    //        this.lang = 'en';
-    //        this.languageId = 1;
-    //        console.log('english');
-           
-    //     }
-    //     if (myLang === 'ms') {
-    //       this.lang = 'ms';
-    //       this.languageId = 2;
-    //       console.log('from malay');
-    //     }
-    //   // }).bind(this));
-    // });
-    this.getRecordList(this.pageCount, this.pageSize);
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.getRecordList(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
-  getRecordList(count, size) {
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
+  getRecordList(count, size, lng) {
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readProtected('accountstatus', count, size).subscribe(data => {
+    this.commonservice.readProtected('accountstatus', count, size, '', lng).subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -131,7 +132,7 @@ export class AccountstatustblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -141,7 +142,7 @@ export class AccountstatustblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize, this.languageId);
   }
 
   add() {
@@ -182,7 +183,7 @@ export class AccountstatustblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

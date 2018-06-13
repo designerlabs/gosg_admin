@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-agencyapptbl',
   templateUrl: './agencyapptbl.component.html',
   styleUrls: ['./agencyapptbl.component.css']
 })
-export class AgencyapptblComponent implements OnInit {
+export class AgencyapptblComponent implements OnInit, OnDestroy {
 
   agencyAppData: Object;
   agencyAppList = null;
@@ -43,6 +45,10 @@ export class AgencyapptblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.agencyAppList);
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   applyFilter(val) {   
 
@@ -52,13 +58,13 @@ export class AgencyapptblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getAgencyAppData(this.pageCount, this.pageSize);
+      this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getAgencyAppData(this.pageCount, this.pageSize);
+    this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
@@ -67,36 +73,51 @@ export class AgencyapptblComponent implements OnInit {
     private commonservice: CommonService, 
     private translate: TranslateService,
     private router: Router,
+    private navservice: NavService,
     private toastr: ToastrService
   ) { 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getAgencyAppData(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getAgencyAppData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
 
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
+    });
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+    
     this.displayedColumns = ['no','agencyAppNameEn', 'agencyAppNameBm', 'agencyAppStatus', 'agencyAppAction'];
+    this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -105,9 +126,9 @@ export class AgencyapptblComponent implements OnInit {
   }
 
   // get agencyapp Data 
-  getAgencyAppData(count, size) {
+  getAgencyAppData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readPortal('agency/application/code',count, size)
+    this.commonservice.readPortal('agency/application/code',count, size, '', lng)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
@@ -183,7 +204,7 @@ export class AgencyapptblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getAgencyAppData(this.pageCount, this.pageSize);
+    this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -193,11 +214,11 @@ export class AgencyapptblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getAgencyAppData(page + 1, this.pageSize);
+    this.getAgencyAppData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getAgencyAppData(this.pageCount, event.value);
+    this.getAgencyAppData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
