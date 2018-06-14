@@ -13,6 +13,8 @@ import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { environment } from '../../environments/environment';
+
 declare var $ :any;
 @Component({
   selector: 'app-content',
@@ -101,7 +103,7 @@ export class ContentComponent implements OnInit {
     imageUploadParam: 'image_param',
 
     // Set the image upload URL.
-    imageUploadURL: '../assets/upload_image',
+    imageUploadURL: this.appConfig.urlMediaFileUpload + '?language=1',
 
     // Set request type.
     imageUploadMethod: 'POST',
@@ -121,7 +123,7 @@ export class ContentComponent implements OnInit {
     imageUploadParam: 'image_param',
 
     // Set the image upload URL.
-    imageUploadURL: '../assets/upload_image',
+    imageUploadURL: this.appConfig.urlMediaFileUpload + '?language=2',
 
     // Set request type.
     imageUploadMethod: 'POST',
