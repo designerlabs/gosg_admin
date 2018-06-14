@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-dservicetbl',
@@ -47,6 +48,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   
   private subscription: ISubscription;
   private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   applyFilter(val) {   
 
@@ -56,13 +58,13 @@ export class DServicetblComponent implements OnInit, OnDestroy {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
+      this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
@@ -70,39 +72,32 @@ export class DServicetblComponent implements OnInit, OnDestroy {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) { 
     /* LANGUAGE FUNC */
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
 
-      // const myLang = this.translate.currentLang;
-      // if (myLang === 'en') {
-      //    this.lang = 'en';
-      //    this.languageId = 1;
-      // }
-      // if (myLang === 'ms') {
-      //   this.lang = 'ms';
-      //   this.languageId = 2;
-      // }
-
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-            }
-          }.bind(this));
-        })
-
-      });
-
-      if(this.commonservice.flagLang){
-        this.getDigitalServicesData(this.pageCount, this.pageSize);
-        this.commonservice.getModuleId();
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
       }
+        if(this.navservice.flagLang){
+          this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
 
     });
 
@@ -117,7 +112,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
     this.displayedColumns = ['no','titleEn', 'titleBm', 'enabled', 'dsAction'];
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     console.log('onInit')
     this.commonservice.getModuleId();
   }
@@ -132,9 +127,9 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   }
 
   // get agencyapp Data 
-  getDigitalServicesData(count, size) {
+  getDigitalServicesData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice',count, size)
+    this.commonservice.readProtected('digitalservice',count, size, '', lng)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
@@ -211,7 +206,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -221,11 +216,11 @@ export class DServicetblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getDigitalServicesData(page + 1, this.pageSize);
+    this.getDigitalServicesData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getDigitalServicesData(this.pageCount, event.value);
+    this.getDigitalServicesData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

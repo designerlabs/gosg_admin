@@ -112,7 +112,7 @@ export class DServicetypeComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readProtectedById('dservice/type/', row)
+    this.commonservice.readProtectedById('dservice/type/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){

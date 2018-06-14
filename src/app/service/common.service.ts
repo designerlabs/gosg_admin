@@ -110,8 +110,6 @@ export class CommonService {
   ]
   defaultStatusCreator = this.listStatusCreator[0].id;
 
-  flagLang: any;
-
   // tslint:disable-next-line:max-line-length
   constructor(
     public http: Http,
@@ -122,29 +120,58 @@ export class CommonService {
     private translate: TranslateService
   ) {
 
-       /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getUsersData(this.pageCount, this.pageSize);
-            }
-          }.bind(this));
-        })
-      });
+
+       /* LANGUAGE FUNC */
+      
+        const myLang = translate.currentLang;
+
+        if (myLang == 'en') {
+            translate.get('HOME').subscribe((res: any) => {
+                this.lang = 'en';
+                this.languageId = 1;
+            });
+
+        }
+        if (myLang == 'ms') {
+            translate.get('HOME').subscribe((res: any) => {
+                this.lang = 'ms';
+                this.languageId = 2;
+            });
+        }
+  
     });
+
     if(!this.languageId){
       if(localStorage.getItem('langID')){
         this.languageId = localStorage.getItem('langID');
       }else{
         this.languageId = 1;
       }
-
+      
     }
+    // translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    //   translate.get('HOME').subscribe((res: any) => {
+    //     this.readPortal('language/all').subscribe((data:any) => {
+    //       let getLang = data.list;
+    //       let myLangData =  getLang.filter(function(val) {
+    //         if(val.languageCode == translate.currentLang){
+    //           this.lang = val.languageCode;
+    //           this.languageId = val.languageId;
+    //           this.getUsersData(this.pageCount, this.pageSize);
+    //         }
+    //       }.bind(this));
+    //     })
+    //   });
+    // });
+    // if(!this.languageId){
+    //   if(localStorage.getItem('langID')){
+    //     this.languageId = localStorage.getItem('langID');
+    //   }else{
+    //     this.languageId = 1;
+    //   }
+
+    // }
 
     /* LANGUAGE FUNC */
      }
@@ -152,11 +179,6 @@ export class CommonService {
   private usersUrl: string = this.appConfig.urlUsers;
   private slidersUrl: string = this.appConfig.urlSlides;
   private getUserUrl: string = this.appConfig.urlGetUser;
-
-
-  getEventLang(){
-    this.flagLang = true;
-  }
 
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
@@ -502,14 +524,14 @@ getMediaByCateId(id){
 
   // NEW
 
-  readPortal(moduleName, page?, size?, keyword?): Observable<any[]> {
+  readPortal(moduleName, page?, size?, keyword?, lng?): Observable<any[]> {
     let readUrl;
     if(!keyword && page) {
-      readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+      readUrl = this.appConfig.urlService + moduleName + '?page=' + page + '&size=' + size  + '&language='+lng;
     } else if(keyword) {
-      readUrl = this.appConfig.urlService + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
+      readUrl = this.appConfig.urlService + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+lng;
     } else {
-      readUrl = this.appConfig.urlService + moduleName + '?language='+this.languageId;
+      readUrl = this.appConfig.urlService + moduleName + '?language='+lng;
     }
 
     return this.http.get(readUrl)
@@ -518,15 +540,15 @@ getMediaByCateId(id){
       .catch(this.handleError);
   }
 
-  readProtected(moduleName, page?, size?, keyword?): Observable<any[]> {
+  readProtected(moduleName, page?, size?, keyword?, lng?): Observable<any[]> {
     let readUrl;
 
     if(!keyword && page) {
-      readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+this.languageId;
+      readUrl = this.appConfig.urlCommon + moduleName + '?page=' + page + '&size=' + size  + '&language='+lng;
     } else if(keyword) {
-      readUrl = this.appConfig.urlCommon + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+this.languageId;
+      readUrl = this.appConfig.urlCommon + moduleName + '?keyword='+keyword+'&page=' + page + '&size=' + size  + '&language='+lng;
     } else {
-      readUrl = this.appConfig.urlCommon + moduleName + '?language='+this.languageId;
+      readUrl = this.appConfig.urlCommon + moduleName + '?language='+lng;
     }
 
     return this.http.get(readUrl)
@@ -543,8 +565,8 @@ getMediaByCateId(id){
       .catch(this.handleError);
   }
 
-  readProtectedById(moduleName, id): Observable<any[]> {
-    let readUrl = this.appConfig.urlCommon + moduleName + id + '?language='+this.languageId;
+  readProtectedById(moduleName, id, lng?): Observable<any[]> {
+    let readUrl = this.appConfig.urlCommon + moduleName + id + '?language='+lng;
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)
@@ -553,6 +575,7 @@ getMediaByCateId(id){
 
   create(data, moduleName) {
     let createUrl = this.appConfig.urlCommon   + moduleName + '?language='+this.languageId;
+    console.log(createUrl)
 
     return this.http.post(createUrl, data)
     .map((response: Response) => response.json())

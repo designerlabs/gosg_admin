@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -9,13 +9,15 @@ import { ToastrService } from 'ngx-toastr';
 import { ValidateService } from '../common/validate.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { NavService } from '../nav/nav.service';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-agency',
   templateUrl: './agency.component.html',
   styleUrls: ['./agency.component.css']
 })
-export class AgencyComponent implements OnInit {
+export class AgencyComponent implements OnInit, OnDestroy {
   patternEmail: string;
   maskPhoneNo: (string | RegExp)[];
   maskFaxNo: (string | RegExp)[];
@@ -84,7 +86,12 @@ export class AgencyComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  lang:any;
   public loading = false;
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   constructor(
     private http: HttpClient, 
@@ -93,29 +100,33 @@ export class AgencyComponent implements OnInit {
     private router: Router,
     private translate: TranslateService,
     private validateService: ValidateService,
+    private navservice: NavService,
     private toastr: ToastrService
   ) { 
     
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              // this.getAgency();
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
 
     /* LANGUAGE FUNC */
   }
@@ -204,6 +215,10 @@ export class AgencyComponent implements OnInit {
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -313,7 +328,7 @@ export class AgencyComponent implements OnInit {
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
-      this.commonservice.readPortal('ministry/language/'+langId, count, page, keyword).subscribe(data => {
+      this.commonservice.readPortal('ministry/language/'+langId, count, page, keyword, langId).subscribe(data => {
             this.commonservice.errorHandling(data, (function(){
               
           if(data['list'].length != 0) {

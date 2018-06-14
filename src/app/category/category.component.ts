@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -11,6 +11,8 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
 import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../nav/nav.service';
 
 @Component({
   selector: 'app-category',
@@ -18,7 +20,7 @@ import { forEach } from '@angular/router/src/utils/collection';
   styleUrls: ['./category.component.css']
 })
 
-export class CategoryComponent implements OnInit {
+export class CategoryComponent implements OnInit, OnDestroy {
   value: any;
   itemEn: any;
   itemBm: any;
@@ -54,6 +56,7 @@ export class CategoryComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public lang: any;
   public treeEn: any;
   public treeBm: any;
   public imageData: any;
@@ -65,12 +68,17 @@ export class CategoryComponent implements OnInit {
   public loading = false;
 
   public parentFlag = false;
+  public flagLifeE: any;
 
   public categoryPlaceholder = "";
   public filterPlaceholder = "";
   public urlEdit = "";
 
   editor = {treeVal: '' };
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -78,33 +86,33 @@ export class CategoryComponent implements OnInit {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
+    private navservice: NavService,
     private dialogsService: DialogsService,
     public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.getCategory();
-              this.changePlaceHolder(); 
-              this.changeLanguageAddEdit();              
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      this.getCategory();
-      //this.getData();
-    }
     /* LANGUAGE FUNC */
 
     // this.updateForm = builder.group({
@@ -114,6 +122,12 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     this.titleEn = new FormControl();
     this.titleBm = new FormControl();
@@ -155,8 +169,8 @@ export class CategoryComponent implements OnInit {
       
     });
 
-    this.getCategory();
-    this.getImageList();
+    this.getCategory(this.languageId);
+    this.getImageList(this.languageId);
 
     this.urlEdit = this.router.url.split('/')[2];
     
@@ -173,6 +187,11 @@ export class CategoryComponent implements OnInit {
 
     this.commonservice.getModuleId();    
   }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
 
   selectedImage(e, val){
     console.log(e);
@@ -224,10 +243,10 @@ export class CategoryComponent implements OnInit {
     this.checkReqValues();
   }
 
-  getCategory(){
+  getCategory(lng){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/category')
+    return this.commonservice.readProtected('content/category', '', '', '', lng)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -252,6 +271,7 @@ export class CategoryComponent implements OnInit {
                     parentBm: this.categoryData[i].list[1].parentId.categoryId,
                     categoryName: this.categoryData[i].list[0].categoryName,                    
                     checked: false,
+                    flagLE: this.categoryData[i].list[0].template,
                     text: this.categoryData[i].list[0].categoryName,
                     children: []});      
                   
@@ -264,6 +284,7 @@ export class CategoryComponent implements OnInit {
                     parentBm: this.categoryData[i].list[1].parentId.categoryId,
                     categoryName: this.categoryData[i].list[1].categoryName,
                     checked: false,
+                    flagLE: this.categoryData[i].list[0].template,
                     text: this.categoryData[i].list[1].categoryName,
                     children: []}); 
                   
@@ -360,7 +381,7 @@ export class CategoryComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];
   
     this.loading = true;
-    this.commonservice.readProtectedById('content/category/',_getRefID)
+    this.commonservice.readProtectedById('content/category/',_getRefID, this.languageId)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -372,8 +393,7 @@ export class CategoryComponent implements OnInit {
         this.updateForm.get('descEn').setValue(this.recordList.list[0].categoryDescription);
         this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
         this.updateForm.get('seqEng').setValue(this.recordList.list[0].categorySort);
-        this.updateForm.get('seqMy').setValue(this.recordList.list[1].categorySort); 
-        
+        this.updateForm.get('seqMy').setValue(this.recordList.list[1].categorySort);         
           
         //this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
         // this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
@@ -384,8 +404,12 @@ export class CategoryComponent implements OnInit {
         this.updateForm.get('subcription').setValue(this.recordList.list[0].isSubscribable);  
         this.updateForm.get('deleted').setValue(this.recordList.list[0].isDeleted);  
         this.updateForm.get('rss').setValue(this.recordList.list[0].isRssFeeder);  
-        this.updateForm.get('citizenflag').setValue(this.recordList.list[0].isCitizenLifeEvent);  
-        this.updateForm.get('noncitizenflag').setValue(this.recordList.list[0].isNonCitizenLifeEvent); 
+
+        if(this.recordList.list[0].template == 'lifeevent'){
+          this.flagLifeE = 'lifeevent';
+          this.updateForm.get('citizenflag').setValue(this.recordList.list[0].isCitizenLifeEvent);  
+          this.updateForm.get('noncitizenflag').setValue(this.recordList.list[0].isNonCitizenLifeEvent); 
+        }        
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -499,9 +523,9 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  getImageList(){
+  getImageList(lng){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article','1', '99999')
+    this.commonservice.readProtected('media/category/name/Article','1', '99999', '', lng)
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){
@@ -527,7 +551,15 @@ export class CategoryComponent implements OnInit {
       this.parentFlag = false;
     }
 
+    this.flagLifeE = ele.flagLE;
+
+    if(this.flagLifeE == 'lifeevent'){
+      this.updateForm.get('noncitizenflag').setValue(false);      
+      this.updateForm.get('citizenflag').setValue(true);
+    }
+
     console.log(ele);
+    console.log("Flag LE: "+this.flagLifeE);
     console.log(this.parentFlag);
   }
 
@@ -571,12 +603,16 @@ export class CategoryComponent implements OnInit {
       
     }
 
-    if(formValues.citizenflag == null){
-      formValues.citizenflag = false;
-    }
+    if(this.flagLifeE == 'lifeevent'){
 
-    if(formValues.noncitizenflag == null){
-      formValues.noncitizenflag = false;
+      if(formValues.citizenflag == null){
+        formValues.citizenflag = false;
+      }
+
+      if(formValues.noncitizenflag == null){
+        formValues.noncitizenflag = false;
+      }
+      
     }
 
     // add form
@@ -631,8 +667,7 @@ export class CategoryComponent implements OnInit {
       body[0].isSubscribable = formValues.subcription;   
       body[0].isDeleted = formValues.deleted; 
       body[0].isRssFeeder = formValues.rss; 
-      body[0].isCitizenLifeEvent = formValues.citizenflag; 
-      body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+      
       body[0].categorySort = formValues.seqEng; 
     
       body[1].categoryName = formValues.titleBm;
@@ -642,9 +677,15 @@ export class CategoryComponent implements OnInit {
       body[1].isSubscribable = formValues.subcription;     
       body[1].isDeleted = formValues.deleted; 
       body[1].isRssFeeder = formValues.rss; 
-      body[1].isCitizenLifeEvent = formValues.citizenflag; 
-      body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+      
       body[1].categorySort = formValues.seqMy; 
+
+      if(this.flagLifeE == 'lifeevent'){
+        body[0].isCitizenLifeEvent = formValues.citizenflag; 
+        body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+        body[1].isCitizenLifeEvent = formValues.citizenflag; 
+        body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+      }
 
       //predefined super parent id;
       if(formValues.parentsEn == null || formValues.parentsEn == ""){
@@ -689,7 +730,7 @@ export class CategoryComponent implements OnInit {
     }
 
     // update form
-    else{
+    else{      
       
       body = [
         {
@@ -744,8 +785,6 @@ export class CategoryComponent implements OnInit {
       body[0].isSubscribable = formValues.subcription;   
       body[0].isDeleted = formValues.deleted; 
       body[0].isRssFeeder = formValues.rss; 
-      body[0].isCitizenLifeEvent = formValues.citizenflag; 
-      body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
       body[0].categorySort = formValues.seqEng; 
 
       body[1].categoryName = formValues.titleBm;
@@ -756,9 +795,14 @@ export class CategoryComponent implements OnInit {
       body[1].isSubscribable = formValues.subcription;  
       body[1].isDeleted = formValues.deleted;   
       body[1].isRssFeeder = formValues.rss; 
-      body[1].isCitizenLifeEvent = formValues.citizenflag; 
-      body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
       body[1].categorySort = formValues.seqMy; 
+
+      if(this.flagLifeE == 'lifeevent'){
+        body[0].isCitizenLifeEvent = formValues.citizenflag; 
+        body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+        body[1].isCitizenLifeEvent = formValues.citizenflag; 
+        body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+      }
 
       if(formValues.imageBm != null && formValues.imageEn != null){
         body[0].image.mediaId = formValues.imageEn;      
@@ -862,6 +906,36 @@ export class CategoryComponent implements OnInit {
 
   back(){
     this.router.navigate(['category']);
+  }
+
+  le(e){
+  
+    let citezenF = this.updateForm.get('citizenflag');
+
+    if(citezenF.value == true){
+      this.updateForm.get('noncitizenflag').setValue(true);  
+    }    
+
+    if(citezenF.value == false || citezenF.value == null){
+      this.updateForm.get('noncitizenflag').setValue(null); 
+    }
+
+    console.log(citezenF.value)
+    
+  }
+
+  le2(e){
+    let noncitizenF = this.updateForm.get('noncitizenflag');
+
+    if(noncitizenF.value == false || noncitizenF.value == null){
+      this.updateForm.get('citizenflag').setValue(null);
+    }
+
+    if(noncitizenF.value == true){
+      this.updateForm.get('citizenflag').setValue(true);
+    }
+    console.log("NCT: "+noncitizenF.value);    
+
   }
 
 }

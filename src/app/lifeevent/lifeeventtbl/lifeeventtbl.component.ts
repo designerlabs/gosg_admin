@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
@@ -11,6 +11,8 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 declare var System: any;
 @Component({
@@ -18,7 +20,7 @@ declare var System: any;
   templateUrl: './lifeeventtbl.component.html',
   styleUrls: ['./lifeeventtbl.component.css']
 })
-export class LifeeventtblComponent implements OnInit {
+export class LifeeventtblComponent implements OnInit, OnDestroy {
 
   selectedItem = [];
 
@@ -65,6 +67,7 @@ export class LifeeventtblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  public lang: any;
   leCategoryCode: any;
   countArticle = 0;
   catCode: any;
@@ -85,6 +88,8 @@ export class LifeeventtblComponent implements OnInit {
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
+  private subscriptionLang: ISubscription;
+
   applyFilter(e) {
 
     this.nameStatus = this.updateForm.get('nameStatus').value;
@@ -94,14 +99,14 @@ export class LifeeventtblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, e, this.nameStatus, d);
     }
     else{
-      this.getCategoryCodeLE();
+      this.getCategoryCodeLE(this.languageId);
     }
   }
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
-    this.getCategoryCodeLE();
+    this.getCategoryCodeLE(this.languageId);
   }
 
   filterStatus(e){
@@ -114,7 +119,7 @@ export class LifeeventtblComponent implements OnInit {
     }
 
     else{
-      this.getCategoryCodeLE();
+      this.getCategoryCodeLE(this.languageId);
     }
   }
 
@@ -125,47 +130,53 @@ export class LifeeventtblComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
+    private navservice: NavService,
     public dialog: MatDialog,
     public builder: FormBuilder) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              console.log("Get Category ON TRANSLATE: ");
-              this.getCategoryCodeLE();
-              //this.getRecordListLE(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-              this.getCategoryLE();
-              this.selectedItem = [];
-              
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        console.log("constructor")
+        this.getCategoryCodeLE(this.languageId);
+        //this.getCategoryLE(this.languageId);
+        this.selectedItem = [];
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      //this.getRecordListLE(this.pageCount, this.pageSize);
-      // console.log(this.languageId);
-      // this.getCategoryCodeLE();
-      // this.commonservice.getModuleId();
-      // this.getCategoryLE();
-      // this.selectedItem = [];
-    }
     /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
   }
 
   ngOnInit() {
     //this.getRecordListLE(this.pageCount, this.pageSize);
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
     console.log("Get Category ON INIT: ");
     
-    this.getCategoryCodeLE();
+    this.getCategoryCodeLE(this.languageId);
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl({disabled: true});
@@ -187,17 +198,17 @@ export class LifeeventtblComponent implements OnInit {
     });
 
     this.updateForm.get('nameStatus').setValue(1);   
-    this.getCategoryLE();
+    this.getCategoryLE(this.languageId);
     this.valkey = false;
 
   }
 
-  getCategoryCodeLE(){ 
+  getCategoryCodeLE(lang){ 
 
     console.log("Call function getCategoryCodeLE () ");
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode)
+    return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode,'','','',lang)
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
@@ -259,7 +270,7 @@ export class LifeeventtblComponent implements OnInit {
       });
   }
 
-  getRecordListLE(page, size, code) {  
+  getRecordListLE(page, size, code, lang) {  
   
     this.recordList = null;
     let nameStatus = this.updateForm.get('nameStatus').value;
@@ -308,7 +319,7 @@ export class LifeeventtblComponent implements OnInit {
     
     if(code != undefined){
       this.loading = true;
-      this.commonservice.readProtected(generalUrl, page, size).subscribe(
+      this.commonservice.readProtected(generalUrl, page, size, '', lang).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
@@ -389,7 +400,7 @@ export class LifeeventtblComponent implements OnInit {
     }
 
     this.loading = true;
-    this.commonservice.readProtected(generalUrl, page, size,e).subscribe(
+    this.commonservice.readProtected(generalUrl, page, size,e, this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
@@ -522,7 +533,7 @@ export class LifeeventtblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getRecordListLE(page - 1, this.pageSize, this.catCode);
+    this.getRecordListLE(page - 1, this.pageSize, this.catCode, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -532,7 +543,7 @@ export class LifeeventtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordListLE(page + 1, this.pageSize, this.catCode);
+    this.getRecordListLE(page + 1, this.pageSize, this.catCode, this.languageId);
   }
 
   add() {
@@ -554,7 +565,7 @@ export class LifeeventtblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
           this.selectedItem = [];
           
         }).bind(this)); 
@@ -575,15 +586,15 @@ export class LifeeventtblComponent implements OnInit {
 
   pageChange(event, totalPages) {
 
-    this.getRecordListLE(this.pageCount, event.value, this.catCode);
+    this.getRecordListLE(this.pageCount, event.value, this.catCode, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
 
-  getCategoryLE(){
+  getCategoryLE(lang){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode)
+    return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode,'','','',lang)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -676,7 +687,7 @@ export class LifeeventtblComponent implements OnInit {
   keysFilter(){
 
     this.catCode = undefined;
-    this.getCategoryCodeLE();
+    this.getCategoryCodeLE(this.languageId);
 
     let keysVal = this.updateForm.get('keys');    
     this.updateForm.get('kataKunci').setValue('');
@@ -698,7 +709,7 @@ export class LifeeventtblComponent implements OnInit {
   onChange(ele){    
     console.log("WHEN");
     this.catCode = ele.refCode;
-    this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);   
+    this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);   
   }
 
   deleteAll(){
@@ -711,7 +722,7 @@ export class LifeeventtblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);  
 
       }).bind(this)); 
       this.selectedItem = [];
