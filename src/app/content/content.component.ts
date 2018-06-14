@@ -104,39 +104,12 @@ export class ContentComponent implements OnInit, OnDestroy {
 
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
 
-    charCounterCount: true,
-    // Set the image upload parameter.
-    imageUploadParam: 'image_param',
-
-    // Set the image upload URL.
-    imageUploadURL: this.appConfig.urlMediaFileUpload + '?language=1',
-
-    // Set request type.
-    imageUploadMethod: 'POST',
-
-    // Set max image size to 5MB.
-    imageMaxSize: 5 * 1024 * 1024,
-
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
 };
 
   public htmlContentMyEditor: Object = {
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
-
-    charCounterCount: true,
-    // Set the image upload parameter.
-    imageUploadParam: 'image_param',
-
-    // Set the image upload URL.
-    imageUploadURL: this.appConfig.urlMediaFileUpload + '?language=2',
-
-    // Set request type.
-    imageUploadMethod: 'POST',
-
-    // Set max image size to 5MB.
-    imageMaxSize: 5 * 1024 * 1024,
-
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
   };
@@ -266,18 +239,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     }else{
       this.languageId = 1;
     }
-
-    $.FroalaEditor.DefineIcon('alert', {NAME: 'info'});
-    $.FroalaEditor.RegisterCommand('alert', {
-      title: 'Hello',
-      focus: false,
-      undo: false,
-      refreshAfterCallback: false,
-
-      callback: function () {
-        alert('Hello!');
-      }
-    });
 
     this.getMinistry(this.languageId);
     this.getMinEventDate();
