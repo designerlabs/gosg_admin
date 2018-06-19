@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -14,13 +14,15 @@ import { forEach } from '@angular/router/src/utils/collection';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-participation',
   templateUrl: './participation.component.html',
   styleUrls: ['./participation.component.css']
 })
-export class ParticipationComponent implements OnInit {
+export class ParticipationComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -73,6 +75,7 @@ export class ParticipationComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  lang: any;
   public loading = false;
 
   ministryNameEn:any;
@@ -85,6 +88,10 @@ export class ParticipationComponent implements OnInit {
   agencyIdBm:any;
 
   sendForApporval: boolean;
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   editor = { enVal: '', bmVal: ''};
   editorConfig = {
@@ -112,31 +119,35 @@ export class ParticipationComponent implements OnInit {
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService,
+    private navservice: NavService,
     private dialogsService: DialogsService,
     public dialog: MatDialog,
     public builder: FormBuilder
   ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data: any) => {
-          let getLang = data.list;
-          let myLangData = getLang.filter(function (val) {
-            if (val.languageCode == translate.currentLang) {
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.changeLanguageAddEdit();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.changeLanguageAddEdit();
+        this.commonservice.getModuleId();
+      }
+
     });
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
     /* LANGUAGE FUNC */
 
     this.updateForm = builder.group({
@@ -145,7 +156,20 @@ export class ParticipationComponent implements OnInit {
     })
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    //this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
+  }
+
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
     // this.isEdit = false;
     // this.changePageMode(this.isEdit);
 
@@ -239,7 +263,7 @@ export class ParticipationComponent implements OnInit {
   getRow(row) {
     this.loading = true;
     // return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
-    return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
+    return this.commonservice.readProtectedById('content/publisher/', row, this.languageId).subscribe(
       Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function () {
@@ -991,7 +1015,7 @@ export class ParticipationComponent implements OnInit {
     //this.isActive = true;
 
     setTimeout(()=>{
-      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1028,7 +1052,7 @@ export class ParticipationComponent implements OnInit {
     let agenName;
     let minisName;
 
-    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '').subscribe(
+    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '', this.languageId).subscribe(
       data => {
 
       this.commonservice.errorHandling(data, (function(){
