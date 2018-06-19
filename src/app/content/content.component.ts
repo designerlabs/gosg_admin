@@ -533,7 +533,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-    });;
+    });
 
     return this.subscriptionCategoryC
   }
