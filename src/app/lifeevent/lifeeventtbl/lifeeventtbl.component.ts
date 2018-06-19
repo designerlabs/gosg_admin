@@ -258,7 +258,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
 
-          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
           console.log("GET RECORD by default");
 
         }).bind(this));
