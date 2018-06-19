@@ -136,7 +136,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     private navservice: NavService,
     public builder: FormBuilder) {
 
-
+    /* LANGUAGE FUNC */ 
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       const myLang = translate.currentLang;
 
@@ -862,7 +862,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     console.log("ID: "+id);
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id).subscribe(
+      this.commonservice.readProtected('content/history/'+id, '', '','', this.languageId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
