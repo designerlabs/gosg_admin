@@ -24,7 +24,7 @@ export class ParticipationComponent implements OnInit {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
-  publishdt:number;  
+  publishdt:number;
   enddt: number;
   minDate: any;
   sMinDate: any;
@@ -64,7 +64,7 @@ export class ParticipationComponent implements OnInit {
   seqMy: FormControl
   urlEng: FormControl
   urlMy: FormControl
-  public agencyEn: FormControl;  
+  public agencyEn: FormControl;
   public agencyBm: FormControl;
   resetMsg = this.resetMsg;
 
@@ -147,7 +147,7 @@ export class ParticipationComponent implements OnInit {
 
   ngOnInit() {
     // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
+    // this.changePageMode(this.isEdit);
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
@@ -190,7 +190,7 @@ export class ParticipationComponent implements OnInit {
       htmlContentMy: this.htmlContentMy
     });
 
-    let now = new Date();    
+    let now = new Date();
 
     if (refCode == "add") {
       this.isEdit = false;
@@ -201,7 +201,7 @@ export class ParticipationComponent implements OnInit {
       // this.updateForm.get('publish').setValue(now.getTime());
       // this.enddt = now.getTime();
       // this.updateForm.get('endD').setValue(now.getTime());
-      
+
     } else {
       this.isEdit = true;
       this.pageMode = "Update";
@@ -215,6 +215,21 @@ export class ParticipationComponent implements OnInit {
       this.updateForm.disable();
     }
   }
+
+
+  public htmlContentEnEditor: Object = {
+
+    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+
+    // Allow to upload PNG and JPG.
+    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+};
+
+  public htmlContentMyEditor: Object = {
+    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+    // Allow to upload PNG and JPG.
+    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+  };
 
   back() {
     this.router.navigate(['eparticipation']);
@@ -230,7 +245,7 @@ export class ParticipationComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function () {
           this.participantData = Rdata;
           console.log(this.participantData);
-          
+
           let dataEn = this.participantData['contentDetailList'][0];
           let dataBm = this.participantData['contentDetailList'][1];
           // populate data
@@ -240,7 +255,7 @@ export class ParticipationComponent implements OnInit {
           this.updateForm.get('descBm').setValue(dataBm.contentDescription);
           this.updateForm.get('urlEng').setValue(dataEn.contentUrl);
           this.updateForm.get('urlMy').setValue(dataBm.contentUrl);
-       
+
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
           this.updateForm.get('seqMy').setValue(dataBm.contentSort);
           this.updateForm.get('active').setValue(dataEn.isActiveFlag);
@@ -249,16 +264,16 @@ export class ParticipationComponent implements OnInit {
 
           // this.publishdt = dataEn.publishDate;
           // this.enddt = dataEn.endDate;
-          
+
           if(dataBm.publishDate != undefined){
             this.setEventDate(dataBm.publishDate,'publish')
-            this.setEventDate(dataBm.endDate, 'endD')        
-  
+            this.setEventDate(dataBm.endDate, 'endD')
+
             this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
             this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
           }
 
-          this.participantCode = this.participantData.refCode;          
+          this.participantCode = this.participantData.refCode;
           this.participantIdEn = dataEn.contentId;
           this.participantIdBm = dataBm.contentId;
           this.sendForApporval = dataEn.isSendForApproval;
@@ -328,11 +343,11 @@ export class ParticipationComponent implements OnInit {
     this.loading = true;
     return this.commonservice.create(this.htmlContentEn.value, 'htmlcontent/formathtml')
       .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () { 
+        this.commonservice.errorHandling(resCatData, (function () {
           let config = new MatDialogConfig();
           config.width = '800px';
           config.height = '600px';
-          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
           let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
           let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
@@ -357,11 +372,11 @@ export class ParticipationComponent implements OnInit {
     this.loading = true;
     return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
       .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () { 
+        this.commonservice.errorHandling(resCatData, (function () {
           let config = new MatDialogConfig();
           config.width = '800px';
           config.height = '600px';
-          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
           let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
           let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
@@ -384,11 +399,11 @@ export class ParticipationComponent implements OnInit {
 
   onChangeEn(ele){
     if(ele == this.rawValEn){
-      this.parseEnBtn = true;        
+      this.parseEnBtn = true;
     }
     else{
       this.parseEnBtn = false;
-    }   
+    }
   }
 
   onChangeBm(ele){
@@ -415,30 +430,30 @@ export class ParticipationComponent implements OnInit {
     let today = new Date();
     let todaysdt = today.getDate();
     let year = today.getFullYear();
-    let month = today.getMonth(); 
+    let month = today.getMonth();
 
     //this.minDate = new Date(year, month, todaysdt);
     this.sMinDate = new Date(year, month, todaysdt);
     this.eMinDate = new Date(year, month, todaysdt);
   }
 
-  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     let year, month, day;
     this.events = [];
     this.events.push(`${event.value}`);
 
     this.publishdt = new Date(this.events[0]).getTime();
-    this.dateFormatExample = "";   
+    this.dateFormatExample = "";
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
- 
+
     this.eMinDate = new Date(year,month,day);
 
     //if(this.publishdt>this.enddt || this.enddt == undefined){
-      // this.enddt = new Date(year,month,day).getTime(); 
+      // this.enddt = new Date(year,month,day).getTime();
       // this.enddt = new Date(this.events[0]).getTime();
       // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     //}
@@ -450,14 +465,14 @@ export class ParticipationComponent implements OnInit {
     }
     //this.updateForm.get('endD').setValue('');
 
-    this.checkReqValues()    
+    this.checkReqValues()
   }
 
-  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     this.events = [];
     this.events.push(`${event.value}`);
-    this.enddt = new Date(this.events[0]).getTime();    
+    this.enddt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
     this.checkReqValues()
   }
@@ -465,9 +480,9 @@ export class ParticipationComponent implements OnInit {
   setEventDate(tsd,type) {
 
     let year, month, day;
-    let res;    
+    let res;
     this.events = [];
-    var d = new Date(tsd); 
+    var d = new Date(tsd);
     this.events.push(`${d}`);
 
     year = new Date(this.events[0]).getFullYear();
@@ -478,7 +493,7 @@ export class ParticipationComponent implements OnInit {
 
       this.eMinDate = new Date(year,month,day);
       this.publishdt = new Date(this.events[0]).getTime();
-      this.enddt = new Date(this.events[0]).getTime();     
+      this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     }
     else{
@@ -533,7 +548,7 @@ export class ParticipationComponent implements OnInit {
       else{
         this.pageMode = "Tambah";
       }
-      
+
     } else {
       if(this.languageId==1)
       {
@@ -541,7 +556,7 @@ export class ParticipationComponent implements OnInit {
       }
       else{
         this.pageMode = "Kemaskini";
-      }  
+      }
     }
   }
 
@@ -580,7 +595,7 @@ export class ParticipationComponent implements OnInit {
     this.dateFormatExample = "";
   }
 
-  participationSubmit(formValues: any) {  
+  participationSubmit(formValues: any) {
     this.loading = true;
     if (!this.isEdit) {
       let body = [
@@ -598,7 +613,7 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -617,7 +632,7 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -680,7 +695,7 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -700,13 +715,13 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
         }
       ];
-      
+
       body[0].contentCategoryId = this.commonservice.participationContentCategoryIdEn;
       body[0].contents[0].eparticipationId = this.participantIdEn;
       body[0].contents[0].eparticipationTitle = formValues.titleEn;
@@ -750,7 +765,7 @@ export class ParticipationComponent implements OnInit {
     }
   }
 
-  participationDraft(formValues: any) {  
+  participationDraft(formValues: any) {
     this.loading = true;
     if (!this.isEdit) {
       let body = [
@@ -768,7 +783,7 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -787,7 +802,7 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -850,7 +865,7 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
@@ -870,13 +885,13 @@ export class ParticipationComponent implements OnInit {
             },
             "agency": {
               "agencyId": null
-            }, 
+            },
             "eparticipationPublishDate": null,
             "eparticipationEndDate": null
           }]
         }
       ];
-      
+
       body[0].contentCategoryId = this.commonservice.participationContentCategoryIdEn;
       body[0].contents[0].eparticipationId = this.participantIdEn;
       body[0].contents[0].eparticipationTitle = formValues.titleEn;
@@ -928,7 +943,7 @@ export class ParticipationComponent implements OnInit {
       console.log(event)
 
       let keywordVal;
-      
+
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
@@ -956,12 +971,12 @@ export class ParticipationComponent implements OnInit {
   }
 
   getSearchData(keyword, langId, count, page){
-    
+
     let selLangField;
 
     this.searchAgencyResultEn = [];
     this.searchAgencyResultBm = [];
-      
+
     if(langId == 1) {
       selLangField = "agencyBm";
       this.ministryNameBm = "";
@@ -972,8 +987,8 @@ export class ParticipationComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-    this.loading = true;  
-    //this.isActive = true;    
+    this.loading = true;
+    //this.isActive = true;
 
     setTimeout(()=>{
       this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
@@ -997,7 +1012,7 @@ export class ParticipationComponent implements OnInit {
       },error => {
         this.loading = false;
       });
-    }, 2000); 
+    }, 2000);
     // else {
     //   this.agencyIdEn = null;
     //   this.agencyIdBm = null;
@@ -1012,19 +1027,19 @@ export class ParticipationComponent implements OnInit {
     let detailsAgency;
     let agenName;
     let minisName;
-  
+
     this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '').subscribe(
       data => {
 
       this.commonservice.errorHandling(data, (function(){
-        
+
         detailsAgency = data['list'];
-  
+
         agenName = detailsAgency[0].agencyName;
-        minisName = detailsAgency[0].agencyMinistry.ministryName;       
+        minisName = detailsAgency[0].agencyMinistry.ministryName;
 
         this.getValue(agenId,agenName,minisName,agenCode, this.languageId);
-        
+
       }).bind(this));
         this.loading = false;
     },err => {
@@ -1076,11 +1091,11 @@ export class ParticipationComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-       
+
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
-          
+
           this.updateForm.get(selLangField).setValue(aName);
 
           if(langId == 1) {

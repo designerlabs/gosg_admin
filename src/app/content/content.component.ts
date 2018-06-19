@@ -13,6 +13,7 @@ import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { environment } from '../../environments/environment';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../nav/nav.service';
 
@@ -103,39 +104,12 @@ export class ContentComponent implements OnInit, OnDestroy {
 
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
 
-    charCounterCount: true,
-    // Set the image upload parameter.
-    imageUploadParam: 'image_param',
-
-    // Set the image upload URL.
-    imageUploadURL: '../assets/upload_image',
-
-    // Set request type.
-    imageUploadMethod: 'POST',
-
-    // Set max image size to 5MB.
-    imageMaxSize: 5 * 1024 * 1024,
-
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
 };
 
   public htmlContentMyEditor: Object = {
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
-
-    charCounterCount: true,
-    // Set the image upload parameter.
-    imageUploadParam: 'image_param',
-
-    // Set the image upload URL.
-    imageUploadURL: '../assets/upload_image',
-
-    // Set request type.
-    imageUploadMethod: 'POST',
-
-    // Set max image size to 5MB.
-    imageMaxSize: 5 * 1024 * 1024,
-
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
   };
@@ -228,7 +202,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     //       let getLang = data.list;
     //       let myLangData =  getLang.filter(function(val) {
     //         if(val.languageCode == translate.currentLang){
-    //           this.lang = val.languageCode;              
+    //           this.lang = val.languageCode;
     //           this.languageId = val.languageId;
     //           this.getCategory(this.languageId);
     //           this.changeLanguageAddEdit();
@@ -265,18 +239,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     }else{
       this.languageId = 1;
     }
-
-    $.FroalaEditor.DefineIcon('alert', {NAME: 'info'});
-    $.FroalaEditor.RegisterCommand('alert', {
-      title: 'Hello',
-      focus: false,
-      undo: false,
-      refreshAfterCallback: false,
-
-      callback: function () {
-        alert('Hello!');
-      }
-    });
 
     this.getMinistry(this.languageId);
     this.getMinEventDate();
