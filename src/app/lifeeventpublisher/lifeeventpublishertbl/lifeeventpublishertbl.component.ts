@@ -104,14 +104,14 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
       this.getFilterListLEP(this.pageCount, this.pageSize, e, this.nameStatus, d);
     }
     else{
-      this.getCategoryCodeLEP();
+      this.getCategoryCodeLEP(this.languageId);
     }
   }
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
-    this.getCategoryCodeLEP();
+    this.getCategoryCodeLEP(this.languageId);
   }
 
   filterStatus(e){
@@ -124,7 +124,7 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
     }
 
     else{
-      this.getCategoryCodeLEP();
+      this.getCategoryCodeLEP(this.languageId);
     }
   }
 
