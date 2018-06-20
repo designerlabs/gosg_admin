@@ -78,8 +78,6 @@ export class GallerytblComponent implements OnInit, OnDestroy {
     
     this.nameStatus = this.updateForm.get('nameStatus').value;
     let d = this.updateForm.get('publish').value;
-    // if(e.keyCode === 8)
-    //    alert('backspace trapped')
 
     if(e){
       this.getFilterListG(this.pageCount, this.galleryPageSize, e, this.nameStatus, d);
