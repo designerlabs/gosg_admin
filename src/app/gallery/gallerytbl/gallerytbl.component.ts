@@ -261,12 +261,6 @@ export class GallerytblComponent implements OnInit, OnDestroy {
 
             this.showNoData = false;
 
-            for(let i=0; i<this.galleryList.list.length; i++){  
-
-              this.displayDP = moment(new Date(this.galleryList.list[i].list[0].publishDate)).format('DD/MM/YYYY');        
-              this.arrDisplayDP.push(this.displayDP);      
-              console.log(this.displayDP);
-            }
           }
 
           else{
@@ -281,6 +275,12 @@ export class GallerytblComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       });
+  }
+
+  changeDate(dateDP){
+    this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
+
+    return this.displayDP;
   }
 
   getFilterListG(page, size, keyword, valStatus, dateP) {

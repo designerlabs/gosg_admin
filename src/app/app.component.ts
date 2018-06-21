@@ -20,12 +20,20 @@ export class AppComponent {
   bTop = '15px';
   side = true;
   public loading = false;
+  public languageId: any;
 
   constructor(private commonService:CommonService, router:Router) {
 
 }
 
 ngOnInit() {
+
+  if (!this.languageId) {
+    this.languageId = localStorage.getItem('langID');
+  } else {
+    this.languageId = 1;
+  }
+
   this.getUserData();
   $.FroalaEditor.DefineIcon('alert', {NAME: 'info'});
 }
@@ -34,7 +42,7 @@ ngOnInit() {
   getUserData(){
     if(!environment.staging){
       this.loading = true;
-      this.commonService.readProtected('adminuser/detail').subscribe(
+      this.commonService.readProtected('adminuser/detail', '', '', '', this.languageId).subscribe(
         data => {
           if(data['adminUser']){
             this.getUserName = data['adminUser'].fullName;

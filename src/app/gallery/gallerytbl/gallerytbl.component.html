@@ -135,7 +135,7 @@
         <!-- date Column -->
         <ng-container matColumnDef="date">
           <mat-header-cell *matHeaderCellDef> {{ 'common.tableHeader.date' | translate }} </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{arrDisplayDP}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{changeDate(element.list[1]?.publishDate)}} </mat-cell>
         </ng-container>
 
         <!-- galleryActiveFlag Column -->
