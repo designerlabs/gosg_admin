@@ -165,7 +165,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
 
-      this.commonservice.readProtected('content/category/code', page, size, keyword)
+      this.commonservice.readProtected('content/category/code', page, size, keyword, this.languageId)
       //this.http.get(this.dataUrl)
       .subscribe(data => {
 
