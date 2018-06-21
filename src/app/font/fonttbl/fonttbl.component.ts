@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
 import { CommonService } from './../../service/common.service';
-import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-fonttbl',
@@ -17,7 +17,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
   encapsulation: ViewEncapsulation.None
 
 })
-export class FonttblComponent implements OnInit {
+export class FonttblComponent implements OnInit, OnDestroy {
 
   public loading = false;
   recordList = null;
@@ -34,6 +34,7 @@ export class FonttblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  public lang: any;
 
   recordTable = null;
   
@@ -41,6 +42,8 @@ export class FonttblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  
+  private subscriptionLang: ISubscription;
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -52,45 +55,60 @@ export class FonttblComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
     private router: Router, 
+    private navservice: NavService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-    //this.getRecordList(this.pageCount, this.pageSize);
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+    
+    this.getRecordList(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
-  getRecordList(page, size) {  
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
+  getRecordList(page, size, lng) {  
 
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readPortal('font', page, size).subscribe(
+    this.commonservice.readPortal('font', page, size, '', lng).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
@@ -116,7 +134,7 @@ export class FonttblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -126,7 +144,7 @@ export class FonttblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize, this.languageId);
   }
 
   add() {
@@ -169,7 +187,7 @@ export class FonttblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

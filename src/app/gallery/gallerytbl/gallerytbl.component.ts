@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -11,15 +11,13 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
-import { ISubscription } from 'rxjs/Subscription';
-import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-gallerytbl',
   templateUrl: './gallerytbl.component.html',
   styleUrls: ['./gallerytbl.component.css']
 })
-export class GallerytblComponent implements OnInit, OnDestroy {
+export class GallerytblComponent implements OnInit {
 
   selectedItem = [];
 
@@ -64,10 +62,6 @@ export class GallerytblComponent implements OnInit, OnDestroy {
   newEndD: any;
   valkey = false;
   listHistory = null;
-  private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -78,6 +72,8 @@ export class GallerytblComponent implements OnInit, OnDestroy {
     
     this.nameStatus = this.updateForm.get('nameStatus').value;
     let d = this.updateForm.get('publish').value;
+    // if(e.keyCode === 8)
+    //    alert('backspace trapped')
 
     if(e){
       this.getFilterListG(this.pageCount, this.galleryPageSize, e, this.nameStatus, d);
@@ -114,54 +110,36 @@ export class GallerytblComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService,
-    private navservice: NavService,
     private dialogsService: DialogsService,
     public dialog: MatDialog,
   ) { 
-
-    /* LANGUAGE FUNC */
-    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      const myLang = translate.currentLang;
-
-      if (myLang == 'en') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'en';
-          this.languageId = 1;
-        });
-      }
-
-      if (myLang == 'ms') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'ms';
-          this.languageId = 2;
-        });
-      }
-      if (this.navservice.flagLang) {
-        console.log("constructor")
-        this.getGalleryData(this.pageCount, this.galleryPageSize);
-        this.selectedItem = [];
-        this.commonservice.getModuleId();
-      }
-
-    });
-    /* LANGUAGE FUNC */
     
-  }
-
-  ngOnDestroy() {
-    this.subscriptionLang.unsubscribe();
-    // this.subscriptionContentCreator.unsubscribe();
-    // this.subscriptionCategoryC.unsubscribe();
-    // this.subscriptionRecordListC.unsubscribe();
+    /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getGalleryData(this.pageCount, this.galleryPageSize);
+              this.commonservice.getModuleId();
+              this.selectedItem = [];
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getGalleryData(this.pageCount, this.galleryPageSize);
+      this.commonservice.getModuleId();
+    }
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-    } else {
-      this.languageId = 1;
-    }
 
     this.nameStatus = new FormControl();
     this.kataKunci = new FormControl();
@@ -239,7 +217,7 @@ export class GallerytblComponent implements OnInit, OnDestroy {
     // gallery/39
     // this.http.get(this.dataUrl + '/code/?page=' + count + '&size=' + size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
-    this.commonservice.readProtected(generalUrl,page, size, '', this.languageId).subscribe(
+    this.commonservice.readProtected(generalUrl,page, size).subscribe(
       data => {
         
           this.commonservice.errorHandling(data, (function(){
@@ -321,7 +299,7 @@ export class GallerytblComponent implements OnInit, OnDestroy {
       this.valkey = true;
       this.loading = true;
 
-      this.commonservice.readProtected(generalUrl,page, size, keyword, this.languageId).subscribe(
+      this.commonservice.readProtected(generalUrl,page, size, keyword).subscribe(
         data => {
           
             this.commonservice.errorHandling(data, (function(){
@@ -556,7 +534,7 @@ export class GallerytblComponent implements OnInit, OnDestroy {
     console.log("ID: "+id);
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id, '', '', '', this.languageId).subscribe(
+      this.commonservice.readProtected('content/history/'+id).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     

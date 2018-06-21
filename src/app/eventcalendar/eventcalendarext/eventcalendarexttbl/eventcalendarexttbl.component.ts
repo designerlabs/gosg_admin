@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -8,13 +8,15 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogsService } from '../../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-eventcalendarexttbl',
   templateUrl: './eventcalendarexttbl.component.html',
   styleUrls: ['./eventcalendarexttbl.component.css']
 })
-export class EventcalendarexttblComponent implements OnInit {
+export class EventcalendarexttblComponent implements OnInit, OnDestroy {
 
   displayedExtColumns: string[];
   calendarData: Object;
@@ -48,6 +50,8 @@ export class EventcalendarexttblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.calendarList);
   dataSourceExt = new MatTableDataSource<object>(this.calendarExtList);
+  
+  private subscriptionLang: ISubscription;
 
   applyFilter(val) {   
 
@@ -57,19 +61,20 @@ export class EventcalendarexttblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getEventData(this.pageCount, this.pageSize);
+      this.getEventData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getEventData(this.pageCount, this.pageSize);
+    this.getEventData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
     private commonservice: CommonService, 
+    private navservice: NavService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private router: Router,
@@ -77,32 +82,42 @@ export class EventcalendarexttblComponent implements OnInit {
   ) { 
     
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getEventData(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getEventData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
 
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getEventData(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
+    });
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+    
     this.displayedColumns = ['no','eventName','enabled', 'calendarAction'];
+    this.getEventData(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
@@ -111,10 +126,14 @@ export class EventcalendarexttblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
   // get agencyType Data 
-  getEventData(count, size) {
+  getEventData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('calendar/external', count, size).subscribe(
+    this.commonservice.readProtected('calendar/external', count, size, '', lng).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -188,7 +207,7 @@ export class EventcalendarexttblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getEventData(this.pageCount, this.pageSize);
+    this.getEventData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -198,11 +217,11 @@ export class EventcalendarexttblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getEventData(page + 1, this.pageSize);
+    this.getEventData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getEventData(this.pageCount, event.value);
+    this.getEventData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

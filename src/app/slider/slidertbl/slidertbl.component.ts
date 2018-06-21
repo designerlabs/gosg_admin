@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -11,8 +11,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
-import { ISubscription } from 'rxjs/Subscription';
-import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-slidertbl',
@@ -20,7 +18,7 @@ import { NavService } from '../../nav/nav.service';
   styleUrls: ['./slidertbl.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SlidertblComponent implements OnInit, OnDestroy {
+export class SlidertblComponent implements OnInit {
 
   selectedItem = [];
 
@@ -64,11 +62,6 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   listHistory = null;
 
   showNoData = false;
-
-  private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -116,53 +109,38 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     public dialog: MatDialog,
     private router: Router,
-    private navservice: NavService,
     private toastr: ToastrService
   ) { 
-
+    
     /* LANGUAGE FUNC */
-    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      const myLang = translate.currentLang;
-
-      if (myLang == 'en') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'en';
-          this.languageId = 1;
-        });
-      }
-
-      if (myLang == 'ms') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'ms';
-          this.languageId = 2;
-        });
-      }
-      if (this.navservice.flagLang) {
-        console.log("constructor")
-        this.getSlidersData(this.pageCount, this.sliderPageSize);
-        this.selectedItem = [];
-        this.commonservice.getModuleId();
-      }
-
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              console.log("Translate");
+              this.getSlidersData(this.pageCount, this.sliderPageSize);
+              this.commonservice.getModuleId();
+              this.selectedItem = [];
+            }
+          }.bind(this));
+        })
+      });
     });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      console.log("languange");
+      //this.getSlidersData(this.pageCount, this.sliderPageSize);
+      this.commonservice.getModuleId();
+    }
+
     /* LANGUAGE FUNC */
-
-  }
-
-  ngOnDestroy() {
-    this.subscriptionLang.unsubscribe();
-    // this.subscriptionContentCreator.unsubscribe();
-    // this.subscriptionCategoryC.unsubscribe();
-    // this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
-
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-    } else {
-      this.languageId = 1;
-    }
    
     this.nameStatus = new FormControl();
     this.kataKunci = new FormControl();
@@ -239,7 +217,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     }
     
     this.loading = true;
-    this.commonservice.readProtected(generalUrl,page, size, '', this.languageId).subscribe(
+    this.commonservice.readProtected(generalUrl,page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -319,7 +297,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.valkey = true;
       this.loading = true;
-      this.commonservice.readProtected(generalUrl,page, size, keyword, this.languageId).subscribe(
+      this.commonservice.readProtected(generalUrl,page, size, keyword).subscribe(
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
@@ -546,7 +524,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     console.log("ID: "+id);
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id, '', '', '', this.languageId).subscribe(
+      this.commonservice.readProtected('content/history/'+id).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
@@ -583,6 +561,10 @@ export class SlidertblComponent implements OnInit, OnDestroy {
 
             dialogRef.componentInstance.content =  `${displayTilte}`;
             display = dialogRef.componentInstance.content;
+          
+            // if(this.listHistory.list.length > 0){  
+            //   this.dataSourceH.data = this.listHistory.list;
+            // }
 
           }).bind(this)); 
           this.loading = false;

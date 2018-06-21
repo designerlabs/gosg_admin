@@ -38,16 +38,16 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
   lang: any;
   public languageId: any;
   recordTable = null;
-  
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  
-  dataSource = new MatTableDataSource<object>(this.recordList);
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
   private subscriptionRecordListC: ISubscription;
+  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  
+  dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -87,9 +87,14 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
         this.commonservice.getModuleId();
       }
 
+      if (this.navservice.flagLang) {
+        console.log("constructor")
+        this.getRecordList(this.pageCount, this.pageSize);
+        this.commonservice.getModuleId();
+      }
+
     });
     /* LANGUAGE FUNC */
-
   }
 
   ngOnDestroy() {
@@ -114,7 +119,7 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
   getRecordList(count, size) {
   
     this.loading = true;
-    this.commonservice.readPortal('feedback/type', count, size, '', this.languageId)
+    this.commonservice.readPortal('feedback/type', count, size)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){

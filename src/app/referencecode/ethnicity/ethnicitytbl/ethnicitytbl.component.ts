@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -9,6 +9,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-ethnicitytbl',
@@ -17,7 +19,7 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
   encapsulation: ViewEncapsulation.None
 })
 
-export class EthnicitytblComponent implements OnInit {
+export class EthnicitytblComponent implements OnInit, OnDestroy {
 
   updateForm: FormGroup
 
@@ -51,46 +53,60 @@ export class EthnicitytblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
 
+  private subscriptionLang: ISubscription;
     
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
-  private translate: TranslateService,
+  private translate: TranslateService, private navservice: NavService,
   private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
+
+      this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        const myLang = translate.currentLang;
+  
+        if (myLang == 'en') {
+          translate.get('HOME').subscribe((res: any) => {
+              this.languageId = 1;
+            });
+          }
+          
+          if (myLang == 'ms') {
+            translate.get('HOME').subscribe((res: any) => {
+              this.languageId = 2;
+          });
+          // alert(this.languageId + ',' + this.localeVal)
+        }
+          if(this.navservice.flagLang){
+            this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+            this.commonservice.getModuleId();
+          }
+  
       });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
     
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.getRecordList(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
-    // this.getRecordList(this.pageCount, this.pageSize);
   }
 
-  getRecordList(page, size) {
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
+  getRecordList(page, size, lng) {
 
     this.recordList = null;
     this.loading = true;
-    this.commonservice.readPortal('race', page, size)
+    this.commonservice.readPortal('race', page, size, '', lng)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
@@ -122,7 +138,7 @@ export class EthnicitytblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -132,7 +148,7 @@ export class EthnicitytblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize, this.languageId);
   }
 
   add() {
@@ -177,7 +193,7 @@ export class EthnicitytblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

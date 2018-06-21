@@ -16,7 +16,6 @@ let mediaURL = environment.mediaURL;
 const devURL = environment.uapURL;
 const commonURL = devURL + 'service-admin-protected/';
 const serviceURL = devURL + 'service/';
-const uploadURL = devURL + 'opt/media/'
 
 
 // let publicURL = 'http://10.1.70.148:8080/gosg-service-public/';
@@ -56,8 +55,7 @@ export class AppConfig {
     urlModuleRef: string;
     externalMediaURL: string;
     urlHtmlParse: string;
-    uploadURL: string;
-
+    
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -69,8 +67,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
-    urlSlides: commonURL + 'slide',
-    urlGetLanguage: serviceURL + 'language',
+    urlSlides: commonURL + 'slide',  
+    urlGetLanguage: serviceURL + 'language',  
     urlModule: commonURL + 'authorization/module',
     urlModuleRef: commonURL + 'authorization/module/url',
     urlModuleList: commonURL + 'authorization/module/moduleList',
@@ -92,7 +90,6 @@ export const APP_DI_CONFIG: AppConfig = {
     urlMediaFileUpload: commonURL + 'media',
     lang: 'language='+localStorage.getItem('langID'),
     urlHtmlParse: commonURL + 'htmlcontent/formathtml',
-    uploadURL: uploadURL
 };
 
 @NgModule({
