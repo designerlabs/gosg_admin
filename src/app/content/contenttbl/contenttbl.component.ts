@@ -158,12 +158,11 @@ export class ContenttblComponent implements OnInit, OnDestroy {
           this.lang = 'ms';
           this.languageId = 2;
         });
-        // alert(this.languageId + ',' + this.localeVal)
       }
       if (this.navservice.flagLang) {
         console.log("constructor")
         this.getCategoryCodeC(this.languageId);
-        this.getCategoryC(this.languageId);
+        //this.getCategoryC(this.languageId);
         this.selectedItem = [];
         this.commonservice.getModuleId();
       }
@@ -266,7 +265,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-
           //this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
 
         }).bind(this));
@@ -576,7 +574,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function () {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListC(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
           this.selectedItem = [];
 
         }).bind(this));
@@ -739,7 +737,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(data, (function () {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListC(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
 
         }).bind(this));
         this.selectedItem = [];
