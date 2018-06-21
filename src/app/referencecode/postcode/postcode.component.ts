@@ -24,36 +24,37 @@ export class PostcodeComponent implements OnInit {
   constructor(private commonservice: CommonService,
   private translate: TranslateService, private toastr: ToastrService) {
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getState('152');
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getState('152');
-      this.commonservice.getModuleId();
-    }
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
    }
 
   ngOnInit() {
-    this.getState('152');   
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.getState('152', this.languageId);   
     this.commonservice.getModuleId(); 
   }
     
-  getState(id?){
+  getState(id?, lng?){
     this.loading = true;
-    return this.commonservice.readPortal('state/all')
+    return this.commonservice.readPortal('state/all', '', '', '', lng)
      .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function(){
         this.getStateData = resStateData["stateList"];        //.stateList
@@ -95,7 +96,7 @@ export class PostcodeComponent implements OnInit {
     console.log(e);
     if(e){
       this.loading = true;
-      return this.commonservice.readPortal('postcode/city/'+e.value.cityCode)
+      return this.commonservice.readPortal('postcode/city/'+e.value.cityCode, '', '', '', this.languageId)
       .subscribe(resPostCodeData => {
         this.commonservice.errorHandling(resPostCodeData, (function(){
         this.getPostData = resPostCodeData["postcodeList"];

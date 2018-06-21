@@ -112,6 +112,7 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
       'messagesDescriptionEn', 
       'messagesDescriptionBm', 
       'errMsgAction'];
+      this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
       this.commonservice.getModuleId();
   }
 

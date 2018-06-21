@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -9,8 +9,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../../dialogs/dialogs.service';
-import { ISubscription } from 'rxjs/Subscription';
-import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-feedbacktypetbl',
@@ -19,7 +17,7 @@ import { NavService } from '../../../nav/nav.service';
   encapsulation: ViewEncapsulation.None
 })
 
-export class FeedbacktypetblComponent implements OnInit, OnDestroy {
+export class FeedbacktypetblComponent implements OnInit {
 
   public loading = false;
   recordList = null;
@@ -35,7 +33,6 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
   seqPageSize = 0 ;
 
   dataUrl: any;  
-  lang: any;
   public languageId: any;
   recordTable = null;
   
@@ -43,11 +40,6 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
-
-  private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -61,60 +53,42 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
-    private navservice: NavService,
     private dialogsService: DialogsService) {
 
-      /* LANGUAGE FUNC */
-    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      const myLang = translate.currentLang;
-
-      if (myLang == 'en') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'en';
-          this.languageId = 1;
-        });
-      }
-
-      if (myLang == 'ms') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'ms';
-          this.languageId = 2;
-        });
-      }
-      if (this.navservice.flagLang) {
-        console.log("constructor")
-        this.getRecordList(this.pageCount, this.pageSize);
-        this.commonservice.getModuleId();
-      }
-
-    });
     /* LANGUAGE FUNC */
-
-  }
-
-  ngOnDestroy() {
-    this.subscriptionLang.unsubscribe();
-    // this.subscriptionContentCreator.unsubscribe();
-    // this.subscriptionCategoryC.unsubscribe();
-    // this.subscriptionRecordListC.unsubscribe();
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getRecordList(this.pageCount, this.pageSize);
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
+      });
+    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getRecordList(this.pageCount, this.pageSize);
+      this.commonservice.getModuleId();
+    }
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
 
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-    } else {
-      this.languageId = 1;
-    }
-
-    this.getRecordList(this.pageCount, this.pageSize);
+    //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
   getRecordList(count, size) {
   
     this.loading = true;
-    this.commonservice.readPortal('feedback/type', count, size, '', this.languageId)
+    this.commonservice.readPortal('feedback/type', count, size)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){

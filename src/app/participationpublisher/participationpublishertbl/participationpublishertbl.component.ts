@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -11,15 +11,13 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
-import { ISubscription } from 'rxjs/Subscription';
-import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-participationpublishertbl',
   templateUrl: './participationpublishertbl.component.html',
   styleUrls: ['./participationpublishertbl.component.css']
 })
-export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
+export class ParticipationpublishertblComponent implements OnInit {
 
   archiveId = [];
   arrStatus = [];
@@ -68,11 +66,6 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
 
   showNoData = false;
 
-  private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -117,54 +110,38 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private translate: TranslateService,
     private router: Router,
-    private navservice: NavService,
     private toastr: ToastrService
   ) { 
-
+    
     /* LANGUAGE FUNC */
-    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      const myLang = translate.currentLang;
-
-      if (myLang == 'en') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'en';
-          this.languageId = 1;
-        });
-      }
-
-      if (myLang == 'ms') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'ms';
-          this.languageId = 2;
-        });
-      }
-      if (this.navservice.flagLang) {
-        console.log("constructor")
-        this.getParticipantsData(this.pageCount, this.participantPageSize);
-        this.archiveId = [];
-        this.arrStatus = [];
-        this.selectedItem = [];
-        this.commonservice.getModuleId();
-      }
-
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.getParticipantsData(this.pageCount, this.participantPageSize);
+              this.commonservice.getModuleId();
+              this.archiveId = [];
+              this.arrStatus = [];
+              this.selectedItem = [];
+            }
+          }.bind(this));
+        })
+      });
     });
-    /* LANGUAGE FUNC */
-  }
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      //this.getParticipantsData(this.pageCount, this.participantPageSize);
+      this.commonservice.getModuleId();
+    }
 
-  ngOnDestroy() {
-    this.subscriptionLang.unsubscribe();
-    // this.subscriptionContentCreator.unsubscribe();
-    // this.subscriptionCategoryC.unsubscribe();
-    // this.subscriptionRecordListC.unsubscribe();
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-    } else {
-      this.languageId = 1;
-    }
 
     this.nameStatus = new FormControl();
     this.kataKunci = new FormControl();
@@ -234,7 +211,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
     }
     
     this.loading = true;
-    this.commonservice.readProtected(generalUrl,page, size, '', this.languageId).subscribe(
+    this.commonservice.readProtected(generalUrl,page, size).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -308,7 +285,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.valkey = true;
       this.loading = true;
-      this.commonservice.readProtected(generalUrl,page, size, keyword, this.languageId).subscribe(
+      this.commonservice.readProtected(generalUrl,page, size, keyword).subscribe(
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
@@ -637,7 +614,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
     console.log("ID: "+id);
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id, '', '', '', this.languageId).subscribe(
+      this.commonservice.readProtected('content/history/'+id).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     

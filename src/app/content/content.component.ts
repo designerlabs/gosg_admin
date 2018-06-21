@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -13,17 +13,15 @@ import { stringify } from '@angular/core/src/util';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
-import { environment } from '../../environments/environment';
-import { ISubscription } from 'rxjs/Subscription';
-import { NavService } from './../nav/nav.service';
-
 declare var $ :any;
 @Component({
   selector: 'app-content',
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css']
 })
-export class ContentComponent implements OnInit, OnDestroy {
+export class ContentComponent implements OnInit {
+
+
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -77,7 +75,6 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   public complete: boolean;
   public languageId: any;
-  public lang: any;
   public treeEn: any;
   public treeBm: any;
   public loading = false;
@@ -94,15 +91,23 @@ export class ContentComponent implements OnInit, OnDestroy {
   selectedMinEn = '';
   selectedMinBm = '';
 
-  private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
-
 
   public htmlContentEnEditor: Object = {
 
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+
+    charCounterCount: true,
+    // Set the image upload parameter.
+    imageUploadParam: 'image_param',
+
+    // Set the image upload URL.
+    imageUploadURL: '../assets/upload_image',
+
+    // Set request type.
+    imageUploadMethod: 'POST',
+
+    // Set max image size to 5MB.
+    imageMaxSize: 5 * 1024 * 1024,
 
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
@@ -110,6 +115,20 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   public htmlContentMyEditor: Object = {
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+
+    charCounterCount: true,
+    // Set the image upload parameter.
+    imageUploadParam: 'image_param',
+
+    // Set the image upload URL.
+    imageUploadURL: '../assets/upload_image',
+
+    // Set request type.
+    imageUploadMethod: 'POST',
+
+    // Set max image size to 5MB.
+    imageMaxSize: 5 * 1024 * 1024,
+
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
   };
@@ -163,59 +182,33 @@ export class ContentComponent implements OnInit, OnDestroy {
     private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private navservice: NavService,
     private dialogsService: DialogsService,
     public dialog: MatDialog,
     public builder: FormBuilder ) {
 
     /* LANGUAGE FUNC */
-    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      const myLang = translate.currentLang;
-
-      if (myLang == 'en') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'en';
-          this.languageId = 1;
-        });
-      }
-
-      if (myLang == 'ms') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.lang = 'ms';
-          this.languageId = 2;
-        });
-      }
-      if (this.navservice.flagLang) {
-        this.getCategory(this.languageId);
-        this.changeLanguageAddEdit();
-        this.changePlaceHolder();
-        this.commonservice.getModuleId();
-      }
-
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      translate.get('HOME').subscribe((res: any) => {
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.getCategory();
+              this.languageId = val.languageId;
+              this.changeLanguageAddEdit();
+              this.changePlaceHolder();
+                    //this.getData();
+            }
+          }.bind(this));
+        })
+      });
     });
-    /* LANGUAGE FUNC */
-
-    /* LANGUAGE FUNC */
-    // translate.onLangChange.subscribe((event: LangChangeEvent) => {
-    //   translate.get('HOME').subscribe((res: any) => {
-    //     this.commonservice.readPortal('language/all').subscribe((data:any) => {
-    //       let getLang = data.list;
-    //       let myLangData =  getLang.filter(function(val) {
-    //         if(val.languageCode == translate.currentLang){
-    //           this.lang = val.languageCode;
-    //           this.languageId = val.languageId;
-    //           this.getCategory(this.languageId);
-    //           this.changeLanguageAddEdit();
-    //           this.changePlaceHolder();
-    //         }
-    //       }.bind(this));
-    //     })
-    //   });
-    // });
-    // if(!this.languageId){
-    //   this.languageId = localStorage.getItem('langID');
-    //   this.getCategory(this.languageId);
-    // }
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+      this.getCategory();
+      //this.getData();
+    }
     /* LANGUAGE FUNC */
 
     this.updateForm = builder.group({
@@ -225,22 +218,21 @@ export class ContentComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy() {
-    this.subscriptionLang.unsubscribe();
-    //this.subscriptionContentCreator.unsubscribe();
-    this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
-  }
-
   ngOnInit() {
 
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-    }else{
-      this.languageId = 1;
-    }
+    $.FroalaEditor.DefineIcon('alert', {NAME: 'info'});
+    $.FroalaEditor.RegisterCommand('alert', {
+      title: 'Hello',
+      focus: false,
+      undo: false,
+      refreshAfterCallback: false,
 
-    this.getMinistry(this.languageId);
+      callback: function () {
+        alert('Hello!');
+      }
+    });
+
+    this.getMinistry();
     this.getMinEventDate();
 
     this.publish = new FormControl()
@@ -295,7 +287,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       htmlContentMy: this.htmlContentMy,
     });
 
-    this.getCategory(this.languageId);
+    this.getCategory();
 
     this.urlEdit = this.router.url.split('/')[2];
 
@@ -477,10 +469,10 @@ export class ContentComponent implements OnInit, OnDestroy {
     return res;
   }
 
-  getCategory(lang){
+  getCategory(){
 
     this.loading = true;
-    this.subscriptionCategoryC = this.commonservice.readProtected('content/creator/dropdown/'+this.commonservice.contentCategoryCode, '', '', '', lang)
+    return this.commonservice.readProtected('content/creator/dropdown/'+this.commonservice.contentCategoryCode)
      .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -534,8 +526,6 @@ export class ContentComponent implements OnInit, OnDestroy {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
     });
-
-    return this.subscriptionCategoryC
   }
 
   getNestedChildrenEn(arr, parent) {
@@ -582,7 +572,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
     if(_getRefID != undefined){
 
-      this.commonservice.readProtectedById('content/publisher/', _getRefID, this.languageId)
+      this.commonservice.readProtectedById('content/publisher/', _getRefID)
       .subscribe(data => {
         this.recordList = data;
 
@@ -1290,9 +1280,9 @@ export class ContentComponent implements OnInit, OnDestroy {
     this.router.navigate(['content']);
   }
 
-  getMinistry(lang) {
+  getMinistry() {
     this.loading = true;
-    return this.commonservice.readPortal('ministry', '0', '300','',lang)
+    return this.commonservice.readPortal('ministry', '0', '300')
       .subscribe(resMinData => {
         this.ministryData = resMinData['list'];
         this.loading = false;
@@ -1303,9 +1293,9 @@ export class ContentComponent implements OnInit, OnDestroy {
   }
 
   //list of agency app for selected agency
-  getAgencyApp(agencyId, lang) {
+  getAgencyApp(agencyId) {
     this.loading = true;
-    return this.commonservice.readPortal('agency/application/agencyid/'+agencyId, '','','',lang)
+    return this.commonservice.readPortal('agency/application/agencyid/'+agencyId)
       .subscribe(resMinData => {
         this.agencyAppData = resMinData['agencyApplicationList'];
         this.loading = false;
@@ -1381,7 +1371,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     let flagNoOfRecord: any;
 
     if(getAgencyAppEnBm != undefined){
-      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm, '', '', '', this.languageId)
+      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
         .subscribe(resMinData => {
 
           this.commonservice.errorHandling(resMinData, (function () {
@@ -1497,7 +1487,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     this.isActive = true;
 
     setTimeout(()=>{
-      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, this.languageId).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1534,7 +1524,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     let agenName;
     let minisName;
 
-    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '', this.languageId).subscribe(
+    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '').subscribe(
       data => {
 
       this.commonservice.errorHandling(data, (function(){
@@ -1628,7 +1618,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
     setTimeout(()=>{
 
-      this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword, this.languageId).subscribe(
+      this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1674,7 +1664,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
     }
     this.getAgencyByRefCodeApp(refCode);
-    this.getAgencyApp(this.agencyIdforApp, this.languageId);
+    this.getAgencyApp(this.agencyIdforApp);
   }
 
   getAgencyByRefCodeApp(refCode) {

@@ -22,7 +22,7 @@ export class ModmenuComponent implements OnInit {
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
-  lang:any;
+  lang: any;
 
   isRead: boolean;
   isCreate: boolean;
@@ -30,7 +30,7 @@ export class ModmenuComponent implements OnInit {
   isDelete: boolean;
   languageId: any;
   moduleId: any;
-  
+
   updateForm: FormGroup
   moduleName: FormControl
   moduleDesc: FormControl
@@ -39,39 +39,43 @@ export class ModmenuComponent implements OnInit {
   public loading = false;
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    private commonservice: CommonService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
-  ) { 
-    
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
+  ) {
 
     /* LANGUAGE FUNC */
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+        /* LANGUAGE FUNC */
+      }
+    })
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     let refId = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
@@ -89,8 +93,8 @@ export class ModmenuComponent implements OnInit {
       active: this.active
 
     });
-    
-    if(refId == "add") {
+
+    if (refId == "add") {
       this.isEdit = false;
       this.pageMode = 'common.add';
       this.updateForm.get('active').setValue(true);
@@ -99,17 +103,17 @@ export class ModmenuComponent implements OnInit {
       this.pageMode = 'common.update';
       this.getRow(refId);
     }
-    
+
     // #### for disable non update user ---1
-    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+    if (!this.commonservice.isUpdate && this.commonservice.isWrite) {
       this.updateForm.enable();
-    }else if(!this.commonservice.isUpdate){
+    } else if (!this.commonservice.isUpdate) {
       this.updateForm.disable();
     }
 
   }
 
-  back(){
+  back() {
     this.router.navigate(['modmenu']);
   }
 
@@ -119,39 +123,39 @@ export class ModmenuComponent implements OnInit {
 
     // Update Slider Service
     return this.http.get(this.appConfig.urlModule + '/' + row).subscribe(
-    // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
+      // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
-        this.commonservice.errorHandling(Rdata, (function(){
+        this.commonservice.errorHandling(Rdata, (function () {
 
-        this.moduleData = Rdata['module'];
-        console.log(this.moduleData)
-        // console.log(this.appConfig.urlMenu + "/" + row)
+          this.moduleData = Rdata['module'];
+          console.log(this.moduleData)
+          // console.log(this.appConfig.urlMenu + "/" + row)
 
-        // populate data
-        this.updateForm.get('moduleName').setValue(this.moduleData['moduleName']);
-        this.updateForm.get('moduleDesc').setValue(this.moduleData['moduleDescription']);
-        this.updateForm.get('moduleUrl').setValue(this.moduleData['moduleUrl']);
-        this.updateForm.get('active').setValue(this.moduleData['active']);
-        this.moduleId = this.moduleData['moduleId'];
+          // populate data
+          this.updateForm.get('moduleName').setValue(this.moduleData['moduleName']);
+          this.updateForm.get('moduleDesc').setValue(this.moduleData['moduleDescription']);
+          this.updateForm.get('moduleUrl').setValue(this.moduleData['moduleUrl']);
+          this.updateForm.get('active').setValue(this.moduleData['active']);
+          this.moduleId = this.moduleData['moduleId'];
 
-        this.updateForm.get('moduleName').disable();
-        this.updateForm.get('moduleUrl').disable();
+          this.updateForm.get('moduleName').disable();
+          this.updateForm.get('moduleUrl').disable();
 
-        this.checkReqValues();
-              
-      }).bind(this));
-      this.loading = false;
-    },
-    error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
-      this.loading = false;
-    });
-    
+          this.checkReqValues();
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        console.log(error);
+        this.loading = false;
+      });
+
   }
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
+    this.checkReqValues();
   }
 
   checkReqValues() {
@@ -161,7 +165,7 @@ export class ModmenuComponent implements OnInit {
     let moduleDesc = "moduleDesc";
     let moduleUrl = "moduleUrl";
 
-    if(this.isEdit == true)
+    if (this.isEdit == true)
       reqVal = [moduleDesc];
     else
       reqVal = [moduleName, moduleDesc, moduleUrl];
@@ -177,7 +181,7 @@ export class ModmenuComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+    // console.log(nullPointers)
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -188,77 +192,76 @@ export class ModmenuComponent implements OnInit {
   }
 
   updateModule(formValues: any) {
-    
-    if(!this.isEdit) {
 
-    let body = {
+    if (!this.isEdit) {
+
+      let body = {
         "moduleName": null,
         "moduleDescription": null,
         "active": false,
         "moduleUrl": null
-    };
-    
-    // console.log(formValues)
+      };
 
-    body.moduleName = formValues.moduleName;
-    body.moduleDescription = formValues.moduleDesc;
-    body.active = formValues.active;
-    body.moduleUrl = formValues.moduleUrl;
+      // console.log(formValues)
 
+      body.moduleName = formValues.moduleName;
+      body.moduleDescription = formValues.moduleDesc;
+      body.active = formValues.active;
+      body.moduleUrl = formValues.moduleUrl;
 
-    console.log(body)
-    this.loading = true;
+      console.log(body)
+      this.loading = true;
 
-    // Add ErrorMsg Service
-    this.commonservice.create(body,'authorization/module/').subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.added'), 'success');
-        }).bind(this));  
-        this.router.navigate(['modmenu']);
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        this.loading = false;
-      });
+      // Add ErrorMsg Service
+      this.commonservice.create(body, 'authorization/module/').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.added'), 'success');
+          }).bind(this));
+          this.router.navigate(['modmenu']);
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+        });
 
     } else {
 
       let body = {
-          "moduleId": null,
-          "moduleName": null,
-          "moduleDescription": null,
-          "active": false,
-          "moduleUrl": null
+        "moduleId": null,
+        "moduleName": null,
+        "moduleDescription": null,
+        "active": false,
+        "moduleUrl": null
       };
-      
+
       // console.log(formValues)
-  
+
       body.moduleId = this.moduleId;
       body.moduleName = formValues.moduleName;
       body.moduleDescription = formValues.moduleDesc;
       body.active = formValues.active;
       body.moduleUrl = formValues.moduleUrl;
 
-    console.log(JSON.stringify(body));
-    this.loading = true;
+      console.log(JSON.stringify(body));
+      this.loading = true;
 
-    // Update ErrorMsg Service
-    this.commonservice.update(body,'authorization/module/').subscribe(
-      data => {
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-        }).bind(this));  
-        this.router.navigate(['modmenu']);
-        this.loading = false;
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        this.loading = false;
-      });
+      // Update ErrorMsg Service
+      this.commonservice.update(body, 'authorization/module/').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+          }).bind(this));
+          this.router.navigate(['modmenu']);
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+        });
     }
-    
-    }
+
+  }
 
 }

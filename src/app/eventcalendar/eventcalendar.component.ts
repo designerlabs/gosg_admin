@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import * as $ from 'jquery';
 import { MatPaginator, MatSort, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -11,13 +11,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ValidateService } from '../common/validate.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../nav/nav.service';
   
 @Component({
   selector: 'app-eventcalendar',
   templateUrl: './eventcalendar.component.html',
   styleUrls: ['./eventcalendar.component.css']
 })
-export class EventcalendarComponent implements OnInit {
+export class EventcalendarComponent implements OnInit, OnDestroy {
   
   maskPostCode: RegExp[];
   agencyIdBm: any;
@@ -55,6 +57,7 @@ export class EventcalendarComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  lang:any;
   selectedFile = '';
   parentAgencyEn = '#parentAgencyEn';
 
@@ -81,6 +84,8 @@ export class EventcalendarComponent implements OnInit {
 
   resetMsg = this.resetMsg;
   public loading = false;
+  
+  private subscriptionLang: ISubscription;
 
   constructor(
     private http: HttpClient, 
@@ -88,35 +93,44 @@ export class EventcalendarComponent implements OnInit {
     private commonservice: CommonService, 
     private translate: TranslateService,
     private validateService: ValidateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) { 
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-     translate.get('HOME').subscribe((res: any) => {
-       this.commonservice.readPortal('language/all').subscribe((data:any) => {
-         let getLang = data.list;
-         let myLangData =  getLang.filter(function(val) {
-           if(val.languageCode == translate.currentLang){
-             this.lang = val.languageCode;
-             this.languageId = val.languageId;
-             // this.getMinistryData(this.pageCount, this.agencyPageSize);
-             this.commonservice.getModuleId();
-           }
-         }.bind(this));
-       })
-     });
-   });
-   if(!this.languageId){
-     this.languageId = localStorage.getItem('langID');
-     // this.getMinistryData(this.pageCount, this.agencyPageSize);
-     this.commonservice.getModuleId();
-   }
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
+    });
    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {  
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
     this.maskPhoneNo = this.validateService.getMask().telephone;
@@ -191,6 +205,9 @@ export class EventcalendarComponent implements OnInit {
     console.log(this.updateForm.get('end').value)
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
 
   resetSearch() {
     this.updateForm.get('agencyEn').setValue('');
@@ -306,7 +323,7 @@ export class EventcalendarComponent implements OnInit {
 
   getImageList(){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article')
+    this.commonservice.readProtected('media/category/name/Article', '', '', '', this.languageId)
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){
