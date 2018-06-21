@@ -300,7 +300,8 @@
         "name": "Name",
         "email": "Email",
         "activity": "Activity",
-        "time": "Time"
+        "time": "Time",
+        "date": "Date"
     },
     "tableBottom": {
         "page": "Page",

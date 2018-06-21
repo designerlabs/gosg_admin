@@ -300,7 +300,8 @@
         "name": "Nama",
         "email": "Email",
         "activity": "Aktiviti",
-        "time": "Masa"
+        "time": "Masa",
+        "date": "Tarikh"
     },
     "tableBottom": {
         "page": "Halaman",

@@ -177,7 +177,7 @@ export class GallerytblComponent implements OnInit, OnDestroy {
     });
     
     this.updateForm.get('nameStatus').setValue(1);
-    this.displayedColumns = ['cbox','no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
+    this.displayedColumns = ['cbox','no','galleryTitleEn', 'galleryTitleBm', 'date', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
     this.commonservice.getModuleId();
     this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
