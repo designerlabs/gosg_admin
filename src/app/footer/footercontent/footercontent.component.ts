@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../../dialogs/dialogs.service';
 import { ValidateService } from '../../common/validate.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../../nav/nav.service';
 // import { PatternValidator } from '@angular/forms';
 
 @Component({
@@ -18,7 +20,7 @@ import { ValidateService } from '../../common/validate.service';
   encapsulation: ViewEncapsulation.None
 })
 
-export class FootercontentComponent implements OnInit {
+export class FootercontentComponent implements OnInit, OnDestroy {
 
   public loading = false;
   updateForm: FormGroup;
@@ -63,6 +65,7 @@ export class FootercontentComponent implements OnInit {
 
   public getCatValueEng: any;
   public getCatValueMy: any;
+  public lang: any;
   public languageId: any;
 
   public getCatIdEn: any;
@@ -80,36 +83,57 @@ export class FootercontentComponent implements OnInit {
 
   public flagErrIcon: any;
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   private commonservice: CommonService, private router: Router, private toastr: ToastrService,
-  private translate: TranslateService,
+  private translate: TranslateService, private navservice: NavService,
   private dialogsService: DialogsService,
   private validateService: ValidateService) {
+
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              // this.getData();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      // this.getData();
-    }
-   }
+    /* LANGUAGE FUNC */ 
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    //this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
+  }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
     
     this.commonservice.getModuleId();
 
@@ -244,7 +268,7 @@ export class FootercontentComponent implements OnInit {
   getImageList(){
 
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Article','0','999999999')
+    return this.commonservice.readProtected('media/category/name/Article','0','999999999','', this.languageId)
      .subscribe(resCatData => {
         this.imageData = resCatData['list'];   
         this.loading = false;    
@@ -290,67 +314,6 @@ export class FootercontentComponent implements OnInit {
       this.updateForm.get('imgEng').setValue(idEn); 
     }
   }
-
-  // selectedImg(e, val){
-  //   console.log(e);
-
-  //   if(val == 1){
-  //     this.imgEng = e.value;
-  //   }
-  //   else{
-  //     this.imgMy = e.value;
-  //   }
-
-  //   // this.isSameImg(this.updateForm.controls.imgEng.value,this.updateForm.controls.imgMy.value);
-
-  //   // if(this.imgEng != null && this.imgEng == this.imgMy) {
-  //   //   this.updateForm.get('copyImg').setValue(true);
-  //   // } else {
-  //   //   this.updateForm.get('copyImg').setValue(false);
-  //   // }
-    
-  // }
-
-  // isSameImg(imgEng,imgMy) {
-
-  //   console.log(imgEng)
-  //   if(imgEng != null && imgEng == imgMy) {
-  //     this.updateForm.get('copyImg').setValue(true);
-  //   } else {
-  //     this.updateForm.get('copyImg').setValue(false);
-  //   }
-  // }
-
-  // isChecked(e, imgEng) {
-
-  //   // if (e.checked) {
-  //   //   this.updateForm.get("imgMy").setValue(this.imgEng);
-  //   // } else {
-  //   //   this.updateForm.get("imgMy").setValue("");
-  //   // }
-  //   // this.copyImg = e.checked;
-
-  //   // this.checkReqValues();
-
-  //   if (e.checked) {
-      
-  //     if(this.updateForm.controls.imgEng.value == null || this.updateForm.controls.imgEng.value == undefined){
-  //       this.updateForm.get("imgMy").setValue("");
-  //       this.updateForm.get('copyImg').setValue(false);
-  //     }
-  //     else
-  //       {
-  //         // this.selectedImg(this.imgEng, 1);
-  //         // this.updateForm.get("imgMy").setValue(this.imgEng);
-  //         this.updateForm.get('copyImg').setValue(true);
-  //         this.updateForm.get("imgMy").setValue(this.updateForm.controls.imgEng.value);
-  //       } 
-      
-  //   } else {
-  //     this.updateForm.get("imgMy").setValue("");
-  //     this.updateForm.get('copyImg').setValue(false);
-  //   }
-  // }
 
   validateCtrlChk(ctrl: FormControl) {
     // return ctrl.valid || ctrl.untouched
@@ -402,7 +365,7 @@ export class FootercontentComponent implements OnInit {
     
     this.getCategory();
     this.loading = true;
-    this.commonservice.readProtectedById('footercontent/', _getRefID)
+    this.commonservice.readProtectedById('footercontent/', _getRefID, this.languageId)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
