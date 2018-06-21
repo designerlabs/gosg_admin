@@ -265,7 +265,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-          console.log("DropDown: ");
           //this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
 
         }).bind(this));
