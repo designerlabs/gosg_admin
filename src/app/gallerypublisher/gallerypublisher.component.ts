@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -9,13 +9,15 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-gallerypublisher',
   templateUrl: './gallerypublisher.component.html',
   styleUrls: ['./gallerypublisher.component.css']
 })
-export class GallerypublisherComponent implements OnInit {
+export class GallerypublisherComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -57,6 +59,7 @@ export class GallerypublisherComponent implements OnInit {
   isCreate: boolean;
   isWrite: boolean;
   isDelete: boolean;
+  lang: any;
   languageId: any;
   fileData = [];
   mediaTypes: any;
@@ -78,37 +81,60 @@ export class GallerypublisherComponent implements OnInit {
   fullName: any;
   email: any;
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
   constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService,
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data: any) => {
-          let getLang = data.list;
-          let myLangData = getLang.filter(function (val) {
-            if (val.languageCode == translate.currentLang) {
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.changeLanguageAddEdit();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.changeLanguageAddEdit();
+        this.commonservice.getModuleId();
+      }
+
     });
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
+    /* LANGUAGE FUNC */ 
+  }
+
+    ngOnDestroy() {
+      this.subscriptionLang.unsubscribe();
+      //this.subscriptionContentCreator.unsubscribe();
+      //this.subscriptionCategoryC.unsubscribe();
+      //this.subscriptionRecordListC.unsubscribe();
     }
-    /* LANGUAGE FUNC */}
 
     ngOnInit() {
+
+      if(!this.languageId){
+        this.languageId = localStorage.getItem('langID');
+      }else{
+        this.languageId = 1;
+      }
       // this.isEdit = false;
       // this.changePageMode(this.isEdit); 
   
@@ -194,7 +220,7 @@ export class GallerypublisherComponent implements OnInit {
    
       console.log(id);
       this.loading = true;
-      return this.commonservice.readProtected('usermanagement/' + id)
+      return this.commonservice.readProtected('usermanagement/' + id, '', '', '', this.languageId)
         .subscribe(resUser => {
   
           this.commonservice.errorHandling(resUser, (function () {
@@ -220,7 +246,7 @@ export class GallerypublisherComponent implements OnInit {
       // Update gallery Service
       // return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
-      return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
+      return this.commonservice.readProtectedById('content/publisher/', row, this.languageId).subscribe(
         Rdata => {
   
           this.commonservice.errorHandling(Rdata, (function () {
@@ -413,9 +439,6 @@ export class GallerypublisherComponent implements OnInit {
         }
       }
   
-     // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
-  
-      // console.log(nullPointers)
       if (nullPointers.length > 0) {
         this.complete = false;
       } else {
@@ -451,7 +474,7 @@ export class GallerypublisherComponent implements OnInit {
      
       console.log(mediaId);
       this.loading = true;
-      return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999')
+      return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999', '', this.languageId)
         .subscribe(resCatData => {
   
           this.commonservice.errorHandling(resCatData, (function () {
