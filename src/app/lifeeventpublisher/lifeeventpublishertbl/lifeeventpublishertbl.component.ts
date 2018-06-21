@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
@@ -11,13 +11,15 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-lifeeventpublishertbl',
   templateUrl: './lifeeventpublishertbl.component.html',
   styleUrls: ['./lifeeventpublishertbl.component.css']
 })
-export class LifeeventpublishertblComponent implements OnInit {
+export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
 
   archiveId = [];
   arrStatus = [];
@@ -67,6 +69,7 @@ export class LifeeventpublishertblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  public lang: any;
   leCategoryCode: any;
   countArticle = 0;
   catCode: any;
@@ -87,6 +90,11 @@ export class LifeeventpublishertblComponent implements OnInit {
   
   dataSource = new MatTableDataSource<object>(this.recordList);
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
   applyFilter(e) {
 
     this.nameStatus = this.updateForm.get('nameStatus').value;
@@ -96,14 +104,14 @@ export class LifeeventpublishertblComponent implements OnInit {
       this.getFilterListLEP(this.pageCount, this.pageSize, e, this.nameStatus, d);
     }
     else{
-      this.getCategoryCodeLEP();
+      this.getCategoryCodeLEP(this.languageId);
     }
   }
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
-    this.getCategoryCodeLEP();
+    this.getCategoryCodeLEP(this.languageId);
   }
 
   filterStatus(e){
@@ -116,7 +124,7 @@ export class LifeeventpublishertblComponent implements OnInit {
     }
 
     else{
-      this.getCategoryCodeLEP();
+      this.getCategoryCodeLEP(this.languageId);
     }
   }
 
@@ -127,44 +135,60 @@ export class LifeeventpublishertblComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
+    private navservice: NavService,
     public dialog: MatDialog,
     public builder: FormBuilder) {
 
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getCategoryCodeLEP();
-              //this.getRecordListLEP(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-              this.getCategoryLEP();
-              this.archiveId = [];
-              this.arrStatus = [];
-              this.selectedItem = [];
-              
-            }
-          }.bind(this));
-        })
-      });
+    /* LANGUAGE FUNC */ 
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+
+      console.log(this.navservice.flagLang);
+      if (this.navservice.flagLang) {
+        console.log("constructor: ")
+        this.getCategoryCodeLEP(this.languageId);
+        //this.getCategoryLEP(this.languageId);         
+        this.archiveId = [];
+        this.arrStatus = [];
+        this.selectedItem = [];
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      //this.getRecordListLEP(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-      this.getCategoryLEP();
-    }
     /* LANGUAGE FUNC */
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
+  }
+
   ngOnInit() {
+
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
     //this.getRecordListLEP(this.pageCount, this.pageSize);
     
-    this.getCategoryCodeLEP();
+    this.getCategoryCodeLEP(this.languageId);
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl({disabled: true});
@@ -186,15 +210,15 @@ export class LifeeventpublishertblComponent implements OnInit {
     });
 
     this.updateForm.get('nameStatus').setValue(1);   
-    this.getCategoryLEP();
+    this.getCategoryLEP(this.languageId);
     this.valkey = false;
 
   }
 
-  getCategoryCodeLEP(){ 
+  getCategoryCodeLEP(lang){ 
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/publisher/dropdown/'+this.commonservice.lifeEventCategoryCode)
+    return this.commonservice.readProtected('life/event/publisher/dropdown/'+this.commonservice.lifeEventCategoryCode, '','','',lang)
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
@@ -244,7 +268,7 @@ export class LifeeventpublishertblComponent implements OnInit {
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
 
-          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);
+          //this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);
 
         }).bind(this));
         this.loading = false;
@@ -255,7 +279,7 @@ export class LifeeventpublishertblComponent implements OnInit {
       });
   }
 
-  getRecordListLEP(page, size, code) {  
+  getRecordListLEP(page, size, code, lang) {  
   
     this.recordList = null;
     let nameStatus = this.updateForm.get('nameStatus').value;
@@ -304,7 +328,7 @@ export class LifeeventpublishertblComponent implements OnInit {
     
     if(code != undefined){
       this.loading = true;
-      this.commonservice.readProtected(generalUrl, page, size).subscribe(
+      this.commonservice.readProtected(generalUrl, page, size,'', lang).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
@@ -385,7 +409,7 @@ export class LifeeventpublishertblComponent implements OnInit {
     }
 
     this.loading = true;
-    this.commonservice.readProtected(generalUrl, page, size,e).subscribe(
+    this.commonservice.readProtected(generalUrl, page, size, e, this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
@@ -497,7 +521,7 @@ export class LifeeventpublishertblComponent implements OnInit {
     }
 
     else if(this.newPublishD == undefined || this.newPublishD == null){
-      this.getCategoryCodeLEP();
+      this.getCategoryCodeLEP(this.languageId);
     }
 
     console.log("Publish: "+this.publishdt);
@@ -518,7 +542,7 @@ export class LifeeventpublishertblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getRecordListLEP(page - 1, this.pageSize, this.catCode);
+    this.getRecordListLEP(page - 1, this.pageSize, this.catCode, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -528,7 +552,7 @@ export class LifeeventpublishertblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordListLEP(page + 1, this.pageSize, this.catCode);
+    this.getRecordListLEP(page + 1, this.pageSize, this.catCode, this.languageId);
   }
   
   updateRow(row) {
@@ -545,7 +569,7 @@ export class LifeeventpublishertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode, this.languageId);
           this.archiveId = [];
           this.selectedItem = [];
           this.arrStatus = [];
@@ -567,15 +591,15 @@ export class LifeeventpublishertblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordListLEP(this.pageCount, event.value, this.catCode);
+    this.getRecordListLEP(this.pageCount, event.value, this.catCode, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
 
-  getCategoryLEP(){
+  getCategoryLEP(lang){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/publisher/dropdown/'+this.commonservice.lifeEventCategoryCode)
+    this.subscriptionCategoryC = this.commonservice.readProtected('life/event/publisher/dropdown/'+this.commonservice.lifeEventCategoryCode, '', '', '', lang)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -628,6 +652,7 @@ export class LifeeventpublishertblComponent implements OnInit {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
     });
+    return this.subscriptionCategoryC;
   }
 
   getNestedChildrenEn(arr, parent) {
@@ -670,7 +695,7 @@ export class LifeeventpublishertblComponent implements OnInit {
   keysFilter(){
 
     this.catCode = undefined;
-    this.getCategoryCodeLEP();
+    this.getCategoryCodeLEP(this.languageId);
 
     let keysVal = this.updateForm.get('keys');    
     this.updateForm.get('kataKunci').setValue('');
@@ -692,7 +717,7 @@ export class LifeeventpublishertblComponent implements OnInit {
   onChange(ele){    
 
     this.catCode = ele.refCode;
-    this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);   
+    this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode, this.languageId);   
   }
 
   resetAllMethod(){
@@ -706,7 +731,7 @@ export class LifeeventpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.archivesuccess_multi'), '');
-          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode, this.languageId);  
 
       }).bind(this)); 
       this.archiveId = [];
@@ -732,7 +757,7 @@ export class LifeeventpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.archivesuccess'), '');
-          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode, this.languageId);  
           this.archiveId = [];
           this.selectedItem = [];
           this.arrStatus = [];
@@ -817,7 +842,7 @@ export class LifeeventpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode, this.languageId);  
 
       }).bind(this)); 
       this.selectedItem = [];
@@ -838,7 +863,7 @@ export class LifeeventpublishertblComponent implements OnInit {
     console.log("ID: "+id);
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id).subscribe(
+      this.commonservice.readProtected('content/history/'+id, '', '','', this.languageId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
