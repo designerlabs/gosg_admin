@@ -13,6 +13,7 @@ import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-gallerytbl',
@@ -45,6 +46,11 @@ export class GallerytblComponent implements OnInit, OnDestroy {
 
   showNoData = false;
   recordTable = null;
+
+  displayDP: any;
+  arrDisplayDP = [];
+  displayDE: any;
+  arrDisplayDE = [];
   
   public loading = false;
 
@@ -254,6 +260,13 @@ export class GallerytblComponent implements OnInit, OnDestroy {
             this.noNextData = this.galleryList.pageNumber === this.galleryList.totalPages;
 
             this.showNoData = false;
+
+            for(let i=0; i<this.galleryList.list.length; i++){  
+
+              this.displayDP = moment(new Date(this.galleryList.list[i].list[0].publishDate)).format('DD/MM/YYYY');        
+              this.arrDisplayDP.push(this.displayDP);      
+              console.log(this.displayDP);
+            }
           }
 
           else{
