@@ -48,9 +48,7 @@ export class GallerytblComponent implements OnInit, OnDestroy {
   recordTable = null;
 
   displayDP: any;
-  arrDisplayDP = [];
   displayDE: any;
-  arrDisplayDE = [];
   
   public loading = false;
 
@@ -281,6 +279,12 @@ export class GallerytblComponent implements OnInit, OnDestroy {
     this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
 
     return this.displayDP;
+  }
+
+  changeDate2(dateDE){
+    this.displayDE = moment(new Date(dateDE)).format('DD/MM/YYYY');
+
+    return this.displayDE;
   }
 
   getFilterListG(page, size, keyword, valStatus, dateP) {

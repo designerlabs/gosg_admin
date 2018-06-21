@@ -13,6 +13,7 @@ import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-gallerypublishertbl',
@@ -68,6 +69,9 @@ export class GallerypublishertblComponent implements OnInit, OnDestroy {
   newEndD: any;
   valkey = false;
   listHistory = null;
+
+  displayDP: any;
+  displayDE: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -184,7 +188,7 @@ export class GallerypublishertblComponent implements OnInit, OnDestroy {
     
     this.updateForm.get('nameStatus').setValue(1);
 
-    this.displayedColumns = ['cbox','no','galleryTitleEn', 'galleryTitleBm', 'galleryActiveFlag', 'galleryDraft', 'galleryAction'];
+    this.displayedColumns = ['cbox','no','galleryTitleEn', 'galleryTitleBm', 'date','galleryActiveFlag', 'galleryDraft', 'galleryAction'];
     this.commonservice.getModuleId();
     this.getGalleryData(this.pageCount, this.galleryPageSize);
   }
@@ -360,6 +364,18 @@ export class GallerypublishertblComponent implements OnInit, OnDestroy {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         });
     }
+  }
+
+  changeDate(dateDP){
+    this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
+
+    return this.displayDP;
+  }
+
+  changeDate2(dateDE){
+    this.displayDE = moment(new Date(dateDE)).format('DD/MM/YYYY');
+
+    return this.displayDE;
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
