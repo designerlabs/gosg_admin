@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-sliderpublisher',
@@ -16,7 +18,7 @@ import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-
   styleUrls: ['./sliderpublisher.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SliderpublisherComponent implements OnInit {
+export class SliderpublisherComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -44,6 +46,7 @@ export class SliderpublisherComponent implements OnInit {
   isCreate: boolean;
   isWrite: boolean;
   isDelete: boolean;
+  lang: any;
   languageId: any;
 
   titleEn: FormControl
@@ -69,6 +72,11 @@ export class SliderpublisherComponent implements OnInit {
 
   sendForApporval: boolean;
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
   appPublisher = false;
   disableApprove: any;
 
@@ -83,36 +91,51 @@ export class SliderpublisherComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     private commonservice: CommonService,
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data: any) => {
-          let getLang = data.list;
-          let myLangData = getLang.filter(function (val) {
-            if (val.languageCode == translate.currentLang) {
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.changeLanguageAddEdit();
-              // this.getMinistryData(this.pageCount, this.agencyPageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.changeLanguageAddEdit();
+        this.commonservice.getModuleId();
+      }
+
     });
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-      // this.getMinistryData(this.pageCount, this.agencyPageSize);
-      this.commonservice.getModuleId();
-    }
-    /* LANGUAGE FUNC */
+    /* LANGUAGE FUNC */ 
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    //this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     this.refCode = this.router.url.split('/')[3];
     this.commonservice.getModuleId();
@@ -186,7 +209,7 @@ export class SliderpublisherComponent implements OnInit {
    
     console.log(id);
     this.loading = true;
-    return this.commonservice.readProtected('usermanagement/' + id)
+    return this.commonservice.readProtected('usermanagement/' + id, '', '', '', this.languageId)
       .subscribe(resUser => {
 
         this.commonservice.errorHandling(resUser, (function () {
@@ -211,7 +234,7 @@ export class SliderpublisherComponent implements OnInit {
 
     this.loading = true;
     // Update Slider Service
-    return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
+    return this.commonservice.readProtectedById('content/publisher/', row, this.languageId).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
@@ -417,7 +440,7 @@ export class SliderpublisherComponent implements OnInit {
 
   getImageList() {
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999')
+    return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999', '', this.languageId)
       .subscribe(resCatData => {
         this.imageData = resCatData['list'];
         this.loading = false;
