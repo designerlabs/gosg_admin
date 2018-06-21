@@ -64,7 +64,7 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
     private navservice: NavService,
     private dialogsService: DialogsService) {
 
-      /* LANGUAGE FUNC */
+    /* LANGUAGE FUNC */
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       const myLang = translate.currentLang;
 
