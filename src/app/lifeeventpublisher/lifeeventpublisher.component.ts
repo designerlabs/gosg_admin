@@ -1617,4 +1617,8 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     }
   }
 
+  mySendDraft(){
+    console.log("Send to Draft");
+  }
+
 }

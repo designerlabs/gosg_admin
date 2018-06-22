@@ -13,6 +13,7 @@ import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-lifeeventpublishertbl',
@@ -29,7 +30,7 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
+  displayedColumns = ['cbox','num','name', 'url', 'category', 'date','default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -79,6 +80,9 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
   recordTable = null;
   showNoData = false;
   listHistory = null;
+
+  displayDP: any;
+  displayDE: any;
 
   //nameStatus=1;
   keywordVal="";
@@ -363,6 +367,18 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
         });
     }
 
+  }
+
+  changeDate(dateDP){
+    this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
+
+    return this.displayDP;
+  }
+
+  changeDate2(dateDE){
+    this.displayDE = moment(new Date(dateDE)).format('DD/MM/YYYY');
+
+    return this.displayDE;
   }
 
   getFilterListLEP(page, size, e, valStatus, dateP) {  
