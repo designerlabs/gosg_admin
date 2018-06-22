@@ -236,7 +236,8 @@
       "revert": "Guna Semula",
       "approve": "Lulus",
       "search": "Carian",
-      "history": "Sejarah"
+      "history": "Sejarah",
+      "sendDraft": "Kembali ke Draf"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
@@ -280,7 +281,8 @@
       "revert": "Adakah anda pasti untuk guna semula data ini?",
       "revertAll": "Adakah anda pasti untuk guna semula semua data terpilih?",
       "unauthorized": "Anda tiada kebenaran untuk akses halaman ini!",
-      "nodata": "Tiada Data Ditemui"
+      "nodata": "Tiada Data Ditemui",
+      "isSendDraft":"Hantar kembali ke draf?"
     },
     "state":{
       "success":"bg_header bg_success_header",

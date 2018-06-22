@@ -967,4 +967,8 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
       }    
     }
 
+    mySendDraft(){
+      console.log("Send to Draft");
+    }
+
 }
