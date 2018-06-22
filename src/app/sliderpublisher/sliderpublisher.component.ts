@@ -916,4 +916,8 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
     }    
   }
 
+  mySendDraft(){
+    console.log("Send to Draft");
+  }
+
 }
