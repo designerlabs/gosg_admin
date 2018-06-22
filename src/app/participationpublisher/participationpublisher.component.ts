@@ -1024,4 +1024,8 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
     }
   }
 
+  mySendDraft(){
+    console.log("Send to Draft");
+  }
+
 }

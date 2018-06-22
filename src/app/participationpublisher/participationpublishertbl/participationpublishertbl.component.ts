@@ -13,6 +13,7 @@ import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-participationpublishertbl',
@@ -67,6 +68,9 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
   listHistory = null;
 
   showNoData = false;
+
+  displayDP: any;
+  displayDE: any;
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -181,7 +185,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
     
     this.updateForm.get('nameStatus').setValue(1);
 
-    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
+    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'date','slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getParticipantsData(this.pageCount, this.participantPageSize);
   }
@@ -262,6 +266,18 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');    
         this.loading = false;
       });
+  }
+
+  changeDate(dateDP){
+    this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
+
+    return this.displayDP;
+  }
+
+  changeDate2(dateDE){
+    this.displayDE = moment(new Date(dateDE)).format('DD/MM/YYYY');
+
+    return this.displayDE;
   }
 
   getFilterListPP(page, size, keyword, valStatus, dateP) {
