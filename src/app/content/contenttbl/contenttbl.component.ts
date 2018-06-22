@@ -13,7 +13,7 @@ import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
-
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-contenttbl',
@@ -29,7 +29,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['cbox', 'num', 'name', 'url', 'category', 'default_status', 'status', 'action'];
+  displayedColumns = ['cbox', 'num', 'name', 'url', 'category', 'date', 'default_status', 'status', 'action'];
   displayedColumnsH = ['names', 'actions', 'time'];
   pageSize = 10;
   pageCount = 1;
@@ -81,6 +81,8 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
   //nameStatus=1;
   keywordVal = "";
+  displayDP: any;
+  displayDE: any;
 
   editor = { treeVal: '' };
 
@@ -361,6 +363,18 @@ export class ContenttblComponent implements OnInit, OnDestroy {
         });
     }
 
+  }
+
+  changeDate(dateDP){
+    this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
+
+    return this.displayDP;
+  }
+
+  changeDate2(dateDE){
+    this.displayDE = moment(new Date(dateDE)).format('DD/MM/YYYY');
+
+    return this.displayDE;
   }
 
   getFilterListC(page, size, e, valStatus, dateP) {

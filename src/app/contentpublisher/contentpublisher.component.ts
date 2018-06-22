@@ -1563,4 +1563,8 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
     }
   }
 
+  mySendDraft(){
+    console.log("Send to Draft");
+  }
+
 }

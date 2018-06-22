@@ -418,10 +418,16 @@
       (click)="submit(updateForm.value)" [disabled]="!complete || !appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
+
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
       (click)="draft(updateForm.value)" [disabled]="!complete || appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag || disableApprove">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
+
+      <button mat-raised-button color="warn" type="button" id="btnSendDraft" class=" btn btn-md btn-warning pull-right mgn_L_5px" 
+      (click)="sendDraft.show()" [disabled]="!disableApprove">
+        <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;{{'common.buttons.sendDraft' | translate}}</button>
+
       <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
       (click)="resetModal.show()" [disabled]="disableApprove"> 
         <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
@@ -432,4 +438,12 @@
 
 <app-confirm-dialog #resetModal [title]="'common.icon.warn'" [content]="'common.msg.reset'" [state]="'bg_header bg_warn_header'"
   [isReset]="'true'" (resetMethod)="myFunction()">
+</app-confirm-dialog>
+
+<app-confirm-dialog  #sendDraft 
+[title]="'common.icon.warn'" 
+[content]="'common.msg.isSendDraft'"
+[state]="'bg_header bg_warn_header'"
+[isReset]="'true'"
+(resetMethod)="mySendDraft()">
 </app-confirm-dialog>
