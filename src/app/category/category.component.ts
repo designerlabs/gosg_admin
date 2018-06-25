@@ -839,7 +839,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[1].isRssFeeder = formValues.rss; 
       body[1].categorySort = formValues.seqMy; 
 
-      if(this.flagLifeE == 'lifeevent'){
+      if(this.flagLifeE == 'lifeevent' || this.flagLifeED == 'lifeevent'){
+
+        if(formValues.citizenflag == null){
+          formValues.citizenflag = false;
+        }
+
+        if(formValues.noncitizenflag == null){
+          formValues.noncitizenflag = false;
+        }
+
         body[0].isCitizenLifeEvent = formValues.citizenflag; 
         body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
         body[1].isCitizenLifeEvent = formValues.citizenflag; 
@@ -874,8 +883,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       else{
         body[0].parentId.categoryId = parentValEn[0].id[0];
         body[1].parentId.categoryId = parentValEn[0].id[1];  
-      }
-          
+      }          
       
       console.log(JSON.stringify(body))
       this.loading = true;
