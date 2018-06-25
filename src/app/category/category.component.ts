@@ -106,10 +106,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
             this.lang = 'ms';
             this.languageId = 2;
         });
-        // alert(this.languageId + ',' + this.localeVal)
       }
         if(this.navservice.flagLang){
           this.commonservice.getModuleId();
+          this.getCategory(this.languageId);
+          if (this.urlEdit === 'add'){
+            this.changePlaceHolder();       
+          }
+
+          else{
+            this.getData();
+          }
         }
 
     });
