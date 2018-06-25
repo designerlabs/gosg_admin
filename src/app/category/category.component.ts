@@ -75,6 +75,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
   public filterPlaceholder = "";
   public urlEdit = "";
 
+  boolenLEC: any;
+  boolenLENC: any;
+  parentIndicator: any;
+
   editor = {treeVal: '' };
   
   private subscription: ISubscription;
@@ -419,20 +423,23 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
         if(this.recordList.list[0].template == 'lifeevent'){
           this.flagLifeED = 'lifeevent';
+
           this.updateForm.get('citizenflag').setValue(this.recordList.list[0].isCitizenLifeEvent);  
           this.updateForm.get('noncitizenflag').setValue(this.recordList.list[0].isNonCitizenLifeEvent); 
 
-          // if(){
+          this.boolenLEC = this.recordList.list[0].isCitizenLifeEvent;
+          this.boolenLENC = this.recordList.list[0].isNonCitizenLifeEvent;
+
+          if(this.recordList.list[0].parentId.categoryCode != this.commonservice.lifeEventCategoryCode){
             this.citizenflag.disable();
             this.noncitizenflag.disable();
-          // }
+          }
+
+          this.parentIndicator = this.recordList.list[0].parentId.categoryCode;
+          
         }     
 
-        console.log(this.updateForm.get('parentsEn'));
-
-        this.onChange(this.updateForm.get('parentsEn'));
-        
-        
+        console.log(this.updateForm.get('parentsEn'));     
         console.log(this.recordList.list[0].template);
 
         this.getIdEn = this.recordList.list[0].categoryId;
@@ -583,11 +590,19 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.citizenflag.disable();
         this.noncitizenflag.disable();
       }
+
+      this.boolenLEC = ele.isLEC;
+      this.boolenLENC = ele.isLENC;
+    }
+
+    if(this.flagLifeE == ''){// bila change tree
+      this.flagLifeED = '';
     }
 
     console.log(ele);
     console.log("Flag LE: "+this.flagLifeE);
     console.log(this.parentFlag);
+    console.log("onchange ok: "+this.flagLifeED);
   }
 
   submit(formValues: any) {
