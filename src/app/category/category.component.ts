@@ -69,6 +69,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   public parentFlag = false;
   public flagLifeE: any;
+  public flagLifeED: any;
 
   public categoryPlaceholder = "";
   public filterPlaceholder = "";
@@ -279,6 +280,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
                     categoryName: this.categoryData[i].list[0].categoryName,                    
                     checked: false,
                     flagLE: this.categoryData[i].list[0].template,
+                    isLEC: this.categoryData[i].list[0].isCitizenLifeEvent,
+                    isLENC:this.categoryData[i].list[0].isNonCitizenLifeEvent,
                     text: this.categoryData[i].list[0].categoryName,
                     children: []});      
                   
@@ -292,6 +295,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
                     categoryName: this.categoryData[i].list[1].categoryName,
                     checked: false,
                     flagLE: this.categoryData[i].list[0].template,
+                    isLEC: this.categoryData[i].list[0].isCitizenLifeEvent,
+                    isLENC:this.categoryData[i].list[0].isNonCitizenLifeEvent,
                     text: this.categoryData[i].list[1].categoryName,
                     children: []}); 
                   
@@ -413,10 +418,22 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.updateForm.get('rss').setValue(this.recordList.list[0].isRssFeeder);  
 
         if(this.recordList.list[0].template == 'lifeevent'){
-          this.flagLifeE = 'lifeevent';
+          this.flagLifeED = 'lifeevent';
           this.updateForm.get('citizenflag').setValue(this.recordList.list[0].isCitizenLifeEvent);  
           this.updateForm.get('noncitizenflag').setValue(this.recordList.list[0].isNonCitizenLifeEvent); 
-        }        
+
+          // if(){
+            this.citizenflag.disable();
+            this.noncitizenflag.disable();
+          // }
+        }     
+
+        console.log(this.updateForm.get('parentsEn'));
+
+        this.onChange(this.updateForm.get('parentsEn'));
+        
+        
+        console.log(this.recordList.list[0].template);
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -426,12 +443,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         let getObjKeys = Object.keys(this.recordList.list[0]);
         let valMT = getObjKeys.filter(fmt => fmt === "image");
 
-        // if(this.recordList.list[0].image != null){
-
-        //   this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
-        //   this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
-        // }
-
         if(valMT.length > 0){
           this.selectedFileEn = this.recordList.list[0].image.mediaFile;
           this.selectedFileMy = this.recordList.list[1].image.mediaFile;
@@ -439,8 +450,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.updateForm.get('imageEn').setValue(parseInt(this.recordList.list[0].image.mediaId));
           this.updateForm.get('imageBm').setValue(parseInt(this.recordList.list[1].image.mediaId));
         }
-        console.log("******************UPDATE*****************************");
-        console.log("EN: "+this.selectedFileEn+ " BM: "+this.selectedFileMy);
+        
         
         // if(this.languageId == 1){
       
@@ -561,8 +571,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.flagLifeE = ele.flagLE;
 
     if(this.flagLifeE == 'lifeevent'){
-      this.updateForm.get('noncitizenflag').setValue(false);      
-      this.updateForm.get('citizenflag').setValue(true);
+
+      if(ele.isLENC == false && ele.isLEC == false && ele.refCode == this.commonservice.lifeEventCategoryCode){ // for new parent category under lifeevent
+        this.updateForm.get('noncitizenflag').setValue(false);      
+        this.updateForm.get('citizenflag').setValue(true);
+      }
+
+      else{
+        this.updateForm.get('noncitizenflag').setValue(ele.isLENC); // new child under existing parent except LE itself.
+        this.updateForm.get('citizenflag').setValue(ele.isLEC);
+        this.citizenflag.disable();
+        this.noncitizenflag.disable();
+      }
     }
 
     console.log(ele);

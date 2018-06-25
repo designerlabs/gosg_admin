@@ -177,14 +177,14 @@
                 </div>
             </div>
 
-            <div class="example-header" *ngIf="flagLifeE == 'lifeevent'">
+            <div class="example-header" *ngIf="flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent'">
                 <div class="col-md-12">
                     <mat-checkbox class="example-full-width" formControlName="citizenflag" tabindex="14"
                     (click)="le($event)">{{ 'lifeeventtbl.citizenflag' | translate }}</mat-checkbox>
                 </div>
             </div>
 
-            <div class="example-header" *ngIf="flagLifeE == 'lifeevent'">
+            <div class="example-header" *ngIf="flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent'">
                 <div class="col-md-12">
                     <mat-checkbox class="example-full-width" formControlName="noncitizenflag" tabindex="15"
                     (click)="le2($event)">{{ 'lifeeventtbl.noncitizenflag' | translate }}</mat-checkbox>
