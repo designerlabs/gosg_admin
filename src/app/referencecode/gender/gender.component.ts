@@ -51,7 +51,7 @@ export class GenderComponent implements OnInit {
   selection = new SelectionModel<Element>(true, []);
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router,private dialogsService: DialogsService, private translate: TranslateService,
+  public commonservice: CommonService, private router: Router,private dialogsService: DialogsService, private translate: TranslateService,
   private toastr: ToastrService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {

@@ -57,7 +57,7 @@ export class ColortblComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private translate: TranslateService,
     private router: Router,
     private navservice: NavService,

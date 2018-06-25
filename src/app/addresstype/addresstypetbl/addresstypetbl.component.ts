@@ -58,7 +58,7 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
     private navservice: NavService,

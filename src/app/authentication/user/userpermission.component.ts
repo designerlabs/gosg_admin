@@ -34,7 +34,7 @@ export class UserpermissionComponent implements OnInit {
   
   constructor(
     @Inject(ElementRef) elementRef: ElementRef,
-    private commonservice:CommonService,
+    public commonservice:CommonService,
     private http:HttpClient,
     private router:Router,
     private toastr: ToastrService,

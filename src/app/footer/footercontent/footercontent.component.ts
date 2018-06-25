@@ -90,7 +90,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
 
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService, private navservice: NavService,
   private dialogsService: DialogsService,
   private validateService: ValidateService) {
