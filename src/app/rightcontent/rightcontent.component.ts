@@ -1,11 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, Inject, OnDestroy } from '@angular/core';
-import {FormControl} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
-import { SharedModule } from '../shared/shared.module';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { APP_CONFIG, AppConfig } from '../config/app.config.module';
+import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -36,7 +29,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private router: Router
   ) { }
 
@@ -91,6 +84,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
       )
     }else{
       this.getMenuDataLocal();
+      console.log("rightContent")
     }
 
   }
@@ -115,7 +109,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
     this.subscriptionLocalMenu = this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       //debugger;
-      console.log(this.menulst)
+      // console.log(this.menulst)
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
       this.loading = false;

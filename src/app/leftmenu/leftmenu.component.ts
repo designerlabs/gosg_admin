@@ -83,7 +83,7 @@ resetSearch() {
 }
 
   // tslint:disable-next-line:max-line-length
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router,
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, public commonservice: CommonService, private router: Router,
   private toastr: ToastrService ) { 
     
     // this.getUserData();
@@ -148,6 +148,7 @@ resetSearch() {
       )
     }else{
       this.getMenuDataLocal();
+      console.log("leftContent")
     }
     
   }

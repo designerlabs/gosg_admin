@@ -53,7 +53,7 @@ export class FonttblComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router, 
     private navservice: NavService,
     private toastr: ToastrService,

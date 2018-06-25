@@ -6,7 +6,7 @@ import { CommonService } from '../service/common.service';
 @Injectable()
 export class NavRouterActivatorService implements CanActivate {
 
-  constructor(private commonservice: CommonService, private router: Router) { }
+  constructor(public commonservice: CommonService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
            // tslint:disable-next-line:radix

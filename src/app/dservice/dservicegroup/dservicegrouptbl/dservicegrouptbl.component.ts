@@ -70,7 +70,7 @@ export class DServicegrouptblComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private translate: TranslateService,
     private navservice: NavService,
     private router: Router,

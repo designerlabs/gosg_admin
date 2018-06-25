@@ -145,7 +145,7 @@
 
     <div class="col-md-12 form-group paddingTop-10 paddingBottom-10" style="padding-right: 0px;">
       <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right"
-        (click)="updateAnnounce(announceForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+        style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
         <i *ngIf="complete" class="fa fa-check"></i> 
         <i *ngIf="!complete" class="fa fa-times"></i> {{ pageMode }}</button>
       <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right"

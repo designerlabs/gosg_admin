@@ -61,7 +61,7 @@ export class MediatypeComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private router: Router,
     private translate: TranslateService,
     private toastr: ToastrService

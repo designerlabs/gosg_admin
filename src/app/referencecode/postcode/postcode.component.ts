@@ -21,7 +21,7 @@ export class PostcodeComponent implements OnInit {
   public languageId: any;
   public loading = false;
 
-  constructor(private commonservice: CommonService,
+  constructor(public commonservice: CommonService,
   private translate: TranslateService, private toastr: ToastrService) {
     /* LANGUAGE FUNC */
       const myLang = translate.currentLang;

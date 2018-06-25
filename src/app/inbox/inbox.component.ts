@@ -42,7 +42,7 @@ export class InboxComponent implements OnInit {
   public urlEdit = "";
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private dialogsService: DialogsService) { 
     /* LANGUAGE FUNC */

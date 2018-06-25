@@ -23,7 +23,7 @@ export class AnnouncementtblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.announceList);
 
-  constructor(private commonservice: CommonService, private router: Router) { }
+  constructor(public commonservice: CommonService, private router: Router) { }
 
   ngOnInit() {
     this.getAnnounceList(this.announcePageCount, this.announcePageSize);
