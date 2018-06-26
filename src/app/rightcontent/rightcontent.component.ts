@@ -42,11 +42,11 @@ export class RightcontentComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if(!environment.staging){
     // this.subscriptionUserList.unsubscribe();
-    this.subscriptionUsersDetails.unsubscribe();
-    this.subscriptionModMenu.unsubscribe();
+    // this.subscriptionUsersDetails.unsubscribe();
+    // this.subscriptionModMenu.unsubscribe();
     } else {
 
-      this.subscriptionLocalMenu.unsubscribe();
+      // this.subscriptionLocalMenu.unsubscribe();
     }
   }
 
@@ -57,7 +57,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
   getUserData(){
     if(!environment.staging){
       this.loading = true;
-      this.subscriptionUsersDetails = this.commonservice.getUsersDetails().subscribe(
+      this.commonservice.getUsersDetails().subscribe(
         data => {
 
           if(data['adminUser']){
@@ -91,7 +91,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
 
   getMenuData() {
     this.loading = true;
-    this.subscriptionModMenu = this.commonservice.getModMenu().subscribe((data:any) => {
+    this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
       //debugger;
         console.log(this.menulst)
@@ -103,10 +103,10 @@ export class RightcontentComponent implements OnInit, OnDestroy {
         this.loading = false;
       })
   }
-
+ol
   getMenuDataLocal() {
     this.loading = true;
-    this.subscriptionLocalMenu = this.commonservice.getModMenuLocal().subscribe((data:any) => {
+    this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       //debugger;
       // console.log(this.menulst)
