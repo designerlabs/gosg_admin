@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy} from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -8,13 +8,15 @@ import { ToastrService } from 'ngx-toastr';
 import { FormGroup, FormControl } from '@angular/forms';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-userdetailstbl',
   templateUrl: './userdetailstbl.component.html',
   styleUrls: ['./userdetailstbl.component.css']
 })
-export class UserdetailstblComponent implements OnInit {
+export class UserdetailstblComponent implements OnInit, OnDestroy {
 
   filterTypeVal = 0;
   checkStatus: any;
@@ -57,6 +59,11 @@ export class UserdetailstblComponent implements OnInit {
   recordTable = null;
   recordList = null;
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -97,35 +104,51 @@ export class UserdetailstblComponent implements OnInit {
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
+    private navservice: NavService,
   ) {
-    
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.getUsersData(this.pageCount, this.pageSize); //internal function
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getUsersData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
 
+    /* LANGUAGE FUNC */
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        console.log("constructor")
+        this.getUsersData(this.pageCount, this.pageSize); 
+        this.commonservice.getModuleId();
+      }
+
+    });
     /* LANGUAGE FUNC */
     
   }
   
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
+  }
+
   ngOnInit() {
+
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
     
     this.isActiveList = false;
     this.isActive = true;
@@ -167,7 +190,7 @@ export class UserdetailstblComponent implements OnInit {
   getUsersData(page, size) {
     this.loading = true;
     this.dataUrl = this.appConfig.urlUserList;
-    this.commonservice.readProtected('usermanagement', page, size).subscribe(data => {
+    this.commonservice.readProtected('usermanagement', page, size, '', this.languageId).subscribe(data => {
       
       this.commonservice.errorHandling(data, (function(){
         
@@ -212,7 +235,7 @@ export class UserdetailstblComponent implements OnInit {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
       this.loading = true;
-      this.commonservice.readProtected(this.dataUrl+keyword+'&page='+page+'&size='+size).subscribe(data => {
+      this.commonservice.readProtected(this.dataUrl+keyword+'&page='+page+'&size='+size,'','','',this.languageId).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;

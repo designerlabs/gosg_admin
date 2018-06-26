@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { CommonService } from '../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
@@ -13,6 +13,8 @@ import { ValidateService } from '../common/validate.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-user',
@@ -20,7 +22,7 @@ const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA
   styleUrls: ['./user.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
-export class UserComponent implements OnInit, AfterViewInit {
+export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
   AccStatusData: any;
   date= new Date();
@@ -32,6 +34,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  lang: any;
   isEdit: boolean;
   complete: boolean;
   pageMode: String;
@@ -64,6 +67,11 @@ export class UserComponent implements OnInit, AfterViewInit {
   accountStatusSel: FormControl
   public loading = false;
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
   // tslint:disable-next-line:max-line-length
   constructor(
     private http: HttpClient, 
@@ -72,40 +80,56 @@ export class UserComponent implements OnInit, AfterViewInit {
     private router: Router,
     private translate: TranslateService,
     private validateService: ValidateService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private navservice: NavService,
   ) {
-    
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getAccountStatus(this.languageId);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getAccountStatus();
-      this.commonservice.getModuleId();
-    }
 
+     /* LANGUAGE FUNC */
+     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        console.log("constructor")
+        this.getAccountStatus(this.languageId);
+        this.commonservice.getModuleId();
+      }
+
+    });
     /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
 
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
+
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     
-    this.getAccountStatus();
+    this.getAccountStatus(this.languageId);
 
     this.accountStatusSel = new FormControl()
 
@@ -145,7 +169,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     this.loading = true;
 
     // Get User By Id Service
-    return this.commonservice.readProtectedById('usermanagement/', row).subscribe(
+    return this.commonservice.readProtectedById('usermanagement/', row,this.languageId).subscribe(
       Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function(){
@@ -190,9 +214,9 @@ export class UserComponent implements OnInit, AfterViewInit {
     
   }
 
-  getAccountStatus() {
+  getAccountStatus(lang) {
     this.loading = true;
-    return this.commonservice.readProtected('accountstatus/').subscribe(
+    return this.commonservice.readProtected('accountstatus/','','','',lang).subscribe(
         Rdata => {
 
         this.commonservice.errorHandling(Rdata, (function(){
