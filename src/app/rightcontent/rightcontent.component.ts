@@ -103,7 +103,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
         this.loading = false;
       })
   }
-
+ol
   getMenuDataLocal() {
     this.loading = true;
     this.commonservice.getModMenuLocal().subscribe((data:any) => {
