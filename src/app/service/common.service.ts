@@ -557,8 +557,8 @@ getMediaByCateId(id){
       .catch(this.handleError);
   }
 
-  readPortalById(moduleName, id): Observable<any[]> {
-    let readUrl = this.appConfig.urlService + moduleName + id + '?language='+this.languageId;
+  readPortalById(moduleName, id, lng?): Observable<any[]> {
+    let readUrl = this.appConfig.urlService + moduleName + id + '?language='+lng;
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)

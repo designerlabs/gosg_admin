@@ -165,7 +165,7 @@ export class DServicegrouptblComponent implements OnInit, OnDestroy {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('dservice/group', count, size, keyword)
+      this.commonservice.readProtected('dservice/group', count, size, keyword, this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
