@@ -62,7 +62,7 @@ export class PollresultComponent implements OnInit, OnDestroy {
     private navservice: NavService,
     private translate: TranslateService) { 
 
-       /* LANGUAGE FUNC */
+      /* LANGUAGE FUNC */
       this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       const myLang = translate.currentLang;
 
