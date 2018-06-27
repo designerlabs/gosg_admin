@@ -325,7 +325,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
   }
@@ -353,7 +353,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
   }
@@ -386,9 +386,9 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       this.parentFlag = false;
     }
 
-    console.log("ELEMMM");
-    console.log(this.parentFlag);
-    console.log(ele.length);
+    
+    
+    
 
   }
 
@@ -526,7 +526,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        console.log(error);
+        
     });
 
     return this.subscriptionCategoryC;
@@ -571,7 +571,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   getUserInfo(id) {
 
-    console.log(id);
+    
     this.loading = true;
     return this.commonservice.readProtected('usermanagement/' + id, '','','',this.languageId)
       .subscribe(resUser => {
@@ -588,7 +588,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
+        
         this.loading = false;
       });
   }
@@ -683,8 +683,8 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
 
-          console.log("KEY OBJECT");
-          console.log(valMT.length);
+          
+          
 
           let detAgenId;
           let detAgenCode;
@@ -713,8 +713,8 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
           //get array of categoryId
 
-          console.log("GET CATEGORY TREE");
-          console.log(setParentEn);
+          
+          
 
           if(this.languageId == 1){
             for(let i=0; i<dataEn.contentCategories.length; i++){
@@ -757,7 +757,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
+        
         this.loading = false;
       });
     }
@@ -779,7 +779,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
+    
 
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
@@ -792,7 +792,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);
+    
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
@@ -886,7 +886,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      console.log(JSON.stringify(body))
+      
 
       this.loading = true;
       // Update
@@ -901,7 +901,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
       }
@@ -922,7 +922,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
+    
 
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
@@ -935,7 +935,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);
+    
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
@@ -1029,8 +1029,8 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      console.log("UPDATE NOT DRAFT: ");
-      console.log(JSON.stringify(body))
+      
+      
 
       this.loading = true;
       // Update
@@ -1045,7 +1045,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
     }
@@ -1238,7 +1238,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       }
     }
 
-    console.log("AgencyAppID: "+idAgencyApp+" codeAgencyApp: "+codeAgencyApp);
+    
 
 
     this.updateForm.get('agencyApp').setValue(idAgencyApp);
@@ -1306,31 +1306,31 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
 
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
+        
       }
     }
   }
 
   onScrollApp(event){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
 
@@ -1618,7 +1618,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
   }
 
   mySendDraft(){
-    console.log("Send to Draft");
+    
   }
 
 }

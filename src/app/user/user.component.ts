@@ -150,7 +150,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
         this.commonservice.errorHandling(Rdata, (function(){
         this.userData = Rdata['user'];
-        console.log(this.userData)
+        
         
         // populate data
         this.userId = this.userData.userId;
@@ -184,7 +184,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
       this.loading = false;
     });
     
@@ -198,7 +198,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AccStatusData = Rdata['list'];
 
-          console.log(this.AccStatusData);
+          
         }).bind(this));
         this.loading = false;
       },
@@ -224,7 +224,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -236,8 +236,8 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   updateAction(formValues: any) {
       
-    console.log(this.userId)
-    console.log(formValues.accountStatusSel)
+    
+    
     
     this.loading = true;
     // Update User Status Service

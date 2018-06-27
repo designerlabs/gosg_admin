@@ -64,15 +64,15 @@ export class UsertblComponent implements OnInit {
   }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
   ) {
-    
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -96,13 +96,13 @@ export class UsertblComponent implements OnInit {
     }
 
     /* LANGUAGE FUNC */
-    
+
   }
 
-  
-  
+
+
   ngOnInit() {
-    
+
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'icno', 'moduleGroupName', 'superAdminStatus', 'action'];
@@ -139,15 +139,15 @@ export class UsertblComponent implements OnInit {
     }
   }
 
-  // get User Data 
+  // get User Data
   getUsersData(count, size) {
     this.loading = true;
     this.commonservice.readProtected('adminuser/userList',count, size).subscribe(data => {
-      
+
       this.commonservice.errorHandling(data, (function(){
-        
+
         this.userList = data;
-        console.log(this.userList)
+
         this.dataSource.data = this.userList.adminUserListResource;
         this.seqPageNum = this.userList.pageNumber;
         this.seqPageSize = this.userList.pageSize;
@@ -159,8 +159,8 @@ export class UsertblComponent implements OnInit {
 
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      this.loading = false;       
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
     });
   }
 
@@ -176,7 +176,7 @@ export class UsertblComponent implements OnInit {
     this.http.get(this.appConfig.urlAdminUserFind+'/'+findby+'?'+type+'='+keyword.value).subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
-        
+
         this.searchUserResult = data['userList'];
         this.checkStatus = data['statusCode'];
 
@@ -185,8 +185,8 @@ export class UsertblComponent implements OnInit {
       this.loading = false;
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');     
-      this.loading = false;     
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
     });
   }
 
@@ -212,28 +212,27 @@ export class UsertblComponent implements OnInit {
   }
 
   resetMethod(event, msgId) {
-    debugger;
     this.isMailContainerShow = 'none';
     this.deleteUser(msgId);
   }
 
-  
+
   deleteUser(msgId){
     this.loading = true;
     this.commonservice.delete(msgId,'adminuser/').subscribe(
       data => {
-        
+
         this.commonservice.errorHandling(data, (function(){
-        
+
           this.getUsersData(this.pageCount, this.pageSize);
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-  
+
         }).bind(this));
         this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        this.loading = false;         
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
       });
   }
 
@@ -261,16 +260,16 @@ export class UsertblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
           this.getUsersData(this.pageCount, this.pageSize);
         }).bind(this));
-          
+
         this.checkReqValues();
         this.closeUser();
         this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');     
-        this.loading = false;     
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
       });
-  
+
   }
 
   updateRow(row) {
@@ -292,7 +291,7 @@ export class UsertblComponent implements OnInit {
     this.isEdit = false;
     this.router.navigate(['slider']);
   }
-  
+
   getValue(type, val, usrId){
     event.preventDefault();
     this.userId = usrId;

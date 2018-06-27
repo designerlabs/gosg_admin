@@ -201,8 +201,8 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
-    console.log(this.updateForm.get('start').value)
-    console.log(this.updateForm.get('end').value)
+    
+    
   }
 
   ngOnDestroy() {
@@ -224,21 +224,21 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
+        
       }
     }
   }
@@ -263,7 +263,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(Rdata, (function(){
 
         this.eventData = Rdata;
-        console.log(this.eventData)
+        
         let dataEn = this.eventData['list'][0];
         let dataBm = this.eventData['list'][1];
 
@@ -305,8 +305,8 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       this.setEventDate(dataBm.eventStart,'start')
       this.setEventDate(dataBm.eventEnd, 'end')
       // this.updateForm.get('start').setValue('3/25/2018')
-      console.log(this.updateForm.get('start').value)
-      console.log(this.updateForm.get('end').value)
+      
+      
 
       this.checkReqValues();
           
@@ -315,7 +315,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
+      
       this.loading = false;
       });
     
@@ -329,7 +329,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(resCatData, (function(){
 
         this.imageData = resCatData['list'];       
-        // console.log(this.imageData);
+        // 
 
       }).bind(this));
       this.loading = false;
@@ -337,12 +337,12 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       this.loading = false;
-      console.log(error);
+      
     });
   }
   
   selectedImg(e){
-    console.log(e);
+    
     this.getImgId = e.value;
     let dataList = this.imageData;
     let indexVal: any;
@@ -356,7 +356,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       }        
     }
 
-    console.log(id)
+    
 
     this.updateForm.get('image').setValue(id);  
     this.checkReqValues();
@@ -390,8 +390,8 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     this.updateForm.get(selLangField).setValue("");
 
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      // console.log(keyword)
-      // console.log(keyword.length)
+      // 
+      // 
       this.isActive = true;
       this.loading = true;
       
@@ -401,7 +401,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(data, (function(){
 
-          console.log(data['agencyList'].length)
+          
 
           if(data['agencyList'].length != 0) {
             if(langId == 1) {
@@ -449,7 +449,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     }
     this.getAgencyByRefCode(refCode,langId);
 
-    // console.log(mName)
+    // 
   }
 
   // GET AGENCY NAME BY PAIRED LANGUAGE ID
@@ -472,8 +472,8 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          console.log('refCode Data');
-          console.log(data);
+          
+          
 
           // mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
@@ -529,7 +529,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
     for (var reqData of reqVal) {
       let elem = this.updateForm.get(reqData);
-      // console.log(elem.value)
+      // 
 
       if (elem.value == "" || elem.value == null) {
         elem.setValue(null)
@@ -537,7 +537,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -552,9 +552,9 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     let todaysdt = today.getDate();
     let year = today.getFullYear();
     let month = today.getMonth();
-    // console.log(year)
-    // console.log(month)
-    // console.log(todaysdt)
+    // 
+    // 
+    // 
 
     this.sMinDate = new Date(year, month, todaysdt);
     this.eMinDate = new Date(year, month, todaysdt);
@@ -565,7 +565,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     this.events = [];
     this.events.push(tsd);
 
-    console.log(tsd);
+    
     // this.events.push(`${event.value}`);
     if(type == 'start') {
       this.sdt = new Date(this.events[0]).getTime();
@@ -575,15 +575,15 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
     this.dateFormatExample = "";
  
-    // console.log(res)
+    // 
 
     return res;
   }
 
   addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
     let year, month, day;
-    console.log(type)
-    console.log(event.value)
+    
+    
     this.events = [];
     this.events.push(`${event.value}`);
     this.sdt = new Date(this.events[0]).getTime();
@@ -602,13 +602,13 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
   }
 
   addEndEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
-    console.log(type)
+    
     this.events = [];
     this.events.push(`${event.value}`);
     this.edt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
-    console.log(this.edt)
-    console.log(this.events[0])
+    
+    
     this.checkReqValues()
   }
 
@@ -688,7 +688,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       }
     ];
     
-    // console.log(formValues)
+    // 
 
     body[0].eventName = formValues.nameEn;
     body[0].eventDescription = formValues.descEn;
@@ -732,7 +732,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       body[1].image = null;
     }
 
-    console.log(body)
+    
     this.loading = true;
 
     // Add event Service
@@ -746,13 +746,13 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.loading = false;
       });
 
     } else {
     
-      console.log(formValues)
+      
       
     let body = [
       {
@@ -861,7 +861,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       body[1].image = null;
     }
 
-    console.log(body);
+    
     this.loading = true;
 
     // Update event Service
@@ -875,7 +875,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.loading = false;
       });
     }

@@ -149,8 +149,8 @@ export class DServiceComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
         this.dsData = Rdata;
-        // console.log(JSON.stringify(this.dsData))
-        console.log(this.dsData)
+        // 
+        
         let dataEn = this.dsData['list'][0];
         let dataBm = this.dsData['list'][1];
 
@@ -191,21 +191,21 @@ export class DServiceComponent implements OnInit {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
+        
       }
     }
   }
@@ -239,8 +239,8 @@ export class DServiceComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      // console.log(keyword)
-      // console.log(keyword.length)
+      // 
+      // 
       this.isActive = true;
       this.loading = true;
       
@@ -249,7 +249,7 @@ export class DServiceComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
 
-          console.log(data['agencyList'].length)
+          
 
           if(data['agencyList'].length != 0) {
             if(langId == 1) {
@@ -296,7 +296,7 @@ export class DServiceComponent implements OnInit {
     }
     this.getAgencyByRefCode(refCode,langId);
 
-    // console.log(mName)
+    // 
   }
 
   // GET AGENCY NAME BY PAIRED LANGUAGE ID
@@ -319,8 +319,8 @@ export class DServiceComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          // console.log('refCode Data');
-          // console.log(data);
+          // 
+          // 
 
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
@@ -361,7 +361,7 @@ export class DServiceComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -405,7 +405,7 @@ export class DServiceComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues)
+    // 
 
     body[0].title = formValues.titleEn;
     body[0].description = formValues.descEn;
@@ -417,7 +417,7 @@ export class DServiceComponent implements OnInit {
     body[1].agency.agencyId = this.agencyIdBm;
     body[1].enabled = formValues.active;
 
-    console.log(body)
+    
 
     // Add ErrorMsg Service
     this.loading = true;
@@ -436,7 +436,7 @@ export class DServiceComponent implements OnInit {
 
     } else {
 
-      console.log(this.refCode)
+      
       
     let body = [
       {
@@ -481,7 +481,7 @@ export class DServiceComponent implements OnInit {
     body[1].agency.agencyId = this.agencyIdBm;
     body[1].enabled = formValues.active;
 
-    console.log(body);
+    
 
     // Update AgencyApp Service
     this.loading = true;

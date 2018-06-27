@@ -34,16 +34,16 @@ export class AccountstatustblComponent implements OnInit, OnDestroy {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
-  dataUrl: any;  
+  dataUrl: any;
   lang:any;
   public languageId: any;
   recordTable = null;
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   dataSource = new MatTableDataSource<object>(this.recordList);
-  
+
   private subscription: ISubscription;
   private subscriptionLang: ISubscription;
   private subscriptionLangAll: ISubscription;
@@ -54,10 +54,10 @@ export class AccountstatustblComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue;
   }
 
-  constructor(private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
-    private router: Router, 
+  constructor(private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private navservice: NavService,
     private translate: TranslateService,
@@ -73,7 +73,7 @@ export class AccountstatustblComponent implements OnInit, OnDestroy {
             this.languageId = 1;
           });
         }
-        
+
         if (myLang == 'ms') {
           translate.get('HOME').subscribe((res: any) => {
             this.lang = 'ms';
@@ -119,16 +119,16 @@ export class AccountstatustblComponent implements OnInit, OnDestroy {
         this.seqPageSize = this.recordList.pageSize;
         this.recordTable = this.recordList;
         this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-      }).bind(this)); 
+      }).bind(this));
       this.loading = false;
     },
       error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        console.log(error);
+
       });
-    
+
   }
 
   paginatorL(page) {
@@ -151,7 +151,7 @@ export class AccountstatustblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+
     this.router.navigate(['account/', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -160,21 +160,21 @@ export class AccountstatustblComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.commonservice.delete(refcode, 'accountstatus/').subscribe(
       data => {
-        
+
         this.commonservice.errorHandling(data, (function(){
-          
+
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
-                  
+
       },
       error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        console.log(error);
-    });    
+
+    });
   }
 
   ngAfterViewInit() {

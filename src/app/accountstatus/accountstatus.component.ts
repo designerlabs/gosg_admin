@@ -113,8 +113,8 @@ export class AccountstatusComponent implements OnInit {
 
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
-        console.log("data");
-        console.log(data);
+        
+        
 
         this.updateForm.get('accEn').setValue(this.recordList.list[0].accountStatusDescription);
         this.updateForm.get('accBm').setValue(this.recordList.list[1].accountStatusDescription);      
@@ -132,7 +132,7 @@ export class AccountstatusComponent implements OnInit {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         this.loading = false;
-        console.log(error);
+        
       
     });
   }
@@ -165,8 +165,8 @@ export class AccountstatusComponent implements OnInit {
       body[1].accountStatusDescription = formValues.accBm;
       body[1].enabled = formValues.active;
 
-      console.log("TEST")
-      console.log(JSON.stringify(body))
+      
+      
       this.loading = true;
       this.commonservice.create(body, 'accountstatus').subscribe(
         data => {         
@@ -181,7 +181,7 @@ export class AccountstatusComponent implements OnInit {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           this.loading = false;
-          console.log(error);
+          
       });
     }
 
@@ -213,8 +213,8 @@ export class AccountstatusComponent implements OnInit {
       body[1].enabled = formValues.active;
       
 
-      console.log("UPDATE: ");
-      console.log(body);
+      
+      
       this.loading = true;
       this.commonservice.update(body, 'accountstatus').subscribe(
         data => {
@@ -228,7 +228,7 @@ export class AccountstatusComponent implements OnInit {
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
           this.loading = false;
       });
     }

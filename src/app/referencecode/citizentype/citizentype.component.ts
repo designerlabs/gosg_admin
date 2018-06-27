@@ -106,7 +106,7 @@ export class CitizentypeComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log(data);
+      
 
       this.updateForm.get('userTypeMy').setValue(this.recordList.userTypeList[1].userType);
       this.updateForm.get('userTypeEng').setValue(this.recordList.userTypeList[0].userType); 
@@ -129,7 +129,7 @@ export class CitizentypeComponent implements OnInit {
   error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
       this.loading = false;
     });
   }
@@ -181,7 +181,7 @@ export class CitizentypeComponent implements OnInit {
       body[0].language.languageId = 1;
       body[0].userTypeActiveFlag = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.create(body,'usertype').subscribe(
@@ -196,10 +196,10 @@ export class CitizentypeComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record added successfully!')
 
         //   let txt = "Record added successfully!";
@@ -209,7 +209,7 @@ export class CitizentypeComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
@@ -251,7 +251,7 @@ export class CitizentypeComponent implements OnInit {
       body[0].language.languageId = 1;
       body[0].userTypeActiveFlag = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.update(body,'usertype').subscribe(
@@ -266,10 +266,10 @@ export class CitizentypeComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record updated successfully!')
 
         //   let txt = "Record updated successfully!";
@@ -279,7 +279,7 @@ export class CitizentypeComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }

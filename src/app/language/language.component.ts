@@ -148,7 +148,7 @@ export class LanguageComponent implements OnInit {
     error => {
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
     });    
   }
 
@@ -212,7 +212,7 @@ export class LanguageComponent implements OnInit {
         "languageDescription": null
       };
     
-    console.log(formValues)
+    
 
 
     body.languageCode = formValues.languageCode;
@@ -220,7 +220,7 @@ export class LanguageComponent implements OnInit {
     body.languageDescription = formValues.languageDescription;
     body.isDefault = formValues.isDefault;
 
-    console.log(body)
+    
 
     // Add Language Service
     this.commonservice.create(body, 'language').subscribe(
@@ -234,7 +234,7 @@ export class LanguageComponent implements OnInit {
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
       });
 
     } else {
@@ -253,7 +253,7 @@ export class LanguageComponent implements OnInit {
         body.languageDescription = formValues.languageDescription;
         body.isDefault = formValues.isDefault;
 
-    console.log(body);
+    
 
     // Update Language Service
     this.commonservice.update(body, 'language').subscribe(
@@ -266,7 +266,7 @@ export class LanguageComponent implements OnInit {
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
       });
     }   
   }

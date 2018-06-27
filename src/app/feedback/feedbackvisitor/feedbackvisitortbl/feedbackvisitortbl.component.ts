@@ -52,7 +52,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val  + "TEST VISITOR" + this.filterTypeVal);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -100,7 +100,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
@@ -140,8 +140,8 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
           this.recordList = data;
           if(this.recordList.feedbackList.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
@@ -164,7 +164,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
     });
   }
 
@@ -191,8 +191,8 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
           this.recordList = data;
           if(this.recordList.feedbackList.length > 0){
 
-            console.log("data Filter");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
@@ -219,7 +219,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });
     }
   }
@@ -243,7 +243,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['feedback/message/visitor/', row]);
     this.commonservice.pageModeChange(true);
   }

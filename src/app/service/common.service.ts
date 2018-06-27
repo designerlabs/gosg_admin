@@ -123,7 +123,7 @@ export class CommonService {
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
 
        /* LANGUAGE FUNC */
-      
+
         const myLang = translate.currentLang;
 
         if (myLang == 'en') {
@@ -139,7 +139,7 @@ export class CommonService {
                 this.languageId = 2;
             });
         }
-  
+
     });
 
     if(!this.languageId){
@@ -148,7 +148,7 @@ export class CommonService {
       }else{
         this.languageId = 1;
       }
-      
+
     }
     // translate.onLangChange.subscribe((event: LangChangeEvent) => {
     //   translate.get('HOME').subscribe((res: any) => {
@@ -575,7 +575,7 @@ getMediaByCateId(id){
 
   create(data, moduleName) {
     let createUrl = this.appConfig.urlCommon   + moduleName + '?language='+this.languageId;
-    console.log(createUrl)
+
 
     return this.http.post(createUrl, data)
     .map((response: Response) => response.json())
@@ -610,10 +610,8 @@ getMediaByCateId(id){
       let myLangData =  getLang.filter(function(val) {
         if(val.isDefault == true){
           if(!localStorage.getItem('langID')) {
-            debugger;
             // return val.languageId
           } else {
-            debugger;
             // return localStorage.getItem('langID');
           }
         }

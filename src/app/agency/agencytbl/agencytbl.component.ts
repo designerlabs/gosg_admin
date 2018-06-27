@@ -53,7 +53,7 @@ export class AgencytblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -139,7 +139,7 @@ export class AgencytblComponent implements OnInit, OnDestroy {
           this.agencyTypeList = data;
 
           if(this.agencyTypeList.list.length > 0){
-            console.log(this.agencyTypeList)
+            
             this.dataSource.data = this.agencyTypeList.list;
             this.seqPageNum = this.agencyTypeList.pageNumber;
             this.seqPageSize = this.agencyTypeList.pageSize;
@@ -173,8 +173,8 @@ export class AgencytblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-          console.log("data");
-          console.log(data);
+          
+          
           
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
@@ -200,7 +200,7 @@ export class AgencytblComponent implements OnInit, OnDestroy {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }
@@ -239,7 +239,7 @@ export class AgencytblComponent implements OnInit, OnDestroy {
 
   deleteItem(refCode) {
 
-    console.log(refCode)
+    
     let txt;
       this.loading = true;
       this.commonservice.delete(refCode, 'agency/type/').subscribe(

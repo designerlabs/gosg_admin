@@ -58,7 +58,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
   private subscriptionLang: ISubscription;
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -146,7 +146,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
 
     });
   }
@@ -164,8 +164,8 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
 
           if(this.recordList.list.length > 0){
 
-            console.log("data");
-            console.log(data);
+            
+            
 
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;            
@@ -191,7 +191,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
 
       });
     }
@@ -222,7 +222,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['inboxsent', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -231,7 +231,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
   deleteRow(refCode) {
 
     this.loading = true;
-    console.log(refCode);
+    
     this.commonservice.delete(refCode,'inbox/').subscribe(
       data => {
 
@@ -246,7 +246,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
     
   }

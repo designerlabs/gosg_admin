@@ -165,7 +165,7 @@ export class PollquestionComponent implements OnInit {
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
-        console.log(data);
+        
         this.recordList = data;
 
         this.updateForm.get('pollEng').setValue(this.recordList.pollQuestionListDto[0].questionTitle);
@@ -198,7 +198,7 @@ export class PollquestionComponent implements OnInit {
         this.res4Bm = this.recordList.pollQuestionListDto[1].answer[3].result;
         this.res5Bm = this.recordList.pollQuestionListDto[1].answer[4].result;
 
-        console.log(this.res1Bm);
+        
 
         this.checkReqValues();
       }).bind(this));  
@@ -208,7 +208,7 @@ export class PollquestionComponent implements OnInit {
     error => {
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
+      
     });
   }
 
@@ -274,8 +274,8 @@ export class PollquestionComponent implements OnInit {
       body[1].pollsActiveFlag = formValues.active;   
       body[1].language.languageId = 2;
 
-      console.log("ADD BODY: ");
-      console.log(JSON.stringify(body))
+      
+      
 
       this.commonservice.create(body,'polls/question').subscribe(
         data => {
@@ -288,7 +288,7 @@ export class PollquestionComponent implements OnInit {
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
+          
       });
     }
 
@@ -365,8 +365,8 @@ export class PollquestionComponent implements OnInit {
       body[1].pollsResult4 = this.res4Bm;
       body[1].pollsResult5 = this.res5Bm;
 
-      console.log("UPDATE DELETE: ");
-      console.log(JSON.stringify(body))
+      
+      
 
       this.commonservice.update(body,'polls/question/multiple/update').subscribe(
         data => {
@@ -380,7 +380,7 @@ export class PollquestionComponent implements OnInit {
         error => {
           
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);
+          
       });
     }
   }

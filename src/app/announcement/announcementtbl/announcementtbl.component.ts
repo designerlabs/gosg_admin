@@ -30,7 +30,7 @@ export class AnnouncementtblComponent implements OnInit {
   }
 
   getAnnounceList(count, size) {
-    // debugger;
+    
       this.loading = true;
       return this.commonservice.getAnnounceTblData()
        .subscribe(resStateData => {
@@ -44,7 +44,7 @@ export class AnnouncementtblComponent implements OnInit {
         },
         Error => {
         //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-        console.log('Error in Announcement');
+        
         this.loading = false;
        });
   }
@@ -54,7 +54,7 @@ export class AnnouncementtblComponent implements OnInit {
   }
 
   editGroup(fId) {
-    console.log(fId);
+    
     this.router.navigate(['announcement', fId]);
   }
 

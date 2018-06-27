@@ -35,7 +35,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getUserData();
-    // console.log('onInit')
+    // 
     // this.dataSource.paginator = this.paginator;
   }
 
@@ -84,7 +84,7 @@ export class RightcontentComponent implements OnInit, OnDestroy {
       )
     }else{
       this.getMenuDataLocal();
-      console.log("rightContent")
+      
     }
 
   }
@@ -93,8 +93,8 @@ export class RightcontentComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.subscriptionModMenu = this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
-      //debugger;
-        console.log(this.menulst)
+      
+        
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
       this.loading = false;
@@ -108,8 +108,8 @@ export class RightcontentComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.subscriptionLocalMenu = this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
-      //debugger;
-      // console.log(this.menulst)
+      
+      // 
       // let myLangData =  getLang.filter(function(val) {
       // }.bind(this));
       this.loading = false;

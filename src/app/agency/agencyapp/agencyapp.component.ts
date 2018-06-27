@@ -163,21 +163,21 @@ export class AgencyappComponent implements OnInit {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      // console.log(event)
+      // 
+      // 
 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
+        
       }
     }
   }
@@ -196,8 +196,8 @@ export class AgencyappComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
         this.AgencyAppData = Rdata;
-        // console.log(JSON.stringify(this.AgencyAppData))
-        console.log(this.AgencyAppData)
+        // 
+        
         let dataEn = this.AgencyAppData['agencyApplicationList'][0];
         let dataBm = this.AgencyAppData['agencyApplicationList'][1];
 
@@ -254,8 +254,8 @@ export class AgencyappComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      console.log(keyword)
-      // console.log(keyword.length)
+      
+      // 
       this.isActive = true;
       this.loading = true;
       this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, langId).subscribe(
@@ -263,7 +263,7 @@ export class AgencyappComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
 
-          console.log(data['agencyList'].length)
+          
 
           if(data['agencyList'].length != 0) {
             if(langId == 1) {
@@ -310,7 +310,7 @@ export class AgencyappComponent implements OnInit {
     }
     this.getAgencyByRefCode(refCode,langId);
 
-    // console.log(mName)
+    // 
   }
 
   // GET AGENCY NAME BY PAIRED LANGUAGE ID
@@ -333,8 +333,8 @@ export class AgencyappComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          console.log('refCode Data');
-          console.log(data);
+          
+          
 
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
@@ -379,7 +379,7 @@ export class AgencyappComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -430,7 +430,7 @@ export class AgencyappComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues)
+    // 
 
     body[0].agencyApplicationName = formValues.agencyAppNameEn;
     body[0].agencyApplicationDescription = formValues.descEn;
@@ -446,7 +446,7 @@ export class AgencyappComponent implements OnInit {
     body[1].agencyApplicationUrl = formValues.websiteUrl;
     body[1].agencyId = this.agencyIdBm;
 
-    console.log(body)
+    
 
     // Add ErrorMsg Service
     this.loading = true;
@@ -465,7 +465,7 @@ export class AgencyappComponent implements OnInit {
 
     } else {
 
-      console.log(this.refCode)
+      
       
     let body = [
       {
@@ -514,7 +514,7 @@ export class AgencyappComponent implements OnInit {
     body[1].agencyApplicationUrl = formValues.websiteUrl;
     body[1].agencyId = this.agencyIdBm;
 
-    console.log(body);
+    
 
     // Update AgencyApp Service
     this.loading = true;

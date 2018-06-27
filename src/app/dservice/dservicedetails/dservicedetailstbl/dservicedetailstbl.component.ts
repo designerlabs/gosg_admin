@@ -52,7 +52,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -137,8 +137,8 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(data, (function(){
           this.dsList = data;
-          console.log(this.dsList)
-          console.log(this.dsList.list)
+          
+          
 
           if(this.dsList.list.length > 0){
             this.dataSource.data = this.dsList.list;
@@ -174,8 +174,8 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -201,7 +201,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }
@@ -265,7 +265,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
   }
 
   // isChecked(e) {
-  //   // console.log(val)
+  //   // 
   //   if(e.checked){
   //     this.multipleSel.push(e.source.value)
   //   } else{
@@ -280,7 +280,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
   // }
 
   // isAllChecked() {
-  //   console.log('fired');
+  //   
   //   return this.sizes.every(_ => _.state);
   // }
 
@@ -303,7 +303,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
   //     },
   //     error => {
   //       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-  //       console.log(error);
+  //       
   //       this.multipleSel = [];
   //       this.loading = false;
   //     });
@@ -329,7 +329,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
   //     },
   //     error => {
   //       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-  //       console.log(error);
+  //       
   //       this.multipleSel = [];
   //       this.loading = false;
   //     });

@@ -117,8 +117,8 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+      
+      
 
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
@@ -132,7 +132,7 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
   error => {
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
     this.loading = false;
-    console.log(error);
+    
 
     });
   }
@@ -159,7 +159,7 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
 
   updateRow(row) {
     
-    console.log(row);
+    
     this.router.navigate(['reference/religion', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -168,7 +168,7 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
   deleteRow(refCode) {
     let txt;
 
-    console.log(refCode);
+    
     this.loading = true;
     this.commonservice.delete(refCode,'religion/').subscribe(
       data => {
@@ -184,7 +184,7 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         this.loading = false;
-        console.log(error);
+        
     });
 
     // let txt;
@@ -192,7 +192,7 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
 
 
     // if (r == true) {
-    //   console.log(refCode);
+    //   
     //   this.commonservice.delReligion(refCode).subscribe(
     //     data => {
     //       // alert('Record deleted successfully!')

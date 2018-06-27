@@ -56,7 +56,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val);
@@ -141,7 +141,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
         this.ministryList = data;
 
         if(this.ministryList.list.length > 0){
-          console.log(this.ministryList)
+          
           this.dataSource.data = this.ministryList.list;
           this.seqPageNum = this.ministryList.pageNumber;
           this.seqPageSize = this.ministryList.pageSize;
@@ -161,7 +161,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
+        
         this.loading = false;
         });
   }
@@ -180,8 +180,8 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -206,7 +206,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.loading = false;
       });
     }
@@ -251,7 +251,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
       this.commonservice.delete(refCode, 'ministry/delete/code/').subscribe(
         data => {
             this.commonservice.errorHandling(data, (function(){
-            console.log(data)
+            
             txt = "Ministry deleted successfully!";
             this.toastr.success(txt, '');   
             this.getMinistryData(this.pageCount, this.pageSize);
@@ -260,7 +260,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
+          
           this.loading = false;
         });
 

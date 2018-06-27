@@ -135,8 +135,8 @@ export class StateComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function () {
           this.recordList = data;
 
-          console.log("data");
-          console.log(data);
+          
+          
 
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
@@ -152,7 +152,7 @@ export class StateComponent implements OnInit, OnDestroy {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
           this.loading = false;
-          console.log(error);
+          
         });
   }
 

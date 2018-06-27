@@ -220,7 +220,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
       },
       Error => {
         this.loading = false;
-        console.log('Error in State');
+        
      });
   }
 
@@ -229,7 +229,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
 
   selectedCat(e, val){
 
-    console.log(e);
+    
     this.getCatIdEn = e.value;
     this.getCatIdBm = e.value;
     let dataList = this.categoryData;
@@ -237,7 +237,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
     let idBm: any;
     let idEn: any;
 
-    console.log("EN: "+this.getCatIdEn+" BM: "+this.getCatIdBm + " value: " +val);
+    
 
     if(val == 1){
 
@@ -275,13 +275,13 @@ export class FootercontentComponent implements OnInit, OnDestroy {
       },
       Error => {
         this.loading = false;  
-        console.log('Error in Footer');
+        
      });
   }
 
   selectedImg(e, val){
 
-    console.log(e);
+    
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
     let dataList = this.imageData;
@@ -289,7 +289,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
     let idBm: any;
     let idEn: any;
 
-    console.log("EN: "+this.getImgIdEn+" BM: "+this.getImgIdBm + " value: " + val);
+    
 
     if(val == 1){
 
@@ -370,7 +370,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log(data);
+        
 
         this.updateForm.get('catEng').setValue(this.recordList.list[0].footer.name);
         this.updateForm.get('catMy').setValue(this.recordList.list[0].footer.name);
@@ -420,7 +420,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
     });
   }
 
@@ -513,7 +513,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
       // body[1].footer.id = 1;
       // body[1].footer.name = this.getFooterNameMy;
 
-      console.log(body);
+      
 
       this.loading = true;
 
@@ -530,7 +530,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
 
       });
     }
@@ -605,7 +605,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
       // body[1].footer.id = 1;
       // body[1].footer.name = this.getFooterNameMy;
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.update(body,'footercontent').subscribe(
@@ -621,7 +621,7 @@ export class FootercontentComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
 
       });
     }

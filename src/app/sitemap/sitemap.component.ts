@@ -122,8 +122,8 @@ export class SitemapComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function(){
 
         this.sitemapData = Rdata['siteMapList'];
-        console.log(this.sitemapData)
-        // console.log(this.appConfig.urlMenu + "/" + row)
+        
+        // 
 
         // populate data
         this.updateForm.get('sitemapEnName').setValue(this.sitemapData[0]['sitemapName']);
@@ -144,7 +144,7 @@ export class SitemapComponent implements OnInit {
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
+      
       this.loading = false;
     });
     
@@ -174,7 +174,7 @@ export class SitemapComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -207,14 +207,14 @@ export class SitemapComponent implements OnInit {
       }
   ];
     
-    // console.log(formValues)
+    // 
 
     body[0].sitemapName = formValues.sitemapEnName;
     body[0].sitemapRelativeUrl = formValues.sitemapUrl;
     body[1].sitemapName = formValues.sitemapBmName;
     body[1].sitemapRelativeUrl = formValues.sitemapUrl;
 
-    console.log(body)
+    
     this.loading = true;
 
     // Add ErrorMsg Service
@@ -256,7 +256,7 @@ export class SitemapComponent implements OnInit {
         }
     ]
       
-      // console.log(formValues)
+      // 
   
       body[0].sitemapId = this.sitemapEnId;
       body[0].sitemapCode = this.siteMapCode;
@@ -267,8 +267,8 @@ export class SitemapComponent implements OnInit {
       body[1].sitemapName = formValues.sitemapBmName;
       body[1].sitemapRelativeUrl = formValues.sitemapUrl;
 
-    console.log(body);
-    // console.log(JSON.stringify(body));
+    
+    // 
     // this.loading = true;
 
     // Update ErrorMsg Service

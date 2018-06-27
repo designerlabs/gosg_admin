@@ -54,7 +54,7 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -136,7 +136,7 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
           this.moduleList = data;
 
           if(this.moduleList['moduleList'].length > 0){
-            console.log(this.moduleList)
+            
             this.dataSource.data = this.moduleList['moduleList'];
             this.seqPageNum = this.moduleList.pageNumber;
             this.seqPageSize = this.moduleList.pageSize;
@@ -156,7 +156,7 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
+        
         this.loading = false;
       });
       
@@ -175,8 +175,8 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
           if(this.recordList.moduleList.length > 0){
           
             this.dataSource.data = this.recordList.moduleList;
@@ -201,7 +201,7 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }

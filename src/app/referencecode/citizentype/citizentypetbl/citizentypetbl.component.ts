@@ -121,8 +121,8 @@ export class CitizentypetblComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+      
+      
 
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
@@ -137,7 +137,7 @@ export class CitizentypetblComponent implements OnInit, OnDestroy {
   error => {
 
     this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
+    
     this.loading = false;
       //
       // this.getRaceIdMy = this.recordList.raceList[0].raceId;
@@ -168,7 +168,7 @@ export class CitizentypetblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['reference/citizentype', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -179,7 +179,7 @@ export class CitizentypetblComponent implements OnInit, OnDestroy {
     let txt;
 
     this.loading = true;
-    console.log(refCode);
+    
     this.commonservice.delete(refCode,'usertype/').subscribe(
       data => {
 
@@ -194,7 +194,7 @@ export class CitizentypetblComponent implements OnInit, OnDestroy {
       error => {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
 
     // let txt;
@@ -202,7 +202,7 @@ export class CitizentypetblComponent implements OnInit, OnDestroy {
 
     
     // if (r == true) {
-    //   console.log(refCode);
+    //   
     //   this.commonservice.delUserType(refCode).subscribe(
     //     data => {
     //       // alert('Record deleted successfully!')

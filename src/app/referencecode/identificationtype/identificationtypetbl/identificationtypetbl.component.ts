@@ -36,7 +36,7 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
-  dataUrl: any;  
+  dataUrl: any;
   public languageId: any;
 
   public getIdentificationTypeIdEng: any;
@@ -46,13 +46,13 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
   public loading = false;
 
   recordTable = null;
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
-  
+
   private subscriptionLang: ISubscription;
 
   applyFilter(filterValue: string) {
@@ -60,8 +60,8 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
+
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
   public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private navservice: NavService,
@@ -75,7 +75,7 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
             this.languageId = 1;
           });
         }
-        
+
         if (myLang == 'ms') {
           translate.get('HOME').subscribe((res: any) => {
             this.languageId = 2;
@@ -88,7 +88,7 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
         }
 
     });
-    
+
   }
 
   ngOnInit() {
@@ -108,7 +108,7 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
   }
 
   getRecordList(page, size, lng) {
-  
+
     this.recordList = null;
     // this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + page + '&size=' + size + "?language=" + this.languageId;
 
@@ -120,17 +120,17 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
 
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
-      
+
       this.dataSource.data = this.recordList.list;
       this.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-    }).bind(this)); 
+    }).bind(this));
     this.loading = false;
   },
   error => {
     this.loading = false;
-    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
+    this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
 
     });
   }
@@ -156,46 +156,46 @@ export class IdentificationtypetblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+
     this.router.navigate(['reference/identificationtype', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  
+
   deleteRow(refCode) {
 
     let txt;
 
     this.loading = true;
-    console.log(refCode);
+
     this.commonservice.delete(refCode,'identificationtype/delete/multiple/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          
+
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
       },
       error => {
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
     });
 
     // let txt;
     // let r = confirm("Are you sure to delete ?");
 
-    
+
     // if (r == true) {
-    //   console.log(refCode);
+    //
     //   this.commonservice.delIdentificationType(refCode).subscribe(
     //     data => {
     //       // alert('Record deleted successfully!')
     //       txt = " record deleted successfully!";
 
-    //       this.toastr.success(txt, '');   
+    //       this.toastr.success(txt, '');
     //       this.router.navigate(['reference/identificationtype']);
     //       this.getRecordList(this.pageCount, this.pageSize);
     //     },

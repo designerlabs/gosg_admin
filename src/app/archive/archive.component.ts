@@ -129,7 +129,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.archiveList = Rdata;
-          console.log(this.archiveList) 
+          
           let dataEn = this.archiveList['contentEntityList'][0];
           let dataBm = this.archiveList['contentEntityList'][1];
 
@@ -167,7 +167,7 @@ export class ArchiveComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
+        
         this.loading = false;
       });
 

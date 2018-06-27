@@ -117,8 +117,8 @@ export class DServicetypeComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
         this.dsTypeData = Rdata;
-        // console.log(JSON.stringify(this.dsTypeData))
-        console.log(this.dsTypeData)
+        // 
+        
         let dataEn = this.dsTypeData['list'][0];
         let dataBm = this.dsTypeData['list'][1];
 
@@ -161,7 +161,7 @@ export class DServicetypeComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -197,7 +197,7 @@ export class DServicetypeComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues) , 
+    // 
 
     body[0].name = formValues.nameEn;
     body[0].code = formValues.code;
@@ -205,7 +205,7 @@ export class DServicetypeComponent implements OnInit {
     body[1].name = formValues.nameBm;
     body[1].code = formValues.code;
     
-    console.log(body)
+    
 
     // Add ErrorMsg Service
     this.loading = true;
@@ -224,7 +224,7 @@ export class DServicetypeComponent implements OnInit {
 
     } else {
 
-      console.log(this.refCode)
+      
 
       let body = [
         {
@@ -245,7 +245,7 @@ export class DServicetypeComponent implements OnInit {
         }
       ];
       
-      // console.log(formValues) , 
+      // 
   
       body[0].id = this.idEn;
       body[0].name = formValues.nameEn;
@@ -255,7 +255,7 @@ export class DServicetypeComponent implements OnInit {
       body[1].name = formValues.nameBm;
       body[1].code = formValues.code;
       
-      console.log(body)
+      
 
     // Update AgencyApp Service
     this.loading = true;

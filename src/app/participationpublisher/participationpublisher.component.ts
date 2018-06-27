@@ -370,8 +370,8 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
 
-          console.log("KEY OBJECT");
-          console.log(valMT.length);
+          
+          
 
           let detAgenId;
           let detAgenCode;
@@ -726,7 +726,7 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body));
+      
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'e-participation/publisher').subscribe(
@@ -815,7 +815,7 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body));
+      
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'e-participation/publisher/draft').subscribe(
@@ -835,7 +835,7 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
@@ -1025,7 +1025,7 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
   }
 
   mySendDraft(){
-    console.log("Send to Draft");
+    
   }
 
 }

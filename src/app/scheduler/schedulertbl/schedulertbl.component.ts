@@ -46,15 +46,15 @@ export class SchedulertblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.schedulerList);
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
-  ) { 
-    
+  ) {
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -91,7 +91,7 @@ export class SchedulertblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get agencyType Data 
+  // get agencyType Data
   getSchedulerData() {
     this.loading = true;
     this.commonservice.readProtected('schedule').subscribe(
@@ -101,7 +101,7 @@ export class SchedulertblComponent implements OnInit {
           this.schedulerList = data['schedules'];
 
           if(this.schedulerList.length > 0){
-            console.log(this.schedulerList)
+
             this.dataSource.data = this.schedulerList;
             // this.seqPageNum = this.schedulerList.pageNumber;
             // this.seqPageSize = this.schedulerList.pageSize;
@@ -112,10 +112,10 @@ export class SchedulertblComponent implements OnInit {
           }
 
           else{
-            this.dataSource.data = []; 
+            this.dataSource.data = [];
             this.showNoData = true;
           }
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
       }, err => {
         this.loading = false;

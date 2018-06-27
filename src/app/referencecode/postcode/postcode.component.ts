@@ -67,7 +67,7 @@ export class PostcodeComponent implements OnInit {
     error => {
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
      });
   }
 
@@ -86,14 +86,14 @@ export class PostcodeComponent implements OnInit {
     error => {
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);     
+      
      });
     }
   }
 
   getPostcodeByCity(e){
     this.selCityInfo = e;
-    console.log(e);
+    
     if(e){
       this.loading = true;
       return this.commonservice.readPortal('postcode/city/'+e.value.cityCode, '', '', '', this.languageId)
@@ -106,7 +106,7 @@ export class PostcodeComponent implements OnInit {
     error => {
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);      
+      
      });
     }    
   }

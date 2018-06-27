@@ -215,7 +215,7 @@ export class MediafileuploadComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.mediaFileUpData = Rdata;
-          console.log(this.mediaFileUpData);
+          
           let data = this.mediaFileUpData['list'][0];
           let selCate = [];
           this.getData = data.list;
@@ -233,7 +233,7 @@ export class MediafileuploadComponent implements OnInit {
           if (data) {
             // this.mediaTypeId = data.mediaTypeId;
             for (let itm of data.list[0].mediaCategories) {
-              console.log(itm.categoryId);
+              
               selCate.push(itm.categoryId);
             }
 
@@ -376,7 +376,7 @@ export class MediafileuploadComponent implements OnInit {
             this.filesResult.my.size = selectedFiles.files[0].size;
             this.selectedFilesMy = selectedFiles.files[0].name; 
             this.mediaFileUpForm.controls.mediaFileMy.setValue(this.selectedFilesMy);
-            console.log(this.selectedFilesMy);
+            
             this.selFilesMy = [];
             this.selFilesMy.push(selectedFiles);
             this.checkReqValues();            
@@ -403,7 +403,7 @@ export class MediafileuploadComponent implements OnInit {
       // var uri = event.target.result;
                     image.src;
                     image.onload = function(k){
-                        console.log(k);
+                        
                     };
     }
 
@@ -412,7 +412,7 @@ export class MediafileuploadComponent implements OnInit {
 
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {    
     let mFileSize = this.chkUploadFile.maxSize;
-    console.log(this.el.nativeElement);
+    
     let fileExtn = selectedFiles.files[0].name.split('.')[1];
     let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn.toLowerCase());
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
@@ -423,7 +423,7 @@ export class MediafileuploadComponent implements OnInit {
             this.filesResult.en.size = selectedFiles.files[0].size;
             this.selectedFilesEn = selectedFiles.files[0].name;
             this.mediaFileUpForm.controls.mediaFileEn.setValue(this.selectedFilesEn);
-            console.log(this.selectedFilesEn);
+            
             this.selFilesEn = [];
             this.selFilesEn.push(selectedFiles);
             this.checkReqValues();
@@ -578,7 +578,7 @@ export class MediafileuploadComponent implements OnInit {
       body[1].mediaCategories[0].parentId = mediaCateMy[0].parentId;
       body[1].mediaCategories[0].language = langMs;
  
-      console.log(body);
+      
       // Update Media file upload Service
       let formData: FormData = new FormData();
       for (let file of this.selFilesEn) {
@@ -703,7 +703,7 @@ export class MediafileuploadComponent implements OnInit {
       body[1].mediaCategories[0].parentId = mediaCateMy[0].parentId;
       body[1].mediaCategories[0].language = langMs;
  
-      console.log(body);
+      
       // Add Media file upload Service
       let formData: FormData = new FormData();
       for (let file of this.selFilesEn) {

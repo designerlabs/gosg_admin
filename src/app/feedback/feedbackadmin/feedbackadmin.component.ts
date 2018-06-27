@@ -129,8 +129,8 @@ export class FeedbackadminComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         this.recordList = data;
-        console.log("data");
-        console.log(data);    
+        
+        
 
         this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks); 
 
@@ -147,7 +147,7 @@ export class FeedbackadminComponent implements OnInit, OnDestroy {
         this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
 
         this.getId = this.recordList.feedback.feedbackId;
-        console.log(this.messages);   
+        
 
       }).bind(this));     
       this.loading = false;  
@@ -156,14 +156,14 @@ export class FeedbackadminComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);      
+      
     });
   }
 
   delete(getId) {
     
     this.loading = true;
-    console.log(getId);
+    
     this.commonservice.delete(getId,'feedback/').subscribe(
       data => {
         
@@ -178,7 +178,7 @@ export class FeedbackadminComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
     });
 
   }

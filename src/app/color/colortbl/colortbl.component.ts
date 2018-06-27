@@ -104,7 +104,7 @@ export class ColortblComponent implements OnInit, OnDestroy {
     }
     
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
-    console.log("AFTER Trans");
+    
     this.getcolorData(this.pageCount, this.colorPageSize, this.languageId);
     this.commonservice.getModuleId();
   }
@@ -121,7 +121,7 @@ export class ColortblComponent implements OnInit, OnDestroy {
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.colorList = data;
-          console.log(this.colorList)
+          
           this.dataSource.data = this.colorList['list'];
           this.seqPageNum = this.colorList.pageNumber;
           this.seqPageSize = this.colorList.pageSize;

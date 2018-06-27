@@ -143,7 +143,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getParticipantsData(this.pageCount, this.participantPageSize);
         this.archiveId = [];
         this.arrStatus = [];
@@ -441,11 +441,11 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
       this.getParticipantsData(this.pageCount, this.participantPageSize);
     }
 
-    console.log("Publish: "+this.publishdt);
-    console.log("End: "+this.enddt);
-    console.log("NEW Publish: "+this.newPublishD);
-    console.log("NEW End: "+this.newEndD);
-    console.log(this.updateForm.get('publish').value);
+    
+    
+    
+    
+    
   }
 
   clearDate() {
@@ -528,11 +528,11 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER ARCHIVE ALL: "+this.flagApprove);
+      
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.archiveId = [];
         this.loading = false;
       });
@@ -557,7 +557,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.loading = false;
       });
 
@@ -614,19 +614,19 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
       this.flagApprove = false;
     }
 
-    console.log(this.arrStatus);
-    console.log("ACHIVE: ");
-    console.log(this.archiveId);
-    console.log(this.selectedItem);
-    console.log("Flag Approved: "+this.flagApprove);
+    
+    
+    
+    
+    
     return false;
   }
 
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
+    
+    
     this.commonservice.delete('', `e-participation/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -640,7 +640,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER DELETE ALL: "+this.flagApprove);
+      
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
@@ -650,7 +650,7 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
   }
 
   detailHistory(id){
-    console.log("ID: "+id);
+    
    
       this.loading = true;
       this.commonservice.readProtected('content/history/'+id, '', '', '', this.languageId).subscribe(

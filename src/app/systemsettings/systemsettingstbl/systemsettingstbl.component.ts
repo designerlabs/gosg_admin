@@ -43,7 +43,7 @@ export class SystemsettingstblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -107,8 +107,8 @@ export class SystemsettingstblComponent implements OnInit {
 
         this.recordList = data;
         if(this.recordList.list.length > 0){
-          console.log("data");
-          console.log(data);
+          
+          
           
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
@@ -131,7 +131,7 @@ export class SystemsettingstblComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
     });
   }
 
@@ -150,8 +150,8 @@ export class SystemsettingstblComponent implements OnInit {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -179,7 +179,7 @@ export class SystemsettingstblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });
     }
   }
@@ -204,14 +204,14 @@ export class SystemsettingstblComponent implements OnInit {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['systemsettings/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(id) {
 
-    console.log(id);
+    
     this.loading = true;
     this.commonservice.delete(id, 'systemsettings/').subscribe(
       data => {
@@ -227,7 +227,7 @@ export class SystemsettingstblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
     });
   
   }

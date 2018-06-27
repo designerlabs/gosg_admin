@@ -136,8 +136,8 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
 
           this.updateForm.get('typeEn').setValue(this.recordList.feedbackTypeEntityList[1].feedbackTypeDescription);
           this.updateForm.get('typeBm').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);        
@@ -154,7 +154,7 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
       
     });
   }
@@ -182,8 +182,8 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
       body[0].feedbackTypeDescription = formValues.typeBm;
       body[1].feedbackTypeDescription = formValues.typeEn;
 
-      console.log("ADD: ")
-      console.log(JSON.stringify(body));
+      
+      
       this.loading = true;
 
       this.commonservice.create(body,'feedback/type').subscribe(
@@ -199,7 +199,7 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -226,8 +226,8 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
       body[0].feedbackTypeDescription = formValues.typeBm;
       body[1].feedbackTypeDescription = formValues.typeEn;      
 
-      console.log("UPDATE: ");
-      console.log(body);
+      
+      
       this.loading = true;
 
       this.commonservice.update(body,'feedback/type').subscribe(
@@ -243,7 +243,7 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
     

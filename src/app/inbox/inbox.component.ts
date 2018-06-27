@@ -122,7 +122,7 @@ export class InboxComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log(data);
+        
 
         this.updateForm.get('subject').setValue(this.recordList.object.subject);
         this.updateForm.get('content').setValue(this.recordList.object.content);
@@ -142,7 +142,7 @@ export class InboxComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
     });
   }
 
@@ -169,7 +169,7 @@ export class InboxComponent implements OnInit {
       body.content = formValues.content;
 
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.create(body, 'inbox').subscribe(
@@ -185,7 +185,7 @@ export class InboxComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 

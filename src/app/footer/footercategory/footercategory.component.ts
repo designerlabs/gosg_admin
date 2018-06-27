@@ -137,7 +137,7 @@ export class FootercategoryComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log(data);
+        
 
         this.updateForm.get('catEng').setValue(this.recordList.list[0].name);
         this.updateForm.get('descEng').setValue(this.recordList.list[0].description);
@@ -159,7 +159,7 @@ export class FootercategoryComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);   
+      
     });
     
   }
@@ -204,7 +204,7 @@ export class FootercategoryComponent implements OnInit, OnDestroy {
       body[1].enabled = formValues.active;
       body[1].language.languageId = 2;
 
-      console.log(body);
+      
       this.loading = true;
       this.commonservice.create(body,'footer').subscribe(
         data => {
@@ -220,7 +220,7 @@ export class FootercategoryComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -264,7 +264,7 @@ export class FootercategoryComponent implements OnInit, OnDestroy {
       body[1].footerCode = this.getRefCode;
       body[1].language.languageId = 2;
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.update(body, 'footer').subscribe(
@@ -281,7 +281,7 @@ export class FootercategoryComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
   }

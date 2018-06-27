@@ -128,8 +128,8 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         this.recordList = data;
-        console.log("data");
-        console.log(data);
+        
+        
 
         this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks);     
 
@@ -146,7 +146,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
         this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
 
         this.getId = this.recordList.feedback.feedbackId;
-        console.log(this.messages);
+        
         this.checkReqValues();
 
       }).bind(this)); 
@@ -156,7 +156,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
       
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
       
     });
   }
@@ -188,8 +188,8 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
     body.feedbackRemarks = formValues.reply;     
 
-    console.log("UPDATE: ");
-    console.log(JSON.stringify(body))
+    
+    
     this.loading = true;
 
     this.commonservice.update(body,'feedback/saveasdraft').subscribe(
@@ -205,7 +205,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        console.log(error);
+        
     });    
     
   }
@@ -237,8 +237,8 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
     body.feedbackRemarks = formValues.reply;     
 
-    console.log("UPDATE: ");
-    console.log(JSON.stringify(body))
+    
+    
     this.loading = true;
 
     this.commonservice.update(body,'feedback/submitreply').subscribe(
@@ -254,7 +254,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        console.log(error);
+        
     });    
     
   }

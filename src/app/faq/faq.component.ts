@@ -117,7 +117,7 @@ export class FaqComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log(data);
+        
 
         this.updateForm.get('faqQEng').setValue(this.recordList.faqList[0].faqQuestion);
         this.updateForm.get('faqAEng').setValue(this.recordList.faqList[0].faqAnswer);
@@ -149,7 +149,7 @@ export class FaqComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
     });
   }
 
@@ -201,7 +201,7 @@ export class FaqComponent implements OnInit {
       body[1].faqSort = formValues.seqMy;
       body[1].language.languageId = 2;
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.create(body, 'faq').subscribe(
@@ -217,7 +217,7 @@ export class FaqComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -265,7 +265,7 @@ export class FaqComponent implements OnInit {
       body[1].language.languageId = 2;
       body[1].faqActiveFlag = formValues.active;
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.update(body,'faq').subscribe(
@@ -281,7 +281,7 @@ export class FaqComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
   }

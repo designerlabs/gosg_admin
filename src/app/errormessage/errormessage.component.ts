@@ -144,7 +144,7 @@ export class ErrormessageComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(Rdata, (function(){
 
           this.ErrorMsgData = Rdata;
-          console.log(this.ErrorMsgData)
+          
           let dataEn = this.ErrorMsgData['resourceList'][0];
           let dataBm = this.ErrorMsgData['resourceList'][1];
 
@@ -166,7 +166,7 @@ export class ErrormessageComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        console.log(error);
+        
       });    
   }
 
@@ -237,7 +237,7 @@ export class ErrormessageComponent implements OnInit, OnDestroy {
       error => {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        console.log(error);
+        
       });
   }
   
@@ -273,7 +273,7 @@ export class ErrormessageComponent implements OnInit, OnDestroy {
       body[1].messagesCode = formValues.msgCodeBm;
       body[1].messagesDescription = formValues.descBm;
 
-      console.log(body)
+      
       this.loading = true;
 
       // Add ErrorMsg Service
@@ -289,7 +289,7 @@ export class ErrormessageComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
         });
 
     } 
@@ -326,7 +326,7 @@ export class ErrormessageComponent implements OnInit, OnDestroy {
       body[1].messagesCode = formValues.msgCodeBm;
       body[1].messagesDescription = formValues.descBm;
 
-      console.log(body);
+      
       this.loading = true;
 
       // Update ErrorMsg Service
@@ -342,7 +342,7 @@ export class ErrormessageComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
         });
     }   
 

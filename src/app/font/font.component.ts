@@ -133,8 +133,8 @@ export class FontComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
 
           this.updateForm.get('fname').setValue(this.recordList.font.fontName);
           this.updateForm.get('furl').setValue(this.recordList.font.fontUrl); 
@@ -151,7 +151,7 @@ export class FontComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
       
     });
   }
@@ -175,8 +175,8 @@ export class FontComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultFont = formValues.default;
 
-      // console.log("TEST")
-      // console.log(JSON.stringify(body))
+      // 
+      // 
 
       this.loading = true;
       this.commonservice.create(body, 'font').subscribe(
@@ -192,7 +192,7 @@ export class FontComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -213,8 +213,8 @@ export class FontComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultFont = formValues.default;
 
-      // console.log("UPDATE: ");     
-      // console.log(JSON.stringify(body))
+      // 
+      // 
 
       this.loading = true;
       this.commonservice.update(body, 'font').subscribe(
@@ -230,7 +230,7 @@ export class FontComponent implements OnInit {
           
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
+          
       });
     }
     

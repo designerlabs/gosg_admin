@@ -838,7 +838,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      console.log(JSON.stringify(body))
+      
 
       this.loading = true;
       // Add
@@ -932,7 +932,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      console.log(JSON.stringify(body))
+      
 
       this.loading = true;
       // Update
@@ -1066,7 +1066,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      console.log(JSON.stringify(body))
+      
 
       this.loading = true;
       // Add
@@ -1160,8 +1160,8 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      console.log("UPDATE NOT DRAFT: ");
-      console.log(JSON.stringify(body))
+      
+      
 
       this.loading = true;
       // Update
@@ -1432,7 +1432,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
@@ -1449,7 +1449,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   onScrollApp(event){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;

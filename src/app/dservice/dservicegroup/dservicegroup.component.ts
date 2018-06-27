@@ -120,8 +120,8 @@ export class DServicegroupComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
         this.dsGroupData = Rdata;
-        // console.log(JSON.stringify(this.dsGroupData))
-        console.log(this.dsGroupData)
+        // 
+        
         let dataEn = this.dsGroupData['list'][0];
         let dataBm = this.dsGroupData['list'][1];
 
@@ -129,7 +129,7 @@ export class DServicegroupComponent implements OnInit {
         this.updateForm.get('statusDescriptionEn').setValue(dataEn.statusDescription);
         this.updateForm.get('statusDescriptionBm').setValue(dataBm.statusDescription);
         this.updateForm.get('statusCode').setValue(dataBm.statusCode);
-        console.log(dataBm.groupId)
+        
         this.updateForm.get('groupId').setValue(dataBm.groupId);
         this.refstatusCode = dataEn.statusCode;
         this.statusIdEn = dataEn.statusId;
@@ -167,7 +167,7 @@ export class DServicegroupComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -205,7 +205,7 @@ export class DServicegroupComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues) , 
+    // 
 
     body[0].statusDescription = formValues.statusDescriptionEn;
     body[0].groupId = formValues.groupId;
@@ -215,7 +215,7 @@ export class DServicegroupComponent implements OnInit {
     body[1].groupId = formValues.groupId;
     body[1].statusCode = formValues.statusCode;
     
-    console.log(body)
+    
 
     // Add ErrorMsg Service
     this.loading = true;
@@ -234,7 +234,7 @@ export class DServicegroupComponent implements OnInit {
 
     } else {
 
-      console.log(this.refstatusCode)
+      
 
       let body = [
         {
@@ -257,7 +257,7 @@ export class DServicegroupComponent implements OnInit {
         }
       ];
       
-      // console.log(formValues) , 
+      // 
   
       body[0].statusId = this.statusIdEn;
       body[0].statusDescription = formValues.statusDescriptionEn;
@@ -269,7 +269,7 @@ export class DServicegroupComponent implements OnInit {
       body[1].groupId = formValues.groupId;
       body[1].statusCode = formValues.statusCode;
       
-      console.log(body)
+      
 
     // Update AgencyApp Service
     this.loading = true;

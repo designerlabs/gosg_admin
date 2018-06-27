@@ -103,7 +103,7 @@ export class GroupstblComponent implements OnInit {
   }
 
   editGroup(gId) {
-    console.log(gId);
+    
     this.router.navigate(['groups', gId]);
   }
 

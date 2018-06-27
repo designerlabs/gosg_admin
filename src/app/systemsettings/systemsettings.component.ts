@@ -115,8 +115,8 @@ export class SystemsettingsComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
 
           this.updateForm.get('entity').setValue(this.recordList.object.settingsEntities);
           this.updateForm.get('key').setValue(this.recordList.object.settingsKey); 
@@ -133,7 +133,7 @@ export class SystemsettingsComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
       
     });
   }
@@ -157,8 +157,8 @@ export class SystemsettingsComponent implements OnInit {
       body.settingsValue = formValues.value;
       body.isActive = formValues.active;
 
-      console.log("TEST")
-      console.log(JSON.stringify(body))
+      
+      
       this.loading = true;
 
       this.commonservice.create(body,'systemsettings').subscribe(
@@ -174,7 +174,7 @@ export class SystemsettingsComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -195,8 +195,8 @@ export class SystemsettingsComponent implements OnInit {
       body.settingsValue = formValues.value;
       body.isActive = formValues.active;
 
-      console.log("UPDATE: ");     
-      console.log(JSON.stringify(body))
+      
+      
       this.loading = true;
 
       this.commonservice.update(body,'systemsettings').subscribe(
@@ -213,7 +213,7 @@ export class SystemsettingsComponent implements OnInit {
           
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
+          
       });
     }
     

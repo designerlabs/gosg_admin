@@ -182,7 +182,7 @@ export class MediatypeComponent implements OnInit {
           .subscribe(Rdata => {
             this.commonservice.errorHandling(Rdata, (function () {
               this.mediaTypeData = Rdata;
-              console.log(this.mediaTypeData);
+              
               let data = this.mediaTypeData['mediaType'];
               this.getData = data;
               // populate data
@@ -249,7 +249,7 @@ export class MediatypeComponent implements OnInit {
         fdata => fdata.category.categoryId === event.value);
         this.selCategory = filtrData[0].category;
         this.selmediaTypeCategoryId = filtrData[0].mediaTypeCategoryId;
-      console.log(this.getData);      
+      
       if (filtrData.length > 0) {
         this.updateForm.get('filesize').setValue(filtrData[0].fileThresholdSize);
         this.updateForm.get('fileunit').setValue(filtrData[0].fileThresholdSizeUnits);
@@ -337,7 +337,7 @@ export class MediatypeComponent implements OnInit {
       body[0].fileThresholdSizeUnits = formValues.fileunit;
       body[0].fileExtensions = formValues.filetype.toString();
 
-      console.log(body);
+      
 
       // Update Media Type Service
       this.commonservice.update(body[0],'mediatype/' + this.mediaTypeData.mediaType.mediaTypeId)
@@ -376,7 +376,7 @@ export class MediatypeComponent implements OnInit {
       body[0].fileThresholdSize = formValues.filesize;
       body[0].fileThresholdSizeUnits = formValues.fileunit;
       body[0].fileExtensions = formValues.filetype.toString();
-      console.log(body);
+      
 
       // Update Media Type Service
       // this.commonservice.addMediaType(formValues.mediatype, body[0]).subscribe(

@@ -135,8 +135,8 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         this.recordList = data;
-        console.log("data");
-        console.log(data);
+        
+        
 
         this.updateForm.get('subjectBm').setValue(this.recordList.feedbackSubjectEntityList[0].feedbackSubjectDescription);
         this.updateForm.get('subjectEn').setValue(this.recordList.feedbackSubjectEntityList[1].feedbackSubjectDescription);      
@@ -145,7 +145,7 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
         this.getIdEn = this.recordList.feedbackSubjectEntityList[1].feedbackSubjectId;      
         this.getRefId = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectCode;
 
-        console.log("EN: "+this.getIdEn+" BM: "+this.getIdBm)
+        
 
         this.checkReqValues();
       }).bind(this));   
@@ -155,7 +155,7 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
       
     });
   }
@@ -183,13 +183,13 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
       body[0].feedbackSubjectDescription = formValues.subjectBm;
       body[1].feedbackSubjectDescription = formValues.subjectEn;
 
-      console.log("ADD: ");
-      console.log(body)
+      
+      
 
       this.loading = true;
       this.commonservice.create(body,'feedback/subject').subscribe(
         data => {
-          console.log(JSON.stringify(body))
+          
 
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), '');
@@ -201,7 +201,7 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -228,13 +228,13 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
       body[1].feedbackSubjectDescription = formValues.subjectEn; 
       body[0].feedbackSubjectDescription = formValues.subjectBm;           
 
-      console.log("UPDATE: ");
-      console.log(body);
+      
+      
       this.loading = true;
 
       this.commonservice.update(body,'feedback/subject').subscribe(
         data => {
-          console.log(JSON.stringify(body))
+          
 
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), '');
@@ -246,7 +246,7 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
+          
       });
     }
     

@@ -61,7 +61,7 @@ export class PollquestiontblComponent implements OnInit {
   // }
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -121,8 +121,8 @@ export class PollquestiontblComponent implements OnInit {
           this.recordList = data;
         
           if(this.recordList.pollQuestionFormatList.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
 
             this.dataSource.data = this.recordList.pollQuestionFormatList;
             this.seqPageNum = this.recordList.pageNumber;
@@ -144,7 +144,7 @@ export class PollquestiontblComponent implements OnInit {
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
       this.loading = false;
     });
 
@@ -165,8 +165,8 @@ export class PollquestiontblComponent implements OnInit {
 
             this.recordList = data;
             if(this.recordList.pollQuestionFormatList.length > 0){
-              console.log("data");
-              console.log(data);
+              
+              
 
               this.dataSource.data = this.recordList.pollQuestionFormatList;
               this.seqPageNum = this.recordList.pageNumber;
@@ -193,7 +193,7 @@ export class PollquestiontblComponent implements OnInit {
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.loading = false;
       });
     }
@@ -226,7 +226,7 @@ export class PollquestiontblComponent implements OnInit {
  
   updateRow(row) {
     
-    console.log(row);
+    
     this.router.navigate(['poll/questions', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -246,7 +246,7 @@ export class PollquestiontblComponent implements OnInit {
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });    
   }
 

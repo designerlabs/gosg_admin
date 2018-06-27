@@ -106,7 +106,7 @@ export class EthnicityComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log(data);
+      
 
       this.updateForm.get('raceMy').setValue(this.recordList.raceList[0].race);
       this.updateForm.get('raceEng').setValue(this.recordList.raceList[1].race); 
@@ -128,7 +128,7 @@ export class EthnicityComponent implements OnInit {
   error => {
     this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
 
     });
   }
@@ -180,7 +180,7 @@ export class EthnicityComponent implements OnInit {
       body[1].language.languageId = 1;
       body[1].active = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.create(body,'race').subscribe(
@@ -195,10 +195,10 @@ export class EthnicityComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record added successfully!')
 
         //   let txt = "Record added successfully!";
@@ -208,7 +208,7 @@ export class EthnicityComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
@@ -254,7 +254,7 @@ export class EthnicityComponent implements OnInit {
       body[1].language.languageId = 1;
       body[1].active = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.update(body,'race').subscribe(
@@ -269,10 +269,10 @@ export class EthnicityComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record updated successfully!')
 
         //   let txt = "Record updated successfully!";
@@ -282,7 +282,7 @@ export class EthnicityComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }

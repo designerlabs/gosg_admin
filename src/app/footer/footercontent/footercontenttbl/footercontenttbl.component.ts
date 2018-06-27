@@ -62,7 +62,7 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
   selection = new SelectionModel<Element>(true, []);
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -94,13 +94,13 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
 
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
@@ -140,8 +140,8 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
         this.recordList = data;
 
         if(this.recordList.list.length > 0){
-          console.log("data");
-          console.log(data);
+          
+          
 
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
@@ -164,7 +164,7 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
       this.loading = false;
     });
   }
@@ -182,8 +182,8 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
 
           if(this.recordList.list.length > 0){
 
-            console.log("data");
-            console.log(data);
+            
+            
 
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;            
@@ -209,7 +209,7 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
       error => {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.loading = false;
       });
     }
@@ -240,7 +240,7 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['footer/footercontent', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -250,7 +250,7 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    console.log(refCode);
+    
     this.commonservice.delete(refCode,'footercontent/').subscribe(
       data => {
 
@@ -265,7 +265,7 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
   }
 

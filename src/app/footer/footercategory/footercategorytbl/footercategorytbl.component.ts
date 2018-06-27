@@ -88,13 +88,13 @@ export class FootercategorytblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
 
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
@@ -133,8 +133,8 @@ export class FootercategorytblComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+        
+        
 
         this.seqPageNum = this.recordList.pageNumber;
         this.seqPageSize = this.recordList.pageSize;        
@@ -149,7 +149,7 @@ export class FootercategorytblComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
 
       });
   }
@@ -175,14 +175,14 @@ export class FootercategorytblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['footer/footercategory', row]);
     this.commonservice.pageModeChange(true);
   }
   
   deleteRow(refCode) {
 
-    console.log(refCode);
+    
     this.loading = true;
     this.commonservice.delete(refCode,'footer/').subscribe(
       data => {
@@ -199,7 +199,7 @@ export class FootercategorytblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
 
   }

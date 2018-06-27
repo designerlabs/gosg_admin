@@ -47,7 +47,7 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
   private subscriptionLang: ISubscription;
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -133,11 +133,11 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
         data => {
 
           this.commonservice.errorHandling(data, (function(){
-            // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
+            // 
             this.errMsgList = data;
 
             if(this.errMsgList.list.length > 0){
-              console.log(this.errMsgList)
+              
               this.dataSource.data = this.errMsgList.list;
               this.seqPageNum = this.errMsgList.pageNumber;
               this.seqPageSize = this.errMsgList.pageSize;
@@ -159,7 +159,7 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
       });
   }
 
@@ -174,11 +174,11 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
           data => {
 
             this.commonservice.errorHandling(data, (function(){
-              // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
+              // 
               this.errMsgList = data;
 
               if(this.errMsgList.list.length > 0){
-                console.log(this.errMsgList)
+                
                 this.dataSource.data = this.errMsgList.list;
                 this.seqPageNum = this.errMsgList.pageNumber;
                 this.seqPageSize = this.errMsgList.pageSize;
@@ -204,7 +204,7 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);
+          
         });
     }
   }
@@ -256,7 +256,7 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
   }
 

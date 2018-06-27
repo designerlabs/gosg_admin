@@ -228,7 +228,7 @@ export class MediafileuploadtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
 
-    console.log(this.cateSelect);
+    
     // this.noNextData = pageInc === totalPages;
     //this.getMediaList(pageInc , this.PageSize);
     if(this.cateSelect !== "0" ){
@@ -256,7 +256,7 @@ export class MediafileuploadtblComponent implements OnInit {
     this.noPrevData = true;
   }
   editGroup(mtId) {
-    console.log(mtId);
+    
     this.router.navigate(['media/upload', mtId]);
   }
 
@@ -272,7 +272,7 @@ export class MediafileuploadtblComponent implements OnInit {
         },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });    
   }
 }

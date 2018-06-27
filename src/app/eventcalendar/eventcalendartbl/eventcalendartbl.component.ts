@@ -55,7 +55,7 @@ export class EventcalendartblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -141,7 +141,7 @@ export class EventcalendartblComponent implements OnInit, OnDestroy {
           this.calendarList = data;
 
           if(this.calendarList.list.length > 0){
-            console.log(this.calendarList)
+            
             this.dataSource.data = this.calendarList.list;
             this.seqPageNum = this.calendarList.pageNumber;
             this.seqPageSize = this.calendarList.pageSize;
@@ -175,8 +175,8 @@ export class EventcalendartblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-          console.log("data");
-          console.log(data);
+          
+          
           
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
@@ -202,7 +202,7 @@ export class EventcalendartblComponent implements OnInit, OnDestroy {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }
@@ -241,7 +241,7 @@ export class EventcalendartblComponent implements OnInit, OnDestroy {
 
   deleteItem(refCode) {
     this.loading = true;
-    console.log(refCode)
+    
     let txt;
       // this.loading = true;
       this.commonservice.delete(refCode, 'calendar/').subscribe(
@@ -261,7 +261,7 @@ export class EventcalendartblComponent implements OnInit, OnDestroy {
   }
 
   showCalendar(type) {
-    console.log(type)
+    
     if(type == 2)
       this.router.navigate(['calendarext']);
   }

@@ -142,7 +142,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getSlidersData(this.pageCount, this.sliderPageSize);
         this.selectedItem = [];
         this.commonservice.getModuleId();
@@ -187,7 +187,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'date', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
 
-    console.log("ON INIT");
+    
     this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
 
@@ -330,7 +330,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
       }
     }
 
-    console.log(generalUrl);
+    
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.valkey = true;
@@ -453,11 +453,11 @@ export class SlidertblComponent implements OnInit, OnDestroy {
       this.getSlidersData(this.pageCount, this.sliderPageSize);
     }
 
-    console.log("Publish: "+this.publishdt);
-    console.log("End: "+this.enddt);
-    console.log("NEW Publish: "+this.newPublishD);
-    console.log("NEW End: "+this.newEndD);
-    console.log(this.updateForm.get('publish').value);
+    
+    
+    
+    
+    
   }
 
   clearDate() {
@@ -526,8 +526,8 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
+    
+    
     this.commonservice.delete('', `slider/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -559,7 +559,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   }
 
   detailHistory(id){
-    console.log("ID: "+id);
+    
    
       this.loading = true;
       this.commonservice.readProtected('content/history/'+id, '', '', '', this.languageId).subscribe(

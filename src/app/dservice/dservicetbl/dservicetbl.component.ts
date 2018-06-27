@@ -52,7 +52,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -113,7 +113,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
     }
     this.displayedColumns = ['no','titleEn', 'titleBm', 'enabled', 'dsAction'];
     this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
-    console.log('onInit')
+    
     this.commonservice.getModuleId();
   }
 
@@ -136,8 +136,8 @@ export class DServicetblComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(data, (function(){
           this.dsList = data;
-          console.log(this.dsList)
-          console.log(this.dsList.list)
+          
+          
 
           if(this.dsList.list.length > 0){
             this.dataSource.data = this.dsList.list;
@@ -173,8 +173,8 @@ export class DServicetblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -200,7 +200,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }

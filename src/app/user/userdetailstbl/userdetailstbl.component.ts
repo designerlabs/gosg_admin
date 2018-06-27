@@ -62,7 +62,7 @@ export class UserdetailstblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.userList);
 
-  applyFilter(val) {   
+  applyFilter(val) {
 
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -70,35 +70,35 @@ export class UserdetailstblComponent implements OnInit {
     else{
       this.getUsersData(this.pageCount, this.pageSize);
     }
-  
+
   }
 
   resetSearch() {
     this.getUsersData(this.pageCount, this.pageSize);
   }
-  
+
   filterType(filterVal) {
-    
-    this.filterTypeVal = filterVal.value; 
-    
+
+    this.filterTypeVal = filterVal.value;
+
     // keyword = ''
-    
+
     if(this.filterTypeVal == 1){
       this.getUsersData(this.pageCount, this.pageSize);
     }
- 
+
   }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
   ) {
-    
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -122,11 +122,11 @@ export class UserdetailstblComponent implements OnInit {
     }
 
     /* LANGUAGE FUNC */
-    
+
   }
-  
+
   ngOnInit() {
-    
+
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'email', 'activeFlag', 'action'];
@@ -163,37 +163,37 @@ export class UserdetailstblComponent implements OnInit {
     }
   }
 
-  // get User Data 
+  // get User Data
   getUsersData(page, size) {
     this.loading = true;
     this.dataUrl = this.appConfig.urlUserList;
     this.commonservice.readProtected('usermanagement', page, size).subscribe(data => {
-      
+
       this.commonservice.errorHandling(data, (function(){
-        
+
         this.userList = data;
         if(this.userList.userList.length > 0){
-          console.log(this.userList)
+
           this.dataSource.data = this.userList.userList;
           this.seqPageNum = this.userList.pageNumber;
           this.seqPageSize = this.userList.pageSize;
           this.recordTable = this.userList;
           this.noNextData = this.userList.pageNumber === this.userList.totalPages;
-          
+
           this.showNoData = false;
         }else{
-          this.dataSource.data = []; 
+          this.dataSource.data = [];
           this.showNoData = true;
-        }  
+        }
 
       }).bind(this));
-        
+
       this.loading = false;
 
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      this.loading = false;       
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
     });
   }
 
@@ -210,44 +210,44 @@ export class UserdetailstblComponent implements OnInit {
     }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      
+
       this.loading = true;
       this.commonservice.readProtected(this.dataUrl+keyword+'&page='+page+'&size='+size).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
-          console.log(this.recordList.userList.length)
+
 
           if(this.recordList.userList.length > 0){
 
-            console.log("data");
-            console.log(data);
-            
+
+
+
             this.dataSource.data = this.recordList.userList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
             this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-            
+
             this.showNoData = false;
           }else{
-            this.dataSource.data = []; 
+            this.dataSource.data = [];
             this.showNoData = true;
 
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
             this.recordTable = this.recordList;
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-          }  
+          }
 
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
       },
       error => {
 
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
       });
     }
   }
@@ -274,28 +274,27 @@ export class UserdetailstblComponent implements OnInit {
   }
 
   // resetMethod(event, msgId) {
-  //   debugger;
   //   this.isMailContainerShow = 'none';
   //   this.deleteUser(msgId);
   // }
 
-  
+
   // deleteUser(msgId){
   //   this.loading = true;
   //   this.commonservice.delete(msgId,'usermanagement').subscribe(
   //     data => {
-        
+
   //       this.commonservice.errorHandling(data, (function(){
-        
+
   //         this.getUsersData(this.pageCount, this.pageSize);
   //         this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-  
+
   //       }).bind(this));
   //       this.loading = false;
   //     },
   //     error => {
-  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-  //       this.loading = false;       
+  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');
+  //       this.loading = false;
   //     });
   // }
 
@@ -325,16 +324,16 @@ export class UserdetailstblComponent implements OnInit {
           this.getUsersData(this.pageCount, this.pageSize);
         }).bind(this));
         this.loading = false;
-          
+
         this.checkReqValues();
         this.closeUser();
-          
+
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
       });
-  
+
   }
 
   updateRow(row) {
@@ -356,7 +355,7 @@ export class UserdetailstblComponent implements OnInit {
     this.isEdit = false;
     this.router.navigate(['slider']);
   }
-  
+
   getValue(type, val, usrId){
     event.preventDefault();
     this.userId = usrId;

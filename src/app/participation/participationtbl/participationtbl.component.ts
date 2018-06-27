@@ -139,7 +139,7 @@ export class ParticipationtblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getParticipantsData(this.pageCount, this.participantPageSize);
         this.selectedItem = [];
         this.commonservice.getModuleId();
@@ -435,11 +435,11 @@ export class ParticipationtblComponent implements OnInit, OnDestroy {
       this.getParticipantsData(this.pageCount, this.participantPageSize);
     }
 
-    console.log("Publish: "+this.publishdt);
-    console.log("End: "+this.enddt);
-    console.log("NEW Publish: "+this.newPublishD);
-    console.log("NEW End: "+this.newEndD);
-    console.log(this.updateForm.get('publish').value);
+    
+    
+    
+    
+    
   }
 
   clearDate() {
@@ -508,8 +508,8 @@ export class ParticipationtblComponent implements OnInit, OnDestroy {
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
+    
+    
     this.commonservice.delete('', `e-participation/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -541,7 +541,7 @@ export class ParticipationtblComponent implements OnInit, OnDestroy {
   }
 
   detailHistory(id){
-    console.log("ID: "+id);
+    
    
       this.loading = true;
       this.commonservice.readProtected('content/history/'+id, '','','',this.languageId).subscribe(

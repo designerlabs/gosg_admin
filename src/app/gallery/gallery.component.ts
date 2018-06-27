@@ -612,7 +612,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
       body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body))
+      
 
       // Add gallery Service
       this.commonservice.create(body, 'gallery/creator').subscribe(
@@ -699,7 +699,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
       body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body))
+      
 
       // Update gallery Service
         this.commonservice.update(body, 'gallery/creator').subscribe(
@@ -781,7 +781,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
       body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body))
+      
 
       // Add gallery Service
       this.commonservice.create(body, 'gallery/creator/draft').subscribe(
@@ -868,7 +868,7 @@ export class GalleryComponent implements OnInit, OnDestroy {
       body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body))
+      
 
       // Update gallery Service
         this.commonservice.update(body, 'gallery/creator/draft').subscribe(

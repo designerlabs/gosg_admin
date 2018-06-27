@@ -52,7 +52,7 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val  + " TEST123 " + this.filterTypeVal);
+    
   
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -100,7 +100,7 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
@@ -141,8 +141,8 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
 
         this.recordList = data;
         if(this.recordList.feedbackList.length > 0){
-          console.log("data");
-          console.log(data);
+          
+          
           
           this.dataSource.data = this.recordList.feedbackList;
           this.seqPageNum = this.recordList.pageNumber;
@@ -164,7 +164,7 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
     });
   }
 
@@ -191,8 +191,8 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
 
           this.recordList = data;
           if(this.recordList.feedbackList.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
@@ -219,7 +219,7 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });
     }
   }
@@ -243,13 +243,13 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['feedback/message/admin/', row]);
   }
 
   deleteRow(getId) {
     
-    console.log(getId);
+    
     this.loading = true;
 
     this.commonservice.delete(getId,'feedback/').subscribe(
@@ -266,7 +266,7 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
     });    
   }
 

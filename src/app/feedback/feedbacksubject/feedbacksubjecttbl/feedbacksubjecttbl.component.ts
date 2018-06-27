@@ -80,7 +80,7 @@ export class FeedbacksubjecttblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
@@ -117,7 +117,7 @@ export class FeedbacksubjecttblComponent implements OnInit, OnDestroy {
 
       this.commonservice.errorHandling(data, (function(){
 
-        console.log("GET RECORD: ")
+        
         this.recordList = data;      
         this.dataSource.data = this.recordList.list;
         this.seqPageNum = this.recordList.pageNumber;
@@ -131,7 +131,7 @@ export class FeedbacksubjecttblComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
     });
   }
 
@@ -155,7 +155,7 @@ export class FeedbacksubjecttblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['feedback/subject/', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -163,7 +163,7 @@ export class FeedbacksubjecttblComponent implements OnInit, OnDestroy {
   deleteRow(refcode) {
 
     this.loading = true;
-    console.log(refcode);
+    
     this.commonservice.delete(refcode, 'feedback/subject/code/').subscribe(
       data => {
 
@@ -178,7 +178,7 @@ export class FeedbacksubjecttblComponent implements OnInit, OnDestroy {
         
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        console.log(error);
+        
     });
    
   }

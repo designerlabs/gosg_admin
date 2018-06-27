@@ -74,7 +74,7 @@ export class MediatypetblComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');     
-          console.log(error);     
+          
        });
   }
 
@@ -83,7 +83,7 @@ export class MediatypetblComponent implements OnInit {
   }
 
   editGroup(mtId) {
-    console.log(mtId);
+    
     this.router.navigate(['media/type', mtId]);
   }
 
@@ -101,7 +101,7 @@ export class MediatypetblComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');    
-          console.log(error);
+          
         });
    
   }

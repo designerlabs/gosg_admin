@@ -94,8 +94,8 @@ export class PollresultComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
           
           this.dataSource.data = this.recordList.pollQuestionFormatList;
           this.seqPageNum = this.recordList.pageNumber;
@@ -108,7 +108,7 @@ export class PollresultComponent implements OnInit {
       error => {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
     });
   }
 

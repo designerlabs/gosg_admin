@@ -156,7 +156,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+
         this.getCategoryCodeLE(this.languageId);
         //this.getCategoryLE(this.languageId);
         this.selectedItem = [];
@@ -178,7 +178,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
     } else {
       this.languageId = 1;
     }
-    console.log("Get Category ON INIT: ");
+
 
     this.getCategoryCodeLE(this.languageId);
     this.commonservice.getModuleId();
@@ -209,7 +209,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
   getCategoryCodeLE(lang){
 
-    console.log("Call function getCategoryCodeLE () ");
+
 
     this.loading = true;
     return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode,'','','',lang)
@@ -263,7 +263,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
           this.categoryPlaceholder = this.catName;
 
           //this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
-          console.log("GET RECORD by default");
+
 
         }).bind(this));
         this.loading = false;
@@ -531,11 +531,11 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
       // this.getCategoryCodeLE(); what is this??
     }
 
-    console.log("Publish: "+this.publishdt);
-    console.log("End: "+this.enddt);
-    console.log("NEW Publish: "+this.newPublishD);
-    console.log("NEW End: "+this.newEndD);
-    console.log(this.updateForm.get('publish').value);
+
+
+
+
+
   }
 
   clearDate() {
@@ -723,7 +723,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
   }
 
   onChange(ele){
-    console.log("WHEN");
+
     this.catCode = ele.refCode;
     this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
   }
@@ -731,8 +731,8 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
+
+
     this.commonservice.delete('', `life/event/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -764,7 +764,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
   }
 
   detailHistory(id){
-    console.log("ID: "+id);
+
 
       this.loading = true;
       this.commonservice.readProtected('content/history/'+id).subscribe(
@@ -822,5 +822,4 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 }
 // System.import('http://www.google.com/jsapi')
 //     .then(MyModule => {
-//        debugger;
 //     });

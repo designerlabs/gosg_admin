@@ -167,8 +167,8 @@ export class DServicedetailsComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
         this.dsData = Rdata;
-        // console.log(JSON.stringify(this.dsData))
-        console.log(this.dsData)
+        // 
+        
         let dataEn = this.dsData['list'][0];
         let dataBm = this.dsData['list'][1];
 
@@ -213,21 +213,21 @@ export class DServicedetailsComponent implements OnInit {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchCategoryResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("categoryEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchCategoryResultEn.length+10)
-        console.log(this.searchCategoryResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("categoryBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchCategoryResultBm.length+10)
-        console.log(this.searchCategoryResultBm)
+        
       }
     }
   }
@@ -261,8 +261,8 @@ export class DServicedetailsComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      // console.log(keyword)
-      // console.log(keyword.length)
+      // 
+      // 
       this.isActive = true;
       this.loading = true;
       
@@ -271,8 +271,8 @@ export class DServicedetailsComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
 
-          console.log(data['list'].length)
-          console.log(data['list'])
+          
+          
 
           if(data['list'].length != 0) {
             if(langId == 1) {
@@ -319,7 +319,7 @@ export class DServicedetailsComponent implements OnInit {
     }
     this.getDigitalServicesByRefCode(refCode,langId);
 
-    // console.log(mName)
+    // 
   }
 
   // GET AGENCY NAME BY PAIRED LANGUAGE ID
@@ -342,8 +342,8 @@ export class DServicedetailsComponent implements OnInit {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          // console.log('refCode Data');
-          console.log(data);
+          // 
+          
 
           dsName = data['object'].title;
           dsId = data['object'].id;
@@ -404,7 +404,7 @@ export class DServicedetailsComponent implements OnInit {
     return this.commonservice.readProtected('media/category/name/Digital-Services', '0', '999999999')
       .subscribe(resCatData => {
 
-        console.log(resCatData)
+        
         this.commonservice.errorHandling(resCatData, (function () {
             this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == 1);
 
@@ -445,7 +445,7 @@ export class DServicedetailsComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0 && serviceUrl.length < 5) {
       this.complete = false;
@@ -501,7 +501,7 @@ export class DServicedetailsComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues) , 
+    // 
 
     body[0].title = formValues.titleEn;
     body[0].url = formValues.serviceUrl;
@@ -521,7 +521,7 @@ export class DServicedetailsComponent implements OnInit {
     body[1].manual.mediaId = formValues.manualBm;
     body[1].enabled = formValues.active;
 
-    console.log(body)
+    
 
     // Add ErrorMsg Service
     this.loading = true;
@@ -540,7 +540,7 @@ export class DServicedetailsComponent implements OnInit {
 
     } else {
 
-      console.log(this.refCode)
+      
       
     let body = [
       {
@@ -605,7 +605,7 @@ export class DServicedetailsComponent implements OnInit {
     body[1].manual.mediaId = formValues.manualBm;
     body[1].enabled = formValues.active;
 
-    console.log(body);
+    
 
     // Update AgencyApp Service
     this.loading = true;

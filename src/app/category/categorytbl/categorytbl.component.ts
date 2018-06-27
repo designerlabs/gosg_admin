@@ -52,7 +52,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   private subscriptionLangAll: ISubscription;
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -127,8 +127,8 @@ export class CategorytblComponent implements OnInit, OnDestroy {
         this.recordList = data;
 
         if(this.recordList.list.length > 0){
-          console.log("dataaaaaaa");
-          console.log(data);
+          
+          
         
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
@@ -174,8 +174,8 @@ export class CategorytblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -203,7 +203,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           this.loading = false;
-          console.log(error);
+          
       });
     }
   }
@@ -232,14 +232,14 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['category/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(refcode) {
    
-    console.log(refcode);
+    
     this.loading = true;
     this.commonservice.delete(refcode, 'content/category/delete/').subscribe(
       data => {
@@ -256,7 +256,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
         this.loading = false;
-        console.log(error);
+        
     });    
   }
 

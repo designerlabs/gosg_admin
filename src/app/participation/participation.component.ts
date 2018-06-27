@@ -268,7 +268,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(Rdata, (function () {
           this.participantData = Rdata;
-          console.log(this.participantData);
+          
 
           let dataEn = this.participantData['contentDetailList'][0];
           let dataBm = this.participantData['contentDetailList'][1];
@@ -332,8 +332,8 @@ export class ParticipationComponent implements OnInit, OnDestroy {
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
 
-          console.log("KEY OBJECT");
-          console.log(valMT.length);
+          
+          
 
           let detAgenId;
           let detAgenCode;
@@ -387,7 +387,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
   }
@@ -416,7 +416,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
   }
@@ -685,7 +685,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body))
+      
 
       this.commonservice.create(body, 'e-participation/creator').subscribe(
         data => {
@@ -697,7 +697,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
 
@@ -770,7 +770,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body));
+      
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'e-participation/creator').subscribe(
@@ -783,7 +783,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
     }
@@ -855,7 +855,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body))
+      
 
       this.commonservice.create(body, 'e-participation/creator/draft').subscribe(
         data => {
@@ -867,7 +867,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
 
@@ -940,7 +940,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      console.log(JSON.stringify(body));
+      
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'e-participation/creator/draft').subscribe(
@@ -953,7 +953,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
     }
@@ -961,21 +961,21 @@ export class ParticipationComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
 
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
+        
       }
     }
   }

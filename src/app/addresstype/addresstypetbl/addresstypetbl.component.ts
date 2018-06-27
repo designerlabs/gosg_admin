@@ -118,8 +118,8 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         this.recordList = data;
-        console.log("data");
-        console.log(data);
+        
+        
         
         this.dataSource.data = this.recordList.list;
         this.seqPageNum = this.recordList.pageNumber;
@@ -133,7 +133,7 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       this.loading = false;
-      console.log(error);
+      
   });
     
   }
@@ -158,7 +158,7 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['address/type/', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -166,7 +166,7 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
   deleteRow(refcode) {
     let txt;
     
-    console.log(refcode);
+    
     this.loading = true;
     this.commonservice.delete(refcode, 'addresstype/').subscribe(
       data => {
@@ -183,7 +183,7 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
         this.loading = false;
-        console.log(error);
+        
     }); 
   }
 

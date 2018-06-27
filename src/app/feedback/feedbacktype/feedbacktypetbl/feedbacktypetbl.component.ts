@@ -82,13 +82,13 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
 
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
@@ -125,8 +125,8 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+        
+        
         
         this.dataSource.data = this.recordList.list;
         this.seqPageNum = this.recordList.pageNumber;
@@ -140,7 +140,7 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
     });
   }
 
@@ -164,14 +164,14 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['feedback/type/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(refcode) {
 
-    console.log(refcode);
+    
     this.loading = true;
 
     this.commonservice.delete(refcode, 'feedback/type/code/').subscribe(
@@ -188,7 +188,7 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
+        
     });  
   }
 

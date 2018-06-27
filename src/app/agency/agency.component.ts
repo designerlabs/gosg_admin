@@ -228,21 +228,21 @@ export class AgencyComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("ministryEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchMinistryResultEn.length+10)
-        console.log(this.searchMinistryResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("ministryBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchMinistryResultBm.length+10)
-        console.log(this.searchMinistryResultBm)
+        
       }
     }
   }
@@ -260,8 +260,8 @@ export class AgencyComponent implements OnInit, OnDestroy {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AgencyTypeData = Rdata;
-          // console.log(JSON.stringify(this.AgencyTypeData))
-          console.log(this.AgencyTypeData)
+          // 
+          
           let dataEn = this.AgencyTypeData['agencyList'][0];
           let dataBm = this.AgencyTypeData['agencyList'][1];
           
@@ -310,8 +310,8 @@ export class AgencyComponent implements OnInit, OnDestroy {
   }
 
   getSearchData(keyword, langId, count, page){
-    console.log(keyword)
-    console.log(langId)
+    
+    
 
     let selLangField;
       
@@ -323,7 +323,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       this.ministryNameEn = "";
     }
     this.updateForm.get(selLangField).reset();
-    // console.log(selLangField)
+    // 
     
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       
@@ -395,10 +395,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          console.log('refCode Data');
-          console.log(data);
+          
+          
 
-          // console.log(data['ministryEntityList'][0]['ministryName']);
+          // 
           mName = data['ministryEntityList'][0]['ministryName'];
           mId = data['ministryEntityList'][0]['ministryId'];
           
@@ -452,7 +452,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -543,7 +543,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
         }
       ];
     
-      // console.log(formValues)    ePartPolicyUrl
+      // 
   
       body[0].agencyName = formValues.agencyNameEn;
       body[0].agencyDescription = formValues.descEn;
@@ -597,7 +597,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[1].agencyYoutube = formValues.youtubeUrl;
       body[1].agencyMinistry.ministryId = this.ministryIdBm;
   
-      console.log(JSON.stringify(body));
+      
 
     // Add Agency Service
     this.loading = true;
@@ -743,8 +743,8 @@ export class AgencyComponent implements OnInit, OnDestroy {
     body[1].agencyYoutube = formValues.youtubeUrl;
     body[1].agencyMinistry.ministryId = this.ministryIdBm;
 
-    console.log(body);
-    console.log(JSON.stringify(body));
+    
+    
 
     // // Update Agency Service
     this.loading = true;

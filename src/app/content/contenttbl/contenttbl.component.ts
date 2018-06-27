@@ -107,7 +107,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     }
     else {
       this.getCategoryCodeC(this.languageId);
-      console.log("applyfilter")
+      
     }
   }
 
@@ -115,7 +115,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryCodeC(this.languageId);
-    console.log("resetsearch")
+    
   }
 
   filterStatus(e) {
@@ -129,7 +129,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     else {
       this.getCategoryCodeC(this.languageId);
-      console.log("filterstatus")
+      
     }
   }
 
@@ -162,7 +162,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        console.log("constructor")
+        
         this.getCategoryCodeC(this.languageId);
         //this.getCategoryC(this.languageId);
         this.selectedItem = [];
@@ -205,7 +205,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryC(this.languageId);
     this.valkey = false;
-    console.log("onInit")
+    
   }
 
   ngOnDestroy() {
@@ -535,14 +535,14 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     else if (this.newPublishD == undefined || this.newPublishD == null) {
       this.getCategoryCodeC(this.languageId);
-      console.log("search")
+      
     }
 
-    console.log("Publish: " + this.publishdt);
-    console.log("End: " + this.enddt);
-    console.log("NEW Publish: " + this.newPublishD);
-    console.log("NEW End: " + this.newEndD);
-    console.log(this.updateForm.get('publish').value);
+    
+    
+    
+    
+    
   }
 
   clearDate() {
@@ -716,7 +716,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     this.catCode = undefined;
     this.getCategoryCodeC(this.languageId);
-    console.log("keysfilter")
+    
 
     let keysVal = this.updateForm.get('keys');
     this.updateForm.get('kataKunci').setValue('');
@@ -744,8 +744,8 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   deleteAll() {
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
+    
+    
     this.commonservice.delete('', `content/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -765,7 +765,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   }
 
   detailHistory(id) {
-    console.log("ID: " + id);
+    
 
     this.loading = true;
     this.commonservice.readProtected('content/history/' + id).subscribe(

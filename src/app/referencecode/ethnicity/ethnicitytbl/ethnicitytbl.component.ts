@@ -111,8 +111,8 @@ export class EthnicitytblComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log("data");
-      console.log(data);
+      
+      
 
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
@@ -127,7 +127,7 @@ export class EthnicitytblComponent implements OnInit, OnDestroy {
       error => {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
 
       //
       // this.getRaceIdMy = this.recordList.raceList[0].raceId;
@@ -158,7 +158,7 @@ export class EthnicitytblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['reference/ethnicity', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -168,7 +168,7 @@ export class EthnicitytblComponent implements OnInit, OnDestroy {
 
     let txt;    
 
-    console.log(refCode);
+    
     this.loading = true;
     this.commonservice.delete(refCode,'race/').subscribe(
       data => {
@@ -183,7 +183,7 @@ export class EthnicitytblComponent implements OnInit, OnDestroy {
       error => {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
   }
 

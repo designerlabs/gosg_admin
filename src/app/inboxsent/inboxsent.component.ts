@@ -148,7 +148,7 @@ export class InboxsentComponent implements OnInit {
   
 
   getValue(type, val, usrId){
-    // console.log(e);a
+    // 
     event.preventDefault();
     let span = document.createElement("span");
     let spanName = document.createElement("span");
@@ -208,7 +208,7 @@ export class InboxsentComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log(data);
+        
         
         this.updateForm.get('emailFld').setValue(this.recordList.object.placeholder);
         this.updateForm.get('subject').setValue(this.recordList.object.subject);
@@ -229,7 +229,7 @@ export class InboxsentComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
     });
   }
 
@@ -257,7 +257,7 @@ export class InboxsentComponent implements OnInit {
       body.recipient = this.idArr;
 
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.create(body, 'inbox').subscribe( //inbox/toUser
@@ -273,7 +273,7 @@ export class InboxsentComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 

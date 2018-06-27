@@ -128,8 +128,8 @@ export class ModmenuComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.moduleData = Rdata['module'];
-          console.log(this.moduleData)
-          // console.log(this.appConfig.urlMenu + "/" + row)
+          
+          // 
 
           // populate data
           this.updateForm.get('moduleName').setValue(this.moduleData['moduleName']);
@@ -148,7 +148,7 @@ export class ModmenuComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
+        
         this.loading = false;
       });
 
@@ -181,7 +181,7 @@ export class ModmenuComponent implements OnInit {
       }
     }
 
-    // console.log(nullPointers)
+    // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -202,14 +202,14 @@ export class ModmenuComponent implements OnInit {
         "moduleUrl": null
       };
 
-      // console.log(formValues)
+      // 
 
       body.moduleName = formValues.moduleName;
       body.moduleDescription = formValues.moduleDesc;
       body.active = formValues.active;
       body.moduleUrl = formValues.moduleUrl;
 
-      console.log(body)
+      
       this.loading = true;
 
       // Add ErrorMsg Service
@@ -236,7 +236,7 @@ export class ModmenuComponent implements OnInit {
         "moduleUrl": null
       };
 
-      // console.log(formValues)
+      // 
 
       body.moduleId = this.moduleId;
       body.moduleName = formValues.moduleName;
@@ -244,7 +244,7 @@ export class ModmenuComponent implements OnInit {
       body.active = formValues.active;
       body.moduleUrl = formValues.moduleUrl;
 
-      console.log(JSON.stringify(body));
+      
       this.loading = true;
 
       // Update ErrorMsg Service

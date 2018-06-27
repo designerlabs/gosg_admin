@@ -122,7 +122,7 @@ export class LanguagetblComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(data, (function(){
           this.languageList = data;
-          console.log(this.languageList)
+          
           this.dataSource.data = this.languageList.list;
           this.seqPageNum = 1;
           this.seqPageSize = 10;
@@ -135,7 +135,7 @@ export class LanguagetblComponent implements OnInit, OnDestroy {
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
+      
       this.loading = false;
       });
   }
@@ -167,7 +167,7 @@ export class LanguagetblComponent implements OnInit, OnDestroy {
   //   error => {
 
   //     this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-  //     console.log(error);
+  //     
   //     this.loading = false;
   //   });
   // }

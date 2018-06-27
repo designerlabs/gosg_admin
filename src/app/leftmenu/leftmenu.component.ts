@@ -148,7 +148,7 @@ resetSearch() {
       )
     }else{
       this.getMenuDataLocal();
-      console.log("leftContent")
+      
     }
     
   }
@@ -222,7 +222,7 @@ resetSearch() {
     // if (mainid === 1 && subid === 3) {
     //     this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(data => {
     //         this.dataTbl = data;
-    //         console.log(this.dataTbl);
+    //         
     //     });
     // }
 

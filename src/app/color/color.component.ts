@@ -142,8 +142,8 @@ export class ColorComponent implements OnInit, OnDestroy {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.colorData = Rdata['color'];
-          console.log(this.colorData)
-          // console.log(this.appConfig.urlMenu + "/" + row)
+          
+          // 
 
         // populate data
           this.updateForm.get('colorName').setValue(this.colorData['colorName']);
@@ -178,7 +178,7 @@ export class ColorComponent implements OnInit, OnDestroy {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -222,14 +222,14 @@ export class ColorComponent implements OnInit, OnDestroy {
           "defaultColor": false
       };
 
-      // console.log(formValues)
+      // 
 
       body.colorName = formValues.colorName;
       body.colorCode = formValues.colorCode;
       body.enabled = formValues.active;
       body.defaultColor = formValues.default;
 
-      console.log(body)
+      
 
       // Add Color Service
       this.loading = true;
@@ -257,7 +257,7 @@ export class ColorComponent implements OnInit, OnDestroy {
           "defaultColor": null
       };
 
-      // console.log(formValues)
+      // 
 
       body.colorId = this.colorId;
       body.colorName = formValues.colorName;
@@ -265,7 +265,7 @@ export class ColorComponent implements OnInit, OnDestroy {
       body.enabled = formValues.active;
       body.defaultColor = formValues.default;
 
-      console.log(JSON.stringify(body));
+      
 
       // Update ErrorMsg Service
       this.loading = true;

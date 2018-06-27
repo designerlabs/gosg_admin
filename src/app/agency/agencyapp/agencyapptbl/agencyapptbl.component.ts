@@ -52,7 +52,7 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -137,7 +137,7 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
           this.agencyAppList = data;
 
           if(this.agencyAppList.list.length > 0){
-            console.log(this.agencyAppList)
+            
             this.dataSource.data = this.agencyAppList.list;
             this.seqPageNum = this.agencyAppList.pageNumber;
             this.seqPageSize = this.agencyAppList.pageSize;
@@ -171,8 +171,8 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -198,7 +198,7 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }

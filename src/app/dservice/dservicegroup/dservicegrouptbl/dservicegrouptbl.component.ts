@@ -52,7 +52,7 @@ export class DServicegrouptblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
@@ -136,8 +136,8 @@ export class DServicegrouptblComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(data, (function(){
           this.dsGroupList = data;
-          console.log(this.dsGroupList)
-          console.log(this.dsGroupList.list)
+          
+          
 
           if(this.dsGroupList.list.length > 0){
             this.dataSource.data = this.dsGroupList.list;
@@ -173,8 +173,8 @@ export class DServicegrouptblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -200,7 +200,7 @@ export class DServicegrouptblComponent implements OnInit, OnDestroy {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }

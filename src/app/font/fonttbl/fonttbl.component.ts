@@ -113,8 +113,8 @@ export class FonttblComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
   
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
           
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
@@ -128,7 +128,7 @@ export class FonttblComponent implements OnInit, OnDestroy {
   
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });
 
   }
@@ -153,14 +153,14 @@ export class FonttblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['font/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(id) {
 
-    console.log(id);
+    
     this.loading = true;
     this.commonservice.delete(id,'font/id/').subscribe(
       data => {
@@ -176,7 +176,7 @@ export class FonttblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
     });
   
   }

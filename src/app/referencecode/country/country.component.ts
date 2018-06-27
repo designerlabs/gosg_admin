@@ -48,7 +48,7 @@ export class CountryComponent implements OnInit, OnDestroy {
   private subscriptionLang: ISubscription;
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -117,8 +117,8 @@ export class CountryComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
 
-          console.log("data");
-          console.log(data);
+          
+          
           if(this.recordList.countryList.length > 0){
             this.dataSource.data = this.recordList.countryList;
             this.recordTable = this.recordList;
@@ -139,7 +139,7 @@ export class CountryComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });      
   }
 
@@ -157,8 +157,8 @@ export class CountryComponent implements OnInit, OnDestroy {
           this.commonservice.errorHandling(data, (function(){
             this.recordList = data;
 
-            console.log("data");
-            console.log(data);
+            
+            
             if(this.recordList.countryList.length > 0){
             // this.recordList.countryList.push(this.translate.instant('common.msg.notfound'));
             
@@ -184,7 +184,7 @@ export class CountryComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
+          
         });     
     } 
   }

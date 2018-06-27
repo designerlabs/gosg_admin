@@ -108,7 +108,7 @@ export class ReligionComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log(data);
+      
 
       this.updateForm.get('religionMy').setValue(this.recordList.religionList[1].religion);
       this.updateForm.get('religionEng').setValue(this.recordList.religionList[0].religion); 
@@ -127,7 +127,7 @@ export class ReligionComponent implements OnInit {
   error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
       this.loading = false;
 
     });
@@ -180,7 +180,7 @@ export class ReligionComponent implements OnInit {
       body[0].language.languageId = 1;
       // body[1].active = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.create(body,'religion').subscribe(
@@ -196,10 +196,10 @@ export class ReligionComponent implements OnInit {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           this.loading = false;
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record added successfully!')
 
         //   let txt = "Record added successfully!";
@@ -209,7 +209,7 @@ export class ReligionComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
@@ -253,7 +253,7 @@ export class ReligionComponent implements OnInit {
 
       // body[1].active = formValues.active;
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.update(body,'religion').subscribe(
@@ -269,10 +269,10 @@ export class ReligionComponent implements OnInit {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           this.loading = false;
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record updated successfully!')
 
         //   let txt = "Record updated successfully!";
@@ -282,7 +282,7 @@ export class ReligionComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }

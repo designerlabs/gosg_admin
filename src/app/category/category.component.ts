@@ -202,7 +202,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
 
   selectedImage(e, val){
-    console.log(e);
+    
     this.imageEn = e.value;
     this.imageBm = e.value;
     let dataList = this.imageData;
@@ -244,9 +244,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.selectedFileEn = '';
     }
 
-    console.log("EN: "+idEn+" BM: "+idBm+ " value: " +val);
-    console.log("Onchange: "+this.selectedFileEn);
-    console.log("apa: "+this.imageEn);
+    
+    
+    
     
     this.checkReqValues();
   }
@@ -428,12 +428,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
           // }
         }     
 
-        console.log(this.updateForm.get('parentsEn'));
+        
 
         this.onChange(this.updateForm.get('parentsEn'));
         
         
-        console.log(this.recordList.list[0].template);
+        
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -477,11 +477,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
         let setParentEn = [];
 
         //get array of categoryId        
-        console.log("GET CATEGORY TREE");
-        console.log(this.languageId);             
+        
+        
 
         if(this.languageId == 1){    
-          console.log("ENGLISH");    
+          
 
           let a = {
             "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
@@ -503,7 +503,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         }
 
         else{
-          console.log("BAHASA MALAYSIA");   
+          
 
           let a = {
             "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
@@ -520,13 +520,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
           }
   
           else{
-            console.log("HAHHAHAHAH");
+            
             this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
           } 
         }
 
-        console.log(setParentEn);  
-        console.log("OOOOO");         
+        
+        
         this.updateForm.get('parentsEn').setValue(setParentEn);  
         this.checkReqValues();
 
@@ -585,9 +585,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       }
     }
 
-    console.log(ele);
-    console.log("Flag LE: "+this.flagLifeE);
-    console.log(this.parentFlag);
+    
+    
+    
   }
 
   submit(formValues: any) {
@@ -596,8 +596,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     let parentValEn = formValues.parentsEn;
     let parentValBm = formValues.parentsBm;
 
-    console.log("PARENTSSSSSSSS");
-    console.log(formValues.parentsEn);
+    
+    
 
     let valImgEn: any;
     let valImgBm: any;
@@ -735,7 +735,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           body[1].image.mediaId = formValues.imageBm;
       }
 
-      console.log(JSON.stringify(body))      
+      
 
       this.loading = true;
       this.commonservice.create(body,'content/category/post').subscribe(
@@ -835,7 +835,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         body[0].image.mediaId = formValues.imageEn;      
         body[1].image.mediaId = formValues.imageBm;
 
-        console.log(formValues.imageEn +" : "+ formValues.imageBm);
+        
       }
 
       // if(formValues.parentsEn == null || formValues.parentsEn == ""){
@@ -847,9 +847,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       //   body[1].parentId.categoryId = this.parentsValBm; 
       // }
 
-      console.log("LENGTH: ");
-      console.log(parentValEn);
-      console.log(parentValEn.length);
+      
+      
+      
 
       if(parentValEn.length == undefined){
         body[0].parentId.categoryId = parentValEn.id[0];
@@ -862,7 +862,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       }
           
       
-      console.log(JSON.stringify(body))
+      
       this.loading = true;
       this.commonservice.update(body,'content/category/update').subscribe(
         data => {
@@ -947,7 +947,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.updateForm.get('noncitizenflag').setValue(null); 
     }
 
-    console.log(citezenF.value)
+    
     
   }
 
@@ -961,7 +961,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     if(noncitizenF.value == true){
       this.updateForm.get('citizenflag').setValue(true);
     }
-    console.log("NCT: "+noncitizenF.value);    
+    
 
   }
 
