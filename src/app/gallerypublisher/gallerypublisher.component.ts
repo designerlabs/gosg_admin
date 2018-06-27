@@ -204,7 +204,7 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
     }
   
     isSameImg(enImg, bmImg) {
-      console.log(enImg)
+
       if (enImg != null && enImg == bmImg) {
         this.updateForm.get('copyImg').setValue(true);
       } else {
@@ -218,7 +218,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
 
     getUserInfo(id) {
    
-      console.log(id);
       this.loading = true;
       return this.commonservice.readProtected('usermanagement/' + id, '', '', '', this.languageId)
         .subscribe(resUser => {
@@ -235,7 +234,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -243,15 +241,11 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
     // get, add, update, delete
     getRow(row) {
       this.loading = true;
-      // Update gallery Service
-      // return this.http.get(this.appConfig.urlSlides + '/code/' + row).subscribe(
-      // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       return this.commonservice.readProtectedById('content/publisher/', row, this.languageId).subscribe(
         Rdata => {
   
           this.commonservice.errorHandling(Rdata, (function () {
             this.galleryData = Rdata;
-            console.log(this.galleryData);
             
             let dataEn = this.galleryData['contentDetailList'][0];
             let dataBm = this.galleryData['contentDetailList'][1];
@@ -298,7 +292,7 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
               this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
             }
   
-            this.galleryCode = this.galleryData.refCode;          
+            this.galleryCode = dataEn.contentCode;          
             this.galleryIdEn = dataEn.contentId;
             this.galleryIdBm = dataBm.contentId;
   
@@ -314,7 +308,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
               this.mediaPath = "videos";
             }
   
-            //this.isSameImg(dataEn.galleryImage.mediaFile, dataBm.galleryImage.mediaFile);
             this.checkReqValues();
           }).bind(this));
           this.loading = false;
@@ -472,7 +465,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
   
     getFileList(mediaId) {
      
-      console.log(mediaId);
       this.loading = true;
       return this.commonservice.readProtected('media/category/name/Gallery', '0', '999999999', '', this.languageId)
         .subscribe(resCatData => {
@@ -480,9 +472,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           this.commonservice.errorHandling(resCatData, (function () {
               this.fileData = resCatData['list'].filter(fData=>fData.list[0].mediaTypeId == mediaId);
   
-              console.log(this.fileData);
-              
-              // this.fileData = resCatData['list'].filter(fData=>fData.list[1].mediaTypeId == mediaId);
               if(this.fileData.length>0){
                 this.contentCategoryIdEn = this.fileData[0].list[0].rootCategoryId;
                 this.contentCategoryIdMy = this.fileData[0].list[1].rootCategoryId;
@@ -492,7 +481,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -504,13 +492,11 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           this.commonservice.errorHandling(resCatData, (function () {
             this.mediaTypes = resCatData['mediaTypes'];
   
-            console.log(this.mediaTypes);
           }).bind(this));
           this.loading = false;
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -518,9 +504,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
     selectedmType(e){
   
       let resMT = this.mediaTypes.filter(fmt => fmt.mediaTypeId === e.value);
-  
-      console.log("###########");
-      console.log(resMT);
   
       if(resMT[0].mediaTypeName === "Images"){
         this.mediaPath = "images";
@@ -537,16 +520,14 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
     }
       
     selectedImg(e, val){
-      console.log(e);
+
       this.getImgIdEn = e.value;
       this.getImgIdBm = e.value;
       let dataList = this.fileData;
       let indexVal: any;
       let idBm: any;
       let idEn: any;
-  
-      console.log("EN: "+this.getImgIdEn+" BM: "+this.getImgIdBm + " value: " + val);
-  
+    
       if(val == 1){
   
         for(let i=0; i<dataList.length; i++){
@@ -648,8 +629,7 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
             }]
           }
         ];
-  
-        // console.log(formValues)
+
         body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
         body[0].contents[0].galleryDescription = formValues.descEn;
@@ -672,8 +652,7 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
         body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
   
-        console.log(JSON.stringify(body))
-  
+        console.log(JSON.stringify(body))  
   
         // Add gallery Service
         this.commonservice.create(body, 'gallery/publisher').subscribe(
@@ -686,7 +665,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           },
           error => {
             this.toastr.error(JSON.parse(error._body).statusDesc, '');
-            console.log(error);
             this.loading = false;
           });
   
@@ -737,7 +715,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           }
         ];
         body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
-        // body[0].contents[0].galleryCode = this.galleryCode;
         body[0].contents[0].galleryId = this.galleryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
         body[0].contents[0].galleryDescription = formValues.descEn;
@@ -760,9 +737,7 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
         body[1].contents[0].language.languageId = 2;
         body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
-        console.log(body);
-        // Update gallery Service
-        // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
+        
           this.commonservice.update(body, 'gallery/publisher').subscribe(
           data => {
             this.commonservice.errorHandling(data, (function () {
@@ -773,7 +748,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           },
           error => {
             this.toastr.error(JSON.parse(error._body).statusDesc, '');
-            console.log(error);
             this.loading = false;
           });
       }
@@ -821,7 +795,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           }
         ];
   
-        // console.log(formValues)
         body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
         body[0].contents[0].galleryDescription = formValues.descEn;
@@ -844,8 +817,7 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
         body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
   
-        console.log(JSON.stringify(body))
-  
+        console.log(JSON.stringify(body))  
   
         // Add gallery Service
         this.commonservice.create(body, 'gallery/publisher/draft').subscribe(
@@ -858,7 +830,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           },
           error => {
             this.toastr.error(JSON.parse(error._body).statusDesc, '');
-            console.log(error);
             this.loading = false;
           });
   
@@ -909,7 +880,6 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
           }
         ];
         body[0].contentCategoryId = this.commonservice.galleryContentCategoryIdEn;
-        // body[0].contents[0].galleryCode = this.galleryCode;
         body[0].contents[0].galleryId = this.galleryIdEn;
         body[0].contents[0].galleryTitle = formValues.titleEn;
         body[0].contents[0].galleryDescription = formValues.descEn;
@@ -932,22 +902,21 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
         body[1].contents[0].language.languageId = 2;
         body[1].contents[0].galleryPublishDate = new Date(formValues.publish).getTime();
         body[1].contents[0].galleryEndDate = new Date(formValues.endD).getTime();
-        console.log(body);
+
+        console.log(JSON.stringify(body))  
         // Update gallery Service
-        // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
-          this.commonservice.update(body, 'gallery/publisher/draft').subscribe(
-          data => {
-            this.commonservice.errorHandling(data, (function () {
-              this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
-              this.router.navigate(['publisher/gallery']);
-            }).bind(this));
-            this.loading = false;
-          },
-          error => {
-            this.toastr.error(JSON.parse(error._body).statusDesc, '');
-            console.log(error);
-            this.loading = false;
-          });
+        this.commonservice.update(body, 'gallery/publisher/draft').subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.gallerydraft'), '');
+            this.router.navigate(['publisher/gallery']);
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+        });
       }
     }
 
@@ -968,7 +937,22 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
     }
 
     mySendDraft(){
-      console.log("Send to Draft");
+      console.log("Send to Draft : "+this.galleryCode);
+
+      this.loading = true;
+      this.commonservice.update(null, 'gallery/publisher/todraft/'+this.galleryCode).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function () {
+            this.toastr.success(this.translate.instant('common.success.gallerysubmitted'), ''); 
+            this.router.navigate(['publisher/gallery']);
+  
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+      });
     }
 
 }

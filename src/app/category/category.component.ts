@@ -752,23 +752,23 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
       console.log(JSON.stringify(body))      
 
-      this.loading = true;
-      this.commonservice.create(body,'content/category/post').subscribe(
-        data => {         
+      // this.loading = true;
+      // this.commonservice.create(body,'content/category/post').subscribe(
+      //   data => {         
           
-          this.commonservice.errorHandling(data, (function(){
+      //     this.commonservice.errorHandling(data, (function(){
 
-            this.toastr.success(this.translate.instant('common.success.added'), '');
-            this.router.navigate(['category']);
+      //       this.toastr.success(this.translate.instant('common.success.added'), '');
+      //       this.router.navigate(['category']);
 
-          }).bind(this)); 
-          this.loading = false;  
-        },
-        error => {
+      //     }).bind(this)); 
+      //     this.loading = false;  
+      //   },
+      //   error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          this.loading = false;   
-      });
+      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+      //     this.loading = false;   
+      // });
     }
 
     // update form
@@ -841,18 +841,30 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
       if(this.flagLifeE == 'lifeevent' || this.flagLifeED == 'lifeevent'){
 
+        console.log("LE Data Retrieve or NOT C : "+formValues.citizenflag);
+        console.log("LE Data Retrieve or NOT NC : "+formValues.noncitizenflag);
+
         if(formValues.citizenflag == null){
           formValues.citizenflag = false;
         }
 
         if(formValues.noncitizenflag == null){
           formValues.noncitizenflag = false;
+        }        
+
+        if(this.flagLifeED == 'lifeevent'){
+          body[0].isCitizenLifeEvent = formValues.citizenflag; 
+          body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+          body[1].isCitizenLifeEvent = formValues.citizenflag; 
+          body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
         }
 
-        body[0].isCitizenLifeEvent = formValues.citizenflag; 
-        body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
-        body[1].isCitizenLifeEvent = formValues.citizenflag; 
-        body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+        if(this.flagLifeE == 'lifeevent'){
+          body[0].isCitizenLifeEvent = formValues.citizenflag; 
+          body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+          body[1].isCitizenLifeEvent = formValues.citizenflag; 
+          body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+        }
       }
 
       if(formValues.imageBm != null && formValues.imageEn != null){
@@ -886,23 +898,23 @@ export class CategoryComponent implements OnInit, OnDestroy {
       }          
       
       console.log(JSON.stringify(body))
-      this.loading = true;
-      this.commonservice.update(body,'content/category/update').subscribe(
-        data => {
+      // this.loading = true;
+      // this.commonservice.update(body,'content/category/update').subscribe(
+      //   data => {
           
-          this.commonservice.errorHandling(data, (function(){
+      //     this.commonservice.errorHandling(data, (function(){
 
-            this.toastr.success(this.translate.instant('common.success.updated'), ''); 
-            this.router.navigate(['category']);
+      //       this.toastr.success(this.translate.instant('common.success.updated'), ''); 
+      //       this.router.navigate(['category']);
 
-          }).bind(this));   
-          this.loading = false;
-        },
-        error => {
+      //     }).bind(this));   
+      //     this.loading = false;
+      //   },
+      //   error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          this.loading = false;  
-      });
+      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+      //     this.loading = false;  
+      // });
     }
     
   }

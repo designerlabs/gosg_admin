@@ -161,9 +161,8 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
         });
       }
 
-      console.log(this.navservice.flagLang);
       if (this.navservice.flagLang) {
-        console.log("constructor: ")
+        
         this.getCategoryCodeLEP(this.languageId);
         //this.getCategoryLEP(this.languageId);         
         this.archiveId = [];
@@ -540,11 +539,6 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
       this.getCategoryCodeLEP(this.languageId);
     }
 
-    console.log("Publish: "+this.publishdt);
-    console.log("End: "+this.enddt);
-    console.log("NEW Publish: "+this.newPublishD);
-    console.log("NEW End: "+this.newEndD);
-    console.log(this.updateForm.get('publish').value);
   }
 
   clearDate() {
@@ -755,11 +749,9 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER ARCHIVE ALL: "+this.flagApprove);
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
         this.archiveId = [];
         this.loading = false;
       });
@@ -840,19 +832,12 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
       this.flagApprove = false;
     }
 
-    console.log(this.arrStatus);
-    console.log("ACHIVE: ");
-    console.log(this.archiveId);
-    console.log(this.selectedItem);
-    console.log("Flag Approved: "+this.flagApprove);
     return false;
   }
 
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
     this.commonservice.delete('', `life/event/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -866,7 +851,6 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER DELETE ALL: "+this.flagApprove);
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
@@ -876,7 +860,6 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
   }
 
   detailHistory(id){
-    console.log("ID: "+id);
    
       this.loading = true;
       this.commonservice.readProtected('content/history/'+id, '', '','', this.languageId).subscribe(

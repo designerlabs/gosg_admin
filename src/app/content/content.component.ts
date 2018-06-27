@@ -1432,7 +1432,6 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
@@ -1449,7 +1448,6 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   onScrollApp(event){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;

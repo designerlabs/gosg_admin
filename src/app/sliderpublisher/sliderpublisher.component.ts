@@ -193,7 +193,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
   }
 
   isSameImg(enImg, bmImg) {
-    console.log(enImg)
     if (enImg != null && enImg == bmImg) {
       this.updateForm.get('copyImg').setValue(true);
     } else {
@@ -207,7 +206,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
 
   getUserInfo(id) {
    
-    console.log(id);
     this.loading = true;
     return this.commonservice.readProtected('usermanagement/' + id, '', '', '', this.languageId)
       .subscribe(resUser => {
@@ -224,7 +222,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -235,12 +232,11 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
     this.loading = true;
     // Update Slider Service
     return this.commonservice.readProtectedById('content/publisher/', row, this.languageId).subscribe(
-      // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
+
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.sliderData = Rdata;
-          console.log(this.sliderData)
           let dataEn = this.sliderData['contentDetailList'][0];
           let dataBm = this.sliderData['contentDetailList'][1];
 
@@ -286,11 +282,8 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
             this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
             this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
           }
-          console.log("******************UPDATE*****************************");
-          console.log("EN: "+this.selectedFileEn+ " BM: "+this.selectedFileMy);
 
-
-          this.sliderCode = this.sliderData.refCode;
+          this.sliderCode = dataEn.contentCode;
           this.sliderIdEn = dataEn.contentId;
           this.sliderIdBm = dataBm.contentId;
           this.sendForApporval = dataEn.isSendForApproval;
@@ -304,7 +297,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
 
@@ -418,9 +410,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
       }
     }
 
-    // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
-
-    // console.log(nullPointers)
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -447,12 +436,10 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
       },
         Error => {
           this.loading = false;
-          console.log('Error in Slider');
         });
   }
   
   selectedImg(e, val){
-    console.log(e);
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
     let dataList = this.imageData;
@@ -531,7 +518,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -552,7 +538,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -566,7 +551,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
         }
       ];
 
-      // console.log(formValues)
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -589,8 +573,7 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
       body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
-      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      
+      body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();      
 
       console.log(JSON.stringify(body))
 
@@ -607,7 +590,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
       });
 
@@ -700,7 +682,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -721,7 +702,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -742,7 +722,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -756,7 +735,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
         }
       ];
 
-      // console.log(formValues)
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -796,7 +774,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
       });
     }
@@ -815,7 +792,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -837,7 +813,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -851,7 +826,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
         }
       ];
 
-      // console.log(formValues)
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -892,7 +866,6 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
       });
 
@@ -917,7 +890,22 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
   }
 
   mySendDraft(){
-    console.log("Send to Draft");
+    console.log("Send to Draft : "+this.sliderCode);
+
+    this.loading = true;
+    this.commonservice.update(null, 'slider/publisher/todraft/'+this.sliderCode).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function () {
+          this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
+          this.router.navigate(['publisher/slider']);
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
+    });
   }
 
 }

@@ -1111,7 +1111,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){

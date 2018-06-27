@@ -325,7 +325,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
@@ -353,7 +352,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
@@ -386,10 +384,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       this.parentFlag = false;
     }
 
-    console.log("ELEMMM");
     console.log(this.parentFlag);
-    console.log(ele.length);
-
   }
 
   getMinEventDate(){
@@ -526,7 +521,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        console.log(error);
     });
 
     return this.subscriptionCategoryC;
@@ -571,7 +565,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   getUserInfo(id) {
 
-    console.log(id);
     this.loading = true;
     return this.commonservice.readProtected('usermanagement/' + id, '','','',this.languageId)
       .subscribe(resUser => {
@@ -588,7 +581,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -622,7 +614,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
           this.getIdEn = dataEn.contentId;
           this.getIdBm = dataBm.contentId;
-          this.getRefCode = this.recordList.refCode;
+          this.getRefCode = dataEn.contentCode;
 
           if(dataEn.isApprovedFlag == true){
             this.appPublisher = false;
@@ -683,9 +675,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
 
-          console.log("KEY OBJECT");
-          console.log(valMT.length);
-
           let detAgenId;
           let detAgenCode;
 
@@ -712,9 +701,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
           let setParentEn = [];
 
           //get array of categoryId
-
-          console.log("GET CATEGORY TREE");
-          console.log(setParentEn);
 
           if(this.languageId == 1){
             for(let i=0; i<dataEn.contentCategories.length; i++){
@@ -757,7 +743,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
     }
@@ -779,8 +764,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
-
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
       let a = {"categoryId": this.parentValEn[i].id[0]};
@@ -792,7 +775,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
@@ -901,7 +883,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
       }
@@ -922,8 +903,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
-
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
       let a = {"categoryId": this.parentValEn[i].id[0]};
@@ -935,7 +914,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
@@ -1029,7 +1007,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      console.log("UPDATE NOT DRAFT: ");
       console.log(JSON.stringify(body))
 
       this.loading = true;
@@ -1045,7 +1022,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
@@ -1238,11 +1214,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       }
     }
 
-    console.log("AgencyAppID: "+idAgencyApp+" codeAgencyApp: "+codeAgencyApp);
-
-
     this.updateForm.get('agencyApp').setValue(idAgencyApp);
-
     this.getAgencyAppEnBm(codeAgencyApp);
 
   }
@@ -1306,11 +1278,8 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
-
+    
       let keywordVal;
 
       if(lngId == 1) {
@@ -1327,11 +1296,8 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   onScrollApp(event){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
-
+     
       let keywordVal;
 
         keywordVal = this.updateForm.get("agencyforApp").value;
@@ -1348,7 +1314,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     this.agencyIdBm = null;
     this.ministryNameEn = "";
     this.ministryNameBm = "";
-    // this.getModuleData(this.pageCount, this.pageSize);
   }
 
   resetSearchApp() {
@@ -1470,7 +1435,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -1569,7 +1534,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       langId = 1;
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -1618,7 +1583,22 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
   }
 
   mySendDraft(){
-    console.log("Send to Draft");
+    console.log("Send to Draft : "+this.getRefCode);
+
+    this.loading = true;
+    this.commonservice.update(null, 'life/event/publisher/todraft/'+this.getRefCode).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function () {
+          this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
+          this.router.navigate(['publisher/lifeevent']);
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
+    });
   }
 
 }
