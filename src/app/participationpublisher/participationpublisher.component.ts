@@ -328,7 +328,7 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
             this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
           }
 
-          this.participantCode = this.participantData.refCode;
+          this.participantCode = dataEn.contentCode;
           this.participantIdEn = dataEn.contentId;
           this.participantIdBm = dataBm.contentId;
 
@@ -369,9 +369,6 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
           //get details agency
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
-
-          
-          
 
           let detAgenId;
           let detAgenCode;
@@ -726,9 +723,8 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      
 
-      // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
+
         this.commonservice.update(body, 'e-participation/publisher').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
@@ -815,9 +811,8 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      
 
-      // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
+
         this.commonservice.update(body, 'e-participation/publisher/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
@@ -835,7 +830,6 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
@@ -861,7 +855,6 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
     this.ministryNameBm = "";
 
     this.checkReqValues();
-    // this.getModuleData(this.pageCount, this.pageSize);
   }
 
   getSearchData(keyword, langId, count, page){
@@ -882,7 +875,6 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
 
     //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
     this.loading = true;
-    //this.isActive = true;
 
     setTimeout(()=>{
       this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, this.languageId).subscribe(
@@ -981,7 +973,7 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -1025,7 +1017,22 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
   }
 
   mySendDraft(){
-    
+
+
+    this.loading = true;
+    this.commonservice.update(null, 'e-participation/publisher/todraft/'+this.participantCode).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function () {
+          this.toastr.success(this.translate.instant('common.success.eparticipationsubmitted'), '');
+          this.router.navigate(['publisher/eparticipation']);
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
+    });
   }
 
 }

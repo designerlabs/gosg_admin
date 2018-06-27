@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, OnDestroy } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
@@ -17,13 +17,15 @@ import {
   Ng4FilesSelected
 } from '../../ng4-files';
 import { Observable } from 'rxjs/Observable';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../../nav/nav.service';
 
 @Component({
   selector: 'app-mediafileupload',
   templateUrl: './mediafileupload.component.html',
   styleUrls: ['./mediafileupload.component.css']
 })
-export class MediafileuploadComponent implements OnInit {
+export class MediafileuploadComponent implements OnInit, OnDestroy {
 
   // objCategory = ["Slider","Article","Gallery"];
   // objMediaType = ["Images","Documents","Videos","Audios"];
@@ -60,11 +62,17 @@ export class MediafileuploadComponent implements OnInit {
   selectedFiles;
   filesResult : any;
   languageId: any;
+  lang: any;
   // formdata: FileList;
   clientId;
   networkContract: any;
   public loading = false;
   resFileExtn = [];
+
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   private sharedConfig: Ng4FilesConfig = {
     acceptExtensions: ['jpg'],
@@ -77,31 +85,52 @@ export class MediafileuploadComponent implements OnInit {
     public commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService,
+    private navservice: NavService,
     private translate: TranslateService,
     private el:ElementRef
   ) { 
-     /* LANGUAGE FUNC */
-     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+
+    /* LANGUAGE FUNC */
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
+    /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
+
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
+
     this.commonservice.getModuleId();
     this.addconfig = false;
     let refCode = this.router.url.split('/')[3];
@@ -180,7 +209,7 @@ export class MediafileuploadComponent implements OnInit {
   fnLoadCateMediaType(refData) {
     // Get MediaType
       this.loading = true;
-    this.commonservice.readProtected('mediatype')
+    this.commonservice.readProtected('mediatype','','','', this.languageId)
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
@@ -193,7 +222,7 @@ export class MediafileuploadComponent implements OnInit {
         });
          
     // Get Categories // no need to load first
-    this.commonservice.readProtected('content/category')
+    this.commonservice.readProtected('content/category', '', '', '', this.languageId)
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
@@ -210,7 +239,7 @@ export class MediafileuploadComponent implements OnInit {
   }  
 
   getRow(row) {
-    this.commonservice.readProtectedById('media/code/', row)
+    this.commonservice.readProtectedById('media/code/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){

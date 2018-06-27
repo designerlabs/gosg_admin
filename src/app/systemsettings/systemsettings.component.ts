@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -9,13 +9,15 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-systemsettings',
   templateUrl: './systemsettings.component.html',
   styleUrls: ['./systemsettings.component.css']
 })
-export class SystemsettingsComponent implements OnInit {
+export class SystemsettingsComponent implements OnInit, OnDestroy {
 
   public loading = false;
   updateForm: FormGroup;
@@ -33,6 +35,12 @@ export class SystemsettingsComponent implements OnInit {
   public urlEdit: any;
   public keyVal: any;
   public languageId: any;
+  lang: any;
+
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   constructor(
     private http: HttpClient, 
@@ -40,34 +48,50 @@ export class SystemsettingsComponent implements OnInit {
     public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
+    private navservice: NavService,
     private translate: TranslateService,
     private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              //this.getUsersData(this.pageCount, this.pageSize);
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      //this.getData();
-    }
     /* LANGUAGE FUNC */
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
+  }
+
   ngOnInit() {
+
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
 
     this.entity = new FormControl();
     this.key = new FormControl();
@@ -109,7 +133,7 @@ export class SystemsettingsComponent implements OnInit {
     let _getRefID = this.router.url.split('/')[2];  
     this.loading = true;
 
-    this.commonservice.readProtectedById('systemsettings/', _getRefID)
+    this.commonservice.readProtectedById('systemsettings/', _getRefID, this.languageId)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

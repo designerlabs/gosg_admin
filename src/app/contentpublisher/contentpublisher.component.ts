@@ -606,7 +606,7 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
 
         this.getIdEn = dataEn.contentId;
         this.getIdBm = dataBm.contentId;
-        this.getRefCode = this.recordList.refCode;
+        this.getRefCode = dataEn.contentCode;
 
         if(dataEn.isApprovedFlag == true){
           //this.appPublisher = true;
@@ -848,7 +848,7 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      
+
 
       this.loading = true;
       // Update
@@ -983,8 +983,7 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      
-      
+
 
       this.loading = true;
       // Update
@@ -1256,7 +1255,6 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
@@ -1273,7 +1271,6 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
 
   onScrollApp(event){
 
-    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
@@ -1292,7 +1289,6 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
     this.agencyIdBm = null;
     this.ministryNameEn = "";
     this.ministryNameBm = "";
-    // this.getModuleData(this.pageCount, this.pageSize);
   }
 
   resetSearchApp() {
@@ -1564,7 +1560,22 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
   }
 
   mySendDraft(){
-    
+
+
+    this.loading = true;
+    this.commonservice.update(null, 'content/publisher/todraft/'+this.getRefCode).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function () {
+          this.toastr.success(this.translate.instant('common.success.contentsubmitted'), '');
+          this.router.navigate(['publisher/content']);
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
+    });
   }
 
 }

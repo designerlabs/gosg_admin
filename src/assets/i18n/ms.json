@@ -755,7 +755,8 @@
       "contentmgmt": "Peristiwa Kehidupan"
     },
     "citizenflag": "Warganegara",
-    "noncitizenflag": "Bukan Warganegara"
+    "noncitizenflag": "Bukan Warganegara",
+    "LECategory": "Kategori Peristiwa Kehidupan"
   },
   "footercategorytbl": {
     "header": "Kategori Footer",

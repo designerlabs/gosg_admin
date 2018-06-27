@@ -26,12 +26,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
   itemBm: any;
 
   updateForm: FormGroup;
-  
+
   public citizenflag:FormControl;
   public noncitizenflag: FormControl;
-  public titleEn: FormControl;  
+  public titleEn: FormControl;
   public titleBm: FormControl;
-  public descEn: FormControl;  
+  public descEn: FormControl;
   public descBm: FormControl;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
@@ -39,14 +39,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
   public imageEn: FormControl;
   public imageBm: FormControl;
   public active: FormControl;
-  public dataUrl: any;  
+  public dataUrl: any;
   public recordList: any;
   public categoryData: any;
   public getCatIdEn: any;
   public getCatIdBm: any;
   public subcription: FormControl;
   public deleted: FormControl;
-  public rss: FormControl;  
+  public rss: FormControl;
   public seqEng: FormControl;
   public seqMy: FormControl;
 
@@ -75,16 +75,20 @@ export class CategoryComponent implements OnInit, OnDestroy {
   public filterPlaceholder = "";
   public urlEdit = "";
 
+  boolenLEC: any;
+  boolenLENC: any;
+  parentIndicator: any;
+
   editor = {treeVal: '' };
-  
+
   private subscription: ISubscription;
   private subscriptionLang: ISubscription;
   private subscriptionLangAll: ISubscription;
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    public commonservice: CommonService, 
-    private router: Router, 
+    public commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
     private navservice: NavService,
@@ -101,7 +105,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
             this.languageId = 1;
           });
         }
-        
+
         if (myLang == 'ms') {
           translate.get('HOME').subscribe((res: any) => {
             this.lang = 'ms';
@@ -112,7 +116,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.commonservice.getModuleId();
           this.getCategory(this.languageId);
           if (this.urlEdit === 'add'){
-            this.changePlaceHolder();       
+            this.changePlaceHolder();
           }
 
           else{
@@ -126,7 +130,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     // this.updateForm = builder.group({
     //   treeVal: ""
     // })
-   
+
   }
 
   ngOnInit() {
@@ -155,11 +159,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.citizenflag = new FormControl();
     this.noncitizenflag = new FormControl();
 
-    this.updateForm = new FormGroup({   
+    this.updateForm = new FormGroup({
 
       titleEn: this.titleEn,
       titleBm: this.titleBm,
-      descEn: this.descEn,    
+      descEn: this.descEn,
       descBm: this.descBm,
       parentsEn: this.parentsEn,
       parentsBm: this.parentsBm,
@@ -174,26 +178,26 @@ export class CategoryComponent implements OnInit, OnDestroy {
       seqMy: this.seqMy,
       citizenflag: this.citizenflag,
       noncitizenflag: this.noncitizenflag
-      
+
     });
 
     this.getCategory(this.languageId);
     this.getImageList(this.languageId);
 
     this.urlEdit = this.router.url.split('/')[2];
-    
+
     if (this.urlEdit === 'add'){
 
       this.commonservice.pageModeChange(false);
-      this.changePlaceHolder();       
-      this.updateForm.get('active').setValue(true);   
+      this.changePlaceHolder();
+      this.updateForm.get('active').setValue(true);
     }
     else{
-      this.commonservice.pageModeChange(true);      
+      this.commonservice.pageModeChange(true);
       this.getData();
     }
 
-    this.commonservice.getModuleId();    
+    this.commonservice.getModuleId();
   }
 
   ngOnDestroy() {
@@ -202,27 +206,27 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
 
   selectedImage(e, val){
-    
+
     this.imageEn = e.value;
     this.imageBm = e.value;
     let dataList = this.imageData;
     let indexVal: any;
     let idBm: any;
-    let idEn: any;       
-    
+    let idEn: any;
+
     // if english
     if(val == 1){
-    
+
       for(let i=0; i<dataList.length; i++){
         indexVal = dataList[i].list[0].mediaId;
         if(indexVal == this.imageEn){
           idBm = dataList[i].list[1].mediaId;
           this.selectedFileEn=dataList[i].list[0].mediaFile;
           this.selectedFileMy=dataList[i].list[1].mediaFile;
-        }            
-      }   
+        }
+      }
 
-      this.updateForm.get('imageBm').setValue(idBm);  
+      this.updateForm.get('imageBm').setValue(idBm);
     }
 
     else{ //if malay
@@ -233,10 +237,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
           idEn = dataList[i].list[0].mediaId;
           this.selectedFileEn=dataList[i].list[0].mediaFile;
           this.selectedFileMy=dataList[i].list[1].mediaFile;
-        }        
+        }
       }
 
-      this.updateForm.get('imageEn').setValue(idEn); 
+      this.updateForm.get('imageEn').setValue(idEn);
     }
 
     if(e.value == 0){
@@ -244,10 +248,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.selectedFileEn = '';
     }
 
-    
-    
-    
-    
+
+
+
+
     this.checkReqValues();
   }
 
@@ -256,35 +260,35 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.loading = true;
     return this.commonservice.readProtected('content/category', '', '', '', lng)
      .subscribe(data => {
-          
+
       this.commonservice.errorHandling(data, (function(){
 
-          this.categoryData = data["list"]; 
+          this.categoryData = data["list"];
 
-          let arrCatEn = [];          
+          let arrCatEn = [];
           let parentEn;
-          let arrCatBm = [];          
+          let arrCatBm = [];
           let parentBm;
 
-          for(let i=0; i<this.categoryData.length; i++){        
+          for(let i=0; i<this.categoryData.length; i++){
 
             if(this.categoryData[i].list.length === 2){
               arrCatEn.push({
-                
+
                     id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                     value:this.categoryData[i].list[0].categoryId,
                     refCode: this.categoryData[i].refCode,
                     parent: this.categoryData[i].list[0].parentId.categoryId,
                     parentEn: this.categoryData[i].list[0].parentId.categoryId,
                     parentBm: this.categoryData[i].list[1].parentId.categoryId,
-                    categoryName: this.categoryData[i].list[0].categoryName,                    
+                    categoryName: this.categoryData[i].list[0].categoryName,
                     checked: false,
                     flagLE: this.categoryData[i].list[0].template,
                     isLEC: this.categoryData[i].list[0].isCitizenLifeEvent,
                     isLENC:this.categoryData[i].list[0].isNonCitizenLifeEvent,
                     text: this.categoryData[i].list[0].categoryName,
-                    children: []});      
-                  
+                    children: []});
+
               arrCatBm.push({
                     id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                     value:this.categoryData[i].list[1].categoryId,
@@ -298,12 +302,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
                     isLEC: this.categoryData[i].list[0].isCitizenLifeEvent,
                     isLENC:this.categoryData[i].list[0].isNonCitizenLifeEvent,
                     text: this.categoryData[i].list[1].categoryName,
-                    children: []}); 
-                  
+                    children: []});
+
             }
 
           }
-          
+
           if(this.languageId == 1){
             this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           }else if(this.languageId == 2){
@@ -311,15 +315,15 @@ export class CategoryComponent implements OnInit, OnDestroy {
           }else{
             this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           }
-          
+
           this.itemEn = this.treeEn;
-          
+
         }).bind(this));
         this.loading = false;
       },
       error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
     });
   }
@@ -329,7 +333,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     var children = []
 
     for(var i in arr) {
-    
+
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenEn(arr, arr[i].value)
 
@@ -337,9 +341,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
                  arr[i].children = children
             }
             out.push(arr[i])
-        }      
-    }    
-    return out  
+        }
+    }
+    return out
   }
 
   getNestedChildrenBm(arr, parent) {
@@ -347,7 +351,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     var children = []
 
     for(var i in arr) {
-    
+
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenBm(arr, arr[i].value)
 
@@ -356,9 +360,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
             }
             out.push(arr[i])
         }
-      
-    }    
-    return out  
+
+    }
+    return out
   }
 
   copyValue(type) {
@@ -388,10 +392,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
 
-  getData() {  
+  getData() {
 
     let _getRefID = this.router.url.split('/')[2];
-  
+
     this.loading = true;
     this.commonservice.readProtectedById('content/category/',_getRefID, this.languageId)
     .subscribe(data => {
@@ -401,39 +405,42 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.recordList = data;
 
         this.updateForm.get('titleEn').setValue(this.recordList.list[0].categoryName);
-        this.updateForm.get('titleBm').setValue(this.recordList.list[1].categoryName);   
+        this.updateForm.get('titleBm').setValue(this.recordList.list[1].categoryName);
         this.updateForm.get('descEn').setValue(this.recordList.list[0].categoryDescription);
-        this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);  
+        this.updateForm.get('descBm').setValue(this.recordList.list[1].categoryDescription);
         this.updateForm.get('seqEng').setValue(this.recordList.list[0].categorySort);
-        this.updateForm.get('seqMy').setValue(this.recordList.list[1].categorySort);         
-          
-        //this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);  
-        // this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId); 
-        // this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);  
-             
-        this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);   
-        this.updateForm.get('active').setValue(this.recordList.list[0].isActiveFlag);  
-        this.updateForm.get('subcription').setValue(this.recordList.list[0].isSubscribable);  
-        this.updateForm.get('deleted').setValue(this.recordList.list[0].isDeleted);  
-        this.updateForm.get('rss').setValue(this.recordList.list[0].isRssFeeder);  
+        this.updateForm.get('seqMy').setValue(this.recordList.list[1].categorySort);
+
+        //this.updateForm.get('parentsBm').setValue(this.recordList.list[1].parentId);
+        // this.updateForm.get('imageEn').setValue(this.recordList.list[0].image.mediaId);
+        // this.updateForm.get('imageBm').setValue(this.recordList.list[1].image.mediaId);
+
+        this.updateForm.get('ismainmenu').setValue(this.recordList.list[0].isMainMenu);
+        this.updateForm.get('active').setValue(this.recordList.list[0].isActiveFlag);
+        this.updateForm.get('subcription').setValue(this.recordList.list[0].isSubscribable);
+        this.updateForm.get('deleted').setValue(this.recordList.list[0].isDeleted);
+        this.updateForm.get('rss').setValue(this.recordList.list[0].isRssFeeder);
 
         if(this.recordList.list[0].template == 'lifeevent'){
           this.flagLifeED = 'lifeevent';
-          this.updateForm.get('citizenflag').setValue(this.recordList.list[0].isCitizenLifeEvent);  
-          this.updateForm.get('noncitizenflag').setValue(this.recordList.list[0].isNonCitizenLifeEvent); 
 
-          // if(){
+          this.updateForm.get('citizenflag').setValue(this.recordList.list[0].isCitizenLifeEvent);
+          this.updateForm.get('noncitizenflag').setValue(this.recordList.list[0].isNonCitizenLifeEvent);
+
+          this.boolenLEC = this.recordList.list[0].isCitizenLifeEvent;
+          this.boolenLENC = this.recordList.list[0].isNonCitizenLifeEvent;
+
+          if(this.recordList.list[0].parentId.categoryCode != this.commonservice.lifeEventCategoryCode){
             this.citizenflag.disable();
             this.noncitizenflag.disable();
-          // }
-        }     
+          }
 
-        
+          this.parentIndicator = this.recordList.list[0].parentId.categoryCode;
 
-        this.onChange(this.updateForm.get('parentsEn'));
-        
-        
-        
+        }
+
+
+
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -450,10 +457,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.updateForm.get('imageEn').setValue(parseInt(this.recordList.list[0].image.mediaId));
           this.updateForm.get('imageBm').setValue(parseInt(this.recordList.list[1].image.mediaId));
         }
-        
-        
+
+
         // if(this.languageId == 1){
-      
+
         //   if(this.recordList.list[0].parentId.categoryId != -1){
         //   this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
         //   }
@@ -464,7 +471,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         // }
 
         // else{
-     
+
         //   if(this.recordList.list[1].parentId.categoryId != -2){
         //     this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
         //   }
@@ -476,58 +483,58 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
         let setParentEn = [];
 
-        //get array of categoryId        
-        
-        
+        //get array of categoryId
 
-        if(this.languageId == 1){    
-          
+
+
+        if(this.languageId == 1){
+
 
           let a = {
             "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
             "text":this.recordList.list[0].parentId.categoryName,
             "value": this.recordList.list[0].parentId.categoryId
           }
-            
-          setParentEn.push(a);    
-          
-          //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;          
-          this.filterPlaceholder = this.commonservice.showFilterEn;         
+
+          setParentEn.push(a);
+
+          //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
+          this.filterPlaceholder = this.commonservice.showFilterEn;
           if(this.recordList.list[0].parentId.categoryId != -1){
             this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
           }
-  
+
           else{
             this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
-          } 
+          }
         }
 
         else{
-          
+
 
           let a = {
             "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
             "text":this.recordList.list[1].parentId.categoryName,
             "value": this.recordList.list[1].parentId.categoryId
-          }  
+          }
 
-          setParentEn.push(a);    
-          
+          setParentEn.push(a);
+
           //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
           if(this.recordList.list[1].parentId.categoryId != -2){
             this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
           }
-  
+
           else{
-            
+
             this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
-          } 
+          }
         }
 
-        
-        
-        this.updateForm.get('parentsEn').setValue(setParentEn);  
+
+
+        this.updateForm.get('parentsEn').setValue(setParentEn);
         this.checkReqValues();
 
       }).bind(this));
@@ -535,8 +542,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     },
     error => {
 
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      this.loading = false;    
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
     });
   }
 
@@ -547,18 +554,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
       this.commonservice.errorHandling(resCatData, (function(){
 
-        this.imageData = resCatData['list'];       
+        this.imageData = resCatData['list'];
 
       }).bind(this));
       this.loading = false;
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
       this.loading = false;
     });
   }
 
-  onChange(ele){    
+  onChange(ele){
 
     if(ele){
       this.parentFlag = true;
@@ -573,7 +580,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     if(this.flagLifeE == 'lifeevent'){
 
       if(ele.isLENC == false && ele.isLEC == false && ele.refCode == this.commonservice.lifeEventCategoryCode){ // for new parent category under lifeevent
-        this.updateForm.get('noncitizenflag').setValue(false);      
+        this.updateForm.get('noncitizenflag').setValue(false);
         this.updateForm.get('citizenflag').setValue(true);
       }
 
@@ -583,11 +590,19 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.citizenflag.disable();
         this.noncitizenflag.disable();
       }
+
+      this.boolenLEC = ele.isLEC;
+      this.boolenLENC = ele.isLENC;
     }
 
-    
-    
-    
+    if(this.flagLifeE == ''){// bila change tree
+      this.flagLifeED = '';
+    }
+
+
+
+
+
   }
 
   submit(formValues: any) {
@@ -596,12 +611,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
     let parentValEn = formValues.parentsEn;
     let parentValBm = formValues.parentsBm;
 
-    
-    
+
+
 
     let valImgEn: any;
     let valImgBm: any;
-    let body: any;      
+    let body: any;
 
     if(formValues.ismainmenu == null){
       formValues.ismainmenu = false;
@@ -627,7 +642,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     else{
       valImgEn = { "mediaId": null };
       valImgBm = { "mediaId": null };
-      
+
     }
 
     if(this.flagLifeE == 'lifeevent'){
@@ -639,7 +654,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       if(formValues.noncitizenflag == null){
         formValues.noncitizenflag = false;
       }
-      
+
     }
 
     // add form
@@ -647,7 +662,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
       body = [
         {
-        
+
           "categoryName": null,
           "categoryDescription":null,
           "parentId":{
@@ -684,34 +699,34 @@ export class CategoryComponent implements OnInit, OnDestroy {
           "isNonCitizenLifeEvent": false,
           "categorySort": null,
         }
-      ]         
+      ]
 
-      
+
       body[0].categoryName = formValues.titleEn;
-      body[0].categoryDescription = formValues.descEn;      
-      body[0].isMainMenu = formValues.ismainmenu;      
-      body[0].isActiveFlag = formValues.active;   
-      body[0].isSubscribable = formValues.subcription;   
-      body[0].isDeleted = formValues.deleted; 
-      body[0].isRssFeeder = formValues.rss; 
-      
-      body[0].categorySort = formValues.seqEng; 
-    
+      body[0].categoryDescription = formValues.descEn;
+      body[0].isMainMenu = formValues.ismainmenu;
+      body[0].isActiveFlag = formValues.active;
+      body[0].isSubscribable = formValues.subcription;
+      body[0].isDeleted = formValues.deleted;
+      body[0].isRssFeeder = formValues.rss;
+
+      body[0].categorySort = formValues.seqEng;
+
       body[1].categoryName = formValues.titleBm;
-      body[1].categoryDescription = formValues.descBm;      
+      body[1].categoryDescription = formValues.descBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].isActiveFlag = formValues.active; 
-      body[1].isSubscribable = formValues.subcription;     
-      body[1].isDeleted = formValues.deleted; 
-      body[1].isRssFeeder = formValues.rss; 
-      
-      body[1].categorySort = formValues.seqMy; 
+      body[1].isActiveFlag = formValues.active;
+      body[1].isSubscribable = formValues.subcription;
+      body[1].isDeleted = formValues.deleted;
+      body[1].isRssFeeder = formValues.rss;
+
+      body[1].categorySort = formValues.seqMy;
 
       if(this.flagLifeE == 'lifeevent'){
-        body[0].isCitizenLifeEvent = formValues.citizenflag; 
-        body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
-        body[1].isCitizenLifeEvent = formValues.citizenflag; 
-        body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+        body[0].isCitizenLifeEvent = formValues.citizenflag;
+        body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
+        body[1].isCitizenLifeEvent = formValues.citizenflag;
+        body[1].isNonCitizenLifeEvent = formValues.noncitizenflag;
       }
 
       //predefined super parent id;
@@ -725,43 +740,43 @@ export class CategoryComponent implements OnInit, OnDestroy {
       }
 
       else{
-      
+
         body[0].parentId.categoryId = parentValEn.id[0];
-        body[1].parentId.categoryId = parentValEn.id[1];      
+        body[1].parentId.categoryId = parentValEn.id[1];
       }
 
       if(formValues.imageBm != null && formValues.imageEn != null){
-          body[0].image.mediaId = formValues.imageEn;      
+          body[0].image.mediaId = formValues.imageEn;
           body[1].image.mediaId = formValues.imageBm;
       }
 
-      
 
-      this.loading = true;
-      this.commonservice.create(body,'content/category/post').subscribe(
-        data => {         
-          
-          this.commonservice.errorHandling(data, (function(){
 
-            this.toastr.success(this.translate.instant('common.success.added'), '');
-            this.router.navigate(['category']);
+      // this.loading = true;
+      // this.commonservice.create(body,'content/category/post').subscribe(
+      //   data => {
 
-          }).bind(this)); 
-          this.loading = false;  
-        },
-        error => {
+      //     this.commonservice.errorHandling(data, (function(){
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          this.loading = false;   
-      });
+      //       this.toastr.success(this.translate.instant('common.success.added'), '');
+      //       this.router.navigate(['category']);
+
+      //     }).bind(this));
+      //     this.loading = false;
+      //   },
+      //   error => {
+
+      //     this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      //     this.loading = false;
+      // });
     }
 
     // update form
-    else{      
-      
+    else{
+
       body = [
         {
-        
+
           "categoryId": this.getIdEn,
           "categoryName": null,
           "categoryDescription":null,
@@ -802,94 +817,114 @@ export class CategoryComponent implements OnInit, OnDestroy {
           "isNonCitizenLifeEvent": false,
           "categorySort": null,
         }
-      ]    
-     
+      ]
+
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
       body[0].isMainMenu = formValues.ismainmenu;
-      body[0].isActiveFlag = formValues.active;  
+      body[0].isActiveFlag = formValues.active;
       //body[0].image.mediaId = formValues.imageEn;
-      body[0].isSubscribable = formValues.subcription;   
-      body[0].isDeleted = formValues.deleted; 
-      body[0].isRssFeeder = formValues.rss; 
-      body[0].categorySort = formValues.seqEng; 
+      body[0].isSubscribable = formValues.subcription;
+      body[0].isDeleted = formValues.deleted;
+      body[0].isRssFeeder = formValues.rss;
+      body[0].categorySort = formValues.seqEng;
 
       body[1].categoryName = formValues.titleBm;
-      body[1].categoryDescription = formValues.descBm;      
+      body[1].categoryDescription = formValues.descBm;
       body[1].isMainMenu = formValues.ismainmenu;
-      body[1].isActiveFlag = formValues.active;  
-      //body[1].image.mediaId = formValues.imageBm;     
-      body[1].isSubscribable = formValues.subcription;  
-      body[1].isDeleted = formValues.deleted;   
-      body[1].isRssFeeder = formValues.rss; 
-      body[1].categorySort = formValues.seqMy; 
+      body[1].isActiveFlag = formValues.active;
+      //body[1].image.mediaId = formValues.imageBm;
+      body[1].isSubscribable = formValues.subcription;
+      body[1].isDeleted = formValues.deleted;
+      body[1].isRssFeeder = formValues.rss;
+      body[1].categorySort = formValues.seqMy;
 
-      if(this.flagLifeE == 'lifeevent'){
-        body[0].isCitizenLifeEvent = formValues.citizenflag; 
-        body[0].isNonCitizenLifeEvent = formValues.noncitizenflag; 
-        body[1].isCitizenLifeEvent = formValues.citizenflag; 
-        body[1].isNonCitizenLifeEvent = formValues.noncitizenflag; 
+      if(this.flagLifeE == 'lifeevent' || this.flagLifeED == 'lifeevent'){
+
+
+
+
+        if(formValues.citizenflag == null){
+          formValues.citizenflag = false;
+        }
+
+        if(formValues.noncitizenflag == null){
+          formValues.noncitizenflag = false;
+        }
+
+        if(this.flagLifeED == 'lifeevent'){
+          body[0].isCitizenLifeEvent = formValues.citizenflag;
+          body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
+          body[1].isCitizenLifeEvent = formValues.citizenflag;
+          body[1].isNonCitizenLifeEvent = formValues.noncitizenflag;
+        }
+
+        if(this.flagLifeE == 'lifeevent'){
+          body[0].isCitizenLifeEvent = formValues.citizenflag;
+          body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
+          body[1].isCitizenLifeEvent = formValues.citizenflag;
+          body[1].isNonCitizenLifeEvent = formValues.noncitizenflag;
+        }
       }
 
       if(formValues.imageBm != null && formValues.imageEn != null){
-        body[0].image.mediaId = formValues.imageEn;      
+        body[0].image.mediaId = formValues.imageEn;
         body[1].image.mediaId = formValues.imageBm;
 
-        
+
       }
 
       // if(formValues.parentsEn == null || formValues.parentsEn == ""){
 
       //   parentValEn = -1;
       //   parentValBm = -2;
-            
+
       //   body[0].parentId.categoryId = this.parentsValEn;
-      //   body[1].parentId.categoryId = this.parentsValBm; 
+      //   body[1].parentId.categoryId = this.parentsValBm;
       // }
 
-      
-      
-      
+
+
+
 
       if(parentValEn.length == undefined){
         body[0].parentId.categoryId = parentValEn.id[0];
-        body[1].parentId.categoryId = parentValEn.id[1]; 
+        body[1].parentId.categoryId = parentValEn.id[1];
       }
-    
+
       else{
         body[0].parentId.categoryId = parentValEn[0].id[0];
-        body[1].parentId.categoryId = parentValEn[0].id[1];  
+        body[1].parentId.categoryId = parentValEn[0].id[1];
       }
-          
-      
-      
-      this.loading = true;
-      this.commonservice.update(body,'content/category/update').subscribe(
-        data => {
-          
-          this.commonservice.errorHandling(data, (function(){
 
-            this.toastr.success(this.translate.instant('common.success.updated'), ''); 
-            this.router.navigate(['category']);
 
-          }).bind(this));   
-          this.loading = false;
-        },
-        error => {
+      // this.loading = true;
+      // this.commonservice.update(body,'content/category/update').subscribe(
+      //   data => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          this.loading = false;  
-      });
+      //     this.commonservice.errorHandling(data, (function(){
+
+      //       this.toastr.success(this.translate.instant('common.success.updated'), '');
+      //       this.router.navigate(['category']);
+
+      //     }).bind(this));
+      //     this.loading = false;
+      //   },
+      //   error => {
+
+      //     this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      //     this.loading = false;
+      // });
     }
-    
+
   }
 
   changeLanguageAddEdit(){
     if (this.urlEdit === 'add'){
-      this.commonservice.pageModeChange(false);  
+      this.commonservice.pageModeChange(false);
     }
     else{
-      this.commonservice.pageModeChange(true);      
+      this.commonservice.pageModeChange(true);
     }
   }
 
@@ -906,13 +941,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
         nullPointers.push(null)
       }
     }
-      
+
     if(nullPointers.length > 0) {
       this.complete = false;
     } else {
       this.complete = true;
     }
-    
+
   }
 
   changePlaceHolder(){
@@ -927,8 +962,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
-    this.changePlaceHolder();    
+    this.checkReqValues();
+    this.changePlaceHolder();
   }
 
   back(){
@@ -936,19 +971,19 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   le(e){
-  
+
     let citezenF = this.updateForm.get('citizenflag');
 
     if(citezenF.value == true){
-      this.updateForm.get('noncitizenflag').setValue(true);  
-    }    
-
-    if(citezenF.value == false || citezenF.value == null){
-      this.updateForm.get('noncitizenflag').setValue(null); 
+      this.updateForm.get('noncitizenflag').setValue(true);
     }
 
-    
-    
+    if(citezenF.value == false || citezenF.value == null){
+      this.updateForm.get('noncitizenflag').setValue(null);
+    }
+
+
+
   }
 
   le2(e){
@@ -961,7 +996,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     if(noncitizenF.value == true){
       this.updateForm.get('citizenflag').setValue(true);
     }
-    
+
 
   }
 

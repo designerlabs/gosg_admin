@@ -755,7 +755,8 @@
       "contentmgmt": "Life event"
     },
     "citizenflag": "Citizen",
-    "noncitizenflag": "Non Citizen"
+    "noncitizenflag": "Non Citizen",
+    "LECategory": "Life Event Category"
   },
   "footercategorytbl": {
     "header": "Footer Category",
