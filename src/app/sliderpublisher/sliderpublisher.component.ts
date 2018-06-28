@@ -319,7 +319,8 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
     this.events = [];
     this.events.push(`${event.value}`);
 
-    this.publishdt = new Date(this.events[0]).getTime();
+    this.publishdt = new Date(this.events[0]).getTime();    
+    this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
     this.dateFormatExample = "";
 
     year = new Date(this.events[0]).getFullYear();
@@ -328,18 +329,16 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
 
     this.eMinDate = new Date(year,month,day);
 
-    //if(this.publishdt>this.enddt || this.enddt == undefined){
-      // this.enddt = new Date(year,month,day).getTime();
-      // this.enddt = new Date(this.events[0]).getTime();
-      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-    //}
-
-    if(this.publishdt>this.enddt || this.enddt == undefined){
+    if(this.publishdt>this.enddt){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       this.enddt = null;
     }
-    //this.updateForm.get('endD').setValue('');
+    
+    if(this.enddt == undefined || this.enddt == null){
+      this.enddt = new Date(this.events[0]).getTime();//28/06/18
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+    }
 
     this.checkReqValues()
   }

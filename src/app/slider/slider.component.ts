@@ -284,26 +284,25 @@ export class SliderComponent implements OnInit, OnDestroy {
     this.events.push(`${event.value}`);
 
     this.publishdt = new Date(this.events[0]).getTime();
+    this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
     this.dateFormatExample = "";   
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
- 
+
     this.eMinDate = new Date(year,month,day);
 
-    //if(this.publishdt>this.enddt || this.enddt == undefined){
-      // this.enddt = new Date(year,month,day).getTime(); 
-      // this.enddt = new Date(this.events[0]).getTime();
-      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-    //}
-
-    if(this.publishdt>this.enddt || this.enddt == undefined){
+    if(this.publishdt>this.enddt){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       this.enddt = null;
     }
-    //this.updateForm.get('endD').setValue('');
+
+    if(this.enddt == undefined || this.enddt == null){
+      this.enddt = new Date(this.events[0]).getTime();//28/06/18
+      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+    }
 
     this.checkReqValues()    
   }
@@ -385,9 +384,6 @@ export class SliderComponent implements OnInit, OnDestroy {
       }
     }
 
-    // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
-
-    // 
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -498,7 +494,6 @@ export class SliderComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -519,7 +514,6 @@ export class SliderComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -557,10 +551,6 @@ export class SliderComponent implements OnInit, OnDestroy {
 
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      
-
-      
-      
       
 
       this.loading = true;
@@ -654,9 +644,6 @@ export class SliderComponent implements OnInit, OnDestroy {
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
       
-
-      
-
       this.loading = true;
       // Update Slider Service
       this.commonservice.update(body, 'slider/creator/draft').subscribe(
@@ -691,7 +678,6 @@ export class SliderComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -712,7 +698,6 @@ export class SliderComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -726,7 +711,6 @@ export class SliderComponent implements OnInit, OnDestroy {
         }
       ];
 
-      // 
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -751,9 +735,6 @@ export class SliderComponent implements OnInit, OnDestroy {
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
       
-
-      
-
       this.loading = true;
       // Add Slider Service
       this.commonservice.create(body, 'slider/creator').subscribe(
@@ -786,7 +767,6 @@ export class SliderComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -808,7 +788,6 @@ export class SliderComponent implements OnInit, OnDestroy {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -847,9 +826,6 @@ export class SliderComponent implements OnInit, OnDestroy {
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
       
-
-      
-
       this.loading = true;
       // Add Slider Service
       this.commonservice.update(body, 'slider/creator').subscribe(
