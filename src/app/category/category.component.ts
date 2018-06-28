@@ -248,10 +248,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.selectedFileEn = '';
     }
 
-
-
-
-
     this.checkReqValues();
   }
 
@@ -391,7 +387,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   }
 
-
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
@@ -430,17 +425,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.boolenLEC = this.recordList.list[0].isCitizenLifeEvent;
           this.boolenLENC = this.recordList.list[0].isNonCitizenLifeEvent;
 
-          if(this.recordList.list[0].parentId.categoryCode != this.commonservice.lifeEventCategoryCode){
-            this.citizenflag.disable();
-            this.noncitizenflag.disable();
-          }
-
           this.parentIndicator = this.recordList.list[0].parentId.categoryCode;
 
         }
-
-
-
 
         this.getIdEn = this.recordList.list[0].categoryId;
         this.getIdBm = this.recordList.list[1].categoryId;
@@ -458,37 +445,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
           this.updateForm.get('imageBm').setValue(parseInt(this.recordList.list[1].image.mediaId));
         }
 
-
-        // if(this.languageId == 1){
-
-        //   if(this.recordList.list[0].parentId.categoryId != -1){
-        //   this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
-        //   }
-
-        //   else{
-        //     this.categoryPlaceholder = this.commonservice.showPlaceHolderEn;
-        //   }
-        // }
-
-        // else{
-
-        //   if(this.recordList.list[1].parentId.categoryId != -2){
-        //     this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
-        //   }
-
-        //   else{
-        //     this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
-        //   }
-        // }
-
         let setParentEn = [];
 
         //get array of categoryId
-
-
-
         if(this.languageId == 1){
-
 
           let a = {
             "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
@@ -497,9 +457,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
           }
 
           setParentEn.push(a);
-
-          //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterEn;
+
           if(this.recordList.list[0].parentId.categoryId != -1){
             this.categoryPlaceholder = this.recordList.list[0].parentId.categoryName;
           }
@@ -511,7 +470,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
         else{
 
-
           let a = {
             "id": [this.recordList.list[0].parentId.categoryId,this.recordList.list[1].parentId.categoryId],
             "text":this.recordList.list[1].parentId.categoryName,
@@ -520,7 +478,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
           setParentEn.push(a);
 
-          //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
           this.filterPlaceholder = this.commonservice.showFilterBm;
           if(this.recordList.list[1].parentId.categoryId != -2){
             this.categoryPlaceholder = this.recordList.list[1].parentId.categoryName;
@@ -531,8 +488,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
             this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
           }
         }
-
-
 
         this.updateForm.get('parentsEn').setValue(setParentEn);
         this.checkReqValues();
@@ -577,6 +532,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
     this.flagLifeE = ele.flagLE;
 
+    if(ele.refCode != undefined){
+      this.parentIndicator = ele.refCode;
+      this.boolenLEC = ele.isLEC;
+      this.boolenLENC = ele.isLENC;
+    }
+
     if(this.flagLifeE == 'lifeevent'){
 
       if(ele.isLENC == false && ele.isLEC == false && ele.refCode == this.commonservice.lifeEventCategoryCode){ // for new parent category under lifeevent
@@ -587,21 +548,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
       else{
         this.updateForm.get('noncitizenflag').setValue(ele.isLENC); // new child under existing parent except LE itself.
         this.updateForm.get('citizenflag').setValue(ele.isLEC);
-        this.citizenflag.disable();
-        this.noncitizenflag.disable();
       }
-
-      this.boolenLEC = ele.isLEC;
-      this.boolenLENC = ele.isLENC;
     }
 
     if(this.flagLifeE == ''){// bila change tree
       this.flagLifeED = '';
     }
-
-
-
-
 
   }
 
@@ -610,9 +562,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
     let parentValEn = formValues.parentsEn;
     let parentValBm = formValues.parentsBm;
-
-
-
 
     let valImgEn: any;
     let valImgBm: any;
@@ -645,7 +594,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
     }
 
-    if(this.flagLifeE == 'lifeevent'){
+    if(this.flagLifeE == 'lifeevent' || this.flagLifeED == 'lifeevent'){
 
       if(formValues.citizenflag == null){
         formValues.citizenflag = false;
@@ -701,7 +650,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         }
       ]
 
-
       body[0].categoryName = formValues.titleEn;
       body[0].categoryDescription = formValues.descEn;
       body[0].isMainMenu = formValues.ismainmenu;
@@ -723,10 +671,24 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[1].categorySort = formValues.seqMy;
 
       if(this.flagLifeE == 'lifeevent'){
-        body[0].isCitizenLifeEvent = formValues.citizenflag;
-        body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
-        body[1].isCitizenLifeEvent = formValues.citizenflag;
-        body[1].isNonCitizenLifeEvent = formValues.noncitizenflag;
+
+        //checkbox appear
+        if(this.boolenLEC == '' && this.boolenLENC == '' || this.boolenLEC == false && this.boolenLENC == false){
+          
+          body[0].isCitizenLifeEvent = formValues.citizenflag;
+          body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
+          body[1].isCitizenLifeEvent = formValues.citizenflag;
+          body[1].isNonCitizenLifeEvent = formValues.noncitizenflag;
+        }
+
+        //checkbox disappear
+        else{
+          
+          body[0].isCitizenLifeEvent = this.boolenLEC;
+          body[0].isNonCitizenLifeEvent = this.boolenLENC;
+          body[1].isCitizenLifeEvent = this.boolenLEC;
+          body[1].isNonCitizenLifeEvent = this.boolenLENC;
+        }
       }
 
       //predefined super parent id;
@@ -750,25 +712,25 @@ export class CategoryComponent implements OnInit, OnDestroy {
           body[1].image.mediaId = formValues.imageBm;
       }
 
+      console.log(JSON.stringify(body));
 
+      this.loading = true;
+      this.commonservice.create(body,'content/category/post').subscribe(
+        data => {
 
-      // this.loading = true;
-      // this.commonservice.create(body,'content/category/post').subscribe(
-      //   data => {
+          this.commonservice.errorHandling(data, (function(){
 
-      //     this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.added'), '');
+            this.router.navigate(['category']);
 
-      //       this.toastr.success(this.translate.instant('common.success.added'), '');
-      //       this.router.navigate(['category']);
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
 
-      //     }).bind(this));
-      //     this.loading = false;
-      //   },
-      //   error => {
-
-      //     this.toastr.error(JSON.parse(error._body).statusDesc, '');
-      //     this.loading = false;
-      // });
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+      });
     }
 
     // update form
@@ -823,7 +785,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[0].categoryDescription = formValues.descEn;
       body[0].isMainMenu = formValues.ismainmenu;
       body[0].isActiveFlag = formValues.active;
-      //body[0].image.mediaId = formValues.imageEn;
       body[0].isSubscribable = formValues.subcription;
       body[0].isDeleted = formValues.deleted;
       body[0].isRssFeeder = formValues.rss;
@@ -833,7 +794,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[1].categoryDescription = formValues.descBm;
       body[1].isMainMenu = formValues.ismainmenu;
       body[1].isActiveFlag = formValues.active;
-      //body[1].image.mediaId = formValues.imageBm;
       body[1].isSubscribable = formValues.subcription;
       body[1].isDeleted = formValues.deleted;
       body[1].isRssFeeder = formValues.rss;
@@ -841,36 +801,28 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
       if(this.flagLifeE == 'lifeevent' || this.flagLifeED == 'lifeevent'){
 
+        //checkbox appear;
+        if(this.parentIndicator == this.commonservice.lifeEventCategoryCode){
 
-
-
-        if(formValues.citizenflag == null){
-          formValues.citizenflag = false;
-        }
-
-        if(formValues.noncitizenflag == null){
-          formValues.noncitizenflag = false;
-        }
-
-        if(this.flagLifeED == 'lifeevent'){
           body[0].isCitizenLifeEvent = formValues.citizenflag;
           body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
           body[1].isCitizenLifeEvent = formValues.citizenflag;
           body[1].isNonCitizenLifeEvent = formValues.noncitizenflag;
         }
 
-        if(this.flagLifeE == 'lifeevent'){
-          body[0].isCitizenLifeEvent = formValues.citizenflag;
-          body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
-          body[1].isCitizenLifeEvent = formValues.citizenflag;
-          body[1].isNonCitizenLifeEvent = formValues.noncitizenflag;
+        //checkbox disappear
+        else {
+   
+          body[0].isCitizenLifeEvent = this.boolenLEC;
+          body[0].isNonCitizenLifeEvent = this.boolenLENC;
+          body[1].isCitizenLifeEvent = this.boolenLEC;
+          body[1].isNonCitizenLifeEvent = this.boolenLENC;
         }
       }
 
       if(formValues.imageBm != null && formValues.imageEn != null){
         body[0].image.mediaId = formValues.imageEn;
         body[1].image.mediaId = formValues.imageBm;
-
 
       }
 
@@ -883,10 +835,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
       //   body[1].parentId.categoryId = this.parentsValBm;
       // }
 
-
-
-
-
       if(parentValEn.length == undefined){
         body[0].parentId.categoryId = parentValEn.id[0];
         body[1].parentId.categoryId = parentValEn.id[1];
@@ -897,24 +845,24 @@ export class CategoryComponent implements OnInit, OnDestroy {
         body[1].parentId.categoryId = parentValEn[0].id[1];
       }
 
+      console.log(JSON.stringify(body));
+      this.loading = true;
+      this.commonservice.update(body,'content/category/update').subscribe(
+        data => {
 
-      // this.loading = true;
-      // this.commonservice.update(body,'content/category/update').subscribe(
-      //   data => {
+          this.commonservice.errorHandling(data, (function(){
 
-      //     this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
+            this.router.navigate(['category']);
 
-      //       this.toastr.success(this.translate.instant('common.success.updated'), '');
-      //       this.router.navigate(['category']);
+          }).bind(this));
+          this.loading = false;
+        },
+        error => {
 
-      //     }).bind(this));
-      //     this.loading = false;
-      //   },
-      //   error => {
-
-      //     this.toastr.error(JSON.parse(error._body).statusDesc, '');
-      //     this.loading = false;
-      // });
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+          this.loading = false;
+      });
     }
 
   }

@@ -86,7 +86,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
             this.lang = 'ms';
             this.languageId = 2;
         });
-        // alert(this.languageId + ',' + this.localeVal)
+
       }
         if(this.navservice.flagLang){
           this.getRecordList(this.pageCount, this.pageSize, this.languageId);
@@ -128,8 +128,6 @@ export class CategorytblComponent implements OnInit, OnDestroy {
 
         if(this.recordList.list.length > 0){
           
-          
-        
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
@@ -159,14 +157,11 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   getFilterList(page, size, keyword) {
 
     this.recordList = null;
-  
-    //this.dataUrl = this.appConfig.urlCategory + '/code?page=' + count + '&size=' + size + '&language=' + this.languageId;
-    
+      
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
 
       this.commonservice.readProtected('content/category/code', page, size, keyword, this.languageId)
-      //this.http.get(this.dataUrl)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -174,8 +169,6 @@ export class CategorytblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            
-            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -238,8 +231,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   }
 
   deleteRow(refcode) {
-   
-    
+       
     this.loading = true;
     this.commonservice.delete(refcode, 'content/category/delete/').subscribe(
       data => {
@@ -247,7 +239,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordList(this.pageCount, this.pageSize);
+          this.getRecordList(this.pageCount, this.pageSize, this.languageId);
         
         }).bind(this));    
         this.loading = false;
