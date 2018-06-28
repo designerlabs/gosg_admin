@@ -33,7 +33,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
   eMinDate: any;
   publish: FormControl
   endD: FormControl
-
+  isEdit: boolean;
 
   rawValBm: any;
   rawValEn: any;
@@ -1321,7 +1321,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     this.isActiveList = false;
   }
 
-  getSearchData(keyword, langId, count, page){
+  getSearchData(keyword, langId, count?, page?){
 
     let selLangField;
     this.searchAgencyResultEn = [];
@@ -1460,7 +1460,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
     });
   }
 
-  getSearchDataApp(keyword,count, page){
+  getSearchDataApp(keyword,count?, page?){
 
     this.searchAgencyResult = [];
     //this.updateForm.get('agencyforApp').setValue("");

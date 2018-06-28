@@ -712,8 +712,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
           body[1].image.mediaId = formValues.imageBm;
       }
 
-      console.log(JSON.stringify(body));
-
       this.loading = true;
       this.commonservice.create(body,'content/category/post').subscribe(
         data => {
@@ -845,7 +843,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         body[1].parentId.categoryId = parentValEn[0].id[1];
       }
 
-      console.log(JSON.stringify(body));
       this.loading = true;
       this.commonservice.update(body,'content/category/update').subscribe(
         data => {
