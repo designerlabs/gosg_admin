@@ -468,7 +468,6 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
           let arrCatEn = [];
           let arrCatBm = [];
 
-
           for(let i=0; i<this.categoryData.length; i++){
 
               if(this.categoryData[i].list.length === 2){
