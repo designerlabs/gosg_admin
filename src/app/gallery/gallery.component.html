@@ -80,7 +80,7 @@
 
         <div class="row">    
           <div class="col-md-6">
-              <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
+              <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }} *</label>
               <mat-form-field class="example-full-width">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" 
@@ -95,7 +95,7 @@
           </div>
 
           <div class="col-md-6">
-              <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
+              <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }} *</label>
               <mat-form-field class="example-full-width">
                 <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" 
