@@ -293,15 +293,10 @@ export class SliderComponent implements OnInit, OnDestroy {
 
     this.eMinDate = new Date(year,month,day);
 
-    if(this.publishdt>this.enddt){
+    if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-      this.enddt = null;
-    }
-
-    if(this.enddt == undefined || this.enddt == null){
-      this.enddt = new Date(this.events[0]).getTime();//28/06/18
-      this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      //this.enddt = null;
     }
 
     this.checkReqValues()    
