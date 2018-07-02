@@ -241,9 +241,14 @@ export class ParticipationComponent implements OnInit, OnDestroy {
   }
 
 
+
   public htmlContentEnEditor: Object = {
 
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+
+    imageUploadURL: this.appConfig.urlCommon+'image',
+
+    imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
@@ -251,6 +256,11 @@ export class ParticipationComponent implements OnInit, OnDestroy {
 
   public htmlContentMyEditor: Object = {
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+
+    imageUploadURL: this.appConfig.urlCommon+'image',
+
+    imageUploadMethod: 'POST',
+
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
   };
@@ -267,7 +277,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(Rdata, (function () {
           this.participantData = Rdata;
-          
+
 
           let dataEn = this.participantData['contentDetailList'][0];
           let dataBm = this.participantData['contentDetailList'][1];
@@ -331,8 +341,8 @@ export class ParticipationComponent implements OnInit, OnDestroy {
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
 
-          
-          
+
+
 
           let detAgenId;
           let detAgenCode;
@@ -385,7 +395,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');          
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           this.loading = false;
         });
   }
@@ -414,7 +424,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
         });
   }
@@ -677,7 +687,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      
+
 
       this.commonservice.create(body, 'e-participation/creator').subscribe(
         data => {
@@ -689,7 +699,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
         });
 
@@ -762,7 +772,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      
+
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'e-participation/creator').subscribe(
@@ -775,7 +785,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
         });
     }
@@ -847,7 +857,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      
+
 
       this.commonservice.create(body, 'e-participation/creator/draft').subscribe(
         data => {
@@ -859,7 +869,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
         });
 
@@ -932,7 +942,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       body[1].contents[0].eparticipationPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].eparticipationEndDate = new Date(formValues.endD).getTime();
 
-      
+
 
       // this.commonservice.update(body, 'gallery/multiple/update').subscribe(
         this.commonservice.update(body, 'e-participation/creator/draft').subscribe(
@@ -945,7 +955,7 @@ export class ParticipationComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
         });
     }
@@ -953,21 +963,21 @@ export class ParticipationComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // 
+    //
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // 
-      
+      //
+
 
       let keywordVal;
 
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        
+
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        
+
       }
     }
   }

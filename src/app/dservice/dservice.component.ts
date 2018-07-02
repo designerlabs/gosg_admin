@@ -144,7 +144,7 @@ export class DServiceComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readProtectedById('digitalservice/', row, this.languageId)
+    this.commonservice.readProtectedById('dservice/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
@@ -421,7 +421,7 @@ export class DServiceComponent implements OnInit {
 
     // Add ErrorMsg Service
     this.loading = true;
-    this.commonservice.create(body, 'digitalservice').subscribe(
+    this.commonservice.create(body, 'dservice').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
@@ -485,7 +485,7 @@ export class DServiceComponent implements OnInit {
 
     // Update AgencyApp Service
     this.loading = true;
-    this.commonservice.update(body, 'digitalservice').subscribe(
+    this.commonservice.update(body, 'dservice').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
