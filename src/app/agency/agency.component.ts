@@ -567,7 +567,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
           "language": {
             "languageId": 1
           },
-          "image": {
+          "agencyImage": {
             "mediaId": null
           },
           "agencyMinistry": {
@@ -831,6 +831,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     }
 
     console.log(body)
+    // console.log(JSON.stringify(body))
 
     // Update Agency Service
     this.loading = true;
