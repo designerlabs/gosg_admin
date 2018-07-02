@@ -244,7 +244,7 @@ export class DServiceComponent implements OnInit {
       this.isActive = true;
       this.loading = true;
       
-      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -315,7 +315,7 @@ export class DServiceComponent implements OnInit {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
