@@ -165,7 +165,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('dservice', count, size, keyword)
+      this.commonservice.readProtected('digitalservice', count, size, keyword, this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -243,7 +243,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
       this.commonservice.delete(refCode,'dservice/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-            this.getDigitalServicesData(this.pageCount, this.pageSize);
+            this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
          this.loading = false;
