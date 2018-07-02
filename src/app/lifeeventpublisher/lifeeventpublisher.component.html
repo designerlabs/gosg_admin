@@ -44,14 +44,14 @@
       <div class="example-header">
           <div class="bg-form-header col-md-12">&nbsp;</div>
       </div>
-      
+
       <div class="bg-form-header col-md-12">
         <div class="row">
             <label class="col-md-12">{{ 'category.component.parent' | translate }}</label>
         </div>
       </div><br>
 
-      <div class="example-header"> 
+      <div class="example-header">
           <div class="col-md-12">
               <tree-select  class="font-size-m example-full-width" name="simpleSelect"
               [items]="itemEn"
@@ -140,12 +140,12 @@
         </div>
       </div>
 
-      <div class="example-header">    
+      <div class="example-header">
         <div class="col-md-6">
             <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
-              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" 
+              <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish"
               #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="sMinDate" />
               <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time [pickerType]="'calendar'" #publish></owl-date-time>
@@ -159,7 +159,7 @@
             <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
             <mat-form-field class="example-full-width">
               <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
-              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" 
+              <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD"
               #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="eMinDate" />
               <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
               <owl-date-time [pickerType]="'calendar'" #endD></owl-date-time>
@@ -170,24 +170,24 @@
         </div>
       </div>
 
-      <!-- <div class="example-header">  
+      <!-- <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
               <mat-select formControlName="ministryEn" placeholder="Select Ministry" (change)="selectedMinistry($event, 1)">
                 <mat-option [value]=null>Select Ministry</mat-option>
-                <mat-option *ngFor="let minEng of ministryData" [value]="minEng.list[0].ministryId">{{ minEng.list[0].ministryName }}</mat-option>                      
-              </mat-select>                          
-          </mat-form-field>   
-        </div>     
-      
+                <mat-option *ngFor="let minEng of ministryData" [value]="minEng.list[0].ministryId">{{ minEng.list[0].ministryName }}</mat-option>
+              </mat-select>
+          </mat-form-field>
+        </div>
+
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <mat-select formControlName="ministryBm" placeholder="Pilih Kementerian" (change)="selectedMinistry($event, 2)">
               <mat-option [value]=null>Pilih Kementerian</mat-option>
               <mat-option *ngFor="let minMy of ministryData" [value]="minMy.list[1].ministryId">{{ minMy.list[1].ministryName }}</mat-option>
-            </mat-select>           
+            </mat-select>
           </mat-form-field>
-        </div>  
+        </div>
       </div> -->
 
       <div class="example-header">
@@ -247,7 +247,7 @@
         <div class="col-md-12">
           <div class="example-full-width editor block">
             <label for="htmlContentEn">English Content</label>
-            <div [froalaEditor] formControlName="htmlContentEn" [(ngModel)]="editor.enVal" (ngModelChange)="onChangeEn($event)" 
+            <div [froalaEditor]="htmlContentEnEditor" formControlName="htmlContentEn" [(ngModel)]="editor.enVal" (ngModelChange)="onChangeEn($event)"
             (keyup)="parseChkEn($event)" #htmlContentEn class="article_content"></div>
             <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentEn" #htmlContentEn></app-ngx-editor> -->
           </div>
@@ -255,16 +255,16 @@
       </div>
       <div class="example-header">
         <div class="col-md-12">
-          <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary" 
+          <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
           class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view"></i></button>
         </div>
       </div>
-      
+
       <div class="example-header">
-        <div class="col-md-12">            
+        <div class="col-md-12">
             <div class="example-full-width editor block">
               <label for="htmlContentMy">Malay Content</label>
-              <div [froalaEditor] formControlName="htmlContentMy" [(ngModel)]="editor.bmVal" (ngModelChange)="onChangeBm($event)" 
+              <div [froalaEditor]="htmlContentMyEditor" formControlName="htmlContentMy" [(ngModel)]="editor.bmVal" (ngModelChange)="onChangeBm($event)"
               (keyup)="parseChkMy($event)" #htmlContentMy  class="article_content"></div>
               <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentMy" #htmlContentMy></app-ngx-editor> -->
             </div>
@@ -272,8 +272,8 @@
       </div>
 
       <div class="example-header">
-        <div class="col-md-12"> 
-          <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary" 
+        <div class="col-md-12">
+          <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
           class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view"></i></button>
         </div>
       </div><br>
@@ -288,7 +288,7 @@
       <div class="example-header">
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="5" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp 
+            <input matInput tabindex="5" placeholder="{{ 'common.agency' | translate }}" formControlName="agencyforApp" #agencyforApp
             (click)="getSearchDataApp(agencyforApp.value)" (keyup)="getSearchDataApp(agencyforApp.value)">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyforApp.value=''; resetSearchApp()">
               <mat-icon>close</mat-icon>
@@ -310,9 +310,9 @@
             <mat-select formControlName="agencyApp" placeholder="{{ 'agencyapp.select' | translate }}" (change)="selectedAgencyApp($event)">
               <mat-option [value]=null>Select Agency Application</mat-option>
               <mat-option *ngFor="let aa of agencyAppData" [value]="aa.agencyApplicationId">{{ aa.agencyApplicationName }}</mat-option>
-            </mat-select>           
+            </mat-select>
           </mat-form-field>
-        </div>  
+        </div>
       </div>
 
       <div class="example-header tableInfo" *ngIf="arrAgencyApp.length > 0">
@@ -335,13 +335,13 @@
           </tr>
         </table>  -->
 
-        <mat-table #table [dataSource]="dataSource" matSort>           
-                 
+        <mat-table #table [dataSource]="dataSource" matSort>
+
           <!-- add en Column -->
           <ng-container matColumnDef="agencyNameEn">
               <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'agency.name' | translate }} (EN) </mat-header-cell>
               <mat-cell class="text-align-Left" *matCellDef="let element">
-                  {{element[0].agencyName}} 
+                  {{element[0].agencyName}}
               </mat-cell>
           </ng-container>
 
@@ -357,7 +357,7 @@
           <ng-container matColumnDef="agencyNameBm">
             <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'agency.name' | translate }} (BM) </mat-header-cell>
             <mat-cell class="text-align-Left" *matCellDef="let element">
-                {{element[1].agencyName}} 
+                {{element[1].agencyName}}
             </mat-cell>
           </ng-container>
 
@@ -376,8 +376,8 @@
               <button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(element[0].agencyCode)" [disabled]="disableApprove">
                 <i [ngClass]="commonservice.icon.trash"></i></button>
             </mat-cell>
-          </ng-container>     
-         
+          </ng-container>
+
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
@@ -410,25 +410,25 @@
     </div>
 
     <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite" >
-        
-      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
       (click)="submit(updateForm.value)" [disabled]="!complete || !appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
 
-      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+      <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
       (click)="draft(updateForm.value)" [disabled]="!complete || appPublisher || !parseMyBtn || !parseEnBtn || !parentFlag || disableApprove">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
 
-      <button mat-raised-button color="warn" type="button" id="btnSendDraft" class=" btn btn-md btn-warning pull-right mgn_L_5px" 
+      <button mat-raised-button color="warn" type="button" id="btnSendDraft" class=" btn btn-md btn-warning pull-right mgn_L_5px"
       (click)="sendDraft.show()" [disabled]="!disableApprove">
         <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;{{'common.buttons.sendDraft' | translate}}</button>
 
-      <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
-      (click)="resetModal.show()" [disabled]="disableApprove"> 
+      <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right"
+      (click)="resetModal.show()" [disabled]="disableApprove">
         <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
-       
+
     </div>
   </form>
 </div>
@@ -437,8 +437,8 @@
   [isReset]="'true'" (resetMethod)="myFunction()">
 </app-confirm-dialog>
 
-<app-confirm-dialog  #sendDraft 
-[title]="'common.icon.warn'" 
+<app-confirm-dialog  #sendDraft
+[title]="'common.icon.warn'"
 [content]="'common.msg.isSendDraft'"
 [state]="'bg_header bg_warn_header'"
 [isReset]="'true'"

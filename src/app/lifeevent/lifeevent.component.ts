@@ -302,12 +302,21 @@ export class LifeeventComponent implements OnInit, OnDestroy {
 
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
 
+    imageUploadURL: this.appConfig.urlCommon+'image',
+
+    imageUploadMethod: 'POST',
+
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
 };
 
   public htmlContentMyEditor: Object = {
     key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+
+    imageUploadURL: this.appConfig.urlCommon+'image',
+
+    imageUploadMethod: 'POST',
+
     // Allow to upload PNG and JPG.
     imageAllowedTypes: ['jpeg', 'jpg', 'png']
   };
@@ -848,7 +857,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      
+
 
       this.loading = true;
       // Add
@@ -946,7 +955,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      
+
 
       this.loading = true;
       // Update
@@ -1084,7 +1093,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      
+
 
       this.loading = true;
       // Add
@@ -1182,8 +1191,8 @@ export class LifeeventComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-      
-      
+
+
 
       this.loading = true;
       // Update
@@ -1455,7 +1464,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
 
   onScroll(event, lngId){
 
-    // 
+    //
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
       let keywordVal;
