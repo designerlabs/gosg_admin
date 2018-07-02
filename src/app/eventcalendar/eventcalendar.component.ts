@@ -125,12 +125,6 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {  
-
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-    }else{
-      this.languageId = 1;
-    }
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
     this.maskPhoneNo = this.validateService.getMask().telephone;

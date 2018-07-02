@@ -129,7 +129,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   // get agencyapp Data 
   getDigitalServicesData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice',count, size, '', lng)
+    this.commonservice.readProtected('dservice',count, size, '', lng)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
@@ -165,7 +165,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('digitalservice', count, size, keyword)
+      this.commonservice.readProtected('dservice', count, size, keyword)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -240,7 +240,7 @@ export class DServicetblComponent implements OnInit, OnDestroy {
   deleteItem(refCode) {
     // alert(refCode)
     this.loading = true;
-      this.commonservice.delete(refCode,'digitalservice/').subscribe(
+      this.commonservice.delete(refCode,'dservice/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
             this.getDigitalServicesData(this.pageCount, this.pageSize);

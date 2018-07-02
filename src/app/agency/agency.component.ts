@@ -49,6 +49,9 @@ export class AgencyComponent implements OnInit, OnDestroy {
   ministryIdBm:any;
   ministryNameEn:any;
   ministryNameBm:any;
+  imageData: any;
+  selectedFile = '';
+  getImgId: any;
 
   agencyNameEn: FormControl
   agencyNameBm: FormControl
@@ -78,6 +81,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
   mdecStatus: FormControl
   ministryEn: FormControl
   ministryBm: FormControl
+  image: FormControl
 
   resetMsg = this.resetMsg;
 
@@ -132,8 +136,15 @@ export class AgencyComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
+    this.getImageList();
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
@@ -168,6 +179,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     this.mdecStatus = new FormControl()
     this.ministryEn = new FormControl()
     this.ministryBm = new FormControl()
+    this.image = new FormControl()
 
     this.updateForm = new FormGroup({
       agencyNameEn: this.agencyNameEn,
@@ -195,6 +207,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       ePartArchiveUrl: this.flickrUrl,
       ePartPolicyUrl: this.flickrUrl,
       active: this.active,
+      image: this.image,
       mdecStatus: this.mdecStatus,
       ministryEn: this.ministryEn,
       ministryBm: this.ministryBm
@@ -224,6 +237,48 @@ export class AgencyComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     this.maskPhoneNo = this.validateService.getMask().telephone;
     this.maskFaxNo = this.validateService.getMask().fax;
+  }
+
+  getImageList(){
+    this.loading = true;
+    this.commonservice.readProtected('media/category/name/Article', '', '', '', this.languageId)
+     .subscribe(resCatData => {
+
+      this.commonservice.errorHandling(resCatData, (function(){
+
+        this.imageData = resCatData['list'];       
+        // 
+
+      }).bind(this));
+      this.loading = false;
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.loading = false;
+      
+    });
+  }
+  
+  selectedImg(e){
+    
+    this.getImgId = e.value;
+    let dataList = this.imageData;
+    let indexVal: any;
+    let id: any;
+
+    for(let i=0; i<dataList.length; i++){
+      indexVal = dataList[i].list[0].mediaId;
+      if(indexVal == this.getImgId){
+        id = dataList[i].list[0].mediaId;
+        this.selectedFile=dataList[i].list[0].mediaFile;
+      }        
+    }
+
+    
+
+    this.updateForm.get('image').setValue(id);  
+    this.checkReqValues();
+
   }
 
   onScroll(event, lngId){
@@ -260,7 +315,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AgencyTypeData = Rdata;
-          // 
+          console.log(this.AgencyTypeData)
           
           let dataEn = this.AgencyTypeData['agencyList'][0];
           let dataBm = this.AgencyTypeData['agencyList'][1];
@@ -299,6 +354,13 @@ export class AgencyComponent implements OnInit, OnDestroy {
           this.agencyIdBm = dataBm.agencyId;
           this.ministryIdEn = dataEn.agencyMinistry.ministryId;
           this.ministryIdBm = dataBm.agencyMinistry.ministryId;
+
+          if(dataBm.image) {
+            this.selectedFile = dataBm.agencyImage.mediaFile;
+            this.updateForm.get('image').setValue(dataBm.agencyImage.mediaId);
+          } else {
+            this.updateForm.get('image').setValue(null);
+          }
 
           this.checkReqValues();
         }).bind(this));  
@@ -505,10 +567,13 @@ export class AgencyComponent implements OnInit, OnDestroy {
           "language": {
             "languageId": 1
           },
+          "image": {
+            "mediaId": null
+          },
           "agencyMinistry": {
             "ministryId": null
           }
-        }, 
+        },
         {
           "agencyName": null,
           "agencyDescription": null,
@@ -537,14 +602,15 @@ export class AgencyComponent implements OnInit, OnDestroy {
           "language": {
             "languageId": 2
           },
+          "agencyImage": {
+            "mediaId": null
+          },
           "agencyMinistry": {
             "ministryId": null
           }
         }
       ];
     
-      // 
-  
       body[0].agencyName = formValues.agencyNameEn;
       body[0].agencyDescription = formValues.descEn;
       body[0].agencyUniqueCode = formValues.uniqueCode;
@@ -565,8 +631,8 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[0].agencyTwitter = formValues.twitterUrl;
       body[0].agencyWebsiteUrl = formValues.websiteUrl;
       body[0].agencyPublicationUrl = formValues.publicationUrl;
-      body[0].agencyEparticipationArchiveUrl = formValues.websiteUrl;
-      body[0].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+      body[0].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
+      body[0].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
       body[0].agencyEparticipationUrl = formValues.ePartUrl;
       body[0].agencyYoutube = formValues.youtubeUrl;
       body[0].agencyMinistry.ministryId = this.ministryIdEn;
@@ -591,12 +657,19 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[1].agencyTwitter = formValues.twitterUrl;
       body[1].agencyWebsiteUrl = formValues.websiteUrl;
       body[1].agencyPublicationUrl = formValues.publicationUrl;
-      body[1].agencyEparticipationArchiveUrl = formValues.websiteUrl;
-      body[1].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+      body[1].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
+      body[1].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
       body[1].agencyEparticipationUrl = formValues.ePartUrl;
       body[1].agencyYoutube = formValues.youtubeUrl;
       body[1].agencyMinistry.ministryId = this.ministryIdBm;
-  
+    
+      if(formValues.image) {
+        body[0].agencyImage.mediaId = formValues.image;
+        body[1].agencyImage.mediaId = formValues.image;
+      } else {
+        body[0].agencyImage = null;
+        body[1].agencyImage = null;
+      }
       
 
     // Add Agency Service
@@ -647,6 +720,9 @@ export class AgencyComponent implements OnInit, OnDestroy {
         "language": {
           "languageId": 1
         },
+        "agencyImage": {
+          "mediaId": null
+        },
         "agencyMinistry": {
           "ministryId": null
         }
@@ -681,6 +757,9 @@ export class AgencyComponent implements OnInit, OnDestroy {
         "language": {
           "languageId": 2
         },
+        "agencyImage": {
+          "mediaId": null
+        },
         "agencyMinistry": {
           "ministryId": null
         }
@@ -709,8 +788,8 @@ export class AgencyComponent implements OnInit, OnDestroy {
     body[0].agencyTwitter = formValues.twitterUrl;
     body[0].agencyWebsiteUrl = formValues.websiteUrl;
     body[0].agencyPublicationUrl = formValues.publicationUrl;
-    body[0].agencyEparticipationArchiveUrl = formValues.websiteUrl;
-    body[0].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+    body[0].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
+    body[0].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
     body[0].agencyEparticipationUrl = formValues.ePartUrl;
     body[0].agencyYoutube = formValues.youtubeUrl;
     body[0].agencyMinistry.ministryId = this.ministryIdEn;
@@ -737,16 +816,23 @@ export class AgencyComponent implements OnInit, OnDestroy {
     body[1].agencyTwitter = formValues.twitterUrl;
     body[1].agencyWebsiteUrl = formValues.websiteUrl;
     body[1].agencyPublicationUrl = formValues.publicationUrl;
-    body[1].agencyEparticipationArchiveUrl = formValues.websiteUrl;
-    body[1].agencyEparticipationPolicyUrl = formValues.websiteUrl;
+    body[1].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
+    body[1].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
     body[1].agencyEparticipationUrl = formValues.ePartUrl;
     body[1].agencyYoutube = formValues.youtubeUrl;
     body[1].agencyMinistry.ministryId = this.ministryIdBm;
 
-    
-    
+    if(formValues.image) {
+      body[0].agencyImage.mediaId = formValues.image;
+      body[1].agencyImage.mediaId = formValues.image;
+    } else {
+      body[0].agencyImage = null;
+      body[1].agencyImage = null;
+    }
 
-    // // Update Agency Service
+    console.log(body)
+
+    // Update Agency Service
     this.loading = true;
     this.commonservice.update(body,'agency/type').subscribe(
       data => {
