@@ -317,8 +317,8 @@ export class AgencyComponent implements OnInit, OnDestroy {
           this.AgencyTypeData = Rdata;
           console.log(this.AgencyTypeData)
           
-          let dataEn = this.AgencyTypeData['agencyList'][0];
-          let dataBm = this.AgencyTypeData['agencyList'][1];
+          let dataEn = this.AgencyTypeData['list'][0];
+          let dataBm = this.AgencyTypeData['list'][1];
           
           // populate data
           this.updateForm.get('agencyNameEn').setValue(dataEn.agencyName);
@@ -355,7 +355,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
           this.ministryIdEn = dataEn.agencyMinistry.ministryId;
           this.ministryIdBm = dataBm.agencyMinistry.ministryId;
 
-          if(dataBm.image) {
+          if(dataBm.agencyImage) {
             this.selectedFile = dataBm.agencyImage.mediaFile;
             this.updateForm.get('image').setValue(dataBm.agencyImage.mediaId);
           } else {
@@ -829,9 +829,6 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[0].agencyImage = null;
       body[1].agencyImage = null;
     }
-
-    console.log(body)
-    // console.log(JSON.stringify(body))
 
     // Update Agency Service
     this.loading = true;

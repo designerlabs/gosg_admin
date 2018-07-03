@@ -64,6 +64,7 @@ export class DServicedetailsComponent implements OnInit {
   manualBm: FormControl
 
   resetMsg = this.resetMsg;
+  lang: string;
 
   constructor(
     private http: HttpClient, 
@@ -76,29 +77,34 @@ export class DServicedetailsComponent implements OnInit {
 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-     translate.get('HOME').subscribe((res: any) => {
-       this.commonservice.readPortal('language/all').subscribe((data:any) => {
-         let getLang = data.list;
-         let myLangData =  getLang.filter(function(val) {
-           if(val.languageCode == translate.currentLang){
-             this.lang = val.languageCode;
-             this.languageId = val.languageId;
-             // this.getMinistryData(this.pageCount, this.agencyPageSize);
-             this.commonservice.getModuleId();
-           }
-         }.bind(this));
-       })
-     });
-   });
-   if(!this.languageId){
-     this.languageId = localStorage.getItem('langID');
-     // this.getMinistryData(this.pageCount, this.agencyPageSize);
-     this.commonservice.getModuleId();
-   }
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+
+    });
    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
@@ -147,7 +153,7 @@ export class DServicedetailsComponent implements OnInit {
       this.updateForm.disable();
     }
 
-    this.getFileList()
+    this.getFileList(this.languageId)
   }
 
   ngAfterViewInit() {
@@ -167,7 +173,6 @@ export class DServicedetailsComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
         this.dsData = Rdata;
-        // 
         
         let dataEn = this.dsData['list'][0];
         let dataBm = this.dsData['list'][1];
@@ -180,8 +185,6 @@ export class DServicedetailsComponent implements OnInit {
         this.updateForm.get('categoryBm').setValue(dataBm.service.title);
         this.updateForm.get('descEn').setValue(dataEn.description);
         this.updateForm.get('descBm').setValue(dataBm.description);
-        this.updateForm.get('manualEn').setValue(dataEn.manual.mediaId);
-        this.updateForm.get('manualBm').setValue(dataBm.manual.mediaId);
         this.updateForm.get('forCitizen').setValue(dataEn.citizen);
         this.updateForm.get('forNonCitizen').setValue(dataBm.nonCitizen);
         this.updateForm.get('active').setValue(dataBm.enabled);
@@ -190,6 +193,11 @@ export class DServicedetailsComponent implements OnInit {
         this.idBm = dataBm.id;
         this.categoryIdEn = dataEn.service.id;
         this.categoryIdBm = dataBm.service.id;
+
+        if(dataEn.manual && dataBm.manual){
+          this.updateForm.get('manualEn').setValue(dataEn.manual.mediaId);
+          this.updateForm.get('manualBm').setValue(dataBm.manual.mediaId);
+        }
             
         // this.forCitizen = dataEn.citizen;
         // this.forNonCitizen = dataEn.nonCitizen;
@@ -266,7 +274,7 @@ export class DServicedetailsComponent implements OnInit {
       this.isActive = true;
       this.loading = true;
       
-      this.commonservice.readProtected('digitalservice/language/'+langId, count, page, keyword).subscribe(
+      this.commonservice.readProtected('dservice/language/'+langId, count, page, keyword).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -338,7 +346,7 @@ export class DServicedetailsComponent implements OnInit {
       selLangField = "categoryEn";
     }
     this.loading = true;
-    this.commonservice.readProtectedById('digitalservice/refcode/language/'+langId+'/', refCode, langId)
+    this.commonservice.readProtectedById('dservice/refcode/language/'+langId+'/', refCode, langId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -398,10 +406,10 @@ export class DServicedetailsComponent implements OnInit {
     this.checkReqValues();
   }
 
-  getFileList() {
+  getFileList(lng) {
    
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Digital-Services', '0', '999999999')
+    return this.commonservice.readProtected('media/category/name/Digital-Services', '0', '999999999', '', lng)
       .subscribe(resCatData => {
 
         
@@ -444,8 +452,6 @@ export class DServicedetailsComponent implements OnInit {
         nullPointers.push(null)
       }
     }
-
-      // 
 
     if (nullPointers.length > 0 && serviceUrl.length < 5) {
       this.complete = false;
@@ -500,8 +506,6 @@ export class DServicedetailsComponent implements OnInit {
         }
       }
     ];
-    
-    // 
 
     body[0].title = formValues.titleEn;
     body[0].url = formValues.serviceUrl;
@@ -509,7 +513,6 @@ export class DServicedetailsComponent implements OnInit {
     body[0].citizen = formValues.forCitizen;
     body[0].nonCitizen = formValues.forNonCitizen;
     body[0].service.id = this.categoryIdEn;
-    body[0].manual.mediaId = formValues.manualEn;
     body[0].enabled = formValues.active;
     
     body[1].title = formValues.titleBm;
@@ -518,13 +521,19 @@ export class DServicedetailsComponent implements OnInit {
     body[1].citizen = formValues.forCitizen;
     body[1].nonCitizen = formValues.forNonCitizen;
     body[1].service.id = this.categoryIdBm;
-    body[1].manual.mediaId = formValues.manualBm;
     body[1].enabled = formValues.active;
-
     
+    if(formValues.manualEn && formValues.manuamanualBmlEn) {
+      body[0].manual.mediaId = formValues.manualEn;
+      body[1].manual.mediaId = formValues.manualBm;
+    } else {
+      body[0].manual = null;
+      body[1].manual = null;
+    }
 
     // Add ErrorMsg Service
     this.loading = true;
+
     this.commonservice.create(body, 'digitalservice/details').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -540,8 +549,6 @@ export class DServicedetailsComponent implements OnInit {
 
     } else {
 
-      
-      
     let body = [
       {
         "id":  null,
@@ -591,7 +598,6 @@ export class DServicedetailsComponent implements OnInit {
     body[0].citizen = formValues.forCitizen;
     body[0].nonCitizen = formValues.forNonCitizen;
     body[0].service.id = this.categoryIdEn;
-    body[0].manual.mediaId = formValues.manualEn;
     body[0].enabled = formValues.active;
     
     body[1].id = this.idBm;
@@ -602,10 +608,15 @@ export class DServicedetailsComponent implements OnInit {
     body[1].citizen = formValues.forCitizen;
     body[1].nonCitizen = formValues.forNonCitizen;
     body[1].service.id = this.categoryIdBm;
-    body[1].manual.mediaId = formValues.manualBm;
     body[1].enabled = formValues.active;
-
     
+    if(formValues.manualEn && formValues.manuamanualBmlEn) {
+      body[0].manual.mediaId = formValues.manualEn;
+      body[1].manual.mediaId = formValues.manualBm;
+    } else {
+      body[0].manual = null;
+      body[1].manual = null;
+    }
 
     // Update AgencyApp Service
     this.loading = true;
