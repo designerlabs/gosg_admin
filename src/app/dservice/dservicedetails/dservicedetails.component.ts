@@ -100,6 +100,12 @@ export class DServicedetailsComponent implements OnInit {
 
   ngOnInit() {
 
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.titleEn = new FormControl()
@@ -266,7 +272,7 @@ export class DServicedetailsComponent implements OnInit {
       this.isActive = true;
       this.loading = true;
       
-      this.commonservice.readProtected('digitalservice/language/'+langId, count, page, keyword).subscribe(
+      this.commonservice.readProtected('digitalservice/language/'+langId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -401,7 +407,7 @@ export class DServicedetailsComponent implements OnInit {
   getFileList() {
    
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Digital-Services', '0', '999999999')
+    return this.commonservice.readProtected('media/category/name/Digital-Services', '0', '999999999','',this.languageId)
       .subscribe(resCatData => {
 
         
