@@ -58,6 +58,7 @@ export class MediatypeComponent implements OnInit {
   audioreqVal = [];
   videoreqVal = [];
   public loading = false;
+  lang: string;
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
@@ -68,26 +69,33 @@ export class MediatypeComponent implements OnInit {
   ) { 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
@@ -141,7 +149,7 @@ export class MediatypeComponent implements OnInit {
     this.loading = true;
     //Get Media Type
     // this.commonservice.getMediaType()
-    this.commonservice.readProtected('mediatype')
+    this.commonservice.readProtected('mediatype','', '', '', this.languageId)
     .subscribe(resStateData => {
      this.commonservice.errorHandling(resStateData, (function(){            
          this.objMediaType = resStateData['mediaTypes'];   
@@ -173,12 +181,12 @@ export class MediatypeComponent implements OnInit {
 }  // get, add, update, delete
   getRow(row) {
     this.loading = true;
-    this.commonservice.readProtected('mediatype')
+    this.commonservice.readProtected('mediatype','', '', '', this.languageId)
     .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function(){            
          this.objMediaType = resStateData['mediaTypes'];    
         //  this.http.get(this.appConfig.urlMediaType + '/id/' + row)
-          this.commonservice.readProtectedById('mediatype/id/', row)
+          this.commonservice.readProtectedById('mediatype/id/', row, this.languageId)
           .subscribe(Rdata => {
             this.commonservice.errorHandling(Rdata, (function () {
               this.mediaTypeData = Rdata;

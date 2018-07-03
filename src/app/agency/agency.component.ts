@@ -311,7 +311,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     // Update ErrorMsg Service
-    this.commonservice.readPortalById('agency/type/code/',row).subscribe(
+    this.commonservice.readPortalById('agency/type/code/', row, this.languageId).subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AgencyTypeData = Rdata;

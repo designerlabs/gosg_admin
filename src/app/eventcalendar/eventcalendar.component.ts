@@ -125,6 +125,12 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {  
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
     this.maskPhoneNo = this.validateService.getMask().telephone;
@@ -133,7 +139,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.getMinEventDate();
-    this.getImageList();
+    this.getImageList(this.languageId);
 
     this.nameEn = new FormControl()
     this.nameBm = new FormControl()
@@ -251,7 +257,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
     this.loading = true;
     // Update event Service
-    return this.commonservice.readProtectedById('calendar/', row).subscribe(
+    return this.commonservice.readProtectedById('calendar/', row, this.languageId).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
@@ -315,9 +321,9 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
     
   }
 
-  getImageList(){
+  getImageList(lng){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article', '', '', '', this.languageId)
+    this.commonservice.readProtected('media/category/name/Article', '', '', '', lng)
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){

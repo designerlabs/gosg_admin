@@ -279,9 +279,6 @@ export class DServicedetailsComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
 
-          
-          
-
           if(data['list'].length != 0) {
             if(langId == 1) {
               this.searchCategoryResultEn = data['list'];

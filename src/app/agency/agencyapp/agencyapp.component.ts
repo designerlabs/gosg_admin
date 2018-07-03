@@ -191,7 +191,7 @@ export class AgencyappComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readPortalById('agency/application/code/', row)
+    this.commonservice.readPortalById('agency/application/code/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
