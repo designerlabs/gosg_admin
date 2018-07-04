@@ -166,7 +166,7 @@ export class MediatypeComponent implements OnInit {
     this.loading = true;
     // Get Categories
     // this.commonservice.getCategoryData()
-    this.commonservice.readProtected('content/category')
+    this.commonservice.readProtected('content/category', '', '', '', this.languageId)
     .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function () {
         this.objCategory = resStateData['list'];
@@ -400,6 +400,5 @@ export class MediatypeComponent implements OnInit {
         });
     }
   }
-
 
 }
