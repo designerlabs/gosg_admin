@@ -873,8 +873,6 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-
-
       this.loading = true;
       // Update
       this.commonservice.update(body, 'life/event/publisher/draft').subscribe(

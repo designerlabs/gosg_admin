@@ -378,7 +378,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   stripspaces(input) {
     if (input.value != null) {
       let word = input.value.toString();
-      input.value = word.replace(/\s/gi, "");
+      input.value = word.replace(/\s/gi, '');
       return true;
     }
     else {
