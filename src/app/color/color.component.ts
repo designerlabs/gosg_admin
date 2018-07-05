@@ -137,7 +137,7 @@ export class ColorComponent implements OnInit, OnDestroy {
 
     // Update Slider Service
     this.loading = true;
-    this.commonservice.readPortalById('color/id/',row)
+    this.commonservice.readPortalById('color/id/',row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){

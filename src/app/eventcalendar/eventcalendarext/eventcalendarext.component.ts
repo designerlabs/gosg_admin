@@ -127,7 +127,7 @@ export class EventcalendarextComponent implements OnInit {
 
     this.loading = true;
     // Update event Service
-    return this.commonservice.readProtectedById('calendar/external/', row).subscribe(
+    return this.commonservice.readProtectedById('calendar/external/', row, this.languageId).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){

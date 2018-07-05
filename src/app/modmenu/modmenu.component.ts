@@ -122,7 +122,7 @@ export class ModmenuComponent implements OnInit {
     this.loading = true;
 
     // Update Slider Service
-    return this.http.get(this.appConfig.urlModule + '/' + row).subscribe(
+    return this.http.get(this.appConfig.urlModule + '/' + row, this.languageId).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {

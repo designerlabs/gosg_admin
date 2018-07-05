@@ -127,7 +127,7 @@ export class FontComponent implements OnInit {
   getData(id) {
 
     this.loading = true;
-    this.commonservice.readPortalById('font/id/', id)
+    this.commonservice.readPortalById('font/id/', id, this.languageId)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
