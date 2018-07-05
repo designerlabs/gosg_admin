@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
@@ -8,6 +8,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../../nav/nav.service';
 
 @Component({
   selector: 'app-feedbacktype',
@@ -15,7 +17,7 @@ import { DialogsService } from '../../dialogs/dialogs.service';
   styleUrls: ['./feedbacktype.component.css']
 })
 
-export class FeedbacktypeComponent implements OnInit {
+export class FeedbacktypeComponent implements OnInit, OnDestroy {
 
   public loading = false;
   updateForm: FormGroup;
@@ -33,41 +35,63 @@ export class FeedbacktypeComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public lang: any;
+
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
+    private navservice: NavService,
     private translate: TranslateService,
     private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              //this.getUsersData(this.pageCount, this.pageSize);
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      //this.getData();
-    }
-    /* LANGUAGE FUNC */
+    /* LANGUAGE FUNC */ 
+
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    //this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     this.typeEn = new FormControl();
     this.typeBm = new FormControl();
@@ -112,8 +136,8 @@ export class FeedbacktypeComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
 
           this.updateForm.get('typeEn').setValue(this.recordList.feedbackTypeEntityList[1].feedbackTypeDescription);
           this.updateForm.get('typeBm').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);        
@@ -130,7 +154,7 @@ export class FeedbacktypeComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
       
     });
   }
@@ -158,8 +182,8 @@ export class FeedbacktypeComponent implements OnInit {
       body[0].feedbackTypeDescription = formValues.typeBm;
       body[1].feedbackTypeDescription = formValues.typeEn;
 
-      console.log("ADD: ")
-      console.log(JSON.stringify(body));
+      
+      
       this.loading = true;
 
       this.commonservice.create(body,'feedback/type').subscribe(
@@ -175,7 +199,7 @@ export class FeedbacktypeComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -202,8 +226,8 @@ export class FeedbacktypeComponent implements OnInit {
       body[0].feedbackTypeDescription = formValues.typeBm;
       body[1].feedbackTypeDescription = formValues.typeEn;      
 
-      console.log("UPDATE: ");
-      console.log(body);
+      
+      
       this.loading = true;
 
       this.commonservice.update(body,'feedback/type').subscribe(
@@ -219,7 +243,7 @@ export class FeedbacktypeComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
     

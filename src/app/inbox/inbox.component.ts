@@ -1,20 +1,3 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-inbox',
-//   templateUrl: './inbox.component.html',
-//   styleUrls: ['./inbox.component.css']
-// })
-// export class InboxComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
@@ -55,35 +38,46 @@ export class InboxComponent implements OnInit {
 
   complete: boolean;
   public languageId: any;
+  public lang: any;
   public urlEdit = "";
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private dialogsService: DialogsService) { 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.changeLanguageAddEdit();
-            }
-          }.bind(this));
-        })
-      });
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+      // if(this.navservice.flagLang){
+      //   this.commonservice.getModuleId();
+      // }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.commonservice.getModuleId();
     this.subject = new FormControl();
     this.content = new FormControl();
@@ -123,12 +117,12 @@ export class InboxComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
-    this.commonservice.readProtectedById('inbox/', _getRefID)
+    this.commonservice.readProtectedById('inbox/', _getRefID, this.languageId)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log(data);
+        
 
         this.updateForm.get('subject').setValue(this.recordList.object.subject);
         this.updateForm.get('content').setValue(this.recordList.object.content);
@@ -148,7 +142,7 @@ export class InboxComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
     });
   }
 
@@ -175,7 +169,7 @@ export class InboxComponent implements OnInit {
       body.content = formValues.content;
 
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.create(body, 'inbox').subscribe(
@@ -191,7 +185,7 @@ export class InboxComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 

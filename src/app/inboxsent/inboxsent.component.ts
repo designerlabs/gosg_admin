@@ -1,21 +1,4 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-inboxsent',
-//   templateUrl: './inboxsent.component.html',
-//   styleUrls: ['./inboxsent.component.css']
-// })
-// export class InboxsentComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -26,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../dialogs/dialogs.service';
 import { HtmlParser } from '@angular/compiler';
+import { NavService } from '../nav/nav.service';
 declare var jquery:any;
 declare var $ :any;
 
@@ -55,38 +39,50 @@ export class InboxsentComponent implements OnInit {
   userId: any;
 
   public emailList: any;
+  public lang: any;
   idArr = [];
 
   // var el = `<a href="#" onClick="alert(test delete);">[X]</a>`;
 
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
+  private navservice: NavService,
   private dialogsService: DialogsService) { 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.changeLanguageAddEdit();
-            }
-          }.bind(this));
-        })
-      });
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.commonservice.getModuleId();
     this.emailFld = new FormControl();
     this.subject = new FormControl();
@@ -120,9 +116,6 @@ export class InboxsentComponent implements OnInit {
     }
   }
 
-  
-  
-
   getSearchData(keyword){
     // this.isActive = true;
     // this.isActiveList = true;
@@ -155,7 +148,7 @@ export class InboxsentComponent implements OnInit {
   
 
   getValue(type, val, usrId){
-    // console.log(e);a
+    // 
     event.preventDefault();
     let span = document.createElement("span");
     let spanName = document.createElement("span");
@@ -210,12 +203,12 @@ export class InboxsentComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
-    this.commonservice.readProtectedById('inbox/', _getRefID)
+    this.commonservice.readProtectedById('inbox/', _getRefID, this.languageId)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log(data);
+        
         
         this.updateForm.get('emailFld').setValue(this.recordList.object.placeholder);
         this.updateForm.get('subject').setValue(this.recordList.object.subject);
@@ -236,7 +229,7 @@ export class InboxsentComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
     });
   }
 
@@ -264,7 +257,7 @@ export class InboxsentComponent implements OnInit {
       body.recipient = this.idArr;
 
 
-      console.log(body);
+      
       this.loading = true;
 
       this.commonservice.create(body, 'inbox').subscribe( //inbox/toUser
@@ -280,7 +273,7 @@ export class InboxsentComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 

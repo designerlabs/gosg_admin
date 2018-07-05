@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-dservicetbl',
   templateUrl: './dservicetbl.component.html',
   styleUrls: ['./dservicetbl.component.css']
 })
-export class DServicetblComponent implements OnInit {
+export class DServicetblComponent implements OnInit, OnDestroy {
 
   dsData: Object;
   dsList = null;
@@ -43,60 +45,80 @@ export class DServicetblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.dsList);
+  
+  private subscription: ISubscription;
+  private subscriptionLang: ISubscription;
+  private subscriptionLangAll: ISubscription;
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
+      this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) { 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getDigitalServicesData(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getDigitalServicesData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
 
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
     this.displayedColumns = ['no','titleEn', 'titleBm', 'enabled', 'dsAction'];
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
+    
     this.commonservice.getModuleId();
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -105,17 +127,17 @@ export class DServicetblComponent implements OnInit {
   }
 
   // get agencyapp Data 
-  getDigitalServicesData(count, size) {
+  getDigitalServicesData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('digitalservice',count, size)
+    this.commonservice.readProtected('dservice',count, size, '', lng)
     .subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.dsList = data;
-          console.log(this.dsList)
-          console.log(this.dsList.list)
+          
+          
 
           if(this.dsList.list.length > 0){
             this.dataSource.data = this.dsList.list;
@@ -143,7 +165,7 @@ export class DServicetblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('digitalservice', count, size, keyword)
+      this.commonservice.readProtected('digitalservice', count, size, keyword, this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -151,8 +173,8 @@ export class DServicetblComponent implements OnInit {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            console.log("data");
-            console.log(data);
+            
+            
             
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
@@ -178,13 +200,13 @@ export class DServicetblComponent implements OnInit {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }
 
   paginatorL(page) {
-    this.getDigitalServicesData(this.pageCount, this.pageSize);
+    this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -194,11 +216,11 @@ export class DServicetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getDigitalServicesData(page + 1, this.pageSize);
+    this.getDigitalServicesData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getDigitalServicesData(this.pageCount, event.value);
+    this.getDigitalServicesData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -218,10 +240,10 @@ export class DServicetblComponent implements OnInit {
   deleteItem(refCode) {
     // alert(refCode)
     this.loading = true;
-      this.commonservice.delete(refCode,'digitalservice/').subscribe(
+      this.commonservice.delete(refCode,'dservice/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-            this.getDigitalServicesData(this.pageCount, this.pageSize);
+            this.getDigitalServicesData(this.pageCount, this.pageSize, this.languageId);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
          this.loading = false;
@@ -240,78 +262,6 @@ export class DServicetblComponent implements OnInit {
       this.pageMode = "Update";
     }
   }
-
-  // isChecked(e) {
-  //   // console.log(val)
-  //   if(e.checked){
-  //     this.multipleSel.push(e.source.value)
-  //   } else{
-  //     let index = this.multipleSel.indexOf(e.source.value);
-  //     this.multipleSel.splice(index, 1);
-  //   }
-  //   return false;
-  // }
-  
-  // checkAll(ev) {
-  //   this.cb.forEach(x => x.state = ev.target.checked)
-  // }
-
-  // isAllChecked() {
-  //   console.log('fired');
-  //   return this.sizes.every(_ => _.state);
-  // }
-
-  // resetAllMethod(){
-  //   this.revertAll();
-  // }
-
-  // revertAll(){
-  //   let archiveIds = this.multipleSel.join(',');
-  //   this.commonservice.update('', `archive/revert/multiple/${archiveIds}`).subscribe(
-  //     data => {
-
-  //       this.commonservice.errorHandling(data, (function(){
-  //         this.toastr.success(this.translate.instant('common.success.updatesuccess'), '');
-  //         this.getDigitalServicesData(this.pageCount, this.pageSize);
-
-  //     }).bind(this)); 
-  //     this.multipleSel = [];
-  //     this.loading = false;
-  //     },
-  //     error => {
-  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-  //       console.log(error);
-  //       this.multipleSel = [];
-  //       this.loading = false;
-  //     });
-
-  // }
-
-  // deleteAllMethod(){
-  //   this.deleteAll();
-  // }
-
-  // deleteAll(){
-  //   let archiveIds = this.multipleSel.join(',');
-  //   this.commonservice.delete('', `archive/delete/multiple/${archiveIds}`).subscribe(
-  //     data => {
-
-  //       this.commonservice.errorHandling(data, (function(){
-  //         this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-  //         this.getDigitalServicesData(this.pageCount, this.pageSize);
-
-  //     }).bind(this)); 
-  //     this.multipleSel = [];
-  //     this.loading = false;
-  //     },
-  //     error => {
-  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-  //       console.log(error);
-  //       this.multipleSel = [];
-  //       this.loading = false;
-  //     });
-
-  // }
 
   navigateBack() {
     this.isEdit = false;

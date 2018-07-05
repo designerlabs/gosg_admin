@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -8,13 +8,15 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-errormessagetbl',
   templateUrl: './errormessagetbl.component.html',
   styleUrls: ['./errormessagetbl.component.css']
 })
-export class ErrormessagetblComponent implements OnInit {
+export class ErrormessagetblComponent implements OnInit, OnDestroy {
 
   public loading = false;
   errMsgData: Object;
@@ -41,63 +43,76 @@ export class ErrormessagetblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.errMsgList);
+  
+  private subscriptionLang: ISubscription;
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
     else{
-      this.getErrMsgsData(this.pageCount, this.pageSize);
+      this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
     }
   }
 
   resetSearch() {
-    this.getErrMsgsData(this.pageCount, this.pageSize);
+    this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router,
+    private navservice: NavService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private toastr: ToastrService
   ) { 
     
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getErrMsgsData(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getErrMsgsData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
 
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
+    });
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.displayedColumns = [
       'no', 
       'errMsgCodeEn', 
       'messagesDescriptionEn', 
       'messagesDescriptionBm', 
       'errMsgAction'];
+      this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
       this.commonservice.getModuleId();
   }
 
@@ -106,19 +121,23 @@ export class ErrormessagetblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
   // get errMsg Data 
-  getErrMsgsData(page, size) {
+  getErrMsgsData(page, size, lng) {
     this.loading = true;   
-    this.commonservice.readProtected('errormessage/code', page, size)
+    this.commonservice.readProtected('errormessage/code', page, size, '', lng)
       .subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
-            // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
+            // 
             this.errMsgList = data;
 
             if(this.errMsgList.list.length > 0){
-              console.log(this.errMsgList)
+              
               this.dataSource.data = this.errMsgList.list;
               this.seqPageNum = this.errMsgList.pageNumber;
               this.seqPageSize = this.errMsgList.pageSize;
@@ -140,7 +159,7 @@ export class ErrormessagetblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
       });
   }
 
@@ -150,16 +169,16 @@ export class ErrormessagetblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;   
-      this.commonservice.readProtected('errormessage/code', page, size, keyword)
+      this.commonservice.readProtected('errormessage/code', page, size, keyword, this.languageId)
       .subscribe(
           data => {
 
             this.commonservice.errorHandling(data, (function(){
-              // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
+              // 
               this.errMsgList = data;
 
               if(this.errMsgList.list.length > 0){
-                console.log(this.errMsgList)
+                
                 this.dataSource.data = this.errMsgList.list;
                 this.seqPageNum = this.errMsgList.pageNumber;
                 this.seqPageSize = this.errMsgList.pageSize;
@@ -185,13 +204,13 @@ export class ErrormessagetblComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);
+          
         });
     }
   }
 
   paginatorL(page) {
-    this.getErrMsgsData(this.pageCount, this.pageSize);
+    this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -201,11 +220,11 @@ export class ErrormessagetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getErrMsgsData(page + 1, this.pageSize);
+    this.getErrMsgsData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getErrMsgsData(this.pageCount, event.value);
+    this.getErrMsgsData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -237,7 +256,7 @@ export class ErrormessagetblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
   }
 

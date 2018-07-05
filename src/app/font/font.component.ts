@@ -9,6 +9,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
+import { NavService } from '../nav/nav.service';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-font',
@@ -34,44 +36,52 @@ export class FontComponent implements OnInit {
   public urlEdit: any;
   public urlVal: any;
   public languageId: any;
+  public lang:any;
 
   public refId: any;
+  private subscriptionLang: ISubscription;
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router, 
+    private navservice: NavService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              //this.getUsersData(this.pageCount, this.pageSize);
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      //this.getData();
-    }
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
 
-    // this.refId = this.router.url.split('/')[2];
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     this.fname = new FormControl();
     this.furl = new FormControl();
@@ -109,6 +119,11 @@ export class FontComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
+
   getData(id) {
 
     this.loading = true;
@@ -118,8 +133,8 @@ export class FontComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
 
           this.updateForm.get('fname').setValue(this.recordList.font.fontName);
           this.updateForm.get('furl').setValue(this.recordList.font.fontUrl); 
@@ -136,7 +151,7 @@ export class FontComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
       
     });
   }
@@ -160,8 +175,8 @@ export class FontComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultFont = formValues.default;
 
-      // console.log("TEST")
-      // console.log(JSON.stringify(body))
+      // 
+      // 
 
       this.loading = true;
       this.commonservice.create(body, 'font').subscribe(
@@ -177,7 +192,7 @@ export class FontComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
       });
     }
 
@@ -198,8 +213,8 @@ export class FontComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultFont = formValues.default;
 
-      // console.log("UPDATE: ");     
-      // console.log(JSON.stringify(body))
+      // 
+      // 
 
       this.loading = true;
       this.commonservice.update(body, 'font').subscribe(
@@ -215,7 +230,7 @@ export class FontComponent implements OnInit {
           
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          console.log(error);
+          
       });
     }
     

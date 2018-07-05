@@ -147,6 +147,16 @@
                 </div>
             </div>
 
+            <div class="example-header" *ngIf="(urlEdit != 'add' && (flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent')
+                && parentIndicator != commonservice.lifeEventCategoryCode) ||
+                (urlEdit == 'add' && parentIndicator != commonservice.lifeEventCategoryCode && (flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent'))">
+                <div class="col-md-12">
+                    <span style="font-weight: bold;">{{ 'lifeeventtbl.LECategory' | translate }} : </span>
+                    <span style="font-weight: bold;" *ngIf="boolenLEC == true">{{ 'lifeeventtbl.citizenflag' | translate }}</span>
+                    <span style="font-weight: bold;" *ngIf="boolenLENC == true">{{ 'lifeeventtbl.noncitizenflag' | translate }}</span>
+                </div>
+            </div>  
+
             <div class="example-header">
                 <div class="col-md-12">
                     <mat-checkbox class="example-full-width" formControlName="ismainmenu" tabindex="9">{{ 'category.component.ismainmenu' | translate }}</mat-checkbox>
@@ -177,15 +187,19 @@
                 </div>
             </div>
 
-            <div class="example-header">
+            <div class="example-header" *ngIf="(urlEdit == 'add' && parentIndicator == commonservice.lifeEventCategoryCode && (flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent')) 
+                || (urlEdit != 'add' && parentIndicator == commonservice.lifeEventCategoryCode && (flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent'))">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width" formControlName="citizenflag" tabindex="14">{{ 'lifeeventtbl.citizenflag' | translate }}</mat-checkbox>
+                    <mat-checkbox class="example-full-width" formControlName="citizenflag" tabindex="14"
+                    (click)="le($event)">{{ 'lifeeventtbl.citizenflag' | translate }}</mat-checkbox>
                 </div>
             </div>
 
-            <div class="example-header">
+            <div class="example-header" *ngIf="(urlEdit == 'add' && parentIndicator == commonservice.lifeEventCategoryCode && (flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent')) 
+                || (urlEdit != 'add' && parentIndicator == commonservice.lifeEventCategoryCode && (flagLifeE == 'lifeevent' || flagLifeED == 'lifeevent'))">
                 <div class="col-md-12">
-                    <mat-checkbox class="example-full-width" formControlName="noncitizenflag" tabindex="15">{{ 'lifeeventtbl.noncitizenflag' | translate }}</mat-checkbox>
+                    <mat-checkbox class="example-full-width" formControlName="noncitizenflag" tabindex="15"
+                    (click)="le2($event)">{{ 'lifeeventtbl.noncitizenflag' | translate }}</mat-checkbox>
                 </div>
             </div>
 

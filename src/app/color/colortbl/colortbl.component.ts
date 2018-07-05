@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { ISubscription } from "rxjs/Subscription";
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -8,13 +9,14 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-colortbl',
   templateUrl: './colortbl.component.html',
   styleUrls: ['./colortbl.component.css']
 })
-export class ColortblComponent implements OnInit {
+export class ColortblComponent implements OnInit, OnDestroy {
 
   translateLoader = false;
   colorData: Object;
@@ -36,6 +38,8 @@ export class ColortblComponent implements OnInit {
   lang:any;
   languageId: any;
   public loading = false;
+  private subscriptionLang: ISubscription;
+  private subscription: ISubscription;
   
   recordTable =  null;
 
@@ -53,74 +57,55 @@ export class ColortblComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private translate: TranslateService,
     private router: Router,
+    private navservice: NavService,
     private toastr: ToastrService) {
 
-      let currUrl = this.router.url.split('/')[1];
-      /* LANGUAGE FUNC */
-      // if(currUrl == 'color'){
-      //   translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      //     translate.get('HOME').subscribe((res: any) => {        
-            
-      //       console.log(currUrl);
-      //       this.getcolorData(this.pageCount, this.colorPageSize);
-      //       this.commonservice.getModuleId();
-      //         //this.translateLoader = false;
-            
+    /* LANGUAGE FUNC */
 
-      //       // this.loading = true;
-      //       // this.commonservice.readPortal('language/all').subscribe((data:any) => {
-      //       //   let getLang = data.list;
-      //       //   let myLangData =  getLang.filter(function(val) {
-      //       //     if(val.languageCode == translate.currentLang){
-      //       //       this.lang = val.languageCode;
-      //       //       this.languageId = val.languageId;
-      //       //       this.getcolorData(this.pageCount, this.colorPageSize);
-      //       //       this.commonservice.getModuleId();
-      //       //     }
-      //       //   }.bind(this));
-      //       //   this.loading = false;
-      //       // }, err => {
-      //       //   this.loading = false;
-      //       // })
-      //     });
-      //   });
-      // }
-      if(!this.languageId){
-        this.languageId = localStorage.getItem('langID');
-        // this.getcolorData(this.pageCount, this.colorPageSize);
-        // this.commonservice.getModuleId();
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
       }
+        if(this.navservice.flagLang){
+          this.getcolorData(this.pageCount, this.colorPageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
 
-      /* LANGUAGE FUNC */ }
+    });
+    /* LANGUAGE FUNC */ 
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionLang.unsubscribe();
+    //this.subscription.unsubscribe();
+  }
 
   ngOnInit() {
 
-    this.translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      // this.sharedService.errorHandling(event, (function(){
-        const myLang = this.translate.currentLang;
-        if (myLang === 'en') {
-           this.lang = 'en';
-           this.languageId = 1;
-           //this.getcolorData(this.pageCount, this.colorPageSize);
-           console.log('lang is ENGLISH');
-           
-        }
-        if (myLang === 'ms') {
-          this.lang = 'ms';
-          this.languageId = 2;
-          //this.getcolorData(this.pageCount, this.colorPageSize);
-          console.log('lang is MALAY');
-        }
-        console.log("Translate");
-        this.getcolorData(this.pageCount, this.colorPageSize);
-      // }).bind(this));
-    });
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+    
     this.displayedColumns = ['no','colorName', 'colorCode', 'colorActiveStatus', 'colorDefaultFlag', 'colorAction'];
-    console.log("AFTER Trans");
-    this.getcolorData(this.pageCount, this.colorPageSize);
+    
+    this.getcolorData(this.pageCount, this.colorPageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
@@ -130,13 +115,13 @@ export class ColortblComponent implements OnInit {
   }
 
   // get color Data
-  getcolorData(count, size) {
+  getcolorData(count, size, lang) {
     this.loading = true;
-    this.commonservice.readPortal('color',count,size).subscribe(
+    this.commonservice.readPortal('color',count,size, '', lang).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.colorList = data;
-          console.log(this.colorList)
+          
           this.dataSource.data = this.colorList['list'];
           this.seqPageNum = this.colorList.pageNumber;
           this.seqPageSize = this.colorList.pageSize;
@@ -151,7 +136,7 @@ export class ColortblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getcolorData(this.pageCount, this.colorPageSize);
+    this.getcolorData(this.pageCount, this.colorPageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -160,11 +145,11 @@ export class ColortblComponent implements OnInit {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    this.getcolorData(page + 1, this.colorPageSize);
+    this.getcolorData(page + 1, this.colorPageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getcolorData(this.pageCount, event.value);
+    this.getcolorData(this.pageCount, event.value, this.languageId);
     this.colorPageSize = event.value;
     this.noPrevData = true;
   }

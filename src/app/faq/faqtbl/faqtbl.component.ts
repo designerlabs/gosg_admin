@@ -51,7 +51,7 @@ export class FaqtblComponent implements OnInit {
   selection = new SelectionModel<Element>(true, []);
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -61,7 +61,7 @@ export class FaqtblComponent implements OnInit {
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private dialogsService: DialogsService) {
     /* LANGUAGE FUNC */
@@ -127,7 +127,7 @@ export class FaqtblComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
 
     });
   }
@@ -145,8 +145,8 @@ export class FaqtblComponent implements OnInit {
 
           if(this.recordList.list.length > 0){
 
-            console.log("data");
-            console.log(data);
+            
+            
 
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;            
@@ -172,7 +172,7 @@ export class FaqtblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
 
       });
     }
@@ -203,7 +203,7 @@ export class FaqtblComponent implements OnInit {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['faq', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -212,7 +212,7 @@ export class FaqtblComponent implements OnInit {
   deleteRow(refCode) {
 
     this.loading = true;
-    console.log(refCode);
+    
     this.commonservice.delete(refCode,'faq/').subscribe(
       data => {
 
@@ -227,7 +227,7 @@ export class FaqtblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
     
   }

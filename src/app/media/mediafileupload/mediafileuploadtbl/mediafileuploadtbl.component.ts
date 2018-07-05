@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../../../service/common.service';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -8,13 +8,15 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-mediafileuploadtbl',
   templateUrl: './mediafileuploadtbl.component.html',
   styleUrls: ['./mediafileuploadtbl.component.css']
 })
-export class MediafileuploadtblComponent implements OnInit {
+export class MediafileuploadtblComponent implements OnInit, OnDestroy {
   objCategory: any[];
   PageCount = 1;
   PageSize = 10;
@@ -26,6 +28,7 @@ export class MediafileuploadtblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0;
   languageId: any;
+  lang: any;
   displayedColumns = ['no', 'mediaFile', 'catName',  'status', 'action'];
   moduleName;
   resultData = null;
@@ -35,31 +38,57 @@ export class MediafileuploadtblComponent implements OnInit {
   cateSelect;
   public loading = false;
 
-  constructor(private commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService ) { 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
+  constructor(public commonservice: CommonService, private router: Router, @Inject(APP_CONFIG) 
+  private appConfig: AppConfig, private toastr: ToastrService,private http: HttpClient, private navservice: NavService,
+  private dialogsService: DialogsService, private translate: TranslateService ) { 
+
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getMediaList(this.PageCount, this.PageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        
+        this.getMediaList(this.PageCount, this.PageSize);
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getMediaList(this.PageCount, this.PageSize);
-      this.commonservice.getModuleId();
-    }
+    /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
+
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
+
     this.cateSelect = "0";
     this.fileName='';
     this.getMediaList(this.PageCount, this.PageSize);
@@ -90,7 +119,7 @@ export class MediafileuploadtblComponent implements OnInit {
     // Get Categories
     let dUrl = this.appConfig.urlMediaFileUpload + '?page=0&size=999999&language=' + this.languageId;
     // this.http.get(dUrl)
-    this.commonservice.readProtected('media','1','99999999')
+    this.commonservice.readProtected('media','1','99999999', '', this.languageId)
       .subscribe(resStateData => {
           this.commonservice.errorHandling(resStateData, (function () {
             let objCate: Object;            
@@ -141,7 +170,7 @@ export class MediafileuploadtblComponent implements OnInit {
     }
     
     // return this.http.get(this.dataUrl)
-    this.commonservice.readProtected(this.moduleName, count, size)
+    this.commonservice.readProtected(this.moduleName, count, size, '', this.languageId)
        .subscribe(resData => {
         this.commonservice.errorHandling(resData, (function(){
         this.resultData = resData;
@@ -228,7 +257,7 @@ export class MediafileuploadtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
 
-    console.log(this.cateSelect);
+    
     // this.noNextData = pageInc === totalPages;
     //this.getMediaList(pageInc , this.PageSize);
     if(this.cateSelect !== "0" ){
@@ -256,7 +285,7 @@ export class MediafileuploadtblComponent implements OnInit {
     this.noPrevData = true;
   }
   editGroup(mtId) {
-    console.log(mtId);
+    
     this.router.navigate(['media/upload', mtId]);
   }
 
@@ -272,7 +301,7 @@ export class MediafileuploadtblComponent implements OnInit {
         },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });    
   }
 }

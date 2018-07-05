@@ -1,21 +1,4 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-inboxtbl',
-//   templateUrl: './inboxtbl.component.html',
-//   styleUrls: ['./inboxtbl.component.css']
-// })
-// export class InboxtblComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit() {
-//   }
-
-// }
-
-
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -27,6 +10,8 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../../dialogs/dialogs.service';
 import { DatePipe } from '@angular/common';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-inboxtbl',
@@ -35,7 +20,7 @@ import { DatePipe } from '@angular/common';
   encapsulation: ViewEncapsulation.None
 })
 
-export class InboxtblComponent implements OnInit {
+export class InboxtblComponent implements OnInit, OnDestroy {
 
   public loading = false;
   updateForm: FormGroup
@@ -55,6 +40,7 @@ export class InboxtblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  public lang: any;
   showNoData = false;
   recordTable = null;
 
@@ -68,58 +54,73 @@ export class InboxtblComponent implements OnInit {
   
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
+  
+  private subscriptionLang: ISubscription;
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
     else{
-      this.getRecordList(this.pageCount, this.pageSize);
+      this.getRecordList(this.pageCount, this.pageSize, this.languageId);
     }
   }
   
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
+  private navservice: NavService,
   private dialogsService: DialogsService) {
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
     
   }
 
   ngOnInit() {
-    //this.getRecordList(this.pageCount, this.pageSize);
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.getRecordList(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
-  
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
 
-  getRecordList(count, size) {
+  getRecordList(count, size, lng) {
 
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readProtected('inbox', count, size)
+    this.commonservice.readProtected('inbox', count, size, '', lng)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -146,7 +147,7 @@ export class InboxtblComponent implements OnInit {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
 
     });
   }
@@ -164,8 +165,8 @@ export class InboxtblComponent implements OnInit {
 
           if(this.recordList.list.length > 0){
 
-            console.log("data");
-            console.log(data);
+            
+            
 
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;            
@@ -191,18 +192,18 @@ export class InboxtblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
 
       });
     }
   }
 
   resetSearch() {
-    this.getRecordList(this.pageCount, this.pageSize);
+    this.getRecordList(this.pageCount, this.pageSize, this.languageId);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -212,7 +213,7 @@ export class InboxtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize, this.languageId);
   }
 
   add() {
@@ -222,7 +223,7 @@ export class InboxtblComponent implements OnInit {
   }
 
   updateRow(row) {
-    console.log(row);
+    
     this.router.navigate(['inbox', row]);
     this.commonservice.pageModeChange(true);
   }
@@ -231,7 +232,7 @@ export class InboxtblComponent implements OnInit {
   deleteRow(refCode) {
 
     this.loading = true;
-    console.log(refCode);
+    
     this.commonservice.delete(refCode,'inbox/').subscribe(
       data => {
 
@@ -246,7 +247,7 @@ export class InboxtblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
     
   }
@@ -257,7 +258,7 @@ export class InboxtblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

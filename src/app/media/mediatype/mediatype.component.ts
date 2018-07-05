@@ -58,36 +58,44 @@ export class MediatypeComponent implements OnInit {
   audioreqVal = [];
   videoreqVal = [];
   public loading = false;
+  lang: string;
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private router: Router,
     private translate: TranslateService,
     private toastr: ToastrService
   ) { 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[3];
     this.mediatype = new FormControl();
@@ -141,7 +149,7 @@ export class MediatypeComponent implements OnInit {
     this.loading = true;
     //Get Media Type
     // this.commonservice.getMediaType()
-    this.commonservice.readProtected('mediatype')
+    this.commonservice.readProtected('mediatype','', '', '', this.languageId)
     .subscribe(resStateData => {
      this.commonservice.errorHandling(resStateData, (function(){            
          this.objMediaType = resStateData['mediaTypes'];   
@@ -158,7 +166,7 @@ export class MediatypeComponent implements OnInit {
     this.loading = true;
     // Get Categories
     // this.commonservice.getCategoryData()
-    this.commonservice.readProtected('content/category')
+    this.commonservice.readProtected('content/category', '', '', '', this.languageId)
     .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function () {
         this.objCategory = resStateData['list'];
@@ -173,16 +181,16 @@ export class MediatypeComponent implements OnInit {
 }  // get, add, update, delete
   getRow(row) {
     this.loading = true;
-    this.commonservice.readProtected('mediatype')
+    this.commonservice.readProtected('mediatype','', '', '', this.languageId)
     .subscribe(resStateData => {
       this.commonservice.errorHandling(resStateData, (function(){            
          this.objMediaType = resStateData['mediaTypes'];    
         //  this.http.get(this.appConfig.urlMediaType + '/id/' + row)
-          this.commonservice.readProtectedById('mediatype/id/', row)
+          this.commonservice.readProtectedById('mediatype/id/', row, this.languageId)
           .subscribe(Rdata => {
             this.commonservice.errorHandling(Rdata, (function () {
               this.mediaTypeData = Rdata;
-              console.log(this.mediaTypeData);
+              
               let data = this.mediaTypeData['mediaType'];
               this.getData = data;
               // populate data
@@ -249,7 +257,7 @@ export class MediatypeComponent implements OnInit {
         fdata => fdata.category.categoryId === event.value);
         this.selCategory = filtrData[0].category;
         this.selmediaTypeCategoryId = filtrData[0].mediaTypeCategoryId;
-      console.log(this.getData);      
+      
       if (filtrData.length > 0) {
         this.updateForm.get('filesize').setValue(filtrData[0].fileThresholdSize);
         this.updateForm.get('fileunit').setValue(filtrData[0].fileThresholdSizeUnits);
@@ -337,7 +345,7 @@ export class MediatypeComponent implements OnInit {
       body[0].fileThresholdSizeUnits = formValues.fileunit;
       body[0].fileExtensions = formValues.filetype.toString();
 
-      console.log(body);
+      
 
       // Update Media Type Service
       this.commonservice.update(body[0],'mediatype/' + this.mediaTypeData.mediaType.mediaTypeId)
@@ -376,7 +384,7 @@ export class MediatypeComponent implements OnInit {
       body[0].fileThresholdSize = formValues.filesize;
       body[0].fileThresholdSizeUnits = formValues.fileunit;
       body[0].fileExtensions = formValues.filetype.toString();
-      console.log(body);
+      
 
       // Update Media Type Service
       // this.commonservice.addMediaType(formValues.mediatype, body[0]).subscribe(
@@ -392,6 +400,5 @@ export class MediatypeComponent implements OnInit {
         });
     }
   }
-
 
 }

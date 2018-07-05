@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -8,13 +8,15 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-modmenutbl',
   templateUrl: './modmenutbl.component.html',
   styleUrls: ['./modmenutbl.component.css']
 })
-export class ModmenutblComponent implements OnInit {
+export class ModmenutblComponent implements OnInit, OnDestroy {
 
   filterTypeVal(arg0: any, arg1: any, arg2: any, arg3: any): any {
     throw new Error("Method not implemented.");
@@ -47,58 +49,71 @@ export class ModmenutblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.moduleList);
+  
+  private subscriptionLang: ISubscription;
 
   applyFilter(val) {   
 
-    console.log(val);
+    
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getModuleData(this.pageCount, this.pageSize);
+      this.getModuleData(this.pageCount, this.pageSize, this.languageId);
     }
   
   }
 
   resetSearch() {
-    this.getModuleData(this.pageCount, this.pageSize);
+    this.getModuleData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
+    private navservice: NavService,
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService) {
     
       /* LANGUAGE FUNC */
-      translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
         translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.readPortal('language/all').subscribe((data:any) => {
-            let getLang = data.list;
-            let myLangData =  getLang.filter(function(val) {
-              if(val.languageCode == translate.currentLang){
-                this.lang = val.languageCode;
-                this.languageId = val.languageId;
-                this.getModuleData(this.pageCount, this.pageSize);
-                this.commonservice.getModuleId();
-              }
-            }.bind(this));
-          })
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
         });
-      });
-      if(!this.languageId){
-        this.languageId = localStorage.getItem('langID');
-        this.getModuleData(this.pageCount, this.pageSize);
-        this.commonservice.getModuleId();
+        // alert(this.languageId + ',' + this.localeVal)
       }
-  
+        if(this.navservice.flagLang){
+          this.getModuleData(this.pageCount, this.pageSize, this.languageId);
+          this.commonservice.getModuleId();
+        }
+
+    });
       /* LANGUAGE FUNC */ }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.displayedColumns = ['no','moduleName', 'moduleDesc', 'moduleUrl', 'moduleActiveStatus', 'moduleAction'];
+    this.getModuleData(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
@@ -107,17 +122,21 @@ export class ModmenutblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
   // get module Data 
-  getModuleData(page, size) {
+  getModuleData(page, size, lng) {
 
     this.loading = true;
-    this.commonservice.readProtected('authorization/module', page, size).subscribe(
+    this.commonservice.readProtected('authorization/module', page, size, '', lng).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.moduleList = data;
 
           if(this.moduleList['moduleList'].length > 0){
-            console.log(this.moduleList)
+            
             this.dataSource.data = this.moduleList['moduleList'];
             this.seqPageNum = this.moduleList.pageNumber;
             this.seqPageSize = this.moduleList.pageSize;
@@ -137,7 +156,7 @@ export class ModmenutblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);  
+        
         this.loading = false;
       });
       
@@ -156,8 +175,8 @@ export class ModmenutblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
           if(this.recordList.moduleList.length > 0){
           
             this.dataSource.data = this.recordList.moduleList;
@@ -182,13 +201,13 @@ export class ModmenutblComponent implements OnInit {
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
-        console.log(error);
+        
       });
     }
   }
 
   paginatorL(page) {
-    this.getModuleData(this.pageCount, this.pageSize);
+    this.getModuleData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -197,11 +216,11 @@ export class ModmenutblComponent implements OnInit {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    this.getModuleData(page + 1, this.pageSize);
+    this.getModuleData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getModuleData(this.pageCount, event.value);
+    this.getModuleData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -226,7 +245,7 @@ export class ModmenutblComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));  
           this.loading = false;
-          this.getModuleData(this.pageCount, this.pageSize);
+          this.getModuleData(this.pageCount, this.pageSize, this.languageId);
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');  

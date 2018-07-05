@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-languagetbl',
   templateUrl: './languagetbl.component.html',
   styleUrls: ['./languagetbl.component.css']
 })
-export class LanguagetblComponent implements OnInit {
+export class LanguagetblComponent implements OnInit, OnDestroy {
 
   languageData: Object;
   languageList = null;
@@ -31,6 +33,7 @@ export class LanguagetblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
   languageId:any;
+  lang:any;
   public loading = false;
 
   recordTable = null;
@@ -39,6 +42,8 @@ export class LanguagetblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.languageList);
+  
+  private subscriptionLang: ISubscription;
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -49,39 +54,55 @@ export class LanguagetblComponent implements OnInit {
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
+    private navservice: NavService,
     private translate: TranslateService,
     private dialogsService: DialogsService) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.getlanguagesData();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getlanguagesData();
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      this.getlanguagesData();
-    }
     /* LANGUAGE FUNC */  
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.displayedColumns = ['no','languageCode', 'languageName', 'languageDescription', 'isDefault', 'languageAction'];
+    this.getlanguagesData();
     this.commonservice.getModuleId();    
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -95,13 +116,13 @@ export class LanguagetblComponent implements OnInit {
     this.loading = true;
 
     // this.http.get(this.appConfig.urlGetLanguage + '/all?language='+this.languageId).subscribe(
-    this.commonservice.readPortal('language/all').subscribe(
+    this.commonservice.readPortal('language/all', '', '', '', this.languageId).subscribe(
   
       data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.languageList = data;
-          console.log(this.languageList)
+          
           this.dataSource.data = this.languageList.list;
           this.seqPageNum = 1;
           this.seqPageSize = 10;
@@ -114,7 +135,7 @@ export class LanguagetblComponent implements OnInit {
     error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
+      
       this.loading = false;
       });
   }
@@ -146,7 +167,7 @@ export class LanguagetblComponent implements OnInit {
   //   error => {
 
   //     this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-  //     console.log(error);
+  //     
   //     this.loading = false;
   //   });
   // }

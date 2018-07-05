@@ -40,7 +40,7 @@ export class SchedulerComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService) {
@@ -102,7 +102,7 @@ export class SchedulerComponent implements OnInit {
       data => {
         this.commonservice.errorHandling(data, (function () {
           this.recordList = data;
-          console.log(data)
+          
 
           this.scheduleId = this.recordList.schedule.scheduleId;
           this.moduleName = this.recordList.schedule.moduleName;
@@ -118,7 +118,7 @@ export class SchedulerComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
+        
         this.loading = false;
       });
 
@@ -151,7 +151,7 @@ export class SchedulerComponent implements OnInit {
       body.schedulerIntervalUnits = formValues.intervalUnit;
       body.enabled = formValues.enabled;
 
-    console.log(body)
+    
 
     // body.scheduleId = this.scheduleId;
     // body.moduleName = formValues.moduleName;
@@ -159,7 +159,7 @@ export class SchedulerComponent implements OnInit {
     // body.active = formValues.active;
     // body.schedulerIntervalUnits = formValues.intervalUnit;
 
-    // console.log(JSON.stringify(body));
+    // 
     // this.loading = true;
 
     // Update ErrorMsg Service

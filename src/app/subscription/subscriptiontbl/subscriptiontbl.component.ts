@@ -46,17 +46,17 @@ export class SubscriptiontblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.subsList);
 
-  applyFilter(val) {   
+  applyFilter(val) {
 
-    console.log(val);
-    
+
+
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
       this.getSubsData(this.pageCount, this.pageSize);
     }
-  
+
   }
 
   resetSearch() {
@@ -64,9 +64,9 @@ export class SubscriptiontblComponent implements OnInit {
   }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService) {
@@ -104,7 +104,7 @@ export class SubscriptiontblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get agencyapp Data 
+  // get agencyapp Data
   getSubsData(count, size) {
     this.loading = true;
     this.commonservice.readProtected('subscription',count, size)
@@ -114,8 +114,8 @@ export class SubscriptiontblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
           this.subsList = data;
 
-          console.log(this.subsList)
-          // console.log(this.subsList.totalPages)
+
+          //
           if(this.subsList.subscriptionEntityList.length > 0){
             this.dataSource.data = this.subsList.subscriptionEntityList;
             this.seqPageNum = this.subsList.pageNumber;
@@ -132,18 +132,18 @@ export class SubscriptiontblComponent implements OnInit {
           }
 
           else{
-            this.dataSource.data = []; 
+            this.dataSource.data = [];
             this.showNoData = true;
           }
         }).bind(this));
-     
+
         this.loading = false;
       }, err => {
         this.loading = false;
       });
   }
 
-  getFilterList(count, size, keyword, filterkeyword) {    
+  getFilterList(count, size, keyword, filterkeyword) {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
@@ -153,12 +153,12 @@ export class SubscriptiontblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log(this.recordList)
+
 
           if(this.recordList.subscriptionEntityList.length > 0){
-            console.log("data");
-            console.log(data);
-            
+
+
+
             this.dataSource.data = this.recordList.subscriptionEntityList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
@@ -174,7 +174,7 @@ export class SubscriptiontblComponent implements OnInit {
               this.noNextData = false;
             }
           } else{
-            this.dataSource.data = []; 
+            this.dataSource.data = [];
             this.showNoData = true;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
@@ -183,12 +183,12 @@ export class SubscriptiontblComponent implements OnInit {
           }
 
         }).bind(this));
-        this.loading = false; 
+        this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        console.log(error);
+
       });
     }
   }
@@ -217,7 +217,7 @@ export class SubscriptiontblComponent implements OnInit {
     this.changePageMode(this.isEdit);
     this.router.navigate(['subscription', "add"]);
   }
-  
+
   updateRow(row) {
     this.isEdit = true;
     // this.changePageMode(this.isEdit);
@@ -231,12 +231,12 @@ export class SubscriptiontblComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
             this.getSubsData(this.pageCount, this.pageSize);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
-          }).bind(this));  
+          }).bind(this));
          this.loading = false;
         },
         error => {
           this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
         });
 
   }
@@ -250,13 +250,13 @@ export class SubscriptiontblComponent implements OnInit {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getSubsData(this.pageCount, this.pageSize);
 
-      }).bind(this)); 
+      }).bind(this));
       this.multipleSel = [];
       this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
         this.multipleSel = [];
         this.loading = false;
       });
@@ -272,7 +272,7 @@ export class SubscriptiontblComponent implements OnInit {
   }
 
   isChecked(e) {
-    // console.log(val)
+    //
     if(e.checked){
       this.multipleSel.push(e.source.value)
     } else{

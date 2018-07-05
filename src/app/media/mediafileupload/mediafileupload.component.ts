@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef } from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, OnDestroy } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
 import { CommonService } from '../../service/common.service';
@@ -17,13 +17,15 @@ import {
   Ng4FilesSelected
 } from '../../ng4-files';
 import { Observable } from 'rxjs/Observable';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../../nav/nav.service';
 
 @Component({
   selector: 'app-mediafileupload',
   templateUrl: './mediafileupload.component.html',
   styleUrls: ['./mediafileupload.component.css']
 })
-export class MediafileuploadComponent implements OnInit {
+export class MediafileuploadComponent implements OnInit, OnDestroy {
 
   // objCategory = ["Slider","Article","Gallery"];
   // objMediaType = ["Images","Documents","Videos","Audios"];
@@ -60,11 +62,17 @@ export class MediafileuploadComponent implements OnInit {
   selectedFiles;
   filesResult : any;
   languageId: any;
+  lang: any;
   // formdata: FileList;
   clientId;
   networkContract: any;
   public loading = false;
   resFileExtn = [];
+
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   private sharedConfig: Ng4FilesConfig = {
     acceptExtensions: ['jpg'],
@@ -74,34 +82,55 @@ export class MediafileuploadComponent implements OnInit {
   constructor(
     private ng4FilesService: Ng4FilesService, private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService,
+    private navservice: NavService,
     private translate: TranslateService,
     private el:ElementRef
   ) { 
-     /* LANGUAGE FUNC */
-     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+
+    /* LANGUAGE FUNC */
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
+    /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
+
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
+
     this.commonservice.getModuleId();
     this.addconfig = false;
     let refCode = this.router.url.split('/')[3];
@@ -180,7 +209,7 @@ export class MediafileuploadComponent implements OnInit {
   fnLoadCateMediaType(refData) {
     // Get MediaType
       this.loading = true;
-    this.commonservice.readProtected('mediatype')
+    this.commonservice.readProtected('mediatype','','','', this.languageId)
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
@@ -193,7 +222,7 @@ export class MediafileuploadComponent implements OnInit {
         });
          
     // Get Categories // no need to load first
-    this.commonservice.readProtected('content/category')
+    this.commonservice.readProtected('content/category', '', '', '', this.languageId)
       .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function () {
           this.AllobjCategory = resStateData['list'];
@@ -210,12 +239,12 @@ export class MediafileuploadComponent implements OnInit {
   }  
 
   getRow(row) {
-    this.commonservice.readProtectedById('media/code/', row)
+    this.commonservice.readProtectedById('media/code/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.mediaFileUpData = Rdata;
-          console.log(this.mediaFileUpData);
+          
           let data = this.mediaFileUpData['list'][0];
           let selCate = [];
           this.getData = data.list;
@@ -233,7 +262,7 @@ export class MediafileuploadComponent implements OnInit {
           if (data) {
             // this.mediaTypeId = data.mediaTypeId;
             for (let itm of data.list[0].mediaCategories) {
-              console.log(itm.categoryId);
+              
               selCate.push(itm.categoryId);
             }
 
@@ -376,7 +405,7 @@ export class MediafileuploadComponent implements OnInit {
             this.filesResult.my.size = selectedFiles.files[0].size;
             this.selectedFilesMy = selectedFiles.files[0].name; 
             this.mediaFileUpForm.controls.mediaFileMy.setValue(this.selectedFilesMy);
-            console.log(this.selectedFilesMy);
+            
             this.selFilesMy = [];
             this.selFilesMy.push(selectedFiles);
             this.checkReqValues();            
@@ -403,7 +432,7 @@ export class MediafileuploadComponent implements OnInit {
       // var uri = event.target.result;
                     image.src;
                     image.onload = function(k){
-                        console.log(k);
+                        
                     };
     }
 
@@ -412,7 +441,7 @@ export class MediafileuploadComponent implements OnInit {
 
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {    
     let mFileSize = this.chkUploadFile.maxSize;
-    console.log(this.el.nativeElement);
+    
     let fileExtn = selectedFiles.files[0].name.split('.')[1];
     let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn.toLowerCase());
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
@@ -423,7 +452,7 @@ export class MediafileuploadComponent implements OnInit {
             this.filesResult.en.size = selectedFiles.files[0].size;
             this.selectedFilesEn = selectedFiles.files[0].name;
             this.mediaFileUpForm.controls.mediaFileEn.setValue(this.selectedFilesEn);
-            console.log(this.selectedFilesEn);
+            
             this.selFilesEn = [];
             this.selFilesEn.push(selectedFiles);
             this.checkReqValues();
@@ -578,7 +607,7 @@ export class MediafileuploadComponent implements OnInit {
       body[1].mediaCategories[0].parentId = mediaCateMy[0].parentId;
       body[1].mediaCategories[0].language = langMs;
  
-      console.log(body);
+      
       // Update Media file upload Service
       let formData: FormData = new FormData();
       for (let file of this.selFilesEn) {
@@ -703,7 +732,7 @@ export class MediafileuploadComponent implements OnInit {
       body[1].mediaCategories[0].parentId = mediaCateMy[0].parentId;
       body[1].mediaCategories[0].language = langMs;
  
-      console.log(body);
+      
       // Add Media file upload Service
       let formData: FormData = new FormData();
       for (let file of this.selFilesEn) {

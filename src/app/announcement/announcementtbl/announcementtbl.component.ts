@@ -23,14 +23,14 @@ export class AnnouncementtblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.announceList);
 
-  constructor(private commonservice: CommonService, private router: Router) { }
+  constructor(public commonservice: CommonService, private router: Router) { }
 
   ngOnInit() {
     this.getAnnounceList(this.announcePageCount, this.announcePageSize);
   }
 
   getAnnounceList(count, size) {
-    // debugger;
+    
       this.loading = true;
       return this.commonservice.getAnnounceTblData()
        .subscribe(resStateData => {
@@ -44,7 +44,7 @@ export class AnnouncementtblComponent implements OnInit {
         },
         Error => {
         //  this.toastr.error(this.translate.instant('common.err.servicedown'), '');  
-        console.log('Error in Announcement');
+        
         this.loading = false;
        });
   }
@@ -54,7 +54,7 @@ export class AnnouncementtblComponent implements OnInit {
   }
 
   editGroup(fId) {
-    console.log(fId);
+    
     this.router.navigate(['announcement', fId]);
   }
 

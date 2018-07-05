@@ -28,7 +28,7 @@ export class MediatypetblComponent implements OnInit {
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
-  constructor(private commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService) { 
+  constructor(public commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService) { 
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -74,7 +74,7 @@ export class MediatypetblComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');     
-          console.log(error);     
+          
        });
   }
 
@@ -83,7 +83,7 @@ export class MediatypetblComponent implements OnInit {
   }
 
   editGroup(mtId) {
-    console.log(mtId);
+    
     this.router.navigate(['media/type', mtId]);
   }
 
@@ -101,7 +101,7 @@ export class MediatypetblComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');    
-          console.log(error);
+          
         });
    
   }

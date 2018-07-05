@@ -1,28 +1,28 @@
 <!-- VIEW: ADD/EDIT gallery -->
 <div class="container right-content">
     <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
-  
+
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>{{ pageMode }} {{ 'participation.header' | translate }}</h3>
         </div>
-        
+
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" mat-fab color="accent" (click)="back()" >
                 <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
             </span>
-        </div> 
+        </div>
     </div>
-    
+
     <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
         {{'common.msg.unauthorized' | translate}}
     </div>
-  
+
     <form [formGroup]="updateForm" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" autocomplete="off" role="form" novalidate>
         <!-- EN -->
         <div class="example-container mat-elevation-z8 col-md-12">
-  
+
           <div class="row">
             <div class="bg-form-header col-md-6">
               <label class="staticLabel">English</label>
@@ -31,7 +31,7 @@
               <label class="staticLabel">Bahasa Malaysia</label>
             </div>
           </div>
-    
+
           <div class="row">
             <div class="col-md-12">&nbsp;</div>
             <div class="col-md-6">
@@ -53,7 +53,7 @@
               </mat-form-field>
             </div>
           </div>
-    
+
           <div class="row">
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
@@ -81,10 +81,10 @@
           <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="example-full-width">
-                    <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100" required>   
+                    <input matInput type="url" placeholder="URL" formControlName="urlEng" maxlength="100" required>
                     <mat-error *ngIf="updateForm.controls.urlEng.hasError('required')">
                       URL is required
-                    </mat-error>               
+                    </mat-error>
                 </mat-form-field>
             </div>
             <div class="col-md-6">
@@ -97,32 +97,32 @@
             </div>
             <div class="col-md-12">&nbsp;</div>
           </div>
-  
-          <div class="row">    
+
+          <div class="row">
             <div class="col-md-6">
-                <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
+                <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }} *</label>
                 <mat-form-field class="example-full-width">
-                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy hh:mm a' }}</div>
-                  <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput 
-                    formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" 
+                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy'}}</div>
+                  <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput
+                    formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)"
                     (dateTimeChange)="publishEvent('change', $event)" [min]="sMinDate" required />
                   <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
-                  <owl-date-time #publish></owl-date-time>
+                  <owl-date-time [pickerType]="'calendar'" #publish></owl-date-time>
                   <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
                     {{ 'gallerytbl.errorStartDate' | translate }}
                   </mat-error>
                 </mat-form-field>
             </div>
-  
+
             <div class="col-md-6">
-                <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
+                <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }} *</label>
                 <mat-form-field class="example-full-width">
-                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy hh:mm a' }}</div>
-                  <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput 
-                    formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" 
+                  <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy'}}</div>
+                  <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput
+                    formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)"
                     (dateTimeChange)="endEvent('change', $event)" [min]="eMinDate" required />
                   <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
-                  <owl-date-time #endD></owl-date-time>
+                  <owl-date-time [pickerType]="'calendar'" #endD></owl-date-time>
                   <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
                     {{ 'gallerytbl.errorEndDate' | translate }}
                   </mat-error>
@@ -133,13 +133,13 @@
           <div class="row">
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)" 
+                <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)"
                 (keyup)="getSearchData(agencyEn.value, 1)" required>
                 <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-form-field>
-    
+
               <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
               [ngClass]="{'listParent':searchAgencyResultEn.length < 10,'listParent-w-scroll':searchAgencyResultEn.length >= 10}" (scroll)="onScroll($event,1)">
                 <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
@@ -149,16 +149,16 @@
                 </ul>
               </div>
             </div>
-      
+
             <div class="col-md-6">
               <mat-form-field class="example-full-width">
-                <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)" 
+                <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)"
                 (keyup)="getSearchData(agencyBm.value, 2)" required>
                 <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
                   <mat-icon>close</mat-icon>
                 </button>
               </mat-form-field>
-    
+
               <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
               [ngClass]="{'listParent':searchAgencyResultBm.length < 10,'listParent-w-scroll':searchAgencyResultBm.length >= 10}" (scroll)="onScroll($event,2)">
                 <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
@@ -169,7 +169,7 @@
               </div>
             </div>
           </div>
-      
+
           <div class="row">
             <div class="col-md-6">
               <label style="font-size: 0.7em; font-weight: 400; color: rgba(0,0,0,.40); margin-top: -1%; margin-bottom: -1%">Ministry</label>
@@ -187,7 +187,7 @@
             <div class="col-md-12">
               <div class="example-full-width editor block">
                 <label for="htmlContentEn">English Content</label>
-                <div [froalaEditor] formControlName="htmlContentEn" [(ngModel)]="editor.enVal" (ngModelChange)="onChangeEn($event)" 
+                <div [froalaEditor]="htmlContentEnEditor" formControlName="htmlContentEn" [(ngModel)]="editor.enVal" (ngModelChange)="onChangeEn($event)"
                 (keyup)="parseChkEn($event)" #htmlContentEn class="article_content"></div>
                 <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentEn" #htmlContentEn></app-ngx-editor> -->
               </div>
@@ -195,29 +195,29 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary" 
+              <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
               class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view"></i></button>
             </div>
           </div>
-            
+
           <div class="row">
-            <div class="col-md-12">            
+            <div class="col-md-12">
                 <div class="example-full-width editor block">
                   <label for="htmlContentMy">Malay Content</label>
-                  <div [froalaEditor] formControlName="htmlContentMy" [(ngModel)]="editor.bmVal" (ngModelChange)="onChangeBm($event)" 
+                  <div [froalaEditor]="htmlContentMyEditor" formControlName="htmlContentMy" [(ngModel)]="editor.bmVal" (ngModelChange)="onChangeBm($event)"
                   (keyup)="parseChkMy($event)" #htmlContentMy  class="article_content"></div>
                   <!-- <app-ngx-editor [config]="editorConfig" [placeholder]="'Enter text here...'" formControlName="htmlContentMy" #htmlContentMy></app-ngx-editor> -->
                 </div>
             </div>
           </div>
-    
+
           <div class="row">
-            <div class="col-md-12"> 
-              <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary" 
+            <div class="col-md-12">
+              <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
               class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view"></i></button>
             </div>
           </div><br>
-  
+
           <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="example-full-width" >
@@ -230,7 +230,7 @@
                 </mat-form-field>
             </div>
           </div>
-  
+
           <div class="row">
             <div class="col-md-12">&nbsp;</div>
             <div class="col-md-12">
@@ -239,19 +239,19 @@
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
-    
+
         <!-- <div class="container"> -->
         <div class="col-md-12">&nbsp;</div>
           <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite" style="padding-bottom:20px;">
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
             (click)="participationSubmit(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn">
               <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
               <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
-            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
             (click)="participationDraft(updateForm.value)" [disabled]="!complete || sendForApporval || !parseMyBtn || !parseEnBtn">
               <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
               <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
-            <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
+            <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right"
             (click)="resetModal.show()" [disabled]="sendForApporval">
               <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
           </div>
@@ -259,8 +259,8 @@
       <!-- </div> -->
     </form>
   </div>
-  <app-confirm-dialog  #resetModal 
-  [title]="'common.icon.warn'" 
+  <app-confirm-dialog  #resetModal
+  [title]="'common.icon.warn'"
   [content]="'common.msg.reset'"
   [state]="'bg_header bg_warn_header'"
   [isReset]="'true'"

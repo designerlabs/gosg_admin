@@ -43,7 +43,7 @@ export class CityComponent implements OnInit {
   selection = new SelectionModel<Element>(true, []);
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -53,7 +53,7 @@ export class CityComponent implements OnInit {
   }
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-      private commonservice: CommonService, private router: Router,
+  public commonservice: CommonService, private router: Router,
       private translate: TranslateService,
       private toastr: ToastrService) {
 
@@ -95,8 +95,8 @@ export class CityComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
 
-        console.log("data");
-        console.log(data);
+        
+        
 
         if(this.recordList.cityList.length > 0){
 
@@ -120,7 +120,7 @@ export class CityComponent implements OnInit {
     error => {
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      console.log(error);
+      
     });
   }
 
@@ -136,8 +136,8 @@ export class CityComponent implements OnInit {
           this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
 
-          console.log("data");
-          console.log(data);
+          
+          
 
           if(this.recordList.cityList.length > 0){
 
@@ -165,7 +165,7 @@ export class CityComponent implements OnInit {
       error => {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
       });
     }
   }

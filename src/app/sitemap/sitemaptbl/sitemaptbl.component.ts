@@ -43,7 +43,7 @@ export class SitemaptblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.sitemapList);
 
   applyFilter(e) {
-    console.log(e);
+    
     if(e){
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
@@ -59,7 +59,7 @@ export class SitemaptblComponent implements OnInit {
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router,
     private dialogsService: DialogsService,
     private translate: TranslateService,
@@ -114,10 +114,10 @@ export class SitemaptblComponent implements OnInit {
         data => {
 
           this.commonservice.errorHandling(data, (function(){
-            // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
+            // 
             this.sitemapList = data;
 
-            console.log(this.sitemapList.list)
+            
             if(this.sitemapList.list.length > 0){
               this.dataSource.data = this.sitemapList.list;
               this.seqPageNum = this.sitemapList.pageNumber;
@@ -140,7 +140,7 @@ export class SitemaptblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
       });
   }
 
@@ -155,11 +155,11 @@ export class SitemaptblComponent implements OnInit {
           data => {
 
             this.commonservice.errorHandling(data, (function(){
-              // console.log(this.dataUrl+ '/code/?page=' + page + '&size=' + size)
+              // 
               this.sitemapList = data;
 
               if(this.sitemapList.list.length > 0){
-                console.log(this.sitemapList)
+                
                 this.dataSource.data = this.sitemapList.list;
                 this.seqPageNum = this.sitemapList.pageNumber;
                 this.seqPageSize = this.sitemapList.pageSize;
@@ -185,7 +185,7 @@ export class SitemaptblComponent implements OnInit {
 
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);
+          
         });
     }
   }
@@ -223,7 +223,7 @@ export class SitemaptblComponent implements OnInit {
 
   deleteItem(refCode) {
 
-    console.log(refCode)
+    
 
     this.loading = true;   
     this.commonservice.delete(refCode,'sitemap/').subscribe(
@@ -239,7 +239,7 @@ export class SitemaptblComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter, Inject, OnDestroy } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import {startWith} from 'rxjs/operators/startWith';
@@ -10,6 +10,7 @@ import { CommonService } from '../service/common.service';
 import { Router, RouterModule } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { ISubscription } from 'rxjs/Subscription';
 
 // import { Router } from '@angular/router/src/router';
 
@@ -24,9 +25,7 @@ export class User {
   encapsulation: ViewEncapsulation.None
 })
 
-
-
-export class LeftmenuComponent implements OnInit {
+export class LeftmenuComponent implements OnInit, OnDestroy {
   isSuperAdmin = false;
   menulist_non_admin: any;
   @Output() menuClick = new EventEmitter();
@@ -49,6 +48,11 @@ export class LeftmenuComponent implements OnInit {
 
 step = 0;
 
+private subscriptionUserList: ISubscription;
+private subscriptionUsersDetails: ISubscription;
+private subscriptionModMenu: ISubscription;
+private subscriptionLocalMenu: ISubscription;
+
 setStep(index: number) {
   this.step = index;
 }
@@ -64,7 +68,7 @@ prevStep() {
 applyFilter(keyword) {   
   
   if(keyword){
-    this.getFilterList(keyword);
+    this.getFilterList(keyword, this.languageId);
   }
   else{
     this.getUserData();
@@ -79,10 +83,10 @@ resetSearch() {
 }
 
   // tslint:disable-next-line:max-line-length
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, private commonservice: CommonService, private router: Router,
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, public commonservice: CommonService, private router: Router,
   private toastr: ToastrService ) { 
     
-    this.getUserData();
+    // this.getUserData();
   }
 
   ngOnInit() {
@@ -94,7 +98,16 @@ resetSearch() {
     );
 
     this.getUserData();
-   
+  }
+
+  ngOnDestroy() {
+    if(!environment.staging){
+    this.subscriptionUserList.unsubscribe();
+    this.subscriptionUsersDetails.unsubscribe();
+    this.subscriptionModMenu.unsubscribe();
+    } else {
+      this.subscriptionLocalMenu.unsubscribe();
+    }
   }
 
   
@@ -106,7 +119,7 @@ resetSearch() {
     this.languageId = localStorage.getItem('langID');
     if(!environment.staging){
       this.loading = true;
-      this.commonservice.getUsersDetails().subscribe(
+      this.subscriptionUsersDetails = this.commonservice.getUsersDetails().subscribe(
         data => {
           if(data['adminUser']){
             if(data['adminUser'].superAdmin){
@@ -115,7 +128,7 @@ resetSearch() {
             }else{
               this.loading = true;
               this.isSuperAdmin = false;
-              this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
+              this.subscriptionUserList = this.commonservice.getUserList(data['adminUser'].userId).subscribe((data:any) => {
                 
                 this.menulist_non_admin = data.data[1];
                 this.loading = false;
@@ -135,6 +148,7 @@ resetSearch() {
       )
     }else{
       this.getMenuDataLocal();
+      
     }
     
   }
@@ -144,10 +158,10 @@ resetSearch() {
     document.documentElement.scrollTop = 0;
   }
 
-  getFilterList(keyword) {
+  getFilterList(keyword, lng) {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('authorization/module/search', '','', keyword)
+      this.commonservice.readProtected('authorization/module/search', '','', keyword, lng)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -168,7 +182,7 @@ resetSearch() {
 
   getMenuData() {
     this.loading = true;
-    this.commonservice.getModMenu().subscribe((data:any) => {
+    this.subscriptionModMenu = this.commonservice.getModMenu().subscribe((data:any) => {
       this.menulst = data;
       this.loading = false;
     }, err => {
@@ -180,7 +194,7 @@ resetSearch() {
 
   getMenuDataLocal() {
     this.loading = true;
-    this.commonservice.getModMenuLocal().subscribe((data:any) => {
+    this.subscriptionLocalMenu = this.commonservice.getModMenuLocal().subscribe((data:any) => {
       this.menulst = data;
       this.loading = false;
       // let myLangData =  getLang.filter(function(val) {
@@ -208,7 +222,7 @@ resetSearch() {
     // if (mainid === 1 && subid === 3) {
     //     this.http.get(this.appConfig.urlCommon + 'article/category/1').subscribe(data => {
     //         this.dataTbl = data;
-    //         console.log(this.dataTbl);
+    //         
     //     });
     // }
 

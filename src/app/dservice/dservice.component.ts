@@ -55,7 +55,7 @@ export class DServiceComponent implements OnInit {
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
@@ -87,6 +87,12 @@ export class DServiceComponent implements OnInit {
 
   ngOnInit() {
 
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
 
@@ -107,7 +113,7 @@ export class DServiceComponent implements OnInit {
       agencyBm: this.agencyBm,
       active: this.active
     });
-    this.getAgency();
+    this.getAgency(this.languageId);
 
     if(refCode == "add") {
       this.isEdit = false;
@@ -138,13 +144,13 @@ export class DServiceComponent implements OnInit {
     
     // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readProtectedById('digitalservice/', row)
+    this.commonservice.readProtectedById('dservice/', row, this.languageId)
     .subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
         this.dsData = Rdata;
-        // console.log(JSON.stringify(this.dsData))
-        console.log(this.dsData)
+        // 
+        
         let dataEn = this.dsData['list'][0];
         let dataBm = this.dsData['list'][1];
 
@@ -185,28 +191,28 @@ export class DServiceComponent implements OnInit {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
+    // 
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
+      // 
+      
 
       let keywordVal;
       
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
+        
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
+        
       }
     }
   }
 
-  getAgency() {
+  getAgency(lng) {
     this.loading = true;
-    this.commonservice.readPortal('agency/application/code').subscribe(
+    this.commonservice.readPortal('agency/application/code', '', '', '', lng).subscribe(
         Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
             this.AgencyData = Rdata['list'];
@@ -233,17 +239,17 @@ export class DServiceComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      // console.log(keyword)
-      // console.log(keyword.length)
+      // 
+      // 
       this.isActive = true;
       this.loading = true;
       
-      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
 
-          console.log(data['agencyList'].length)
+          
 
           if(data['agencyList'].length != 0) {
             if(langId == 1) {
@@ -290,7 +296,7 @@ export class DServiceComponent implements OnInit {
     }
     this.getAgencyByRefCode(refCode,langId);
 
-    // console.log(mName)
+    // 
   }
 
   // GET AGENCY NAME BY PAIRED LANGUAGE ID
@@ -309,12 +315,12 @@ export class DServiceComponent implements OnInit {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          // console.log('refCode Data');
-          // console.log(data);
+          // 
+          // 
 
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
@@ -355,7 +361,7 @@ export class DServiceComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -399,7 +405,7 @@ export class DServiceComponent implements OnInit {
       }
     ];
     
-    // console.log(formValues)
+    // 
 
     body[0].title = formValues.titleEn;
     body[0].description = formValues.descEn;
@@ -411,11 +417,11 @@ export class DServiceComponent implements OnInit {
     body[1].agency.agencyId = this.agencyIdBm;
     body[1].enabled = formValues.active;
 
-    console.log(body)
+    
 
     // Add ErrorMsg Service
     this.loading = true;
-    this.commonservice.create(body, 'digitalservice').subscribe(
+    this.commonservice.create(body, 'dservice').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
@@ -430,7 +436,7 @@ export class DServiceComponent implements OnInit {
 
     } else {
 
-      console.log(this.refCode)
+      
       
     let body = [
       {
@@ -475,11 +481,11 @@ export class DServiceComponent implements OnInit {
     body[1].agency.agencyId = this.agencyIdBm;
     body[1].enabled = formValues.active;
 
-    console.log(body);
+    
 
     // Update AgencyApp Service
     this.loading = true;
-    this.commonservice.update(body, 'digitalservice').subscribe(
+    this.commonservice.update(body, 'dservice').subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');

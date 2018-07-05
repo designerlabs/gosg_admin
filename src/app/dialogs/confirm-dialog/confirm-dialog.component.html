@@ -4,8 +4,10 @@ tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="tru
   <!-- <div class="modal-dialog" [ngClass]="{'modal-lg':isHistory, 'modal-md':!isHistory}"> -->
     <div class="modal-content">
 
-      <div class="{{state | translate:param}}">
-        <h2 class="modal-title text-center"><i class='{{title | translate:param}}'></i></h2>
+      <div class="{{ state }}">
+        <h2 class="modal-title text-center"><i class='{{ title }}'></i></h2>
+      <!-- <div class="{{state | translate:param}}">
+        <h2 class="modal-title text-center"><i class='{{title | translate:param}}'></i></h2> -->
           <!-- <button *ngIf="isHistory" mat-button matSuffix mat-icon-button (click)="hide()" class="pull-right">
             <mat-icon>close</mat-icon>
           </button> -->

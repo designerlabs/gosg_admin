@@ -48,7 +48,7 @@ export class ConfirmDialogComponent {
 
     confirm(data){
       this.router.navigate([data]);
-      console.log(data);
+      
     };
 
     onSubmit() {

@@ -181,30 +181,35 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container *ngIf="languageId == 1" matColumnDef="category">
+                <ng-container matColumnDef="category">
                     <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.category' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
                         <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
-                        <span class="tag-style"*ngFor="let ele of (element.list[0]?.contentCategories.length > 3 ? element.list[0]?.contentCategories.slice(0,3):  element.list[0]?.contentCategories)">
-                            {{ele.categoryName | truncate:[12, '...']}}
-                        </span>    
-                        <span *ngIf="element.list[0]?.contentCategories.length > 3">
-                            +{{element.list[0]?.contentCategories.length - 3}}
-                        </span>
+                        <div *ngIf="languageId == 1">
+                            <span class="tag-style"*ngFor="let ele of (element.list[0]?.contentCategories.length > 3 ? element.list[0]?.contentCategories.slice(0,3):  element.list[0]?.contentCategories)">
+                                {{ele.categoryName | truncate:[12, '...']}}
+                            </span>    
+                            <span *ngIf="element.list[0]?.contentCategories.length > 3">
+                                +{{element.list[0]?.contentCategories.length - 3}}
+                            </span>
+                        </div>                        
+
+                        <div *ngIf="languageId == 2">
+                            <span class="tag-style"*ngFor="let ele of (element.list[1]?.contentCategories.length > 3 ? element.list[1]?.contentCategories.slice(0,3):  element.list[1]?.contentCategories)">
+                                {{ele.categoryName | truncate:[12, '...']}}
+                            </span>    
+                            <span *ngIf="element.list[1]?.contentCategories.length > 3">
+                                +{{element.list[1]?.contentCategories.length - 3}}
+                            </span>
+                        </div>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container *ngIf="languageId == 2" matColumnDef="category">
-                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'lifeeventtbl.tableHeader.category' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" class="padding5" *matCellDef="let element">
-                        <!-- {{element.list[0]?.contentCategories[0].categoryName }} -->
-                        <span class="tag-style"*ngFor="let ele of (element.list[1]?.contentCategories.length > 3 ? element.list[1]?.contentCategories.slice(0,3):  element.list[1]?.contentCategories)">
-                            {{ele.categoryName | truncate:[12, '...']}}
-                        </span>    
-                        <span *ngIf="element.list[1]?.contentCategories.length > 3">
-                            +{{element.list[1]?.contentCategories.length - 3}}
-                        </span>
-                    </mat-cell>
+                <!-- date Column -->
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef class="draftColumn"> {{ 'common.tableHeader.date' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="draftColumn"> {{changeDate(element.list[1]?.publishDate)}}<br> 
+                                                            {{changeDate2(element.list[1]?.endDate)}}</mat-cell>
                 </ng-container>
 
                 <!-- Default Column -->

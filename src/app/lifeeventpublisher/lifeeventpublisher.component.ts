@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -14,24 +14,26 @@ import { forEach } from '@angular/router/src/utils/collection';
 import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-lifeeventpublisher',
   templateUrl: './lifeeventpublisher.component.html',
   styleUrls: ['./lifeeventpublisher.component.css']
 })
-export class LifeeventpublisherComponent implements OnInit {
+export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
-  publishdt:number;  
+  publishdt:number;
   enddt: number;
   minDate: any;
   sMinDate: any;
   eMinDate: any;
   publish: FormControl
   endD: FormControl
-
+  isEdit: boolean;
 
   rawValBm: any;
   rawValEn: any;
@@ -40,17 +42,17 @@ export class LifeeventpublisherComponent implements OnInit {
   parseMyBtn: boolean;
 
   updateForm: FormGroup;
-  
+
   approve: FormControl
-  public agencyApp: FormControl;  
-  public agencyforApp: FormControl;  
-  public agencyEn: FormControl;  
+  public agencyApp: FormControl;
+  public agencyforApp: FormControl;
+  public agencyEn: FormControl;
   public agencyBm: FormControl;
-  public ministryEn: FormControl;  
+  public ministryEn: FormControl;
   public ministryBm: FormControl;
-  public titleEn: FormControl;  
+  public titleEn: FormControl;
   public titleBm: FormControl;
-  public descEn: FormControl;  
+  public descEn: FormControl;
   public descBm: FormControl;
   public active: FormControl;
   public citizenflag:FormControl;
@@ -65,7 +67,7 @@ export class LifeeventpublisherComponent implements OnInit {
   itemBm: any;
   public parentsEn: FormControl;
   public parentsBm: FormControl;
-  public dataUrl: any;  
+  public dataUrl: any;
   public recordList: any;
   public categoryData: any;
   public deleted: FormControl;
@@ -76,6 +78,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
   public complete: boolean;
   public languageId: any;
+  public lang: any;
   public treeEn: any;
   public treeBm: any;
   public loading = false;
@@ -116,6 +119,36 @@ export class LifeeventpublisherComponent implements OnInit {
   userDetails: any;
   fullName: any;
   email: any;
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
+
+
+  public htmlContentEnEditor: Object = {
+
+    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+
+    imageUploadURL: this.appConfig.urlCommon+'image',
+
+    imageUploadMethod: 'POST',
+
+    // Allow to upload PNG and JPG.
+    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+};
+
+  public htmlContentMyEditor: Object = {
+    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+
+    imageUploadURL: this.appConfig.urlCommon+'image',
+
+    imageUploadMethod: 'POST',
+
+    // Allow to upload PNG and JPG.
+    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+  };
+
 
   editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
@@ -140,43 +173,46 @@ export class LifeeventpublisherComponent implements OnInit {
   dataSource: any;
   // dataSource = new MatTableDataSource<object>(this.arrAgencyApp);
   displayedColumns = ['agencyNameEn', 'urlEn', 'agencyNameBm','urlBm', 'action'];
-  
 
-  constructor(private http: HttpClient, 
+
+  constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService, 
-    private router: Router, 
+    public commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
     public dialog: MatDialog,
+    private navservice: NavService,
     public builder: FormBuilder ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.getCategory();           
-              this.languageId = val.languageId;
-              this.changeLanguageAddEdit();
-              this.changePlaceHolder();
-              //this.getData();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.getCategory(this.languageId);
+        this.changeLanguageAddEdit();
+        this.changePlaceHolder();
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getCategory();
-      //this.getData();
-    }
     /* LANGUAGE FUNC */
-      
+
     this.updateForm = builder.group({
       enVal: "",
       bmVal: "",
@@ -184,11 +220,24 @@ export class LifeeventpublisherComponent implements OnInit {
     })
   }
 
-  ngOnInit() {  
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
+  }
 
-    this.getMinistry();
+  ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.getMinistry(this.languageId);
     this.getMinEventDate();
-    
+
     this.publish = new FormControl()
     this.endD = new FormControl();
     // this.parseEnBtn = false;
@@ -216,7 +265,7 @@ export class LifeeventpublisherComponent implements OnInit {
     this.htmlContentMy = new FormControl();
     this.approve = new FormControl();
 
-    this.updateForm = new FormGroup({   
+    this.updateForm = new FormGroup({
 
       approve: this.approve,
       endD: this.endD,
@@ -229,7 +278,7 @@ export class LifeeventpublisherComponent implements OnInit {
       ministryBm: this.ministryBm,
       titleEn: this.titleEn,
       titleBm: this.titleBm,
-      descEn: this.descEn,    
+      descEn: this.descEn,
       descBm: this.descBm,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
@@ -243,13 +292,13 @@ export class LifeeventpublisherComponent implements OnInit {
       htmlContentMy: this.htmlContentMy,
     });
 
-    this.getCategory();
+    this.getCategory(this.languageId);
 
     this.urlEdit = this.router.url.split('/')[3];
-    
+
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
-      this.changePlaceHolder(); 
+      this.changePlaceHolder();
       this.updateForm.get('active').setValue(true)
       // this.updateForm.get('citizenflag').setValue(true)
       // this.updateForm.get('noncitizenflag').setValue(true)
@@ -257,7 +306,7 @@ export class LifeeventpublisherComponent implements OnInit {
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
-     
+
     }
     this.commonservice.getModuleId();
   }
@@ -267,11 +316,11 @@ export class LifeeventpublisherComponent implements OnInit {
     this.loading = true;
     return this.commonservice.create(this.htmlContentEn.value, 'htmlcontent/formathtml')
       .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () { 
+        this.commonservice.errorHandling(resCatData, (function () {
           let config = new MatDialogConfig();
           config.width = '800px';
           config.height = '600px';
-          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
           let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
           let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
@@ -287,7 +336,6 @@ export class LifeeventpublisherComponent implements OnInit {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
@@ -295,11 +343,11 @@ export class LifeeventpublisherComponent implements OnInit {
     this.loading = true;
     return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
       .subscribe(resCatData => {
-        this.commonservice.errorHandling(resCatData, (function () { 
+        this.commonservice.errorHandling(resCatData, (function () {
           let config = new MatDialogConfig();
           config.width = '800px';
           config.height = '600px';
-          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
           let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
           let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
@@ -315,18 +363,17 @@ export class LifeeventpublisherComponent implements OnInit {
       },
       error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
   }
 
   onChangeEn(ele){
     if(ele == this.rawValEn){
-      this.parseEnBtn = true;        
+      this.parseEnBtn = true;
     }
     else{
       this.parseEnBtn = false;
-    }   
+    }
   }
 
   onChangeBm(ele){
@@ -338,7 +385,7 @@ export class LifeeventpublisherComponent implements OnInit {
     }
   }
 
-  onChange(ele){    
+  onChange(ele){
 
     if(ele.length > 0 ){
       this.parentFlag = true;
@@ -348,59 +395,50 @@ export class LifeeventpublisherComponent implements OnInit {
       this.parentFlag = false;
     }
 
-    console.log("ELEMMM");
-    console.log(this.parentFlag);
-    console.log(ele.length);
-    
+
   }
 
   getMinEventDate(){
     let today = new Date();
     let todaysdt = today.getDate();
     let year = today.getFullYear();
-    let month = today.getMonth(); 
+    let month = today.getMonth();
 
     //this.minDate = new Date(year, month, todaysdt);
     this.sMinDate = new Date(year, month, todaysdt);
     this.eMinDate = new Date(year, month, todaysdt);
   }
 
-  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     let year, month, day;
     this.events = [];
     this.events.push(`${event.value}`);
 
     this.publishdt = new Date(this.events[0]).getTime();
-    this.dateFormatExample = "";   
+    this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
+    this.dateFormatExample = "";
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
- 
+
     this.eMinDate = new Date(year,month,day);
 
-    //if(this.publishdt>this.enddt || this.enddt == undefined){
-      // this.enddt = new Date(year,month,day).getTime(); 
-      // this.enddt = new Date(this.events[0]).getTime();
-      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-    //}
-
-    if(this.publishdt>this.enddt || this.enddt == undefined){
+    if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-      this.enddt = null;
+      //this.enddt = null;
     }
-    //this.updateForm.get('endD').setValue('');
 
-    this.checkReqValues()    
+    this.checkReqValues()
   }
 
-  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     this.events = [];
     this.events.push(`${event.value}`);
-    this.enddt = new Date(this.events[0]).getTime();    
+    this.enddt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
     this.checkReqValues()
   }
@@ -408,9 +446,9 @@ export class LifeeventpublisherComponent implements OnInit {
   setEventDate(tsd,type) {
 
     let year, month, day;
-    let res;    
+    let res;
     this.events = [];
-    var d = new Date(tsd); 
+    var d = new Date(tsd);
     this.events.push(`${d}`);
 
     year = new Date(this.events[0]).getFullYear();
@@ -421,7 +459,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
       this.eMinDate = new Date(year,month,day);
       this.publishdt = new Date(this.events[0]).getTime();
-      this.enddt = new Date(this.events[0]).getTime();     
+      this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     }
     else{
@@ -432,32 +470,32 @@ export class LifeeventpublisherComponent implements OnInit {
     return res;
   }
 
-  getCategory(){
+  getCategory(lang){
 
     this.loading = true;
-    return this.commonservice.readProtected('life/event/publisher/dropdown/643')
+    this.subscriptionCategoryC = this.commonservice.readProtected('life/event/publisher/dropdown/643', '', '', '', lang)
      .subscribe(data => {
-          
+
       this.commonservice.errorHandling(data, (function(){
 
-          this.categoryData = data["list"];   
-          let arrCatEn = [];          
-          let arrCatBm = [];          
+          this.categoryData = data["list"];
+          let arrCatEn = [];
+          let arrCatBm = [];
 
 
-          for(let i=0; i<this.categoryData.length; i++){     
-    
+          for(let i=0; i<this.categoryData.length; i++){
+
               if(this.categoryData[i].list.length === 2){
                 arrCatEn.push({
-                  
+
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[0].categoryId,
                       // refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[0].parentId,
                       text: this.categoryData[i].list[0].categoryName,
                       // checked: false,
-                      children: []});      
-                    
+                      children: []});
+
                 arrCatBm.push({
                       id: [this.categoryData[i].list[0].categoryId, this.categoryData[i].list[1].categoryId],
                       value:this.categoryData[i].list[1].categoryId,
@@ -465,12 +503,12 @@ export class LifeeventpublisherComponent implements OnInit {
                       parent: this.categoryData[i].list[1].parentId,
                       // checked: false,
                       text: this.categoryData[i].list[1].categoryName,
-                      children: []}); 
-                    
+                      children: []});
+
               }
 
           }
-          
+
           if(this.languageId == 1){
             this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           }else if(this.languageId == 2){
@@ -478,18 +516,19 @@ export class LifeeventpublisherComponent implements OnInit {
           }else{
             this.treeEn = this.getNestedChildrenEn(arrCatEn, -1);
           }
-          
+
           this.itemEn = this.treeEn;
-          
+
         }).bind(this));
         this.loading = false;
       },
       error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        console.log(error);
     });
+
+    return this.subscriptionCategoryC;
   }
 
   getNestedChildrenEn(arr, parent) {
@@ -497,7 +536,7 @@ export class LifeeventpublisherComponent implements OnInit {
     var children = []
 
     for(var i in arr) {
-    
+
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenEn(arr, arr[i].value)
 
@@ -505,9 +544,9 @@ export class LifeeventpublisherComponent implements OnInit {
                  arr[i].children = children
             }
             out.push(arr[i])
-        }      
-    }    
-    return out  
+        }
+    }
+    return out
   }
 
   getNestedChildrenBm(arr, parent) {
@@ -515,7 +554,7 @@ export class LifeeventpublisherComponent implements OnInit {
     var children = []
 
     for(var i in arr) {
-    
+
         if(arr[i].parent == parent) {
             children = this.getNestedChildrenBm(arr, arr[i].value)
 
@@ -524,20 +563,19 @@ export class LifeeventpublisherComponent implements OnInit {
             }
             out.push(arr[i])
         }
-      
-    }    
-    return out  
+
+    }
+    return out
   }
 
   getUserInfo(id) {
-   
-    console.log(id);
+
     this.loading = true;
-    return this.commonservice.readProtected('usermanagement/' + id)
+    return this.commonservice.readProtected('usermanagement/' + id, '','','',this.languageId)
       .subscribe(resUser => {
 
         this.commonservice.errorHandling(resUser, (function () {
-          
+
             this.userDetails = resUser["user"];
 
             this.fullName = this.userDetails.fullName;
@@ -548,7 +586,6 @@ export class LifeeventpublisherComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
   }
@@ -560,7 +597,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
     if(_getRefID != undefined){
 
-      this.commonservice.readProtectedById('content/publisher/', _getRefID)
+      this.commonservice.readProtectedById('content/publisher/', _getRefID, this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function () {
@@ -570,19 +607,19 @@ export class LifeeventpublisherComponent implements OnInit {
           let dataBm = this.recordList['contentDetailList'][1];
 
           this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
-          this.updateForm.get('titleBm').setValue(dataBm.contentTitle);   
+          this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
           this.updateForm.get('descEn').setValue(dataEn.contentDescription);
-          this.updateForm.get('descBm').setValue(dataBm.contentDescription);  
+          this.updateForm.get('descBm').setValue(dataBm.contentDescription);
           this.updateForm.get('seqEng').setValue(dataEn.contentSort);
-          this.updateForm.get('seqMy').setValue(dataBm.contentSort);  
-          this.updateForm.get('active').setValue(dataEn.isActiveFlag);      
-          // this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);      
-          // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);   
+          this.updateForm.get('seqMy').setValue(dataBm.contentSort);
+          this.updateForm.get('active').setValue(dataEn.isActiveFlag);
+          // this.updateForm.get('citizenflag').setValue(dataEn.lifeEventCitizenFlag);
+          // this.updateForm.get('noncitizenflag').setValue(dataEn.lifeEventNonCitizenFlag);
           this.updateForm.get('approve').setValue(dataEn.isApprovedFlag);
 
           this.getIdEn = dataEn.contentId;
           this.getIdBm = dataBm.contentId;
-          this.getRefCode = this.recordList.refCode;
+          this.getRefCode = dataEn.contentCode;
 
           if(dataEn.isApprovedFlag == true){
             this.appPublisher = false;
@@ -596,15 +633,15 @@ export class LifeeventpublisherComponent implements OnInit {
 
           // this.publishdt = dataEn.publishDate;
           // this.enddt = dataEn.endDate;
-          
+
           if(dataBm.publishDate != undefined){
             this.setEventDate(dataBm.publishDate,'publish')
-            this.setEventDate(dataBm.endDate, 'endD')        
-  
+            this.setEventDate(dataBm.endDate, 'endD')
+
             this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
             this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
           }
-          
+
           let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
           let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
           let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
@@ -629,7 +666,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
           //set  value after preview
           this.contentTxtEn = addClassforTable;
-          this.contentTxtMy = addClassforTable_BM;      
+          this.contentTxtMy = addClassforTable_BM;
 
           this.getUserInfo(dataEn.createdBy);
 
@@ -642,9 +679,6 @@ export class LifeeventpublisherComponent implements OnInit {
           //get details agency
           let getObjKeys = Object.keys(dataEn);
           let valMT = getObjKeys.filter(fmt => fmt === "agencyId");
-
-          console.log("KEY OBJECT");
-          console.log(valMT.length);
 
           let detAgenId;
           let detAgenCode;
@@ -671,12 +705,9 @@ export class LifeeventpublisherComponent implements OnInit {
 
           let setParentEn = [];
 
-          //get array of categoryId   
+          //get array of categoryId
 
-          console.log("GET CATEGORY TREE");
-          console.log(setParentEn);
-
-          if(this.languageId == 1){          
+          if(this.languageId == 1){
             for(let i=0; i<dataEn.contentCategories.length; i++){
               let a;
 
@@ -685,46 +716,45 @@ export class LifeeventpublisherComponent implements OnInit {
                 "text":dataEn.contentCategories[i].categoryName,
                 "value": dataEn.contentCategories[i].categoryId
               }
-                
-              setParentEn.push(a);    
+
+              setParentEn.push(a);
             }
             //this.categoryPlaceholder = dataEn.contentCategories[0].categoryName;
-            this.filterPlaceholder = this.commonservice.showFilterEn;          
+            this.filterPlaceholder = this.commonservice.showFilterEn;
           }
 
           else{
 
             for(let i=0; i<dataBm.contentCategories.length; i++){
               let a;
-        
+
               a = {
                 "id": [dataEn.contentCategories[i].categoryId,dataBm.contentCategories[i].categoryId],
                 "text":dataBm.contentCategories[i].categoryName,
                 "value": dataBm.contentCategories[i].categoryId
               };
-          
-              setParentEn.push(a);    
+
+              setParentEn.push(a);
             }
             //this.categoryPlaceholder = dataBm.contentCategories[0].categoryName;
             this.filterPlaceholder = this.commonservice.showFilterBm;
           }
 
-          this.updateForm.get('parentsEn').setValue(setParentEn);  
-          this.checkReqValues(); 
-          
+          this.updateForm.get('parentsEn').setValue(setParentEn);
+          this.checkReqValues();
+
         }).bind(this));
         this.loading = false;
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
         this.loading = false;
       });
     }
-    
+
   }
 
-  
+
   draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[3];
 
@@ -739,56 +769,53 @@ export class LifeeventpublisherComponent implements OnInit {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
-
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
       let a = {"categoryId": this.parentValEn[i].id[0]};
       let b = {"categoryId": this.parentValEn[i].id[1]};
 
       arrCatIDEn.push(a);
-      arrCatIDBm.push(b);      
+      arrCatIDBm.push(b);
     }
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);  
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
-      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
-      appsEn.push(a);      
-      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}  
+      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}
+      appsEn.push(a);
+      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}
       appsBm.push(b);
-    }  
+    }
 
     if(this.arrAgencyApp.length == 0){
       appsEn = null;
       appsBm = null;
-    }  
-  
-    // update form 
+    }
+
+    // update form
     if(this.urlEdit != 'add'){
       let body = [
         {
           "lifeEventId":  this.getIdEn,
-          "contentCategories": null,   
+          "contentCategories": null,
           "lifeEventTitle": null,
           "lifeEventText": null,
-          "lifeEventDescription": null,     
+          "lifeEventDescription": null,
           "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
+          "lifeEventUrl": null,
+          "lifeEventActiveFlag":false,
           // "lifeEventCitizenFlag": false,
           // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
+          "lifeEventEndDate": null,
           "language": {
             "languageId": 1
           },
           "agency": {
             "agencyId": null
-          },        
+          },
           "agencyApplications": null
         },
         {
@@ -796,14 +823,14 @@ export class LifeeventpublisherComponent implements OnInit {
           "contentCategories": null,
           "lifeEventTitle": null,
           "lifeEventText": null,
-          "lifeEventDescription": null,      
+          "lifeEventDescription": null,
           "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
+          "lifeEventUrl": null,
+          "lifeEventActiveFlag":false,
           // "lifeEventCitizenFlag": false,
           // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
+          "lifeEventEndDate": null,
           "language": {
             "languageId": 2
           },
@@ -812,7 +839,7 @@ export class LifeeventpublisherComponent implements OnInit {
           },
           "agencyApplications": null
         }
-      ];    
+      ];
 
       body[0].lifeEventTitle = formValues.titleEn;
       body[1].lifeEventTitle = formValues.titleBm;
@@ -831,29 +858,27 @@ export class LifeeventpublisherComponent implements OnInit {
       // body[1].lifeEventCitizenFlag = formValues.citizenflag;
       // body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].lifeEventActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
+      body[1].agency.agencyId = this.agencyIdBm;
+
 
       body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
+      body[1].contentCategories = arrCatIDBm;
 
       body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
       body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
 
       body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
+      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();
 
       body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;       
-      
-      console.log(JSON.stringify(body))
+      body[1].agencyApplications = appsBm;
 
       this.loading = true;
-      // Update 
+      // Update
       this.commonservice.update(body, 'life/event/publisher/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.ledraft'), ''); 
+            this.toastr.success(this.translate.instant('common.success.ledraft'), '');
             this.router.navigate(['publisher/lifeevent']);
 
           }).bind(this));
@@ -861,11 +886,10 @@ export class LifeeventpublisherComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
-      }   
-    
+      }
+
   }
 
   submit(formValues: any) {
@@ -882,56 +906,53 @@ export class LifeeventpublisherComponent implements OnInit {
     let arrCatIDEn = [];
     let arrCatIDBm = [];
 
-    console.log(this.parentValEn);
-
     //get array of categoryId
     for(let i=0; i<this.parentValEn.length; i++){
       let a = {"categoryId": this.parentValEn[i].id[0]};
       let b = {"categoryId": this.parentValEn[i].id[1]};
 
       arrCatIDEn.push(a);
-      arrCatIDBm.push(b);      
+      arrCatIDBm.push(b);
     }
 
     let appsEn = [];
     let appsBm = [];
-    console.log(this.arrAgencyApp);  
 
     //get agencyapp
     for(let i=0; i<this.arrAgencyApp.length; i++){
-      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}  
-      appsEn.push(a);      
-      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}  
+      let a = {"agencyApplicationId": this.arrAgencyApp[i][0].agencyAppID}
+      appsEn.push(a);
+      let b = {"agencyApplicationId": this.arrAgencyApp[i][1].agencyAppID}
       appsBm.push(b);
-    }  
+    }
 
     if(this.arrAgencyApp.length == 0){
       appsEn = null;
       appsBm = null;
-    }    
+    }
 
     // update form
     if(this.urlEdit != 'add'){
       let body = [
         {
           "lifeEventId":  this.getIdEn,
-          "contentCategories": null,   
+          "contentCategories": null,
           "lifeEventTitle": null,
           "lifeEventText": null,
-          "lifeEventDescription": null,     
+          "lifeEventDescription": null,
           "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
+          "lifeEventUrl": null,
+          "lifeEventActiveFlag":false,
           // "lifeEventCitizenFlag": false,
           // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
+          "lifeEventEndDate": null,
           "language": {
             "languageId": 1
           },
           "agency": {
             "agencyId": null
-          },        
+          },
           "agencyApplications": null
         },
         {
@@ -939,14 +960,14 @@ export class LifeeventpublisherComponent implements OnInit {
           "contentCategories": null,
           "lifeEventTitle": null,
           "lifeEventText": null,
-          "lifeEventDescription": null,      
+          "lifeEventDescription": null,
           "lifeEventSort": null,
-          "lifeEventUrl": null,   
-          "lifeEventActiveFlag":false,       
+          "lifeEventUrl": null,
+          "lifeEventActiveFlag":false,
           // "lifeEventCitizenFlag": false,
           // "lifeEventNonCitizenFlag":false,
           "lifeEventPublishDate": null,
-          "lifeEventEndDate": null,       
+          "lifeEventEndDate": null,
           "language": {
             "languageId": 2
           },
@@ -955,7 +976,7 @@ export class LifeeventpublisherComponent implements OnInit {
           },
           "agencyApplications": null
         }
-      ];    
+      ];
 
       body[0].lifeEventTitle = formValues.titleEn;
       body[1].lifeEventTitle = formValues.titleBm;
@@ -974,30 +995,27 @@ export class LifeeventpublisherComponent implements OnInit {
       // body[1].lifeEventCitizenFlag = formValues.citizenflag;
       // body[1].lifeEventNonCitizenFlag = formValues.noncitizenflag;
       body[1].lifeEventActiveFlag = formValues.active;
-      body[1].agency.agencyId = this.agencyIdBm;        
-      
+      body[1].agency.agencyId = this.agencyIdBm;
+
 
       body[0].contentCategories = arrCatIDEn;
-      body[1].contentCategories = arrCatIDBm;      
+      body[1].contentCategories = arrCatIDBm;
 
       body[0].lifeEventPublishDate = new Date(formValues.publish).getTime();
       body[0].lifeEventEndDate = new Date(formValues.endD).getTime();
 
       body[1].lifeEventPublishDate = new Date(formValues.publish).getTime();
-      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();      
+      body[1].lifeEventEndDate = new Date(formValues.endD).getTime();
 
       body[0].agencyApplications = appsEn;
-      body[1].agencyApplications = appsBm;  
-
-      console.log("UPDATE NOT DRAFT: ");
-      console.log(JSON.stringify(body))
+      body[1].agencyApplications = appsBm;
 
       this.loading = true;
-      // Update 
+      // Update
       this.commonservice.update(body, 'life/event/publisher').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.lesubmitted'), ''); 
+            this.toastr.success(this.translate.instant('common.success.lesubmitted'), '');
             this.router.navigate(['publisher/lifeevent']);
 
           }).bind(this));
@@ -1005,19 +1023,18 @@ export class LifeeventpublisherComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
           this.loading = false;
         });
     }
-    
+
   }
 
   changeLanguageAddEdit(){
     if (this.urlEdit === 'add'){
-      this.commonservice.pageModeChange(false);  
+      this.commonservice.pageModeChange(false);
     }
     else{
-      this.commonservice.pageModeChange(true);      
+      this.commonservice.pageModeChange(true);
     }
   }
 
@@ -1033,7 +1050,7 @@ export class LifeeventpublisherComponent implements OnInit {
   checkReqValues() {
     let reqVal:any;
 
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];    
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
 
     let nullPointers:any = [];
 
@@ -1045,7 +1062,7 @@ export class LifeeventpublisherComponent implements OnInit {
         nullPointers.push(null)
       }
     }
-      
+
     if(nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -1097,7 +1114,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
     else{
       if(this.urlEdit == "add"){
-        this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;        
+        this.categoryPlaceholder = this.commonservice.showPlaceHolderBm;
         this.filterPlaceholder = this.commonservice.showFilterBm;
       }
 
@@ -1109,7 +1126,7 @@ export class LifeeventpublisherComponent implements OnInit {
 
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
+    this.checkReqValues();
     this.events = [];
     this.publishdt = null;
     this.enddt = null;
@@ -1120,9 +1137,9 @@ export class LifeeventpublisherComponent implements OnInit {
     this.router.navigate(['publisher/lifeevent']);
   }
 
-  getMinistry() {
+  getMinistry(lang) {
     this.loading = true;
-    return this.commonservice.readPortal('ministry', '0', '300')
+    return this.commonservice.readPortal('ministry', '0', '300','',lang)
       .subscribe(resMinData => {
         this.ministryData = resMinData['list'];
         this.loading = false;
@@ -1134,8 +1151,8 @@ export class LifeeventpublisherComponent implements OnInit {
 
   //list of agency app for selected agency
   getAgencyApp(agencyId) {
-    this.loading = true;   
-    return this.commonservice.readPortal('agency/application/agencyid/'+agencyId)
+    this.loading = true;
+    return this.commonservice.readPortal('agency/application/agencyid/'+agencyId, '','','',this.languageId)
       .subscribe(resMinData => {
         this.agencyAppData = resMinData['agencyApplicationList'];
         this.loading = false;
@@ -1143,11 +1160,11 @@ export class LifeeventpublisherComponent implements OnInit {
       Error => {
         this.loading = false;
       });
-   
+
   }
 
   selectedMinistry(e, val){
-   
+
     let getMinistryIdEn = e.value;
     let getMinistryIdBm = e.value;
     let dataList = this.ministryData;
@@ -1155,7 +1172,7 @@ export class LifeeventpublisherComponent implements OnInit {
     let idBm: any;
     let idEn: any;
 
-   
+
     if(val == 1){
 
       for(let i=0; i<dataList.length; i++){
@@ -1164,10 +1181,10 @@ export class LifeeventpublisherComponent implements OnInit {
           idBm = dataList[i].list[1].ministryId;
           this.selectedMinEn=dataList[i].list[0].ministryName;
           this.selectedMinBm=dataList[i].list[1].ministryName;
-        }        
+        }
       }
 
-      this.updateForm.get('ministryBm').setValue(idBm);  
+      this.updateForm.get('ministryBm').setValue(idBm);
     }
     else{
 
@@ -1177,45 +1194,41 @@ export class LifeeventpublisherComponent implements OnInit {
           idEn = dataList[i].list[0].ministryId;
           this.selectedMinEn=dataList[i].list[0].ministryName;
           this.selectedMinBm=dataList[i].list[1].ministryName;
-        }        
+        }
       }
 
-      this.updateForm.get('ministryEn').setValue(idEn); 
+      this.updateForm.get('ministryEn').setValue(idEn);
     }
   }
 
-  selectedAgencyApp(e){ 
-   
+  selectedAgencyApp(e){
+
     let dataList = this.agencyAppData;
     let idAgencyApp: any;
     let codeAgencyApp: any;
 
     for(let i=0; i<dataList.length; i++){
-  
+
       if(e.value == dataList[i].agencyApplicationId){
         idAgencyApp = dataList[i].agencyApplicationId;
         codeAgencyApp = dataList[i].agencyApplicationCode;
-      }            
+      }
     }
 
-    console.log("AgencyAppID: "+idAgencyApp+" codeAgencyApp: "+codeAgencyApp);
-
-
-    this.updateForm.get('agencyApp').setValue(idAgencyApp);  
-
+    this.updateForm.get('agencyApp').setValue(idAgencyApp);
     this.getAgencyAppEnBm(codeAgencyApp);
-    
+
   }
 
   //onclick agenci application
   getAgencyAppEnBm(getAgencyAppEnBm){
 
-    this.loading = true;   
+    this.loading = true;
 
-    let flagNoOfRecord: any; 
-    
+    let flagNoOfRecord: any;
+
     if(getAgencyAppEnBm != undefined){
-      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm)
+      return this.commonservice.readPortal('agency/application/code/'+getAgencyAppEnBm, '', '', '', this.languageId)
         .subscribe(resMinData => {
 
           this.commonservice.errorHandling(resMinData, (function () {
@@ -1232,15 +1245,15 @@ export class LifeeventpublisherComponent implements OnInit {
                       "agencyAppID": this.agencyAppDataCode[1].agencyApplicationId,
                       "agencyApplicationName": this.agencyAppDataCode[1].agencyApplicationName,
                       "agencyUrl":this.agencyAppDataCode[1].agencyApplicationUrl,
-                      "agencyCode":this.agencyAppDataCode[1].agencyApplicationCode}]        
-      
+                      "agencyCode":this.agencyAppDataCode[1].agencyApplicationCode}]
+
             if(this.arrAgencyApp.length>0){
               flagNoOfRecord = false;
-      
+
               for(let i=0; i<this.arrAgencyApp.length; i++){
                 if(this.arrAgencyApp[i][0].agencyCode == getAgencyAppEnBm){
                   flagNoOfRecord = true;
-                }           
+                }
               }
             }
 
@@ -1266,34 +1279,28 @@ export class LifeeventpublisherComponent implements OnInit {
 
   onScroll(event, lngId){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
 
       let keywordVal;
-      
+
       if(lngId == 1) {
         keywordVal = this.updateForm.get("agencyEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultEn.length+10)
-        console.log(this.searchAgencyResultEn)
+
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("agencyBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchAgencyResultBm.length+10)
-        console.log(this.searchAgencyResultBm)
+
       }
     }
   }
 
   onScrollApp(event){
 
-    // console.log(event.target.scrollHeight+' - '+event.target.scrollTop +  'Required scroll bottom ' +(event.target.scrollHeight - 250) +' Container height: 250px');
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // console.log(this.searchAgencyResultEn.length)
-      console.log(event)
 
       let keywordVal;
-   
+
         keywordVal = this.updateForm.get("agencyforApp").value;
         this.getSearchDataApp(keywordVal, 1, this.searchAgencyResult.length+10);
     }
@@ -1308,7 +1315,6 @@ export class LifeeventpublisherComponent implements OnInit {
     this.agencyIdBm = null;
     this.ministryNameEn = "";
     this.ministryNameBm = "";
-    // this.getModuleData(this.pageCount, this.pageSize);
   }
 
   resetSearchApp() {
@@ -1316,12 +1322,12 @@ export class LifeeventpublisherComponent implements OnInit {
     this.isActiveList = false;
   }
 
-  getSearchData(keyword, langId, count, page){
+  getSearchData(keyword, langId, count?, page?){
 
     let selLangField;
     this.searchAgencyResultEn = [];
     this.searchAgencyResultBm = [];
-      
+
     if(langId == 1) {
       selLangField = "agencyBm";
       this.ministryNameBm = "";
@@ -1332,10 +1338,10 @@ export class LifeeventpublisherComponent implements OnInit {
     this.updateForm.get(selLangField).setValue("");
 
     //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-    setTimeout(()=>{  
+    setTimeout(()=>{
       this.isActive = true;
       this.loading = true;
-      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword).subscribe(
+      this.commonservice.readPortal('agency/language/'+langId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1356,7 +1362,7 @@ export class LifeeventpublisherComponent implements OnInit {
       },err => {
         this.loading = false;
       });
-    }, 2000);  
+    }, 2000);
     // else {
     //   this.agencyIdEn = null;
     //   this.agencyIdBm = null;
@@ -1371,19 +1377,19 @@ export class LifeeventpublisherComponent implements OnInit {
     let detailsAgency;
     let agenName;
     let minisName;
-  
-    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '').subscribe(
+
+    this.commonservice.readPortal('agency/refcode/language/'+this.languageId+'/'+agenCode,'','', '', this.languageId).subscribe(
       data => {
 
       this.commonservice.errorHandling(data, (function(){
-        
+
         detailsAgency = data['list'];
-  
+
         agenName = detailsAgency[0].agencyName;
-        minisName = detailsAgency[0].agencyMinistry.ministryName;       
+        minisName = detailsAgency[0].agencyMinistry.ministryName;
 
         this.getValue(agenId,agenName,minisName,agenCode, this.languageId);
-        
+
       }).bind(this));
         this.loading = false;
     },err => {
@@ -1430,15 +1436,15 @@ export class LifeeventpublisherComponent implements OnInit {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-       
+
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
-          
+
           this.updateForm.get(selLangField).setValue(aName);
 
           if(langId == 1) {
@@ -1455,18 +1461,18 @@ export class LifeeventpublisherComponent implements OnInit {
     });
   }
 
-  getSearchDataApp(keyword,count, page){
-    
+  getSearchDataApp(keyword,count?, page?){
+
     this.searchAgencyResult = [];
     //this.updateForm.get('agencyforApp').setValue("");
 
     //if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-    
+
     this.isActive = true;
     this.loading = true;
 
-    setTimeout(()=>{      
-      this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword).subscribe(
+    setTimeout(()=>{
+      this.commonservice.readPortal('agency/language/'+this.languageId, count, page, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -1485,7 +1491,7 @@ export class LifeeventpublisherComponent implements OnInit {
       },err => {
         this.loading = false;
       });
-    }, 2000);  
+    }, 2000);
     // else {
     //   this.isActiveList = false;
     // }
@@ -1529,15 +1535,15 @@ export class LifeeventpublisherComponent implements OnInit {
       langId = 1;
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-      
+
           mName = data['list'][0]['agencyMinistry']['ministryName'];
           aName = data['list'][0]['agencyName'];
           aId = data['list'][0]['agencyId'];
-          
+
           if(langId == 1) {
             this.agencyIdforApp = aId;
           } else {
@@ -1555,7 +1561,7 @@ export class LifeeventpublisherComponent implements OnInit {
     for(let i=0; i<this.arrAgencyApp.length; i++){
       if(this.arrAgencyApp[i][0].agencyCode == agenCode){
         this.arrAgencyApp.splice(i,1);
-      }         
+      }
     }
 
     this.dataSource = new MatTableDataSource<object>(this.arrAgencyApp);
@@ -1564,7 +1570,7 @@ export class LifeeventpublisherComponent implements OnInit {
   approvePublisher(){
 
     let appVal = this.updateForm.get('approve');
-    
+
     if(appVal.value == true){
       this.appPublisher = true;
       this.updateForm.get('active').setValue(true);
@@ -1574,7 +1580,26 @@ export class LifeeventpublisherComponent implements OnInit {
     else{
       this.appPublisher = false;
       //this.approve.disable();
-    }    
+    }
+  }
+
+  mySendDraft(){
+
+
+    this.loading = true;
+    this.commonservice.update(null, 'life/event/publisher/todraft/'+this.getRefCode).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function () {
+          this.toastr.success(this.translate.instant('common.success.lesubmitted'), '');
+          this.router.navigate(['publisher/lifeevent']);
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
+    });
   }
 
 }

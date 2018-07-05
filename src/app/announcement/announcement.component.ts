@@ -50,7 +50,7 @@ export class AnnouncementComponent implements OnInit {
     "showToolbar": true,
     "placeholder": "Enter text here...",
     "toolbar": [
-        ["bold", "italic"],        
+        ["bold", "italic"],
         ["cut", "copy", "delete", "removeFormat", "undo", "redo"],
         ["orderedList", "unorderedList"],
         ["link", "unlink", "image"]
@@ -58,16 +58,16 @@ export class AnnouncementComponent implements OnInit {
 }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private router: Router,
     private toastr: ToastrService
   ) { }
 
   ngOnInit() {
     // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
+    // this.changePageMode(this.isEdit);
 
     let refCode = this.router.url.split('/')[2];
 
@@ -116,15 +116,14 @@ export class AnnouncementComponent implements OnInit {
 
   // get, add, update, delete
   getRow(row) {
-debugger;
     // Update Slider Service
     return this.http.get(this.appConfig.urlAnnounceList + '/' + row).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
 
         this.announceData = Rdata;
-        console.log(this.announceData)
-        console.log(this.appConfig.urlAnnounceList + "/" + row)
+
+
         let dataEn = this.announceData['announcementEntityList'][1];
         let dataBm = this.announceData['announcementEntityList'][0];
 
@@ -140,12 +139,12 @@ debugger;
       this.announceForm.get('active').setValue(dataEn.announcementActiveFlag);
       this.announcementIDEn = dataEn.announcementID;
       this.announcementIDBm = dataBm.announcementID;
-      
+
       // this.isSameImg(dataEn.slideImage,dataBm.slideImage);
 
       this.checkReqValues();
     });
-    
+
   }
 
 
@@ -173,7 +172,7 @@ debugger;
 
     // this.isSameImg(this.announceForm.get(htmlContentEn).value,this.announceForm.get(htmlContentBm).value);
 
-      // console.log(nullPointers)
+      //
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -206,7 +205,7 @@ debugger;
   //         window.location.reload()
   //       },
   //       error => {
-  //         console.log("No Data")
+  //
   //       });
 
   //     // this.announceForm.reset();
@@ -215,9 +214,9 @@ debugger;
   //     alert(txt)
   //   }
   // }
-  
+
   // updateAnnounce(formValues: any) {
-    
+
   //   if(!this.isEdit) {
 
   //   let body = [
@@ -229,7 +228,7 @@ debugger;
   //       "language": {
   //         "languageId": null
   //       }
-  //     }, 
+  //     },
   //     {
   //       "announcementTitle": null,
   //       "announcementDescription": null,
@@ -240,8 +239,8 @@ debugger;
   //       }
   //     }
   //   ];
-    
-  //   // console.log(formValues)
+
+  //   //
 
   //   body[0].announcementTitle = formValues.titleEn;
   //   body[0].announcementDescription = formValues.descEn;
@@ -255,20 +254,20 @@ debugger;
   //   body[1].announcementActiveFlag = formValues.active;
   //   body[1].language.languageId = 2;
 
-  //   console.log(body)
+  //
 
   //   // Add Slider Service
   //   this.commonservice.addSlider(body).subscribe(
   //     data => {
-  //       this.toastr.success('Announcement added successfully!', ''); 
+  //       this.toastr.success('Announcement added successfully!', '');
   //       this.router.navigate(['announcement']);
   //     },
   //     error => {
-  //       console.log("No Data")
+  //
   //     });
 
   //   } else {
-      
+
   //   let body = [
   //     {
   //       "announcementID": null,
@@ -279,7 +278,7 @@ debugger;
   //       "language": {
   //         "languageId": null
   //       }
-  //     }, 
+  //     },
   //     {
   //       "announcementID": null,
   //       "announcementTitle": null,
@@ -291,14 +290,14 @@ debugger;
   //       }
   //     }
   //   ];
-      
+
   //   body[0].announcementID = this.announcementIDEn;
   //   body[0].announcementTitle = formValues.titleEn;
   //   body[0].announcementDescription = formValues.descEn;
   //   body[0].announcementText = formValues.htmlContentEn;
   //   body[0].announcementActiveFlag = formValues.active;
   //   body[0].language.languageId = 1;
-    
+
   //   body[1].announcementID = this.announcementIDBm;
   //   body[1].announcementTitle = formValues.titleBm;
   //   body[1].announcementDescription = formValues.descBm;
@@ -306,16 +305,16 @@ debugger;
   //   body[1].announcementActiveFlag = formValues.active;
   //   body[1].language.languageId = 2;
 
-  //   console.log(body);
+  //
 
   //   // Update Slider Service
   //   this.commonservice.updateAnnounce(body).subscribe(
   //     data => {
-  //       this.toastr.success('Announcement update successful!', '');   
+  //       this.toastr.success('Announcement update successful!', '');
   //       this.router.navigate(['announcement']);
   //     },
   //     error => {
-  //       console.log("No Data")
+  //
   //     });
   //   }
   // }

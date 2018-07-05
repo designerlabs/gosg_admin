@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from './../nav/nav.service';
 
 @Component({
   selector: 'app-slider',
@@ -16,7 +18,7 @@ import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-
   styleUrls: ['./slider.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class SliderComponent implements OnInit {
+export class SliderComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
@@ -44,6 +46,7 @@ export class SliderComponent implements OnInit {
   isCreate: boolean;
   isWrite: boolean;
   isDelete: boolean;
+  lang: any;
   languageId: any;
 
   titleEn: FormControl
@@ -68,43 +71,65 @@ export class SliderComponent implements OnInit {
 
   sendForApporval: boolean;
 
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
+
   refCode = "";
 
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService
   ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data: any) => {
-          let getLang = data.list;
-          let myLangData = getLang.filter(function (val) {
-            if (val.languageCode == translate.currentLang) {
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.changeLanguageAddEdit();
-              // this.getMinistryData(this.pageCount, this.agencyPageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.changeLanguageAddEdit();
+        this.commonservice.getModuleId();
+      }
+
     });
-    if (!this.languageId) {
-      this.languageId = localStorage.getItem('langID');
-      // this.getMinistryData(this.pageCount, this.agencyPageSize);
-      this.commonservice.getModuleId();
-    }
-    /* LANGUAGE FUNC */
+    /* LANGUAGE FUNC */ 
+
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    //this.subscriptionContentCreator.unsubscribe();
+    //this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     this.refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
@@ -161,7 +186,7 @@ export class SliderComponent implements OnInit {
   }
 
   isSameImg(enImg, bmImg) {
-    console.log(enImg)
+    
     if (enImg != null && enImg == bmImg) {
       this.updateForm.get('copyImg').setValue(true);
     } else {
@@ -178,13 +203,13 @@ export class SliderComponent implements OnInit {
 
     this.loading = true;
     // Update Slider Service
-    return this.commonservice.readProtectedById('content/publisher/', row).subscribe(
+    return this.commonservice.readProtectedById('content/publisher/', row, this.languageId).subscribe(
       // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.sliderData = Rdata;
-          console.log(this.sliderData)
+          
           let dataEn = this.sliderData['contentDetailList'][0];
           let dataBm = this.sliderData['contentDetailList'][1];
 
@@ -219,8 +244,8 @@ export class SliderComponent implements OnInit {
             this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
             this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
           }
-          console.log("******************UPDATE*****************************");
-          console.log("EN: "+this.selectedFileEn+ " BM: "+this.selectedFileMy);
+          
+          
 
 
           this.sliderCode = this.sliderData.refCode;
@@ -235,7 +260,7 @@ export class SliderComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        console.log(error);
+        
         this.loading = false;
       });
 
@@ -259,26 +284,20 @@ export class SliderComponent implements OnInit {
     this.events.push(`${event.value}`);
 
     this.publishdt = new Date(this.events[0]).getTime();
+    this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
     this.dateFormatExample = "";   
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
     day = new Date(this.events[0]).getDate();
- 
+
     this.eMinDate = new Date(year,month,day);
 
-    //if(this.publishdt>this.enddt || this.enddt == undefined){
-      // this.enddt = new Date(year,month,day).getTime(); 
-      // this.enddt = new Date(this.events[0]).getTime();
-      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-    //}
-
-    if(this.publishdt>this.enddt || this.enddt == undefined){
+    if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-      this.enddt = null;
+      //this.enddt = null;
     }
-    //this.updateForm.get('endD').setValue('');
 
     this.checkReqValues()    
   }
@@ -360,9 +379,6 @@ export class SliderComponent implements OnInit {
       }
     }
 
-    // this.isSameImg(this.updateForm.get(imgEn).value, this.updateForm.get(imgBm).value);
-
-    // console.log(nullPointers)
     if (nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -382,19 +398,19 @@ export class SliderComponent implements OnInit {
 
   getImageList() {
     this.loading = true;
-    return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999')
+    return this.commonservice.readProtected('media/category/name/Slider', '0', '999999999', '', this.languageId)
       .subscribe(resCatData => {
         this.imageData = resCatData['list'];
         this.loading = false;
       },
         Error => {
           this.loading = false;
-          console.log('Error in Slider');
+          
         });
   }
   
   selectedImg(e, val){
-    console.log(e);
+    
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
     let dataList = this.imageData;
@@ -473,7 +489,6 @@ export class SliderComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -494,7 +509,6 @@ export class SliderComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -508,7 +522,7 @@ export class SliderComponent implements OnInit {
         }
       ];
 
-      // console.log(formValues)
+      // 
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -534,10 +548,6 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
       
 
-      console.log(JSON.stringify(body))
-      console.log(body)
-      console.log(formValues.publish);
-
       this.loading = true;
       // Add Slider Service
       this.commonservice.create(body, 'slider/creator/draft').subscribe(
@@ -551,7 +561,7 @@ export class SliderComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
       });
 
@@ -629,9 +639,6 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
       
-
-      console.log(JSON.stringify(body))
-
       this.loading = true;
       // Update Slider Service
       this.commonservice.update(body, 'slider/creator/draft').subscribe(
@@ -645,7 +652,7 @@ export class SliderComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
         });
     }
@@ -666,7 +673,6 @@ export class SliderComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -687,7 +693,6 @@ export class SliderComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -701,7 +706,6 @@ export class SliderComponent implements OnInit {
         }
       ];
 
-      // console.log(formValues)
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -726,9 +730,6 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
       
-
-      console.log(JSON.stringify(body))
-
       this.loading = true;
       // Add Slider Service
       this.commonservice.create(body, 'slider/creator').subscribe(
@@ -742,7 +743,7 @@ export class SliderComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
       });
     }
@@ -761,7 +762,6 @@ export class SliderComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -783,7 +783,6 @@ export class SliderComponent implements OnInit {
               "sliderImage": {
                 "mediaId": null
               },
-              // "sliderCode": null,
               "sliderSort": null,
               "sliderUrl": null,
               "sliderActiveFlag": false,
@@ -797,7 +796,7 @@ export class SliderComponent implements OnInit {
         }
       ];
 
-      // console.log(formValues)
+      // 
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -822,9 +821,6 @@ export class SliderComponent implements OnInit {
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
       
-
-      console.log(JSON.stringify(body))
-
       this.loading = true;
       // Add Slider Service
       this.commonservice.update(body, 'slider/creator').subscribe(
@@ -838,7 +834,7 @@ export class SliderComponent implements OnInit {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          console.log(error);
+          
           this.loading = false;
       });
 

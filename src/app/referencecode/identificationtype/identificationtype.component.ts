@@ -42,7 +42,7 @@ export class IdentificationtypeComponent implements OnInit {
   public loading = false;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private dialogsService: DialogsService) { 
     /* LANGUAGE FUNC */
@@ -109,7 +109,7 @@ export class IdentificationtypeComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log(data);
+      
 
       this.updateForm.get('identificationTypeEng').setValue(this.recordList.identificationType[1].identificationType);
       this.updateForm.get('identificationTypeMy').setValue(this.recordList.identificationType[0].identificationType)
@@ -127,7 +127,7 @@ export class IdentificationtypeComponent implements OnInit {
   error => {
     this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
 
   
 
@@ -181,7 +181,7 @@ export class IdentificationtypeComponent implements OnInit {
       body[1].language.languageId = 1;
       // body[1].active = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.create(body,'identificationtype/add/multiple/').subscribe(
@@ -196,11 +196,11 @@ export class IdentificationtypeComponent implements OnInit {
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
           this.loading = false;
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record added successfully!')
 
         //   let txt = "Record added successfully!";
@@ -210,7 +210,7 @@ export class IdentificationtypeComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
@@ -252,7 +252,7 @@ export class IdentificationtypeComponent implements OnInit {
       body[1].language.languageId = 1;
       // body[1].active = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.update(body,'identificationtype/update/multiple').subscribe(
@@ -267,11 +267,11 @@ export class IdentificationtypeComponent implements OnInit {
         error => {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
           this.loading = false;
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record updated successfully!')
 
         //   let txt = "Record updated successfully!";
@@ -281,7 +281,7 @@ export class IdentificationtypeComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }

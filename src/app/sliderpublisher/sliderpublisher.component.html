@@ -125,11 +125,11 @@
           <div class="col-md-6">
               <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label>
               <mat-form-field class="example-full-width">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy hh:mm a' }}</div>
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish" 
                 #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" [min]="sMinDate" required />
                 <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
-                <owl-date-time #publish></owl-date-time>
+                <owl-date-time [pickerType]="'calendar'" #publish></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
                   {{ 'gallerytbl.errorStartDate' | translate }}
                 </mat-error>
@@ -139,11 +139,11 @@
           <div class="col-md-6">
               <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label>
               <mat-form-field class="example-full-width">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy hh:mm a' }}</div>
+                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD" 
                 #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" [min]="eMinDate" required />
                 <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
-                <owl-date-time #endD></owl-date-time>
+                <owl-date-time [pickerType]="'calendar'" #endD></owl-date-time>
                 <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
                   {{ 'gallerytbl.errorEndDate' | translate }}
                 </mat-error>
@@ -226,10 +226,16 @@
           (click)="sliderSubmit(updateForm.value)" [disabled]="!complete || !appPublisher">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
             <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.submit' | translate}}</button>
+
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px" 
           (click)="sliderDraft(updateForm.value)" [disabled]="!complete || appPublisher || disableApprove">
             <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
             <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{'common.buttons.darft' | translate}}</button>
+
+          <button mat-raised-button color="warn" type="button" id="btnSendDraft" class=" btn btn-md btn-warning pull-right mgn_L_5px" 
+          (click)="sendDraft.show()" [disabled]="!disableApprove">
+            <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;{{'common.buttons.sendDraft' | translate}}</button>
+
           <button mat-raised-button color="warn" type="button" id="btnreset" class=" btn btn-md btn-warning pull-right" 
           (click)="resetModal.show()" [disabled]="disableApprove">
             <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
@@ -244,4 +250,12 @@
 [state]="'bg_header bg_warn_header'"
 [isReset]="'true'"
 (resetMethod)="myFunction()">
+</app-confirm-dialog>
+
+<app-confirm-dialog  #sendDraft 
+[title]="'common.icon.warn'" 
+[content]="'common.msg.isSendDraft'"
+[state]="'bg_header bg_warn_header'"
+[isReset]="'true'"
+(resetMethod)="mySendDraft()">
 </app-confirm-dialog>

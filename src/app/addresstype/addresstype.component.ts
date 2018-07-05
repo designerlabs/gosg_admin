@@ -36,7 +36,7 @@ export class AddresstypeComponent implements OnInit {
 
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
@@ -110,8 +110,8 @@ export class AddresstypeComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
 
         this.recordList = data;
-        console.log("data");
-        console.log(data);
+        
+        
 
         this.updateForm.get('addTypeEn').setValue(this.recordList.list[0].addressType);
         this.updateForm.get('addTypeBm').setValue(this.recordList.list[1].addressType);      
@@ -129,7 +129,7 @@ export class AddresstypeComponent implements OnInit {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       this.loading = false;
-      console.log(error);
+      
     
     });
 
@@ -165,8 +165,8 @@ export class AddresstypeComponent implements OnInit {
       body[1].addressType = formValues.addTypeBm;
       body[1].enabled = formValues.active;
 
-      console.log("TEST")
-      console.log(JSON.stringify(body))
+      
+      
       this.loading = true;
       this.commonservice.create(body, 'addresstype').subscribe(
         data => {
@@ -181,7 +181,7 @@ export class AddresstypeComponent implements OnInit {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           this.loading = false; 
-          console.log(error);
+          
       });
     }
 
@@ -213,8 +213,8 @@ export class AddresstypeComponent implements OnInit {
       body[1].enabled = formValues.active;
       
 
-      console.log("UPDATE: ");
-      console.log(body);
+      
+      
       this.loading = true;
       this.commonservice.update(body, 'addresstype').subscribe(
         data => {
@@ -229,7 +229,7 @@ export class AddresstypeComponent implements OnInit {
 
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
           this.loading = false;
-          console.log(error);
+          
       });
     }
     

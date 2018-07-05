@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { ISubscription } from "rxjs/Subscription";
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -16,7 +17,7 @@ import { ValidateService } from '../common/validate.service';
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.css']
 })
-export class ColorComponent implements OnInit {
+export class ColorComponent implements OnInit, OnDestroy {
 
   colorData: Object;
   isActive: boolean;
@@ -41,11 +42,13 @@ export class ColorComponent implements OnInit {
 
   defStatus: any;
   public loading = false;
+  private subscriptionLang: ISubscription;
+  private subscription: ISubscription;
 
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    private commonservice: CommonService,
+    public commonservice: CommonService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private validateService: ValidateService,
@@ -54,19 +57,19 @@ export class ColorComponent implements OnInit {
   ) {
 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
         this.commonservice.getModuleId();
-        // this.commonservice.readPortal('language/all').subscribe((data:any) => {
-        //   let getLang = data.list;
-        //   let myLangData =  getLang.filter(function(val) {
-        //     if(val.languageCode == translate.currentLang){
-        //       this.lang = val.languageCode;
-        //       this.languageId = val.languageId;
-        //       this.commonservice.getModuleId();
-        //     }
-        //   }.bind(this));
-        // })
+        this.commonservice.readPortal('language/all').subscribe((data:any) => {
+          let getLang = data.list;
+          let myLangData =  getLang.filter(function(val) {
+            if(val.languageCode == translate.currentLang){
+              this.lang = val.languageCode;
+              this.languageId = val.languageId;
+              this.commonservice.getModuleId();
+            }
+          }.bind(this));
+        })
       });
     });
     if(!this.languageId){
@@ -75,6 +78,11 @@ export class ColorComponent implements OnInit {
     }
 
     /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptionLang.unsubscribe();
+    //this.subscription.unsubscribe();
   }
 
   ngOnInit() {
@@ -134,8 +142,8 @@ export class ColorComponent implements OnInit {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.colorData = Rdata['color'];
-          console.log(this.colorData)
-          // console.log(this.appConfig.urlMenu + "/" + row)
+          
+          // 
 
         // populate data
           this.updateForm.get('colorName').setValue(this.colorData['colorName']);
@@ -170,7 +178,7 @@ export class ColorComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -214,14 +222,14 @@ export class ColorComponent implements OnInit {
           "defaultColor": false
       };
 
-      // console.log(formValues)
+      // 
 
       body.colorName = formValues.colorName;
       body.colorCode = formValues.colorCode;
       body.enabled = formValues.active;
       body.defaultColor = formValues.default;
 
-      console.log(body)
+      
 
       // Add Color Service
       this.loading = true;
@@ -249,7 +257,7 @@ export class ColorComponent implements OnInit {
           "defaultColor": null
       };
 
-      // console.log(formValues)
+      // 
 
       body.colorId = this.colorId;
       body.colorName = formValues.colorName;
@@ -257,7 +265,7 @@ export class ColorComponent implements OnInit {
       body.enabled = formValues.active;
       body.defaultColor = formValues.default;
 
-      console.log(JSON.stringify(body));
+      
 
       // Update ErrorMsg Service
       this.loading = true;

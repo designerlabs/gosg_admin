@@ -36,34 +36,40 @@ export class CitizentypeComponent implements OnInit {
   public languageId: any;
   public loading = false;
   public urlEdit = "";
+  lang: string;
 
   constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
   private dialogsService: DialogsService) {
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.commonservice.getModuleId();
-              this.changeLanguageAddEdit();
-            }
-          }.bind(this));
-        })
-      });
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-    }
    }
 
   ngOnInit() {
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
     this.commonservice.getModuleId();
     this.userTypeEng = new FormControl();
     this.userTypeMy = new FormControl();
@@ -85,7 +91,7 @@ export class CitizentypeComponent implements OnInit {
     }
     else{
       this.commonservice.pageModeChange(true);
-      this.getData();
+      this.getData(this.languageId);
     }
     
     // #### for disable non update user ---1
@@ -96,17 +102,17 @@ export class CitizentypeComponent implements OnInit {
     }
   }
 
-  getData() {
+  getData(lng) {
 
     let _getRefID = this.router.url.split('/')[3];
 
     this.loading = true;
-    this.commonservice.readProtectedById('usertype/code/',_getRefID)
+    this.commonservice.readProtectedById('usertype/code/',_getRefID, lng)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      console.log(data);
+      
 
       this.updateForm.get('userTypeMy').setValue(this.recordList.userTypeList[1].userType);
       this.updateForm.get('userTypeEng').setValue(this.recordList.userTypeList[0].userType); 
@@ -129,7 +135,7 @@ export class CitizentypeComponent implements OnInit {
   error => {
 
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);
+      
       this.loading = false;
     });
   }
@@ -181,7 +187,7 @@ export class CitizentypeComponent implements OnInit {
       body[0].language.languageId = 1;
       body[0].userTypeActiveFlag = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.create(body,'usertype').subscribe(
@@ -196,10 +202,10 @@ export class CitizentypeComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record added successfully!')
 
         //   let txt = "Record added successfully!";
@@ -209,7 +215,7 @@ export class CitizentypeComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
@@ -251,7 +257,7 @@ export class CitizentypeComponent implements OnInit {
       body[0].language.languageId = 1;
       body[0].userTypeActiveFlag = formValues.active;
 
-      console.log(body);
+      
 
       this.loading = true;
       this.commonservice.update(body,'usertype').subscribe(
@@ -266,10 +272,10 @@ export class CitizentypeComponent implements OnInit {
         error => {
           this.loading = false;
           this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          console.log(error);
+          
 
-        //   console.log(JSON.stringify(body))
-        //   console.log(body)
+        //   
+        //   
         //   // alert('Record updated successfully!')
 
         //   let txt = "Record updated successfully!";
@@ -279,7 +285,7 @@ export class CitizentypeComponent implements OnInit {
         //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
         // },
         // error => {
-        //   console.log("No Data")
+        //   
         //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }

@@ -38,6 +38,7 @@ export class MinistryComponent implements OnInit {
   isWrite: boolean;
   isDelete: boolean;
   languageId: any;
+  lang: any;
   ministryNameEn: FormControl
   ministryNameBm: FormControl
   descEn: FormControl
@@ -66,7 +67,7 @@ export class MinistryComponent implements OnInit {
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router,
     private validateService: ValidateService,
     textMask:TextMaskModule,
@@ -75,34 +76,35 @@ export class MinistryComponent implements OnInit {
   ) {
 
      /* LANGUAGE FUNC */
-     translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              // this.getMinistryData(this.pageCount, this.agencyPageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      // this.getMinistryData(this.pageCount, this.agencyPageSize);
-      this.commonservice.getModuleId();
-    }
-
-
     /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
-    // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
 
     this.commonservice.getModuleId();
     let refCode = this.router.url.split('/')[2];
@@ -182,9 +184,6 @@ export class MinistryComponent implements OnInit {
     this.router.navigate(['ministry']);
   }
 
-  
-
-
   // get, add, update, delete
   getRow(row) {
 
@@ -198,8 +197,8 @@ export class MinistryComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function(){
 
           this.MinistryData = Rdata;
-          // console.log(JSON.stringify(this.MinistryData))
-          console.log(this.MinistryData)
+          // 
+          
           let dataEn = this.MinistryData['ministryEntityList'][0];
           let dataBm = this.MinistryData['ministryEntityList'][1];
 
@@ -236,7 +235,7 @@ export class MinistryComponent implements OnInit {
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
+      
       this.loading = false;
     });
     
@@ -275,7 +274,7 @@ export class MinistryComponent implements OnInit {
       }
     }
 
-      // console.log(nullPointers)
+      // 
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -350,7 +349,7 @@ export class MinistryComponent implements OnInit {
       }
     ];
     
-    console.log(formValues)
+    
 
     body[0].ministryName = formValues.ministryNameEn;
     body[0].ministryDescription = formValues.descEn;
@@ -392,7 +391,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryWebsiteUrl = formValues.websiteUrl;
     body[1].ministryYoutube = formValues.youtubeUrl;
 
-    console.log(body)
+    
     this.loading = true;
 
     // Add ErrorMsg Service
@@ -410,7 +409,7 @@ export class MinistryComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        console.log(error);
+        
       });
 
     } else {
@@ -514,7 +513,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryWebsiteUrl = formValues.websiteUrl;
     body[1].ministryYoutube = formValues.youtubeUrl;
 
-    console.log(body);
+    
 
     // Update ErrorMsg Service
     this.commonservice.update(body,'ministry/update/multiple').subscribe(
@@ -531,7 +530,7 @@ export class MinistryComponent implements OnInit {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-        console.log(error);
+        
       });
     }
     

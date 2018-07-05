@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild , OnDestroy} from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
@@ -8,6 +8,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-pollresult',
@@ -15,7 +17,7 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./pollresult.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class PollresultComponent implements OnInit {
+export class PollresultComponent implements OnInit, OnDestroy {
 
   recordList = null;
   displayedColumns = ['num','question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
@@ -29,9 +31,15 @@ export class PollresultComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
   languageId: any;
+  lang: any;
   public loading = false;
 
   recordTable = null;
+
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -48,38 +56,55 @@ export class PollresultComponent implements OnInit {
   constructor(
     private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router,
     private toastr: ToastrService,
+    private navservice: NavService,
     private translate: TranslateService) { 
 
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+      /* LANGUAGE FUNC */
+      this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        
+        this.getRecordList(this.pageCount, this.pageSize);
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
-    /* LANGUAGE FUNC */   
+    /* LANGUAGE FUNC */ 
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
 
-    // this.getRecordList(this.pageCount, this.pageSize);
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
+
+    this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
@@ -88,14 +113,14 @@ export class PollresultComponent implements OnInit {
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readProtected('polls/question', page, size)
+    this.commonservice.readProtected('polls/question', page, size, '', this.languageId)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          console.log("data");
-          console.log(data);
+          
+          
           
           this.dataSource.data = this.recordList.pollQuestionFormatList;
           this.seqPageNum = this.recordList.pageNumber;
@@ -108,7 +133,7 @@ export class PollresultComponent implements OnInit {
       error => {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
@@ -9,6 +9,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../../dialogs/dialogs.service';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-identificationtypetbl',
@@ -17,7 +19,7 @@ import { DialogsService } from '../../../dialogs/dialogs.service';
   encapsulation: ViewEncapsulation.None
 })
 
-export class IdentificationtypetblComponent implements OnInit {
+export class IdentificationtypetblComponent implements OnInit, OnDestroy {
 
   updateForm: FormGroup
 
@@ -34,7 +36,7 @@ export class IdentificationtypetblComponent implements OnInit {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
-  dataUrl: any;  
+  dataUrl: any;
   public languageId: any;
 
   public getIdentificationTypeIdEng: any;
@@ -44,82 +46,97 @@ export class IdentificationtypetblComponent implements OnInit {
   public loading = false;
 
   recordTable = null;
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   dataSource = new MatTableDataSource<object>(this.recordList);
   selection = new SelectionModel<Element>(true, []);
+
+  private subscriptionLang: ISubscription;
 
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-  
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig, 
-  private commonservice: CommonService, private router: Router, private toastr: ToastrService,
+
+  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
+  public commonservice: CommonService, private router: Router, private toastr: ToastrService,
   private translate: TranslateService,
+  private navservice: NavService,
   private dialogsService: DialogsService) {
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getRecordList(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.languageId = 1;
+          });
+        }
+
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.getRecordList(this.pageCount, this.pageSize,this.languageId);
+          this.commonservice.getModuleId();
+        }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getRecordList(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
-    
+
   }
 
   ngOnInit() {
-    this.getRecordList(this.pageCount, this.pageSize);
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.getRecordList(this.pageCount, this.pageSize,this.languageId);
     this.commonservice.getModuleId();
   }
 
-  getRecordList(page, size) {
-  
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
+  getRecordList(page, size, lng) {
+
     this.recordList = null;
     // this.dataUrl = this.appConfig.urlIdentificationTypeList + '?page=' + page + '&size=' + size + "?language=" + this.languageId;
 
     this.loading = true;
-    this.commonservice.readProtected('identificationtype/code', page, size)
+    this.commonservice.readProtected('identificationtype/code', page, size, '', lng)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
-      
+
       this.dataSource.data = this.recordList.list;
       this.recordTable = this.recordList;
       this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-    }).bind(this)); 
+    }).bind(this));
     this.loading = false;
   },
   error => {
     this.loading = false;
-    this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-    console.log(error);
+    this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
 
     });
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    this.getRecordList(page - 1, this.pageSize,this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -129,7 +146,7 @@ export class IdentificationtypetblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    this.getRecordList(page + 1, this.pageSize,this.languageId);
   }
 
   add() {
@@ -139,46 +156,46 @@ export class IdentificationtypetblComponent implements OnInit {
   }
 
   updateRow(row) {
-    console.log(row);
+
     this.router.navigate(['reference/identificationtype', row]);
     this.commonservice.pageModeChange(true);
   }
 
-  
+
   deleteRow(refCode) {
 
     let txt;
 
     this.loading = true;
-    console.log(refCode);
+
     this.commonservice.delete(refCode,'identificationtype/delete/multiple/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          
+
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
       },
       error => {
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        console.log(error);
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
     });
 
     // let txt;
     // let r = confirm("Are you sure to delete ?");
 
-    
+
     // if (r == true) {
-    //   console.log(refCode);
+    //
     //   this.commonservice.delIdentificationType(refCode).subscribe(
     //     data => {
     //       // alert('Record deleted successfully!')
     //       txt = " record deleted successfully!";
 
-    //       this.toastr.success(txt, '');   
+    //       this.toastr.success(txt, '');
     //       this.router.navigate(['reference/identificationtype']);
     //       this.getRecordList(this.pageCount, this.pageSize);
     //     },
@@ -197,7 +214,7 @@ export class IdentificationtypetblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    this.getRecordList(this.pageCount, event.value,this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

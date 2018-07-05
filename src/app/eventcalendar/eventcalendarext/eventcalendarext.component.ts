@@ -51,7 +51,7 @@ export class EventcalendarextComponent implements OnInit {
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
@@ -113,7 +113,7 @@ export class EventcalendarextComponent implements OnInit {
 
     this.dateFormatExample = "";
  
-    // console.log(res)
+    // 
 
     return res;
   }
@@ -133,7 +133,7 @@ export class EventcalendarextComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function(){
 
         this.eventData = Rdata['object'];
-        console.log(this.eventData)
+        
 
       // populate data
       this.eventName = this.eventData.eventName;
@@ -155,7 +155,7 @@ export class EventcalendarextComponent implements OnInit {
     },
     error => {
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      console.log(error);  
+      
       this.loading = false;
       });
     

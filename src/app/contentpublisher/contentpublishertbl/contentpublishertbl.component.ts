@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
@@ -11,13 +11,16 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-contentpublishertbl',
   templateUrl: './contentpublishertbl.component.html',
   styleUrls: ['./contentpublishertbl.component.css']
 })
-export class ContentpublishertblComponent implements OnInit {
+export class ContentpublishertblComponent implements OnInit, OnDestroy {
 
   archiveId = [];
   arrStatus = [];
@@ -27,7 +30,7 @@ export class ContentpublishertblComponent implements OnInit {
   updateForm: FormGroup;
   public loading = false;
   recordList = null;
-  displayedColumns = ['cbox','num','name', 'url', 'category','default_status', 'status', 'action'];
+  displayedColumns = ['cbox','num','name', 'url', 'category','date','default_status', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -64,6 +67,7 @@ export class ContentpublishertblComponent implements OnInit {
 
   dataUrl: any;  
   public languageId: any;
+  public lang: any;
   leCategoryCode: any;
   countArticle = 0;
   catCode: any;
@@ -78,12 +82,20 @@ export class ContentpublishertblComponent implements OnInit {
   //nameStatus=1;
   keywordVal="";
 
+  displayDP: any;
+  displayDE: any;
+
   editor = {treeVal: '' };
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   applyFilter(e) {
 
@@ -94,14 +106,14 @@ export class ContentpublishertblComponent implements OnInit {
       this.getFilterListCP(this.pageCount, this.pageSize, e, this.nameStatus, d);
     }
     else{
-      this.getCategoryCodeCP();
+      this.getCategoryCodeCP(this.languageId);
     }
   }
 
   resetSearch() {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
-    this.getCategoryCodeCP();
+    this.getCategoryCodeCP(this.languageId);
   }
 
   filterStatus(e){
@@ -114,53 +126,69 @@ export class ContentpublishertblComponent implements OnInit {
     }
 
     else{
-      this.getCategoryCodeCP();
+      this.getCategoryCodeCP(this.languageId);
     }
   }
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService,
     public dialog: MatDialog,
+    private navservice: NavService,
     public builder: FormBuilder) {
 
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
+    /* LANGUAGE FUNC */ 
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+
+      
+      if (this.navservice.flagLang) {
         
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getCategoryCodeCP();
-              this.getCategoryCP();         
-              this.archiveId = [];
-              this.arrStatus = [];
-              this.selectedItem = [];
-              this.commonservice.getModuleId();
-              
-            }
-          }.bind(this));
-        })
-      });
+        this.getCategoryCodeCP(this.languageId);
+        //this.getCategoryCP(this.languageId);         
+        this.archiveId = [];
+        this.arrStatus = [];
+        this.selectedItem = [];
+        this.commonservice.getModuleId();
+      }
+
     });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.commonservice.getModuleId();
-      //this.getCategoryCP();
-    }
     /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    this.subscriptionContentCreator.unsubscribe();
+    this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
     //this.getRecordListCP(this.pageCount, this.pageSize);
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
     
-    this.getCategoryCodeCP();
+    this.getCategoryCodeCP(this.languageId);
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
     this.parentsBm = new FormControl({disabled: true});
@@ -182,15 +210,15 @@ export class ContentpublishertblComponent implements OnInit {
     });
 
     this.updateForm.get('nameStatus').setValue(1);   
-    this.getCategoryCP();
+    this.getCategoryCP(this.languageId);
     this.valkey = false;
 
   }
 
-  getCategoryCodeCP(){ 
+  getCategoryCodeCP(lang){ 
 
     this.loading = true;
-    return this.commonservice.readProtected('content/publisher/dropdown/'+this.commonservice.contentCategoryCode)
+    this.subscriptionContentCreator = this.commonservice.readProtected('content/publisher/dropdown/'+this.commonservice.contentCategoryCode, '', '', '', lang)
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];          
@@ -240,7 +268,7 @@ export class ContentpublishertblComponent implements OnInit {
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
 
-          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);
+          //this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);
 
         }).bind(this));
         this.loading = false;
@@ -249,9 +277,11 @@ export class ContentpublishertblComponent implements OnInit {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
       });
+
+    return this.subscriptionContentCreator;
   }
 
-  getRecordListCP(page, size, code) {  
+  getRecordListCP(page, size, code, lang) {  
   
     this.recordList = null;
     let nameStatus = this.updateForm.get('nameStatus').value;
@@ -299,7 +329,7 @@ export class ContentpublishertblComponent implements OnInit {
     
     if(code != undefined){
       this.loading = true;
-      this.commonservice.readProtected(generalUrl, page, size).subscribe(
+      this.commonservice.readProtected(generalUrl, page, size, '', lang).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     
@@ -334,6 +364,18 @@ export class ContentpublishertblComponent implements OnInit {
         });
     }
 
+  }
+
+  changeDate(dateDP){
+    this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
+
+    return this.displayDP;
+  }
+
+  changeDate2(dateDE){
+    this.displayDE = moment(new Date(dateDE)).format('DD/MM/YYYY');
+
+    return this.displayDE;
   }
 
   getFilterListCP(page, size, e, valStatus, dateP) {  
@@ -381,7 +423,7 @@ export class ContentpublishertblComponent implements OnInit {
     }
 
     this.loading = true;
-    this.commonservice.readProtected(generalUrl, page, size,e).subscribe(
+    this.commonservice.readProtected(generalUrl, page, size,e, this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
   
@@ -493,14 +535,14 @@ export class ContentpublishertblComponent implements OnInit {
     }
 
     else if(this.newPublishD == undefined || this.newPublishD == null){
-      this.getCategoryCodeCP();
+      this.getCategoryCodeCP(this.languageId);
     }
 
-    console.log("Publish: "+this.publishdt);
-    console.log("End: "+this.enddt);
-    console.log("NEW Publish: "+this.newPublishD);
-    console.log("NEW End: "+this.newEndD);
-    console.log(this.updateForm.get('publish').value);
+    
+    
+    
+    
+    
   }
 
   clearDate() {
@@ -514,7 +556,7 @@ export class ContentpublishertblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getRecordListCP(page - 1, this.pageSize, this.catCode);
+    this.getRecordListCP(page - 1, this.pageSize, this.catCode, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -524,7 +566,7 @@ export class ContentpublishertblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordListCP(page + 1, this.pageSize, this.catCode);
+    this.getRecordListCP(page + 1, this.pageSize, this.catCode, this.languageId);
   }
 
   updateRow(row) {
@@ -541,7 +583,7 @@ export class ContentpublishertblComponent implements OnInit {
         this.commonservice.errorHandling(data, (function(){
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);
+          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);
           this.archiveId = [];
           this.selectedItem = [];
           this.arrStatus = [];
@@ -563,15 +605,15 @@ export class ContentpublishertblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordListCP(this.pageCount, event.value, this.catCode);
+    this.getRecordListCP(this.pageCount, event.value, this.catCode, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
 
-  getCategoryCP(){
+  getCategoryCP(lang){
 
     this.loading = true;
-    return this.commonservice.readProtected('content/publisher/dropdown/'+this.commonservice.contentCategoryCode)
+    this.subscriptionCategoryC = this.commonservice.readProtected('content/publisher/dropdown/'+this.commonservice.contentCategoryCode, '', '', '', lang)
      .subscribe(data => {
           
       this.commonservice.errorHandling(data, (function(){
@@ -624,6 +666,8 @@ export class ContentpublishertblComponent implements OnInit {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         this.loading = false;
     });
+
+    return this.subscriptionCategoryC;
   }
 
   getNestedChildrenEn(arr, parent) {
@@ -666,7 +710,7 @@ export class ContentpublishertblComponent implements OnInit {
   keysFilter(){
 
     this.catCode = undefined;
-    this.getCategoryCodeCP();
+    this.getCategoryCodeCP(this.languageId);
 
     let keysVal = this.updateForm.get('keys');    
     this.updateForm.get('kataKunci').setValue('');
@@ -688,7 +732,7 @@ export class ContentpublishertblComponent implements OnInit {
   onChange(ele){    
 
     this.catCode = ele.refCode;
-    this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);   
+    this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);   
   }
 
   resetAllMethod(){
@@ -702,7 +746,7 @@ export class ContentpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.archivesuccess_multi'), '');
-          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);  
 
       }).bind(this)); 
       this.archiveId = [];
@@ -710,11 +754,11 @@ export class ContentpublishertblComponent implements OnInit {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER ARCHIVE ALL: "+this.flagApprove);
+      
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.archiveId = [];
         this.loading = false;
       });
@@ -728,7 +772,7 @@ export class ContentpublishertblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.archivesuccess'), '');
-          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);  
           this.archiveId = [];
           this.selectedItem = [];
           this.arrStatus = [];
@@ -795,25 +839,25 @@ export class ContentpublishertblComponent implements OnInit {
       this.flagApprove = false;
     }
 
-    console.log(this.arrStatus);
-    console.log("ACHIVE: ");
-    console.log(this.archiveId);
-    console.log(this.selectedItem);
-    console.log("Flag Approved: "+this.flagApprove);
+    
+    
+    
+    
+    
     return false;
   }
 
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
+    
+    
     this.commonservice.delete('', `content/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);  
+          this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);  
 
       }).bind(this)); 
       this.selectedItem = [];
@@ -821,7 +865,7 @@ export class ContentpublishertblComponent implements OnInit {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER DELETE ALL: "+this.flagApprove);
+      
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
@@ -831,10 +875,10 @@ export class ContentpublishertblComponent implements OnInit {
   }
 
   detailHistory(id){
-    console.log("ID: "+id);
+    
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id).subscribe(
+      this.commonservice.readProtected('content/history/'+id, '', '','', this.languageId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     

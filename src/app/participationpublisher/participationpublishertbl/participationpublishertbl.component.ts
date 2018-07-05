@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -11,13 +11,16 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { DialogResultExampleDialog } from '../../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-participationpublishertbl',
   templateUrl: './participationpublishertbl.component.html',
   styleUrls: ['./participationpublishertbl.component.css']
 })
-export class ParticipationpublishertblComponent implements OnInit {
+export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
 
   archiveId = [];
   arrStatus = [];
@@ -66,6 +69,14 @@ export class ParticipationpublishertblComponent implements OnInit {
 
   showNoData = false;
 
+  displayDP: any;
+  displayDE: any;
+
+  private subscriptionLang: ISubscription;
+  private subscriptionContentCreator: ISubscription;
+  private subscriptionCategoryC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -105,43 +116,59 @@ export class ParticipationpublishertblComponent implements OnInit {
   }
   constructor(private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    private commonservice: CommonService, 
+    public commonservice: CommonService, 
     private dialogsService: DialogsService,
     public dialog: MatDialog,
     private translate: TranslateService,
     private router: Router,
+    private navservice: NavService,
     private toastr: ToastrService
   ) { 
-    
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getParticipantsData(this.pageCount, this.participantPageSize);
-              this.commonservice.getModuleId();
-              this.archiveId = [];
-              this.arrStatus = [];
-              this.selectedItem = [];
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      //this.getParticipantsData(this.pageCount, this.participantPageSize);
-      this.commonservice.getModuleId();
-    }
 
+    /* LANGUAGE FUNC */
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        
+        this.getParticipantsData(this.pageCount, this.participantPageSize);
+        this.archiveId = [];
+        this.arrStatus = [];
+        this.selectedItem = [];
+        this.commonservice.getModuleId();
+      }
+
+    });
     /* LANGUAGE FUNC */
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    // this.subscriptionContentCreator.unsubscribe();
+    // this.subscriptionCategoryC.unsubscribe();
+    // this.subscriptionRecordListC.unsubscribe();
+  }
+
   ngOnInit() {
+
+    if (!this.languageId) {
+      this.languageId = localStorage.getItem('langID');
+    } else {
+      this.languageId = 1;
+    }
 
     this.nameStatus = new FormControl();
     this.kataKunci = new FormControl();
@@ -158,7 +185,7 @@ export class ParticipationpublishertblComponent implements OnInit {
     
     this.updateForm.get('nameStatus').setValue(1);
 
-    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'slideActiveFlag', 'slideDraft', 'slideAction'];
+    this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'date','slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
     this.getParticipantsData(this.pageCount, this.participantPageSize);
   }
@@ -211,7 +238,7 @@ export class ParticipationpublishertblComponent implements OnInit {
     }
     
     this.loading = true;
-    this.commonservice.readProtected(generalUrl,page, size).subscribe(
+    this.commonservice.readProtected(generalUrl,page, size, '', this.languageId).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -239,6 +266,18 @@ export class ParticipationpublishertblComponent implements OnInit {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');    
         this.loading = false;
       });
+  }
+
+  changeDate(dateDP){
+    this.displayDP = moment(new Date(dateDP)).format('DD/MM/YYYY');
+
+    return this.displayDP;
+  }
+
+  changeDate2(dateDE){
+    this.displayDE = moment(new Date(dateDE)).format('DD/MM/YYYY');
+
+    return this.displayDE;
   }
 
   getFilterListPP(page, size, keyword, valStatus, dateP) {
@@ -285,7 +324,7 @@ export class ParticipationpublishertblComponent implements OnInit {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.valkey = true;
       this.loading = true;
-      this.commonservice.readProtected(generalUrl,page, size, keyword).subscribe(
+      this.commonservice.readProtected(generalUrl,page, size, keyword, this.languageId).subscribe(
         // this.http.get(this.dataUrl).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
@@ -402,11 +441,11 @@ export class ParticipationpublishertblComponent implements OnInit {
       this.getParticipantsData(this.pageCount, this.participantPageSize);
     }
 
-    console.log("Publish: "+this.publishdt);
-    console.log("End: "+this.enddt);
-    console.log("NEW Publish: "+this.newPublishD);
-    console.log("NEW End: "+this.newEndD);
-    console.log(this.updateForm.get('publish').value);
+    
+    
+    
+    
+    
   }
 
   clearDate() {
@@ -489,11 +528,11 @@ export class ParticipationpublishertblComponent implements OnInit {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER ARCHIVE ALL: "+this.flagApprove);
+      
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.archiveId = [];
         this.loading = false;
       });
@@ -518,7 +557,7 @@ export class ParticipationpublishertblComponent implements OnInit {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        console.log(error);
+        
         this.loading = false;
       });
 
@@ -575,19 +614,19 @@ export class ParticipationpublishertblComponent implements OnInit {
       this.flagApprove = false;
     }
 
-    console.log(this.arrStatus);
-    console.log("ACHIVE: ");
-    console.log(this.archiveId);
-    console.log(this.selectedItem);
-    console.log("Flag Approved: "+this.flagApprove);
+    
+    
+    
+    
+    
     return false;
   }
 
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    console.log("DELETED REFCODE: ");
-    console.log(deletedCodes);
+    
+    
     this.commonservice.delete('', `e-participation/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -601,7 +640,7 @@ export class ParticipationpublishertblComponent implements OnInit {
       this.arrStatus = [];
       this.flagApprove = false;
       this.loading = false;
-      console.log("AFTER DELETE ALL: "+this.flagApprove);
+      
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
@@ -611,10 +650,10 @@ export class ParticipationpublishertblComponent implements OnInit {
   }
 
   detailHistory(id){
-    console.log("ID: "+id);
+    
    
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id).subscribe(
+      this.commonservice.readProtected('content/history/'+id, '', '', '', this.languageId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
     

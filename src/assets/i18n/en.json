@@ -236,7 +236,8 @@
       "revert": "Re-use",
       "approve": "Approve",
       "search": "Search",
-      "history": "History"
+      "history": "History",
+      "sendDraft": "Send to Draft"
     },
     "err":{
       "servicedown": "Sorry, Server is down",
@@ -280,7 +281,8 @@
       "revert": "Are you sure you want to re-use this record?",
       "revertAll": "Are you sure you want to re-use all selected records?",
       "unauthorized": "You are not authorized to access this page!",
-      "nodata": "No Data Found"
+      "nodata": "No Data Found",
+      "isSendDraft":"Send back to draft?"
     },
     "state":{
       "success":"bg_header bg_success_header",
@@ -300,7 +302,8 @@
         "name": "Name",
         "email": "Email",
         "activity": "Activity",
-        "time": "Time"
+        "time": "Time",
+        "date": "Date"
     },
     "tableBottom": {
         "page": "Page",
@@ -752,7 +755,8 @@
       "contentmgmt": "Life event"
     },
     "citizenflag": "Citizen",
-    "noncitizenflag": "Non Citizen"
+    "noncitizenflag": "Non Citizen",
+    "LECategory": "Life Event Category"
   },
   "footercategorytbl": {
     "header": "Footer Category",
