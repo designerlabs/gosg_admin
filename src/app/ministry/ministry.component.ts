@@ -190,7 +190,7 @@ export class MinistryComponent implements OnInit {
 
     this.loading = true;
     // Update Ministry Service
-    return this.commonservice.readPortalById("ministry/", row).subscribe(
+    return this.commonservice.readPortalById("ministry/", row, this.languageId).subscribe(
     // return this.http.get(this.appConfig.urlAgency + '/code/' + row).subscribe(
     // return this.http.get(this.appConfig.urlAgency + row + "/").subscribe(
       Rdata => {

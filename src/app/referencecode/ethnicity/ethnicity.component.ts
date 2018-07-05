@@ -101,7 +101,7 @@ export class EthnicityComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[3];
     this.loading = true;
-    this.commonservice.readPortalById('race/code/', _getRefID)
+    this.commonservice.readPortalById('race/code/', _getRefID, this.languageId)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;

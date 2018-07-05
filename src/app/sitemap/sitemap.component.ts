@@ -116,7 +116,7 @@ export class SitemapComponent implements OnInit {
     this.loading = true;
 
     // Update Slider Service
-    return this.commonservice.readPortalById('sitemap/code/', row).subscribe(
+    return this.commonservice.readPortalById('sitemap/code/', row, this.languageId).subscribe(
     // return this.http.get(this.appConfig.urlSlides + row + "/").subscribe(
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){

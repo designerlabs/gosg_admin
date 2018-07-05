@@ -129,7 +129,7 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
     let _getRefID = this.router.url.split('/')[3];  
     this.loading = true;
 
-    this.commonservice.readPortalById('feedback/subject/', _getRefID)
+    this.commonservice.readPortalById('feedback/subject/', _getRefID, this.languageId)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
