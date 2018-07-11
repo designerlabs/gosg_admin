@@ -47,6 +47,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   public subcription: FormControl;
   public deleted: FormControl;
   public rss: FormControl;
+  public media: FormControl;
   public seqEng: FormControl;
   public seqMy: FormControl;
 
@@ -153,6 +154,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.subcription = new FormControl();
     this.deleted = new FormControl();
     this.rss = new FormControl();
+    this.media = new FormControl();
     this.active = new FormControl();
     this.seqEng = new FormControl();
     this.seqMy = new FormControl();
@@ -174,6 +176,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       subcription: this.subcription,
       deleted: this.deleted,
       rss: this.rss,
+      media: this.media,
       seqEng: this.seqEng,
       seqMy: this.seqMy,
       citizenflag: this.citizenflag,
@@ -415,6 +418,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.updateForm.get('subcription').setValue(this.recordList.list[0].isSubscribable);
         this.updateForm.get('deleted').setValue(this.recordList.list[0].isDeleted);
         this.updateForm.get('rss').setValue(this.recordList.list[0].isRssFeeder);
+        this.updateForm.get('media').setValue(this.recordList.list[0].isMediaType);
 
         if(this.recordList.list[0].template == 'lifeevent'){
           this.flagLifeED = 'lifeevent';
@@ -583,6 +587,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
       formValues.rss = false;
     }
 
+
+    if(formValues.media == null){
+      formValues.media = false;
+    }
+
     if(formValues.imageEn == null){
       valImgEn = null;
       valImgBm = null;
@@ -626,6 +635,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           "isSubscribable":false,
           "isDeleted":false,
           "isRssFeeder":false,
+          "isMediaType":false,
           "isCitizenLifeEvent": false,
           "isNonCitizenLifeEvent": false,
           "categorySort": null,
@@ -644,6 +654,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           "isSubscribable":false,
           "isDeleted":false,
           "isRssFeeder":false,
+          "isMediaType":false,
           "isCitizenLifeEvent": false,
           "isNonCitizenLifeEvent": false,
           "categorySort": null,
@@ -657,6 +668,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[0].isSubscribable = formValues.subcription;
       body[0].isDeleted = formValues.deleted;
       body[0].isRssFeeder = formValues.rss;
+      body[0].isMediaType = formValues.media;
+
+
 
       body[0].categorySort = formValues.seqEng;
 
@@ -667,14 +681,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[1].isSubscribable = formValues.subcription;
       body[1].isDeleted = formValues.deleted;
       body[1].isRssFeeder = formValues.rss;
-
+      body[1].isMediaType = formValues.media;
       body[1].categorySort = formValues.seqMy;
 
       if(this.flagLifeE == 'lifeevent'){
 
         //checkbox appear
         if(this.boolenLEC == '' && this.boolenLENC == '' || this.boolenLEC == false && this.boolenLENC == false){
-          
+
           body[0].isCitizenLifeEvent = formValues.citizenflag;
           body[0].isNonCitizenLifeEvent = formValues.noncitizenflag;
           body[1].isCitizenLifeEvent = formValues.citizenflag;
@@ -683,7 +697,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
         //checkbox disappear
         else{
-          
+
           body[0].isCitizenLifeEvent = this.boolenLEC;
           body[0].isNonCitizenLifeEvent = this.boolenLENC;
           body[1].isCitizenLifeEvent = this.boolenLEC;
@@ -753,6 +767,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           "isSubscribable":false,
           "isDeleted":false,
           "isRssFeeder":false,
+          "isMediaType": false,
           "isCitizenLifeEvent": false,
           "isNonCitizenLifeEvent": false,
           "categorySort": null,
@@ -773,6 +788,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           "isSubscribable":false,
           "isDeleted":false,
           "isRssFeeder":false,
+          "isMediaType": false,
           "isCitizenLifeEvent": false,
           "isNonCitizenLifeEvent": false,
           "categorySort": null,
@@ -786,6 +802,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[0].isSubscribable = formValues.subcription;
       body[0].isDeleted = formValues.deleted;
       body[0].isRssFeeder = formValues.rss;
+      body[0].isMediaType = formValues.media;
       body[0].categorySort = formValues.seqEng;
 
       body[1].categoryName = formValues.titleBm;
@@ -795,6 +812,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       body[1].isSubscribable = formValues.subcription;
       body[1].isDeleted = formValues.deleted;
       body[1].isRssFeeder = formValues.rss;
+      body[1].isMediaType = formValues.media;
       body[1].categorySort = formValues.seqMy;
 
       if(this.flagLifeE == 'lifeevent' || this.flagLifeED == 'lifeevent'){
@@ -810,7 +828,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
         //checkbox disappear
         else {
-   
+
           body[0].isCitizenLifeEvent = this.boolenLEC;
           body[0].isNonCitizenLifeEvent = this.boolenLENC;
           body[1].isCitizenLifeEvent = this.boolenLEC;
