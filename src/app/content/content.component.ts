@@ -340,8 +340,11 @@ export class ContentComponent implements OnInit, OnDestroy {
           let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
           let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
           let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+          let addClassforOList = addClassforTable.replace('<ol>', '<ol class="custom_list">');
+          let addClassforUOList = addClassforOList.replace('<ul>', '<ul class="custom_list">');
+          let replaceBR = addClassforUOList.replace('<br>','');
 
-          dialogRef.componentInstance.content = addClassforSpan;
+          dialogRef.componentInstance.content = addClassforUOList;
           this.contentTxtEn = dialogRef.componentInstance.content;
           this.parseEnBtn = true;
       }).bind(this));
@@ -367,7 +370,11 @@ export class ContentComponent implements OnInit, OnDestroy {
           let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
           let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
           let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
-          dialogRef.componentInstance.content = addClassforSpan;
+          let addClassforOList = addClassforTable.replace('<ol>', '<ol class="custom_list">');
+          let addClassforUOList = addClassforOList.replace('<ul>', '<ul class="custom_list">');
+          let replaceBR = addClassforUOList.replace('<br>','');
+
+          dialogRef.componentInstance.content = addClassforUOList;
           this.parseMyBtn = true;
           this.contentTxtMy = dialogRef.componentInstance.content;
 
