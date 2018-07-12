@@ -182,14 +182,14 @@
       "words": " characters left.",
       "choose": "--Please Select--"
     },
-    "reset":"Reset this form?",      
+    "reset":"Reset this form?",
     "msgsubmit": "Thank you. Your complaints/queries has been successfully sent. Responds will be received in 3 working days",
     "err":{
       "drop": "This field is required",
-      "submit": "Sorry, server down.",        
+      "submit": "Sorry, server down.",
       "type":"Sorry, type of feedback is unavailable.",
       "subject":"Sorry, subjects is unavailable."
-      
+
     }
   },
   "mailbox":{
@@ -199,7 +199,7 @@
       "date":"Date",
       "action":"Action"
     },
-    
+
     "pagination":{
       "pages":"Pages",
       "of":"of",
@@ -541,7 +541,9 @@
       "ismainmenu": "is Main Menu",
       "subscription":"allow for subscription",
       "deleted":"not allow to delete",
-      "rss":"is RSS Feeder"
+      "rss":"is RSS Feeder",
+      "media": "is Media"
+
     }
   },
   "city": {
@@ -1073,7 +1075,7 @@
       "statusdraft": "Status Draft"
     },
     "tableBottom":{
-      
+
     }
   },
   "participation": {
@@ -1084,8 +1086,8 @@
       "titleBm": "Title (BM)",
       "statusdraft": "Status Draft"
     },
-    "tableBottom":{    
-      "participation":"e-Participation"  
+    "tableBottom":{
+      "participation":"e-Participation"
     }
   },
   "publisher": {
@@ -1099,7 +1101,7 @@
       "userInfo":"User Information"
     },
     "tableBottom":{
-      
+
     },
     "header2": "Publisher"
   },

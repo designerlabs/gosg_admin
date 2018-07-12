@@ -159,13 +159,13 @@
       "captcha":"Kod Verifikasi mestilah sah"
     }
   },
-  
+
   "dashboard":{
 
   },
-  
+
   "errorlabel":{
-    
+
   },
   "feedback":{
     "title":"ADUAN DAN PERTANYAAN",
@@ -199,7 +199,7 @@
       "date":"",
       "action":""
     },
-    
+
     "pagination":{
       "pages":"",
       "of":"",
@@ -541,7 +541,8 @@
       "ismainmenu": "adalah Menu Utama",
       "subscription":"benarkan untuk langganan",
       "deleted":"tidak dibenarkan padam",
-      "rss":"adalah Suapan RSS"
+      "rss":"adalah Suapan RSS",
+      "media": "adalah Media"
     }
   },
   "city": {
@@ -1073,7 +1074,7 @@
       "statusdraft": "Draf Status"
     },
     "tableBottom":{
-      
+
     }
   },
   "participation": {
@@ -1084,8 +1085,8 @@
       "titleBm": "Tajuk (BM)",
       "statusdraft": "Draf Status"
     },
-    "tableBottom":{      
-      "participation":"e-Penyertaan"  
+    "tableBottom":{
+      "participation":"e-Penyertaan"
     }
   },
   "publisher": {
@@ -1099,7 +1100,7 @@
       "userInfo":"Maklumat Pengguna"
     },
     "tableBottom":{
-      
+
     },
     "header2": "Percetakan"
   },

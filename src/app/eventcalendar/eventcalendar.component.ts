@@ -323,7 +323,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
   getImageList(lng){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article', '', '', '', lng)
+    this.commonservice.readProtected('media/category/name/Article', '1', '99999', '', lng)
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){

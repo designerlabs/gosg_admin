@@ -241,7 +241,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
 
   getImageList(){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article', '', '', '', this.languageId)
+    this.commonservice.readProtected('media/category/name/Article', '1', '99999', '', this.languageId)
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){
