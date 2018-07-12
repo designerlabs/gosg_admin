@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
@@ -7,13 +7,15 @@ import { HttpClient } from '@angular/common/http';
 import { DialogsService } from '../../../dialogs/dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-mediatypetbl',
   templateUrl: './mediatypetbl.component.html',
   styleUrls: ['./mediatypetbl.component.css']
 })
-export class MediatypetblComponent implements OnInit {
+export class MediatypetblComponent implements OnInit, OnDestroy {
 
   mediaList = null;
   noPrevData = true;
@@ -25,43 +27,63 @@ export class MediatypetblComponent implements OnInit {
   languageId: any;
   public loading = false;
   displayedColumns = ['no', 'mediaType', 'catName',  'status', 'action'];
+  private subscriptionLang: ISubscription;
 
   dataSource = new MatTableDataSource<object>(this.mediaList);
 
-  constructor(public commonservice: CommonService, private router: Router, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService) { 
+  constructor(public commonservice: CommonService, private navservice: NavService, private router: Router, private toastr: ToastrService,private http: HttpClient, private dialogsService: DialogsService, private translate: TranslateService) { 
     /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getMediaList();
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
     });
+    
+    if(this.navservice.flagLang){
+      this.getMediaList(this.languageId);
+      this.commonservice.getModuleId();
+    }
+
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
-      this.getMediaList();
+      this.getMediaList(this.languageId);
       this.commonservice.getModuleId();
     }
     
   }
 
   ngOnInit() {
-    this.getMediaList();
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+    this.getMediaList(this.languageId);
     this.commonservice.getModuleId();
   }
 
-  getMediaList() {
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
+  getMediaList(lng) {
     this.loading = true;
     // return this.commonservice.getMediaType()
-    this.commonservice.readProtected('mediatype')
+    this.commonservice.readProtected('mediatype', '', '', '', lng)
        .subscribe(resStateData => {
         this.commonservice.errorHandling(resStateData, (function(){ 
             this.seqPageNum = 1;
