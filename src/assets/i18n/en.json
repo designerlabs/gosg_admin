@@ -275,7 +275,7 @@
     "msg":{
       "notfound":"Not Found.",
       "reset":"Reset this form?",
-      "delete":"Are you sure?",
+      "delete":"Are you sure to delete?",
       "deleteAll":"Are you sure to delete all selected records?",
       "archive": "Are you sure you want to move this record to archive?",
       "revert": "Are you sure you want to re-use this record?",

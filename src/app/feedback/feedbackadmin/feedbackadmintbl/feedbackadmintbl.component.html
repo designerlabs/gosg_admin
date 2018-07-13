@@ -90,7 +90,7 @@
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()"> 
                             <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.feedbackId }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
-                        [title]="'common.icon.warn'" 
+                        [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"
                         [state]="'bg_header bg_warn_header'"
                         [isReset]="'true'"
@@ -132,20 +132,3 @@
         </div>
     </div>
 </div>
-
-<!-- <app-confirm-dialog  #resetModal 
-[title]="'common.icon.warn'" 
-[content]="'common.msg.reset'"
-[state]="'common.state.warn'" 
-[isReset]="'true'"
-(resetMethod)="resetMethod($event)">
-</app-confirm-dialog>
-
-<app-confirm-dialog  #infoModal 
-[title]="'common.icon.success'" 
-[content]="'register.popupmsg.success_content1'"
-[email] = "getEmail"
-[content2] = "'register.popupmsg.success_content2'" 
-[state]="'common.state.success'" 
-[isRegister]="'index'">
-</app-confirm-dialog> -->

@@ -275,7 +275,7 @@
     "msg":{
       "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
-      "delete":"Adakah anda pasti?",
+      "delete":"Adakah anda pasti untuk memadam?",
       "deleteAll":"Adakah anda pasti untuk memadam semua data terpilih?",
       "archive": "Adakah anda pasti untuk tukar ke arkib?",
       "revert": "Adakah anda pasti untuk guna semula data ini?",
