@@ -23,7 +23,7 @@ mat-header-cell{
   .mat-dialog-container app-confirm-dialog button:nth-child(1){
     padding-left:10px;
   }
-  
+
   .mat-dialog-container app-confirm-dialog button:nth-child(2){
     padding-right:10px;
   }
@@ -48,6 +48,22 @@ mat-header-cell{
     padding: 6px;
     width: 100%;
   }
+
+  /* custom content styles */
+
+.custom_list{
+  list-style: square;
+}
+
+.custom_list li{
+  padding:5px 0;
+}
+
+p.font-size-s > strong {
+  text-decoration: underline;
+}
+
+/* custom content styles */
 
   .bg_success_header{
     color: #155724;
@@ -201,19 +217,19 @@ mat-header-cell{
 /* below style added by sri */
 .font-size-l, .font-size-m, .font-size-s, .font-size-xl, .font-size-xxl {
     font-weight: 500 !important; }
-  
+
   .font-size-s {
     font-size: 14px !important; }
-  
+
   .font-size-m {
     font-size: 18px !important; }
-  
+
   .font-size-l {
     font-size: 24px !important; }
-  
+
   .font-size-xl {
     font-size: 38px !important; }
-  
+
   .font-size-xxl {
     font-size: 52px !important; }
 
@@ -224,17 +240,17 @@ mat-header-cell{
         padding-bottom:10px;
         display: flex;
     }
-    
+
     .curdHeadingLeft{
         text-align: left;
         padding-left:0px !important;
     }
-    
+
     .curdHeadingRight{
         text-align: right;
         padding-right: 0px !important;
     }
-    
+
     .align_right{
         text-align: right;
     }
@@ -273,7 +289,7 @@ mat-header-cell{
     }
 
     .table_footer_pagecount{
-        width:50px !important; 
+        width:50px !important;
         margin-top: -10px !important;
     }
 
@@ -328,12 +344,12 @@ mat-header-cell{
     }
 
     .datetimeMask {
-        color:#333; 
+        color:#333;
         margin-bottom: 0%
     }
 
     .datetimeMaskWithValue {
-        color:#333; 
+        color:#333;
         margin-bottom: -4%
     }
 
@@ -408,11 +424,11 @@ mat-header-cell{
     .largeScreen {
         display: none;
     }
-    
+
 }
 
 .tableHistory{
     background: #0c5460 !important;
     color: white !important;
-  
+
   }

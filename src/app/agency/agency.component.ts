@@ -21,7 +21,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
   patternEmail: string;
   maskPhoneNo: (string | RegExp)[];
   maskFaxNo: (string | RegExp)[];
-  
+
   searchMinistryResultEn: string[];
   searchMinistryResultBm: string[];
   isActiveListEn: boolean;
@@ -33,7 +33,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
   showUserInput: boolean;
   showIC: boolean;
   showEmail: boolean;
-  
+
   AgencyTypeData: Object;
   dataUrl: any;
   date = new Date();
@@ -92,22 +92,22 @@ export class AgencyComponent implements OnInit, OnDestroy {
   languageId: any;
   lang:any;
   public loading = false;
-  
+
   private subscription: ISubscription;
   private subscriptionLang: ISubscription;
   private subscriptionLangAll: ISubscription;
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private router: Router,
     private translate: TranslateService,
     private validateService: ValidateService,
     private navservice: NavService,
     private toastr: ToastrService
-  ) { 
-    
+  ) {
+
     /* LANGUAGE FUNC */
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       const myLang = translate.currentLang;
@@ -118,7 +118,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
             this.languageId = 1;
           });
         }
-        
+
         if (myLang == 'ms') {
           translate.get('HOME').subscribe((res: any) => {
             this.lang = 'ms';
@@ -143,7 +143,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
     // this.isEdit = false;
-    // this.changePageMode(this.isEdit); 
+    // this.changePageMode(this.isEdit);
     this.getImageList();
 
     let refCode = this.router.url.split('/')[2];
@@ -221,7 +221,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       this.pageMode = 'common.update';
       this.getRow(refCode);
     }
-    
+
     // #### for disable non update user ---1
     if(!this.commonservice.isUpdate && this.commonservice.isWrite){
       this.updateForm.enable();
@@ -246,21 +246,21 @@ export class AgencyComponent implements OnInit, OnDestroy {
 
       this.commonservice.errorHandling(resCatData, (function(){
 
-        this.imageData = resCatData['list'];       
-        // 
+        this.imageData = resCatData['list'];
+        //
 
       }).bind(this));
       this.loading = false;
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
       this.loading = false;
-      
+
     });
   }
-  
+
   selectedImg(e){
-    
+
     this.getImgId = e.value;
     let dataList = this.imageData;
     let indexVal: any;
@@ -271,33 +271,33 @@ export class AgencyComponent implements OnInit, OnDestroy {
       if(indexVal == this.getImgId){
         id = dataList[i].list[0].mediaId;
         this.selectedFile=dataList[i].list[0].mediaFile;
-      }        
+      }
     }
 
-    
 
-    this.updateForm.get('image').setValue(id);  
+
+    this.updateForm.get('image').setValue(id);
     this.checkReqValues();
 
   }
 
   onScroll(event, lngId){
 
-    // 
+    //
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
-      // 
-      
+      //
+
 
       let keywordVal;
-      
+
       if(lngId == 1) {
         keywordVal = this.updateForm.get("ministryEn").value
         this.getSearchData(keywordVal, lngId, 1, this.searchMinistryResultEn.length+10)
-        
+
       } else if(lngId == 2) {
         keywordVal = this.updateForm.get("ministryBm").value
         this.getSearchData(keywordVal, lngId, 1, this.searchMinistryResultBm.length+10)
-        
+
       }
     }
   }
@@ -315,11 +315,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
       Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AgencyTypeData = Rdata;
-          console.log(this.AgencyTypeData)
-          
+
           let dataEn = this.AgencyTypeData['list'][0];
           let dataBm = this.AgencyTypeData['list'][1];
-          
+
           // populate data
           this.updateForm.get('agencyNameEn').setValue(dataEn.agencyName);
           this.updateForm.get('descEn').setValue(dataEn.agencyDescription);
@@ -363,20 +362,20 @@ export class AgencyComponent implements OnInit, OnDestroy {
           }
 
           this.checkReqValues();
-        }).bind(this));  
+        }).bind(this));
       this.loading = false;
     }, err => {
       this.loading = false;
     });
-    
+
   }
 
   getSearchData(keyword, langId, count, page){
-    
-    
+
+
 
     let selLangField;
-      
+
     if(langId == 1) {
       selLangField = "ministryBm";
       this.ministryNameBm = "";
@@ -385,14 +384,14 @@ export class AgencyComponent implements OnInit, OnDestroy {
       this.ministryNameEn = "";
     }
     this.updateForm.get(selLangField).reset();
-    // 
-    
+    //
+
     // if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      
+
       this.loading = true;
       this.commonservice.readPortal('ministry/language/'+langId, count, page, keyword, langId).subscribe(data => {
             this.commonservice.errorHandling(data, (function(){
-              
+
           if(data['list'].length != 0) {
               if(langId == 1) {
                 this.searchMinistryResultEn = data['list'];
@@ -404,8 +403,8 @@ export class AgencyComponent implements OnInit, OnDestroy {
                 this.isActiveListEn = false;
               }
             }
-            }).bind(this)); 
-            this.loading = false; 
+            }).bind(this));
+            this.loading = false;
           }, err =>{
             this.loading = false;
           });
@@ -414,7 +413,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     //   this.isActiveListBm = false;
     // }
   }
-  
+
   getValue(mId,mName, refCode, langId){
 
     if(langId == 1) {
@@ -425,7 +424,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       this.ministryIdEn = mId;
 
       // this.getMinistryByRefCode(refCode,langId);
-      
+
     } else {
       this.ministryBm = this.updateForm.get('ministryBm').value;
       this.isActiveListBm = false;
@@ -433,7 +432,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       this.updateForm.get('ministryBm').setValue(mName);
       this.ministryIdBm = mId;
 
-      
+
     }
     this.getMinistryByRefCode(refCode,langId);
   }
@@ -457,20 +456,20 @@ export class AgencyComponent implements OnInit, OnDestroy {
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-          
-          
 
-          // 
+
+
+          //
           mName = data['ministryEntityList'][0]['ministryName'];
           mId = data['ministryEntityList'][0]['ministryId'];
-          
+
           this.updateForm.get(selLangField).setValue(mName);
 
           if(langId == 1)
             this.ministryIdEn = mId;
           else
             this.ministryIdBm = mId;
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
     }, err => {
       this.loading = false;
@@ -491,9 +490,9 @@ export class AgencyComponent implements OnInit, OnDestroy {
     let email = "email";
 
     let reqVal: any = [
-                        agencyNameEn, 
-                        descEn, 
-                        agencyNameBm, 
+                        agencyNameEn,
+                        descEn,
+                        agencyNameBm,
                         descBm,
                         ministryEn,
                         ministryBm,
@@ -514,7 +513,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       }
     }
 
-      // 
+      //
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -524,18 +523,18 @@ export class AgencyComponent implements OnInit, OnDestroy {
 
   }
 
-  myFunction() {    
+  myFunction() {
       this.updateForm.reset();
-      this.checkReqValues();    
+      this.checkReqValues();
   }
 
   validateCtrlChk(ctrl: FormControl) {
       // return ctrl.valid || ctrl.untouched
       return this.validateService.validateCtrl(ctrl);
   }
-  
+
   updateAction(formValues: any) {
-    
+
     if(!this.isEdit) {
 
       let body = [
@@ -558,11 +557,11 @@ export class AgencyComponent implements OnInit, OnDestroy {
           "agencyMdecStatus": null,
           "agencyRss": null,
           "agencyTwitter": null,
-          "agencyWebsiteUrl": null, 
-          "agencyPublicationUrl": null, 
-          "agencyEparticipationArchiveUrl": null, 
-          "agencyEparticipationPolicyUrl": null, 
-          "agencyEparticipationUrl": null, 
+          "agencyWebsiteUrl": null,
+          "agencyPublicationUrl": null,
+          "agencyEparticipationArchiveUrl": null,
+          "agencyEparticipationPolicyUrl": null,
+          "agencyEparticipationUrl": null,
           "agencyYoutube": null,
           "language": {
             "languageId": 1
@@ -594,10 +593,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
           "agencyRss": null,
           "agencyTwitter": null,
           "agencyWebsiteUrl": null,
-          "agencyPublicationUrl": null, 
-          "agencyEparticipationArchiveUrl": null, 
-          "agencyEparticipationPolicyUrl": null, 
-          "agencyEparticipationUrl": null, 
+          "agencyPublicationUrl": null,
+          "agencyEparticipationArchiveUrl": null,
+          "agencyEparticipationPolicyUrl": null,
+          "agencyEparticipationUrl": null,
           "agencyYoutube": null,
           "language": {
             "languageId": 2
@@ -610,7 +609,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
           }
         }
       ];
-    
+
       body[0].agencyName = formValues.agencyNameEn;
       body[0].agencyDescription = formValues.descEn;
       body[0].agencyUniqueCode = formValues.uniqueCode;
@@ -636,7 +635,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[0].agencyEparticipationUrl = formValues.ePartUrl;
       body[0].agencyYoutube = formValues.youtubeUrl;
       body[0].agencyMinistry.ministryId = this.ministryIdEn;
-  
+
       body[1].agencyName = formValues.agencyNameBm;
       body[1].agencyDescription = formValues.descBm;
       body[1].agencyUniqueCode = formValues.uniqueCode;
@@ -662,7 +661,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[1].agencyEparticipationUrl = formValues.ePartUrl;
       body[1].agencyYoutube = formValues.youtubeUrl;
       body[1].agencyMinistry.ministryId = this.ministryIdBm;
-    
+
       if(formValues.image) {
         body[0].agencyImage.mediaId = formValues.image;
         body[1].agencyImage.mediaId = formValues.image;
@@ -670,7 +669,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
         body[0].agencyImage = null;
         body[1].agencyImage = null;
       }
-      
+
 
     // Add Agency Service
     this.loading = true;
@@ -678,7 +677,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
-        }).bind(this));  
+        }).bind(this));
         this.router.navigate(['agency']);
         this.loading = false;
       },
@@ -688,7 +687,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       });
 
     } else {
-      
+
     let body = [
       {
         "agencyId": null,
@@ -712,10 +711,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
         "agencyRss": "",
         "agencyTwitter": "",
         "agencyWebsiteUrl": "",
-        "agencyPublicationUrl": null, 
-        "agencyEparticipationArchiveUrl": null, 
-        "agencyEparticipationPolicyUrl": null, 
-        "agencyEparticipationUrl": null, 
+        "agencyPublicationUrl": null,
+        "agencyEparticipationArchiveUrl": null,
+        "agencyEparticipationPolicyUrl": null,
+        "agencyEparticipationUrl": null,
         "agencyYoutube": "",
         "language": {
           "languageId": 1
@@ -726,7 +725,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
         "agencyMinistry": {
           "ministryId": null
         }
-      }, 
+      },
       {
         "agencyId": null,
         "agencyCode": null,
@@ -749,10 +748,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
         "agencyRss": "",
         "agencyTwitter": "",
         "agencyWebsiteUrl": "",
-        "agencyPublicationUrl": null, 
-        "agencyEparticipationArchiveUrl": null, 
-        "agencyEparticipationPolicyUrl": null, 
-        "agencyEparticipationUrl": null, 
+        "agencyPublicationUrl": null,
+        "agencyEparticipationArchiveUrl": null,
+        "agencyEparticipationPolicyUrl": null,
+        "agencyEparticipationUrl": null,
         "agencyYoutube": "",
         "language": {
           "languageId": 2
@@ -765,7 +764,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
         }
       }
     ];
-  
+
     body[0].agencyId = this.agencyIdEn;
     body[0].agencyCode = this.refCode;
     body[0].agencyName = formValues.agencyNameEn;
@@ -836,7 +835,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-        }).bind(this));  
+        }).bind(this));
         this.router.navigate(['agency']);
         this.loading = false;
       },
@@ -845,7 +844,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
         this.loading = false;
       });
     }
-    
+
 
   }
 
