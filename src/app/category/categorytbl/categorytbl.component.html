@@ -87,7 +87,7 @@
                         [disabled]="element.list[0].isDeleted == true">
                             <i [ngClass]="commonservice.icon.trash"></i></button>
                         <app-confirm-dialog  #deleteModal 
-                        [title]="'common.icon.warn'" 
+                        [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"
                         [state]="'bg_header bg_warn_header'"
                         [isReset]="'true'"

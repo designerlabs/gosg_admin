@@ -78,9 +78,9 @@
               <i [ngClass]="commonservice.icon.trash"  title="Delete {{ element.colorName }}"></i>
             </button>
             <app-confirm-dialog  #deleteRow 
-            [title]="'common.icon.warn'" 
+            [title]="'fa fa-exclamation-triangle'" 
             [content]="'common.msg.delete'"
-            [state]="'common.state.warn'"
+            [state]="'bg_header bg_warn_header'"
             [isReset]="'true'"
             (resetMethod)="deleteItem(element.colorId)">
             </app-confirm-dialog> 

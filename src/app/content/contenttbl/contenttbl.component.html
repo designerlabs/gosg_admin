@@ -82,9 +82,9 @@
                             <i [ngClass]="commonservice.icon.trash"></i>
                             <span class="largeScreen">{{'common.buttons.delete' | translate}}</span></button>
                         <app-confirm-dialog  #deleteAllModal 
-                        [title]="'common.icon.warn'" 
+                        [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.deleteAll'"
-                        [state]="'common.state.warn'" 
+                        [state]="'bg_header bg_warn_header'" 
                         [isReset]="'true'"
                         (resetMethod)="deleteAll()">
                         </app-confirm-dialog>
@@ -267,7 +267,7 @@
                         
                         
                         <app-confirm-dialog  #delete
-                        [title]="'common.icon.warn'" 
+                        [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"
                         [state]="'bg_header bg_warn_header'"
                         [isReset]="'true'"

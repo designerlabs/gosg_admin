@@ -202,10 +202,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
       instagramUrl: this.instagramUrl,
       twitterUrl: this.twitterUrl,
       flickrUrl: this.flickrUrl,
-      publicationUrl: this.flickrUrl,
-      ePartUrl: this.flickrUrl,
-      ePartArchiveUrl: this.flickrUrl,
-      ePartPolicyUrl: this.flickrUrl,
+      publicationUrl: this.publicationUrl,
+      ePartUrl: this.ePartUrl,
+      ePartArchiveUrl: this.ePartArchiveUrl,
+      ePartPolicyUrl: this.ePartPolicyUrl,
       active: this.active,
       image: this.image,
       mdecStatus: this.mdecStatus,
@@ -241,7 +241,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
 
   getImageList(){
     this.loading = true;
-    this.commonservice.readProtected('media/category/name/Article', '', '', '', this.languageId)
+    this.commonservice.readProtected('media/category/name/Article', '1', '99999', '', this.languageId)
      .subscribe(resCatData => {
 
       this.commonservice.errorHandling(resCatData, (function(){

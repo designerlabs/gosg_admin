@@ -95,17 +95,17 @@
           </div>
 
           <app-confirm-dialog  #archiveAllModal 
-            [title]="'common.icon.warn'" 
+            [title]="'fa fa-exclamation-triangle'" 
             [content]="'common.msg.archive'"
-            [state]="'common.state.warn'"
+            [state]="'bg_header bg_warn_header'"
             [isReset]="'true'"
             (resetMethod)="resetAllMethod()">
             </app-confirm-dialog>
 
             <app-confirm-dialog  #deleteAllModal 
-            [title]="'common.icon.warn'" 
+            [title]="'fa fa-exclamation-triangle'" 
             [content]="'common.msg.deleteAll'"
-            [state]="'common.state.warn'" 
+            [state]="'bg_header bg_warn_header'" 
             [isReset]="'true'"
             (resetMethod)="deleteAll()">
           </app-confirm-dialog>
@@ -211,17 +211,17 @@
                 <i [ngClass]="commonservice.icon.trash"></i>
               </button> -->
               <app-confirm-dialog  #deleteRow 
-              [title]="'common.icon.warn'" 
+              [title]="'fa fa-exclamation-triangle'" 
               [content]="'common.msg.delete'"
-              [state]="'common.state.warn'"
+              [state]="'bg_header bg_warn_header'"
               [isReset]="'true'"
               (resetMethod)="deleteItem(element.refCode)">
               </app-confirm-dialog> 
 
               <app-confirm-dialog  #archiveRow 
-              [title]="'common.icon.warn'" 
+              [title]="'fa fa-exclamation-triangle'" 
               [content]="'common.msg.archive'"
-              [state]="'common.state.warn'"
+              [state]="'bg_header bg_warn_header'"
               [isReset]="'true'"
               (resetMethod)="archiveItem(element.refCode)">
               </app-confirm-dialog>

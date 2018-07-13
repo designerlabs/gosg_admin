@@ -92,9 +92,9 @@
               <i [ngClass]="commonservice.icon.search"></i> 
               <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
             <app-confirm-dialog  #deleteAllModal 
-            [title]="'common.icon.warn'" 
+            [title]="'fa fa-exclamation-triangle'" 
             [content]="'common.msg.deleteAll'"
-            [state]="'common.state.warn'" 
+            [state]="'bg_header bg_warn_header'" 
             [isReset]="'true'"
             (resetMethod)="deleteAll()">
             </app-confirm-dialog>
@@ -192,9 +192,9 @@
               </button>
               
               <app-confirm-dialog  #deleteRow 
-              [title]="'common.icon.warn'" 
+              [title]="'fa fa-exclamation-triangle'" 
               [content]="'common.msg.delete'"
-              [state]="'common.state.warn'"
+              [state]="'bg_header bg_warn_header'"
               [isReset]="'true'"
               (resetMethod)="deleteItem(element.refCode)">
               </app-confirm-dialog> 
