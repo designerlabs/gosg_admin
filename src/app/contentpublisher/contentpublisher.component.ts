@@ -319,14 +319,21 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
           config.width = '800px';
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
-          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
-          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
-          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
-          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
-          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
-          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+          let getHTML = resCatData.formattedHtml;
+          let replaceString = getHTML.replace(/<p><br>/g,'')
+          .replace(/<p>/g, '<p class="font-size-s">')
+          .replace(/<h1>/g, '<h1 class="font-size-xl">')
+          .replace(/<h2>/g, '<h2 class="font-size-l">')
+          .replace(/<h3>/g, '<h3 class="font-size-m">')
+          .replace(/<h4>/g, '<h4 class="font-size-m">')
+          .replace(/<h5>/g, '<h5 class="font-size-m">')
+          .replace(/<span>/g, '<span class="font-size-s">')
+          .replace(/<table>/g, '<table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list">')
+          .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
 
-          dialogRef.componentInstance.content = addClassforSpan;
+
+          dialogRef.componentInstance.content = replaceString;
           this.contentTxtEn = dialogRef.componentInstance.content;
           this.parseEnBtn = true;
       }).bind(this));
@@ -346,13 +353,21 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
           config.width = '800px';
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
-          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
-          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
-          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
-          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
-          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
-          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
-          dialogRef.componentInstance.content = addClassforSpan;
+          let getHTML = resCatData.formattedHtml;
+          let replaceString = getHTML.replace(/<p><br>/g,'')
+          .replace(/<p>/g, '<p class="font-size-s">')
+          .replace(/<h1>/g, '<h1 class="font-size-xl">')
+          .replace(/<h2>/g, '<h2 class="font-size-l">')
+          .replace(/<h3>/g, '<h3 class="font-size-m">')
+          .replace(/<h4>/g, '<h4 class="font-size-m">')
+          .replace(/<h5>/g, '<h5 class="font-size-m">')
+          .replace(/<span>/g, '<span class="font-size-s">')
+          .replace(/<table>/g, '<table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list">')
+          .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
+
+
+          dialogRef.componentInstance.content = replaceString;
           this.parseMyBtn = true;
           this.contentTxtMy = dialogRef.componentInstance.content;
 
