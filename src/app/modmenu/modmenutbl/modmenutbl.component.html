@@ -86,9 +86,9 @@
               <i class="fa fa-trash"  title="Delete {{ element.moduleName }}"></i>
             </button> -->
             <app-confirm-dialog  #deleteRow 
-            [title]="'common.icon.warn'" 
+            [title]="'fa fa-exclamation-triangle'" 
             [content]="'common.msg.delete'"
-            [state]="'common.state.warn'"
+            [state]="'bg_header bg_warn_header'"
             [isReset]="'true'"
             (resetMethod)="deleteItem(element.moduleId)">
             </app-confirm-dialog> 

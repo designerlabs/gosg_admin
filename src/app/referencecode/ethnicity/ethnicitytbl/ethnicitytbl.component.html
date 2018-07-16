@@ -55,9 +55,9 @@
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                             <i [ngClass]="commonservice.icon.trash" title="Delete {{element.refCode}}"></i></button>
                         <app-confirm-dialog  #deleteModal 
-                            [title]="'common.icon.warn'" 
-                            [content]="'common.msg.delete'"
-                            [state]="'bg_header bg_warn_header'"
+                        [title]="'fa fa-exclamation-triangle'" 
+                        [content]="'common.msg.delete'"
+                        [state]="'bg_header bg_warn_header'"
                             [isReset]="'true'"
                             (resetMethod)="deleteRow(element.refCode)">
                         </app-confirm-dialog>

@@ -41,9 +41,9 @@
         <div class="col-md-4 paddingTop-10 pdg_R_30px text-align-Right">
           <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>
           <app-confirm-dialog  #deleteAllModal 
-          [title]="'common.icon.warn'" 
-          [content]="'common.msg.deleteAll'"
-          [state]="'common.state.warn'"
+          [title]="'fa fa-exclamation-triangle'" 
+          [content]="'common.msg.delete'"
+          [state]="'bg_header bg_warn_header'"
           [isReset]="'true'"
           (resetMethod)="deleteAll()">
           </app-confirm-dialog>
@@ -95,9 +95,9 @@
               <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.id }}"></i>
             </button>
             <app-confirm-dialog  #deleteRow 
-            [title]="'common.icon.warn'" 
+            [title]="'fa fa-exclamation-triangle'" 
             [content]="'common.msg.delete'"
-            [state]="'common.state.warn'"
+            [state]="'bg_header bg_warn_header'"
             [isReset]="'true'"
             (resetMethod)="deleteItem(element.id)">
             </app-confirm-dialog> 

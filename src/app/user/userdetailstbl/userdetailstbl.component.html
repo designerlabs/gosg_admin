@@ -71,9 +71,9 @@
                     <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.fullName }}" ></i>
                 </button>
                 <app-confirm-dialog  #deleteModal 
-                  [title]="'common.icon.warn'" 
-                  [content]="'common.msg.delete'"
-                  [state]="'bg_header bg_warn_header'"
+                [title]="'fa fa-exclamation-triangle'" 
+                [content]="'common.msg.delete'"
+                [state]="'bg_header bg_warn_header'"
                   [isReset]="'true'"
                   (resetMethod)="resetMethod($event, element.id)">
                 </app-confirm-dialog>

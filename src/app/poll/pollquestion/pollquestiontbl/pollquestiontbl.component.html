@@ -91,7 +91,7 @@
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                             <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.en[0].id}},{{element.bm[0].id }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
-                        [title]="'common.icon.warn'" 
+                        [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"
                         [state]="'bg_header bg_warn_header'"
                         [isReset]="'true'"
