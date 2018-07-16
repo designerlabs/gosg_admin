@@ -120,6 +120,8 @@ import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscri
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
+import { StatetblComponent } from './referencecode/state/statetbl/statetbl.component';
+import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -227,9 +229,13 @@ export const appRoutes: Routes = [
 {path: 'publisher/eparticipation', component: ParticipationpublishertblComponent},
 {path: 'publisher/eparticipation/:id', component: ParticipationpublisherComponent},
 
-{path: 'reference/country', component: CountryComponent},
+{path: 'reference/country', component: CountrytblComponent},
+{path: 'reference/country/add', component: CountryComponent},
+{path: 'reference/country/:id', component: CountryComponent},
 {path: 'reference/city', component: CityComponent},
-{path: 'reference/state', component: StateComponent},
+{path: 'reference/state', component: StatetblComponent},
+{path: 'reference/state/:id', component: StateComponent},
+{path: 'reference/state/add', component: StateComponent},
 {path: 'reference/religion', component: ReligiontblComponent},
 {path: 'reference/religion/:id', component: ReligionComponent},
 {path: 'reference/religion/add', component: ReligionComponent},

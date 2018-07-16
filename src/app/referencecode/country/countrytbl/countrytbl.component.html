@@ -1,0 +1,120 @@
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>{{ 'country.header' | translate }}</h3>
+        </div>
+    
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="warn" *ngIf="commonservice.isWrite" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+                  <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
+            </span>
+        </div> 
+    </div>
+  
+    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
+    </div>
+  
+    <div *ngIf="commonservice.isRead">
+        <div class="example-container mat-elevation-z8">
+            <div class="col-md-12 paddingTop-10">
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+  
+            <mat-table #table [dataSource]="dataSource">
+  
+              <!-- No Column -->
+              <ng-container matColumnDef="num">
+                  <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+                  <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                    {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                  </mat-cell>
+                </ng-container>
+  
+              <!-- Country Name Column -->
+              <ng-container matColumnDef="countryName">
+                <mat-header-cell class="text-align-Left" style="flex: 0 0 30%;" *matHeaderCellDef> {{ 'country.tableHeader.countryname' | translate }} </mat-header-cell>
+                <mat-cell class="text-align-Left" style="flex: 0 0 30%;" *matCellDef="let element">
+                  {{element.countryName}}
+                </mat-cell>
+              </ng-container>
+  
+              <!-- countryCode Column -->
+              <ng-container matColumnDef="countryCode">
+                <mat-header-cell class="text-align-Left centerColumn" *matHeaderCellDef> {{ 'country.tableHeader.countrycode' | translate }} </mat-header-cell>
+                <mat-cell class="text-align-Left centerColumn" *matCellDef="let element">
+                  {{element.countryCode}}
+                </mat-cell>
+              </ng-container>
+  
+              <!-- dialCode Column -->
+              <ng-container matColumnDef="dialCode">
+                <mat-header-cell class="text-align-Left centerColumn" *matHeaderCellDef>  {{ 'country.tableHeader.dialcode' | translate }} </mat-header-cell>
+                <mat-cell class="text-align-Left centerColumn" *matCellDef="let element">
+                  {{element.countryDialCode}}
+                </mat-cell>
+              </ng-container>
+              
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                  <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+                  <mat-cell *matCellDef="let element" class="actionColumn">
+                      <button mat-mini-fab class="bg_orange" (click)="updateRow(element.countryId)" title="Update {{ element.countryId }}">
+                        <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.countryId }}" ></i>
+                        <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.countryId }}" ></i>
+                      </button>
+                      &nbsp;
+                      <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.countryId }}">
+                        <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.countryId }}"></i>
+                      </button>
+                      <app-confirm-dialog  #deleteRow 
+                      [title]="'fa fa-exclamation-triangle'" 
+                      [content]="'common.msg.delete'"
+                      [state]="'bg_header bg_warn_header'"
+                      [isReset]="'true'"
+                      (resetMethod)="deleteItem(element.countryId)">
+                      </app-confirm-dialog> 
+                  </mat-cell>
+                </ng-container>
+              
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+  
+            <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+        </div>
+  
+        <div class="float-right paddingTop-15">
+            <mat-form-field class="table_footer_pagecount">
+              <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
+                <mat-option value="25">25</mat-option>
+                <mat-option value="50">50</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+            <span class="float-right">
+                <span class="table_footer_pagination"> {{ 'common.tableBottom.page' | translate }}
+                    <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+                    <strong>{{recordTable?.totalElements}}</strong> {{ 'country.tablebottom.country' | translate }}
+                </span>
+                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+                  <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+                </button>
+                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
+                  <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+                </button>
+            </span>
+        </div>
+  
+    </div>
+  </div>
+  

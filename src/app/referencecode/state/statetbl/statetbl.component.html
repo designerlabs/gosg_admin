@@ -1,0 +1,98 @@
+<div *ngIf="viewSeq == 1"  class="container right-content">
+  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+  <div class="curdHeader">
+    <div class="col-md-10 curdHeadingLeft">
+        <h3>{{ 'state.header' | translate }}</h3>
+    </div>
+    
+    <div class="col-md-2 curdHeadingRight">
+        <span class="pull-right">
+            <button type="button" mat-fab color="warn" *ngIf="commonservice.isWrite" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
+              <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
+        </span>
+    </div> 
+</div>
+<div *ngIf="!commonservice.isRead" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+</div>
+<div *ngIf="commonservice.isRead">
+  <div class="example-container mat-elevation-z8">   
+    <mat-table #table [dataSource]="dataSource">
+      <!-- No Column -->
+      <ng-container matColumnDef="no">
+          <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+          <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+          </mat-cell>
+        </ng-container>
+
+      <!-- State Name Column -->
+      <ng-container matColumnDef="stateName">
+        <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'state.tableHeader.name' | translate }} </mat-header-cell>
+        <mat-cell class="text-align-left" *matCellDef="let element">
+          {{element.stateName}}
+        </mat-cell>
+      </ng-container>
+
+      <!-- State Id 1 Column -->
+      <ng-container matColumnDef="stateId">
+        <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 45%;" *matHeaderCellDef> {{ 'state.tableHeader.id' | translate }} </mat-header-cell>
+        <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 45%;" *matCellDef="let element">
+          {{element.stateId}}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+        <mat-cell *matCellDef="let element" class="actionColumn">
+            <button mat-mini-fab class="bg_orange" (click)="updateRow(element.stateId)" title="Update {{ element.stateId }}">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.stateId }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.stateId }}" ></i>
+            </button>
+            &nbsp;
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.stateId }}">
+              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.stateId }}"></i>
+            </button>
+            <app-confirm-dialog  #deleteRow 
+            [title]="'fa fa-exclamation-triangle'" 
+            [content]="'common.msg.delete'"
+            [state]="'bg_header bg_warn_header'"
+            [isReset]="'true'"
+            (resetMethod)="deleteItem(element.stateId)">
+            </app-confirm-dialog> 
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+
+  <div class="float-right paddingTop-15">
+    <mat-form-field class="table_footer_pagecount">
+      <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+        <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+        <!-- <mat-option value="10">10</mat-option>
+        <mat-option value="25">25</mat-option>
+        <mat-option value="50">50</mat-option> -->
+      </mat-select>
+    </mat-form-field>
+    <span class="float-right">
+            <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+                <strong>{{recordTable?.totalElements}}</strong> {{ 'state.tablebottom.state' | translate }}
+            </span>
+            <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+            <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+            </button>
+            <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
+              <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+            </button>
+        </span>
+  </div>
+</div>
+</div>
+
+
