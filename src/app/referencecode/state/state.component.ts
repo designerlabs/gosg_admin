@@ -10,6 +10,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
+import { DialogsService } from '../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-state',
@@ -18,76 +19,66 @@ import { NavService } from '../../nav/nav.service';
 })
 export class StateComponent implements OnInit, OnDestroy {
 
-  recordList = null;
-  // displayedColumns = ['no','stateName', 'stateId'];
-  displayedColumns: any;
-  pageSize = 10;
-  pageCount = 1;
-  noPrevData = true;
-  noNextData = false;
-  rerender = false;
-
-  viewSeq: any; /* View Page Sequence Based on Discussion {1,2} */
+  isActive: boolean;
+  stateData: Object;
+  dataUrl: any;
+  date = new Date();
+  updateForm: FormGroup
   isEdit: boolean;
-  sliderData: Object;
-  sliderForm: FormGroup
-  titleEn: FormControl
-  titleBm: FormControl
   complete: boolean;
-  active: FormControl
   pageMode: String;
 
-  seqNo = 0;
-  seqPageNum = 0;
-  seqPageSize = 0;
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
   languageId: any;
+  lang: any;
+  stateId: any;
+
+  stateName: FormControl
+  active: FormControl
   public loading = false;
-
-  recordTable = null;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  dataSource = new MatTableDataSource<object>(this.recordList);
-  selection = new SelectionModel<Element>(true, []);
-
+  resetMsg = this.resetMsg;
+  
   private subscriptionLang: ISubscription;
 
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  public commonservice: CommonService, private router: Router,
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    public commonservice: CommonService, 
+    private dialogsService: DialogsService,
     private translate: TranslateService,
+    private router: Router,
     private navservice: NavService,
-    private toastr: ToastrService) {
-
+    private toastr: ToastrService
+  ) { 
+    
     /* LANGUAGE FUNC */
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       const myLang = translate.currentLang;
 
       if (myLang == 'en') {
         translate.get('HOME').subscribe((res: any) => {
-          this.languageId = 1;
+            this.lang = 'en';
+            this.languageId = 1;
+          });
+        }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
         });
+        // alert(this.languageId + ',' + this.localeVal)
       }
-
-      if (myLang == 'ms') {
-        translate.get('HOME').subscribe((res: any) => {
-          this.languageId = 2;
-        });
-      }
-
-      if (this.navservice.flagLang) {
-        this.getRecordList(this.pageCount, this.pageSize);
-        this.commonservice.getModuleId();
-      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
 
     });
 
+    /* LANGUAGE FUNC */
   }
 
   ngOnInit() {
@@ -98,27 +89,30 @@ export class StateComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
 
-    this.getRecordList(this.pageCount, this.pageSize);
+    let refCode = this.router.url.split('/')[3];
     this.commonservice.getModuleId();
-    this.viewSeq = 1;
-    this.isEdit = false;
-    this.changePageMode(this.isEdit);
-    this.displayedColumns = ['no', 'stateName', 'stateId'];
 
-    this.titleEn = new FormControl()
-    this.titleBm = new FormControl()
-    this.active = new FormControl()
+    this.stateName = new FormControl()
 
-    this.sliderForm = new FormGroup({
-      titleEn: this.titleEn,
-      // descEn: this.descEn,
-      // imgEn: this.imgEn,
-      titleBm: this.titleBm,
-      // descBm: this.descBm,
-      // imgBm: this.imgBm,
-      active: this.active,
-      // copyImg: this.copyImg
+    this.updateForm = new FormGroup({
+      stateName: this.stateName
     });
+
+    if(refCode == "add") {
+      this.isEdit = false;
+      this.pageMode = 'common.add';
+    } else {
+      this.isEdit = true;
+      this.pageMode = 'common.update';
+      this.getRow(refCode);
+    }
+    
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
 
   }
 
@@ -126,72 +120,118 @@ export class StateComponent implements OnInit, OnDestroy {
     this.subscriptionLang.unsubscribe();
   }
 
-  getRecordList(page, size) {
-    this.recordList = null;
-    this.loading = true;
-
-    this.commonservice.readPortal('state', page, size, '', this.languageId)
-      .subscribe(data => {
-        this.commonservice.errorHandling(data, (function () {
-          this.recordList = data;
-
-          
-          
-
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-
-          this.dataSource.data = this.recordList.stateList;
-          this.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-        }).bind(this));
-        this.loading = false;
-      },
-        error => {
-
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          this.loading = false;
-          
-        });
-  }
-
-  navigateBack() {
-    this.viewSeq = 1;
+  back(){
     this.router.navigate(['reference/state']);
   }
 
-  changePageMode(isEdit) {
-    if (isEdit == false) {
-      this.pageMode = "Add";
-    } else if (isEdit == true) {
-      this.pageMode = "Update";
+  // get, add, update, delete
+  getRow(row) {
+    
+    // Update ErrorMsg Service
+    this.loading = true;
+    this.commonservice.readPortalById('state/', row, this.languageId)
+    .subscribe(
+      Rdata => {
+        this.commonservice.errorHandling(Rdata, (function(){
+        this.stateData = Rdata['state'];
+        this.stateId = this.stateData.stateId;
+      // populate data
+        this.updateForm.get('stateName').setValue(this.stateData.stateName);
+        this.checkReqValues();
+      }).bind(this));
+      this.loading = false;
+    }, err => {
+      this.loading = false;
+    });
+    
+  }
+
+  checkReqValues() {
+
+    let stateName = "stateName";
+
+    let reqVal: any = [stateName];
+    let nullPointers: any = [];
+
+    for (var reqData of reqVal) {
+      let elem = this.updateForm.get(reqData);
+
+      if (elem.value == "" || elem.value == null) {
+        elem.setValue(null)
+        nullPointers.push(null)
+      }
     }
+
+    if (nullPointers.length > 0) {
+      this.complete = false;
+    } else {
+      this.complete = true;
+    }
+
   }
 
-  paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
-    this.noPrevData = page <= 2 ? true : false;
-    this.noNextData = false;
+  myFunction() {  
+    this.updateForm.reset();
+    this.checkReqValues();
   }
 
-  paginatorR(page, totalPages) {
-    this.noPrevData = page >= 1 ? false : true;
-    let pageInc: any;
-    pageInc = page + 1;
-    // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
-  }
+  updateAction(formValues: any) {
+    
+    if(!this.isEdit) {
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
+    let body = 
+      {
+        "stateName": null,
+        "country": {
+          "countryId": 152
+        }
+      };
+    
+    body.stateName = formValues.stateName;
 
-  pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
-    this.pageSize = event.value;
-    this.noPrevData = true;
+    // Add ErrorMsg Service
+    this.loading = true;
+    this.commonservice.create(body, 'state').subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
+        this.router.navigate(['reference/state']);
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;       
+      });
+
+    } else {
+
+    let body = {
+        "stateId": this.stateId,
+        "stateName": null,
+        "country": {
+          "countryId": 152
+        }
+      };
+
+    body.stateName = formValues.stateName;
+
+    // Update AgencyApp Service
+    this.loading = true;
+    this.commonservice.update(body, 'state').subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
+        this.router.navigate(['reference/state']);
+        this.loading = false;
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
+      });
+    }
+
   }
 
 }

@@ -10,6 +10,7 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
+import { DialogsService } from '../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-country',
@@ -18,76 +19,69 @@ import { NavService } from '../../nav/nav.service';
 })
 export class CountryComponent implements OnInit, OnDestroy {
 
-  recordList = null;
-  displayedColumns = ['num', 'countryName', 'countryCode', 'dialCode'];
-  pageSize = 10;
-  pageCount = 1;
-  noPrevData = true;
-  noNextData = false;
-  rerender = false;
-
-  seqNo = 0;
-  seqPageNum = 0;
-  seqPageSize = 0 ;
-
+  isActive: boolean;
+  countryData: Object;
   dataUrl: any;
+  date = new Date();
+  updateForm: FormGroup
+  isEdit: boolean;
+  complete: boolean;
+  pageMode: String;
+
+  isRead: boolean;
+  isCreate: boolean;
+  isWrite: boolean;
+  isDelete: boolean;
   languageId: any;
   lang: any;
+  countryId: any;
+  
+  countryCode: FormControl
+  countryDialCode: FormControl
+  countryName: FormControl
+
   public loading = false;
-
-  showNoData = false;
-
-  recordTable = null;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  dataSource = new MatTableDataSource<object>(this.recordList);
-  selection = new SelectionModel<Element>(true, []);
+  resetMsg = this.resetMsg;
   
   private subscriptionLang: ISubscription;
 
-  applyFilter(e) {
-    
-    if(e){
-      this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize, this.languageId);
-    }
-  }
-
-  constructor(private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig,
-    public commonservice: CommonService, private router: Router,
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig, 
+    public commonservice: CommonService, 
+    private dialogsService: DialogsService,
     private translate: TranslateService,
+    private router: Router,
     private navservice: NavService,
-    private toastr: ToastrService) {
+    private toastr: ToastrService
+  ) { 
+    
+    /* LANGUAGE FUNC */
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
 
-      this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        const myLang = translate.currentLang;
-  
-        if (myLang == 'en') {
-          translate.get('HOME').subscribe((res: any) => {
-              this.lang = 'en';
-              this.languageId = 1;
-            });
-          }
-          
-          if (myLang == 'ms') {
-            translate.get('HOME').subscribe((res: any) => {
-              this.lang = 'ms';
-              this.languageId = 2;
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'en';
+            this.languageId = 1;
           });
-          // alert(this.languageId + ',' + this.localeVal)
         }
-          if(this.navservice.flagLang){
-            this.getRecordList(this.pageCount, this.pageSize, this.languageId);
-            this.commonservice.getModuleId();
-          }
-  
-      });
-    }
+        
+        if (myLang == 'ms') {
+          translate.get('HOME').subscribe((res: any) => {
+            this.lang = 'ms';
+            this.languageId = 2;
+        });
+        // alert(this.languageId + ',' + this.localeVal)
+      }
+        if(this.navservice.flagLang){
+          this.commonservice.getModuleId();
+        }
+
+    });
+
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 
@@ -97,125 +91,160 @@ export class CountryComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
 
-    this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+    let refCode = this.router.url.split('/')[3];
     this.commonservice.getModuleId();
+
+    this.countryName = new FormControl()
+    this.countryCode = new FormControl()
+    this.countryDialCode = new FormControl()
+
+    this.updateForm = new FormGroup({
+      countryName: this.countryName,
+      countryCode: this.countryCode,
+      countryDialCode: this.countryDialCode
+    });
+
+    if(refCode == "add") {
+      this.isEdit = false;
+      this.pageMode = 'common.add';
+    } else {
+      this.isEdit = true;
+      this.pageMode = 'common.update';
+      this.getRow(refCode);
+    }
+    
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
+
   }
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
   }
 
-  getRecordList(page, size, lng) {
+  back(){
+    this.router.navigate(['reference/country']);
+  }
 
-    this.recordList = null;
-    // this.dataUrl = this.appConfig.urlCountryList;
-
+  // get, add, update, delete
+  getRow(row) {
+    
+    // Update ErrorMsg Service
     this.loading = true;
-    this.commonservice.readPortal('country', page, size, '', lng)
-      .subscribe(data => {
+    this.commonservice.readPortalById('country/id/', row, this.languageId)
+    .subscribe(
+      Rdata => {
+        this.commonservice.errorHandling(Rdata, (function(){
+        this.countryData = Rdata['country'];
+        this.countryId = this.countryData.countryId;
+      // populate data
+        this.updateForm.get('countryName').setValue(this.countryData.countryName);
+        this.updateForm.get('countryCode').setValue(this.countryData.countryCode);
+        this.updateForm.get('countryDialCode').setValue(this.countryData.countryDialCode);
+        this.checkReqValues();
+      }).bind(this));
+      this.loading = false;
+    }, err => {
+      this.loading = false;
+    });
+    
+  }
 
+  checkReqValues() {
+
+    let countryName = "countryName";
+    let countryCode = "countryCode";
+    let countryDialCode = "countryDialCode";
+
+    let reqVal: any = [countryName, countryCode, countryDialCode];
+    let nullPointers: any = [];
+
+    for (var reqData of reqVal) {
+      let elem = this.updateForm.get(reqData);
+
+      if (elem.value == "" || elem.value == null) {
+        elem.setValue(null)
+        nullPointers.push(null)
+      }
+    }
+
+    if (nullPointers.length > 0) {
+      this.complete = false;
+    } else {
+      this.complete = true;
+    }
+
+  }
+
+  myFunction() {  
+    this.updateForm.reset();
+    this.checkReqValues();
+  }
+
+  updateAction(formValues: any) {
+    
+    if(!this.isEdit) {
+
+    let body = 
+      {
+        "countryName": null,
+        "countryCode": null,
+        "countryDialCode": null
+       };
+    
+    body.countryName = formValues.countryName;
+    body.countryCode = formValues.countryCode;
+    body.countryDialCode = formValues.countryDialCode;
+
+    // Add ErrorMsg Service
+    this.loading = true;
+    this.commonservice.create(body, 'country').subscribe(
+      data => {
         this.commonservice.errorHandling(data, (function(){
-          this.recordList = data;
-
-          
-          
-          if(this.recordList.countryList.length > 0){
-            this.dataSource.data = this.recordList.countryList;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-            this.showNoData = false;
-          }
-
-          else{
-            this.dataSource.data = []; 
-            this.showNoData = true;
-          }
-
-        }).bind(this)); 
+          this.toastr.success(this.translate.instant('common.success.added'), 'success');
+        }).bind(this));  
+        this.router.navigate(['reference/country']);
         this.loading = false;
       },
       error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;       
+      });
 
+    } else {
+
+    let body = 
+      {
+        "countryId": this.countryId,
+        "countryName": null,
+        "countryCode": null,
+        "countryDialCode": null
+       };
+
+    body.countryName = formValues.countryName;
+    body.countryCode = formValues.countryCode;
+    body.countryDialCode = formValues.countryDialCode;
+
+    // Update AgencyApp Service
+    this.loading = true;
+    this.commonservice.update(body, 'country').subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), 'success');
+        }).bind(this));  
+        this.router.navigate(['reference/country']);
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        
-      });      
-  }
+      },
+      error => {
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.loading = false;
+      });
+    }
 
-  getFilterList(page, size, keyword) {
-
-    this.recordList = null;
-    // this.dataUrl = this.appConfig.urlCountryList;
-    
-    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      this.loading = true;
-
-      this.commonservice.readPortal('country', page, size, keyword, this.languageId)
-        .subscribe(data => {
-
-          this.commonservice.errorHandling(data, (function(){
-            this.recordList = data;
-
-            
-            
-            if(this.recordList.countryList.length > 0){
-            // this.recordList.countryList.push(this.translate.instant('common.msg.notfound'));
-            
-              this.dataSource.data = this.recordList.countryList;
-              this.recordTable = this.recordList;
-              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-              this.showNoData = false;
-            }
-    
-            else{
-              this.dataSource.data = []; 
-              this.showNoData = true;
-
-              this.recordTable = this.recordList;
-              this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-            }
-
-          }).bind(this)); 
-          this.loading = false;
-        },
-        error => {
-
-          this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          
-        });     
-    } 
-  }
-
-  resetSearch() {
-    this.getRecordList(this.pageCount, this.pageSize, this.languageId);
-  }
-
-  paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize, this.languageId);
-    this.noPrevData = page <= 2 ? true : false;
-    this.noNextData = false;
-  }
-
-  paginatorR(page, totalPages) {
-    this.noPrevData = page >= 1 ? false : true;
-    let pageInc: any;
-    pageInc = page + 1;
-    // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize, this.languageId);
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value, this.languageId);
-    this.pageSize = event.value;
-    this.noPrevData = true;
   }
 
 }

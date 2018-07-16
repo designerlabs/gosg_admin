@@ -607,6 +607,11 @@
     },
     "tablebottom":{
       "country": "senarai negara"
+    },
+    "err": {
+      "name": "Nama Negara perlu diisi",
+      "code": "Kod Negara perlu diisi",
+      "dialcode": "Kod Dail Negara perlu diisi"
     }
   },
   "errormsg": {
@@ -947,6 +952,9 @@
     },
     "tablebottom":{
       "state": "senarai negeri"
+    },
+    "err": {
+      "name": "Nama Negeri perlu diisi"
     }
   },
   "systemsetting": {

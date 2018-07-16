@@ -608,6 +608,11 @@
     },
     "tablebottom":{
       "country": "country list"
+    },
+    "err": {
+      "name": "Country Name is required.",
+      "code": "Country Code is required.",
+      "dialcode": "Country Dial Code is required."
     }
   },
   "errormsg": {
@@ -948,6 +953,9 @@
     },
     "tablebottom":{
       "state": "state list"
+    },
+    "err": {
+      "name": "State Name is required."
     }
   },
   "systemsetting": {

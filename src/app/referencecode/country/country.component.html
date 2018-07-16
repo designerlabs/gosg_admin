@@ -1,90 +1,84 @@
+<!-- VIEW: ADD/EDIT COUNTRY  -->
 <div class="container right-content">
   <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ 'country.header' | translate }}</h3>
+          <h3>{{ pageMode | translate }} {{ 'country.header' | translate }} </h3>
       </div>
-  </div>
-
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
-  </div>
-
-  <div *ngIf="commonservice.isRead">
-      <div class="example-container mat-elevation-z8">
-          <div class="col-md-12 paddingTop-10">
-              <mat-form-field>
-                  <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
-                  <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
-                    <mat-icon>close</mat-icon>
-                  </button>
-              </mat-form-field>
-          </div>
-
-          <mat-table #table [dataSource]="dataSource">
-
-            <!-- No Column -->
-            <ng-container matColumnDef="num">
-                <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-                <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-                  {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-                </mat-cell>
-              </ng-container>
-
-            <!-- Country Name Column -->
-            <ng-container matColumnDef="countryName">
-              <mat-header-cell class="text-align-Left" style="flex: 0 0 30%;" *matHeaderCellDef> {{ 'country.tableHeader.countryname' | translate }} </mat-header-cell>
-              <mat-cell class="text-align-Left" style="flex: 0 0 30%;" *matCellDef="let element">
-                {{element.countryName}}
-              </mat-cell>
-            </ng-container>
-
-            <!-- countryCode Column -->
-            <ng-container matColumnDef="countryCode">
-              <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matHeaderCellDef> {{ 'country.tableHeader.countrycode' | translate }} </mat-header-cell>
-              <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matCellDef="let element">
-                {{element.countryCode}}
-              </mat-cell>
-            </ng-container>
-
-            <!-- dialCode Column -->
-            <ng-container matColumnDef="dialCode">
-              <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matHeaderCellDef>  {{ 'country.tableHeader.dialcode' | translate }} </mat-header-cell>
-              <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 30%;" *matCellDef="let element">
-                {{element.countryDialCode}}
-              </mat-cell>
-            </ng-container>
-            
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-
-          <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
-      </div>
-
-      <div class="float-right paddingTop-15">
-          <mat-form-field class="table_footer_pagecount">
-            <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-              <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
-              <!-- <mat-option value="10">10</mat-option>
-              <mat-option value="25">25</mat-option>
-              <mat-option value="50">50</mat-option> -->
-            </mat-select>
-          </mat-form-field>
-          <span class="float-right">
-              <span class="table_footer_pagination"> {{ 'common.tableBottom.page' | translate }}
-                  <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
-                  <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
-                  <strong>{{recordTable?.totalElements}}</strong> {{ 'country.tablebottom.country' | translate }}
-              </span>
-              <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
-                <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
-              </button>
-              <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
-                <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
-              </button>
+      
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+                  <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
           </span>
+      </div> 
+  </div>
+  
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
+    {{'common.msg.unauthorized' | translate}}
+  </div>
+  
+  <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off" role="form" novalidate>
+  
+      <div class="example-container mat-elevation-z8 col-md-12">
+
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="1" placeholder="{{ 'country.tableHeader.countryname' | translate }}" formControlName="countryName" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.countryName.hasError('required')">
+                {{ 'country.err.name' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div *ngIf="isEdit" class="col-md-6">
+            <label class="font-size-s" style="color: rgba(0,0,0, 0.37); margin-bottom: -1%">Id</label>
+            <p class="font-size-s">{{ countryId }}</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">&nbsp;</div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="2" placeholder="{{ 'country.tableHeader.countrycode' | translate }}" formControlName="countryCode" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.countryCode.hasError('required')">
+                {{ 'country.err.code' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-form-field class="example-full-width">
+              <input matInput tabindex="3" placeholder="{{ 'country.tableHeader.dialcode' | translate }}" formControlName="countryDialCode" (keyup)="checkReqValues()" required>
+              <mat-error *ngIf="updateForm.controls.countryDialCode.hasError('required')">
+                {{ 'country.err.dialcode' | translate }}
+              </mat-error>
+            </mat-form-field>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
       </div>
 
-  </div>
+      <!-- <div class="row">
+        <div class="col-md-12">
+          <mat-checkbox tabindex="8" formControlName="active"></mat-checkbox><span class="">&nbsp;{{ 'common.buttons.active' | translate }}</span>
+        </div>
+        <div class="col-md-12">&nbsp;</div>
+      </div> -->
+      </div>
+        
+      <!-- <div class="container"> -->
+      <div class="col-md-12">&nbsp;</div>
+        <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success  pull-right"
+            (click)="updateAction(updateForm.value)" style="width: 100px; font-family: Roboto; margin-left: 5px;" [disabled]="!complete">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>{{ pageMode | translate}}</button>
+          <button mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning  pull-right"
+            style="width: 100px; font-family: Roboto" (click)="myFunction()">
+            <i [ngClass]="commonservice.icon.refresh"></i>&nbsp;Reset</button>
+        </div>
+      <div class="col-md-12">&nbsp;</div>
+    <!-- </div> -->
+  </form>
 </div>

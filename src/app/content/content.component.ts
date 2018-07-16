@@ -336,16 +336,20 @@ export class ContentComponent implements OnInit, OnDestroy {
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let getHTML = resCatData.formattedHtml;
           let replaceString = getHTML.replace(/<p><br>/g,'')
-                              .replace(/<p>/g, '<p class="font-size-s">')
-                              .replace(/<h1>/g, '<h1 class="font-size-xl">')
-                              .replace(/<h2>/g, '<h2 class="font-size-l">')
-                              .replace(/<h3>/g, '<h3 class="font-size-m">')
-                              .replace(/<h4>/g, '<h4 class="font-size-m">')
-                              .replace(/<h5>/g, '<h5 class="font-size-m">')
-                              .replace(/<span>/g, '<span class="font-size-s">')
-                              .replace(/<table>/g, '<table class="table">')
-                              .replace(/<ol>/g, '<ol class="font-size-s custom_list">')
-                              .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
+          .replace(/<p>/g, '<p class="font-size-s">')
+          .replace(/<a/g, '<a class="font-size-s"')
+          .replace(/<section>/g, '<section class="font-size-s">')
+          .replace(/<article>/g, '<article class="font-size-s">')
+          .replace(/<div>/g, '<div class="font-size-s">')
+          .replace(/<h1>/g, '<h1 class="font-size-xl">')
+          .replace(/<h2>/g, '<h2 class="font-size-l">')
+          .replace(/<h3>/g, '<h3 class="font-size-m">')
+          .replace(/<h4>/g, '<h4 class="font-size-m">')
+          .replace(/<h5>/g, '<h5 class="font-size-m">')
+          .replace(/<span>/g, '<span class="font-size-s">')
+          .replace(/<table>/g, '<div class="table-responsive"><table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list_number">')
+          .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
           dialogRef.componentInstance.content = replaceString;
           this.contentTxtEn = dialogRef.componentInstance.content;
           this.parseEnBtn = true;
@@ -368,16 +372,20 @@ export class ContentComponent implements OnInit, OnDestroy {
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
           let getHTML = resCatData.formattedHtml;
           let replaceString = getHTML.replace(/<p><br>/g,'')
-                              .replace(/<p>/g, '<p class="font-size-s">')
-                              .replace(/<h1>/g, '<h1 class="font-size-xl">')
-                              .replace(/<h2>/g, '<h2 class="font-size-l">')
-                              .replace(/<h3>/g, '<h3 class="font-size-m">')
-                              .replace(/<h4>/g, '<h4 class="font-size-m">')
-                              .replace(/<h5>/g, '<h5 class="font-size-m">')
-                              .replace(/<span>/g, '<span class="font-size-s">')
-                              .replace(/<table>/g, '<table class="table">')
-                              .replace(/<ol>/g, '<ol class="font-size-s custom_list">')
-                              .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
+          .replace(/<p>/g, '<p class="font-size-s">')
+          .replace(/<a/g, '<a class="font-size-s"')
+          .replace(/<section>/g, '<section class="font-size-s">')
+          .replace(/<article>/g, '<article class="font-size-s">')
+          .replace(/<div>/g, '<div class="font-size-s">')
+          .replace(/<h1>/g, '<h1 class="font-size-xl">')
+          .replace(/<h2>/g, '<h2 class="font-size-l">')
+          .replace(/<h3>/g, '<h3 class="font-size-m">')
+          .replace(/<h4>/g, '<h4 class="font-size-m">')
+          .replace(/<h5>/g, '<h5 class="font-size-m">')
+          .replace(/<span>/g, '<span class="font-size-s">')
+          .replace(/<table>/g, '<div class="table-responsive"><table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list_number">')
+          .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
 
           dialogRef.componentInstance.content = replaceString;
           this.parseMyBtn = true;
@@ -637,31 +645,31 @@ export class ContentComponent implements OnInit, OnDestroy {
           this.parentsEn.disable();
         }
 
-        let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
-        let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
-        let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
-        let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
-        let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
-        let addClassforTable = addClassforSpan.replace('class="table">', '>');
+        let getContentTxtEN = dataEn.contentText;
+        let getContentTxtBM = dataBm.contentText;
+        let replaceTxtEN = getContentTxtEN.replace(/class=.font-size-s.>/g, '>')
+                                        .replace(/class=.font-size-xl.>/g, '>')
+                                        .replace(/class=.font-size-l.>/g, '>')
+                                        .replace(/class=.font-size-m.>/g, '>')
+                                        .replace(/class=.table.>/g, '>');
 
 
-        let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
-        let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
-        let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
-        let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
-        let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
-        let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
+        let replaceTxtBM = getContentTxtBM.replace(/class=.font-size-s.>/g, '>')
+                                          .replace(/class=.font-size-xl.>/g, '>')
+                                          .replace(/class=.font-size-l.>/g, '>')
+                                          .replace(/class=.font-size-m.>/g, '>')
+                                          .replace(/class=.table.>/g, '>');
 
-        this.rawValEn = addClassforTable;
-        this.rawValBm = addClassforTable_BM;
+        this.rawValEn = replaceTxtEN;
+        this.rawValBm = replaceTxtBM;
 
         //set value at input field
-        this.htmlContentEn.setValue(addClassforTable);
-        this.htmlContentMy.setValue(addClassforTable_BM);
+        this.htmlContentEn.setValue(replaceTxtEN);
+        this.htmlContentMy.setValue(replaceTxtBM);
 
         //set  value after preview
-        this.contentTxtEn = addClassforTable;
-        this.contentTxtMy = addClassforTable_BM;
+        this.contentTxtEn = replaceTxtEN;
+        this.contentTxtMy = replaceTxtBM;
 
         this.parentValEn = dataEn.contentCategories[0].categoryId;
         this.parentValBm = dataBm.contentCategories[0].categoryId;
