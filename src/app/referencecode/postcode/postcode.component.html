@@ -43,14 +43,30 @@
             </h3>
           </div>
 
-          <div *ngIf="getPostData" class="example-header pdg_L_15px">
+          <div *ngIf="getPostData" class="example-header pdg_L_15px pdg_R_15px">
 
-            <mat-grid-list cols="6" rowHeight="30px">
+            <mat-grid-list cols="5" rowHeight="30px">
               <mat-grid-tile *ngFor="let postcode of getPostData" style="border:#e2e2e2 solid 1px;">
-                {{postcode.postCode}}
+                {{postcode.postCode}} &nbsp;&nbsp;
+                <button mat-mini-fab class="bg_orange" (click)="updateRow(postcode.postCode)">
+                    <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ postcode.postCode }}" ></i>
+                    <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ postcode.postCode }}" ></i>
+                </button>&nbsp;
+                <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()"> 
+                    <i [ngClass]="commonservice.icon.trash" title="Delete {{ postcode.postCode }}"></i>
+                </button>
+                
               </mat-grid-tile>
             </mat-grid-list>
           </div>
         </div>
     </div>
 </div>
+
+<app-confirm-dialog  #deleteModal 
+    [title]="'fa fa-exclamation-triangle'" 
+    [content]="'common.msg.delete'"
+    [state]="'bg_header bg_warn_header'"
+    [isReset]="'true'"
+    (resetMethod)="deletePoscode(postcode.postCode)">
+</app-confirm-dialog>
