@@ -332,8 +332,8 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
           .replace(/<h4>/g, '<h4 class="font-size-m">')
           .replace(/<h5>/g, '<h5 class="font-size-m">')
           .replace(/<span>/g, '<span class="font-size-s">')
-          .replace(/<table>/g, '<table class="table">')
-          .replace(/<ol>/g, '<ol class="font-size-s custom_list">')
+          .replace(/<table>/g, '<div class="table-responsive"><table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list_number">')
           .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
 
 
@@ -370,8 +370,8 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
           .replace(/<h4>/g, '<h4 class="font-size-m">')
           .replace(/<h5>/g, '<h5 class="font-size-m">')
           .replace(/<span>/g, '<span class="font-size-s">')
-          .replace(/<table>/g, '<table class="table">')
-          .replace(/<ol>/g, '<ol class="font-size-s custom_list">')
+          .replace(/<table>/g, '<div class="table-responsive"><table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list_number">')
           .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
 
 
