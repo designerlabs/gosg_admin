@@ -555,6 +555,9 @@
       "statename": "State Name",
       "stateid": "State Id"
     },
+    "err": {
+      "city": "City is required"
+    },
     "tablebottom":{
       "citylist": "city lists"
     }
@@ -899,7 +902,10 @@
   "postcode": {
     "header": "Postcode",
     "stateid": "State ID",
-    "citycode": "City Code"
+    "citycode": "City Code",
+    "err": {
+      "postcode": "Postcode is required"
+    }
   },
   "racetbl": {
     "header": "Race / Ethnic",
@@ -936,6 +942,9 @@
     "tableHeader":{
       "name": "State Name",
       "id": "State Id"
+    },
+    "err": {
+      "state": "State is required"
     },
     "tablebottom":{
       "state": "state list"

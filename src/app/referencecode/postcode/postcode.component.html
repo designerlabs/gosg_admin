@@ -3,70 +3,81 @@
 
     <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-        <h3>{{ 'postcode.header' | translate }}</h3>
+        <h3>{{commonservice.pageMode}} {{ 'postcode.header' | translate }}</h3>
       </div>
 
-    </div>
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
+          </span>
+      </div>
     </div>
 
-    <div *ngIf="commonservice.isRead">
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger" >
+        {{'common.msg.unauthorized' | translate}}
+    </div>
+
+    <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate 
+      *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate">
 
         <div class="example-container mat-elevation-z8 paddingBottom-10">
 
+          <div>&nbsp;</div>
           <div class="example-header">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <mat-form-field class="example-full-width">
-                <mat-select (change)="getCitiesByState($event)" placeholder="State">
-                  <mat-option *ngFor="let state of getStateData" [value]="state">{{ state?.stateName }}</mat-option>
+                <mat-select (change)="getCitiesByState($event)" formControlName="state" placeholder="{{ 'state.header' | translate }}" required tabindex="1">
+                  <mat-option [value]="state?.stateId" *ngFor="let state of getStateData" >{{ state?.stateName }}</mat-option>
                 </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field class="example-full-width">
-                <mat-select (change)="getPostcodeByCity($event)" placeholder="City">
-                  <mat-option *ngFor="let city of getCityData" [value]="city">{{ city?.cityName }}</mat-option>
-                </mat-select>
+                <mat-error *ngIf="updateForm.controls.state.hasError('required')">
+                    {{ 'state.err.state' | translate }}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
 
           <div class="example-header">
-            <h3 class="pdg_L_15px">
-              <span *ngIf="selStateInfo">
-                {{selStateInfo?.value.stateName}} ({{ 'postcode.stateid' | translate }}: {{selStateInfo?.value.stateId}})
-              </span>
-              <span *ngIf="getPostData">
-                ,{{selCityInfo?.value.cityName}} ({{ 'postcode.citycode' | translate }}: {{selCityInfo?.value.cityCode}})
-              </span>
-            </h3>
-          </div>
-
-          <div *ngIf="getPostData" class="example-header pdg_L_15px pdg_R_15px">
-
-            <mat-grid-list cols="5" rowHeight="30px">
-              <mat-grid-tile *ngFor="let postcode of getPostData" style="border:#e2e2e2 solid 1px;">
-                {{postcode.postCode}} &nbsp;&nbsp;
-                <button mat-mini-fab class="bg_orange" (click)="updateRow(postcode.postCode)">
-                    <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ postcode.postCode }}" ></i>
-                    <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ postcode.postCode }}" ></i>
-                </button>&nbsp;
-                <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()"> 
-                    <i [ngClass]="commonservice.icon.trash" title="Delete {{ postcode.postCode }}"></i>
-                </button>
-                
-              </mat-grid-tile>
-            </mat-grid-list>
+            <div class="col-md-12">
+              <mat-form-field class="example-full-width">
+                <mat-select (change)="getPostcodeByCity($event)" formControlName="city" placeholder="{{ 'city.header' | translate }}" required tabindex="2">
+                  <mat-option [value]="city?.cityId" *ngFor="let city of getCityData" >{{ city?.cityName }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="updateForm.controls.city.hasError('required')">
+                    {{ 'city.err.city' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>       
+          
+          <div class="example-header">
+            <div class="col-md-2">
+              <mat-form-field class="example-full-width" >
+                <input matInput placeholder="{{ 'postcode.header' | translate }}" formControlName="postcode" (keyup)="checkReqValues()" 
+                #postcode [textMask]="{mask: maskPostcode}" required tabindex="3">
+                <mat-error *ngIf="updateForm.controls.postcode.hasError('required')">
+                    {{ 'postcode.err.postcode' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
         </div>
-    </div>
+
+        <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate">
+            <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right mgn_L_5px"
+            (click)="submit(updateForm.value)" [disabled]="!complete">
+            <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+            <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
+            <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right" (click)="resetModal.show()">
+            <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
+        </div>
+    </form>
 </div>
 
-<app-confirm-dialog  #deleteModal 
-    [title]="'fa fa-exclamation-triangle'" 
-    [content]="'common.msg.delete'"
+<app-confirm-dialog  #resetModal 
+    [title]="'common.icon.warn'" 
+    [content]="'common.msg.reset'"
     [state]="'bg_header bg_warn_header'"
     [isReset]="'true'"
-    (resetMethod)="deletePoscode(postcode.postCode)">
+    (resetMethod)="myFunction()">
 </app-confirm-dialog>

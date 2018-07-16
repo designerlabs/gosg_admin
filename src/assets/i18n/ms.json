@@ -554,6 +554,9 @@
       "statename": "Nama Negeri",
       "stateid": "Id Negeri"
     },
+    "err": {
+      "city": "Bandar diperlukan"
+    },
     "tablebottom":{
       "citylist": "senarai bandar"
     }
@@ -898,7 +901,10 @@
   "postcode": {
     "header": "Poskod",
     "stateid": "ID Negeri",
-    "citycode": "Kod Bandar"
+    "citycode": "Kod Bandar",
+    "err": {
+      "postcode": "Poskod diperlukan"
+    }
   },
   "racetbl": {
     "header": "Bangsa/Etnik",
@@ -935,6 +941,9 @@
     "tableHeader":{
       "name": "Nama Negeri",
       "id": "Id Negeri"
+    },
+    "err": {
+      "State": "Negeri diperlukan"
     },
     "tablebottom":{
       "state": "senarai negeri"

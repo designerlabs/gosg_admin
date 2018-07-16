@@ -148,6 +148,7 @@ import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscri
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
 import { NavService } from './nav/nav.service';
+import { PostcodetblComponent } from './referencecode/postcode/postcodetbl/postcodetbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -273,6 +274,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     DServicetypetblComponent,
     DServicegroupComponent,
     DServicegrouptblComponent,
+    PostcodetblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
