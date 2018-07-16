@@ -111,4 +111,7 @@ export class PostcodeComponent implements OnInit {
     }    
   }
 
+  deletePoscode(val){
+    console.log(val)
+
 }
