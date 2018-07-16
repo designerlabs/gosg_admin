@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -8,195 +8,236 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTab
 import { SelectionModel } from '@angular/cdk/collections';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',
   styleUrls: ['./city.component.css']
 })
-export class CityComponent implements OnInit {
-
-  recordList = null;
-  displayedColumns = ['no', 'cityName', 'cityId', 'cityCode', 'stateName', 'stateId'];
-  pageSize = 10;
-  pageCount = 1;
-  noPrevData = true;
-  noNextData = false;
-  rerender = false;
+export class CityComponent implements OnInit, OnDestroy {
   
-  seqNo = 0;
-  seqPageNum = 0;
-  seqPageSize = 0 ;
+  getStateData: any;
 
-  dataUrl: any;
+  updateForm: FormGroup;  
+  public state: FormControl;
+  public city: FormControl;
+
   languageId: any;
+  lang: any;
   public loading = false;
+  public urlEdit = "";
+  complete: boolean;
+  private subscriptionLang: ISubscription;
+  showNoData = false; 
 
-  showNoData = false;
-
-  recordTable = null;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
-  dataSource = new MatTableDataSource<object>(this.recordList);
-  selection = new SelectionModel<Element>(true, []);
-
-  applyFilter(e) {
+  constructor(
+    private http: HttpClient, 
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService, 
+    private router: Router,
+    private translate: TranslateService,
+    private navservice: NavService,
+    private toastr: ToastrService) {
     
-    if(e){
-      this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize);
-    }
+    /* LANGUAGE FUNC */
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+      const myLang = translate.currentLang;
+
+      if (myLang == 'en') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'en';
+          this.languageId = 1;
+        });
+      }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.changeLanguageAddEdit();
+        this.commonservice.getModuleId();
+      }
+
+    });
+    /* LANGUAGE FUNC */     
   }
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
-  public commonservice: CommonService, private router: Router,
-      private translate: TranslateService,
-      private toastr: ToastrService) {
-
-        /* LANGUAGE FUNC */
-      translate.onLangChange.subscribe((event: LangChangeEvent) => {
-        translate.get('HOME').subscribe((res: any) => {
-          this.commonservice.readPortal('language/all').subscribe((data:any) => {
-            let getLang = data.list;
-            let myLangData =  getLang.filter(function(val) {
-              if(val.languageCode == translate.currentLang){
-                this.lang = val.languageCode;
-                this.languageId = val.languageId;
-                this.getRecordList(this.pageCount, this.pageSize);
-                this.commonservice.getModuleId();
-              }
-            }.bind(this));
-          })
-        });
-      });
-      if(!this.languageId){
-        this.languageId = localStorage.getItem('langID');
-        this.getRecordList(this.pageCount, this.pageSize);
-        this.commonservice.getModuleId();
-      }    
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
   }
 
   ngOnInit() {
-    //this.getRecordList(this.pageCount, this.pageSize);
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
+    this.state = new FormControl();
+    this.city = new FormControl();
+
+    this.updateForm = new FormGroup({   
+
+      state: this.state,
+      city: this.city,
+    });
+
+    this.urlEdit = this.router.url.split('/')[3];
+
+    if (this.urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);
+    }
+    else{
+      this.commonservice.pageModeChange(true);
+      this.checkReqValues();  
+      this.getData();
+    }
+
+    this.getState('152', this.languageId); 
     this.commonservice.getModuleId(); 
   }
 
-  getRecordList(page, size) {
-
-    this.recordList = null;
+  getState(id?, lng?){ //list of state in Malaysia only
     this.loading = true;
-
-    this.commonservice.readPortal('city', page, size)
-      .subscribe(data => {
-        this.commonservice.errorHandling(data, (function(){
-        this.recordList = data;
-
-        
-        
-
-        if(this.recordList.cityList.length > 0){
-
-          this.dataSource.data = this.recordList.cityList;
-          this.seqPageNum = this.recordList.pageNumber;
-          this.seqPageSize = this.recordList.pageSize;
-          this.recordTable = this.recordList;
-          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
-          this.showNoData = false;
-        }
-
-        else{
-          this.dataSource.data = []; 
-          this.showNoData = true;
-        }
-
+    return this.commonservice.readPortal('state/all', '', '', '', lng)
+     .subscribe(resStateData => {
+      this.commonservice.errorHandling(resStateData, (function(){
+        this.getStateData = resStateData["stateList"];     
       }).bind(this)); 
       this.loading = false;
     },
     error => {
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      
-    });
+     });
   }
 
-  getFilterList(page, size, keyword) {
+  submit(formValues: any) {
+    
+    this.urlEdit = this.router.url.split('/')[3];
 
-    this.recordList = null;
+    // add form
+    if(this.urlEdit === 'add'){
 
-    if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      this.loading = true;
+      let body = 
+      {
+        "cityName": false,
+        "state": {
+          "stateId": 1
+        }
+      }  
+ 
+      body.cityName = formValues.city;
+      body.state.stateId = formValues.state;
+
+      console.log(JSON.stringify(body));
       
-      this.commonservice.readPortal('city', page, size, keyword)
-        .subscribe(data => {
+      this.loading = true;
+
+      this.commonservice.create(body, 'city').subscribe(
+        data => {
+
           this.commonservice.errorHandling(data, (function(){
-          this.recordList = data;
+            this.toastr.success(this.translate.instant('common.success.added'), '');
+            this.router.navigate(['reference/city']);
+          }).bind(this));  
+          this.loading = false; 
+        },
+        error => {
 
-          
-          
-
-          if(this.recordList.cityList.length > 0){
-
-            this.dataSource.data = this.recordList.cityList;
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-            this.showNoData = false;
-          }
-
-          else{
-            this.dataSource.data = []; 
-            this.showNoData = true;
-
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-          }
-
-        }).bind(this)); 
-        this.loading = false;
-      },
-      error => {
-        this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');           
       });
+    }
+
+    // update form
+    else{
+
+      let body = 
+      {
+        "cityId": 620,
+        "cityName": 620,
+        "cityCode": false,
+        "state": {
+          "stateId": 1
+        }
+      }    
+
+      body.cityName = formValues.cityName;
+      body.state.stateId = formValues.state;
+
+      console.log(JSON.stringify(body));
+      // this.loading = true;
+
+      // this.commonservice.update(body,'postcode').subscribe(
+      //   data => {
+
+      //     this.commonservice.errorHandling(data, (function(){
+      //       this.toastr.success(this.translate.instant('common.success.updated'), '');
+      //       this.router.navigate(['reference/postcode']);
+      //     }).bind(this));   
+      //     this.loading = false;
+      //   },
+      //   error => {
+
+      //     this.loading = false;
+      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          
+      // });
     }
   }
 
-  resetSearch() {
-    this.getRecordList(this.pageCount, this.pageSize);
+  getStateId(e){
+    console.log(e);
   }
 
-  paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
-    this.noPrevData = page <= 2 ? true : false;
-    this.noNextData = false;
+  getData(){
   }
 
-  paginatorR(page, totalPages) {
-    this.noPrevData = page >= 1 ? false : true;
-    let pageInc: any;
-    pageInc = page + 1;
-    // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+  checkReqValues() {
+
+    let reqVal:any = ["state", "city"];
+    let nullPointers:any = [];
+
+    for (var reqData of reqVal) {
+      let elem = this.updateForm.get(reqData);
+
+      if (elem.value == "" || elem.value == null) {
+        elem.setValue(null)
+        nullPointers.push(null)
+      }
+    }
+      
+    if(nullPointers.length > 0) {
+      this.complete = false;
+    } else {
+      this.complete = true;
+    }
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+  myFunction() {
+
+    this.updateForm.reset();
+    this.checkReqValues(); 
+  }
+  
+  changeLanguageAddEdit(){
+    if (this.urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);
+    }
+    else{
+      this.commonservice.pageModeChange(true);
+    }
   }
 
-  pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
-    this.pageSize = event.value;
-    this.noPrevData = true;
+  back(){
+    this.router.navigate(['reference/city']);
   }
 
 }

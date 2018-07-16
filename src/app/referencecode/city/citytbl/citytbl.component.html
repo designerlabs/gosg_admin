@@ -1,0 +1,114 @@
+<div class="container right-content">
+    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+  
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>{{ 'city.header' | translate}}</h3>
+        </div>
+
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="addBtn()" >
+                <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
+            </span>
+        </div>
+    </div>
+  
+    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+        {{'common.msg.unauthorized' | translate}}
+    </div>
+  
+    <div *ngIf="commonservice.isRead">
+        <div class="example-container mat-elevation-z8">    
+          <div class="col-md-12 paddingTop-10">
+              <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate}}">
+                  <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+                    <mat-icon>close</mat-icon>
+                  </button>
+              </mat-form-field>
+          </div>
+  
+          <mat-table #table [dataSource]="dataSource">
+            <!-- No Column -->
+            <ng-container matColumnDef="no">
+                <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate}} </mat-header-cell>
+                <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                  {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                </mat-cell>
+              </ng-container>
+  
+            <!-- City Name Column -->
+            <ng-container matColumnDef="cityName">
+              <mat-header-cell class="text-align-left" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.cityname' | translate}} </mat-header-cell>
+              <mat-cell class="text-align-left" style="flex: 0 0 18%;" *matCellDef="let element">
+                {{element.cityName}}
+              </mat-cell>
+            </ng-container>
+  
+            <!-- City Id 1 Column -->
+            <ng-container matColumnDef="cityId">
+              <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.cityid' | translate}} </mat-header-cell>
+              <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
+                {{element.cityId}}
+              </mat-cell>
+            </ng-container>
+  
+            <!-- City Code 1 Column -->
+            <ng-container matColumnDef="cityCode">
+              <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.citycode' | translate}} </mat-header-cell>
+              <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
+                {{element.cityCode}}
+              </mat-cell>
+            </ng-container>
+  
+            <!-- State Name 1 Column -->
+            <ng-container matColumnDef="stateName">
+              <mat-header-cell class="text-align-Left" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.statename' | translate}} </mat-header-cell>
+              <mat-cell class="text-align-Left" style="flex: 0 0 18%;" *matCellDef="let element">
+                {{element.state.stateName}}
+              </mat-cell>
+            </ng-container>
+  
+            <!-- State Id 1 Column -->
+            <ng-container matColumnDef="stateId">
+              <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.stateid' | translate}} </mat-header-cell>
+              <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
+                {{element.state.stateId}}
+              </mat-cell>
+            </ng-container>
+  
+  
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+  
+          <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+        </div>
+  
+        <div class="float-right paddingTop-15">
+          <mat-form-field class="table_footer_pagecount">
+            <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+              <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+              <!-- <mat-option value="10">10</mat-option>
+              <mat-option value="25">25</mat-option>
+              <mat-option value="50">50</mat-option> -->
+            </mat-select>
+          </mat-form-field>
+          <span class="float-right">
+                  <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate}}
+                      <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate}}
+                      <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate}}
+                      <strong>{{recordTable?.totalElements}}</strong> {{ 'city.tablebottom.citylist' | translate}}
+                  </span>
+                  <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+                    <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+                  </button>
+                  <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
+                    <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+                  </button>
+              </span>
+        </div>
+    </div>
+  </div>
+  

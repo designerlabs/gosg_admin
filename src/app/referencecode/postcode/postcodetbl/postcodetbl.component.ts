@@ -28,6 +28,7 @@ export class PostcodetblComponent implements OnInit {
     private translate: TranslateService, 
     private toastr: ToastrService,
     private router: Router) {
+      
     /* LANGUAGE FUNC */
       const myLang = translate.currentLang;
 

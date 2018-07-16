@@ -151,6 +151,7 @@ import { NavService } from './nav/nav.service';
 import { PostcodetblComponent } from './referencecode/postcode/postcodetbl/postcodetbl.component';
 import { StatetblComponent } from './referencecode/state/statetbl/statetbl.component';
 import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
+import { CitytblComponent } from './referencecode/city/citytbl/citytbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -279,6 +280,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PostcodetblComponent,
     StatetblComponent,
     CountrytblComponent,
+    CitytblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [

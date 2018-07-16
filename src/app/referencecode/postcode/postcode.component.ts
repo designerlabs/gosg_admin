@@ -93,8 +93,6 @@ export class PostcodeComponent implements OnInit, OnDestroy {
 
     this.urlEdit = this.router.url.split('/')[3];
 
-    console.log(this.urlEdit);
-
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
     }

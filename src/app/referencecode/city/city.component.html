@@ -3,104 +3,68 @@
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
-          <h3>{{ 'city.header' | translate}}</h3>
+          <h3>{{commonservice.pageMode}}  {{ 'city.header' | translate}}</h3>
+      </div>
+
+      <div class="col-md-2 curdHeadingRight">
+          <span class="pull-right">
+              <button type="button" mat-fab color="accent" (click)="back()" >
+              <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
+          </span>
       </div>
   </div>
 
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger" >
       {{'common.msg.unauthorized' | translate}}
   </div>
 
-  <div *ngIf="commonservice.isRead">
-      <div class="example-container mat-elevation-z8">    
-        <div class="col-md-12 paddingTop-10">
-            <mat-form-field>
-                <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate}}">
-                <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
-                  <mat-icon>close</mat-icon>
-                </button>
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate">
+
+      <div class="example-container mat-elevation-z8 paddingBottom-10">
+
+        <div>&nbsp;</div>
+        <div class="example-header">
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width">
+              <mat-select (change)="getStateId($event)" formControlName="state" placeholder="{{ 'state.header' | translate }}" required tabindex="1">
+                <mat-option [value]="state?.stateId" *ngFor="let state of getStateData" >{{ state?.stateName }}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="updateForm.controls.state.hasError('required')">
+                  {{ 'state.err.state' | translate }}
+              </mat-error>
             </mat-form-field>
+          </div>
         </div>
-
-        <mat-table #table [dataSource]="dataSource">
-          <!-- No Column -->
-          <ng-container matColumnDef="no">
-              <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate}} </mat-header-cell>
-              <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-                {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-              </mat-cell>
-            </ng-container>
-
-          <!-- City Name Column -->
-          <ng-container matColumnDef="cityName">
-            <mat-header-cell class="text-align-left" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.cityname' | translate}} </mat-header-cell>
-            <mat-cell class="text-align-left" style="flex: 0 0 18%;" *matCellDef="let element">
-              {{element.cityName}}
-            </mat-cell>
-          </ng-container>
-
-          <!-- City Id 1 Column -->
-          <ng-container matColumnDef="cityId">
-            <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.cityid' | translate}} </mat-header-cell>
-            <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
-              {{element.cityId}}
-            </mat-cell>
-          </ng-container>
-
-          <!-- City Code 1 Column -->
-          <ng-container matColumnDef="cityCode">
-            <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.citycode' | translate}} </mat-header-cell>
-            <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
-              {{element.cityCode}}
-            </mat-cell>
-          </ng-container>
-
-          <!-- State Name 1 Column -->
-          <ng-container matColumnDef="stateName">
-            <mat-header-cell class="text-align-Left" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.statename' | translate}} </mat-header-cell>
-            <mat-cell class="text-align-Left" style="flex: 0 0 18%;" *matCellDef="let element">
-              {{element.state.stateName}}
-            </mat-cell>
-          </ng-container>
-
-          <!-- State Id 1 Column -->
-          <ng-container matColumnDef="stateId">
-            <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.stateid' | translate}} </mat-header-cell>
-            <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
-              {{element.state.stateId}}
-            </mat-cell>
-          </ng-container>
-
-
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-
-        <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+        
+        <div class="example-header">
+          <div class="col-md-12">
+            <mat-form-field class="example-full-width" >
+              <input matInput placeholder="{{ 'city.header' | translate }}" formControlName="city" (keyup)="checkReqValues()" 
+              required tabindex="2">
+              <mat-error *ngIf="updateForm.controls.city.hasError('required')">
+                  {{ 'city.err.city' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
 
-      <div class="float-right paddingTop-15">
-        <mat-form-field class="table_footer_pagecount">
-          <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
-            <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
-            <!-- <mat-option value="10">10</mat-option>
-            <mat-option value="25">25</mat-option>
-            <mat-option value="50">50</mat-option> -->
-          </mat-select>
-        </mat-form-field>
-        <span class="float-right">
-                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate}}
-                    <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate}}
-                    <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate}}
-                    <strong>{{recordTable?.totalElements}}</strong> {{ 'city.tablebottom.citylist' | translate}}
-                </span>
-                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
-                  <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
-                </button>
-                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
-                  <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
-                </button>
-            </span>
+      <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate">
+          <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right mgn_L_5px"
+          (click)="submit(updateForm.value)" [disabled]="!complete">
+          <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
+          <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
+          <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right" (click)="resetModal.show()">
+          <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
       </div>
-  </div>
+  </form>
+  
 </div>
+
+<app-confirm-dialog  #resetModal 
+    [title]="'common.icon.warn'" 
+    [content]="'common.msg.reset'"
+    [state]="'bg_header bg_warn_header'"
+    [isReset]="'true'"
+    (resetMethod)="myFunction()">
+</app-confirm-dialog>

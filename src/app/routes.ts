@@ -123,6 +123,7 @@ import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
 import { StatetblComponent } from './referencecode/state/statetbl/statetbl.component';
 import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
+import { CitytblComponent } from './referencecode/city/citytbl/citytbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -233,7 +234,9 @@ export const appRoutes: Routes = [
 {path: 'reference/country', component: CountrytblComponent},
 {path: 'reference/country/add', component: CountryComponent},
 {path: 'reference/country/:id', component: CountryComponent},
-{path: 'reference/city', component: CityComponent},
+{path: 'reference/city', component: CitytblComponent},
+{path: 'reference/city/add', component: CityComponent},
+{path: 'reference/city/:id', component: CityComponent},
 {path: 'reference/state', component: StatetblComponent},
 {path: 'reference/state/:id', component: StateComponent},
 {path: 'reference/state/add', component: StateComponent},
