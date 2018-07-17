@@ -68,6 +68,7 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
       }
       if (this.navservice.flagLang) {
         this.commonservice.getModuleId();
+        this.changeLanguageAddEdit();
       }
 
     });
@@ -172,24 +173,21 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
 
       body[0].feedbackTypeDescription = formValues.typeBm;
       body[1].feedbackTypeDescription = formValues.typeEn;
-
-      
       
       this.loading = true;
-
       this.commonservice.create(body,'feedback/type').subscribe(
-        data => {
-          
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.added'), ''); 
-            this.router.navigate(['feedback/type']);
-          }).bind(this));         
-          this.loading = false; 
-        },
-        error => {
+      data => {
+        
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), ''); 
+          this.router.navigate(['feedback/type']);
+        }).bind(this));         
+        this.loading = false; 
+      },
+      error => {
 
-          this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           
       });
     }
@@ -222,18 +220,18 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
       this.loading = true;
 
       this.commonservice.update(body,'feedback/type').subscribe(
-        data => {
-          
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.updated'), ''); 
-            this.router.navigate(['feedback/type']);
-          }).bind(this));    
-          this.loading = false;     
-        },
-        error => {
+      data => {
+        
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), ''); 
+          this.router.navigate(['feedback/type']);
+        }).bind(this));    
+        this.loading = false;     
+      },
+      error => {
 
-          this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           
       });
     }
@@ -258,6 +256,18 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
       this.complete = false;
     } else {
       this.complete = true;
+    }
+  }
+
+  changeLanguageAddEdit(){
+
+    let urlEdit = this.router.url.split('/')[3];
+
+    if (urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);
+    }
+    else{
+      this.commonservice.pageModeChange(true);
     }
   }
 

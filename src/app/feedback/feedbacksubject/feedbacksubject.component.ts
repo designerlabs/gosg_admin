@@ -39,9 +39,6 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
   public lang: any;
 
   private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   constructor(
     private http: HttpClient, 
@@ -72,6 +69,7 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
       }
       if (this.navservice.flagLang) {
         this.commonservice.getModuleId();
+        this.changeLanguageAddEdit();
       }
 
     });
@@ -80,9 +78,6 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    //this.subscriptionContentCreator.unsubscribe();
-    //this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
@@ -135,17 +130,12 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         this.recordList = data;
-        
-        
-
         this.updateForm.get('subjectBm').setValue(this.recordList.feedbackSubjectEntityList[0].feedbackSubjectDescription);
         this.updateForm.get('subjectEn').setValue(this.recordList.feedbackSubjectEntityList[1].feedbackSubjectDescription);      
 
         this.getIdBm = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectId;
         this.getIdEn = this.recordList.feedbackSubjectEntityList[1].feedbackSubjectId;      
         this.getRefId = this.recordList.feedbackSubjectEntityList[0].feedbackSubjectCode;
-
-        
 
         this.checkReqValues();
       }).bind(this));   
@@ -155,7 +145,6 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      
       
     });
   }
@@ -183,24 +172,20 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
       body[0].feedbackSubjectDescription = formValues.subjectBm;
       body[1].feedbackSubjectDescription = formValues.subjectEn;
 
-      
-      
-
       this.loading = true;
       this.commonservice.create(body,'feedback/subject').subscribe(
-        data => {
-          
+      data => {
+        
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), '');
+          this.router.navigate(['feedback/subject']);
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
 
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.added'), '');
-            this.router.navigate(['feedback/subject']);
-          }).bind(this)); 
-          this.loading = false;
-        },
-        error => {
-
-          this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           
       });
     }
@@ -227,25 +212,22 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
 
       body[1].feedbackSubjectDescription = formValues.subjectEn; 
       body[0].feedbackSubjectDescription = formValues.subjectBm;           
-
-      
       
       this.loading = true;
 
       this.commonservice.update(body,'feedback/subject').subscribe(
-        data => {
-          
+      data => {
+        
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), '');
+          this.router.navigate(['feedback/subject']);
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
 
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.updated'), '');
-            this.router.navigate(['feedback/subject']);
-          }).bind(this)); 
-          this.loading = false;
-        },
-        error => {
-
-          this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
           
       });
     }
@@ -276,6 +258,18 @@ export class FeedbacksubjectComponent implements OnInit, OnDestroy {
   myFunction() {
     this.updateForm.reset();
     this.checkReqValues();   
+  }
+
+  changeLanguageAddEdit(){
+
+    let urlEdit = this.router.url.split('/')[3];
+
+    if (urlEdit === 'add'){
+      this.commonservice.pageModeChange(false);
+    }
+    else{
+      this.commonservice.pageModeChange(true);
+    }
   }
 
   back(){
