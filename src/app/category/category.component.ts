@@ -115,6 +115,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       }
         if(this.navservice.flagLang){
           this.commonservice.getModuleId();
+          this.changeLanguageAddEdit();
           this.getCategory(this.languageId);
           if (this.urlEdit === 'add'){
             this.changePlaceHolder();
@@ -127,10 +128,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
     });
     /* LANGUAGE FUNC */
-
-    // this.updateForm = builder.group({
-    //   treeVal: ""
-    // })
 
   }
 
@@ -945,8 +942,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
       this.updateForm.get('noncitizenflag').setValue(null);
     }
 
-
-
   }
 
   le2(e){
@@ -959,7 +954,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
     if(noncitizenF.value == true){
       this.updateForm.get('citizenflag').setValue(true);
     }
-
 
   }
 
