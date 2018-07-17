@@ -20,6 +20,8 @@ export class PostcodetblComponent implements OnInit {
   selectedState: any;
   selStateInfo: any;
   selCityInfo: any;
+  flagCity = false;
+  amData:any;
 
   lang: any;
   public latestCityCode = "";
@@ -110,55 +112,54 @@ export class PostcodetblComponent implements OnInit {
   }
 
   getPostcodeByCity(e,str){
-    this.selCityInfo = e;
-    this.latestCityCode = "";
-    console.log(e);
-    console.log("Before assign");
-    console.log(this.latestCityCode);
+
+    this.flagCity = true;
     
     if(e){
+      this.selCityInfo = e;
       this.loading = true;
       this.latestCityCode = e.value.cityCode;
-      return this.commonservice.readPortal('postcode/city/'+e.value.cityCode, '', '', '', this.languageId)
-      .subscribe(resPostCodeData => {
+      return this.commonservice.readPortal('postcode/city/'+e.value.cityCode, '', '', '', this.languageId).subscribe(
+      resPostCodeData => {
+
         this.commonservice.errorHandling(resPostCodeData, (function(){
-          console.log(this.latestCityCode)
-        this.getPostData = resPostCodeData["postcodeList"];
-        console.log("After assign");
-        console.log(this.getPostData);
-      }).bind(this)); 
-      this.loading = false;
-    },
-    error => {
-      this.loading = false;
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      
-     });
+          
+          this.getPostData = resPostCodeData["postcodeList"];
+          this.amData = this.getPostData.length;
+          
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        
+      });
     }    
 
     else{// use after delete
-      console.log(this.latestCityCode)
     
       this.loading = true;
-      return this.commonservice.readPortal('postcode/city/'+this.latestCityCode, '', '', '', this.languageId)
-      .subscribe(resPostCodeData => {
+      return this.commonservice.readPortal('postcode/city/'+this.latestCityCode, '', '', '', this.languageId).subscribe(
+      resPostCodeData => {
         this.commonservice.errorHandling(resPostCodeData, (function(){
-        this.getPostData = resPostCodeData["postcodeList"];
-      }).bind(this)); 
-      this.loading = false;
-    },
-    error => {
-      this.loading = false;
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      
-     });
+          this.getPostData = resPostCodeData["postcodeList"];
+          this.amData = this.getPostData.length;
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        
+      });
     }
   }
 
 
   deletePoscode(val){
 
-    console.log(val)
+    this.getPostcodeByCity('',this.latestCityCode);
     this.loading = true;
     
     this.commonservice.delete(val,'postcode/delete/').subscribe(

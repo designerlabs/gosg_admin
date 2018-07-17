@@ -171,7 +171,7 @@ export class PostcodeComponent implements OnInit, OnDestroy {
       {
         "postCode": false,
         "city": {
-          "cityId": 1
+          "cityId": null
         }
       }  
  
@@ -181,20 +181,19 @@ export class PostcodeComponent implements OnInit, OnDestroy {
       console.log(JSON.stringify(body));
       
       this.loading = true;
-
       this.commonservice.create(body, 'postcode').subscribe(
-        data => {
+      data => {
 
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.added'), '');
-            this.router.navigate(['reference/postcode']);
-          }).bind(this));  
-          this.loading = false; 
-        },
-        error => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), '');
+          this.router.navigate(['reference/postcode']);
+        }).bind(this));  
+        this.loading = false; 
+      },
+      error => {
 
-          this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           
       });
     }
@@ -205,9 +204,9 @@ export class PostcodeComponent implements OnInit, OnDestroy {
       let body = 
       {
         "postcodeId": 620,
-        "postCode": false,
+        "postCode": null,
         "city": {
-          "cityId": 1
+          "cityId": null
         }
       }    
 
@@ -216,21 +215,19 @@ export class PostcodeComponent implements OnInit, OnDestroy {
 
       console.log(JSON.stringify(body));
       // this.loading = true;
-
       // this.commonservice.update(body,'postcode').subscribe(
-      //   data => {
+      // data => {
 
-      //     this.commonservice.errorHandling(data, (function(){
-      //       this.toastr.success(this.translate.instant('common.success.updated'), '');
-      //       this.router.navigate(['reference/postcode']);
-      //     }).bind(this));   
-      //     this.loading = false;
-      //   },
-      //   error => {
+      //   this.commonservice.errorHandling(data, (function(){
+      //     this.toastr.success(this.translate.instant('common.success.updated'), '');
+      //     this.router.navigate(['reference/postcode']);
+      //   }).bind(this));   
+      //   this.loading = false;
+      // },
+      // error => {
 
-      //     this.loading = false;
-      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          
+      //   this.loading = false;
+      //   this.toastr.error(JSON.parse(error._body).statusDesc, '');           
       // });
     }
   }
