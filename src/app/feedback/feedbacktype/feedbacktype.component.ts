@@ -38,9 +38,6 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
   public lang: any;
 
   private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   constructor(
     private http: HttpClient, 
@@ -80,9 +77,6 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    //this.subscriptionContentCreator.unsubscribe();
-    //this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
@@ -136,8 +130,6 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          
-          
 
           this.updateForm.get('typeEn').setValue(this.recordList.feedbackTypeEntityList[1].feedbackTypeDescription);
           this.updateForm.get('typeBm').setValue(this.recordList.feedbackTypeEntityList[0].feedbackTypeDescription);        
@@ -154,8 +146,7 @@ export class FeedbacktypeComponent implements OnInit, OnDestroy {
 
       this.loading = false;
       this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      
-      
+
     });
   }
 

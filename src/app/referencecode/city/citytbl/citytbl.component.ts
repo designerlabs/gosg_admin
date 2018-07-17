@@ -20,7 +20,7 @@ import { NavService } from '../../../nav/nav.service';
 export class CitytblComponent implements OnInit, OnDestroy {
 
   recordList = null;
-  displayedColumns = ['no', 'cityName', 'cityId', 'cityCode', 'stateName', 'stateId'];
+  displayedColumns = ['no', 'cityName', 'cityId', 'cityCode', 'stateName', 'stateId','action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -32,13 +32,11 @@ export class CitytblComponent implements OnInit, OnDestroy {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
-  dataUrl: any;
   languageId: any;
   public loading = false;
   private subscriptionLang: ISubscription;
 
   showNoData = false;
-
   recordTable = null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -57,13 +55,15 @@ export class CitytblComponent implements OnInit, OnDestroy {
     }
   }
 
-  constructor(private http: HttpClient, @Inject(APP_CONFIG) private appConfig: AppConfig,
+  constructor(
+      private http: HttpClient, 
+      @Inject(APP_CONFIG) private appConfig: AppConfig,
       public commonservice: CommonService, private router: Router,
       private translate: TranslateService,
       private navservice: NavService,
       private toastr: ToastrService) {
 
-        /* LANGUAGE FUNC */
+      /* LANGUAGE FUNC */
       this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
         const myLang = translate.currentLang;
 
@@ -84,8 +84,8 @@ export class CitytblComponent implements OnInit, OnDestroy {
           this.getRecordList(this.pageCount, this.pageSize);
           this.commonservice.getModuleId();
         }
-
       });   
+      /* LANGUAGE FUNC */
   }
 
   ngOnDestroy() {
@@ -147,13 +147,10 @@ export class CitytblComponent implements OnInit, OnDestroy {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
       
-      this.commonservice.readPortal('city', page, size, keyword)
+      this.commonservice.readPortal('city', page, size, keyword, this.languageId)
         .subscribe(data => {
           this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
-
-          
-          
 
           if(this.recordList.cityList.length > 0){
 
@@ -223,6 +220,28 @@ export class CitytblComponent implements OnInit, OnDestroy {
     
     this.router.navigate(['reference/city/', row]);
     this.commonservice.pageModeChange(true);
+  }
+
+  deleteRow(refcode) {
+
+    this.loading = true;
+
+    this.commonservice.delete(refcode, 'city/delete/').subscribe(
+    data => {
+      
+      this.commonservice.errorHandling(data, (function(){
+        
+        this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+        this.getRecordList(this.pageCount, this.pageSize);
+      }).bind(this));  
+      this.loading = false;
+    },
+    error => {
+
+      this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        
+    });  
   }
 
 }

@@ -29,6 +29,8 @@ export class CityComponent implements OnInit, OnDestroy {
   public loading = false;
   public urlEdit = "";
   complete: boolean;
+  cityId: any;
+  cityCode: any;
   private subscriptionLang: ISubscription;
   showNoData = false; 
 
@@ -101,6 +103,13 @@ export class CityComponent implements OnInit, OnDestroy {
 
     this.getState('152', this.languageId); 
     this.commonservice.getModuleId(); 
+
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
   }
 
   getState(id?, lng?){ //list of state in Malaysia only
@@ -118,6 +127,33 @@ export class CityComponent implements OnInit, OnDestroy {
      });
   }
 
+  getData(){
+    let _getRefID = this.router.url.split('/')[3];  
+    this.loading = true;
+    this.commonservice.readPortalById('city/', _getRefID, this.languageId)
+      .subscribe(data => {
+
+        this.commonservice.errorHandling(data, (function(){
+
+          this.recordList = data["city"];
+
+          this.updateForm.get('state').setValue(this.recordList.state.stateId);
+          this.updateForm.get('city').setValue(this.recordList.cityName);     
+          this.cityId = this.recordList.cityId;
+          this.cityCode = this.recordList.cityCode;
+          this.checkReqValues();
+
+        }).bind(this));   
+        this.loading = false;
+    },
+    error => {
+
+      this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+
+    });
+  }
+
   submit(formValues: any) {
     
     this.urlEdit = this.router.url.split('/')[3];
@@ -127,32 +163,29 @@ export class CityComponent implements OnInit, OnDestroy {
 
       let body = 
       {
-        "cityName": false,
+        "cityName": null,
         "state": {
-          "stateId": 1
+          "stateId": null
         }
       }  
  
       body.cityName = formValues.city;
       body.state.stateId = formValues.state;
-
-      console.log(JSON.stringify(body));
       
       this.loading = true;
-
       this.commonservice.create(body, 'city').subscribe(
-        data => {
+      data => {
 
-          this.commonservice.errorHandling(data, (function(){
-            this.toastr.success(this.translate.instant('common.success.added'), '');
-            this.router.navigate(['reference/city']);
-          }).bind(this));  
-          this.loading = false; 
-        },
-        error => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.added'), '');
+          this.router.navigate(['reference/city']);
+        }).bind(this));  
+        this.loading = false; 
+      },
+      error => {
 
-          this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');           
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');           
       });
     }
 
@@ -161,43 +194,34 @@ export class CityComponent implements OnInit, OnDestroy {
 
       let body = 
       {
-        "cityId": 620,
-        "cityName": 620,
-        "cityCode": false,
+        "cityId": this.cityId,
+        "cityName": null,
+        "cityCode": this.cityCode,
         "state": {
-          "stateId": 1
+          "stateId": null
         }
       }    
 
-      body.cityName = formValues.cityName;
+      body.cityName = formValues.city;
       body.state.stateId = formValues.state;
 
-      console.log(JSON.stringify(body));
-      // this.loading = true;
+      this.loading = true;
+      this.commonservice.update(body,'city').subscribe(
+        data => {
 
-      // this.commonservice.update(body,'postcode').subscribe(
-      //   data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
+            this.router.navigate(['reference/city']);
+          }).bind(this));   
+          this.loading = false;
+        },
+        error => {
 
-      //     this.commonservice.errorHandling(data, (function(){
-      //       this.toastr.success(this.translate.instant('common.success.updated'), '');
-      //       this.router.navigate(['reference/postcode']);
-      //     }).bind(this));   
-      //     this.loading = false;
-      //   },
-      //   error => {
-
-      //     this.loading = false;
-      //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.loading = false;
+          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           
-      // });
+      });
     }
-  }
-
-  getStateId(e){
-    console.log(e);
-  }
-
-  getData(){
   }
 
   checkReqValues() {

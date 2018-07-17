@@ -62,8 +62,8 @@ export class PostcodeComponent implements OnInit, OnDestroy {
         this.changeLanguageAddEdit();
         this.commonservice.getModuleId();
       }
-
     });
+    /* LANGUAGE FUNC */
   }
 
   ngOnDestroy() {
@@ -104,6 +104,13 @@ export class PostcodeComponent implements OnInit, OnDestroy {
 
     this.getState('152', this.languageId);   
     this.commonservice.getModuleId(); 
+
+    // #### for disable non update user ---1
+    if(!this.commonservice.isUpdate && this.commonservice.isWrite){
+      this.updateForm.enable();
+    }else if(!this.commonservice.isUpdate){
+      this.updateForm.disable();
+    }
   }
     
   getState(id?, lng?){ //list of state in Malaysia only

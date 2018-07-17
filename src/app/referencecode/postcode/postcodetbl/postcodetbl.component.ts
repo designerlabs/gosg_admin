@@ -4,6 +4,8 @@ import { SharedModule } from '../../../shared/shared.module';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../../nav/nav.service';
 
 @Component({
   selector: 'app-postcodetbl',
@@ -19,32 +21,42 @@ export class PostcodetblComponent implements OnInit {
   selStateInfo: any;
   selCityInfo: any;
 
+  lang: any;
   public latestCityCode = "";
   public languageId: any;
   public loading = false;
+  private subscriptionLang: ISubscription;
 
   constructor(
     public commonservice: CommonService,
     private translate: TranslateService, 
+    private navservice: NavService,
     private toastr: ToastrService,
     private router: Router) {
       
     /* LANGUAGE FUNC */
+    this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
       const myLang = translate.currentLang;
 
       if (myLang == 'en') {
         translate.get('HOME').subscribe((res: any) => {
-            this.languageId = 1;
-          });
-        }
-        
-        if (myLang == 'ms') {
-          translate.get('HOME').subscribe((res: any) => {
-            this.languageId = 2;
+          this.lang = 'en';
+          this.languageId = 1;
         });
-        // alert(this.languageId + ',' + this.localeVal)
       }
-   }
+
+      if (myLang == 'ms') {
+        translate.get('HOME').subscribe((res: any) => {
+          this.lang = 'ms';
+          this.languageId = 2;
+        });
+      }
+      if (this.navservice.flagLang) {
+        this.commonservice.getModuleId();
+      }
+    });
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
 

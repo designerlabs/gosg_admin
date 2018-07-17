@@ -48,8 +48,8 @@
   
             <!-- City Id 1 Column -->
             <ng-container matColumnDef="cityId">
-              <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.cityid' | translate}} </mat-header-cell>
-              <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
+              <mat-header-cell class="text-align-Left centerColumn" *matHeaderCellDef> {{ 'city.tableHeader.cityid' | translate}} </mat-header-cell>
+              <mat-cell class="text-align-Left centerColumn" *matCellDef="let element">
                 {{element.cityId}}
               </mat-cell>
             </ng-container>
@@ -72,9 +72,30 @@
   
             <!-- State Id 1 Column -->
             <ng-container matColumnDef="stateId">
-              <mat-header-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matHeaderCellDef> {{ 'city.tableHeader.stateid' | translate}} </mat-header-cell>
-              <mat-cell class="text-align-Left centerColumn" style="flex: 0 0 18%;" *matCellDef="let element">
+              <mat-header-cell class="text-align-Left centerColumn" *matHeaderCellDef> {{ 'city.tableHeader.stateid' | translate}} </mat-header-cell>
+              <mat-cell class="text-align-Left centerColumn" *matCellDef="let element">
                 {{element.state.stateId}}
+              </mat-cell>
+            </ng-container>
+
+            <!-- action Column -->
+            <ng-container matColumnDef="action">
+              <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+              <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                  <button mat-mini-fab class="bg_orange" (click)="updateRow(element.cityId)">
+                      <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.cityId }}" ></i>
+                      <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.cityId }}" ></i>
+              </button>
+                  &nbsp;
+                  <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()"> 
+                  <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.cityId }}"></i></button>
+                  <app-confirm-dialog  #deleteModal 
+                  [title]="'fa fa-exclamation-triangle'" 
+                  [content]="'common.msg.delete'"
+                  [state]="'bg_header bg_warn_header'"
+                  [isReset]="'true'"
+                  (resetMethod)="deleteRow(element.cityId)">
+                  </app-confirm-dialog>
               </mat-cell>
             </ng-container>
   
