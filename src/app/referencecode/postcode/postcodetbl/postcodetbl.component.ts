@@ -126,7 +126,7 @@ export class PostcodetblComponent implements OnInit {
           
           this.getPostData = resPostCodeData["postcodeList"];
           this.amData = this.getPostData.length;
-          
+
         }).bind(this)); 
         this.loading = false;
       },

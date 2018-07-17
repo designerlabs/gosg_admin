@@ -31,6 +31,7 @@ export class PostcodeComponent implements OnInit, OnDestroy {
   complete: boolean;
   public lang = "";
   public postcodeId: any;
+  public stateId: any;
   private subscriptionLang: ISubscription;
 
   constructor(
@@ -97,9 +98,9 @@ export class PostcodeComponent implements OnInit, OnDestroy {
       this.commonservice.pageModeChange(false);
     }
     else{
-      this.commonservice.pageModeChange(true);
-      this.checkReqValues();  
       this.getData();
+      this.commonservice.pageModeChange(true);      
+      this.checkReqValues();  
     }
 
     this.getState('152', this.languageId);   
@@ -132,32 +133,32 @@ export class PostcodeComponent implements OnInit, OnDestroy {
 
   getData(){
     let _getRefID = this.router.url.split('/')[3];
-    // this.loading = true;
-    // this.commonservice.readProtectedById('faq/code/', _getRefID)
-    // .subscribe(data => {
-    //   this.commonservice.errorHandling(data, (function(){
-    //     this.recordList = data;
+    this.loading = true;
+    this.commonservice.readPortalById('postcode/id/', _getRefID, this.languageId)
+    .subscribe(data => {
+      this.commonservice.errorHandling(data, (function(){
+        this.recordList = data["postcode"];       
 
-        
+        this.updateForm.get('state').setValue(this.recordList.city.state.stateId);
+        this.updateForm.get('city').setValue(this.recordList.city.cityId);
+        this.updateForm.get('postcode').setValue(this.recordList.postCode);
 
-    //     this.updateForm.get('faqQEng').setValue(this.recordList.faqList[0].faqQuestion);
-    //     this.updateForm.get('faqAEng').setValue(this.recordList.faqList[0].faqAnswer);
-    //     this.updateForm.get('active').setValue(this.recordList.faqList[0].faqActiveFlag);
+        this.postcodeId = this.recordList.postcodeId;
+        this.stateId = this.recordList.city.state.stateId;
+        this.checkReqValues();
 
-    //     this.updateForm.get('faqQMy').setValue(this.recordList.faqList[1].faqQuestion);
-    //     this.updateForm.get('faqAMy').setValue(this.recordList.faqList[1].faqAnswer);
+        let e = '';
+        this.getCitiesByState(e)
 
-    //     this.checkReqValues();
+      }).bind(this));   
+      this.loading = false;
+    },
+    error => {
 
-    //   }).bind(this));   
-    //   this.loading = false;
-    // },
-    // error => {
-
-    //   this.loading = false;
-    //   this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+      this.loading = false;
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
       
-    // });
+    });
   }
 
   submit(formValues: any) {
@@ -178,8 +179,6 @@ export class PostcodeComponent implements OnInit, OnDestroy {
       body.postCode = formValues.postcode;
       body.city.cityId = formValues.city;
 
-      console.log(JSON.stringify(body));
-      
       this.loading = true;
       this.commonservice.create(body, 'postcode').subscribe(
       data => {
@@ -203,7 +202,7 @@ export class PostcodeComponent implements OnInit, OnDestroy {
 
       let body = 
       {
-        "postcodeId": 620,
+        "postcodeId": this.postcodeId,
         "postCode": null,
         "city": {
           "cityId": null
@@ -211,24 +210,23 @@ export class PostcodeComponent implements OnInit, OnDestroy {
       }    
 
       body.postCode = formValues.postcode;
-      body.city = formValues.city;
+      body.city.cityId = formValues.city;
 
-      console.log(JSON.stringify(body));
-      // this.loading = true;
-      // this.commonservice.update(body,'postcode').subscribe(
-      // data => {
+      this.loading = true;
+      this.commonservice.update(body,'postcode').subscribe(
+      data => {
 
-      //   this.commonservice.errorHandling(data, (function(){
-      //     this.toastr.success(this.translate.instant('common.success.updated'), '');
-      //     this.router.navigate(['reference/postcode']);
-      //   }).bind(this));   
-      //   this.loading = false;
-      // },
-      // error => {
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.updated'), '');
+          this.router.navigate(['reference/postcode']);
+        }).bind(this));   
+        this.loading = false;
+      },
+      error => {
 
-      //   this.loading = false;
-      //   this.toastr.error(JSON.parse(error._body).statusDesc, '');           
-      // });
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');           
+      });
     }
   }
 
@@ -239,34 +237,45 @@ export class PostcodeComponent implements OnInit, OnDestroy {
   }
 
   getCitiesByState(e){
-    console.log("GET STATE");
-    console.log(e);
-
+    
     if(e){
       this.loading = true;
       return this.commonservice.readPortalById('city/state/',e.value, this.languageId)
-      .subscribe(resCityData => {
-        this.commonservice.errorHandling(resCityData, (function(){
-        this.getCityData = resCityData["cityList"];     
-        this.checkReqValues();       
-      }).bind(this)); 
-      this.loading = false;
-    },
-    error => {
-      this.loading = false;
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      
-     });
+        .subscribe(resCityData => {
+          this.commonservice.errorHandling(resCityData, (function(){
+          this.getCityData = resCityData["cityList"];     
+          this.checkReqValues();       
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        
+      });
+    }
+
+    else{
+      this.loading = true;
+      return this.commonservice.readPortalById('city/state/',this.stateId, this.languageId)
+        .subscribe(resCityData => {
+          this.commonservice.errorHandling(resCityData, (function(){
+          this.getCityData = resCityData["cityList"];     
+          this.checkReqValues();       
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        
+      });
     }
   }
 
   getPostcodeByCity(e){
 
     this.checkReqValues();    
-  }
-
-  deletePoscode(val){
-    console.log(val)
   }
 
   checkReqValues() {
