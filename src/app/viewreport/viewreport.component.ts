@@ -96,11 +96,10 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     Rdata => {
 
       this.commonservice.errorHandling(Rdata, (function () {
-        
-        console.log(Rdata);
+  
         this.listreport = Rdata;
-
         this.checkReqValues();
+
       }).bind(this));
       this.loading = false;
     });
@@ -148,19 +147,16 @@ export class ViewreportComponent implements OnInit, OnDestroy {
 
   submit(formValues: any) {  
 
-    console.log(formValues.report);
     let rptId = formValues.report;
     this.loading = true;
     
     return this.getViewReport(rptId).subscribe(
     Rdata => {
-
+      console.log("TEST");
+      console.log(Rdata);
       this.commonservice.errorHandling(Rdata, (function () {
         
-        console.log(Rdata);
-
         let viewR = Rdata;
-        console.log(viewR);
         window.open(viewR.url);
 
       }).bind(this));
