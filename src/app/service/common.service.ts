@@ -599,7 +599,7 @@ getMediaByCateId(id){
   }
 
   getlistReport(){
-    let readUrl = this.appConfig.urlmibis+"widget/list/REPORT";
+    let readUrl = this.appConfig.urlmibis+"mibis/widget/list/REPORT";
     return this.http.get(readUrl)
       .map((response: Response) => response.json())
       .retry(5)

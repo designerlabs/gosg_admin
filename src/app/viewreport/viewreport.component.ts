@@ -142,7 +142,7 @@ export class ViewreportComponent implements OnInit, OnDestroy {
 
     console.log(formValues.report);
 
-    let viewR = this.appConfig.urlmibis + "widget/url/get/"+formValues.report+"/without-param";
+    let viewR = this.appConfig.urlmibis + "mibis/widget/url/get/"+formValues.report+"/without-param";
     window.open(viewR);
    
   }
