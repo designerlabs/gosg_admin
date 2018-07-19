@@ -124,6 +124,7 @@ import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.com
 import { StatetblComponent } from './referencecode/state/statetbl/statetbl.component';
 import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
 import { CitytblComponent } from './referencecode/city/citytbl/citytbl.component';
+import { ViewreportComponent } from './viewreport/viewreport.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -330,6 +331,8 @@ export const appRoutes: Routes = [
 
 {path: 'publisher/content', component: ContentpublishertblComponent},
 {path: 'publisher/content/:id', component: ContentpublisherComponent},
+
+{path: 'report',component: ViewreportComponent},
 
 
 {path: '**', component: ErrorComponent}, // put at the last row

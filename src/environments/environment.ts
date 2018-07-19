@@ -9,5 +9,6 @@ export const environment = {
   uapURL : '/',
   mediaURL: '/',
   mockApiURL :'/',
-  baseURL: '/'
+  baseURL: '/',
+  mibisURL: '/'
 };

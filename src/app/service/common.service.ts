@@ -598,6 +598,14 @@ getMediaByCateId(id){
     .catch(this.handleError);
   }
 
+  getlistReport(){
+    let readUrl = this.appConfig.urlmibis+"widget/list/REPORT";
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+
   // END NEW
 
   errorResponse(data){

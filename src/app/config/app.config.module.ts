@@ -6,6 +6,7 @@ export let APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 const baseURL = environment.baseURL;
 const mockApiURL = environment.mockApiURL;
 let mediaURL = environment.mediaURL;
+const mibisURL = environment.mibisURL;
 
 // const baseURL = 'http://10.1.17.12:3000/';
 
@@ -55,6 +56,7 @@ export class AppConfig {
     urlModuleRef: string;
     externalMediaURL: string;
     urlHtmlParse: string;
+    urlmibis: string;
     
 }
 
@@ -90,6 +92,7 @@ export const APP_DI_CONFIG: AppConfig = {
     urlMediaFileUpload: commonURL + 'media',
     lang: 'language='+localStorage.getItem('langID'),
     urlHtmlParse: commonURL + 'htmlcontent/formathtml',
+    urlmibis: mibisURL
 };
 
 @NgModule({
