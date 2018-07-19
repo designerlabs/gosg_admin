@@ -159,7 +159,8 @@ export class ViewreportComponent implements OnInit, OnDestroy {
         
         console.log(Rdata);
 
-        let viewR = this.Rdata;
+        let viewR = Rdata;
+        console.log(viewR);
         window.open(viewR.url);
 
       }).bind(this));
