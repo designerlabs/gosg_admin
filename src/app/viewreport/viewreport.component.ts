@@ -137,20 +137,13 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     }
   }
 
-  getViewReport(id){
-    let readUrl = this.appConfig.urlmibis+"mibis/widget/url/get/"+id+"/without-param";
-    return this.http.get(readUrl)
-      .map((response: Response) => response.json())
-      .retry(5)
-      .catch(this.commonservice.handleError);
-  }
-
+  
   submit(formValues: any) {  
 
     let rptId = formValues.report;
     this.loading = true;
     
-    return this.getViewReport(rptId).subscribe(
+    return this.commonservice.getViewReport(rptId).subscribe(
     Rdata => {
       console.log("TEST");
       console.log(Rdata);
