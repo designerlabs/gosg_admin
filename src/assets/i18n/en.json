@@ -244,7 +244,8 @@
       "failtoload":"Sorry, Record is not loading properly, Try again!",
       "failtodelete":"Sorry, Record is not deleted properly, Try again!",
       "failtoview":"Sorry, Record is not viewed properly, Try again!",
-      "patternisnotvalid": "pattern is not valid"
+      "patternisnotvalid": "pattern is not valid",
+      "errreport": "Please select report"
     },
     "success":{
       "added": "Successfully added!",
@@ -303,7 +304,8 @@
         "email": "Email",
         "activity": "Activity",
         "time": "Time",
-        "date": "Date"
+        "date": "Date",
+        "report": "List of reports"
     },
     "tableBottom": {
         "page": "Page",

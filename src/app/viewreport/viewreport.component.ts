@@ -10,6 +10,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../nav/nav.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-viewreport',
@@ -83,10 +84,10 @@ export class ViewreportComponent implements OnInit, OnDestroy {
 
       report: this.report,
     });
-
-    this.getData();
-
+    
     //this.listreport = {"widgets":[{"id":"12","label":"Hello","name":"Hello","height":400,"engineType":"REPORT","description":"Hello","dataSourceId":1},{"id":"13","label":"test-report","name":"test-report","height":400,"engineType":"REPORT","description":"test-report","dataSourceId":1},{"id":"14","label":"test chart","name":"test chart","height":400,"engineType":"REPORT","description":"test chart","dataSourceId":1},{"id":"15","label":"Hot Topic","name":"Hot Topic","height":400,"engineType":"REPORT","description":"Hot Topic","dataSourceId":1},{"id":"18","label":"Report B month","name":"Statistik pendaftaran (bulan)","height":400,"engineType":"REPORT","description":"Statistik pendaftaran (bulan)","dataSourceId":1},{"id":"20","label":"tedt","name":"test","height":400,"engineType":"REPORT","description":"test","dataSourceId":1},{"id":"19","label":"test","name":"test","height":400,"engineType":"REPORT","description":"aaa","dataSourceId":1},{"id":"21","label":"report-c-1","name":"report-c-1","height":400,"engineType":"REPORT","description":"report-c-1","dataSourceId":1}]};
+    this.getData();
+    
   }
 
   getData() {
@@ -136,7 +137,6 @@ export class ViewreportComponent implements OnInit, OnDestroy {
       this.complete = true;
     }
   }
-
   
   submit(formValues: any) {  
 

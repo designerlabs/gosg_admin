@@ -7,12 +7,12 @@
           <h3>Senarai Laporan</h3>
       </div>
       
-      <div class="col-md-2 curdHeadingRight">
+      <!-- <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" mat-fab color="accent" (click)="back()" >
               <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
           </span>
-      </div> 
+      </div>  -->
   </div>
   
   <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
@@ -25,26 +25,22 @@
 
         <div class="row">
           <div class="bg-form-header col-md-12">
-            <label class="staticLabel">Senarai Laporan</label>
+            <label class="staticLabel">{{'common.tableHeader.report' | translate}}</label>
           </div>
         </div>
   
         <div class="row">
           <div class="col-md-12">
               <mat-form-field class="example-full-width">
-                  <mat-select formControlName="report" placeholder="Senarai Laporan" (change)="checkReqValues()" required>
-                    <mat-option [value]=null>Pilih Senarai Laporan</mat-option>
+                  <mat-select formControlName="report" placeholder="{{'common.tableHeader.report' | translate}}" (change)="checkReqValues()" required>
+                    <mat-option [value]=null>{{'common.err.errreport' | translate}}</mat-option>
                     <mat-option *ngFor="let rpt of listreport.widgets" [value]="rpt?.id">{{ rpt?.name }}</mat-option>                      
                   </mat-select>
                   <mat-error *ngIf="updateForm.get('report').hasError('required')">
-                    Sila pilih senarai laporan
+                    {{'common.err.errreport' | translate}}
                   </mat-error>
               </mat-form-field>
           </div>
-        </div>
-
-        <div *ngIf="languageId == 1">  
-          <span resetModal.show></span>
         </div>
 
         <div class="col-md-12">&nbsp;</div>
