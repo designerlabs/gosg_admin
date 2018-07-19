@@ -86,7 +86,7 @@ export class ViewreportComponent implements OnInit, OnDestroy {
 
     this.getData();
 
-    this.listreport = {"widgets":[{"id":"12","label":"Hello","name":"Hello","height":400,"engineType":"REPORT","description":"Hello","dataSourceId":1},{"id":"13","label":"test-report","name":"test-report","height":400,"engineType":"REPORT","description":"test-report","dataSourceId":1},{"id":"14","label":"test chart","name":"test chart","height":400,"engineType":"REPORT","description":"test chart","dataSourceId":1},{"id":"15","label":"Hot Topic","name":"Hot Topic","height":400,"engineType":"REPORT","description":"Hot Topic","dataSourceId":1},{"id":"18","label":"Report B month","name":"Statistik pendaftaran (bulan)","height":400,"engineType":"REPORT","description":"Statistik pendaftaran (bulan)","dataSourceId":1},{"id":"20","label":"tedt","name":"test","height":400,"engineType":"REPORT","description":"test","dataSourceId":1},{"id":"19","label":"test","name":"test","height":400,"engineType":"REPORT","description":"aaa","dataSourceId":1},{"id":"21","label":"report-c-1","name":"report-c-1","height":400,"engineType":"REPORT","description":"report-c-1","dataSourceId":1}]};
+    //this.listreport = {"widgets":[{"id":"12","label":"Hello","name":"Hello","height":400,"engineType":"REPORT","description":"Hello","dataSourceId":1},{"id":"13","label":"test-report","name":"test-report","height":400,"engineType":"REPORT","description":"test-report","dataSourceId":1},{"id":"14","label":"test chart","name":"test chart","height":400,"engineType":"REPORT","description":"test chart","dataSourceId":1},{"id":"15","label":"Hot Topic","name":"Hot Topic","height":400,"engineType":"REPORT","description":"Hot Topic","dataSourceId":1},{"id":"18","label":"Report B month","name":"Statistik pendaftaran (bulan)","height":400,"engineType":"REPORT","description":"Statistik pendaftaran (bulan)","dataSourceId":1},{"id":"20","label":"tedt","name":"test","height":400,"engineType":"REPORT","description":"test","dataSourceId":1},{"id":"19","label":"test","name":"test","height":400,"engineType":"REPORT","description":"aaa","dataSourceId":1},{"id":"21","label":"report-c-1","name":"report-c-1","height":400,"engineType":"REPORT","description":"report-c-1","dataSourceId":1}]};
   }
 
   getData() {
@@ -98,7 +98,7 @@ export class ViewreportComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(Rdata, (function () {
         
         console.log(Rdata);
-        
+        this.listreport = Rdata;
 
         this.checkReqValues();
       }).bind(this));
@@ -138,13 +138,32 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     }
   }
 
+  getViewReport(id){
+    let readUrl = this.appConfig.urlmibis+"mibis/widget/url/get/"+id+"/without-param";
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.commonservice.handleError);
+  }
+
   submit(formValues: any) {  
 
     console.log(formValues.report);
+    let rptId = formValues.report;
+    this.loading = true;
+    
+    return this.getViewReport(rptId).subscribe(
+    Rdata => {
 
-    let viewR = this.appConfig.urlmibis + "mibis/widget/url/get/"+formValues.report+"/without-param";
-    window.open(viewR);
-   
+      this.commonservice.errorHandling(Rdata, (function () {
+        
+        console.log(Rdata);
+
+        let viewR = this.Rdata;
+        window.open(viewR.url);
+
+      }).bind(this));
+      this.loading = false;
+    });
   }
-
 }
