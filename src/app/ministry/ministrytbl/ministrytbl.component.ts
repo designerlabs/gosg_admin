@@ -252,9 +252,10 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
         data => {
             this.commonservice.errorHandling(data, (function(){
             
-            txt = "Ministry deleted successfully!";
-            this.toastr.success(txt, '');   
+           // txt = "Ministry deleted successfully!";
+           // this.toastr.success(txt, '');   
             this.getMinistryData(this.pageCount, this.pageSize);
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this)); 
           this.loading = false;
         },
