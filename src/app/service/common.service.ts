@@ -598,6 +598,22 @@ getMediaByCateId(id){
     .catch(this.handleError);
   }
 
+  getlistReport(){
+    let readUrl = this.appConfig.urlmibis+"mibis/widget/list/REPORT";
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+
+  getViewReport(id){
+    let readUrl = this.appConfig.urlmibis+"mibis/widget/url/get/"+id+"/without-param";
+    return this.http.get(readUrl)
+      .map((response: Response) => response.json())
+      .retry(5)
+      .catch(this.handleError);
+  }
+
   // END NEW
 
   errorResponse(data){
