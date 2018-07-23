@@ -620,7 +620,7 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
       this.commonservice.update(formData, 'media').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Media Type Updated successfully!', '');
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['media/upload']);
           }).bind(this));
           this.loading = false;
@@ -745,7 +745,7 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
       this.commonservice.create(formData,'media').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Media Type Updated successfully!', '');
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['media/upload']);
           }).bind(this));
           this.loading = false;
