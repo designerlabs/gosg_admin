@@ -337,7 +337,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           let getHTML = resCatData.formattedHtml;
           let replaceString = getHTML.replace(/<p><br>/g,'')
           .replace(/<p>/g, '<p class="font-size-s">')
-          .replace(/<a/g, '<a class="font-size-s"')
+          .replace(/<a/g, '<a class="font-size-s" target="_blank"')
           .replace(/<section>/g, '<section class="font-size-s">')
           .replace(/<article>/g, '<article class="font-size-s">')
           .replace(/<div>/g, '<div class="font-size-s">')
@@ -373,7 +373,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           let getHTML = resCatData.formattedHtml;
           let replaceString = getHTML.replace(/<p><br>/g,'')
           .replace(/<p>/g, '<p class="font-size-s">')
-          .replace(/<a/g, '<a class="font-size-s"')
+          .replace(/<a/g, '<a class="font-size-s" target="_blank"')
           .replace(/<section>/g, '<section class="font-size-s">')
           .replace(/<article>/g, '<article class="font-size-s">')
           .replace(/<div>/g, '<div class="font-size-s">')
