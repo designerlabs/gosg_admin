@@ -742,6 +742,9 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
         formData.append('mediaFiles', file.files[0], file.files[0].name);
       }
       formData.append('strMedias', JSON.stringify(body));
+
+      console.log(formData);
+      
       this.commonservice.create(formData,'media').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
