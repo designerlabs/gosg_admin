@@ -245,7 +245,8 @@
       "failtodelete":"Harap maaf, Record is not deleted properly, Try again!",
       "failtoview":"Harap maaf, Record is not viewed properly, Try again!",
       "patternisnotvalid": "corak tidak sah",
-      "errreport": "Sila pilih laporan"
+      "errreport": "Sila pilih laporan",
+      "noAccess": "Anda tidak dibenarkan untuk mengakses laporan. Sila hubungi admin mibis."
     },
     "success":{
       "added": "Berjaya ditambah!",

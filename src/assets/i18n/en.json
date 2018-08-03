@@ -245,7 +245,8 @@
       "failtodelete":"Sorry, Record is not deleted properly, Try again!",
       "failtoview":"Sorry, Record is not viewed properly, Try again!",
       "patternisnotvalid": "pattern is not valid",
-      "errreport": "Please select report"
+      "errreport": "Please select report",
+      "noAccess": "You not authorise to access report. Please contact admin mibis."
     },
     "success":{
       "added": "Successfully added!",
