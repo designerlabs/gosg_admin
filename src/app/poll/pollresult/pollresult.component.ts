@@ -20,7 +20,7 @@ import { NavService } from '../../nav/nav.service';
 export class PollresultComponent implements OnInit, OnDestroy {
 
   recordList = null;
-  displayedColumns = ['num','question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+  displayedColumns = ['cb','num','question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -35,6 +35,7 @@ export class PollresultComponent implements OnInit, OnDestroy {
   public loading = false;
 
   recordTable = null;
+  multipleSel: any = [];
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -120,8 +121,6 @@ export class PollresultComponent implements OnInit, OnDestroy {
 
           this.recordList = data;
           
-          
-          
           this.dataSource.data = this.recordList.pollQuestionFormatList;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
@@ -135,6 +134,30 @@ export class PollresultComponent implements OnInit, OnDestroy {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
         
     });
+  }
+
+  clearSelection() {
+    this.multipleSel = [];
+    this.getRecordList(this.pageCount, this.pageSize);
+  }
+
+  deleteAll() {
+    let pollIds = this.multipleSel.join(',');
+
+    this.loading = true;
+      this.commonservice.delete('', `polls/question/delete/ref/${pollIds}`).subscribe(
+        data => {
+          this.commonservice.errorHandling(data, (function(){
+            this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
+          }).bind(this));  
+          this.loading = false;
+          this.getRecordList(this.pageCount, this.pageSize);
+        },
+        error => {
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          this.loading = false;  
+        });
+
   }
 
   paginatorL(page) {
@@ -160,6 +183,17 @@ export class PollresultComponent implements OnInit, OnDestroy {
     this.getRecordList(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
+  }
+
+  isChecked(e) {
+    // 
+    if(e.checked){
+      this.multipleSel.push(e.source.value)
+    } else{
+      let index = this.multipleSel.indexOf(e.source.value);
+      this.multipleSel.splice(index, 1);
+    }
+    return false;
   }
 
 }

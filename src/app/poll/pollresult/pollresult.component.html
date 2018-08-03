@@ -12,6 +12,21 @@
     
     <div *ngIf="commonservice.isRead"> 
         <div class="example-container mat-elevation-z8">
+            <div class="row">
+      
+                <div class="col-md-12 paddingTop-10 pdg_R_30px text-align-Right">
+                    <button mat-raised-button color="primary" [disabled]="!multipleSel.length > 0" matSuffix aria-label="Clear" (click)="clearSelection()"><i [ngClass]="commonservice.icon.undo"></i> {{'common.buttons.reset' | translate}}</button>
+                    &nbsp;
+                    <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>
+                    <app-confirm-dialog  #deleteAllModal 
+                    [title]="'fa fa-exclamation-triangle'" 
+                    [content]="'common.msg.deleteAll'"
+                    [state]="'bg_header bg_warn_header'"
+                    [isReset]="'true'"
+                    (resetMethod)="deleteAll()">
+                    </app-confirm-dialog>
+                </div>
+            </div>
     
             <!-- <div class="col-md-12 paddingTop-10">
                 <mat-form-field>
@@ -19,7 +34,17 @@
                 </mat-form-field>
             </div> -->
 
-            <mat-table #table [dataSource]="dataSource">     
+            <mat-table #table [dataSource]="dataSource">  
+  
+                <!-- CB Column -->
+                <ng-container matColumnDef="cb">
+                  <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef>&nbsp;
+                    <!-- <mat-checkbox class="example-margin" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"></mat-checkbox> -->
+                  </mat-header-cell>
+                  <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                    <mat-checkbox class="example-margin" [value]="element.pollRefNo" (change)="isChecked($event, element.pollRefNo);"></mat-checkbox>
+                  </mat-cell>
+                </ng-container>   
 
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
