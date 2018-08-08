@@ -138,7 +138,7 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
     this.recordList = null;
     // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
     this.loading = true;
-    this.commonservice.readProtected('polls/question', page, size, '', this.languageId)
+    this.commonservice.readProtected('polls/question/lists', page, size, '', this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

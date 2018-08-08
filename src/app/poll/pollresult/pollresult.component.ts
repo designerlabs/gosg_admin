@@ -20,7 +20,7 @@ import { NavService } from '../../nav/nav.service';
 export class PollresultComponent implements OnInit, OnDestroy {
 
   recordList = null;
-  displayedColumns = ['cb','num','question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5'];
+  displayedColumns = ['cb','num','question', 'opt1', 'opt2', 'opt3', 'opt4', 'opt5', 'del', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -114,7 +114,7 @@ export class PollresultComponent implements OnInit, OnDestroy {
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readProtected('polls/question', page, size, '', this.languageId)
+    this.commonservice.readProtected('polls/question/lists', page, size, '', this.languageId)
     .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -158,6 +158,24 @@ export class PollresultComponent implements OnInit, OnDestroy {
           this.loading = false;  
         });
 
+  }
+
+  deleteRow(refNo) {
+  
+    this.commonservice.delete('', 'polls/question/delete/ref/'+refNo).subscribe(
+      data => {
+        
+        this.commonservice.errorHandling(data, (function(){
+          
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
+          this.getRecordList(this.pageCount, this.pageSize);
+        }).bind(this)); 
+      },
+      error => {
+
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        
+    });    
   }
 
   paginatorL(page) {
