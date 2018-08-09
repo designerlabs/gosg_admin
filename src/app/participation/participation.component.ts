@@ -311,31 +311,32 @@ export class ParticipationComponent implements OnInit, OnDestroy {
           this.participantIdBm = dataBm.contentId;
           this.sendForApporval = dataEn.isSendForApproval;
 
-          let addClassforP = dataEn.contentText.replace('class="font-size-s">', '>');
-          let addClassforH1 = addClassforP.replace('class="font-size-xl">', '>');
-          let addClassforH2 = addClassforH1.replace('class="font-size-l">', '>');
-          let addClassforH3 = addClassforH2.replace('class="font-size-m">', '>');
-          let addClassforSpan = addClassforH3.replace('class="font-size-s">', '>');
-          let addClassforTable = addClassforSpan.replace('class="table">', '>');
+          let getContentTxtEN = dataEn.contentText;
+          let getContentTxtBM = dataBm.contentText;
+          let replaceTxtEN = getContentTxtEN.replace(/class=.font-size-s.>/g, '>')
+                                          .replace(/class=.font-size-xl.>/g, '>')
+                                          .replace(/class=.font-size-l.>/g, '>')
+                                          .replace(/class=.font-size-m.>/g, '>')
+                                          .replace(/class=.table.>/g, '>');
 
 
-          let addClassforP_BM = dataBm.contentText.replace('class="font-size-s">', '>');
-          let addClassforH1_BM = addClassforP_BM.replace('class="font-size-xl">', '>');
-          let addClassforH2_BM = addClassforH1_BM.replace('class="font-size-l">', '>');
-          let addClassforH3_BM = addClassforH2_BM.replace('class="font-size-m">', '>');
-          let addClassforSpan_BM = addClassforH3_BM.replace('class="font-size-s">', '>');
-          let addClassforTable_BM = addClassforSpan_BM.replace('class="table">', '>');
+          let replaceTxtBM = getContentTxtBM.replace(/class=.font-size-s.>/g, '>')
+                                            .replace(/class=.font-size-xl.>/g, '>')
+                                            .replace(/class=.font-size-l.>/g, '>')
+                                            .replace(/class=.font-size-m.>/g, '>')
+                                            .replace(/class=.table.>/g, '>');
 
-          this.rawValEn = addClassforTable;
-          this.rawValBm = addClassforTable_BM;
+          this.rawValEn = replaceTxtEN;
+          this.rawValBm = replaceTxtBM;
+
 
           //set value at input field
-          this.htmlContentEn.setValue(addClassforTable);
-          this.htmlContentMy.setValue(addClassforTable_BM);
+          this.htmlContentEn.setValue(replaceTxtEN);
+          this.htmlContentMy.setValue(replaceTxtBM);
 
           //set  value after preview
-          this.contentTxtEn = addClassforTable;
-          this.contentTxtMy = addClassforTable_BM;
+          this.contentTxtEn = replaceTxtEN;
+          this.contentTxtMy = replaceTxtBM;
 
           //get details agency
           let getObjKeys = Object.keys(dataEn);
@@ -381,14 +382,24 @@ export class ParticipationComponent implements OnInit, OnDestroy {
           config.width = '800px';
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
-          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
-          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
-          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
-          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
-          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
-          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
+          let getHTML = resCatData.formattedHtml;
+          let replaceString = getHTML.replace(/<p><br>/g,'')
+          .replace(/<p>/g, '<p class="font-size-s">')
+          .replace(/<a/g, '<a class="font-size-s" target="_blank"')
+          .replace(/<section>/g, '<section class="font-size-s">')
+          .replace(/<article>/g, '<article class="font-size-s">')
+          .replace(/<div>/g, '<div class="font-size-s">')
+          .replace(/<h1>/g, '<h1 class="font-size-xl">')
+          .replace(/<h2>/g, '<h2 class="font-size-l">')
+          .replace(/<h3>/g, '<h3 class="font-size-m">')
+          .replace(/<h4>/g, '<h4 class="font-size-m">')
+          .replace(/<h5>/g, '<h5 class="font-size-m">')
+          .replace(/<span>/g, '<span class="font-size-s">')
+          .replace(/<table>/g, '<div class="table-responsive"><table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list_number">')
+          .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
 
-          dialogRef.componentInstance.content = addClassforSpan;
+          dialogRef.componentInstance.content = replaceString;
           this.contentTxtEn = dialogRef.componentInstance.content;
           this.parseEnBtn = true;
       }).bind(this));
@@ -409,13 +420,25 @@ export class ParticipationComponent implements OnInit, OnDestroy {
           config.width = '800px';
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
-          let addClassforP = resCatData.formattedHtml.replace('<p>', '<p class="font-size-s">');
-          let addClassforH1 = addClassforP.replace('<h1>', '<h1 class="font-size-xl">');
-          let addClassforH2 = addClassforH1.replace('<h2>', '<h2 class="font-size-l">');
-          let addClassforH3 = addClassforH2.replace('<h3>', '<h3 class="font-size-m">');
-          let addClassforSpan = addClassforH3.replace('<span>', '<span class="font-size-s">');
-          let addClassforTable = addClassforSpan.replace('<table>', '<table class="table">');
-          dialogRef.componentInstance.content = addClassforSpan;
+          let getHTML = resCatData.formattedHtml;
+          let replaceString = getHTML.replace(/<p><br>/g,'')
+          .replace(/<p>/g, '<p class="font-size-s">')
+          .replace(/<a/g, '<a class="font-size-s" target="_blank"')
+          .replace(/<section>/g, '<section class="font-size-s">')
+          .replace(/<article>/g, '<article class="font-size-s">')
+          .replace(/<div>/g, '<div class="font-size-s">')
+          .replace(/<h1>/g, '<h1 class="font-size-xl">')
+          .replace(/<h2>/g, '<h2 class="font-size-l">')
+          .replace(/<h3>/g, '<h3 class="font-size-m">')
+          .replace(/<h4>/g, '<h4 class="font-size-m">')
+          .replace(/<h5>/g, '<h5 class="font-size-m">')
+          .replace(/<span>/g, '<span class="font-size-s">')
+          .replace(/<table>/g, '<div class="table-responsive"><table class="table">')
+          .replace(/<ol>/g, '<ol class="font-size-s custom_list_number">')
+          .replace(/<ul>/g, '<ul class="font-size-s custom_list">');
+
+
+          dialogRef.componentInstance.content = replaceString;
           this.parseMyBtn = true;
           this.contentTxtMy = dialogRef.componentInstance.content;
 
