@@ -861,9 +861,10 @@
     "mediatype": "Jenis Media",
     "mediaupload": "Muat Naik Media"
   },
-  "ministrytbl": {
+  "ministry": {
     "name": "Kementerian",
     "header": "Pengurusan Kementerian",
+    "uniquecode": "Kod Unik Kementerian",
     "tableHeader":{
       "nameEn": "Nama Kementerian (EN)",
       "nameBm": "Nama Kementerian (BM)"

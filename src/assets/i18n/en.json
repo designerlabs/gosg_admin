@@ -862,9 +862,10 @@
     "mediatype": "Media Type",
     "mediaupload": "Media Upload"
   },
-  "ministrytbl": {
+  "ministry": {
     "name": "Ministry",
     "header": "Ministry Management",
+    "uniquecode": "Ministry Unique Code",
     "tableHeader":{
       "nameEn": "Ministry Name (EN)",
       "nameBm": "Ministry Name (BM)"
