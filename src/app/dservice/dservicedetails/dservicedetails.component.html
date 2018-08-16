@@ -178,9 +178,13 @@
       </div>
 
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-6">
           <mat-checkbox tabindex="5" formControlName="active" [checked]="true"></mat-checkbox>
           <span class="">&nbsp;{{ 'common.buttons.active' | translate }}</span>
+        </div>
+        <div class="col-md-6">
+          <mat-checkbox tabindex="6" formControlName="common" [checked]="false"></mat-checkbox>
+          <span class="">&nbsp;{{ 'dservice.component.common' | translate }}</span>
         </div>
         <div class="col-md-12">&nbsp;</div>
       </div>

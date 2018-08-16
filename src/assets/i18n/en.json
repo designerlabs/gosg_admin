@@ -1164,7 +1164,8 @@
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
       "descEn": "Description (EN)",
-      "descBm": "Description (BM)"
+      "descBm": "Description (BM)",
+      "common": "Common"
     }
   },
   "dservicetype": {

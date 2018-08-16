@@ -1156,7 +1156,8 @@
     "tableHeader":{
       "header": "Perkhidmatan Digital",
       "titleEn": "Tajuk (EN)",
-      "titleBm": "Tajuk (BM)"
+      "titleBm": "Tajuk (BM)",
+      "common": "Common"
     },
     "tablebottom":{
       "services": "Perkhidmatan"
