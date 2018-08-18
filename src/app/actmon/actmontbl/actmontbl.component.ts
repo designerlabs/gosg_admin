@@ -10,13 +10,14 @@ import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
+import { DatePipe } from '../../../../node_modules/@angular/common';
 
 @Component({
-  selector: 'app-userdetailstbl',
-  templateUrl: './userdetailstbl.component.html',
-  styleUrls: ['./userdetailstbl.component.css']
+  selector: 'app-actmontbl',
+  templateUrl: './actmontbl.component.html',
+  styleUrls: ['./actmontbl.component.css']
 })
-export class UserdetailstblComponent implements OnInit, OnDestroy {
+export class ActmontblComponent implements OnInit, OnDestroy {
 
   filterTypeVal = 0;
   checkStatus: any;
@@ -25,7 +26,8 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   languageId: any;
   isActiveList: boolean;
   isActive: boolean;
-  searchUserResult: Object;
+  searchUserResult: string[];
+  searchAgencyResult: string[];
   closeUserBtn: boolean;
   addUserBtn: boolean;
   animateClass: string;
@@ -37,7 +39,9 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   seqPageSize = 0 ;
   userData: Object;
   userList = null;
+  agencyActivityList = null;
   displayedColumns: any;
+  displayedColumns1: any;
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -59,6 +63,8 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   recordTable = null;
   recordList = null;
 
+  value: String;
+
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
@@ -68,32 +74,46 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.userList);
+  dataSource1 = new MatTableDataSource<object>(this.agencyActivityList);
+  currentTab: any;
+  currentAgencyRefNo: any;
 
   applyFilter(val) {
-
+    
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
-    }
-    else{
-      this.getUsersData(this.pageCount, this.pageSize);
     }
 
   }
 
   resetSearch() {
-    this.getUsersData(this.pageCount, this.pageSize);
+    this.value='';
+    this.isActiveList = false;
+    this.userList = null;
+    this.agencyActivityList = null;
   }
 
   filterType(filterVal) {
-
     this.filterTypeVal = filterVal.value;
 
-    // keyword = ''
+    this.value='';
+    this.isActiveList = false;
+    this.userList = null;
+    this.agencyActivityList = null;
 
-    if(this.filterTypeVal == 1){
-      this.getUsersData(this.pageCount, this.pageSize);
-    }
+  }
 
+  agcFilterType(filterVal) {
+    this.filterTypeVal = filterVal.value;
+  }
+
+  onScroll(event, lngId){
+
+    if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
+
+        this.getFilterList(this.pageCount, this.searchUserResult.length+10, this.value,this.filterTypeVal);
+        
+      }
   }
 
   constructor(
@@ -105,6 +125,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private dialogsService: DialogsService,
     private navservice: NavService,
+    private datePipe:DatePipe
   ) {
 
     /* LANGUAGE FUNC */
@@ -126,7 +147,8 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
       }
       if (this.navservice.flagLang) {
 
-        this.getUsersData(this.pageCount, this.pageSize);
+        // this.getUsersData(this.pageCount, this.pageSize);
+        this.getAgenciesData(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
 
@@ -137,9 +159,6 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    // this.subscriptionContentCreator.unsubscribe();
-    // this.subscriptionCategoryC.unsubscribe();
-    // this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
@@ -152,7 +171,8 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
 
     this.isActiveList = false;
     this.isActive = true;
-    this.displayedColumns = ['no', 'username', 'email', 'activeFlag', 'action'];
+    this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
+    this.displayedColumns1 = ['no', 'svcname', 'name', 'status', 'date'];
     this.emailFld = new FormControl();
     this.addUserBtn = true;
     this.closeUserBtn = false;
@@ -163,7 +183,8 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
       icFld:this.icFld,
       userType: this.userType
     });
-    this.getUsersData(this.pageCount, this.pageSize);
+    // this.getUsersData(this.pageCount, this.pageSize);
+    this.getAgenciesData(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
@@ -187,6 +208,17 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     }
   }
 
+  tabAction(type) {
+    
+    // if(type == 0) {
+    //   this.agencyActivityList = null;
+    // } else if(type == 1) {
+    //   this.userList = null;
+    // }
+    this.currentTab = type;
+    // this.resetSearch();
+  }
+
   // get User Data
   getUsersData(page, size) {
     this.loading = true;
@@ -197,7 +229,6 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
 
         this.userList = data;
         if(this.userList.userList.length > 0){
-
           this.dataSource.data = this.userList.userList;
           this.seqPageNum = this.userList.pageNumber;
           this.seqPageSize = this.userList.pageSize;
@@ -241,27 +272,28 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
 
-
           if(this.recordList.userList.length > 0){
 
+            this.searchUserResult = this.recordList.userList;
 
+            // this.dataSource.data = this.recordList.userList;
+            // this.seqPageNum = this.recordList.pageNumber;
+            // this.seqPageSize = this.recordList.pageSize;
+            // this.recordTable = this.recordList;
+            // this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
 
-
-            this.dataSource.data = this.recordList.userList;
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-
+            this.isActiveList = true;
             this.showNoData = false;
           }else{
+            this.searchUserResult = [];
             this.dataSource.data = [];
             this.showNoData = true;
-
-            this.seqPageNum = this.recordList.pageNumber;
-            this.seqPageSize = this.recordList.pageSize;
-            this.recordTable = this.recordList;
-            this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+            
+            this.isActiveList = false;
+            // this.seqPageNum = this.recordList.pageNumber;
+            // this.seqPageSize = this.recordList.pageSize;
+            // this.recordTable = this.recordList;
+            // this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
         }).bind(this));
@@ -275,9 +307,146 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
       });
     }
   }
+  
+  getVal(idno){
+
+      this.isActiveList = false;
+      this.searchUserResult = [''];
+      this.getUsersDataByIDNO(idno, this.pageCount, this.pageSize) 
+  }
+
+  // get User Data by IDNO
+  getUsersDataByIDNO(id, page, size) {
+    this.loading = true;
+    // this.dataUrl = this.appConfig.urlUserList;
+    let idno = '&identificationNo='+id;
+
+    this.commonservice.readProtected('monitoring/userservice', page, size, '', this.languageId+idno).subscribe(data => {
+
+      this.commonservice.errorHandling(data, (function(){
+
+        this.userList = data;
+        if(this.userList.list.length > 0){
+
+          this.userList.list.forEach(el => {
+            el.receivedDate = this.changeDateFormat(el.receivedDate);
+          });
+          this.dataSource.data = this.userList.list;
+          this.seqPageNum = this.userList.pageNumber;
+          this.seqPageSize = this.userList.pageSize;
+          this.recordTable = this.userList;
+          this.noNextData = this.userList.pageNumber === this.userList.totalPages;
+
+          this.showNoData = false;
+        }else{
+          this.dataSource.data = [];
+          this.showNoData = true;
+        }
+
+      }).bind(this));
+
+      this.loading = false;
+
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
+    });
+  }
+
+  // get Agencies Data
+  getAgenciesData(page, size) {
+    this.loading = true;
+    // this.dataUrl = this.appConfig.urlUserList;
+    this.commonservice.readProtected('monitoring/agencylist', '', '', '', this.languageId).subscribe(data => {
+
+      this.commonservice.errorHandling(data, (function(){
+
+        this.agencyList = data['list'];
+        // if(this.agencyList.list.length > 0){
+
+          // this.dataSource.data = this.agencyList.list;
+          // this.seqPageNum = this.agencyList.pageNumber;
+          // this.seqPageSize = this.agencyList.pageSize;
+          // this.recordTable = this.agencyList;
+          // this.noNextData = this.agencyList.pageNumber === this.agencyList.totalPages;
+
+        //   this.showNoData = false;
+        // }else{
+        //   this.dataSource.data = [];
+        //   this.showNoData = true;
+        // }
+
+      }).bind(this));
+
+      this.loading = false;
+
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
+    });
+  }
+
+  // get Agencies Data By ID
+  getAgenciesDataByID(refCode?, page?, size?) {
+    this.loading = true;
+    let agencyCode;
+    this.currentAgencyRefNo = refCode;
+
+    if(refCode == 0)
+      agencyCode = '';
+    else
+      agencyCode = '&agencyCode='+refCode;
+    
+    this.commonservice.readProtected('monitoring/dservice', page, size, '', this.languageId+agencyCode).subscribe(data => {
+
+      this.commonservice.errorHandling(data, (function(){
+
+        this.agencyDserviceActivity = data;
+        this.agencyActivityList = this.agencyDserviceActivity.list;
+        if(this.agencyDserviceActivity.list.length > 0){
+
+          this.agencyDserviceActivity.list.forEach(el => {
+            el.receivedDate = this.changeDateFormat(el.receivedDate);
+          });
+
+          this.dataSource1.data = this.agencyDserviceActivity.list;
+          this.seqPageNum = this.agencyDserviceActivity.pageNumber;
+          this.seqPageSize = this.agencyDserviceActivity.pageSize;
+          this.recordTable = this.agencyDserviceActivity;
+          this.noNextData = this.agencyDserviceActivity.pageNumber === this.agencyDserviceActivity.totalPages;
+
+          this.showNoData = false;
+        }else{
+          this.dataSource1.data = [];
+          this.showNoData = true;
+        }
+
+      }).bind(this));
+
+      this.loading = false;
+
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
+    });
+  }
+
+  changeDateFormat(dateVal) {
+    let res;
+    res = this.datePipe.transform(new Date(dateVal*1000).getTime(), 'd/M/y h:mm a')
+
+    return res;
+  }
 
   paginatorL(page) {
-    this.getUsersData(this.pageCount, this.pageSize);
+    if(this.currentTab == 0)
+      this.getUsersData(this.pageCount, this.pageSize);
+    else
+      this.getAgenciesDataByID(this.currentAgencyRefNo, this.pageCount, this.pageSize);
+
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -287,41 +456,22 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getUsersData(page + 1, this.pageSize);
+    if(this.currentTab == 0)
+      this.getUsersData(page + 1, this.pageSize);
+    else
+      this.getAgenciesDataByID(this.currentAgencyRefNo, page + 1, this.pageSize);
   }
 
 
   pageChange(event, totalPages) {
-    this.getUsersData(this.pageCount, event.value);
+    // this.getUsersData(this.pageCount, event.value);
+    if(this.currentTab == 0)
+      this.getUsersData(this.pageCount, event.value);
+    else
+      this.getAgenciesDataByID(this.currentAgencyRefNo, this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
-
-  // resetMethod(event, msgId) {
-  //   this.isMailContainerShow = 'none';
-  //   this.deleteUser(msgId);
-  // }
-
-
-  // deleteUser(msgId){
-  //   this.loading = true;
-  //   this.commonservice.delete(msgId,'usermanagement').subscribe(
-  //     data => {
-
-  //       this.commonservice.errorHandling(data, (function(){
-
-  //         this.getUsersData(this.pageCount, this.pageSize);
-  //         this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-
-  //       }).bind(this));
-  //       this.loading = false;
-  //     },
-  //     error => {
-  //       this.toastr.error(JSON.parse(error._body).statusDesc, '');
-  //       this.loading = false;
-  //     });
-  // }
-
 
   closeUser(){
     this.addUserBtn = true;
@@ -335,7 +485,6 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     this.showUserInput = true;
     this.animateClass = "animated flipInX";
   }
-
 
   addUserDetails(){
 
@@ -366,7 +515,6 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     this.router.navigate(['userlist', row]);
   }
 
-
   changePageMode(isEdit) {
     if (isEdit == false) {
       this.pageMode = "Add";
@@ -392,8 +540,5 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
       this.addUserForm.get('icFld').setValue(val);
     }
   }
-
-
-
 
 }

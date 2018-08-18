@@ -1003,6 +1003,39 @@
       "select": "Pilih Status Akaun"
     }
   },
+  "actmon": {
+    "header": "Pemantauan Aktiviti",
+    "tableHeader":{
+      "fullname": "Nama Penuh",
+      "email": "Email",
+      "idno": "No Kad Pengenalan",
+      "subrefno": "No Rujukan Serahan",
+      "accstatus": "Status Akaun",
+      "svcname": "Nama Perkhidmatan",
+      "status": "Status",
+      "name": "Nama Agensi",
+      "datereceive": "Tarikh Terima"
+    },
+    "tablebottom":{
+      "users": "Pengguna",
+      "agencies": "Agensi"
+    },
+    "component": {
+      "userstatus": "Status Pengguna",
+      "users": "Pengguna",
+      "agencies": "Agensi",
+      "isstaff": "Is Staff?",
+      "dob": "Date of Birth",
+      "citizenship": "Citizenship",
+      "country": "Country",
+      "gender": "Gender",
+      "race": "Race",
+      "religion": "Religion",
+      "address": "Address",
+      "mobilenum": "Mobile Number",
+      "select": "Select Account Status"
+    }
+  },
   "mediatype": {
     "header": "Pengurusan Media",
     "tableHeader":{

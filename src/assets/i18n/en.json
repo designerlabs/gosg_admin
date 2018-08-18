@@ -1004,6 +1004,39 @@
       "select": "Select Account Status"
     }
   },
+  "actmon": {
+    "header": "Activity Monitoring",
+    "tableHeader":{
+      "fullname": "Fullname",
+      "idno": "Identification No",
+      "subrefno": "Submission Ref No",
+      "email": "Email",
+      "accstatus": "Account Status",
+      "svcname": "Service Name",
+      "status": "Status",
+      "agcname": "Agency Name",
+      "datereceive": "Receive Date"
+    },
+    "tablebottom":{
+      "users": "Users",
+      "agencies": "Agencies"
+    },
+    "component": {
+      "userstatus": "User Account Status",
+      "users": "Users",
+      "agencies": "Agencies",
+      "isstaff": "Is Staff?",
+      "dob": "Date of Birth",
+      "citizenship": "Citizenship",
+      "country": "Country",
+      "gender": "Gender",
+      "race": "Race",
+      "religion": "Religion",
+      "address": "Address",
+      "mobilenum": "Mobile Number",
+      "select": "Select Account Status"
+    }
+  },
   "mediatype": {
     "header": "Media Management",
     "tableHeader":{
