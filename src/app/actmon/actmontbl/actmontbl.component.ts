@@ -77,6 +77,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   dataSource1 = new MatTableDataSource<object>(this.agencyActivityList);
   currentTab: any;
   currentAgencyRefNo: any;
+  currentUserIDNO: any;
+  agcSelect: any;
+  usertype: any;
 
   applyFilter(val) {
     
@@ -89,17 +92,23 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   resetSearch() {
     this.value='';
     this.isActiveList = false;
+    this.usertype = null;
+    this.agcSelect = null;
     this.userList = null;
     this.agencyActivityList = null;
+    this.showNoData = false;
   }
 
   filterType(filterVal) {
     this.filterTypeVal = filterVal.value;
 
     this.value='';
+    this.value=null;
     this.isActiveList = false;
+    this.agcSelect = null;
     this.userList = null;
     this.agencyActivityList = null;
+    this.showNoData = false;
 
   }
 
@@ -216,7 +225,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     //   this.userList = null;
     // }
     this.currentTab = type;
-    // this.resetSearch();
+    this.resetSearch();
   }
 
   // get User Data
@@ -319,6 +328,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   getUsersDataByIDNO(id, page, size) {
     this.loading = true;
     // this.dataUrl = this.appConfig.urlUserList;
+    this.currentUserIDNO = id;
     let idno = '&identificationNo='+id;
 
     this.commonservice.readProtected('monitoring/userservice', page, size, '', this.languageId+idno).subscribe(data => {
@@ -340,6 +350,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
           this.showNoData = false;
         }else{
           this.dataSource.data = [];
+          this.userList = null;
           this.showNoData = true;
         }
 
@@ -420,6 +431,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
           this.showNoData = false;
         }else{
           this.dataSource1.data = [];
+          this.agencyDserviceActivity = null;
           this.showNoData = true;
         }
 
@@ -443,7 +455,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   paginatorL(page) {
     if(this.currentTab == 0)
-      this.getUsersData(this.pageCount, this.pageSize);
+      this.getUsersDataByIDNO(this.currentUserIDNO, this.pageCount, this.pageSize);
     else
       this.getAgenciesDataByID(this.currentAgencyRefNo, this.pageCount, this.pageSize);
 
@@ -457,7 +469,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
     if(this.currentTab == 0)
-      this.getUsersData(page + 1, this.pageSize);
+      this.getUsersDataByIDNO(this.currentUserIDNO, page + 1, this.pageSize);
     else
       this.getAgenciesDataByID(this.currentAgencyRefNo, page + 1, this.pageSize);
   }
@@ -466,7 +478,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   pageChange(event, totalPages) {
     // this.getUsersData(this.pageCount, event.value);
     if(this.currentTab == 0)
-      this.getUsersData(this.pageCount, event.value);
+      this.getUsersDataByIDNO(this.currentUserIDNO, this.pageCount, event.value);
     else
       this.getAgenciesDataByID(this.currentAgencyRefNo, this.pageCount, event.value);
     this.pageSize = event.value;

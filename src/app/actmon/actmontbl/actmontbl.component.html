@@ -9,13 +9,14 @@
     {{'common.msg.unauthorized' | translate}}
   </div>
   <div *ngIf="commonservice.isRead">
+    <div class="example-container mat-elevation-z8 col-md-12">
     <mat-tab-group (selectedIndexChange)="tabAction($event)">
       <!-- USERS -->
       <mat-tab label="{{ 'actmon.component.users' | translate }}">
         <!-- <div class="example-container mat-elevation-z8 mat-tbl"> -->
         <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
           <mat-form-field class="example-full-width">
-            <mat-select placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="filterType($event)">
+            <mat-select [(ngModel)]="usertype" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="filterType($event)">
               <!-- <mat-option [value]="1">{{ 'common.filterby.all' | translate }}</mat-option> -->
               <mat-option [value]="2">{{ 'common.filterby.email' | translate }}</mat-option>
               <mat-option [value]="3">{{ 'common.filterby.icno' | translate }}</mat-option>
@@ -97,7 +98,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+        <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
 
 
         <!-- </div> -->
@@ -107,7 +108,7 @@
 
         <div class="col-md-6 paddingTop-10">
           <mat-form-field class="example-full-width">
-            <mat-select placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="agcFilterType($event)">
+            <mat-select [(ngModel)]="agcSelect" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="agcFilterType($event)">
               <mat-option [value]="0" (click)="getAgenciesDataByID(0,1,10)">{{ 'common.filterby.all' | translate }}</mat-option>
               <mat-option *ngFor="let agc of agencyList" [value]="agc.agencyCode" title="{{ agc.agencyName }}" (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option>
             </mat-select>
@@ -127,15 +128,15 @@
 
           <!-- svcname Column -->
           <ng-container matColumnDef="svcname">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
             <!--  style="flex: 0 0 40%;" -->
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;"> {{element.serviceName}} </mat-cell>
+            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.serviceName}} </mat-cell>
           </ng-container>
 
           <!-- name Column -->
           <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;">{{ 'actmon.tableHeader.agcname' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" style="flex: 0 30%;">
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;">{{ 'actmon.tableHeader.agcname' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let element" style="flex: 0 35%;">
               {{ element.agencyName }}
             </mat-cell>
           </ng-container>
@@ -157,9 +158,10 @@
           <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
         </mat-table>
-        <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+        <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
       </mat-tab>
     </mat-tab-group>
+    </div>
 
     <div *ngIf="userList || agencyActivityList" class="float-right paddingTop-15">
       <mat-form-field class="table_footer_pagecount">
