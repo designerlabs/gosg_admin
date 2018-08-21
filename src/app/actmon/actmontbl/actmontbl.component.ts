@@ -261,6 +261,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     });
   }
 
+  // list user mgmt
   getFilterList(page, size, keyword, filterVal) {
 
     this.recordList = null;
@@ -317,8 +318,13 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     }
   }
   
-  getVal(idno){
-
+  // onClick
+  getVal(idno, email){
+      if(this.usertype == 2){
+        this.value = email;
+      } else {
+        this.value = idno;
+      }
       this.isActiveList = false;
       this.searchUserResult = [''];
       this.getUsersDataByIDNO(idno, this.pageCount, this.pageSize) 

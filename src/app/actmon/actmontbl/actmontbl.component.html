@@ -36,7 +36,7 @@
             (scroll)="onScroll($event,1)">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of searchUserResult">
-                <a class="list-link" (click)="getVal(data?.identificationNo)">
+                <a class="list-link" (click)="getVal(data?.identificationNo,data?.email)">
                   <h4>{{data?.fullName}}</h4>
                   <p>{{data?.identificationNo}}</p>
                   <p>{{data?.email}}</p>
