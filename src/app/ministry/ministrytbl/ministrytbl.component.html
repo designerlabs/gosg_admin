@@ -1,5 +1,5 @@
 <div class="container right-content">
-    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    
   <!-- <div class="col-md-12">
     <h2 class="staticLabel"></h2>
     <span class="pull-right editBtn">
@@ -11,7 +11,7 @@
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-        <h3>{{ 'ministrytbl.header' | translate }}</h3>
+        <h3>{{ 'ministry.header' | translate }}</h3>
     </div>
     
     <div class="col-md-2 curdHeadingRight">
@@ -53,13 +53,13 @@
 
       <!-- ministryNameEn Column -->
       <ng-container matColumnDef="ministryNameEn">
-        <mat-header-cell *matHeaderCellDef> {{ 'ministrytbl.tableHeader.nameEn' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'ministry.tableHeader.nameEn' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.list[0].ministryName}} </mat-cell>
       </ng-container>
 
       <!-- ministryNameBm Column -->
       <ng-container matColumnDef="ministryNameBm">
-        <mat-header-cell *matHeaderCellDef > {{ 'ministrytbl.tableHeader.nameBm' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > {{ 'ministry.tableHeader.nameBm' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" > {{element.list[1].ministryName}} </mat-cell>
       </ng-container>
 

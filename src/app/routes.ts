@@ -125,6 +125,8 @@ import { StatetblComponent } from './referencecode/state/statetbl/statetbl.compo
 import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
 import { CitytblComponent } from './referencecode/city/citytbl/citytbl.component';
 import { ViewreportComponent } from './viewreport/viewreport.component';
+import { ActmonComponent } from './actmon/actmon.component';
+import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
 
 export const appRoutes: Routes = [
 {path: 'index', component: RightcontentComponent},
@@ -334,6 +336,7 @@ export const appRoutes: Routes = [
 
 {path: 'report',component: ViewreportComponent},
 
+{path: 'actmon',component: ActmontblComponent},
 
 {path: '**', component: ErrorComponent}, // put at the last row
 // All Category

@@ -153,6 +153,9 @@ import { StatetblComponent } from './referencecode/state/statetbl/statetbl.compo
 import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
 import { CitytblComponent } from './referencecode/city/citytbl/citytbl.component';
 import { ViewreportComponent } from './viewreport/viewreport.component';
+import { ActmonComponent } from './actmon/actmon.component';
+import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
+import { DatePipe } from '../../node_modules/@angular/common';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -283,6 +286,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     CountrytblComponent,
     CitytblComponent,
     ViewreportComponent,
+    ActmonComponent,
+    ActmontblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
@@ -326,7 +331,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, NavService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, DatePipe, NavService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -163,6 +163,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
       icFld:this.icFld,
       userType: this.userType
     });
+    this.getUsersData(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
 
