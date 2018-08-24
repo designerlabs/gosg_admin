@@ -26,7 +26,7 @@
   <div *ngIf="!commonservice.isRead" class="alert alert-danger">
       {{'common.msg.unauthorized' | translate}}
   </div>
-          
+
   <div *ngIf="commonservice.isRead">
       <div class="example-container mat-elevation-z8">
           <div class="col-md-12 paddingTop-10">
@@ -56,7 +56,7 @@
               <ng-container matColumnDef="content">
                   <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.content' | translate }} </mat-header-cell>
                   <mat-cell class="text-align-left" *matCellDef="let element">
-                      {{element.content | truncate : [30, '...']}}
+                      {{element?.content | truncate : [30, '...']}}
                   </mat-cell>
               </ng-container>
 
@@ -70,7 +70,7 @@
               <ng-container matColumnDef="to">
                 <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.to' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" *matCellDef="let element">
-                  {{element.placeholder | truncate : [20, '...']}}
+                  {{element?.placeholder | truncate : [20, '...']}}
                 </mat-cell>
               </ng-container>
 
@@ -94,7 +94,7 @@
               <ng-container matColumnDef="action">
                   <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                   <mat-cell class="actionColumn" *matCellDef="let element">
-                      <button mat-mini-fab class="bg_orange" (click)="updateRow(element.inboxId)">                           
+                      <button mat-mini-fab class="bg_orange" (click)="updateRow(element.inboxId)">
                           <!-- <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.inboxId }}"></i> -->
                           <i [ngClass]="commonservice.icon.view" title="View {{ element.inboxId }}"></i>
                       </button>
@@ -102,8 +102,8 @@
                       <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()" >
                           <i [ngClass]="commonservice.icon.trash" title="Delete {{element.inboxId}}"></i>
                       </button>
-                      <app-confirm-dialog #deleteModal 
-                      [title]="'fa fa-exclamation-triangle'" 
+                      <app-confirm-dialog #deleteModal
+                      [title]="'fa fa-exclamation-triangle'"
                       [content]="'common.msg.delete'"
                       [state]="'bg_header bg_warn_header'"
                           [isReset]="'true'" (resetMethod)="deleteRow(element.inboxId)">
