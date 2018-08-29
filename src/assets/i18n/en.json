@@ -543,7 +543,7 @@
       "parent": "Parent",
       "ismainmenu": "is Main Menu",
       "subscription":"allow for subscription",
-      "deleted":"not allow to delete",
+      "deleted":"allow to delete",
       "rss":"is RSS Feeder",
       "media": "is Media"
 
