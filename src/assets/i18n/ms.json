@@ -543,7 +543,7 @@
       "parent": "Induk",
       "ismainmenu": "adalah Menu Utama",
       "subscription":"benarkan untuk langganan",
-      "deleted":"dibenarkan padam",
+      "deleted":"tidak dibenarkan padam",
       "rss":"adalah Suapan RSS",
       "media": "adalah Media"
     }
