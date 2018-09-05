@@ -440,10 +440,15 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
   }
 
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {    
+
+    
     let mFileSize = this.chkUploadFile.maxSize;
     
     let fileExtn = selectedFiles.files[0].name.split('.')[1];
     let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn.toLowerCase());
+    // console.log(selectedFiles);
+    // console.log(fileExtn);
+
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {        
         if (selectedFiles.files[0].size <= mFileSize) {
