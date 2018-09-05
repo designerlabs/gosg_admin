@@ -1070,9 +1070,9 @@
   },
   "grouping": {
     "management": {
-      "header": "Pengurusan Pengumpulan",
-      "name": "Nama Pengumpulan",
-      "description": "Keterangan Pengumpulan"
+      "header": "Pengurusan Kumpulan",
+      "name": "Nama Kumpulan",
+      "description": "Keterangan Kumpulan"
     }
   },
   "calendar": {

@@ -54,6 +54,25 @@ export class GroupsComponent implements OnInit {
               this.commonservice.getModuleId();
               //this.getUsersData(this.pageCount, this.pageSize);
             }
+
+            if(this.route.snapshot.params.id){
+
+              if(this.languageId == 1){
+                this.statusTitle = "Update";
+              }
+              else{
+                this.statusTitle = "Kemaskini";
+              }
+            }
+
+            else{
+              if(this.languageId == 1){
+                this.statusTitle = "Add";
+              }
+              else{
+                this.statusTitle = "Tambah";
+              }
+            }
           }.bind(this));
         })
       });
@@ -96,7 +115,14 @@ export class GroupsComponent implements OnInit {
 
   getModuleData() {
     if(this.route.snapshot.params.id){
-    this.statusTitle = "Update";
+
+      if(this.languageId == 1){
+        this.statusTitle = "Update";
+      }
+      else{
+        this.statusTitle = "Kemaskini";
+      }
+
     this.isUpdate = true;
     this.loading = true;
     this.commonservice.getModuleList( this.route.snapshot.params.id).subscribe(
@@ -116,7 +142,12 @@ export class GroupsComponent implements OnInit {
         this.loading = false;
       });
     }else{
-      this.statusTitle = "Add";
+      if(this.languageId == 1){
+        this.statusTitle = "Add";
+      }
+      else{
+        this.statusTitle = "Tambah";
+      }
       this.isUpdate = false;
       this.loading = true;
       this.commonservice.getModuleListAll().subscribe(
