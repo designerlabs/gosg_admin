@@ -1,12 +1,12 @@
 <div class="container right-content">
-  
+
   <div class="curdHeader">
     <div class="col-md-4 curdHeadingLeft">
         <h3>{{ 'module.adminManagement' | translate }}</h3>
     </div>
 
 
-    <div class="col-md-6 curdHeadingRight">
+    <div class="col-md-7 curdHeadingRight">
       <form [ngClass]="animateClass" style="display: inline-table;" [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="showUserInput" >
           <table class="example-full-width" cellspacing="0"><tr>
             <td style="width:25%">
@@ -52,7 +52,7 @@
               </li>
             </ul>
           </div>
-          
+
           <div *ngIf="userType.value == 1">
             <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
               <li class="list-group-item" *ngFor="let data of (searchUserResult?.length > 5 ? searchUserResult.slice(0,5):  searchUserResult)">
@@ -75,7 +75,7 @@
         </div>
       </form>
   </div>
-  <div class="col-md-2 curdHeadingRight" *ngIf="commonservice.isWrite">
+  <div class="col-md-1 curdHeadingRight" *ngIf="commonservice.isWrite">
       <span class="pull-right">
           <button *ngIf="addUserBtn" type="button" mat-fab color="warn" (click)="addUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
             <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
@@ -83,16 +83,16 @@
           <button *ngIf="closeUserBtn" type="button" mat-fab color="default" (click)="closeUser()" [ngClass]="{ 'addUser-active': isActive, 'addUser': !isActive  }">
             <i [ngClass]="commonservice.icon.times" class="font-size-m"></i></button>
       </span>
-  </div> 
+  </div>
 </div>
   <div *ngIf="!commonservice.isRead" class="alert alert-danger">
     {{'common.msg.unauthorized' | translate}}
   </div>
 <div *ngIf="commonservice.isRead">
     <div class="example-container mat-elevation-z8">
-  
+
       <mat-table #table [dataSource]="dataSource">
-  
+
           <!-- No Column -->
         <ng-container matColumnDef="no">
           <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'table.no' | translate }} </mat-header-cell>
@@ -100,22 +100,22 @@
             {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
           </mat-cell>
         </ng-container>
-  
+
         <!-- slideTitle Column -->
         <ng-container matColumnDef="username">
           <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;"> {{ 'table.username' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 20%;"> {{element.username | truncate:[30, '...']}} </mat-cell>
         </ng-container>
-  
+
         <ng-container matColumnDef="icno">
           <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'table.icno' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;"> {{element.icNo}} </mat-cell>
         </ng-container>
-  
+
         <!-- slideDescription Column -->
         <ng-container matColumnDef="moduleGroupName">
           <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;"> {{ 'table.moduleGroupName' | translate }} </mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex: 0 0 35%;" > 
+          <mat-cell *matCellDef="let element" style="flex: 0 0 35%;" >
             <span class="tag-style" *ngFor="let ele of (element.items.length > 3 ? element.items.slice(0,3):  element.items)">
                 {{ele.moduleGroupName | truncate:[12, '...']}}
             </span>
@@ -123,12 +123,12 @@
                 +{{element.items.length - 3}}
             </span>
               <!-- <mat-chip-list >
-                  <mat-chip color="primary" selected="true" *ngFor="let ele of (element.items.length > 3 ? element.items.slice(0,3):  element.items)">{{ele.moduleGroupName | truncate:[12, '...']}}</mat-chip> 
-                  <mat-chip color="default" *ngIf="element.items.length > 3">+{{element.items.length - 3}}</mat-chip> 
+                  <mat-chip color="primary" selected="true" *ngFor="let ele of (element.items.length > 3 ? element.items.slice(0,3):  element.items)">{{ele.moduleGroupName | truncate:[12, '...']}}</mat-chip>
+                  <mat-chip color="default" *ngIf="element.items.length > 3">+{{element.items.length - 3}}</mat-chip>
               </mat-chip-list>  -->
           </mat-cell>
         </ng-container>
-        
+
         <ng-container matColumnDef="superAdminStatus">
           <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'table.isSuperAdmin' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
@@ -138,7 +138,7 @@
           </mat-cell>
         </ng-container>
 
-        <!-- slideActiveFlag Column 
+        <!-- slideActiveFlag Column
         <ng-container matColumnDef="activeFlag">
           <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'table.activeFlag' | translate }}</mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
@@ -146,8 +146,8 @@
           </mat-cell>
         </ng-container>
       -->
-       
-  
+
+
         <!-- Action Column -->
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'table.action' | translate }} </mat-header-cell>
@@ -159,8 +159,8 @@
               <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()" title="Delete">
                   <i [ngClass]="commonservice.icon.trash"  title="Delete"></i>
               </button>
-              <app-confirm-dialog  #deleteModal 
-              [title]="'fa fa-exclamation-triangle'" 
+              <app-confirm-dialog  #deleteModal
+              [title]="'fa fa-exclamation-triangle'"
               [content]="'common.msg.delete'"
               [state]="'bg_header bg_warn_header'"
                 [isReset]="'true'"
@@ -168,15 +168,15 @@
               </app-confirm-dialog>
           </mat-cell>
         </ng-container>
-  
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-  
+
       <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
-  
+
     </div>
-    
+
     <div class="float-right paddingTop-15">
       <mat-form-field class="table_footer_pagecount">
         <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
@@ -206,9 +206,9 @@
 
 
 
-<!-- 
-<app-confirm-dialog  #deleteModal 
-  [title]="'common.icon.warn'" 
+<!--
+<app-confirm-dialog  #deleteModal
+  [title]="'common.icon.warn'"
   [content]="'common.msg.delete'"
   [state]="'common.state.warn'"
   [isReset]="'true'"
