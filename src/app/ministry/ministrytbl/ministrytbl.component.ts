@@ -46,6 +46,8 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
 
   recordTable = null;
   recordList = null;
+
+  kword: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -55,10 +57,9 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
   private subscriptionLang: ISubscription;
 
   applyFilter(val) {   
-
-    
     
     if(val){
+      this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val);
     }
     else{
@@ -68,6 +69,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
   }
 
@@ -171,6 +173,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
     this.recordList = null;
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
 
       this.loading = true;
       this.commonservice.readPortal('ministry',page, size, keyword, this.languageId).subscribe(data => {
@@ -213,7 +216,11 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
+
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -223,7 +230,10 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getMinistryData(page + 1, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getMinistryData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
