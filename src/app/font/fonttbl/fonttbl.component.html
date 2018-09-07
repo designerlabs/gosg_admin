@@ -76,11 +76,11 @@
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" (click)="updateRow(element.fontId)">
-                        <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.fontId }}"></i>
+                        <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="Update {{ element.fontId }}"></i>
                         <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fontId }}"></i>
                         &nbsp; --></button>
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-                        <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.fontId}}"></i></button>
+                        <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}" title="Delete {{ element.fontId}}"></i></button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"

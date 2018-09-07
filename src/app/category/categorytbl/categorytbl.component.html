@@ -78,14 +78,14 @@
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
-                            <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update"></i>
-                            <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view"></i></button>
+                            <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}"></i>
+                            <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i></button>
                         &nbsp;
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isDeleted == false" (click)="deleteModal.show()">
-                            <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode}}" ></i></button>
+                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}" title="Delete {{ element.refCode}}" ></i></button>
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isDeleted == true" 
                         [disabled]="element.list[0].isDeleted == true">
-                            <i [ngClass]="commonservice.icon.trash"></i></button>
+                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"

@@ -73,7 +73,7 @@
           <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="actionColumn">
               <button mat-mini-fab class="bg_orange" (click)="updateRow(element.id)" title="View {{ element.id }}">
-                <i *ngIf="commonservice.isRead" [ngClass]="commonservice.icon.view" title="View {{ element.id }}" ></i>
+                <i *ngIf="commonservice.isRead" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" title="View {{ element.id }}" ></i>
               </button>
           </mat-cell>
         </ng-container>

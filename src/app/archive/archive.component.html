@@ -184,7 +184,7 @@
       <i class="fa fa-undo"></i>&nbsp;{{ 'common.buttons.revert' | translate }}</button>
       <button mat-raised-button color="warn" type="button" tabindex="23" id="btnreset" class="btn btn-md btn-warning pull-right"
         (click)="deleteModal.show()">
-        <i [ngClass]="commonservice.icon.trash"></i>&nbsp;{{ 'common.buttons.delete' | translate }}</button>
+        <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>&nbsp;{{ 'common.buttons.delete' | translate }}</button>
       <div class="col-md-12">&nbsp;</div>
   </div>
   <app-confirm-dialog #deleteModal 

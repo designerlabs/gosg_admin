@@ -85,7 +85,7 @@
           <div class="col-md-3 paddingTop-15 pdg_R_30px">
             <button [disabled]="!selectedItem.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()" 
               class="pull-right mgn_L_5px" style="min-width: 5px;" title="{{'common.buttons.delete' | translate}}">
-              <i [ngClass]="commonservice.icon.trash"></i> 
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i> 
               <span class="largeScreen">{{'common.buttons.delete' | translate}}</span></button>
             <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" 
               class="pull-right" style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
@@ -168,27 +168,27 @@
           <mat-cell *matCellDef="let element" class="actionColumn">
               <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
                 <i *ngIf="commonservice.isUpdate && element.list[0].isSendForApproval == false" 
-                  [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }} {{ element.refCode }}" ></i>
+                  [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="{{ 'common.title.update' | translate }} {{ element.refCode }}" ></i>
                 <i *ngIf="!commonservice.isUpdate || element.list[0].isSendForApproval == true" 
-                  [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }} {{ element.refCode }}" ></i>
+                  [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" ></i>
               </button>
               &nbsp;
               <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isSendForApproval == false" 
               (click)="deleteRow.show()" title="{{ 'common.title.delete' | translate }} {{ element.refCode }}">
-                <i [ngClass]="commonservice.icon.trash"></i>
+                <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
               </button>
               <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete  && element.list[0].isSendForApproval == true" 
               [disabled]="element.list[0].isSendForApproval == true">
-                <i [ngClass]="commonservice.icon.trash"></i>
+                <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
               </button>&nbsp;
 
               <button mat-mini-fab class="bg_blue" *ngIf="languageId == 1" 
-                  (click)="detailHistory(element.list[0]?.contentId)" title="{{ 'common.title.history' | translate }} {{ element.list[0]?.contentId }}">
-                  <i [ngClass]="commonservice.icon.history"></i>
+                  (click)="detailHistory(element.list[0]?.contentId)" title="{{ 'common.title.history' | translate }}">
+                  <i [ngClass]="commonservice.icon.history" title="{{ 'common.title.history' | translate }}"></i>
               </button>
               <button mat-mini-fab class="bg_blue" *ngIf="languageId == 2" 
-                  (click)="detailHistory(element.list[1]?.contentId)" title="{{ 'common.title.history' | translate }} {{ element.list[1]?.contentId }}">
-                  <i [ngClass]="commonservice.icon.history"></i>
+                  (click)="detailHistory(element.list[1]?.contentId)" title="{{ 'common.title.history' | translate }}">
+                  <i [ngClass]="commonservice.icon.history" title="{{ 'common.title.history' | translate }}"></i>
               </button>
               
               <app-confirm-dialog  #deleteRow 

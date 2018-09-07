@@ -83,7 +83,7 @@
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.feedbackId)">
-                            <i *ngIf="commonservice.isRead" [ngClass]="commonservice.icon.view" title="View {{ element.feedbackId }}"></i></button>
+                            <i *ngIf="commonservice.isRead" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" title="View {{ element.feedbackId }}"></i></button>
                         <!-- &nbsp;
                         <button mat-mini-fab style="background: red" (click)="deleteRow(element.feedbackTypeId)"> 
                         <i class="fa fa-trash" title="Delete {{ element.feedbackTypeCode }}"></i></button> -->

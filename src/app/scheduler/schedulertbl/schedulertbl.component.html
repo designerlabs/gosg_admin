@@ -58,12 +58,12 @@
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" (click)="updateRow(element.scheduleId)" title="Update {{ element.scheduleId }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.scheduleId }}" ></i>
-              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.scheduleId }}" ></i>
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="Update {{ element.scheduleId }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" title="View {{ element.scheduleId }}" ></i>
             </button>
             <!-- &nbsp;
             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()">
-              <i [ngClass]="commonservice.icon.trash"></i>
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
             </button>
             <app-confirm-dialog  #deleteRow 
             [title]="'common.icon.warn'" 

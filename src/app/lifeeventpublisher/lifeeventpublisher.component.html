@@ -256,7 +256,7 @@
       <div class="example-header">
         <div class="col-md-12">
           <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
-          class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view"></i></button>
+          class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i></button>
         </div>
       </div>
 
@@ -274,7 +274,7 @@
       <div class="example-header">
         <div class="col-md-12">
           <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
-          class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view"></i></button>
+          class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i></button>
         </div>
       </div><br>
 
@@ -331,7 +331,7 @@
             <td class="pdg_L_15px pdg_R_15px" item-width="15%">{{a[1].agencyName}}</td>
             <td class="pdg_L_15px pdg_R_15px" item-width="26%" style="word-wrap: break-word;">{{a[1].agencyUrl}}</td>
             <td class="pdg_L_15px pdg_R_15px" item-width="10%"><button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(a[0].agencyCode)">
-              <i [ngClass]="commonservice.icon.trash"></i></button></td>
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button></td>
           </tr>
         </table>  -->
 
@@ -374,7 +374,7 @@
             <mat-header-cell class="text-align-Left statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
             <mat-cell class="text-align-Left statusColumn" *matCellDef="let element">
               <button  mat-mini-fab class="bg_red tiny" (click)="deleteApp(element[0].agencyCode)" [disabled]="disableApprove">
-                <i [ngClass]="commonservice.icon.trash"></i></button>
+                <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
             </mat-cell>
           </ng-container>
 
