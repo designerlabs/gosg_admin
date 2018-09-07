@@ -371,7 +371,9 @@
       "delete": "Padam",
       "update": "Kemaskini",
       "archive": "Arkib",
-      "history": "Sejarah"
+      "history": "Sejarah",
+      "preview": "Previu",
+      "lblpreview": "Sila klik 'Previu' sebelum hantar"
     },
     "mdecstatus": "Status MDEC",
     "agency": "Agensi",

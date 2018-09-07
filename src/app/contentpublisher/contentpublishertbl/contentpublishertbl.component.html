@@ -259,7 +259,7 @@
                             <!-- <i *ngIf="commonservice.isUpdate" 
                                 [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="{{ 'common.title.update' | translate }} {{ element.refCode }}" ></i> -->
                             <i *ngIf="commonservice.isUpdate && element.list[0].isApprovedFlag == false" 
-                                [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="{{ 'common.title.update' | translate }} {{ element.refCode }}" ></i>
+                                [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="{{ 'common.title.update' | translate }}" ></i>
                             <i *ngIf="!commonservice.isUpdate || element.list[0].isApprovedFlag == true" 
                                 [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" ></i>
                         </button>

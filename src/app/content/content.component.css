@@ -75,3 +75,12 @@
     color: #fff;
     cursor: pointer;
 }
+
+.fontRed{
+    color: red;
+    padding-top: 10px;
+}
+
+.paddingR0{
+        padding-right: 0px;
+}

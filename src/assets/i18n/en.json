@@ -371,7 +371,9 @@
       "delete": "Delete",
       "update": "Update",
       "archive": "Archive",
-      "history": "History"
+      "history": "History",
+      "preview": "Preview",
+      "lblpreview": "Please click 'Preview' before submit"
     },
     "mdecstatus": "MDEC Status",
     "agency": "Agency",

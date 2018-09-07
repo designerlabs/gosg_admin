@@ -100,6 +100,8 @@ export class GallerypublishertblComponent implements OnInit, OnDestroy {
     this.getGalleryData(this.pageCount, this.galleryPageSize);
     this.updateForm.get('kataKunci').setValue(null); 
     this.valkey = false;
+
+    this.keywordVal = '';
   }
 
   filterStatus(e){
@@ -459,11 +461,6 @@ export class GallerypublishertblComponent implements OnInit, OnDestroy {
       this.getGalleryData(this.pageCount, this.galleryPageSize);
     }
 
-    
-    
-    
-    
-    
   }
 
   clearDate() {
@@ -479,21 +476,45 @@ export class GallerypublishertblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getGalleryData(this.pageCount, this.galleryPageSize);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListGP(page - 1, this.galleryPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getGalleryData(page - 1, this.galleryPageSize);
+    }
+
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
+    
     // this.noNextData = pageInc === totalPages;
-    this.getGalleryData(page + 1, this.galleryPageSize);
+    if(this.keywordVal){
+      this.getFilterListGP(page + 1, this.galleryPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getGalleryData(page + 1, this.galleryPageSize);
+    }
   }
 
   pageChange(event, totalPages) {
-    this.getGalleryData(this.pageCount, event.value);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+    if(this.keywordVal){
+      this.getFilterListGP(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getGalleryData(this.pageCount, event.value);
+    }
     this.galleryPageSize = event.value;
     this.noPrevData = true;
   }

@@ -242,7 +242,7 @@
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
                             <i *ngIf="commonservice.isUpdate && element.list[0].isSendForApproval == false" 
-                                [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="{{ 'common.title.update' | translate }} {{ element.refCode }}" ></i>
+                                [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="{{ 'common.title.update' | translate }}" ></i>
                             <i *ngIf="!commonservice.isUpdate || element.list[0].isSendForApproval == true" 
                                 [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" ></i>
                         </button>

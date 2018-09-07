@@ -195,8 +195,12 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
-              class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i></button>
+              <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>   
+              <div class="col-md-2 paddingR0">
+                <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
+                class="btn btn-md pull-right" (click)="previewEn()" >
+                <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i> {{ 'common.title.preview' | translate }}</button>
+              </div>
             </div>
           </div>
 
@@ -213,8 +217,12 @@
 
           <div class="row">
             <div class="col-md-12">
-              <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
-              class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i></button>
+              <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>   
+              <div class="col-md-2 paddingR0">
+                <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
+                class="btn btn-md pull-right" (click)="previewMy()" >
+                <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i> {{ 'common.title.preview' | translate }}</button>
+              </div>
             </div>
           </div><br>
 
