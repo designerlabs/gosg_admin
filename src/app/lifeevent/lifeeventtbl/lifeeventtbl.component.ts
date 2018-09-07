@@ -111,6 +111,8 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryCodeLE(this.languageId);
+
+    this.keywordVal = '';
   }
 
   filterStatus(e){
@@ -179,7 +181,6 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
 
-
     this.getCategoryCodeLE(this.languageId);
     this.commonservice.getModuleId();
     this.parentsEn = new FormControl();
@@ -208,8 +209,6 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
   }
 
   getCategoryCodeLE(lang){
-
-
 
     this.loading = true;
     return this.commonservice.readProtected('life/event/creator/dropdown/'+this.commonservice.lifeEventCategoryCode,'','','',lang)
@@ -492,7 +491,6 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
   search(){
     let year, month, day;
-
     let e = '';
 
     if(this.publishdt != undefined){
@@ -549,17 +547,34 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getRecordListLE(page - 1, this.pageSize, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterList(page - 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListLE(page - 1, this.pageSize, this.catCode, this.languageId);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordListLE(page + 1, this.pageSize, this.catCode, this.languageId);
+
+    if(this.keywordVal){
+      this.getFilterList(page + 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListLE(page + 1, this.pageSize, this.catCode, this.languageId);
+    }
   }
 
   add() {
@@ -602,7 +617,14 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
   pageChange(event, totalPages) {
 
-    this.getRecordListLE(this.pageCount, event.value, this.catCode, this.languageId);
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterList(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListLE(this.pageCount, event.value, this.catCode, this.languageId);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }

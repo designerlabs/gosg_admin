@@ -553,10 +553,10 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    console.log("KW");
-    console.log(this.keywordVal);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value; 
     if(this.keywordVal){
-      this.getFilterListC(this.pageCount, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+      this.getFilterListC(page - 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
     }
 
     else{
@@ -567,16 +567,15 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   }
 
   paginatorR(page, totalPages) {
-    console.log("KW");
-    console.log(this.keywordVal);
-    
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
 
     if(this.keywordVal){
-      this.getFilterListC(this.pageCount, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+      this.getFilterListC(page + 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
     }
 
     else{
@@ -623,7 +622,16 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordListC(this.pageCount, event.value, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListC(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+
+    else{
+      this.getRecordListC(this.pageCount, event.value, this.catCode, this.languageId);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }
