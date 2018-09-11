@@ -37,6 +37,8 @@ export class SitemaptblComponent implements OnInit {
   showNoData = false;
   recordTable = null;
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -45,14 +47,15 @@ export class SitemaptblComponent implements OnInit {
   applyFilter(e) {
     
     if(e){
+      this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getSiteMapData(this.pageCount, this.pageSize);
+    } else {
+      this.resetSearch();
     }
   }
 
   resetSearch() {
+    this.kword = '';
     this.getSiteMapData(this.pageCount, this.pageSize);
   }
 
@@ -149,6 +152,7 @@ export class SitemaptblComponent implements OnInit {
     this.sitemapList =  null;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;   
       this.commonservice.readPortal('sitemap/search', page, size, keyword)
       .subscribe(
@@ -191,7 +195,11 @@ export class SitemaptblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getSiteMapData(this.pageCount, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getSiteMapData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -201,7 +209,11 @@ export class SitemaptblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSiteMapData(page + 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getSiteMapData(page + 1, this.pageSize);
   }
 
   pageChange(event, totalPages) {

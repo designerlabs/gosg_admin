@@ -56,16 +56,14 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
   
   private subscriptionLang: ISubscription;
 
-  applyFilter(val) {   
+  applyFilter(val) {  
     
     if(val){
       this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val);
+    } else {
+      this.resetSearch();
     }
-    else{
-      this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
-    }
-  
   }
 
   resetSearch() {

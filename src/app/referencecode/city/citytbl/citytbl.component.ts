@@ -39,6 +39,8 @@ export class CitytblComponent implements OnInit, OnDestroy {
   showNoData = false;
   recordTable = null;
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -48,10 +50,10 @@ export class CitytblComponent implements OnInit, OnDestroy {
   applyFilter(e) {
     
     if(e){
+      this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize);
+    } else {
+      this.resetSearch();
     }
   }
 
@@ -145,6 +147,7 @@ export class CitytblComponent implements OnInit, OnDestroy {
     this.recordList = null;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
       
       this.commonservice.readPortal('city', page, size, keyword, this.languageId)
@@ -184,11 +187,16 @@ export class CitytblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page - 1, this.pageSize);
+
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -198,7 +206,10 @@ export class CitytblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page + 1, this.pageSize);
   }
 
   ngAfterViewInit() {

@@ -59,6 +59,8 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   recordTable = null;
   recordList = null;
 
+  kword: any;
+
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
@@ -72,6 +74,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   applyFilter(val) {
 
     if(val){
+      this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
@@ -81,6 +84,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getUsersData(this.pageCount, this.pageSize);
   }
 
@@ -221,7 +225,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     });
   }
 
-  getFilterList(page, size, keyword, filterVal) {
+  getFilterList(page, size, keyword, filterVal?) {
 
     this.recordList = null;
 
@@ -234,7 +238,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-
+      this.kword = keyword;
       this.loading = true;
       this.commonservice.readProtected(this.dataUrl+keyword+'&page='+page+'&size='+size,'','','',this.languageId).subscribe(data => {
 
@@ -243,9 +247,6 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
 
 
           if(this.recordList.userList.length > 0){
-
-
-
 
             this.dataSource.data = this.recordList.userList;
             this.seqPageNum = this.recordList.pageNumber;
@@ -277,7 +278,11 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getUsersData(this.pageCount, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getUsersData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -287,7 +292,11 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getUsersData(page + 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getUsersData(page + 1, this.pageSize);
   }
 
 

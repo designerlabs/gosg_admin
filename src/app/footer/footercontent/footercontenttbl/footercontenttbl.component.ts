@@ -45,6 +45,8 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
 
   recordTable = null;
 
+  kword: any;
+
   public getIdentificationTypeIdEng: any;
   public getIdentificationTypeIdMy: any;
   public getIdentificationTypeMy: any;
@@ -64,10 +66,10 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
   applyFilter(e) {
     
     if(e){
+      this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize);
+    } else {
+      this.resetSearch();
     }
   }
   
@@ -174,6 +176,7 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
     this.recordList = null;
   
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
       this.commonservice.readProtected('footercontent', page, size, keyword, this.languageId)
       .subscribe(data => {
@@ -216,11 +219,16 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page - 1, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -230,7 +238,11 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page + 1, this.pageSize);
   }
 
   add() {

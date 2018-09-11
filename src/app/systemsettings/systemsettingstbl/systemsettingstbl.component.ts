@@ -39,6 +39,9 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   showNoData = false;
 
   recordTable = null;
+
+  kword: any;
+
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
@@ -52,14 +55,15 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   applyFilter(e) {
     
     if(e){
+      this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize);
+    } else {
+      this.resetSearch();
     }
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
@@ -164,7 +168,7 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
     this.recordList = null;
   
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-      
+      this.kword = keyword;
       this.loading = true;
       this.commonservice.readProtected('systemsettings', page, size, keyword, this.languageId)
       .subscribe(data => {
@@ -209,7 +213,11 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page - 1, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -219,7 +227,11 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page + 1, this.pageSize);
   }
 
   add() {

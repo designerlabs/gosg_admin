@@ -40,6 +40,8 @@ export class CountrytblComponent implements OnInit {
 
   recordTable = null;
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -52,10 +54,10 @@ export class CountrytblComponent implements OnInit {
   applyFilter(e) {
     
     if(e){
+      this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+    } else {
+      this.resetSearch();
     }
   }
 
@@ -153,6 +155,7 @@ export class CountrytblComponent implements OnInit {
     // this.dataUrl = this.appConfig.urlCountryList;
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
 
       this.commonservice.readPortal('country', page, size, keyword, this.languageId)
@@ -232,11 +235,15 @@ export class CountrytblComponent implements OnInit {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize, this.languageId);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page - 1, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -246,7 +253,10 @@ export class CountrytblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page + 1, this.pageSize, this.languageId);
   }
 
   ngAfterViewInit() {
