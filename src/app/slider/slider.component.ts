@@ -22,7 +22,7 @@ export class SliderComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
-  publishdt:number;  
+  publishdt:number;
   enddt: number;
   minDate: any;
   sMinDate: any;
@@ -112,7 +112,7 @@ export class SliderComponent implements OnInit, OnDestroy {
       }
 
     });
-    /* LANGUAGE FUNC */ 
+    /* LANGUAGE FUNC */
 
   }
 
@@ -124,7 +124,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.commonservice.getInitialMessage();
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
     }else{
@@ -186,7 +186,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   }
 
   isSameImg(enImg, bmImg) {
-    
+
     if (enImg != null && enImg == bmImg) {
       this.updateForm.get('copyImg').setValue(true);
     } else {
@@ -209,17 +209,17 @@ export class SliderComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(Rdata, (function () {
 
           this.sliderData = Rdata;
-          
+
           let dataEn = this.sliderData['contentDetailList'][0];
           let dataBm = this.sliderData['contentDetailList'][1];
 
           // populate data
           this.updateForm.get('titleEn').setValue(dataEn.contentTitle);
           this.updateForm.get('descEn').setValue(dataEn.contentDescription);
-         
+
           this.updateForm.get('titleBm').setValue(dataBm.contentTitle);
           this.updateForm.get('descBm').setValue(dataBm.contentDescription);
-          
+
           this.updateForm.get('active').setValue(dataEn.isActiveFlag);
           this.updateForm.get('urlEng').setValue(dataEn.contentUrl);
           this.updateForm.get('urlMy').setValue(dataBm.contentUrl);
@@ -231,8 +231,8 @@ export class SliderComponent implements OnInit, OnDestroy {
           // this.enddt = dataEn.endDate;
           if(dataBm.publishDate != undefined){
             this.setEventDate(dataBm.publishDate,'publish')
-            this.setEventDate(dataBm.endDate, 'endD')        
-  
+            this.setEventDate(dataBm.endDate, 'endD')
+
             this.updateForm.get('publish').setValue(new Date(dataEn.publishDate).toISOString());
             this.updateForm.get('endD').setValue(new Date(dataEn.endDate).toISOString());
           }
@@ -244,8 +244,8 @@ export class SliderComponent implements OnInit, OnDestroy {
             this.updateForm.get('imgEn').setValue(parseInt(dataEn.contentImage.mediaId));
             this.updateForm.get('imgBm').setValue(parseInt(dataBm.contentImage.mediaId));
           }
-          
-          
+
+
 
 
           this.sliderCode = this.sliderData.refCode;
@@ -260,7 +260,7 @@ export class SliderComponent implements OnInit, OnDestroy {
       },
       error => {
         this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        
+
         this.loading = false;
       });
 
@@ -270,14 +270,14 @@ export class SliderComponent implements OnInit, OnDestroy {
     let today = new Date();
     let todaysdt = today.getDate();
     let year = today.getFullYear();
-    let month = today.getMonth(); 
+    let month = today.getMonth();
 
     //this.minDate = new Date(year, month, todaysdt);
     this.sMinDate = new Date(year, month, todaysdt);
     this.eMinDate = new Date(year, month, todaysdt);
   }
 
-  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     let year, month, day;
     this.events = [];
@@ -285,7 +285,7 @@ export class SliderComponent implements OnInit, OnDestroy {
 
     this.publishdt = new Date(this.events[0]).getTime();
     this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
-    this.dateFormatExample = "";   
+    this.dateFormatExample = "";
 
     year = new Date(this.events[0]).getFullYear();
     month = new Date(this.events[0]).getMonth();
@@ -299,14 +299,14 @@ export class SliderComponent implements OnInit, OnDestroy {
       //this.enddt = null;
     }
 
-    this.checkReqValues()    
+    this.checkReqValues()
   }
 
-  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     this.events = [];
     this.events.push(`${event.value}`);
-    this.enddt = new Date(this.events[0]).getTime();    
+    this.enddt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
     this.checkReqValues()
   }
@@ -314,9 +314,9 @@ export class SliderComponent implements OnInit, OnDestroy {
   setEventDate(tsd,type) {
 
     let year, month, day;
-    let res;    
+    let res;
     this.events = [];
-    var d = new Date(tsd); 
+    var d = new Date(tsd);
     this.events.push(`${d}`);
 
     year = new Date(this.events[0]).getFullYear();
@@ -327,7 +327,7 @@ export class SliderComponent implements OnInit, OnDestroy {
 
       this.eMinDate = new Date(year,month,day);
       this.publishdt = new Date(this.events[0]).getTime();
-      this.enddt = new Date(this.events[0]).getTime();     
+      this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
     }
     else{
@@ -351,10 +351,10 @@ export class SliderComponent implements OnInit, OnDestroy {
 
   changeLanguageAddEdit(){
     if (this.refCode === 'add'){
-      this.commonservice.pageModeChange(false);  
+      this.commonservice.pageModeChange(false);
     }
     else{
-      this.commonservice.pageModeChange(true);      
+      this.commonservice.pageModeChange(true);
     }
   }
 
@@ -405,12 +405,12 @@ export class SliderComponent implements OnInit, OnDestroy {
       },
         Error => {
           this.loading = false;
-          
+
         });
   }
-  
+
   selectedImg(e, val){
-    
+
     this.getImgIdEn = e.value;
     this.getImgIdBm = e.value;
     let dataList = this.imageData;
@@ -418,7 +418,7 @@ export class SliderComponent implements OnInit, OnDestroy {
     let idBm: any;
     let idEn: any;
 
-   
+
     if(val == 1){
 
       for(let i=0; i<dataList.length; i++){
@@ -427,10 +427,10 @@ export class SliderComponent implements OnInit, OnDestroy {
           idBm = dataList[i].list[1].mediaId;
           this.selectedFileEn=dataList[i].list[0].mediaFile;
           this.selectedFileMy=dataList[i].list[1].mediaFile;
-        }        
+        }
       }
 
-      this.updateForm.get('imgBm').setValue(idBm);  
+      this.updateForm.get('imgBm').setValue(idBm);
     }
     else{
 
@@ -440,10 +440,10 @@ export class SliderComponent implements OnInit, OnDestroy {
           idEn = dataList[i].list[0].mediaId;
           this.selectedFileEn=dataList[i].list[0].mediaFile;
           this.selectedFileMy=dataList[i].list[1].mediaFile;
-        }        
+        }
       }
 
-      this.updateForm.get('imgEn').setValue(idEn); 
+      this.updateForm.get('imgEn').setValue(idEn);
     }
     this.checkReqValues();
 
@@ -479,8 +479,8 @@ export class SliderComponent implements OnInit, OnDestroy {
     if (this.refCode == "add") {
 
       let body = [
-        
-        { 
+
+        {
           "contentCategoryId": null,
           "contents": [
             {
@@ -522,7 +522,7 @@ export class SliderComponent implements OnInit, OnDestroy {
         }
       ];
 
-      // 
+      //
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -540,20 +540,20 @@ export class SliderComponent implements OnInit, OnDestroy {
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
       body[1].contents[0].language.languageId = 2;
-      
+
       body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      
+
 
       this.loading = true;
       // Add Slider Service
       this.commonservice.create(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
+            this.toastr.success(this.translate.instant('common.success.sliderdraft'), '');
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -561,7 +561,7 @@ export class SliderComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
       });
 
@@ -638,13 +638,13 @@ export class SliderComponent implements OnInit, OnDestroy {
 
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      
+
       this.loading = true;
       // Update Slider Service
       this.commonservice.update(body, 'slider/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.sliderdraft'), ''); 
+            this.toastr.success(this.translate.instant('common.success.sliderdraft'), '');
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -652,19 +652,19 @@ export class SliderComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
         });
     }
   }
-  
+
   sliderSubmit(formValues: any) {
 
     if (this.refCode == "add") {
 
       let body = [
-        
-        { 
+
+        {
           "contentCategoryId": null,
           "contents": [
             {
@@ -722,20 +722,20 @@ export class SliderComponent implements OnInit, OnDestroy {
       body[1].contents[0].sliderSort = formValues.seqMy;
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;    
+      body[1].contents[0].language.languageId = 2;
 
       body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      
+
       this.loading = true;
       // Add Slider Service
       this.commonservice.create(body, 'slider/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
+            this.toastr.success(this.translate.instant('common.success.slidersubmitted'), '');
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -743,7 +743,7 @@ export class SliderComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
       });
     }
@@ -751,8 +751,8 @@ export class SliderComponent implements OnInit, OnDestroy {
     else{
 
       let body = [
-        
-        { 
+
+        {
           "contentCategoryId": null,
           "contents": [
             {
@@ -796,7 +796,7 @@ export class SliderComponent implements OnInit, OnDestroy {
         }
       ];
 
-      // 
+      //
       body[0].contentCategoryId = this.commonservice.sliderContentCategoryIdEn;
       body[0].contents[0].sliderTitle = formValues.titleEn;
       body[0].contents[0].sliderDescription = formValues.descEn;
@@ -813,20 +813,20 @@ export class SliderComponent implements OnInit, OnDestroy {
       body[1].contents[0].sliderSort = formValues.seqMy;
       body[1].contents[0].sliderUrl = formValues.urlMy;
       body[1].contents[0].sliderActiveFlag = formValues.active;
-      body[1].contents[0].language.languageId = 2;    
+      body[1].contents[0].language.languageId = 2;
 
       body[0].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[0].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
 
       body[1].contents[0].sliderPublishDate = new Date(formValues.publish).getTime();
       body[1].contents[0].sliderEndDate = new Date(formValues.endD).getTime();
-      
+
       this.loading = true;
       // Add Slider Service
       this.commonservice.update(body, 'slider/creator').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success(this.translate.instant('common.success.slidersubmitted'), ''); 
+            this.toastr.success(this.translate.instant('common.success.slidersubmitted'), '');
             this.router.navigate(['slider']);
 
           }).bind(this));
@@ -834,11 +834,11 @@ export class SliderComponent implements OnInit, OnDestroy {
         },
         error => {
           this.toastr.error(JSON.parse(error._body).statusDesc, '');
-          
+
           this.loading = false;
       });
 
     }
-    
+
   }
 }
