@@ -225,7 +225,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     });
   }
 
-  getFilterList(page, size, keyword, filterVal?) {
+  getFilterList(page, size, keyword, filterVal) {
 
     this.recordList = null;
 
@@ -280,7 +280,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   paginatorL(page) {
     
     if(this.kword)
-      this.getFilterList(page - 1, this.pageSize, this.kword);
+      this.getFilterList(page - 1, this.pageSize, this.kword, this.filterTypeVal);
     else
       this.getUsersData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
@@ -294,7 +294,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     // this.noNextData = pageInc === totalPages;
     
     if(this.kword)
-      this.getFilterList(page + 1, this.pageSize, this.kword);
+      this.getFilterList(page + 1, this.pageSize, this.kword, this.filterTypeVal);
     else
       this.getUsersData(page + 1, this.pageSize);
   }
@@ -303,7 +303,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   pageChange(event, totalPages) {
       
     if(this.kword)
-      this.getFilterList(this.pageCount, event.value, this.kword);
+      this.getFilterList(this.pageCount, event.value, this.kword, this.filterTypeVal);
     else
       this.getUsersData(this.pageCount, event.value);
     this.pageSize = event.value;
