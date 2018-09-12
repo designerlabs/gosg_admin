@@ -301,7 +301,11 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
 
 
   pageChange(event, totalPages) {
-    this.getUsersData(this.pageCount, event.value);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getUsersData(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

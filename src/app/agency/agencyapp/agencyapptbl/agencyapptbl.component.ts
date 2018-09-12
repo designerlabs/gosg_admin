@@ -228,7 +228,12 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getAgencyAppData(this.pageCount, event.value, this.languageId);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getAgencyAppData(this.pageCount, event.value, this.languageId);
+
     this.pageSize = event.value;
     this.noPrevData = true;
   }

@@ -265,7 +265,11 @@ export class CountrytblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value, this.languageId);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getRecordList(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
