@@ -8,7 +8,7 @@
 
 
 <div class="container right-content">
-  
+
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
@@ -48,16 +48,14 @@
 
               <ng-container matColumnDef="subject">
                   <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.subject' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-left" *matCellDef="let element">
-                      {{element.subject}}
+                  <mat-cell class="text-align-left" *matCellDef="let element" [innerHTML]="element.subject">
+
                   </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="content">
                   <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.content' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-left" *matCellDef="let element">
-                      {{element?.content | truncate : [30, '...']}}
-                  </mat-cell>
+                  <mat-cell class="text-align-left" *matCellDef="let element" [innerHTML]="element?.content | truncate : [30, '...']"></mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="sender">
