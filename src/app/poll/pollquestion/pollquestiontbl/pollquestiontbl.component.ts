@@ -293,7 +293,11 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.keywordue);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getRecordList(this.pageCount, event.keywordue);
     this.pageSize = event.keywordue;
     this.noPrevData = true;
   }
