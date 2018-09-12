@@ -43,6 +43,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
   public lang: any;
   showNoData = false;
   recordTable = null;
+  kword: any;
 
   // public getIdentificationTypeIdEng: any;
   // public getIdentificationTypeIdMy: any;
@@ -63,7 +64,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
     else{
-      this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+      this.resetSearch();
     }
   }
   
@@ -156,6 +157,7 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
     this.recordList = null;
   
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
       this.commonservice.readProtected('inbox/toUser', count, size, keyword)
       .subscribe(data => {
@@ -163,9 +165,6 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-
-            
-            
 
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;            
@@ -191,18 +190,22 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
 
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        
-
       });
     }
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize, this.languageId);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize, this.languageId);
+
+    if(this.kword){
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    }else{
+      this.getRecordList(page - 1, this.pageSize, this.languageId);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -212,7 +215,11 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize, this.languageId);
+    if(this.kword){
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    }else{
+      this.getRecordList(page + 1, this.pageSize, this.languageId);
+    }
   }
 
   add() {
@@ -257,7 +264,11 @@ export class InboxsenttblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
+    if(this.kword){
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    }else{
     this.getRecordList(this.pageCount, event.value, this.languageId);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }
