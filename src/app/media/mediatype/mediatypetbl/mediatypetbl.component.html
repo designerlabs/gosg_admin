@@ -13,8 +13,8 @@
       </span>
     </div>
   </div>
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-    {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+   
   </div>
   <div *ngIf="commonservice.isRead">
     <div class="example-container mat-elevation-z8">
