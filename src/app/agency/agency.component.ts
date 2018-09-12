@@ -78,6 +78,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
   ePartUrl: FormControl
   ePartArchiveUrl: FormControl
   ePartPolicyUrl: FormControl
+  ePartSubscribeUrl: FormControl
   mdecStatus: FormControl
   ministryEn: FormControl
   ministryBm: FormControl
@@ -176,6 +177,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     this.ePartUrl = new FormControl()
     this.ePartArchiveUrl = new FormControl()
     this.ePartPolicyUrl = new FormControl()
+    this.ePartSubscribeUrl = new FormControl()
     this.mdecStatus = new FormControl()
     this.ministryEn = new FormControl()
     this.ministryBm = new FormControl()
@@ -206,6 +208,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       ePartUrl: this.ePartUrl,
       ePartArchiveUrl: this.ePartArchiveUrl,
       ePartPolicyUrl: this.ePartPolicyUrl,
+      ePartSubscribeUrl: this.ePartSubscribeUrl,
       active: this.active,
       image: this.image,
       mdecStatus: this.mdecStatus,

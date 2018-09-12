@@ -48,7 +48,7 @@
 
               <ng-container matColumnDef="subject">
                   <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.subject' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-left" *matCellDef="let element" [innerHTML]="element.subject">
+                  <mat-cell class="text-align-left" *matCellDef="let element" [innerHTML]="element.subject | truncate : [30, '...']">
 
                   </mat-cell>
               </ng-container>

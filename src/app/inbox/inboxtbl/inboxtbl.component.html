@@ -45,7 +45,7 @@
               <ng-container matColumnDef="subject">
                   <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inbox.tableHeader.subject' | translate }} </mat-header-cell>
                   <mat-cell class="text-align-left" *matCellDef="let element">
-                      {{element.subject}}
+                      {{element.subject | truncate : [30, '...']}}
                   </mat-cell>
               </ng-container>
 
@@ -59,7 +59,7 @@
               <ng-container matColumnDef="sender">
                 <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inbox.tableHeader.sender' | translate }} </mat-header-cell>
                 <mat-cell class="text-align-left" *matCellDef="let element">
-                    {{element.fromUser.fullName}}
+                    {{element.fromUser?.fullName}}
                 </mat-cell>
               </ng-container>
 
