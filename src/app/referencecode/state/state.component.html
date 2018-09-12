@@ -28,7 +28,7 @@
             <mat-form-field class="example-full-width">
               <input matInput tabindex="1" placeholder="{{ 'state.tableHeader.name' | translate }}" formControlName="stateName" (keyup)="checkReqValues()" required>
               <mat-error *ngIf="updateForm.controls.stateName.hasError('required')">
-                {{ 'state.err.name' | translate }}
+                {{ 'state.err.state' | translate }}
               </mat-error>
             </mat-form-field>
           </div>
