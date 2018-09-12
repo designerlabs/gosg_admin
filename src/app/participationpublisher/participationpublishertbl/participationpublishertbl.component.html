@@ -186,7 +186,7 @@
                 </button>
                 &nbsp;
                 <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.list[0].isApprovedFlag == false" 
-                (click)="deleteRow.show()" title="{{ 'common.title.delete' | translate }} {{ element.refCode }}">
+                (click)="deleteRow.show()" title="{{ 'common.title.delete' | translate }}">
                   <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
                 </button>
                 <button mat-mini-fab class="bg_coral" *ngIf="commonservice.isDelete  && element.list[0].isApprovedFlag == true" 
