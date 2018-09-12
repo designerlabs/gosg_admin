@@ -15,8 +15,8 @@
         </div> 
     </div>
 
-    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+      
     </div>
 
     <form [formGroup]="updateForm" autocomplete="off" role="form" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" novalidate novalidate>       
