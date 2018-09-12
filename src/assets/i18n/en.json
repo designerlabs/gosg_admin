@@ -960,9 +960,6 @@
     },
     "tablebottom":{
       "state": "state list"
-    },
-    "err": {
-      "name": "State Name is required."
     }
   },
   "systemsetting": {

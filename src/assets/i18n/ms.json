@@ -955,13 +955,10 @@
       "id": "Id Negeri"
     },
     "err": {
-      "State": "Negeri diperlukan"
+      "state": "Negeri diperlukan"
     },
     "tablebottom":{
       "state": "senarai negeri"
-    },
-    "err": {
-      "name": "Nama Negeri perlu diisi"
     }
   },
   "systemsetting": {
