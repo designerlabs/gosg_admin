@@ -38,6 +38,7 @@ export class FaqtblComponent implements OnInit {
   public languageId: any;
   showNoData = false;
   recordTable = null;
+  kword: any;
 
   public getIdentificationTypeIdEng: any;
   public getIdentificationTypeIdMy: any;
@@ -56,7 +57,7 @@ export class FaqtblComponent implements OnInit {
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
     else{
-      this.getRecordList(this.pageCount, this.pageSize);
+      this.resetSearch();
     }
   }
   
@@ -92,8 +93,6 @@ export class FaqtblComponent implements OnInit {
     //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }
-
-  
 
   getRecordList(count, size) {
 
@@ -137,6 +136,8 @@ export class FaqtblComponent implements OnInit {
     this.recordList = null;
   
     if(val != "" && val != null && val.length != null && val.length >= 3) {
+
+      this.kword = val;
       this.loading = true;
       this.commonservice.readPortal('faq', count, size, val)
       .subscribe(data => {
@@ -144,9 +145,6 @@ export class FaqtblComponent implements OnInit {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-
-            
-            
 
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;            
@@ -179,11 +177,18 @@ export class FaqtblComponent implements OnInit {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+
+    if(this.kword){
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    }else{
+      this.getRecordList(page - 1, this.pageSize);
+    }
+    
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -193,7 +198,11 @@ export class FaqtblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    if(this.kword){
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    }else{
+      this.getRecordList(page + 1, this.pageSize);
+    }
   }
 
   add() {
@@ -238,7 +247,11 @@ export class FaqtblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    if(this.kword){
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    }else{
+      this.getRecordList(this.pageCount, event.value);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }
