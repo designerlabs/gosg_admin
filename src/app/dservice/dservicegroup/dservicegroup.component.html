@@ -1,11 +1,11 @@
 <!-- VIEW: ADD/EDIT AGENCY APP  -->
 <div class="container right-content">
-    
+
     <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
         <h3>{{ pageMode | translate }} {{ 'dservicegroup.tableHeader.header' | translate }} </h3>
       </div>
-  
+
       <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
           <button type="button" mat-fab color="accent" (click)="back()">
@@ -14,14 +14,14 @@
         </span>
       </div>
     </div>
-  
-    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
     </div>
-  
+
     <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off"
       role="form" novalidate>
-  
+
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
           <div class="bg-form-header col-md-6">
@@ -31,7 +31,7 @@
             <label>Bahasa Malaysia</label>
           </div>
         </div>
-  
+
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
@@ -52,7 +52,7 @@
           </div>
           <div class="bg-form-header">&nbsp;</div>
         </div>
-  
+
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
@@ -74,9 +74,9 @@
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
-  
+
       </div>
-  
+
         <div class="col-md-12">&nbsp;</div>
         <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success  pull-right" (click)="updateAction(updateForm.value)"

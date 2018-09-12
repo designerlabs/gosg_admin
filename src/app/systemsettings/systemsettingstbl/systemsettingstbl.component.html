@@ -1,27 +1,27 @@
 <div class="container-fluid">
-    
+
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>{{ 'systemsetting.header' | translate }}</h3>
         </div>
-        
+
         <div class="col-md-2 curdHeadingRight">
             <!-- <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
                 <i class="fa fa-plus font-size-l"></i></button>
             </span> -->
-        </div> 
+        </div>
     </div>
 
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
     </div>
 
     <div *ngIf="commonservice.isRead">
 
         <div class="example-container mat-elevation-z8">
-            
+
             <div class="col-md-12 paddingTop-10">
                 <mat-form-field>
                     <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'systemsetting.component.keyword' | translate }}">
@@ -31,8 +31,8 @@
                 </mat-form-field>
             </div>
 
-            <mat-table #table [dataSource]="dataSource">           
-            
+            <mat-table #table [dataSource]="dataSource">
+
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
                     <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
@@ -40,12 +40,12 @@
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
                 </ng-container>
-            
+
                 <!-- Entities Status en Column -->
                 <ng-container matColumnDef="entities">
                     <mat-header-cell class="text-align-Left" style="flex: 0 0 14%;" *matHeaderCellDef> {{ 'systemsetting.tableHeader.entities' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 14%;" *matCellDef="let element">
-                        {{element.settingsEntities}} 
+                        {{element.settingsEntities}}
                     </mat-cell>
                 </ng-container>
 
@@ -64,7 +64,7 @@
                         {{element.settingsValue}}
                     </mat-cell>
                 </ng-container>
-            
+
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
@@ -78,14 +78,14 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
-                        <button mat-mini-fab class="bg_orange" (click)="updateRow(element.settings_id)">                
+                        <button mat-mini-fab class="bg_orange" (click)="updateRow(element.settings_id)">
                         <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="Update {{ element.settings_id }}"></i>
                         <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" title="View {{ element.settings_id }}"></i></button>
                         &nbsp;
                         <!-- <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                         <i class="fa fa-trash" title="Delete {{ element.settings_id}}"></i></button>
-                        <app-confirm-dialog  #deleteModal 
-                        [title]="'common.icon.warn'" 
+                        <app-confirm-dialog  #deleteModal
+                        [title]="'common.icon.warn'"
                         [content]="'common.msg.delete'"
                         [state]="'bg_header bg_warn_header'"
                         [isReset]="'true'"
@@ -93,13 +93,13 @@
                         </app-confirm-dialog> -->
                     </mat-cell>
                 </ng-container>
-            
+
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
 
             <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
-            
+
         </div>
 
         <div class="float-right paddingTop-15">
@@ -128,19 +128,19 @@
     </div>
 </div>
 
-<!-- <app-confirm-dialog  #resetModal 
-[title]="'common.icon.warn'" 
+<!-- <app-confirm-dialog  #resetModal
+[title]="'common.icon.warn'"
 [content]="'common.msg.reset'"
-[state]="'common.state.warn'" 
+[state]="'common.state.warn'"
 [isReset]="'true'"
 (resetMethod)="resetMethod($event)">
 </app-confirm-dialog>
 
-<app-confirm-dialog  #infoModal 
-[title]="'common.icon.success'" 
+<app-confirm-dialog  #infoModal
+[title]="'common.icon.success'"
 [content]="'register.popupmsg.success_content1'"
 [email] = "getEmail"
-[content2] = "'register.popupmsg.success_content2'" 
-[state]="'common.state.success'" 
+[content2] = "'register.popupmsg.success_content2'"
+[state]="'common.state.success'"
 [isRegister]="'index'">
 </app-confirm-dialog> -->
