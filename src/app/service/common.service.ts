@@ -180,14 +180,6 @@ export class CommonService{
     /* LANGUAGE FUNC */
           // var that = this; // no need of this line
 
-      setTimeout(()=>{
-        this.messageSuccess = `<span class="alert alert-secondary">${this.translate.instant('common.msg.waitmsg')}</span>`;
-      },500);
-
-      setTimeout(()=>{    //<<<---    using ()=> syntax
-            this.messageSuccess = `<span class="alert alert-danger">${this.translate.instant('common.msg.unauthorized')}</span>`;
-
-      }, 5000);
 
      }
   lang = this.lang;
@@ -196,6 +188,18 @@ export class CommonService{
   private getUserUrl: string = this.appConfig.urlGetUser;
 
 
+  getInitialMessage(){
+
+
+    setTimeout(()=>{
+      this.messageSuccess = `<span class="alert alert-secondary">${this.translate.instant('common.msg.waitmsg')}</span>`;
+    },500);
+
+    setTimeout(()=>{    //<<<---    using ()=> syntax
+          this.messageSuccess = `<span class="alert alert-danger">${this.translate.instant('common.msg.unauthorized')}</span>`;
+
+    }, 5000);
+  }
 
 
   getUsersData(): Observable<any[]> {
