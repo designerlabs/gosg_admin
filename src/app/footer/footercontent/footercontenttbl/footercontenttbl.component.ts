@@ -287,7 +287,11 @@ export class FootercontenttblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getRecordList(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
