@@ -5,10 +5,9 @@
           <h3>{{ 'usermgmt.header' | translate }}</h3>
       </div>
   </div>
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-      <!-- {{'common.msg.unauthorized' | translate}} -->
-      {{commonservice.setTimer()}}
-    </div>
+
+    <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+     </div>
   <div *ngIf="commonservice.isRead">
       <div class="example-container mat-elevation-z8">
 

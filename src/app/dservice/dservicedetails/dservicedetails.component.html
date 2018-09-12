@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT AGENCY APP  -->
 <div class="container right-content">
-  
+
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
       <h3>{{ pageMode | translate }} {{ 'dservicedetails.tableHeader.header' | translate }} </h3>
@@ -15,8 +15,8 @@
     </div>
   </div>
 
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-    {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
   </div>
 
   <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off"
@@ -131,7 +131,7 @@
           <mat-form-field class="example-full-width">
             <mat-select formControlName="manualEn" placeholder="Select File" (change)="selectedImg($event, 1)" required>
               <mat-option [value]=null>Select File</mat-option>
-              <mat-option *ngFor="let fileEng of fileData" [value]="fileEng.list[0].mediaId">{{ fileEng.list[0].mediaFile }}</mat-option>                      
+              <mat-option *ngFor="let fileEng of fileData" [value]="fileEng.list[0].mediaId">{{ fileEng.list[0].mediaFile }}</mat-option>
             </mat-select>
               <mat-error *ngIf="updateForm.get('manualEn').hasError('required')">
                 Please select a file

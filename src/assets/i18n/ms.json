@@ -275,6 +275,7 @@
       "info":"fa fa-info-circle"
     },
     "msg":{
+      "waitmsg": "Sila tunggu, Memeriksa Kebenaran",
       "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
       "delete":"Adakah anda pasti untuk memadam?",

@@ -1,20 +1,20 @@
 <div class="container right-content">
-  
+
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
         <h3>{{ 'color.header' | translate }}</h3>
     </div>
-    
+
     <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
             <button type="button" mat-fab color="warn" (click)="addBtn()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
               <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
         </span>
-    </div> 
+    </div>
 </div>
 
-<div *ngIf="!commonservice.isRead" class="alert alert-danger">
-    {{'common.msg.unauthorized' | translate}}
+<div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
 </div>
 
 <div *ngIf="commonservice.isRead">
@@ -64,7 +64,7 @@
           <i *ngIf="element.defaultColor == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
         </mat-cell>
       </ng-container>
-      
+
       <!-- Action Column -->
       <ng-container matColumnDef="colorAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
@@ -77,13 +77,13 @@
             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.colorName }}">
               <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"  title="Delete {{ element.colorName }}"></i>
             </button>
-            <app-confirm-dialog  #deleteRow 
-            [title]="'fa fa-exclamation-triangle'" 
+            <app-confirm-dialog  #deleteRow
+            [title]="'fa fa-exclamation-triangle'"
             [content]="'common.msg.delete'"
             [state]="'bg_header bg_warn_header'"
             [isReset]="'true'"
             (resetMethod)="deleteItem(element.colorId)">
-            </app-confirm-dialog> 
+            </app-confirm-dialog>
         </mat-cell>
       </ng-container>
 

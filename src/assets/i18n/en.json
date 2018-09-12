@@ -275,6 +275,7 @@
       "info":"fa fa-info-circle"
     },
     "msg":{
+      "waitmsg": "Please wait, Checking the Authorization",
       "notfound":"Not Found.",
       "reset":"Reset this form?",
       "delete":"Are you sure to delete?",

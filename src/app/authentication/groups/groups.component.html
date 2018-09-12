@@ -1,21 +1,21 @@
 
 <div class="container-fluid">
-    
+
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>{{statusTitle}} {{ 'grouping.management.header' | translate}}</h3>
         </div>
-        
+
         <div class="col-md-2 curdHeadingRight">
             <span class="pull-right">
                 <button type="button" mat-fab color="accent" (click)="back()" >
                     <i  [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
             </span>
-        </div> 
+        </div>
     </div>
 
-    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
     </div>
 
     <form [formGroup]="groupModule" autocomplete="off" (ngSubmit)="updateGroup(groupModule.value)" role="form" novalidate *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate">
@@ -33,13 +33,13 @@
             </div>
         </div>
 
-  
+
         <ul  class="dragdrop_container">
             <li *ngFor='let group of moduleList?.items' (click)="moveItem(group)">
                  {{group.moduleName}}
             </li>
         </ul>
-        
+
         <div class="middle_icon"><img src="assets/images/switch.png" alt=""></div>
         <ul class="dragdrop_container">
             <li *ngFor='let group of selectedItems?.items' (click)="moveItemR(group)">
@@ -53,16 +53,15 @@
             </div>
         </div>
         <div class="row"></div>
-        
+
         <div class="form-group" style="float: right;">
             <button *ngIf="!isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s"
             (click)="addModuleData();false">
             <i [ngClass]="commonservice.icon.check"></i> {{ 'common.buttons.submit' | translate }}</button>
 
-            <button *ngIf="isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnupdate" class="btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i [ngClass]="commonservice.icon.check"></i> Update</button>           
+            <button *ngIf="isUpdate" mat-raised-button type="button" [disabled]="((selectedItems?.items.length < 1) || (groupModule.invalid))" color="primary" id="btnupdate" class="btn btn-md btn-success font-size-s" (click)="updateModuleData();false"  type="button"><i [ngClass]="commonservice.icon.check"></i> Update</button>
         </div>
-       
+
     </form>
 
 </div>
-  

@@ -5,8 +5,8 @@
       <h3>{{ 'actmon.header' | translate }}</h3>
     </div>
   </div>
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-    {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
   </div>
   <div *ngIf="commonservice.isRead">
     <div class="example-container mat-elevation-z8 col-md-12">
@@ -44,7 +44,7 @@
               </li>
             </ul>
           </div>
-          
+
         </div>
 
         <mat-table class="col-md-12" *ngIf="userList && dataSource.data" #table [dataSource]="dataSource">
@@ -115,7 +115,7 @@
           </mat-form-field>
 
         </div>
-        
+
         <mat-table class="col-md-12" *ngIf="agencyActivityList && dataSource1.data" #table [dataSource]="dataSource1">
 
           <!-- No Column -->
@@ -193,9 +193,9 @@
 
 
 
-<!-- 
-<app-confirm-dialog  #deleteModal 
-  [title]="'common.icon.warn'" 
+<!--
+<app-confirm-dialog  #deleteModal
+  [title]="'common.icon.warn'"
   [content]="'common.msg.delete'"
   [state]="'common.state.warn'"
   [isReset]="'true'"

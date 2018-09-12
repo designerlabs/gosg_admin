@@ -1,25 +1,25 @@
 <!-- VIEW: ADD/EDIT AGENCY APP  -->
 <div class="container right-content">
-  
+
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
           <h3>{{ pageMode | translate }} {{ 'agencyapp.component.header' | translate }} </h3>
       </div>
-      
+
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" mat-fab color="accent" (click)="back()" >
                   <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
           </span>
-      </div> 
+      </div>
   </div>
-  
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-    {{'common.msg.unauthorized' | translate}}
+
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
   </div>
-  
+
   <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite ||  commonservice.isUpdate" autocomplete="off" role="form" novalidate>
-  
+
       <div class="example-container mat-elevation-z8 col-md-12">
         <div class="row">
           <div class="bg-form-header col-md-6">
@@ -29,7 +29,7 @@
             <label>Bahasa Malaysia</label>
           </div>
         </div>
-  
+
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
@@ -51,7 +51,7 @@
             </mat-form-field>
           </div>
         </div>
-  
+
         <div class="row">
           <div class="col-md-6">
             <mat-form-field class="example-full-width ">
@@ -76,7 +76,7 @@
           </div>
           <div class="col-md-12">&nbsp;</div>
         </div>
-        
+
         <div class="row">
           <div class="col-md-6" style="border: 0px solid #000; text-align: left">
             <mat-form-field class="example-full-width">
@@ -150,7 +150,7 @@
           <div class="col-md-12">&nbsp;</div>
         </div>
       </div>
-        
+
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
