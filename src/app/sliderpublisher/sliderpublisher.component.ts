@@ -130,7 +130,7 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.commonservice.getInitialMessage();
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
     }else{
@@ -319,7 +319,7 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
     this.events = [];
     this.events.push(`${event.value}`);
 
-    this.publishdt = new Date(this.events[0]).getTime();    
+    this.publishdt = new Date(this.events[0]).getTime();
     this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
     this.dateFormatExample = "";
 
@@ -334,7 +334,7 @@ export class SliderpublisherComponent implements OnInit, OnDestroy {
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       //this.enddt = null;
     }
-    
+
     this.checkReqValues()
   }
 

@@ -46,14 +46,14 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
   private subscriptionRecordListC: ISubscription;
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   dataSource = new MatTableDataSource<object>(this.recordList);
 
   applyFilter(e) {
-    
+
     if(e){
       this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
@@ -68,10 +68,10 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
-    private router: Router, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
     private navservice: NavService,
@@ -95,7 +95,7 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        
+
         this.getRecordList(this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
@@ -112,7 +112,7 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.commonservice.getInitialMessage();
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -120,13 +120,13 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
     }
 
     this.getRecordList(this.pageCount, this.pageSize);
-    this.commonservice.getModuleId();    
+    this.commonservice.getModuleId();
   }
 
   getRecordList(page, size) {
 
     this.recordList = null;
-  
+
     this.loading = true;
     this.commonservice.readProtected('systemsettings', page, size, '', this.languageId)
     .subscribe(data => {
@@ -135,38 +135,38 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
 
         this.recordList = data;
         if(this.recordList.list.length > 0){
-          
-          
-          
+
+
+
           this.dataSource.data = this.recordList.list;
           this.seqPageNum = this.recordList.pageNumber;
           this.seqPageSize = this.recordList.pageSize;
           this.recordTable = this.recordList;
           this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-          
+
           this.showNoData = false;
         }
 
         else{
-          this.dataSource.data = []; 
+          this.dataSource.data = [];
           this.showNoData = true;
         }
 
-      }).bind(this)); 
+      }).bind(this));
       this.loading = false;
     },
     error => {
 
       this.loading = false;
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
     });
   }
 
   getFilterList(page, size, keyword) {
 
     this.recordList = null;
-  
+
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.kword = keyword;
       this.loading = true;
@@ -178,9 +178,9 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
           this.recordList = data;
 
           if(this.recordList.list.length > 0){
-            
-            
-            
+
+
+
             this.dataSource.data = this.recordList.list;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
@@ -191,7 +191,7 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
           }
 
           else{
-            this.dataSource.data = []; 
+            this.dataSource.data = [];
             this.showNoData = true;
 
             this.seqPageNum = this.recordList.pageNumber;
@@ -200,20 +200,20 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
             this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
           }
 
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
       },
       error => {
 
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
       });
     }
   }
 
   paginatorL(page) {
-    
+
     if(this.kword)
       this.getFilterList(page - 1, this.pageSize, this.kword);
     else
@@ -227,7 +227,7 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    
+
     if(this.kword)
       this.getFilterList(page + 1, this.pageSize, this.kword);
     else
@@ -240,14 +240,14 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    
+
     this.router.navigate(['systemsettings/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(id) {
 
-    
+
     this.loading = true;
     this.commonservice.delete(id, 'systemsettings/').subscribe(
       data => {
@@ -256,16 +256,16 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
 
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize);
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
       },
       error => {
 
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-        
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
     });
-  
+
   }
 
   ngAfterViewInit() {
@@ -274,7 +274,7 @@ export class SystemsettingstblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-      
+
     if(this.kword)
       this.getFilterList(this.pageCount, event.value, this.kword);
     else

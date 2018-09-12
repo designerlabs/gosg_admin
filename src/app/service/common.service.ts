@@ -190,6 +190,7 @@ export class CommonService{
 
   getInitialMessage(){
 
+    this.messageSuccess = "";
 
     setTimeout(()=>{
       this.messageSuccess = `<span class="alert alert-secondary">${this.translate.instant('common.msg.waitmsg')}</span>`;

@@ -45,7 +45,7 @@ export class SitemaptblComponent implements OnInit {
   dataSource = new MatTableDataSource<object>(this.sitemapList);
 
   applyFilter(e) {
-    
+
     if(e){
       this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
@@ -60,15 +60,15 @@ export class SitemaptblComponent implements OnInit {
   }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private router: Router,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private toastr: ToastrService
-  ) { 
-    
+  ) {
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -96,12 +96,14 @@ export class SitemaptblComponent implements OnInit {
 
   ngOnInit() {
     this.displayedColumns = [
-      'no', 
-      'nameEn', 
-      'nameBm', 
-      'url', 
+      'no',
+      'nameEn',
+      'nameBm',
+      'url',
       'action'];
       this.commonservice.getModuleId();
+
+      this.commonservice.getInitialMessage();
   }
 
   ngAfterViewInit() {
@@ -109,18 +111,18 @@ export class SitemaptblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // get errMsg Data 
+  // get errMsg Data
   getSiteMapData(page, size) {
-    this.loading = true;   
+    this.loading = true;
     this.commonservice.readPortal('sitemap/code', page, size)
       .subscribe(
         data => {
 
           this.commonservice.errorHandling(data, (function(){
-            // 
+            //
             this.sitemapList = data;
 
-            
+
             if(this.sitemapList.list.length > 0){
               this.dataSource.data = this.sitemapList.list;
               this.seqPageNum = this.sitemapList.pageNumber;
@@ -132,18 +134,18 @@ export class SitemaptblComponent implements OnInit {
           }
 
           else{
-            this.dataSource.data = []; 
+            this.dataSource.data = [];
             this.showNoData = true;
           }
 
-          }).bind(this)); 
-          this.loading = false;          
+          }).bind(this));
+          this.loading = false;
         },
       error => {
 
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
       });
   }
 
@@ -153,17 +155,17 @@ export class SitemaptblComponent implements OnInit {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.kword = keyword;
-      this.loading = true;   
+      this.loading = true;
       this.commonservice.readPortal('sitemap/search', page, size, keyword)
       .subscribe(
           data => {
 
             this.commonservice.errorHandling(data, (function(){
-              // 
+              //
               this.sitemapList = data;
 
               if(this.sitemapList.list.length > 0){
-                
+
                 this.dataSource.data = this.sitemapList.list;
                 this.seqPageNum = this.sitemapList.pageNumber;
                 this.seqPageSize = this.sitemapList.pageSize;
@@ -174,7 +176,7 @@ export class SitemaptblComponent implements OnInit {
             }
 
             else{
-              this.dataSource.data = []; 
+              this.dataSource.data = [];
               this.showNoData = true;
               this.seqPageNum = this.sitemapList.pageNumber;
               this.seqPageSize = this.sitemapList.pageSize;
@@ -182,20 +184,20 @@ export class SitemaptblComponent implements OnInit {
               this.noNextData = this.sitemapList.pageNumber === this.sitemapList.totalPages;
             }
 
-            }).bind(this)); 
-            this.loading = false;          
+            }).bind(this));
+            this.loading = false;
           },
         error => {
 
           this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-          
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
         });
     }
   }
 
   paginatorL(page) {
-    
+
     if(this.kword)
       this.getFilterList(page - 1, this.pageSize, this.kword);
     else
@@ -209,7 +211,7 @@ export class SitemaptblComponent implements OnInit {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    
+
     if(this.kword)
       this.getFilterList(page + 1, this.pageSize, this.kword);
     else
@@ -217,7 +219,7 @@ export class SitemaptblComponent implements OnInit {
   }
 
   pageChange(event, totalPages) {
-      
+
     if(this.kword)
       this.getFilterList(this.pageCount, event.value, this.kword);
     else
@@ -231,7 +233,7 @@ export class SitemaptblComponent implements OnInit {
     this.changePageMode(this.isEdit);
     this.router.navigate(['sitemap', "add"]);
   }
-  
+
   updateRow(row) {
     this.isEdit = true;
     this.router.navigate(['sitemap', row]);
@@ -239,23 +241,23 @@ export class SitemaptblComponent implements OnInit {
 
   deleteItem(refCode) {
 
-    
 
-    this.loading = true;   
+
+    this.loading = true;
     this.commonservice.delete(refCode,'sitemap/').subscribe(
       data => {
 
         this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');  
+          this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getSiteMapData(this.pageCount, this.pageSize);
-        }).bind(this)); 
-        this.loading = false;          
+        }).bind(this));
+        this.loading = false;
       },
       error => {
 
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
     });
   }
 

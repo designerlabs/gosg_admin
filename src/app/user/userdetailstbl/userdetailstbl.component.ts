@@ -147,7 +147,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.commonservice.getInitialMessage();
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -278,7 +278,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    
+
     if(this.kword)
       this.getFilterList(page - 1, this.pageSize, this.kword, this.filterTypeVal);
     else
@@ -292,7 +292,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    
+
     if(this.kword)
       this.getFilterList(page + 1, this.pageSize, this.kword, this.filterTypeVal);
     else
@@ -301,7 +301,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
 
 
   pageChange(event, totalPages) {
-      
+
     if(this.kword)
       this.getFilterList(this.pageCount, event.value, this.kword, this.filterTypeVal);
     else
