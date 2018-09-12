@@ -352,7 +352,8 @@
       "ePartUrl": "e-Participation URL",
       "ePartArchiveUrl": "e-Participation Archive URL",
       "ePartPolicyUrl": "e-Participation Policy URL",
-      "rss": "RSS URL",
+      "ePartSubscribeUrl": "e-Participation Subscription URL",
+      "rss": "e-Participation RSS URL",
       "blog": "Blog URL"
     },
     "socmed": {
@@ -960,9 +961,6 @@
     },
     "tablebottom":{
       "state": "state list"
-    },
-    "err": {
-      "name": "State Name is required."
     }
   },
   "systemsetting": {

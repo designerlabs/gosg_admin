@@ -351,8 +351,9 @@
       "ePartUrl": "URL e-Penyertaan ",
       "ePartArchiveUrl": "URL Arkib e-Penyertaan",
       "ePartPolicyUrl": "URL Polisi e-Penyertaan",
+      "ePartSubscribeUrl": "URL Langganan e-Penyertaan",
       "website": "URL Laman Web",
-      "rss": "URL RSS",
+      "rss": "URL RSS e-Penyertaan",
       "blog": "URL Blog"
     },
     "socmed": {
@@ -955,13 +956,10 @@
       "id": "Id Negeri"
     },
     "err": {
-      "State": "Negeri diperlukan"
+      "state": "Negeri diperlukan"
     },
     "tablebottom":{
       "state": "senarai negeri"
-    },
-    "err": {
-      "name": "Nama Negeri perlu diisi"
     }
   },
   "systemsetting": {
