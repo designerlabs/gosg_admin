@@ -1,26 +1,26 @@
 <div class="container right-content">
-    
-  
+
+
     <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
           <h3>{{ 'sitemap.header' | translate }}</h3>
       </div>
-      
+
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" mat-fab color="warn" (click)="addBtn()" *ngIf="commonservice.isWrite" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
               <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
           </span>
-      </div> 
+      </div>
     </div>
-  
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+
+    <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
     </div>
-  
+
     <div *ngIf="commonservice.isRead">
       <div class="example-container mat-elevation-z8">
-  
+
         <div class="col-md-12 paddingTop-10">
             <mat-form-field>
               <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
@@ -29,9 +29,9 @@
               </button>
             </mat-form-field>
         </div>
-  
+
         <mat-table #table [dataSource]="dataSource">
-        
+
           <!-- No Column -->
           <ng-container matColumnDef="no">
               <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
@@ -39,19 +39,19 @@
                 {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
               </mat-cell>
           </ng-container>
-  
+
           <!-- slideTitle Column -->
           <ng-container matColumnDef="nameEn">
             <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'sitemap.tableHeader.nameEn' | translate }}</mat-header-cell>
             <mat-cell *matCellDef="let element" style="flex: 0 0 25%;"> {{element.list[0].sitemapName}} </mat-cell>
           </ng-container>
-  
+
           <!-- slideDescription Column -->
           <ng-container matColumnDef="nameBm">
             <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'sitemap.tableHeader.nameBm' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let element" style="flex: 0 0 25%;"> {{element.list[1].sitemapName}} </mat-cell>
           </ng-container>
-  
+
           <!-- url Column -->
           <ng-container matColumnDef="url">
             <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'sitemap.tableHeader.url' | translate }}</mat-header-cell>
@@ -59,7 +59,7 @@
                 {{element.list[0].sitemapRelativeUrl}}
               </mat-cell>
           </ng-container>
-          
+
           <!-- Action Column -->
           <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
@@ -72,23 +72,23 @@
                 <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()">
                   <i class="fa fa-trash" ></i>
                 </button>
-                <app-confirm-dialog  #deleteRow 
-                [title]="'fa fa-exclamation-triangle'" 
+                <app-confirm-dialog  #deleteRow
+                [title]="'fa fa-exclamation-triangle'"
                 [content]="'common.msg.delete'"
                 [state]="'bg_header bg_warn_header'"
                 [isReset]="'true'"
                 (resetMethod)="deleteItem(element.refCode)">
-                </app-confirm-dialog> 
+                </app-confirm-dialog>
             </mat-cell>
           </ng-container>
-  
+
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-  
+
         <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
       </div>
-  
+
       <div class="float-right paddingTop-15">
         <mat-form-field class="table_footer_pagecount">
           <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
@@ -113,5 +113,5 @@
         </span>
       </div>
     </div>
-  
+
   </div>

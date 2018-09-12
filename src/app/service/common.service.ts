@@ -187,7 +187,7 @@ export class CommonService{
       setTimeout(()=>{    //<<<---    using ()=> syntax
             this.messageSuccess = `<span class="alert alert-danger">${this.translate.instant('common.msg.unauthorized')}</span>`;
 
-      }, 3000);
+      }, 5000);
 
      }
   lang = this.lang;
