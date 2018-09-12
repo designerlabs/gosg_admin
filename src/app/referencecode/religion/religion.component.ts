@@ -66,6 +66,8 @@ export class ReligionComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.commonservice.getModuleId();
     this.religionEng = new FormControl();
     this.religionMy = new FormControl();

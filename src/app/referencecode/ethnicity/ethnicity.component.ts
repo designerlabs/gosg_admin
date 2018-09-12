@@ -65,6 +65,8 @@ export class EthnicityComponent implements OnInit {
    }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.commonservice.getModuleId();
     this.raceEng = new FormControl();
     this.raceMy = new FormControl();

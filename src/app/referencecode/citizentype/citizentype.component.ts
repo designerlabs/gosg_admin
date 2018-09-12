@@ -65,6 +65,8 @@ export class CitizentypeComponent implements OnInit {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
     }else{

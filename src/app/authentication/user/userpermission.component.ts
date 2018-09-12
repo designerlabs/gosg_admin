@@ -69,6 +69,8 @@ export class UserpermissionComponent implements OnInit {
    }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.commonservice.getModuleId();
     this.route.snapshot.params.id;
     this.groupmodulename = new FormControl()

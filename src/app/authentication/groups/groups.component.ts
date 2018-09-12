@@ -87,12 +87,10 @@ export class GroupsComponent implements OnInit {
     this.elementRef = elementRef;
     
   }
-
-  
-  
-
   
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.commonservice.getModuleId();
     this.isUpdate = false;
     this.route.snapshot.params.id;

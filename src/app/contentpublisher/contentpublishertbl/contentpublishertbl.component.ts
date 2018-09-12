@@ -183,6 +183,8 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     //this.getRecordListCP(this.pageCount, this.pageSize);
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');

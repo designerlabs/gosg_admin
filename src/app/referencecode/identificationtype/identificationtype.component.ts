@@ -67,6 +67,8 @@ export class IdentificationtypeComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.commonservice.getModuleId();
     this.identificationTypeEng = new FormControl();
     this.identificationTypeMy = new FormControl();

@@ -81,6 +81,8 @@ export class SchedulertblComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.displayedColumns = ['no','moduleName', 'executionStatus', 'enabled', 'action'];
     this.getSchedulerData()
     this.commonservice.getModuleId();

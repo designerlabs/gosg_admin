@@ -90,6 +90,8 @@ export class FaqtblComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     //this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
   }

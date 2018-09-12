@@ -104,6 +104,7 @@ export class AgencyappComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.commonservice.getInitialMessage();
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');

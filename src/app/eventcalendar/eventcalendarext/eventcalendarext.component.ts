@@ -82,6 +82,8 @@ export class EventcalendarextComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     // this.isEdit = false;
     // this.changePageMode(this.isEdit); 
 
