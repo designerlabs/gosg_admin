@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT Media file Upload -->
 <div class="container right-content">
-        <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+        
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
       <h3>{{ pageMode | translate }} {{ 'mediaupload.header' | translate }}</h3>
@@ -106,7 +106,7 @@
       </div>
       <div class="row" >
         <div class="col-md-6">
-          <ng4-files-click (filesSelect)="filesSelectEn($event)">
+          <ng4-files-click (filesSelect)="filesSelectEn($event,1)">
             <!-- <span>Upload a File here</span> -->
             <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> File Upload</span>
           </ng4-files-click>
@@ -116,7 +116,7 @@
           
         </div>
         <div class="col-md-6">
-            <ng4-files-click (filesSelect)="filesSelectMy($event)">
+            <ng4-files-click (filesSelect)="filesSelectMy($event,2)">
               <!-- <span>Upload a File here</span> -->
               <span role="button" class="btn btn-success btn-md"><i class="fa fa-search"></i> Muat Naik Fail</span>
             </ng4-files-click>

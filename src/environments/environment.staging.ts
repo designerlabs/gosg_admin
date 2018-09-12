@@ -7,9 +7,9 @@ export const environment = {
     production: false,
     staging: true,
     uapURL : 'http://10.1.70.148:8080/',
+    stagURL: 'http://10.1.70.148:8080/',
     mediaURL: 'http://10.1.71.168/',
     mockApiURL :'http://10.1.22.34:3000/',
     baseURL: 'http://localhost/locale-api/',
     mibisURL: 'https://10.1.71.176/mibis/'
   };
-  

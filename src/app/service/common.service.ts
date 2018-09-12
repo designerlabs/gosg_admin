@@ -1,22 +1,24 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, OnDestroy } from '@angular/core';
 import {Http, Request, RequestOptionsArgs, Response } from '@angular/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import {map} from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router, RouterModule, ParamMap } from '@angular/router';
 import { ObservableInput } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import "rxjs/add/observable/throw";
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/retry';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
-export class CommonService {
+export class CommonService implements OnDestroy {
 
   showPlaceHolderEn = "Category Parents";
   showPlaceHolderBm = "Induk Kategori";
@@ -37,7 +39,8 @@ export class CommonService {
 
   participationContentCategoryIdEn = 665;
   participationContentCategoryIdBm = 666;
-
+  private timer: Observable<any>;
+  private subscription: Subscription;
   isAdmin: boolean;
   getDataT: any;
   userID: any;
@@ -179,6 +182,23 @@ export class CommonService {
   private usersUrl: string = this.appConfig.urlUsers;
   private slidersUrl: string = this.appConfig.urlSlides;
   private getUserUrl: string = this.appConfig.urlGetUser;
+
+
+  public ngOnDestroy() {
+    if ( this.subscription && this.subscription instanceof Subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  public setTimer(){
+    let text = "Please wait!";
+    this.timer        = Observable.timer(5000); // 5000 millisecond means 5 seconds
+    this.subscription = this.timer.subscribe(() => {
+      text = "Change already"
+        // set showloader to false to hide loading div from view after 5 seconds
+    });
+    return text;
+  }
 
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+  
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
           <h3>{{ 'module.groupList' | translate }}</h3>
@@ -62,9 +62,9 @@
         <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef class="actionColumn"> {{ 'table.action' | translate }} </mat-header-cell>
         <mat-cell class="text-align-Center padding5" *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update"></i></button>&nbsp;
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}"></i></button>&nbsp;
             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-              <i [ngClass]="commonservice.icon.trash"  title="Delete {{ element.moduleGroupId }}"></i></button>
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"  title="Delete {{ element.moduleGroupId }}"></i></button>
 
             <app-confirm-dialog  #deleteModal 
               [title]="'common.icon.warn'" 

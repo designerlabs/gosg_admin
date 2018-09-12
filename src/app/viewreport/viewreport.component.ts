@@ -99,16 +99,19 @@ export class ViewreportComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(Rdata, (function () {
   
         this.listreport = Rdata;
+
+        console.log(this.listreport);
         this.checkReqValues();
 
       }).bind(this));
       this.loading = false;
-    });
-      // error => {
-      //   this.toastr.error(JSON.parse(error._body).statusDesc, '');
-      //   this.loading = false;
-      // });
+    },
+    error => {
 
+      this.loading = false;
+      this.toastr.error(this.translate.instant('common.err.noAccess'), ''); 
+      
+    });
   }
     
 

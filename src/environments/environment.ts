@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   staging: false,
   uapURL : '/',
+  stagURL: 'https://gosgstag.malaysia.gov.my/',
   mediaURL: '/',
   mockApiURL :'/',
   baseURL: '/',

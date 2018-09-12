@@ -96,6 +96,8 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     this.getSlidersData(this.pageCount, this.sliderPageSize);
     this.updateForm.get('kataKunci').setValue(null); 
     this.valkey = false;
+
+    this.keywordVal = '';
   }
 
   filterStatus(e){
@@ -452,12 +454,6 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     
       this.getSlidersData(this.pageCount, this.sliderPageSize);
     }
-
-    
-    
-    
-    
-    
   }
 
   clearDate() {
@@ -473,21 +469,44 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListS(page - 1, this.sliderPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getSlidersData(page - 1, this.sliderPageSize);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSlidersData(page + 1, this.sliderPageSize);
+
+    if(this.keywordVal){
+      this.getFilterListS(page + 1, this.sliderPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getSlidersData(page + 1, this.sliderPageSize);
+    }
   }
 
   pageChange(event, totalPages) {
-    this.getSlidersData(this.pageCount, event.value);
+    
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+    if(this.keywordVal){
+      this.getFilterListS(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getSlidersData(this.pageCount, event.value);
+    }
     this.sliderPageSize = event.value;
     this.noPrevData = true;
   }

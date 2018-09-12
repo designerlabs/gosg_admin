@@ -43,6 +43,8 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
 
   recordTable = null;
 
+  kword: any;
+
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
@@ -71,10 +73,10 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
   applyFilter(e) {
     
     if(e){
+      this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getRecordList(this.pageCount, this.pageSize);
+    } else {
+      this.resetSearch();
     }
   }
   
@@ -138,7 +140,7 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
     this.recordList = null;
     // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
     this.loading = true;
-    this.commonservice.readProtected('polls/question', page, size, '', this.languageId)
+    this.commonservice.readProtected('polls/question/lists', page, size, '', this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -182,6 +184,7 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
     // this.dataUrl = this.appConfig.urlPoll + '/question/search/all?keyword=' +keyword+ '&page=' + page + '&size=' + size + '&language=' +this.languageId;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
       this.commonservice.readProtected('polls/question/search/all',page, size, keyword, this.languageId)
         .subscribe(data => {
@@ -225,11 +228,16 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page - 1, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -239,7 +247,11 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getRecordList(page + 1, this.pageSize);
   }
 
   add() {
@@ -281,7 +293,11 @@ export class PollquestiontblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.keywordue);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getRecordList(this.pageCount, event.keywordue);
     this.pageSize = event.keywordue;
     this.noPrevData = true;
   }

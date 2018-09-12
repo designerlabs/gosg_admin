@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT ERROR -->
 <div class="container right-content">
-  <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+  
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
       <h3>{{ pageMode | translate }} {{ 'common.agency' | translate }}</h3>
@@ -212,15 +212,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="15" placeholder="{{ 'common.publishing.rss' | translate }}" formControlName="rssUrl" (change)="checkReqValues()">
-            <mat-error *ngIf="updateForm.controls.rssUrl.hasError('required')">
-              {{ 'common.publishing.rss' | translate }} {{ 'common.isrequired' | translate }}
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-md-6">
-          <mat-form-field class="example-full-width">
-            <input matInput tabindex="16" placeholder="{{ 'common.publishing.blog' | translate }}" formControlName="blogUrl" (change)="checkReqValues()">
+            <input matInput tabindex="15" placeholder="{{ 'common.publishing.blog' | translate }}" formControlName="blogUrl" (change)="checkReqValues()">
             <mat-error *ngIf="updateForm.controls.blogUrl.hasError('required')">
               {{ 'common.publishing.blog' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -232,6 +224,14 @@
       <div class="row paddingTop-20">
         <div class="col-md-12">
           <label class="">{{ 'participation.tableBottom.participation' | translate }}</label>
+        </div>        
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="16" placeholder="{{ 'common.publishing.rss' | translate }}" formControlName="rssUrl" (change)="checkReqValues()">
+            <mat-error *ngIf="updateForm.controls.rssUrl.hasError('required')">
+              {{ 'common.publishing.rss' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
@@ -259,6 +259,15 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="20" placeholder="{{ 'common.publishing.ePartSubscribeUrl' | translate }}" formControlName="ePartSubscribeUrl"
+              (change)="checkReqValues()">
+            <mat-error *ngIf="updateForm.controls.ePartSubscribeUrl.hasError('required')">
+              {{ 'common.publishing.ePartSubscribeUrl' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
         <div class="col-md-6">&nbsp;</div>
       </div>
 
@@ -269,7 +278,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="20" placeholder="{{ 'common.socmed.facebook' | translate }}" formControlName="fbUrl" (change)="checkReqValues()">
+            <input matInput tabindex="21" placeholder="{{ 'common.socmed.facebook' | translate }}" formControlName="fbUrl" (change)="checkReqValues()">
             <mat-error *ngIf="updateForm.controls.fbUrl.hasError('required')">
               {{ 'common.socmed.facebook' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -277,7 +286,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="21" placeholder="{{ 'common.socmed.twitter' | translate }}" formControlName="twitterUrl" (keyup)="checkReqValues()">
+            <input matInput tabindex="22" placeholder="{{ 'common.socmed.twitter' | translate }}" formControlName="twitterUrl" (keyup)="checkReqValues()">
             <mat-error *ngIf="updateForm.controls.twitterUrl.hasError('required')">
               {{ 'common.socmed.twitter' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -285,7 +294,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="22" placeholder="{{ 'common.socmed.youtube' | translate }}" formControlName="youtubeUrl" (keyup)="checkReqValues()">
+            <input matInput tabindex="23" placeholder="{{ 'common.socmed.youtube' | translate }}" formControlName="youtubeUrl" (keyup)="checkReqValues()">
             <mat-error *ngIf="updateForm.controls.youtubeUrl.hasError('required')">
               {{ 'common.socmed.youtube' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -293,7 +302,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="23" placeholder="{{ 'common.socmed.instagram' | translate }}" formControlName="instagramUrl" (keyup)="checkReqValues()">
+            <input matInput tabindex="24" placeholder="{{ 'common.socmed.instagram' | translate }}" formControlName="instagramUrl" (keyup)="checkReqValues()">
             <mat-error *ngIf="updateForm.controls.instagramUrl.hasError('required')">
               {{ 'common.socmed.instagram' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>
@@ -301,7 +310,7 @@
         </div>
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
-            <input matInput tabindex="24" placeholder="{{ 'common.socmed.flickr' | translate }}" formControlName="flickrUrl" (keyup)="checkReqValues()">
+            <input matInput tabindex="25" placeholder="{{ 'common.socmed.flickr' | translate }}" formControlName="flickrUrl" (keyup)="checkReqValues()">
             <mat-error *ngIf="updateForm.controls.flickrUrl.hasError('required')">
               {{ 'common.socmed.flickr' | translate }} {{ 'common.isrequired' | translate }}
             </mat-error>

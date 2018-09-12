@@ -45,6 +45,8 @@ export class EventcalendarexttblComponent implements OnInit, OnDestroy {
 
   showNoData = false
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -55,18 +57,17 @@ export class EventcalendarexttblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    // 
-    
     if(val){
+      this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
-    }
-    else{
-      this.getEventData(this.pageCount, this.pageSize, this.languageId);
+    } else {
+      this.resetSearch();
     }
   
   }
 
   resetSearch() {
+    this.kword = '';
     this.getEventData(this.pageCount, this.pageSize, this.languageId);
   }
 
@@ -161,10 +162,11 @@ export class EventcalendarexttblComponent implements OnInit, OnDestroy {
       });
   }
 
-  getFilterList(count, size, keyword, filterkeyword) {
+  getFilterList(count, size, keyword, filterkeyword?) {
 
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
       this.commonservice.readProtected('calendar/external',count, size, keyword)
       .subscribe(data => {
@@ -207,7 +209,11 @@ export class EventcalendarexttblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getEventData(this.pageCount, this.pageSize, this.languageId);
+    
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getEventData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -217,11 +223,19 @@ export class EventcalendarexttblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getEventData(page + 1, this.pageSize, this.languageId);
+    
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getEventData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getEventData(this.pageCount, event.value, this.languageId);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getEventData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

@@ -245,7 +245,8 @@
       "failtodelete":"Sorry, Record is not deleted properly, Try again!",
       "failtoview":"Sorry, Record is not viewed properly, Try again!",
       "patternisnotvalid": "pattern is not valid",
-      "errreport": "Please select report"
+      "errreport": "Please select report",
+      "noAccess": "You not authorise to access report. Please contact admin mibis."
     },
     "success":{
       "added": "Successfully added!",
@@ -350,7 +351,8 @@
       "ePartUrl": "e-Participation URL",
       "ePartArchiveUrl": "e-Participation Archive URL",
       "ePartPolicyUrl": "e-Participation Policy URL",
-      "rss": "RSS URL",
+      "ePartSubscribeUrl": "e-Participation Subscription URL",
+      "rss": "e-Participation RSS URL",
       "blog": "Blog URL"
     },
     "socmed": {
@@ -370,7 +372,9 @@
       "delete": "Delete",
       "update": "Update",
       "archive": "Archive",
-      "history": "History"
+      "history": "History",
+      "preview": "Preview",
+      "lblpreview": "Please click 'Preview' before submit"
     },
     "mdecstatus": "MDEC Status",
     "agency": "Agency",
@@ -861,9 +865,10 @@
     "mediatype": "Media Type",
     "mediaupload": "Media Upload"
   },
-  "ministrytbl": {
+  "ministry": {
     "name": "Ministry",
     "header": "Ministry Management",
+    "uniquecode": "Ministry Unique Code",
     "tableHeader":{
       "nameEn": "Ministry Name (EN)",
       "nameBm": "Ministry Name (BM)"
@@ -987,6 +992,39 @@
     },
     "component": {
       "users": "User Account Status",
+      "isstaff": "Is Staff?",
+      "dob": "Date of Birth",
+      "citizenship": "Citizenship",
+      "country": "Country",
+      "gender": "Gender",
+      "race": "Race",
+      "religion": "Religion",
+      "address": "Address",
+      "mobilenum": "Mobile Number",
+      "select": "Select Account Status"
+    }
+  },
+  "actmon": {
+    "header": "Activity Monitoring",
+    "tableHeader":{
+      "fullname": "Fullname",
+      "idno": "Identification No",
+      "subrefno": "Submission Ref No",
+      "email": "Email",
+      "accstatus": "Account Status",
+      "svcname": "Service Name",
+      "status": "Status",
+      "agcname": "Agency Name",
+      "datereceive": "Receive Date"
+    },
+    "tablebottom":{
+      "users": "Users",
+      "agencies": "Agencies"
+    },
+    "component": {
+      "userstatus": "User Account Status",
+      "users": "Users",
+      "agencies": "Agencies",
       "isstaff": "Is Staff?",
       "dob": "Date of Birth",
       "citizenship": "Citizenship",
@@ -1159,7 +1197,8 @@
       "titleEn": "Title (EN)",
       "titleBm": "Title (BM)",
       "descEn": "Description (EN)",
-      "descBm": "Description (BM)"
+      "descBm": "Description (BM)",
+      "common": "Common"
     }
   },
   "dservicetype": {

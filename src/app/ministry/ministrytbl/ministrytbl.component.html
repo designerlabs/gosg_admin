@@ -1,5 +1,5 @@
 <div class="container right-content">
-    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    
   <!-- <div class="col-md-12">
     <h2 class="staticLabel"></h2>
     <span class="pull-right editBtn">
@@ -11,7 +11,7 @@
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
-        <h3>{{ 'ministrytbl.header' | translate }}</h3>
+        <h3>{{ 'ministry.header' | translate }}</h3>
     </div>
     
     <div class="col-md-2 curdHeadingRight">
@@ -53,13 +53,13 @@
 
       <!-- ministryNameEn Column -->
       <ng-container matColumnDef="ministryNameEn">
-        <mat-header-cell *matHeaderCellDef> {{ 'ministrytbl.tableHeader.nameEn' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef> {{ 'ministry.tableHeader.nameEn' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.list[0].ministryName}} </mat-cell>
       </ng-container>
 
       <!-- ministryNameBm Column -->
       <ng-container matColumnDef="ministryNameBm">
-        <mat-header-cell *matHeaderCellDef > {{ 'ministrytbl.tableHeader.nameBm' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef > {{ 'ministry.tableHeader.nameBm' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" > {{element.list[1].ministryName}} </mat-cell>
       </ng-container>
 
@@ -67,13 +67,13 @@
       <ng-container matColumnDef="ministryAction">
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
-              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" ></i>
             </button>
             &nbsp;
-            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
-              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode }}"></i>
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()">
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
             </button>
             <app-confirm-dialog  #deleteRow 
             [title]="'fa fa-exclamation-triangle'" 

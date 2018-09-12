@@ -1,5 +1,5 @@
 <div class="container-fluid">
-        <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+        
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>{{ 'pollresult.header' | translate }}</h3>
@@ -12,6 +12,21 @@
     
     <div *ngIf="commonservice.isRead"> 
         <div class="example-container mat-elevation-z8">
+            <div class="row">
+      
+                <div class="col-md-12 paddingTop-10 pdg_R_30px text-align-Right">
+                    <button mat-raised-button color="primary" [disabled]="!multipleSel.length > 0" matSuffix aria-label="Clear" (click)="clearSelection()"><i [ngClass]="commonservice.icon.undo"></i> {{'common.buttons.reset' | translate}}</button>
+                    &nbsp;
+                    <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i> {{'common.buttons.delete' | translate}}</button>
+                    <app-confirm-dialog  #deleteAllModal 
+                    [title]="'fa fa-exclamation-triangle'" 
+                    [content]="'common.msg.deleteAll'"
+                    [state]="'bg_header bg_warn_header'"
+                    [isReset]="'true'"
+                    (resetMethod)="deleteAll()">
+                    </app-confirm-dialog>
+                </div>
+            </div>
     
             <!-- <div class="col-md-12 paddingTop-10">
                 <mat-form-field>
@@ -19,7 +34,17 @@
                 </mat-form-field>
             </div> -->
 
-            <mat-table #table [dataSource]="dataSource">     
+            <mat-table #table [dataSource]="dataSource">  
+  
+                <!-- CB Column -->
+                <ng-container matColumnDef="cb">
+                  <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef>&nbsp;
+                    <!-- <mat-checkbox class="example-margin" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"></mat-checkbox> -->
+                  </mat-header-cell>
+                  <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                    <mat-checkbox *ngIf="element.deleteFlag == false" class="example-margin" [value]="element.pollRefNo" (change)="isChecked($event, element.pollRefNo);"></mat-checkbox>
+                  </mat-cell>
+                </ng-container>   
 
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
@@ -31,69 +56,94 @@
 
                 <!-- Question 1 Column -->
                 <ng-container matColumnDef="question">
-                    <mat-header-cell class="text-align-Left" style="flex: 0 0 21%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.question' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left padding5" style="flex: 0 0 21%;" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.question' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.en[0].pollquestion}} 
                     </mat-cell>
                 </ng-container>
             
                 <!-- Option 1 Column -->
                 <ng-container matColumnDef="opt1">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt1' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                        <div *ngIf="element.en[0].options[0].option != null" class="col-md-12">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt1' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.en[0].options[0].option != null">
                             {{element.en[0].options[0].option}} <br>
                             ({{element.results[0].result}}/{{element.results[0].totalResult}})
                         </div>
-                        <div *ngIf="element.en[0].options[0].option == null" class="col-md-12"> - </div>
+                        <div *ngIf="element.en[0].options[0].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Option 2 Column -->
                 <ng-container matColumnDef="opt2">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt2' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                        <div *ngIf="element.en[0].options[1].option != null" class="col-md-12">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt2' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.en[0].options[1].option != null">
                             {{element.en[0].options[1].option}} <br>
                             ({{element.results[1].result}}/{{element.results[1].totalResult}})
                         </div>
-                        <div *ngIf="element.en[0].options[1].option == null" class="col-md-12"> - </div>
+                        <div *ngIf="element.en[0].options[1].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
             
                 <!-- Option 3 Column -->
                 <ng-container matColumnDef="opt3">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt3' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                        <div *ngIf="element.en[0].options[2].option != null" class="col-md-12">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt3' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.en[0].options[2].option != null">
                             {{element.en[0].options[2].option}} <br>
                             ({{element.results[2].result}}/{{element.results[2].totalResult}})
                         </div>
-                        <div *ngIf="element.en[0].options[2].option == null" class="col-md-12"> - </div>
+                        <div *ngIf="element.en[0].options[2].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Option 4 Column -->
                 <ng-container matColumnDef="opt4">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef>{{ 'pollresult.tableHeader.opt4' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                        <div *ngIf="element.en[0].options[3].option != null" class="col-md-12">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef>{{ 'pollresult.tableHeader.opt4' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.en[0].options[3].option != null">
                             {{element.en[0].options[3].option}} <br>
                             ({{element.results[3].result}}/{{element.results[3].totalResult}})
                         </div>
-                        <div *ngIf="element.en[0].options[3].option == null" class="col-md-12"> - </div>
+                        <div *ngIf="element.en[0].options[3].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Option 5 Column -->
                 <ng-container matColumnDef="opt5">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 15%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt5' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Left" style="flex: 0 0 15%;" *matCellDef="let element">
-                        <div *ngIf="element.en[0].options[4].option != null" class="col-md-12">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt5' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.en[0].options[4].option != null">
                             {{element.en[0].options[4].option}} <br>
                             ({{element.results[4].result}}/{{element.results[4].totalResult}})
                         </div>
-                        <div *ngIf="element.en[0].options[4].option == null" class="col-md-12"> - </div>
+                        <div *ngIf="element.en[0].options[4].option == null"> - </div>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Delete Column -->
+                <ng-container matColumnDef="del">
+                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.buttons.delete' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                        <i *ngIf="element.deleteFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                        <i *ngIf="element.deleteFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                    </mat-cell>
+                </ng-container>
+    
+                <!-- action Column -->
+                <ng-container matColumnDef="action">
+                    <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                        <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.deleteFlag == false" (click)="deleteModal.show()">
+                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}" title="Delete {{ element.pollRefNo }}"></i></button>
+                        <app-confirm-dialog  #deleteModal 
+                        [title]="'fa fa-exclamation-triangle'" 
+                        [content]="'common.msg.delete'"
+                        [state]="'bg_header bg_warn_header'"
+                        [isReset]="'true'"
+                        (resetMethod)="deleteRow(element.pollRefNo)">
+                        </app-confirm-dialog>
                     </mat-cell>
                 </ng-container>
             

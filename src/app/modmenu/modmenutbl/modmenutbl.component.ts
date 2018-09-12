@@ -45,6 +45,8 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
   recordList = null;
   recordTable = null;
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -53,19 +55,18 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
   private subscriptionLang: ISubscription;
 
   applyFilter(val) {   
-
-    
     
     if(val){
+      this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
-    }
-    else{
-      this.getModuleData(this.pageCount, this.pageSize, this.languageId);
+    } else {
+      this.resetSearch();
     }
   
   }
 
   resetSearch() {
+    this.kword = '';
     this.getModuleData(this.pageCount, this.pageSize, this.languageId);
   }
 
@@ -162,14 +163,15 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
       
   }
 
-  getFilterList(page, size, keyword, filterkeyword) {
+  getFilterList(page, size, keyword, filterkeyword?) {
 
     this.recordList = null;
     // this.dataUrl = this.appConfig.urlModule+'/search?keyword='+keyword+'&language='+this.languageId+ '&page=' + page + '&size=' + size;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
-      this.commonservice.readProtected('authorization/module/search/', page, size, keyword).subscribe(
+      this.commonservice.readProtected('authorization/module/search/', page, size, keyword, this.languageId).subscribe(
         data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -207,7 +209,11 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getModuleData(this.pageCount, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getModuleData(this.pageCount, this.pageSize, this.languageId);
+      
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -216,11 +222,18 @@ export class ModmenutblComponent implements OnInit, OnDestroy {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    this.getModuleData(page + 1, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getModuleData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getModuleData(this.pageCount, event.value, this.languageId);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getModuleData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

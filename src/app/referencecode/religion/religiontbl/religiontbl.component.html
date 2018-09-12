@@ -1,5 +1,5 @@
 <div class="container right-content">
-        <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+        
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>{{ 'religiontbl.header' | translate }}</h3>
@@ -48,11 +48,11 @@
                     <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="actionColumn" *matCellDef="let element">
                         <!-- <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
-                            <i class="fa fa-eye" title="View {{ element.refCode }}"></i>
+                            <i class="fa fa-eye"></i>
                         </button>
                         &nbsp; -->
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-                            <i [ngClass]="commonservice.icon.trash" title="Delete {{element.refCode}}"></i>
+                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}" title="Delete {{element.refCode}}"></i>
                         </button>
                         <app-confirm-dialog #deleteModal 
                         [title]="'fa fa-exclamation-triangle'" 

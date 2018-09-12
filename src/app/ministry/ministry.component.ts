@@ -60,6 +60,7 @@ export class MinistryComponent implements OnInit {
   twitterUrl: FormControl
   youtubeUrl: FormControl
   mdecStatus: FormControl
+  uniqueCode: FormControl
 
   resetMsg = this.resetMsg;
   public loading = false;
@@ -132,6 +133,7 @@ export class MinistryComponent implements OnInit {
     this.twitterUrl = new FormControl()
     this.flickrUrl = new FormControl()
     this.mdecStatus = new FormControl()
+    this.uniqueCode = new FormControl()
 
     this.updateForm = new FormGroup({
       ministryNameEn: this.ministryNameEn,
@@ -154,6 +156,7 @@ export class MinistryComponent implements OnInit {
       twitterUrl: this.twitterUrl,
       flickrUrl: this.flickrUrl,
       active: this.active,
+      uniqueCode: this.uniqueCode,
       mdecStatus: this.mdecStatus
     });
 
@@ -224,6 +227,7 @@ export class MinistryComponent implements OnInit {
         this.updateForm.get('instagramUrl').setValue(dataBm.ministryInstagram);
         this.updateForm.get('fbUrl').setValue(dataBm.ministryFacebook);
         this.updateForm.get('mdecStatus').setValue(dataBm.ministryMdecstatus);
+        this.updateForm.get('uniqueCode').setValue(dataBm.ministryUniqueCode);
         this.refCode = dataEn.ministryCode;
         this.ministryIdEn = dataEn.ministryId;
         this.ministryIdBm = dataBm.ministryId;
@@ -252,6 +256,7 @@ export class MinistryComponent implements OnInit {
     let address = "address";
     let contactperson = "contactperson";
     let email = "email";
+    let uniqueCode = "uniqueCode";
 
     let reqVal: any = [
                         ministryNameEn, 
@@ -260,7 +265,8 @@ export class MinistryComponent implements OnInit {
                         descBm,
                         address,
                         contactperson,
-                        email
+                        email,
+                        uniqueCode
                       ];
 
     let nullPointers: any = [];
@@ -302,6 +308,7 @@ export class MinistryComponent implements OnInit {
       {
         "ministryName": null,
         "ministryDescription": null,
+        "ministryUniqueCode": null,
         "ministryAddress": null,
         "ministryLatitude": null,
         "ministryLongitude": null,
@@ -326,6 +333,7 @@ export class MinistryComponent implements OnInit {
       {
         "ministryName": null,
         "ministryDescription": null,
+        "ministryUniqueCode": null,
         "ministryAddress": null,
         "ministryLatitude": null,
         "ministryLongitude": null,
@@ -352,6 +360,7 @@ export class MinistryComponent implements OnInit {
     
 
     body[0].ministryName = formValues.ministryNameEn;
+    body[0].ministryUniqueCode = formValues.uniqueCode;
     body[0].ministryDescription = formValues.descEn;
     body[0].ministryAddress = formValues.address;
     body[0].ministryLatitude = formValues.agclat;
@@ -372,6 +381,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryYoutube = formValues.youtubeUrl;
 
     body[1].ministryName = formValues.ministryNameBm;
+    body[1].ministryUniqueCode = formValues.uniqueCode;
     body[1].ministryDescription = formValues.descBm;
     body[1].ministryAddress = formValues.address;
     body[1].ministryLatitude = formValues.agclat;
@@ -417,6 +427,7 @@ export class MinistryComponent implements OnInit {
     let body = [
       {
         "ministryId": null,
+        "ministryUniqueCode": null,
         "ministryCode": null,
         "ministryName": null,
         "ministryDescription": null,
@@ -443,6 +454,7 @@ export class MinistryComponent implements OnInit {
       }, 
       {
         "ministryId": null,
+        "ministryUniqueCode": null,
         "ministryCode": null,
         "ministryName": null,
         "ministryDescription": null,
@@ -470,6 +482,7 @@ export class MinistryComponent implements OnInit {
     ];
   
     body[0].ministryId = this.ministryIdEn;
+    body[0].ministryUniqueCode = formValues.uniqueCode;
     body[0].ministryCode = this.refCode;
     body[0].ministryName = formValues.ministryNameEn;
     body[0].ministryDescription = formValues.descEn;
@@ -492,6 +505,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryYoutube = formValues.youtubeUrl;
   
     body[1].ministryId = this.ministryIdBm;
+    body[1].ministryUniqueCode = formValues.uniqueCode;
     body[1].ministryCode = this.refCode;
     body[1].ministryName = formValues.ministryNameBm;
     body[1].ministryDescription = formValues.descBm;

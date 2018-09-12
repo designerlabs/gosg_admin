@@ -39,6 +39,8 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
   showNoData = false;
   recordTable = null;
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -49,14 +51,15 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
   applyFilter(e) {
     
     if(e){
+      this.kword = e;
       this.getFilterList(this.pageCount, this.pageSize, e);
-    }
-    else{
-      this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
+    } else {
+      this.resetSearch();
     }
   }
 
   resetSearch() {
+    this.kword = '';
     this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
   }
 
@@ -168,6 +171,7 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
     this.errMsgList =  null;
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;   
       this.commonservice.readProtected('errormessage/code', page, size, keyword, this.languageId)
       .subscribe(
@@ -210,7 +214,11 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getErrMsgsData(this.pageCount, this.pageSize, this.languageId);
+
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -220,11 +228,18 @@ export class ErrormessagetblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getErrMsgsData(page + 1, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getErrMsgsData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getErrMsgsData(this.pageCount, event.value, this.languageId);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getErrMsgsData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

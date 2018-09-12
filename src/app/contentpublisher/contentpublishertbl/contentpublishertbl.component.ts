@@ -114,6 +114,8 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryCodeCP(this.languageId);
+
+    this.keywordVal = '';
   }
 
   filterStatus(e){
@@ -537,11 +539,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     else if(this.newPublishD == undefined || this.newPublishD == null){
       this.getCategoryCodeCP(this.languageId);
     }
-
-    
-    
-    
-    
     
   }
 
@@ -556,17 +553,33 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getRecordListCP(page - 1, this.pageSize, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListCP(page - 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+
+    else{
+      this.getRecordListCP(page - 1, this.pageSize, this.catCode, this.languageId);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordListCP(page + 1, this.pageSize, this.catCode, this.languageId);
+    if(this.keywordVal){
+      this.getFilterListCP(page + 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListCP(page + 1, this.pageSize, this.catCode, this.languageId);
+    }
   }
 
   updateRow(row) {
@@ -605,7 +618,14 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordListCP(this.pageCount, event.value, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+    if(this.keywordVal){
+      this.getFilterListCP(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListCP(this.pageCount, event.value, this.catCode, this.languageId);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }

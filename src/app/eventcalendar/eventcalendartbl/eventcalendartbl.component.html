@@ -1,5 +1,5 @@
 <div class="container right-content">
-    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    
   
     <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
@@ -78,13 +78,13 @@
         <ng-container matColumnDef="calendarAction">
           <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell *matCellDef="let element" class="actionColumn">
-              <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)" title="Update {{ element.refCode }}">
-                <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
-                <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+              <button mat-mini-fab class="bg_orange" (click)="updateRow(element.refCode)">
+                <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" ></i>
+                <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" ></i>
               </button>
               &nbsp;
-              <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()" title="Delete {{ element.refCode }}">
-                <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode }}"></i>
+              <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()">
+                <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
               </button>
               <app-confirm-dialog  #deleteRow 
               [title]="'fa fa-exclamation-triangle'" 

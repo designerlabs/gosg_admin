@@ -1,5 +1,5 @@
 <div class="container right-content">
-    <ngx-loading [show]="loading" [config]="{ fullScreenBackdrop: true }"></ngx-loading>
+    
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
@@ -78,7 +78,7 @@
         <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" (click)="updateRow(element.moduleId)" title="Update {{ element.moduleName }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.fullName }}" ></i>
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="Update {{ element.fullName }}" ></i>
                 <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fullName }}" ></i> -->
             </button>
             <!-- &nbsp;

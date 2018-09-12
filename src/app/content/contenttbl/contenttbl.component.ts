@@ -115,6 +115,8 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryCodeC(this.languageId);
+
+    this.keywordVal = '';
     
   }
 
@@ -537,11 +539,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
       this.getCategoryCodeC(this.languageId);
       
     }
-
-    
-    
-    
-    
     
   }
 
@@ -556,17 +553,34 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getRecordListC(page - 1, this.pageSize, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value; 
+    if(this.keywordVal){
+      this.getFilterListC(page - 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+
+    else{
+      this.getRecordListC(page - 1, this.pageSize, this.catCode, this.languageId);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordListC(page + 1, this.pageSize, this.catCode, this.languageId);
+
+    if(this.keywordVal){
+      this.getFilterListC(page + 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+
+    else{
+      this.getRecordListC(page + 1, this.pageSize, this.catCode, this.languageId);
+    }
   }
 
   add() {
@@ -608,7 +622,16 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordListC(this.pageCount, event.value, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListC(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+
+    else{
+      this.getRecordListC(this.pageCount, event.value, this.catCode, this.languageId);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }

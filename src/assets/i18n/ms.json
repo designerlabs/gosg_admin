@@ -245,7 +245,8 @@
       "failtodelete":"Harap maaf, Record is not deleted properly, Try again!",
       "failtoview":"Harap maaf, Record is not viewed properly, Try again!",
       "patternisnotvalid": "corak tidak sah",
-      "errreport": "Sila pilih laporan"
+      "errreport": "Sila pilih laporan",
+      "noAccess": "Anda tidak dibenarkan untuk mengakses laporan. Sila hubungi admin mibis."
     },
     "success":{
       "added": "Berjaya ditambah!",
@@ -349,8 +350,9 @@
       "ePartUrl": "URL e-Penyertaan ",
       "ePartArchiveUrl": "URL Arkib e-Penyertaan",
       "ePartPolicyUrl": "URL Polisi e-Penyertaan",
+      "ePartSubscribeUrl": "URL Langganan e-Penyertaan",
       "website": "URL Laman Web",
-      "rss": "URL RSS",
+      "rss": "URL RSS e-Penyertaan",
       "blog": "URL Blog"
     },
     "socmed": {
@@ -370,7 +372,9 @@
       "delete": "Padam",
       "update": "Kemaskini",
       "archive": "Arkib",
-      "history": "Sejarah"
+      "history": "Sejarah",
+      "preview": "Previu",
+      "lblpreview": "Sila klik 'Previu' sebelum hantar"
     },
     "mdecstatus": "Status MDEC",
     "agency": "Agensi",
@@ -860,9 +864,10 @@
     "mediatype": "Jenis Media",
     "mediaupload": "Muat Naik Media"
   },
-  "ministrytbl": {
+  "ministry": {
     "name": "Kementerian",
     "header": "Pengurusan Kementerian",
+    "uniquecode": "Kod Unik Kementerian",
     "tableHeader":{
       "nameEn": "Nama Kementerian (EN)",
       "nameBm": "Nama Kementerian (BM)"
@@ -998,6 +1003,39 @@
       "select": "Pilih Status Akaun"
     }
   },
+  "actmon": {
+    "header": "Pemantauan Aktiviti",
+    "tableHeader":{
+      "fullname": "Nama Penuh",
+      "email": "Email",
+      "idno": "No Kad Pengenalan",
+      "subrefno": "No Rujukan Serahan",
+      "accstatus": "Status Akaun",
+      "svcname": "Nama Perkhidmatan",
+      "status": "Status",
+      "name": "Nama Agensi",
+      "datereceive": "Tarikh Terima"
+    },
+    "tablebottom":{
+      "users": "Pengguna",
+      "agencies": "Agensi"
+    },
+    "component": {
+      "userstatus": "Status Pengguna",
+      "users": "Pengguna",
+      "agencies": "Agensi",
+      "isstaff": "Is Staff?",
+      "dob": "Date of Birth",
+      "citizenship": "Citizenship",
+      "country": "Country",
+      "gender": "Gender",
+      "race": "Race",
+      "religion": "Religion",
+      "address": "Address",
+      "mobilenum": "Mobile Number",
+      "select": "Select Account Status"
+    }
+  },
   "mediatype": {
     "header": "Pengurusan Media",
     "tableHeader":{
@@ -1032,9 +1070,9 @@
   },
   "grouping": {
     "management": {
-      "header": "Pengurusan Pengumpulan",
-      "name": "Nama Pengumpulan",
-      "description": "Keterangan Pengumpulan"
+      "header": "Pengurusan Kumpulan",
+      "name": "Nama Kumpulan",
+      "description": "Keterangan Kumpulan"
     }
   },
   "calendar": {
@@ -1151,7 +1189,8 @@
     "tableHeader":{
       "header": "Perkhidmatan Digital",
       "titleEn": "Tajuk (EN)",
-      "titleBm": "Tajuk (BM)"
+      "titleBm": "Tajuk (BM)",
+      "common": "Common"
     },
     "tablebottom":{
       "services": "Perkhidmatan"

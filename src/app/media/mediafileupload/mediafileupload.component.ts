@@ -440,10 +440,15 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
   }
 
   filesSelectEn(selectedFiles: Ng4FilesSelected, lan): void {    
+
+    
     let mFileSize = this.chkUploadFile.maxSize;
     
     let fileExtn = selectedFiles.files[0].name.split('.')[1];
     let chkFileExtn = this.resFileExtn.filter(fData => fData === fileExtn.toLowerCase());
+    // console.log(selectedFiles);
+    // console.log(fileExtn);
+
     if (selectedFiles.status === Ng4FilesStatus.STATUS_SUCCESS) {      
       if (selectedFiles.files.length > 0 && mFileSize) {        
         if (selectedFiles.files[0].size <= mFileSize) {
@@ -620,7 +625,7 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
       this.commonservice.update(formData, 'media').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Media Type Updated successfully!', '');
+            this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['media/upload']);
           }).bind(this));
           this.loading = false;
@@ -742,10 +747,13 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
         formData.append('mediaFiles', file.files[0], file.files[0].name);
       }
       formData.append('strMedias', JSON.stringify(body));
+
+      console.log(formData);
+      
       this.commonservice.create(formData,'media').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
-            this.toastr.success('Media Type Updated successfully!', '');
+            this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['media/upload']);
           }).bind(this));
           this.loading = false;
