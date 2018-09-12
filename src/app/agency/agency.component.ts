@@ -343,6 +343,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
           this.updateForm.get('ePartUrl').setValue(dataBm.agencyEparticipationUrl);
           this.updateForm.get('ePartArchiveUrl').setValue(dataBm.agencyEparticipationArchiveUrl);
           this.updateForm.get('ePartPolicyUrl').setValue(dataBm.agencyEparticipationPolicyUrl);
+          this.updateForm.get('ePartSubscribeUrl').setValue(dataBm.agencyEmailFeedUrl);
           this.updateForm.get('rssUrl').setValue(dataBm.agencyRss);
           this.updateForm.get('youtubeUrl').setValue(dataBm.agencyYoutube);
           this.updateForm.get('twitterUrl').setValue(dataBm.agencyTwitter);
@@ -351,8 +352,10 @@ export class AgencyComponent implements OnInit, OnDestroy {
           this.updateForm.get('instagramUrl').setValue(dataBm.agencyInstagram);
           this.updateForm.get('fbUrl').setValue(dataBm.agencyFacebook);
           this.updateForm.get('mdecStatus').setValue(dataBm.agencyMdecStatus);
+
           this.refCode = dataEn.agencyCode;
           this.agencyIdEn = dataEn.agencyId;
+
           this.agencyIdBm = dataBm.agencyId;
           this.ministryIdEn = dataEn.agencyMinistry.ministryId;
           this.ministryIdBm = dataBm.agencyMinistry.ministryId;
@@ -565,6 +568,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
           "agencyEparticipationArchiveUrl": null,
           "agencyEparticipationPolicyUrl": null,
           "agencyEparticipationUrl": null,
+          "agencyEmailFeedUrl": null,
           "agencyYoutube": null,
           "language": {
             "languageId": 1
@@ -600,6 +604,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
           "agencyEparticipationArchiveUrl": null,
           "agencyEparticipationPolicyUrl": null,
           "agencyEparticipationUrl": null,
+          "agencyEmailFeedUrl": null,
           "agencyYoutube": null,
           "language": {
             "languageId": 2
@@ -636,6 +641,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[0].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
       body[0].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
       body[0].agencyEparticipationUrl = formValues.ePartUrl;
+      body[0].agencyEmailFeedUrl = formValues.ePartSubscribeUrl;
       body[0].agencyYoutube = formValues.youtubeUrl;
       body[0].agencyMinistry.ministryId = this.ministryIdEn;
 
@@ -662,6 +668,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[1].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
       body[1].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
       body[1].agencyEparticipationUrl = formValues.ePartUrl;
+      body[1].agencyEmailFeedUrl = formValues.ePartSubscribeUrl;
       body[1].agencyYoutube = formValues.youtubeUrl;
       body[1].agencyMinistry.ministryId = this.ministryIdBm;
 
@@ -718,6 +725,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
         "agencyEparticipationArchiveUrl": null,
         "agencyEparticipationPolicyUrl": null,
         "agencyEparticipationUrl": null,
+        "agencyEmailFeedUrl":null,
         "agencyYoutube": "",
         "language": {
           "languageId": 1
@@ -755,6 +763,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
         "agencyEparticipationArchiveUrl": null,
         "agencyEparticipationPolicyUrl": null,
         "agencyEparticipationUrl": null,
+        "agencyEmailFeedUrl":null,
         "agencyYoutube": "",
         "language": {
           "languageId": 2
@@ -793,6 +802,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     body[0].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
     body[0].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
     body[0].agencyEparticipationUrl = formValues.ePartUrl;
+    body[0].agencyEmailFeedUrl = formValues.ePartSubscribeUrl;
     body[0].agencyYoutube = formValues.youtubeUrl;
     body[0].agencyMinistry.ministryId = this.ministryIdEn;
 
@@ -821,6 +831,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     body[1].agencyEparticipationArchiveUrl = formValues.ePartArchiveUrl;
     body[1].agencyEparticipationPolicyUrl = formValues.ePartPolicyUrl;
     body[1].agencyEparticipationUrl = formValues.ePartUrl;
+    body[1].agencyEmailFeedUrl = formValues.ePartSubscribeUrl;
     body[1].agencyYoutube = formValues.youtubeUrl;
     body[1].agencyMinistry.ministryId = this.ministryIdBm;
 
