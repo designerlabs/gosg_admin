@@ -223,8 +223,8 @@
 
                 <!-- date Column -->
                 <ng-container matColumnDef="date">
-                    <mat-header-cell *matHeaderCellDef class="draftColumn"> {{ 'common.tableHeader.date' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let element" class="draftColumn"> {{changeDate(element.list[1]?.publishDate)}}<br> 
+                    <mat-header-cell *matHeaderCellDef class="dateColumn"> {{ 'common.tableHeader.date' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="dateColumn"> {{changeDate(element.list[1]?.publishDate)}}<br> 
                                                             {{changeDate2(element.list[1]?.endDate)}}</mat-cell>
                 </ng-container>
 
