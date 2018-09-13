@@ -1010,7 +1010,7 @@
     "tableHeader":{
       "fullname": "Fullname",
       "idno": "Identification No",
-      "subrefno": "Submission Ref No",
+      "subrefno": "Application No",
       "email": "Email",
       "accstatus": "Account Status",
       "svcname": "Service Name",

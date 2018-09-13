@@ -213,6 +213,7 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
       this.loading = true;
     this.commonservice.readProtected('mediatype','','','', this.languageId)
       .subscribe(resStateData => {
+        console.log(resStateData)
         this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
         }).bind(this));    
@@ -302,11 +303,11 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
 
   selMediaType(event){
     let resMT = this.objMediaType.filter(fmt => fmt.mediaTypeId === this.mediaFileUpForm.controls.mediatype.value);
-    this.objCategory = resMT[0].mediaCategories;
-      console.log(this.objCategory)
-    if(resMT[0].mediaTypeName === "Images"){
+    this.objCategory = resMT[0].mediaTypeCategories;
+      // console.log(this.objCategory)
+    if(resMT.mediaTypeName === "Images"){
       this.mediaPath = "images";
-    }else if(resMT[0].mediaTypeName === "Documents"){
+    }else if(resMT.mediaTypeName === "Documents"){
       this.mediaPath = "documents";
     }else if(resMT[0].mediaTypeName === "Videos"){
       this.mediaPath = "videos";
