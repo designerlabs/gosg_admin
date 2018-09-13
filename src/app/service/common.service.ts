@@ -530,6 +530,16 @@ getMediaByCateId(id){
   }
 
 
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
+  }
+
+
   getCategoryList(){
     let fullUrl = this.appConfig.urlCategory + '?language=' + this.languageId;
     return this.http.get(fullUrl, null)

@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  
+
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
@@ -130,12 +130,12 @@
       <div class="example-header">
         <div class="col-md-6">
             <mat-form-field class="example-full-width" >
-                <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+                <input matInput (keypress)="commonservice.numberOnly($event)" type="text" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)">
             </mat-form-field>
         </div>
         <div class="col-md-6">
             <mat-form-field class="example-full-width" >
-                <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+                <input matInput (keypress)="commonservice.numberOnly($event)" type="text" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)">
             </mat-form-field>
         </div>
       </div>
@@ -255,8 +255,8 @@
       </div>
       <div class="example-header">
         <div class="col-md-12">
-          <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>   
-          <div class="col-md-2 paddingR0"> 
+          <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>
+          <div class="col-md-2 paddingR0">
             <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
             class="btn btn-md pull-right" (click)="previewEn()" >
             <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i> {{ 'common.title.preview' | translate }}</button>
@@ -277,8 +277,8 @@
 
       <div class="example-header">
         <div class="col-md-12">
-          <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>   
-          <div class="col-md-2 paddingR0"> 
+          <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>
+          <div class="col-md-2 paddingR0">
             <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
             class="btn btn-md pull-right" (click)="previewMy()" >
             <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i> {{ 'common.title.preview' | translate }}</button>
