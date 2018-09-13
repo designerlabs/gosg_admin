@@ -22,7 +22,6 @@ export class ReligionComponent implements OnInit {
   
   public religionEng: FormControl;  
   public religionMy: FormControl;
-
   // public active: FormControl
 
   public dataUrl: any;  
@@ -76,9 +75,7 @@ export class ReligionComponent implements OnInit {
     this.updateForm = new FormGroup({   
       religionEng: this.religionEng,
       religionMy: this.religionMy,
-      // active: this.active,
-
-      
+      // active: this.active,      
     });     
     
     let urlEdit = this.router.url.split('/')[3];
@@ -110,11 +107,8 @@ export class ReligionComponent implements OnInit {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
 
-      
-
       this.updateForm.get('religionMy').setValue(this.recordList.religionList[1].religion);
-      this.updateForm.get('religionEng').setValue(this.recordList.religionList[0].religion); 
-      
+      this.updateForm.get('religionEng').setValue(this.recordList.religionList[0].religion);      
 
       this.getReligionIdMy = this.recordList.religionList[1].religionId;
       this.getReligionCodeMy = this.recordList.religionList[1].religionCode;
@@ -122,14 +116,14 @@ export class ReligionComponent implements OnInit {
       this.getReligionIdEng = this.recordList.religionList[0].religionId;
       this.getReligionCodeEng = this.recordList.religionList[0].religionCode;
       // this.getRaceActive = this.recordList.raceList[0].active;
+      this.checkReqValues(); 
 
     }).bind(this));   
     this.loading = false;
   },
   error => {
 
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');         
       this.loading = false;
 
     });
@@ -141,16 +135,6 @@ export class ReligionComponent implements OnInit {
 
   submit(formValues: any) {
     let txt = "";
-    
-    // let flag = false;
-
-    // if(formValues.active == null){
-    //   flag = false;
-    // }
-
-    // else{
-    //   flag = formValues.active;
-    // }
 
     let urlEdit = this.router.url.split('/')[3];
 
@@ -182,8 +166,6 @@ export class ReligionComponent implements OnInit {
       body[0].language.languageId = 1;
       // body[1].active = formValues.active;
 
-      
-
       this.loading = true;
       this.commonservice.create(body,'religion').subscribe(
         data => {
@@ -199,20 +181,6 @@ export class ReligionComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           this.loading = false;
           
-
-        //   
-        //   
-        //   // alert('Record added successfully!')
-
-        //   let txt = "Record added successfully!";
-        //   this.toastr.success(txt, '');  
-
-        //   this.router.navigate(['reference/religion']);
-        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-        // },
-        // error => {
-        //   
-        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
 
@@ -272,20 +240,6 @@ export class ReligionComponent implements OnInit {
           this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
           this.loading = false;
           
-
-        //   
-        //   
-        //   // alert('Record updated successfully!')
-
-        //   let txt = "Record updated successfully!";
-        //   this.toastr.success(txt, ''); 
-
-        //   this.router.navigate(['reference/religion']);
-        //   // this.toastr.success(this.translate.instant('profile.msg.updateSuccess'), '');
-        // },
-        // error => {
-        //   
-        //   // this.toastr.error(this.translate.instant('profile.err.updateFail'), '');
       });
     }
   }
@@ -315,18 +269,6 @@ export class ReligionComponent implements OnInit {
 
     this.updateForm.reset();
     this.checkReqValues(); 
-
-    // var txt;
-    // var r = confirm("Are you sure to reset the form?");
-    // if (r == true) {
-    //     txt = "You pressed OK!";
-    //     this.toastr.success(txt, ''); 
-    //     this.updateForm.reset();
-    //     this.checkReqValues();
-    // } else {
-    //     txt = "You pressed Cancel!";
-    //     this.toastr.success(txt, '');
-    // }
   }
 
 }

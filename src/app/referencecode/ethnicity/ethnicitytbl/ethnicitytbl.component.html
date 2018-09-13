@@ -53,7 +53,7 @@
                         </button>
                         &nbsp;
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}" title="Delete {{element.refCode}}"></i></button>
+                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"

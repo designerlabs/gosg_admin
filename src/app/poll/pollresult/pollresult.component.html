@@ -136,7 +136,7 @@
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.deleteFlag == false" (click)="deleteModal.show()">
-                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}" title="Delete {{ element.pollRefNo }}"></i></button>
+                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"
