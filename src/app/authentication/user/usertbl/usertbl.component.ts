@@ -99,8 +99,6 @@ export class UsertblComponent implements OnInit {
 
   }
 
-
-
   ngOnInit() {
 
     this.commonservice.getInitialMessage();

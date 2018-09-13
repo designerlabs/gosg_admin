@@ -228,19 +228,22 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   getFilterList(page, size, keyword, filterVal) {
 
     this.recordList = null;
+    let param='';
 
     if(filterVal == 2){  // by Email
-      this.dataUrl = 'usermanagement?email=';
+      this.dataUrl = 'usermanagement';
+      param = '&email='+keyword+'&page='+page+'&size='+size;
     }
 
     else if (filterVal == 3){ // by keywords
-      this.dataUrl = 'usermanagement?ic=';
+      this.dataUrl = 'usermanagement';
+      param = '&ic='+keyword+'&page='+page+'&size='+size;
     }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.kword = keyword;
       this.loading = true;
-      this.commonservice.readProtected(this.dataUrl+keyword+'&page='+page+'&size='+size,'','','',this.languageId).subscribe(data => {
+      this.commonservice.readProtected(this.dataUrl,'','','',this.languageId+param).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
