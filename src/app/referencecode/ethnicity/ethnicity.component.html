@@ -25,15 +25,6 @@
                             <label class="col-md-6">Bahasa Malaysia</label>
                         </div>
                     </div><br>
-                       
-                    <!-- <div class="example-header" style="margin-top: 10px;">
-                        <div class="col-md-6 text-align-Center font-size-m"> 
-                            <label class="staticLabel font-size-s boldText">Race/Ethnic (English)</label>
-                        </div>
-                        <div class="col-md-6 text-align-Center font-size-m"> 
-                            <label class="staticLabel font-size-s boldText">Race/Ethnic (Malay)</label>
-                        </div>
-                    </div> -->
             
                     <div class="example-header">
                         <div class="col-md-6">
@@ -56,6 +47,16 @@
                                 </mat-error>
                                 <mat-hint align="end">{{raceMy.value?.length || 0}}/100</mat-hint>
                             </mat-form-field>
+                        </div>
+        
+                        <div class="col-md-6">
+                          <mat-form-field class="example-full-width font-size-s">
+                            <input matInput placeholder="{{ 'racetbl.tableHeader.uniquecode' | translate }}" formControlName="uniqueCode" #UniqueCode (keyup)="checkReqValues()"
+                              required>
+                            <mat-error *ngIf="updateForm.controls.uniqueCode.hasError('required')">
+                              {{ 'racetbl.tableHeader.uniquecode' | translate }} {{ 'common.isrequired' | translate }}
+                            </mat-error>
+                          </mat-form-field>
                         </div>
                     </div>
                 </div>

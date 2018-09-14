@@ -560,7 +560,8 @@
       "cityid": "City Id",
       "citycode": "City Code",
       "statename": "State Name",
-      "stateid": "State Id"
+      "stateid": "State Id",
+      "uniquecode": "Unique Code"
     },
     "err": {
       "city": "City is required"
@@ -798,6 +799,9 @@
   },
   "gallerytbl": {
     "name": "Gallery",
+    "audiourl": "Audio URL",
+    "videourl": "Video URL",
+    "photourl": "Photo URL",
     "galleryimg": "Gallery Information",
     "header": "Gallery Management",
     "publisher": "Gallery Publisher Management",
@@ -924,7 +928,8 @@
     "header": "Race / Ethnic",
     "tableHeader":{
       "raceEn": "Race/Ethnic (EN)",
-      "raceBm": "Race/Ethnic (BM)"
+      "raceBm": "Race/Ethnic (BM)",
+      "uniquecode": "Unique Code"
     },
     "tablebottom":{
       "race": "race/ethnic list"
@@ -934,7 +939,8 @@
     "header": "Religion",
     "tableHeader":{
       "religionEn": "Religion (EN)",
-      "religionBm": "Religion (BM)"
+      "religionBm": "Religion (BM)",
+      "uniquecode": "Unique Code"
     },
     "tablebottom":{
       "religion": "religion list"

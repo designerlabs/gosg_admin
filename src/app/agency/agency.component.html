@@ -347,6 +347,38 @@
         </div>
       </div>
 
+      <!-- GALLERY -->
+      <div class="row paddingTop-20">
+        <div class="col-md-12">
+          <label class="">{{ 'gallerytbl.name' | translate }}</label>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="27" placeholder="{{ 'gallerytbl.audiourl' | translate }}" formControlName="gAudioUrl"
+              (change)="checkReqValues()">
+            <mat-error *ngIf="updateForm.controls.gAudioUrl.hasError('required')">
+              {{ 'gallerytbl.audiourl' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="28" placeholder="{{ 'gallerytbl.videourl' | translate }}" formControlName="gVideoUrl" (change)="checkReqValues()">
+            <mat-error *ngIf="updateForm.controls.gVideoUrl.hasError('required')">
+              {{ 'gallerytbl.videourl' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width">
+            <input matInput tabindex="29" placeholder="{{ 'gallerytbl.photourl' | translate }}" formControlName="gPhotoUrl" (change)="checkReqValues()">
+            <mat-error *ngIf="updateForm.controls.gPhotoUrl.hasError('required')">
+              {{ 'gallerytbl.photourl' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
       <div class="row paddingTop-20">
         <div class="col-md-6">
           <mat-checkbox tabindex="25" formControlName="active" [checked]="true"></mat-checkbox>
@@ -361,7 +393,7 @@
     </div>
 
     <div class="form-group paddingTop-20" *ngIf="commonservice.isUpdate || commonservice.isWrite">
-      <button mat-raised-button type="button" tabindex="24" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
+      <button mat-raised-button type="button" tabindex="30" color="primary" id="btnsubmit" class="btn btn-md btn-success pull-right mgn_L_5px"
         (click)="updateAction(updateForm.value)" [disabled]="!complete">
         <i *ngIf="complete" [ngClass]="commonservice.icon.check"></i>
         <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i>&nbsp;{{ pageMode | translate }}</button>

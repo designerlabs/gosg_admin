@@ -49,6 +49,16 @@
             <mat-hint align="end">{{religionMy.value?.length || 0}}/100</mat-hint>
           </mat-form-field>
         </div>
+
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s">
+            <input matInput placeholder="{{ 'religiontbl.tableHeader.uniquecode' | translate }}" formControlName="uniqueCode" #UniqueCode (keyup)="checkReqValues()"
+              required>
+            <mat-error *ngIf="updateForm.controls.uniqueCode.hasError('required')">
+              {{ 'religiontbl.tableHeader.uniquecode' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
       </div>
     </div>
 

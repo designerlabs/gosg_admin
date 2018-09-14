@@ -559,7 +559,8 @@
       "cityid": "Id Bandar",
       "citycode": "Kod Bandar",
       "statename": "Nama Negeri",
-      "stateid": "Id Negeri"
+      "stateid": "Id Negeri",
+      "uniquecode": "Kod Unik"
     },
     "err": {
       "city": "Bandar diperlukan"
@@ -797,6 +798,9 @@
   },
   "gallerytbl": {
     "name": "Galeri",
+    "audiourl": "Audio URL",
+    "videourl": "Video URL",
+    "photourl": "Foto URL",
     "galleryimg": "Maklumat Galeri",
     "header": "Pengurusan Galeri",
     "publisher": "Pengurusan Percetakan Galeri",
@@ -923,7 +927,8 @@
     "header": "Bangsa/Etnik",
     "tableHeader":{
       "raceEn": "Bangsa/Etnik (EN)",
-      "raceBm": "Bangsa/Etnik (BM)"
+      "raceBm": "Bangsa/Etnik (BM)",
+      "uniquecode": "Kod Unik"
     },
     "tablebottom":{
       "race": "senarai bangsa/etnik"
@@ -933,7 +938,8 @@
     "header": "Agama",
     "tableHeader":{
       "religionEn": "Agama (EN)",
-      "religionBm": "Agama (BM)"
+      "religionBm": "Agama (BM)",
+      "uniquecode": "Kod Unik"
     },
     "tablebottom":{
       "religion": "senarai agama"
