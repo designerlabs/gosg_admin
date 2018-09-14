@@ -99,9 +99,9 @@ export class UsertblComponent implements OnInit {
 
   }
 
-
-
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     this.isActiveList = false;
     this.isActive = true;

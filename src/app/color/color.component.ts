@@ -87,6 +87,8 @@ export class ColorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     let refId = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.maskColorCode = this.validateService.getMask().colorcode;

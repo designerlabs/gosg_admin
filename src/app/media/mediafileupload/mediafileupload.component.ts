@@ -125,6 +125,8 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -211,6 +213,7 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
       this.loading = true;
     this.commonservice.readProtected('mediatype','','','', this.languageId)
       .subscribe(resStateData => {
+        console.log(resStateData)
         this.commonservice.errorHandling(resStateData, (function () {
           this.objMediaType = resStateData['mediaTypes'];          
         }).bind(this));    
@@ -267,6 +270,7 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
             }
 
             let resMT = this.objMediaType.filter(fmt => fmt.mediaTypeId===data.list[0].mediaTypeId);
+
             if(resMT[0].mediaTypeName === "Images"){
               this.mediaPath = "images";
             }else if(resMT[0].mediaTypeName === "Documents"){
@@ -277,7 +281,7 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
               this.mediaPath = "audios";
             }
             this.objCategory = resMT[0].mediaTypeCategories;
-           this.showMediaTypeName = resMT[0].mediaTypeName;
+            this.showMediaTypeName = resMT[0].mediaTypeName;
             this.mediaFileUpForm.get('mediatype').setValue(data.list[0].mediaTypeId);
             this.mediaFileUpForm.get('catType').setValue(data.list[0].mediaCategories[0].categoryId);
             // this.mediaFileUpForm.get('filetype').setValue(data[0].supportedFileExtensions.split(','));
@@ -300,9 +304,10 @@ export class MediafileuploadComponent implements OnInit, OnDestroy {
   selMediaType(event){
     let resMT = this.objMediaType.filter(fmt => fmt.mediaTypeId === this.mediaFileUpForm.controls.mediatype.value);
     this.objCategory = resMT[0].mediaTypeCategories;
-    if(resMT[0].mediaTypeName === "Images"){
+      // console.log(this.objCategory)
+    if(resMT.mediaTypeName === "Images"){
       this.mediaPath = "images";
-    }else if(resMT[0].mediaTypeName === "Documents"){
+    }else if(resMT.mediaTypeName === "Documents"){
       this.mediaPath = "documents";
     }else if(resMT[0].mediaTypeName === "Videos"){
       this.mediaPath = "videos";

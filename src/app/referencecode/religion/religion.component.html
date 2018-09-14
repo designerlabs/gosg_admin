@@ -13,8 +13,8 @@
       </span>
     </div>
   </div>
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+    
   </div>
 
   <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead">
@@ -27,15 +27,6 @@
         </div>
       </div>
       <br>
-
-      <!-- <div class="example-header" style="margin-top: 10px;">
-                        <div class="col-md-6 text-align-Center font-size-m"> 
-                            <label class="staticLabel font-size-s boldText">Religion (English)</label>
-                        </div>
-                        <div class="col-md-6 text-align-Center font-size-m"> 
-                            <label class="staticLabel font-size-s boldText">Religion (Malay)</label>
-                        </div>
-                    </div> -->
 
       <div class="example-header">
         <div class="col-md-6">

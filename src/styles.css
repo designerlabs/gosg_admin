@@ -187,6 +187,12 @@ p.font-size-s > strong {
     justify-content:center;
 }
 
+.dateColumn {
+    display:flex;
+    justify-content:center;
+    flex: 0 0 10% !important;
+}
+
 .draftColumn {
     display:flex;
     justify-content:center;

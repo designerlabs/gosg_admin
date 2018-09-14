@@ -56,7 +56,7 @@ export class SubscriptiontblComponent implements OnInit, OnDestroy {
 
     if(val){
       this.kword = val;
-      this.getFilterList(this.pageCount, this.pageSize, val); // 
+      this.getFilterList(this.pageCount, this.pageSize, val); //
     }
     else{
       this.getSubsData(this.pageCount, this.pageSize, this.languageId);
@@ -77,18 +77,18 @@ export class SubscriptiontblComponent implements OnInit, OnDestroy {
     private navservice: NavService,
     private router: Router,
     private toastr: ToastrService) {
-    
+
       /* LANGUAGE FUNC */
       this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
         const myLang = translate.currentLang;
-  
+
         if (myLang == 'en') {
           translate.get('HOME').subscribe((res: any) => {
               this.lang = 'en';
               this.languageId = 1;
             });
           }
-          
+
           if (myLang == 'ms') {
             translate.get('HOME').subscribe((res: any) => {
               this.lang = 'ms';
@@ -100,12 +100,14 @@ export class SubscriptiontblComponent implements OnInit, OnDestroy {
             this.getSubsData(this.pageCount, this.pageSize, this.languageId);
             this.commonservice.getModuleId();
           }
-    
+
     });
-    /* LANGUAGE FUNC */ 
+    /* LANGUAGE FUNC */
   }
-    
+
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
@@ -218,7 +220,7 @@ export class SubscriptiontblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    
+
     if(this.kword)
       this.getFilterList(page - 1, this.pageSize, this.kword);
     else
@@ -231,7 +233,7 @@ export class SubscriptiontblComponent implements OnInit, OnDestroy {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    
+
     if(this.kword)
       this.getFilterList(page + 1, this.pageSize, this.kword);
     else
@@ -240,7 +242,7 @@ export class SubscriptiontblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-      
+
     if(this.kword)
       this.getFilterList(this.pageCount, event.value, this.kword);
     else

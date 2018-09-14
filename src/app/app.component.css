@@ -44,7 +44,7 @@
 
 .leftsdE{
     margin-left: 5%;
-	width: 22%;
+	width: 15%;
 	float: left;
     padding: 10px 0px 0px 10px;
     left: 0;
@@ -81,7 +81,7 @@
 .rightsdC{
     margin-top: -0.5%;
     border: 0px solid #000;
-	width: 71%;
+	width: 80%; 
     float: right;
     left: 0;
     transition: 0.1s;

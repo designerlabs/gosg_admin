@@ -62,7 +62,7 @@ export class ViewreportComponent implements OnInit, OnDestroy {
       }
 
     });
-    /* LANGUAGE FUNC */ 
+    /* LANGUAGE FUNC */
   }
 
   ngOnDestroy() {
@@ -71,33 +71,35 @@ export class ViewreportComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
     }else{
       this.languageId = 1;
     }
 
-    this.commonservice.getModuleId();    
-   
+    this.commonservice.getModuleId();
+
     this.report = new FormControl()
     this.updateForm = new FormGroup({
 
       report: this.report,
     });
-    
+
     //this.listreport = {"widgets":[{"id":"12","label":"Hello","name":"Hello","height":400,"engineType":"REPORT","description":"Hello","dataSourceId":1},{"id":"13","label":"test-report","name":"test-report","height":400,"engineType":"REPORT","description":"test-report","dataSourceId":1},{"id":"14","label":"test chart","name":"test chart","height":400,"engineType":"REPORT","description":"test chart","dataSourceId":1},{"id":"15","label":"Hot Topic","name":"Hot Topic","height":400,"engineType":"REPORT","description":"Hot Topic","dataSourceId":1},{"id":"18","label":"Report B month","name":"Statistik pendaftaran (bulan)","height":400,"engineType":"REPORT","description":"Statistik pendaftaran (bulan)","dataSourceId":1},{"id":"20","label":"tedt","name":"test","height":400,"engineType":"REPORT","description":"test","dataSourceId":1},{"id":"19","label":"test","name":"test","height":400,"engineType":"REPORT","description":"aaa","dataSourceId":1},{"id":"21","label":"report-c-1","name":"report-c-1","height":400,"engineType":"REPORT","description":"report-c-1","dataSourceId":1}]};
     this.getData();
-    
+
   }
 
   getData() {
     this.loading = true;
-    
+
     return this.commonservice.getlistReport().subscribe(
     Rdata => {
 
       this.commonservice.errorHandling(Rdata, (function () {
-  
+
         this.listreport = Rdata;
 
         console.log(this.listreport);
@@ -109,11 +111,11 @@ export class ViewreportComponent implements OnInit, OnDestroy {
     error => {
 
       this.loading = false;
-      this.toastr.error(this.translate.instant('common.err.noAccess'), ''); 
-      
+      this.toastr.error(this.translate.instant('common.err.noAccess'), '');
+
     });
   }
-    
+
 
   myFunction() {
     this.updateForm.reset();
@@ -140,18 +142,18 @@ export class ViewreportComponent implements OnInit, OnDestroy {
       this.complete = true;
     }
   }
-  
-  submit(formValues: any) {  
+
+  submit(formValues: any) {
 
     let rptId = formValues.report;
     this.loading = true;
-    
+
     return this.commonservice.getViewReport(rptId).subscribe(
     Rdata => {
       console.log("TEST");
       console.log(Rdata);
       this.commonservice.errorHandling(Rdata, (function () {
-        
+
         let viewR = Rdata;
         window.open(viewR.url);
 

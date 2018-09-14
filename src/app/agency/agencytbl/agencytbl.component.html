@@ -1,27 +1,27 @@
 <div class="container right-content">
-  
+
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
         <h3>{{ 'agency.header' | translate }}</h3>
     </div>
-    
+
     <div class="col-md-2 curdHeadingRight">
         <span class="pull-right">
             <button type="button" mat-fab color="warn" *ngIf="commonservice.isWrite" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
               <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
         </span>
-    </div> 
+    </div>
 </div>
 
 
-<div *ngIf="!commonservice.isRead" class="alert alert-danger">
-  {{'common.msg.unauthorized' | translate}}
+<div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
 </div>
 
 <div *ngIf="commonservice.isRead">
   <div class="example-container mat-elevation-z8">
-            
+
     <div class="row">
 
         <div class="col-md-9 paddingTop-10 pdg_L_30px" *ngIf="filterTypeVal != 1">
@@ -69,13 +69,13 @@
             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()">
               <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
             </button>
-            <app-confirm-dialog  #deleteRow 
-            [title]="'fa fa-exclamation-triangle'" 
+            <app-confirm-dialog  #deleteRow
+            [title]="'fa fa-exclamation-triangle'"
             [content]="'common.msg.delete'"
             [state]="'bg_header bg_warn_header'"
             [isReset]="'true'"
             (resetMethod)="deleteItem(element.refCode)">
-            </app-confirm-dialog> 
+            </app-confirm-dialog>
         </mat-cell>
       </ng-container>
 

@@ -5,7 +5,6 @@ import {map} from 'rxjs/operators/map';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router, RouterModule, ParamMap } from '@angular/router';
 import { ObservableInput } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
@@ -18,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
-export class CommonService implements OnDestroy {
+export class CommonService{
 
   showPlaceHolderEn = "Category Parents";
   showPlaceHolderBm = "Induk Kategori";
@@ -39,8 +38,7 @@ export class CommonService implements OnDestroy {
 
   participationContentCategoryIdEn = 665;
   participationContentCategoryIdBm = 666;
-  private timer: Observable<any>;
-  private subscription: Subscription;
+
   isAdmin: boolean;
   getDataT: any;
   userID: any;
@@ -57,6 +55,7 @@ export class CommonService implements OnDestroy {
   recordTable: object;
   temp = null;
   strLang: String = "language=";
+  messageSuccess:any;
 
   pageMode: String;
 
@@ -112,6 +111,8 @@ export class CommonService implements OnDestroy {
     {"id": 4, "textEn": "Approved", "textBm": "Telah Lulus"}
   ]
   defaultStatusCreator = this.listStatusCreator[0].id;
+  textVal: string;
+
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -177,6 +178,9 @@ export class CommonService implements OnDestroy {
     // }
 
     /* LANGUAGE FUNC */
+          // var that = this; // no need of this line
+
+
      }
   lang = this.lang;
   private usersUrl: string = this.appConfig.urlUsers;
@@ -184,21 +188,20 @@ export class CommonService implements OnDestroy {
   private getUserUrl: string = this.appConfig.urlGetUser;
 
 
-  public ngOnDestroy() {
-    if ( this.subscription && this.subscription instanceof Subscription) {
-      this.subscription.unsubscribe();
-    }
+  getInitialMessage(){
+
+    this.messageSuccess = "";
+
+    setTimeout(()=>{
+      this.messageSuccess = `<span class="alert alert-secondary">${this.translate.instant('common.msg.waitmsg')}</span>`;
+    },500);
+
+    setTimeout(()=>{    //<<<---    using ()=> syntax
+          this.messageSuccess = `<span class="alert alert-danger">${this.translate.instant('common.msg.unauthorized')}</span>`;
+
+    }, 5000);
   }
 
-  public setTimer(){
-    let text = "Please wait!";
-    this.timer        = Observable.timer(5000); // 5000 millisecond means 5 seconds
-    this.subscription = this.timer.subscribe(() => {
-      text = "Change already"
-        // set showloader to false to hide loading div from view after 5 seconds
-    });
-    return text;
-  }
 
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
@@ -524,6 +527,16 @@ getMediaByCateId(id){
    }else{
      callback()
     }
+  }
+
+
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
   }
 
 

@@ -77,6 +77,8 @@ export class DServicetypeComponent implements OnInit {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.nameBm = new FormControl()

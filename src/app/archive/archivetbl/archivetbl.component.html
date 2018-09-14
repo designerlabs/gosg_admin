@@ -1,5 +1,5 @@
 <div class="container right-content">
-  
+
 <!-- <div class="col-md-12">
   <h2 class="staticLabel"></h2>
   <span class="pull-right editBtn">
@@ -13,7 +13,7 @@
   <div class="col-md-10 curdHeadingLeft">
       <h3>{{ 'archive.header' | translate }}</h3>
   </div>
-  
+
   <!-- <div class="col-md-2 curdHeadingRight">
       <span class="pull-right">
           <button type="button" mat-fab color="warn" *ngIf="commonservice.isWrite" (click)="addBtn()" [ngClass]="{ 'addBtn-active': isActive, 'addBtn': !isActive  }">
@@ -22,15 +22,15 @@
   </div>  -->
 </div>
 
-<div *ngIf="!commonservice.isRead" class="alert alert-danger">
-{{'common.msg.unauthorized' | translate}}
+<div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
 </div>
 
 <div *ngIf="commonservice.isRead">
 <div class="example-container mat-elevation-z8">
-          
+
   <div class="row">
-      
+
       <div class="col-md-8 paddingTop-10 pdg_L_30px" *ngIf="filterTypeVal != 1">
           <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate}}">
@@ -41,8 +41,8 @@
       </div>
       <div class="col-md-4 paddingTop-10 pdg_R_30px text-align-Right">
         <button [disabled]="!multipleSel.length > 0" mat-raised-button color="primary" (click)="revertAllModal.show()"><i [ngClass]="commonservice.icon.undo"></i> {{'common.buttons.revert' | translate}}</button>
-        <app-confirm-dialog  #revertAllModal 
-        [title]="'common.icon.warn'" 
+        <app-confirm-dialog  #revertAllModal
+        [title]="'common.icon.warn'"
         [content]="'common.msg.revertAll'"
         [state]="'common.state.warn'"
         [isReset]="'true'"
@@ -50,8 +50,8 @@
         </app-confirm-dialog>
         &nbsp;
         <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i> {{'common.buttons.delete' | translate}}</button>
-        <app-confirm-dialog  #deleteAllModal 
-        [title]="'fa fa-exclamation-triangle'" 
+        <app-confirm-dialog  #deleteAllModal
+        [title]="'fa fa-exclamation-triangle'"
         [content]="'common.msg.deleteAll'"
         [state]="'bg_header bg_warn_header'"
         [isReset]="'true'"
@@ -61,7 +61,7 @@
   </div>
 
   <mat-table #table [dataSource]="dataSource">
-  
+
     <!-- CB Column -->
     <ng-container matColumnDef="cb">
       <mat-header-cell class="text-align-left noColumn"  *matHeaderCellDef>&nbsp;
@@ -71,7 +71,7 @@
         <mat-checkbox class="example-margin" [value]="element.refCode" (change)="isChecked($event, element.refCode);"></mat-checkbox>
       </mat-cell>
     </ng-container>
-  
+
     <!-- No Column -->
     <ng-container matColumnDef="no">
       <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef>{{ 'common.tableHeader.num' | translate }}
@@ -112,13 +112,13 @@
           <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()">
             <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
           </button>
-          <app-confirm-dialog  #deleteRow 
-          [title]="'fa fa-exclamation-triangle'" 
+          <app-confirm-dialog  #deleteRow
+          [title]="'fa fa-exclamation-triangle'"
           [content]="'common.msg.delete'"
           [state]="'bg_header bg_warn_header'"
           [isReset]="'true'"
           (resetMethod)="deleteItem(element.refCode)">
-          </app-confirm-dialog> 
+          </app-confirm-dialog>
       </mat-cell>
     </ng-container>
 

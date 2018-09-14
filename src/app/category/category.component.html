@@ -1,5 +1,5 @@
 <div class="container right-content">
-    
+
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>{{commonservice.pageMode}} {{ 'category.component.header' | translate }} </h3>
@@ -13,8 +13,8 @@
         </div>
     </div>
 
-    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
     </div>
 
     <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead">
@@ -135,14 +135,14 @@
             <div class="example-header">
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width" >
-                        <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng"
-                        #seqEng (keyup)="copyValue(1)" maxlength="100" tabindex="6">
+                        <input matInput (keypress)="commonservice.numberOnly($event)" type="text" placeholder="Sequence Number" formControlName="seqEng"
+                        #seqEng (keyup)="copyValue(1)" tabindex="6">
                     </mat-form-field>
                 </div>
                 <div class="col-md-6">
                     <mat-form-field class="example-full-width" >
-                        <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy"
-                        #seqMy (keyup)="copyValue(2)" maxlength="100" tabindex="7">
+                        <input matInput (keypress)="commonservice.numberOnly($event)" type="text" placeholder="Nombor Urutan" formControlName="seqMy"
+                        #seqMy (keyup)="copyValue(2)" tabindex="7">
                     </mat-form-field>
                 </div>
             </div>

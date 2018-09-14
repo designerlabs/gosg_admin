@@ -68,6 +68,8 @@ export class AddresstypeComponent implements OnInit {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     this.addTypeEn = new FormControl();
     this.addTypeBm = new FormControl();
     this.active = new FormControl();

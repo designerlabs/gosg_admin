@@ -81,7 +81,6 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
           translate.get('HOME').subscribe((res: any) => {
             this.languageId = 2;
         });
-        // alert(this.languageId + ',' + this.localeVal)
       }
         if(this.navservice.flagLang){
           this.getRecordList(this.pageCount, this.pageSize,this.languageId);
@@ -93,6 +92,8 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
@@ -116,10 +117,6 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
       this.recordList = data;
-
-      
-      
-
       this.seqPageNum = this.recordList.pageNumber;
       this.seqPageSize = this.recordList.pageSize;
       
@@ -167,8 +164,6 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
   
   deleteRow(refCode) {
     let txt;
-
-    
     this.loading = true;
     this.commonservice.delete(refCode,'religion/').subscribe(
       data => {
@@ -187,28 +182,6 @@ export class ReligiontblComponent implements OnInit, OnDestroy {
         
     });
 
-    // let txt;
-    // let r = confirm("Are you sure to delete ?");
-
-
-    // if (r == true) {
-    //   
-    //   this.commonservice.delReligion(refCode).subscribe(
-    //     data => {
-    //       // alert('Record deleted successfully!')
-    //       txt = " record deleted successfully!";
-
-    //       this.toastr.success(txt, '');   
-    //       this.router.navigate(['reference/religion']);
-    //       this.getRecordList(this.pageCount, this.pageSize);
-    //     },
-    //     error => {
-    //       txt = "Delete Cancelled!";
-    //   });
-    // }
-    // else{
-    //   txt = "Delete Cancelled!";
-    // }
   }
 
   ngAfterViewInit() {

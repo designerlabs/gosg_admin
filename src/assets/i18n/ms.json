@@ -275,6 +275,7 @@
       "info":"fa fa-info-circle"
     },
     "msg":{
+      "waitmsg": "Sila tunggu, Memeriksa Kebenaran",
       "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
       "delete":"Adakah anda pasti untuk memadam?",
@@ -1009,7 +1010,7 @@
       "fullname": "Nama Penuh",
       "email": "Email",
       "idno": "No Kad Pengenalan",
-      "subrefno": "No Rujukan Serahan",
+      "subrefno": "No Permohonan",
       "accstatus": "Status Akaun",
       "svcname": "Nama Perkhidmatan",
       "status": "Status",

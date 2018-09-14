@@ -14,8 +14,8 @@
         </div>
     </div>
   
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+       
     </div>
   
     <div *ngIf="commonservice.isRead">
@@ -83,12 +83,12 @@
               <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
               <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                   <button mat-mini-fab class="bg_orange" (click)="updateRow(element.cityId)">
-                      <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="Update {{ element.cityId }}" ></i>
-                      <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" title="View {{ element.cityId }}" ></i>
+                      <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}"></i>
+                      <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i>
               </button>
                   &nbsp;
                   <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()"> 
-                  <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}" title="Delete {{ element.cityId }}"></i></button>
+                  <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
                   <app-confirm-dialog  #deleteModal 
                   [title]="'fa fa-exclamation-triangle'" 
                   [content]="'common.msg.delete'"

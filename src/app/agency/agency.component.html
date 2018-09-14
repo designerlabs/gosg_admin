@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT ERROR -->
 <div class="container right-content">
-  
+
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
       <h3>{{ pageMode | translate }} {{ 'common.agency' | translate }}</h3>
@@ -15,8 +15,8 @@
     </div>
   </div>
 
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-    {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
   </div>
 
   <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off"
