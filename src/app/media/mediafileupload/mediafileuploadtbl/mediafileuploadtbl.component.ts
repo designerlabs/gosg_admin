@@ -249,8 +249,8 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
   
   paginatorL(page) {    
     //this.getMediaList(page - 1, this.PageSize);
-    if(this.cateSelect !== "0" ){
-      this.getMediaList(page - 1, this.PageSize, "byCateId", this.cateSelect); 
+    if(this.cateSelect !== "0"){
+      this.getMediaList(page - 1, this.PageSize, this.languageId, this.cateSelect); 
     } else if(this.fileName.length>0){
       if(this.kword)
         this.getMediaList(page - 1, this.PageSize, "byFileName", this.kword);
@@ -272,8 +272,8 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
     
     // this.noNextData = pageInc === totalPages;
     //this.getMediaList(pageInc , this.PageSize);
-    if(this.cateSelect !== "0" ){
-      this.getMediaList(pageInc, this.PageSize, "byCateId", this.cateSelect); 
+    if(this.cateSelect !== "0"){
+      this.getMediaList(pageInc, this.PageSize, this.languageId, this.cateSelect); 
     } else if(this.fileName.length>0){
       if(this.kword)
         this.getMediaList(pageInc, this.PageSize, "byFileName", this.kword);
@@ -290,7 +290,7 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
     this.PageSize = event.value;
 
     if(this.cateSelect !== "0" ){
-      this.getMediaList(this.PageCount, this.PageSize, "byCateId", this.cateSelect); 
+      this.getMediaList(this.PageCount, this.PageSize, this.languageId, this.cateSelect); 
     } else if(this.fileName.length>0){
       if(this.kword)
         this.getMediaList(this.PageCount, this.PageSize, "byFileName", this.kword);
