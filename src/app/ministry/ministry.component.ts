@@ -401,7 +401,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryYoutube = formValues.youtubeUrl;
     body[0].ministryAudioUrl = formValues.gAudioUrl;
     body[0].ministryVideoUrl = formValues.gVideoUrl;
-    body[0].ministryPhotoUrl = formValues.gPhotoeUrl;
+    body[0].ministryPhotoUrl = formValues.gPhotoUrl;
 
     body[1].ministryName = formValues.ministryNameBm;
     body[1].ministryUniqueCode = formValues.uniqueCode;
@@ -425,7 +425,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryYoutube = formValues.youtubeUrl;
     body[1].ministryAudioUrl = formValues.gAudioUrl;
     body[1].ministryVideoUrl = formValues.gVideoUrl;
-    body[1].ministryPhotoUrl = formValues.gPhotoeUrl;
+    body[1].ministryPhotoUrl = formValues.gPhotoUrl;
 
     
     this.loading = true;
@@ -537,7 +537,7 @@ export class MinistryComponent implements OnInit {
     body[0].ministryYoutube = formValues.youtubeUrl;
     body[0].ministryAudioUrl = formValues.gAudioUrl;
     body[0].ministryVideoUrl = formValues.gVideoUrl;
-    body[0].ministryPhotoUrl = formValues.gPhotoeUrl;
+    body[0].ministryPhotoUrl = formValues.gPhotoUrl;
   
     body[1].ministryId = this.ministryIdBm;
     body[1].ministryUniqueCode = formValues.uniqueCode;
@@ -563,7 +563,7 @@ export class MinistryComponent implements OnInit {
     body[1].ministryYoutube = formValues.youtubeUrl;
     body[1].ministryAudioUrl = formValues.gAudioUrl;
     body[1].ministryVideoUrl = formValues.gVideoUrl;
-    body[1].ministryPhotoUrl = formValues.gPhotoeUrl;
+    body[1].ministryPhotoUrl = formValues.gPhotoUrl;
 
     
 

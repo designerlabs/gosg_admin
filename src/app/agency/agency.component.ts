@@ -661,7 +661,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[0].agencyYoutube = formValues.youtubeUrl;
       body[0].agencyAudioUrl = formValues.gAudioUrl;
       body[0].agencyVideoUrl = formValues.gVideoUrl;
-      body[0].agencyPhotoUrl = formValues.gPhotoeUrl;
+      body[0].agencyPhotoUrl = formValues.gPhotoUrl;
       body[0].agencyMinistry.ministryId = this.ministryIdEn;
 
       body[1].agencyName = formValues.agencyNameBm;
@@ -691,7 +691,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       body[1].agencyYoutube = formValues.youtubeUrl;
       body[1].agencyAudioUrl = formValues.gAudioUrl;
       body[1].agencyVideoUrl = formValues.gVideoUrl;
-      body[1].agencyPhotoUrl = formValues.gPhotoeUrl;
+      body[1].agencyPhotoUrl = formValues.gPhotoUrl;
       body[1].agencyMinistry.ministryId = this.ministryIdBm;
 
       if(formValues.image) {
@@ -835,7 +835,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     body[0].agencyMinistry.ministryId = this.ministryIdEn;
     body[0].agencyAudioUrl = formValues.gAudioUrl;
     body[0].agencyVideoUrl = formValues.gVideoUrl;
-    body[0].agencyPhotoUrl = formValues.gPhotoeUrl;
+    body[0].agencyPhotoUrl = formValues.gPhotoUrl;
 
     body[1].agencyId = this.agencyIdBm;
     body[1].agencyName = formValues.agencyNameBm;
@@ -867,7 +867,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
     body[1].agencyMinistry.ministryId = this.ministryIdBm;
     body[1].agencyAudioUrl = formValues.gAudioUrl;
     body[1].agencyVideoUrl = formValues.gVideoUrl;
-    body[1].agencyPhotoUrl = formValues.gPhotoeUrl;
+    body[1].agencyPhotoUrl = formValues.gPhotoUrl;
 
     if(formValues.image) {
       body[0].agencyImage.mediaId = formValues.image;
