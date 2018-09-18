@@ -221,6 +221,8 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
   getCategoryCodeC(lng) {
 
+    console.log("TRy");
+
     this.loading = true;
     this.subscriptionContentCreator = this.commonservice.readProtected('content/creator/dropdown/' + this.commonservice.contentCategoryCode, '', '', '', lng)
       .subscribe(resCatData => {
@@ -286,6 +288,8 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
   getRecordListC(page, size, code, lng) {
 
+    console.log("THIS");
+
     this.recordList = null;
     let nameStatus = this.updateForm.get('nameStatus').value;
     let generalUrl = ""
@@ -331,6 +335,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     }
 
     if (code != undefined) {
+      
       this.loading = true;
       this.commonservice.readProtected(generalUrl, page, size, '', lng).subscribe(
         data => {
