@@ -95,7 +95,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
+  //private subscriptionRecordListC: ISubscription;
 
   applyFilter(e) {
 
@@ -216,7 +216,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.subscriptionLang.unsubscribe();
     this.subscriptionContentCreator.unsubscribe();
     this.subscriptionCategoryC.unsubscribe();
-    this.subscriptionRecordListC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
   }
 
   getCategoryCodeC(lng) {
@@ -332,7 +332,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     if (code != undefined) {
       this.loading = true;
-      this.subscriptionRecordListC = this.commonservice.readProtected(generalUrl, page, size, '', lng).subscribe(
+      this.commonservice.readProtected(generalUrl, page, size, '', lng).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
 
