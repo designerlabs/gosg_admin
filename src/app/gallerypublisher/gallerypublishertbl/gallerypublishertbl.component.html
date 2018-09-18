@@ -33,9 +33,9 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-2 paddingTop-10">
+          <div class="col-md-3 paddingTop-10">
               <mat-form-field class="example-full-width" >
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
+                <div [ngClass]="{'datetimeMaskNoValue':publishdt, 'datetimeMaskWithValue': !publishdt }">{{publishdt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="{{ 'gallerytbl.publishDt' | translate }}" [owlDateTime]="publish" 
                   style="display: none;" matInput formControlName="publish" 
                   #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)"/>
@@ -47,9 +47,9 @@
               </mat-form-field>
           </div>
 
-          <div class="col-md-2 paddingTop-10">
+          <div class="col-md-3 paddingTop-10">
               <mat-form-field class="example-full-width">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
+                <div [ngClass]="{'datetimeMaskNoValue':enddt, 'datetimeMaskWithValue': !enddt }">{{enddt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="{{ 'gallerytbl.endDt' | translate }}" [owlDateTime]="endD" 
                   style="display: none;" matInput formControlName="endD" 
                   #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)"/>
@@ -79,19 +79,19 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-4 paddingTop-15 pdg_R_30px">
+          <div class="col-md-2 paddingTop-15 pdg_R_30px">
             <button [disabled]="!selectedItem.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()" 
               class="btn pull-right mgn_L_5px" style="min-width: 5px;" title="{{'common.buttons.delete' | translate}}">
-              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
-              <span class="largeScreen">{{'common.buttons.delete' | translate}}</span></button>            
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>&nbsp;
+              <span class="largeScreen">{{'common.buttons.delete' | translate}}</span></button>        
+            <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" 
+              class="pull-right" style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
+              <i [ngClass]="commonservice.icon.search"></i> 
+              <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button> 
             <button [disabled]="(!flagApprove)" mat-raised-button color="warn" (click)="archiveAllModal.show()" 
               class="btn pull-right  mgn_L_5px" style="min-width: 5px;" title="{{'common.buttons.archiveAll' | translate}}">
               <i [ngClass]="commonservice.icon.archive" title="{{ 'common.title.archive' | translate }}"></i>
               <span class="largeScreen">{{'common.buttons.archiveAll' | translate}}</span></button>
-            <button [disabled]="disableSearch" mat-raised-button color="warn" (click)="search()" 
-              class="pull-right" style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
-              <i [ngClass]="commonservice.icon.search"></i> 
-              <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
           </div>
 
           <app-confirm-dialog  #archiveAllModal 
