@@ -81,7 +81,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
 
   //nameStatus=1;
   keywordVal="";
-
   displayDP: any;
   displayDE: any;
 
@@ -860,11 +859,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     else if(countTrue > 0 && countTrue != this.arrStatus.length){
       this.flagApprove = false;
     }
-
-    
-    
-    
-    
     
     return false;
   }
@@ -872,8 +866,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    
-    
     this.commonservice.delete('', `content/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 

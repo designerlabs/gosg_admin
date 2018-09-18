@@ -95,7 +95,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
-  //private subscriptionRecordListC: ISubscription;
+  private subscriptionRecordListC: ISubscription;
 
   applyFilter(e) {
 
@@ -273,7 +273,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-          //this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
 
         }).bind(this));
         this.loading = false;
@@ -774,8 +774,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   deleteAll() {
     let deletedCodes = this.selectedItem.join(',');
 
-    
-    
     this.commonservice.delete('', `content/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -794,8 +792,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
       });
   }
 
-  detailHistory(id) {
-    
+  detailHistory(id) {    
 
     this.loading = true;
     this.commonservice.readProtected('content/history/' + id).subscribe(
