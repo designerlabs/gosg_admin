@@ -54,7 +54,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   dataUrl: any;
   date = new Date();
   pageMode: String;
-  isEdit: boolean;
+  isComplete: boolean;
   seqNo = 0;
   // addUserForm: FormGroup;
   // emailFld: FormControl;
@@ -200,32 +200,18 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     } else {
       this.languageId = 1;
     }
-
+    this.isComplete = false;
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
     this.displayedColumns1 = ['no', 'svcname', 'name', 'status', 'date'];
-    // this.emailFld = new FormControl();
-    this.addUserBtn = true;
-    this.closeUserBtn = false;
-    // this.icFld = new FormControl();
-    // this.userType = new FormControl();
-    // this.publish = new FormControl();
-    // this.endD = new FormControl();
-    // this.addUserForm = new FormGroup({
-    //   emailFld: this.emailFld,
-    //   icFld:this.icFld,
-    //   userType: this.userType,
-      // endD: this.endD,
-      // publish: this.publish
-    // });
-    // this.getUsersData(this.pageCount, this.pageSize);
     this.getAgenciesData(this.pageCount, this.pageSize);
     this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
     this.usertype = 0;
     this.filterTypeVal = 0;
     this.commonservice.getModuleId();
+    this.checkReqValues();
   }
 
   ngAfterViewInit() {
@@ -247,6 +233,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     }
     this.startDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
     // console.log(this.startDate)
+    this.checkReqValues();
   }
 
   endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
@@ -263,30 +250,32 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     }
     this.endDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
     // console.log(this.endDate)
+    this.checkReqValues();
   }
 
   clearDate() {
-    this.startDate = undefined;
-    this.endDate = undefined;
+    this.startDate = '';
+    this.endDate = '';
     this.startdt = undefined;
     this.enddt = undefined;
-    this.disableSearch = false;
+    this.identNo = null;
+    // this.value = '';
     // this.addUserForm.get('publish').setValue(null);
     // this.addUserForm.get('endD').setValue(null);
+    this.checkReqValues();
   }
 
   checkReqValues(){
-    // this.addUserForm.get('emailFld').setValue('');
-    // this.addUserForm.get('icFld').setValue('');
-    this.isActive = true;
-    this.isActiveList = false;
-    // if(this.userType == 1){
-    //   this.showEmail = true;
-    //   this.showIC = false;
-    // }else{
-    //   this.showEmail = false;
-    //   this.showIC = true;
-    // }
+    if(this.usertype != 0 && this.identNo && this.startDate != '' && this.endDate != '') {
+      
+        this.isComplete = true;
+      
+        console.log('a');
+    } else {
+      this.isComplete = false;
+      
+      console.log('b');
+    }
   }
 
   tabAction(type) {
@@ -407,7 +396,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize) 
+    this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize);
   }
 
   // get User Data by IDNO
@@ -578,74 +567,6 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.getAgenciesDataByID(this.currentAgencyRefNo, this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
-  }
-
-  closeUser(){
-    this.addUserBtn = true;
-    this.closeUserBtn = false;
-    this.animateClass = "animated flipOutX";
-  }
-
-  addUser() {
-    this.addUserBtn = false;
-    this.closeUserBtn = true;
-    this.showUserInput = true;
-    this.animateClass = "animated flipInX";
-  }
-
-  addUserDetails(){
-
-    this.loading = true;
-    this.commonservice.addUserList(this.userId).subscribe(
-      data => {
-
-        this.commonservice.errorHandling(data, (function(){
-          this.toastr.success(this.translate.instant('common.success.added'), 'success');
-          this.getUsersData(this.pageCount, this.pageSize);
-        }).bind(this));
-        this.loading = false;
-
-        this.checkReqValues();
-        this.closeUser();
-
-      },
-      error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');
-        this.loading = false;
-      });
-
-  }
-
-  updateRow(row) {
-    this.isEdit = true;
-    // this.changePageMode(this.isEdit);
-    this.router.navigate(['userlist', row]);
-  }
-
-  changePageMode(isEdit) {
-    if (isEdit == false) {
-      this.pageMode = "Add";
-    } else if (isEdit == true) {
-      this.pageMode = "Update";
-    }
-  }
-
-  navigateBack() {
-    this.isEdit = false;
-    this.router.navigate(['slider']);
-  }
-
-  getValue(type, val, usrId){
-    event.preventDefault();
-    this.userId = usrId;
-    this.isActive = false;
-    this.isActiveList = false;
-    this.searchUserResult = [''];
-    // if(type == 'email'){
-    //   this.addUserForm.get('emailFld').setValue(val);
-    // }else{
-    //   this.addUserForm.get('icFld').setValue(val);
-    // }
   }
 
 }
