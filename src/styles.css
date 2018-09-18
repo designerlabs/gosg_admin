@@ -364,6 +364,11 @@ p.font-size-s > strong {
         margin-bottom: -4%
     }
 
+    .datetimeMaskNoValue{
+        color:#333;
+        margin-bottom: -7%
+    }
+
     .owl-dt-popup {
         margin-top: 8%;
         margin-left: 50%;
