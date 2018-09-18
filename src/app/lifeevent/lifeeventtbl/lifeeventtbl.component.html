@@ -107,7 +107,7 @@
                     <div class="col-md-3">
                         <!-- <label class="font-size-s">{{ 'gallerytbl.publishDt' | translate }}</label> -->
                         <mat-form-field class="example-full-width" >
-                          <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
+                          <div [ngClass]="{'datetimeMaskNoValue':publishdt, 'datetimeMaskWithValue': !publishdt }">{{publishdt | date:'dd/MM/yyyy' }}</div>
                           <input placeholder="{{ 'gallerytbl.publishDt' | translate }}" [owlDateTime]="publish" 
                             style="display: none;" matInput formControlName="publish" #publish (dateTimeInput)="publishEvent('input', $event)" 
                             (dateTimeChange)="publishEvent('change', $event)"/>
@@ -123,7 +123,7 @@
                     <div class="col-md-3">
                         <!-- <label class="font-size-s">{{ 'gallerytbl.endDt' | translate }}</label> -->
                         <mat-form-field class="example-full-width">
-                          <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
+                          <div [ngClass]="{'datetimeMaskNoValue':enddt, 'datetimeMaskWithValue': !enddt }">{{enddt | date:'dd/MM/yyyy' }}</div>
                           <input placeholder="{{ 'gallerytbl.endDt' | translate }}" [owlDateTime]="endD" 
                             style="display: none;" matInput formControlName="endD" #endD (dateTimeInput)="endEvent('input', $event)" 
                             (dateTimeChange)="endEvent('change', $event)"/>
