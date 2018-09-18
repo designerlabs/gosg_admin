@@ -107,7 +107,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     }
     else {
       this.getCategoryCodeC(this.languageId);
-      
+
     }
   }
 
@@ -117,7 +117,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.getCategoryCodeC(this.languageId);
 
     this.keywordVal = '';
-    
+
   }
 
   filterStatus(e) {
@@ -131,7 +131,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     else {
       this.getCategoryCodeC(this.languageId);
-      
+
     }
   }
 
@@ -164,7 +164,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        
+
         this.getCategoryCodeC(this.languageId);
         //this.getCategoryC(this.languageId);
         this.selectedItem = [];
@@ -209,7 +209,8 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryC(this.languageId);
     this.valkey = false;
-    
+    this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+
   }
 
   ngOnDestroy() {
@@ -273,7 +274,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-          //this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+
 
         }).bind(this));
         this.loading = false;
@@ -335,7 +336,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     }
 
     if (code != undefined) {
-      
+
       this.loading = true;
       this.commonservice.readProtected(generalUrl, page, size, '', lng).subscribe(
         data => {
@@ -544,9 +545,9 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     else if (this.newPublishD == undefined || this.newPublishD == null) {
       this.getCategoryCodeC(this.languageId);
-      
+
     }
-    
+
   }
 
   clearDate() {
@@ -561,7 +562,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
   paginatorL(page) {
 
-    this.keywordVal = this.updateForm.get('kataKunci').value; 
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     if(this.keywordVal){
       this.getFilterListC(page - 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
     }
@@ -746,7 +747,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     this.catCode = undefined;
     this.getCategoryCodeC(this.languageId);
-    
+
 
     let keysVal = this.updateForm.get('keys');
     this.updateForm.get('kataKunci').setValue('');
@@ -792,7 +793,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
       });
   }
 
-  detailHistory(id) {    
+  detailHistory(id) {
 
     this.loading = true;
     this.commonservice.readProtected('content/history/' + id).subscribe(
@@ -830,7 +831,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
           displayTilte += '</table>';
 
-          // displayTilte += '<mat-table #table2 [dataSource]="dataSourceH">';          
+          // displayTilte += '<mat-table #table2 [dataSource]="dataSourceH">';
           // displayTilte += '<ng-container matColumnDef="names">';
           // displayTilte += '<mat-header-cell class="text-align-left" style="flex: 0 0 60%;" *matHeaderCellDef> {{ "common.tableHeader.name" | translate }}</mat-header-cell>';
           // displayTilte += '<mat-cell class="text-align-left" style="flex: 0 0 60%;" *matCellDef="let element; let i = index;">';
