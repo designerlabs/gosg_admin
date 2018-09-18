@@ -11,6 +11,8 @@ import { DialogsService } from '../../dialogs/dialogs.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../nav/nav.service';
 import { DatePipe } from '../../../../node_modules/@angular/common';
+import * as moment from 'moment';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 
 @Component({
   selector: 'app-actmontbl',
@@ -34,6 +36,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   showUserInput: boolean;
   showIC: boolean;
   showEmail: boolean;
+  startDate: any;
+  endDate: any;
 
   seqPageNum = 0;
   seqPageSize = 0 ;
@@ -52,10 +56,10 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   pageMode: String;
   isEdit: boolean;
   seqNo = 0;
-  addUserForm: FormGroup;
-  emailFld: FormControl;
-  icFld:FormControl;
-  userType: FormControl;
+  // addUserForm: FormGroup;
+  // emailFld: FormControl;
+  // icFld:FormControl;
+  // userType: FormControl;
   isMailContainerShow = 'block';
   public loading = false;
   showNoData = false;
@@ -64,6 +68,19 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   recordList = null;
 
   value: String;
+
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  startdt: number;
+  enddt: number;
+  // publish: FormControl
+  // endD: FormControl
+  disableSearch = false;
+  newPublishD: any;
+  newEndD: any;
+
+  displayDP: any;
+  displayDE: any;
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -80,6 +97,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   currentUserIDNO: any;
   agcSelect: any;
   usertype: any;
+  identNo: any;
 
   applyFilter(val) {
     
@@ -90,6 +108,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.identNo = null;
+    this.filterTypeVal = 0;
     this.value='';
     this.isActiveList = false;
     this.usertype = null;
@@ -105,9 +125,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.value='';
     this.value=null;
     this.isActiveList = false;
-    this.agcSelect = null;
+    // this.agcSelect = null;
     this.userList = null;
-    this.agencyActivityList = null;
+    // this.agencyActivityList = null;
     this.showNoData = false;
 
   }
@@ -158,6 +178,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
         // this.getUsersData(this.pageCount, this.pageSize);
         this.getAgenciesData(this.pageCount, this.pageSize);
+        this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
+        this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
         this.commonservice.getModuleId();
       }
 
@@ -183,18 +205,26 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
     this.displayedColumns1 = ['no', 'svcname', 'name', 'status', 'date'];
-    this.emailFld = new FormControl();
+    // this.emailFld = new FormControl();
     this.addUserBtn = true;
     this.closeUserBtn = false;
-    this.icFld = new FormControl();
-    this.userType = new FormControl();
-    this.addUserForm = new FormGroup({
-      emailFld: this.emailFld,
-      icFld:this.icFld,
-      userType: this.userType
-    });
+    // this.icFld = new FormControl();
+    // this.userType = new FormControl();
+    // this.publish = new FormControl();
+    // this.endD = new FormControl();
+    // this.addUserForm = new FormGroup({
+    //   emailFld: this.emailFld,
+    //   icFld:this.icFld,
+    //   userType: this.userType,
+      // endD: this.endD,
+      // publish: this.publish
+    // });
     // this.getUsersData(this.pageCount, this.pageSize);
     this.getAgenciesData(this.pageCount, this.pageSize);
+    this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
+    this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
+    this.usertype = 0;
+    this.filterTypeVal = 0;
     this.commonservice.getModuleId();
   }
 
@@ -203,19 +233,60 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.dataSource.sort = this.sort;
   }
 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.startdt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";
+
+    if (this.startdt > this.enddt || this.enddt == undefined || this.enddt == null) {
+      this.enddt = new Date(this.events[0]).getTime();
+      this.enddt = null;
+    } else {
+    }
+    this.startDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
+    // console.log(this.startDate)
+  }
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.enddt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";
+
+    if (this.startdt > this.enddt || this.startdt == undefined || this.startdt == null) {
+      this.startdt = new Date(this.events[0]).getTime();
+      this.startdt = null;
+    } else {
+    }
+    this.endDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
+    // console.log(this.endDate)
+  }
+
+  clearDate() {
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.startdt = undefined;
+    this.enddt = undefined;
+    this.disableSearch = false;
+    // this.addUserForm.get('publish').setValue(null);
+    // this.addUserForm.get('endD').setValue(null);
+  }
+
   checkReqValues(){
-    this.addUserForm.get('emailFld').setValue('');
-    this.addUserForm.get('icFld').setValue('');
+    // this.addUserForm.get('emailFld').setValue('');
+    // this.addUserForm.get('icFld').setValue('');
     this.isActive = true;
     this.isActiveList = false;
-    if(this.userType.value == 1){
-      this.showEmail = true;
-      this.showIC = false;
-    }else{
-      this.showEmail = false;
-      this.showIC = true;
-
-    }
+    // if(this.userType == 1){
+    //   this.showEmail = true;
+    //   this.showIC = false;
+    // }else{
+    //   this.showEmail = false;
+    //   this.showIC = true;
+    // }
   }
 
   tabAction(type) {
@@ -263,7 +334,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   // list user mgmt
-  getFilterList(page, size, keyword, filterVal) {
+  getFilterList(page, size, keyword?, filterVal?) {
 
     this.recordList = null;
     let param='';
@@ -332,15 +403,28 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       }
       this.isActiveList = false;
       this.searchUserResult = [''];
-      this.getUsersDataByIDNO(idno, this.pageCount, this.pageSize) 
+      this.identNo = idno;
+  }
+
+  search() {
+    this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize) 
   }
 
   // get User Data by IDNO
-  getUsersDataByIDNO(id, page, size) {
+  getUsersDataByIDNO(id?, page?, size?) {
     this.loading = true;
     // this.dataUrl = this.appConfig.urlUserList;
     this.currentUserIDNO = id;
-    let idno = '&identificationNo='+id;
+    let idno;
+
+    if(id == 0 || id == '' || id == null) {
+        idno = '';
+    } else {
+      if(this.startDate && this.endDate)
+        idno = '&identificationNo='+id+'&startDate='+this.startDate+'&endDate='+this.endDate;
+      else
+        idno = '&identificationNo='+id;
+    }
 
     this.commonservice.readProtected('monitoring/userservice', page, size, '', this.languageId+idno).subscribe(data => {
 
@@ -557,11 +641,11 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.isActive = false;
     this.isActiveList = false;
     this.searchUserResult = [''];
-    if(type == 'email'){
-      this.addUserForm.get('emailFld').setValue(val);
-    }else{
-      this.addUserForm.get('icFld').setValue(val);
-    }
+    // if(type == 'email'){
+    //   this.addUserForm.get('emailFld').setValue(val);
+    // }else{
+    //   this.addUserForm.get('icFld').setValue(val);
+    // }
   }
 
 }

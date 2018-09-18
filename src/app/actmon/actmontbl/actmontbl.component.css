@@ -161,3 +161,26 @@
         min-height: 500px;
         overflow: hidden;
     }
+
+    .editBtn{
+      position: absolute;
+      right: 10px;
+      top: 65%;
+      color: #333;
+    }
+    
+    .editBtn:hover {
+      position: absolute;
+      background-color: rgb(109, 185, 38);
+      color: #FFF;
+      right: 10px;
+      top: 65%;
+    }
+    
+    .editBtn-active {
+      position: absolute;
+      background-color: rgb(109, 185, 38);
+      color: #FFF;
+      right: 10px;
+      top: 65%;
+    }

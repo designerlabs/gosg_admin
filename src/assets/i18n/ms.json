@@ -1040,7 +1040,12 @@
       "religion": "Religion",
       "address": "Address",
       "mobilenum": "Mobile Number",
-      "select": "Select Account Status"
+      "select": "Select Account Status",
+      "audit": "Audit Trail",
+      "polls": "Undian",
+      "feedback": "Aduan & Pertanyaan",
+      "start": "Tarikh Mula",
+      "end": "Tarikh AKhir"
     }
   },
   "mediatype": {
