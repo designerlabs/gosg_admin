@@ -162,8 +162,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
       
       if (this.navservice.flagLang) {
         
-        this.getCategoryCodeCP(this.languageId);
-        //this.getCategoryCP(this.languageId);         
+        this.getCategoryCodeCP(this.languageId);       
         this.archiveId = [];
         this.arrStatus = [];
         this.selectedItem = [];
@@ -184,7 +183,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.commonservice.getInitialMessage();
-    //this.getRecordListCP(this.pageCount, this.pageSize);
+
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -215,7 +214,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     this.updateForm.get('nameStatus').setValue(1);   
     this.getCategoryCP(this.languageId);
     this.valkey = false;
-
   }
 
   getCategoryCodeCP(lang){ 
@@ -266,11 +264,9 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
             this.catCode = this.commonservice.contentCategoryCode;
             this.categoryPlaceholder = this.catName;
           }
-
        
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
-
           //this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);
 
         }).bind(this));
