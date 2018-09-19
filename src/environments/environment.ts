@@ -6,10 +6,10 @@
 export const environment = {
   production: false,
   staging: false,
-  uapURL : 'https://stagam.malaysia.gov.my/',
-  stagURL: 'https://gosgstag.malaysia.gov.my/',
-  mediaURL: 'https://gosgstag.malaysia.gov.my/',
-  mockApiURL :'https://gosgstag.malaysia.gov.my/',
-  baseURL: 'https://gosgstag.malaysia.gov.my/',
-  mibisURL: 'https://stagam.malaysia.gov.my/'
+  uapURL : 'https://gosgadmin.mimos.my/',
+  stagURL: 'https://gosgstag.mimos.my/',
+  mediaURL: 'https://gosgstag.mimos.my/',
+  mockApiURL :'https://gosgstag.mimos.my/',
+  baseURL: 'https://gosgstag.mimos.my/',
+  mibisURL: 'https://gosgadmin.mimos.my/'
 };
