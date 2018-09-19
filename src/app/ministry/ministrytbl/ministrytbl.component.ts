@@ -46,6 +46,8 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
 
   recordTable = null;
   recordList = null;
+
+  kword: any;
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -54,20 +56,18 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
   
   private subscriptionLang: ISubscription;
 
-  applyFilter(val) {   
-
-    
+  applyFilter(val) {  
     
     if(val){
+      this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val);
+    } else {
+      this.resetSearch();
     }
-    else{
-      this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
-    }
-  
   }
 
   resetSearch() {
+    this.kword = '';
     this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
   }
 
@@ -110,6 +110,8 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
@@ -171,6 +173,7 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
     this.recordList = null;
     
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
 
       this.loading = true;
       this.commonservice.readPortal('ministry',page, size, keyword, this.languageId).subscribe(data => {
@@ -213,7 +216,11 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getMinistryData(this.pageCount, this.pageSize, this.languageId);
+
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -223,11 +230,19 @@ export class MinistrytblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getMinistryData(page + 1, this.pageSize, this.languageId);
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getMinistryData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getMinistryData(this.pageCount, event.value, this.languageId);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getMinistryData(this.pageCount, event.value, this.languageId);
+      
     this.pageSize = event.value;
     this.noPrevData = true;
   }

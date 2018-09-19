@@ -39,6 +39,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
   showNoData = false;
 
   recordTable = null;
+  kword: any;
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -52,13 +53,11 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    
-    
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
-      this.getRecordList(this.pageCount, this.pageSize);
+      this.resetSearch();
     }
   
   }
@@ -118,6 +117,8 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -140,8 +141,6 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
           this.recordList = data;
           if(this.recordList.feedbackList.length > 0){
-            
-            
             
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
@@ -181,7 +180,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
     }
 
     if(val != "" && val != null && val.length != null && val.length >= 3) {
-   
+      this.kword = val;
       this.loading = true;
       this.commonservice.readProtected(this.dataUrl, count, size, val, this.languageId)
       .subscribe(data => {
@@ -191,9 +190,6 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
           this.recordList = data;
           if(this.recordList.feedbackList.length > 0){
 
-            
-            
-            
             this.dataSource.data = this.recordList.feedbackList;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
@@ -225,11 +221,16 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize);
+    if(this.kword){
+      this.getFilterList(page - 1, this.pageSize, this.kword, this.filterTypeVal);
+    }else{
+      this.getRecordList(page - 1, this.pageSize);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -239,7 +240,11 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize);
+    if(this.kword){
+      this.getFilterList(page + 1, this.pageSize, this.kword, this.filterTypeVal);
+    }else{
+      this.getRecordList(page + 1, this.pageSize);
+    }
   }
 
   updateRow(row) {
@@ -254,7 +259,11 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value);
+    if(this.kword){
+      this.getFilterList(this.pageCount, event.value, this.kword, this.filterTypeVal);
+    }else{
+      this.getRecordList(this.pageCount, event.value);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }

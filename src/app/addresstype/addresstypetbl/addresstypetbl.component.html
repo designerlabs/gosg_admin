@@ -1,20 +1,20 @@
 <div class="container-fluid">
-    
+
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
             <h3>{{ 'addresstype.header' | translate }}</h3>
         </div>
-        
+
         <div class="col-md-2 curdHeadingRight">
             <!-- <span class="pull-right">
                 <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
                 <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
             </span> -->
-        </div> 
+        </div>
     </div>
 
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
     </div>
 
     <div *ngIf="commonservice.isRead">
@@ -26,8 +26,8 @@
                 </mat-form-field>
             </div> -->
 
-            <mat-table #table [dataSource]="dataSource" matSort>           
-                
+            <mat-table #table [dataSource]="dataSource" matSort>
+
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
                     <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
@@ -35,12 +35,12 @@
                         {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                     </mat-cell>
                 </ng-container>
-            
+
                 <!-- add en Column -->
                 <ng-container matColumnDef="addEng">
                     <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'addresstype.tableHeader.addresstypeEn' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.list[0].addressType}} 
+                        {{element.list[0].addressType}}
                     </mat-cell>
                 </ng-container>
 
@@ -51,7 +51,7 @@
                         {{element.list[1].addressType}}
                     </mat-cell>
                 </ng-container>
-            
+
                 <!-- status Column -->
                 <ng-container matColumnDef="status">
                     <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.tableHeader.activestatus' | translate }} </mat-header-cell>
@@ -66,12 +66,12 @@
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> Action </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab style="background: orange" *ngIf="commonservice.isUpdate" (click)="updateRow(element.refCode)">
-                        <i class="fa fa-eye" title="View {{ element.refCode }}"></i></button>
+                        <i class="fa fa-eye"></i></button>
                         &nbsp;
                         <button mat-mini-fab style="background: red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
                         <i class="fa fa-trash" title="Delete {{element.refCode}}"></i></button>
-                        <app-confirm-dialog  #deleteModal 
-                        [title]="'common.icon.warn'" 
+                        <app-confirm-dialog  #deleteModal
+                        [title]="'common.icon.warn'"
                         [content]="'common.msg.delete'"
                         [state]="'bg_header bg_warn_header'"
                         [isReset]="'true'"
@@ -79,11 +79,11 @@
                         </app-confirm-dialog>
                     </mat-cell>
                 </ng-container> -->
-            
+
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
-            
+
         </div>
 
         <div class="float-right paddingTop-15">
@@ -111,20 +111,20 @@
         </div>
     </div>
 </div>
- 
-<!-- <app-confirm-dialog  #resetModal 
-[title]="'common.icon.warn'" 
+
+<!-- <app-confirm-dialog  #resetModal
+[title]="'common.icon.warn'"
 [content]="'common.msg.reset'"
-[state]="'common.state.warn'" 
+[state]="'common.state.warn'"
 [isReset]="'true'"
 (resetMethod)="resetMethod($event)">
 </app-confirm-dialog>
 
-<app-confirm-dialog  #infoModal 
-[title]="'common.icon.success'" 
+<app-confirm-dialog  #infoModal
+[title]="'common.icon.success'"
 [content]="'register.popupmsg.success_content1'"
 [email] = "getEmail"
-[content2] = "'register.popupmsg.success_content2'" 
-[state]="'common.state.success'" 
+[content2] = "'register.popupmsg.success_content2'"
+[state]="'common.state.success'"
 [isRegister]="'index'">
 </app-confirm-dialog> -->

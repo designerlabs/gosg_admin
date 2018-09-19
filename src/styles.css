@@ -187,6 +187,12 @@ p.font-size-s > strong {
     justify-content:center;
 }
 
+.dateColumn {
+    display:flex;
+    justify-content:center;
+    flex: 0 0 10% !important;
+}
+
 .draftColumn {
     display:flex;
     justify-content:center;
@@ -353,10 +359,7 @@ p.font-size-s > strong {
         margin-bottom: 0%
     }
 
-    .datetimeMaskWithValue {
-        color:#333;
-        margin-bottom: -4%
-    }
+    
 
     .owl-dt-popup {
         margin-top: 8%;
@@ -430,6 +433,32 @@ p.font-size-s > strong {
         display: none;
     }
 
+}
+
+@media screen and (max-width: 1360px) and (min-width: 760px){
+    .datetimeMaskWithValue {
+        color:#333;
+        margin-bottom: -4%
+    }
+
+    .datetimeMaskNoValue{
+        color:#333;
+        margin-bottom: -7%
+    }
+  
+  }
+
+@media screen and (min-width: 1361px) {
+    .datetimeMaskWithValue {
+        color:#333;
+        margin-bottom: -2%
+    }
+
+    .datetimeMaskNoValue{
+        color:#333;
+        margin-bottom: -5%
+    }
+  
 }
 
 .tableHistory{

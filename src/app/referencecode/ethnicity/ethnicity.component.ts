@@ -22,6 +22,7 @@ export class EthnicityComponent implements OnInit {
   
   public raceEng: FormControl;  
   public raceMy: FormControl;
+  public uniqueCode: FormControl;
 
   public active: FormControl
 
@@ -65,15 +66,19 @@ export class EthnicityComponent implements OnInit {
    }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.commonservice.getModuleId();
     this.raceEng = new FormControl();
     this.raceMy = new FormControl();
     this.active = new FormControl();
+    this.uniqueCode = new FormControl();
 
     this.updateForm = new FormGroup({   
       raceEng: this.raceEng,
       raceMy: this.raceMy,
       active: this.active,
+      uniqueCode: this.uniqueCode,
 
       
     });     
@@ -110,6 +115,7 @@ export class EthnicityComponent implements OnInit {
 
       this.updateForm.get('raceMy').setValue(this.recordList.raceList[0].race);
       this.updateForm.get('raceEng').setValue(this.recordList.raceList[1].race); 
+      this.updateForm.get('uniqueCode').setValue(this.recordList.raceList[1].raceUniqueCode); 
       
 
       this.getRaceIdMy = this.recordList.raceList[0].raceId;
@@ -158,6 +164,7 @@ export class EthnicityComponent implements OnInit {
       let body = [
         {
           "race": null,
+          "raceUniqueCode": null,
           "active": false,
           "language": {
               "languageId": null
@@ -165,6 +172,7 @@ export class EthnicityComponent implements OnInit {
         },
         {
           "race": null,
+          "raceUniqueCode": null,
           "active": false,
           "language": {
               "languageId": null
@@ -173,10 +181,12 @@ export class EthnicityComponent implements OnInit {
       ]   
  
       body[0].race = formValues.raceMy;
+      body[0].raceUniqueCode = formValues.uniqueCode;
       body[0].language.languageId = 2;
       body[0].active = formValues.active;
 
       body[1].race = formValues.raceEng; 
+      body[1].raceUniqueCode = formValues.uniqueCode;
       body[1].language.languageId = 1;
       body[1].active = formValues.active;
 
@@ -221,6 +231,7 @@ export class EthnicityComponent implements OnInit {
           "race": null,
           "raceId": null,
           "refCode": null,
+          "raceUniqueCode": null,
           "active": false,
           "language": {
               "languageId": null
@@ -231,6 +242,7 @@ export class EthnicityComponent implements OnInit {
           "race": null,
           "raceId": null,
           "refCode": null,
+          "raceUniqueCode": null,
           "active": false,
           "language": {
               "languageId": null
@@ -243,6 +255,7 @@ export class EthnicityComponent implements OnInit {
       body[0].race = formValues.raceMy;
       body[0].raceId = this.getRaceIdMy;
       body[0].raceCode = this.raceCodeBm;
+      body[0].raceUniqueCode = formValues.uniqueCode;
       body[0].refCode = this.getRefCodeMy;
       body[0].language.languageId = 2;
       body[0].active = formValues.active;
@@ -250,6 +263,7 @@ export class EthnicityComponent implements OnInit {
       body[1].race = formValues.raceEng; 
       body[1].raceId = this.getRaceIdEng; 
       body[1].raceCode = this.raceCodeEn;
+      body[1].raceUniqueCode = formValues.uniqueCode;
       body[1].refCode = this.getRefCodeEng; 
       body[1].language.languageId = 1;
       body[1].active = formValues.active;
@@ -290,7 +304,7 @@ export class EthnicityComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["raceEng", "raceMy"];
+    let reqVal:any = ["raceEng", "raceMy", "uniqueCode"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

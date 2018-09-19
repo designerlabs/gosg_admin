@@ -23,6 +23,7 @@ export class CityComponent implements OnInit, OnDestroy {
   updateForm: FormGroup;  
   public state: FormControl;
   public city: FormControl;
+  public uniqueCode: FormControl;
 
   languageId: any;
   lang: any;
@@ -75,6 +76,8 @@ export class CityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
     }else{
@@ -83,11 +86,13 @@ export class CityComponent implements OnInit, OnDestroy {
 
     this.state = new FormControl();
     this.city = new FormControl();
+    this.uniqueCode = new FormControl();
 
     this.updateForm = new FormGroup({   
 
       state: this.state,
       city: this.city,
+      uniqueCode: this.uniqueCode
     });
 
     this.urlEdit = this.router.url.split('/')[3];
@@ -139,6 +144,7 @@ export class CityComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('state').setValue(this.recordList.state.stateId);
           this.updateForm.get('city').setValue(this.recordList.cityName);     
+          this.updateForm.get('uniqueCode').setValue(this.recordList.cityUniqueCode);     
           this.cityId = this.recordList.cityId;
           this.cityCode = this.recordList.cityCode;
           this.checkReqValues();
@@ -164,12 +170,14 @@ export class CityComponent implements OnInit, OnDestroy {
       let body = 
       {
         "cityName": null,
+        "cityUniqueCode": null,
         "state": {
           "stateId": null
         }
       }  
  
       body.cityName = formValues.city;
+      body.cityUniqueCode = formValues.uniqueCode;
       body.state.stateId = formValues.state;
       
       this.loading = true;
@@ -197,12 +205,15 @@ export class CityComponent implements OnInit, OnDestroy {
         "cityId": this.cityId,
         "cityName": null,
         "cityCode": this.cityCode,
+        "cityUniqueCode": null,
         "state": {
           "stateId": null
         }
       }    
 
       body.cityName = formValues.city;
+      body.cityUniqueCode = formValues.uniqueCode;
+      body.state.stateId = formValues.state;
       body.state.stateId = formValues.state;
 
       this.loading = true;
@@ -226,7 +237,7 @@ export class CityComponent implements OnInit, OnDestroy {
 
   checkReqValues() {
 
-    let reqVal:any = ["state", "city"];
+    let reqVal:any = ["state", "city", "uniqueCode"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

@@ -54,10 +54,10 @@ export class SlidertblComponent implements OnInit, OnDestroy {
 
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
-  publishdt:number;  
+  publishdt:number;
   enddt: number;
   publish: FormControl
-  endD: FormControl  
+  endD: FormControl
   disableSearch = false;
   newPublishD: any;
   newEndD: any;
@@ -83,7 +83,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
 
     this.nameStatus = this.updateForm.get('nameStatus').value;
     let d = this.updateForm.get('publish').value;
-    
+
     if(e){
       this.getFilterListS(this.pageCount, this.sliderPageSize, e, this.nameStatus, d);
     }
@@ -94,8 +94,10 @@ export class SlidertblComponent implements OnInit, OnDestroy {
 
   resetSearch() {
     this.getSlidersData(this.pageCount, this.sliderPageSize);
-    this.updateForm.get('kataKunci').setValue(null); 
+    this.updateForm.get('kataKunci').setValue(null);
     this.valkey = false;
+
+    this.keywordVal = '';
   }
 
   filterStatus(e){
@@ -113,16 +115,16 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     public dialog: MatDialog,
     private router: Router,
     private navservice: NavService,
     private toastr: ToastrService
-  ) { 
+  ) {
 
     /* LANGUAGE FUNC */
     this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
@@ -142,7 +144,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        
+
         this.getSlidersData(this.pageCount, this.sliderPageSize);
         this.selectedItem = [];
         this.commonservice.getModuleId();
@@ -161,33 +163,33 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.commonservice.getInitialMessage();
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
       this.languageId = 1;
     }
-   
+
     this.nameStatus = new FormControl();
     this.kataKunci = new FormControl();
     this.publish = new FormControl();
     this.endD = new FormControl ();
 
-    this.updateForm = new FormGroup({   
-      
+    this.updateForm = new FormGroup({
+
       nameStatus: this.nameStatus,
       kataKunci: this.kataKunci,
       endD: this.endD,
       publish: this.publish
     });
-    
-    this.updateForm.get('nameStatus').setValue(1); 
-    
-    this.valkey = false;   
+
+    this.updateForm.get('nameStatus').setValue(1);
+
+    this.valkey = false;
     this.displayedColumns = ['cbox','no','slideTitle', 'sliderDescription', 'date', 'slideActiveFlag', 'slideDraft', 'slideAction'];
     this.commonservice.getModuleId();
 
-    
+
     this.getSlidersData(this.pageCount, this.sliderPageSize);
   }
 
@@ -196,7 +198,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     this.dataSource.sort = this.sort;
   }
 
-  // get Slider Data 
+  // get Slider Data
   getSlidersData(page, size) {
 
     let generalUrl = ""
@@ -241,13 +243,13 @@ export class SlidertblComponent implements OnInit, OnDestroy {
         generalUrl = 'slider/creator/state/approved/'+this.newPublishD+"/"+this.newEndD;
       }
     }
-    
+
     this.loading = true;
     this.commonservice.readProtected(generalUrl,page, size, '', this.languageId).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
-        this.sliderList = data;              
+        this.sliderList = data;
 
         if(this.sliderList.list.length > 0){
           this.dataSource.data = this.sliderList.list;
@@ -260,15 +262,15 @@ export class SlidertblComponent implements OnInit, OnDestroy {
         }
 
         else{
-          this.dataSource.data = []; 
+          this.dataSource.data = [];
           this.showNoData = true;
         }
-          
+
       }).bind(this));
       this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');     
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
       });
   }
@@ -330,8 +332,8 @@ export class SlidertblComponent implements OnInit, OnDestroy {
       }
     }
 
-    
-    
+
+
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.valkey = true;
       this.loading = true;
@@ -353,7 +355,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
           }
 
           else{
-            this.dataSource.data = []; 
+            this.dataSource.data = [];
             this.showNoData = true;
 
             this.seqPageNum = this.sliderList.pageNumber;
@@ -361,42 +363,42 @@ export class SlidertblComponent implements OnInit, OnDestroy {
             this.recordTable = this.sliderList;
             this.noNextData = this.sliderList.pageNumber === this.sliderList.totalPages;
           }
-            
+
         }).bind(this));
         this.loading = false;
         },
         error => {
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           this.loading = false;
       });
     }
   }
 
-  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
-  
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+
     this.events = [];
     this.events.push(`${event.value}`);
     this.publishdt = new Date(this.events[0]).getTime();
-    this.dateFormatExample = "";    
+    this.dateFormatExample = "";
 
     if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
       this.enddt = new Date(this.events[0]).getTime();
       this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       this.enddt = null;
       this.disableSearch = true;
-    }    
+    }
 
     else{
       this.disableSearch = false;
     }
   }
 
-  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
     this.events = [];
     this.events.push(`${event.value}`);
-    this.enddt = new Date(this.events[0]).getTime();    
-    this.dateFormatExample = ""; 
+    this.enddt = new Date(this.events[0]).getTime();
+    this.dateFormatExample = "";
 
     if(this.publishdt>this.enddt || this.publishdt == undefined || this.publishdt == null){
       this.publishdt = new Date(this.events[0]).getTime();
@@ -411,13 +413,13 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   }
 
   search(){
-    let year, month, day;   
-    
+    let year, month, day;
+
     let e = '';
-    
+
     if(this.publishdt != undefined){
       this.events = [];
-      var d = new Date(this.publishdt); 
+      var d = new Date(this.publishdt);
       this.events.push(`${d}`);
 
       year = new Date(this.events[0]).getFullYear();
@@ -428,15 +430,15 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     }
 
     if(this.enddt != undefined){
-    
+
       this.events = [];
-      var d = new Date(this.enddt); 
+      var d = new Date(this.enddt);
       this.events.push(`${d}`);
 
       year = new Date(this.events[0]).getFullYear();
       month = new Date(this.events[0]).getMonth()+1;
       day = new Date(this.events[0]).getDate();
-      
+
       this.newEndD = year+"-"+month+"-"+day;
     }
 
@@ -444,20 +446,14 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     this.keywordVal = this.updateForm.get('kataKunci').value;
 
     if(this.keywordVal != undefined || this.keywordVal != null){
-   
+
       this.getFilterListS(this.pageCount, this.sliderPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
     }
 
     else if(this.keywordVal == undefined || this.keywordVal == null){
-    
+
       this.getSlidersData(this.pageCount, this.sliderPageSize);
     }
-
-    
-    
-    
-    
-    
   }
 
   clearDate() {
@@ -473,21 +469,44 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getSlidersData(this.pageCount, this.sliderPageSize);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListS(page - 1, this.sliderPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getSlidersData(page - 1, this.sliderPageSize);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getSlidersData(page + 1, this.sliderPageSize);
+
+    if(this.keywordVal){
+      this.getFilterListS(page + 1, this.sliderPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getSlidersData(page + 1, this.sliderPageSize);
+    }
   }
 
   pageChange(event, totalPages) {
-    this.getSlidersData(this.pageCount, event.value);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+    if(this.keywordVal){
+      this.getFilterListS(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getSlidersData(this.pageCount, event.value);
+    }
     this.sliderPageSize = event.value;
     this.noPrevData = true;
   }
@@ -496,7 +515,7 @@ export class SlidertblComponent implements OnInit, OnDestroy {
     this.commonservice.pageModeChange(false);
     this.router.navigate(['slider', "add"]);
   }
-  
+
   updateRow(row) {
     this.commonservice.pageModeChange(true);
     this.router.navigate(['slider', row]);
@@ -513,11 +532,11 @@ export class SlidertblComponent implements OnInit, OnDestroy {
           this.getSlidersData(this.pageCount, this.sliderPageSize);
           this.selectedItem = [];
 
-      }).bind(this)); 
+      }).bind(this));
       this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
       });
 
@@ -526,8 +545,8 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    
-    
+
+
     this.commonservice.delete('', `slider/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -535,19 +554,19 @@ export class SlidertblComponent implements OnInit, OnDestroy {
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getSlidersData(this.pageCount, this.sliderPageSize);
 
-      }).bind(this)); 
+      }).bind(this));
       this.selectedItem = [];
       this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.selectedItem = [];
         this.loading = false;
       });
   }
 
   isChecked(event) {
-    
+
     if(event.checked){
       this.selectedItem.push(event.source.value);
     }else{
@@ -559,32 +578,32 @@ export class SlidertblComponent implements OnInit, OnDestroy {
   }
 
   detailHistory(id){
-    
-   
+
+
       this.loading = true;
       this.commonservice.readProtected('content/history/'+id, '', '', '', this.languageId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-    
+
             this.listHistory = data;
             let config = new MatDialogConfig();
             config.width = '800px';
             config.height = '600px';
-            let dialogRef = this.dialog.open(DialogResultExampleDialog, config);         
+            let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
 
             let displayTilte = "";
             if(this.languageId == 1){
               displayTilte = "<h3>HISTORY</h3>"
               displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Name</td>';
               displayTilte += '<td width="20%">Activity</td>';
-              displayTilte += '<td width="40%">Time</td></tr>';    
+              displayTilte += '<td width="40%">Time</td></tr>';
             }else{
               displayTilte = "<h3>SEJARAH</h3>";
               displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Nama</td>';
               displayTilte += '<td width="20%">Aktiviti</td>';
-              displayTilte += '<td width="40%">Masa</td></tr>';    
+              displayTilte += '<td width="40%">Masa</td></tr>';
             }
-            let display: any;                  
+            let display: any;
 
             for(let i=0; i<this.listHistory.list.length; i++){
 
@@ -600,15 +619,15 @@ export class SlidertblComponent implements OnInit, OnDestroy {
             dialogRef.componentInstance.content =  `${displayTilte}`;
             display = dialogRef.componentInstance.content;
 
-          }).bind(this)); 
+          }).bind(this));
           this.loading = false;
         },
         error => {
-    
+
           this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
         });
-    
+
   }
 
   // changePageMode(isEdit) {

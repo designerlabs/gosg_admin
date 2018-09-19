@@ -69,6 +69,8 @@ export class FaqComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.commonservice.getModuleId();
     this.faqQEng = new FormControl();
     this.faqQMy = new FormControl();

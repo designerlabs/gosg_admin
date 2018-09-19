@@ -38,6 +38,8 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
   cateSelect;
   public loading = false;
 
+  kword: any;
+
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
@@ -66,7 +68,7 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
       }
       if (this.navservice.flagLang) {
         
-        this.getMediaList(this.PageCount, this.PageSize);
+        this.getMediaList(this.PageCount, this.PageSize, this.languageId);
         this.commonservice.getModuleId();
       }
 
@@ -83,6 +85,8 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -91,7 +95,7 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
 
     this.cateSelect = "0";
     this.fileName='';
-    this.getMediaList(this.PageCount, this.PageSize);
+    this.getMediaList(this.PageCount, this.PageSize, this.languageId);
     this.commonservice.getModuleId();
     this.fnLoadCateMediaType();
   }
@@ -156,21 +160,24 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
 
   }  
   // readProtected(moduleName, page?, size?, keyword?): Observable<any[]> {
-  getMediaList(count, size, dataBy?: string, val?: string) {
+  getMediaList(count, size, lng, dataBy?: string, val?: string) {
+
     this.loading = true;
     if (dataBy === undefined){
       // this.moduleName = this.appConfig.urlMediaFileUpload + '?page=' + count + '&size=' + size + '&language=' + this.languageId;
       this.moduleName = 'media';
-    }else if(dataBy === "byCateId"){
+    } else if(dataBy !== "byFileName"){
       // this.moduleName = this.appConfig.urlMediaFileUpload +  "/category/id/" + val +'?page=' + count + '&size=' + size + '&language=' + this.languageId;
-      this.moduleName = 'media/category/id/'+ val;
-    }else if(dataBy === "byFileName"){
+      this.moduleName = 'media/category/id/'+dataBy;
+      // this.moduleName = 'media/category/id/'+ val;
+    } else if(dataBy === "byFileName" && val.length != null && val.length >= 3){
+      this.kword = val;
       // this.moduleName = this.appConfig.urlMediaFileUpload +  "/file/name/" + val +'?page=' + count + '&size=' + size + '&language=' + this.languageId;
       this.moduleName = 'media/file/name/'+ val;
     }
     
     // return this.http.get(this.dataUrl)
-    this.commonservice.readProtected(this.moduleName, count, size, '', this.languageId)
+    this.commonservice.readProtected(this.moduleName, count, size, '', lng)
        .subscribe(resData => {
         this.commonservice.errorHandling(resData, (function(){
         this.resultData = resData;
@@ -209,9 +216,10 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
     // this.PageSize = 10; 
     this.cateSelect = 0;   //Reset Category search
     if(val.length>0){
-      this.getMediaList(this.PageCount, this.PageSize, "byFileName", val); 
+      this.kword = val;
+      this.getMediaList(this.PageCount, this.PageSize, this.languageId, "byFileName", val); 
     }else{
-      this.getMediaList(this.PageCount, this.PageSize);
+      this.reset();
     }        
   }
 
@@ -220,18 +228,19 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
     // this.PageSize = 10;
     this.fileName = ""; // Reset File name Search
     if(val.value === "0" ){
-      this.getMediaList(this.PageCount, this.PageSize);
+      this.getMediaList(this.PageCount, this.PageSize, this.languageId);
     } else{
-      this.getMediaList(this.PageCount, this.PageSize, "byCateId", val.value); 
+      this.getMediaList(this.PageCount, this.PageSize, this.languageId, val.value); 
     }   
   }
 
   reset(){
     // this.PageCount = 1;
     // this.PageSize = 10;
+    this.kword = '';
     this.fileName = "";
     this.cateSelect = 0;
-    this.getMediaList(this.PageCount, this.PageSize);
+    this.getMediaList(this.PageCount, this.PageSize, this.languageId);
   }
 
   add(){    
@@ -240,12 +249,15 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
   
   paginatorL(page) {    
     //this.getMediaList(page - 1, this.PageSize);
-    if(this.cateSelect !== "0" ){
-      this.getMediaList(page - 1, this.PageSize, "byCateId", this.cateSelect); 
+    if(this.cateSelect !== "0"){
+      this.getMediaList(page - 1, this.PageSize, this.languageId, this.cateSelect); 
     } else if(this.fileName.length>0){
-      this.getMediaList(page - 1, this.PageSize, "byFileName", this.fileName); 
+      if(this.kword)
+        this.getMediaList(page - 1, this.PageSize, "byFileName", this.kword);
+      else
+        this.getMediaList(page - 1, this.PageSize, "byFileName", this.fileName); 
     }else {
-      this.getMediaList(page - 1, this.PageSize);
+      this.getMediaList(page - 1, this.PageSize, this.languageId);
     }  
 
     this.noPrevData = page <= 2 ? true : false; 
@@ -260,12 +272,15 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
     
     // this.noNextData = pageInc === totalPages;
     //this.getMediaList(pageInc , this.PageSize);
-    if(this.cateSelect !== "0" ){
-      this.getMediaList(pageInc, this.PageSize, "byCateId", this.cateSelect); 
+    if(this.cateSelect !== "0"){
+      this.getMediaList(pageInc, this.PageSize, this.languageId, this.cateSelect); 
     } else if(this.fileName.length>0){
-      this.getMediaList(pageInc, this.PageSize, "byFileName", this.fileName); 
+      if(this.kword)
+        this.getMediaList(pageInc, this.PageSize, "byFileName", this.kword);
+      else
+        this.getMediaList(pageInc, this.PageSize, "byFileName", this.fileName); 
     }else {
-      this.getMediaList(pageInc, this.PageSize);
+      this.getMediaList(pageInc, this.PageSize, this.languageId);
     }  
   }
 
@@ -275,11 +290,14 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
     this.PageSize = event.value;
 
     if(this.cateSelect !== "0" ){
-      this.getMediaList(this.PageCount, this.PageSize, "byCateId", this.cateSelect); 
+      this.getMediaList(this.PageCount, this.PageSize, this.languageId, this.cateSelect); 
     } else if(this.fileName.length>0){
-      this.getMediaList(this.PageCount, this.PageSize, "byFileName", this.fileName); 
+      if(this.kword)
+        this.getMediaList(this.PageCount, this.PageSize, "byFileName", this.kword);
+      else
+        this.getMediaList(this.PageCount, this.PageSize, "byFileName", this.fileName); 
     }else {
-      this.getMediaList(this.PageCount, event.value);
+      this.getMediaList(this.PageCount, event.value, this.languageId);
     }   
     
     this.noPrevData = true;
@@ -296,7 +314,7 @@ export class MediafileuploadtblComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){          
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.reset()
-          // this.getMediaList(this.PageCount, this.PageSize);
+          // this.getMediaList(this.PageCount, this.PageSize, this.languageId);
         }).bind(this)); 
         },
       error => {

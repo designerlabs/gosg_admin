@@ -67,6 +67,8 @@ export class GroupstblComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
     this.getGroupList(this.groupPageCount, this.groupPageSize);
     this.commonservice.getModuleId();
   }

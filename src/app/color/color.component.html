@@ -1,27 +1,27 @@
 <!-- VIEW: ADD/EDIT AGENCY APP  -->
 <div class="container right-content">
-  
+
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
           <h3>{{ pageMode }} {{ 'color.name' | translate }} </h3>
       </div>
-      
+
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" mat-fab color="accent" (click)="back()" >
               <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
           </span>
-      </div> 
+      </div>
   </div>
-  
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
   </div>
 
   <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate" autocomplete="off" role="form" novalidate>
-  
+
       <div class="example-container mat-elevation-z8 col-md-12">
-  
+
         <div class="row">
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-12">
@@ -46,7 +46,7 @@
             </mat-form-field>
           </div>
         </div>
-        
+
         <div class="row">
           <div class="col-md-12 paddingTop-20">
             <mat-checkbox tabindex="3" formControlName="default" [checked]="false" (change)="checkDefaultStatus()"></mat-checkbox>
@@ -59,7 +59,7 @@
           <div class="col-md-12">&nbsp;</div>
         </div>
       </div>
-        
+
       <!-- <div class="container"> -->
       <div class="col-md-12">&nbsp;</div>
         <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">
@@ -75,8 +75,8 @@
   </form>
 </div>
 
-<app-confirm-dialog  #resetModal 
-    [title]="'common.icon.warn'" 
+<app-confirm-dialog  #resetModal
+    [title]="'common.icon.warn'"
     [content]="'common.msg.reset'"
     [state]="'bg_header bg_warn_header'"
     [isReset]="'true'"

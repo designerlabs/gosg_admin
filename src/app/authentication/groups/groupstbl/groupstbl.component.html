@@ -1,20 +1,20 @@
 <div class="container-fluid">
-  
+
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
           <h3>{{ 'module.groupList' | translate }}</h3>
       </div>
-      
+
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" *ngIf="commonservice.isWrite" mat-fab color="warn" (click)="add()" >
                 <i [ngClass]="commonservice.icon.plus" class="font-size-m"></i></button>
           </span>
-      </div> 
+      </div>
   </div>
-  
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+
+  <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
   </div>
 
   <div *ngIf="commonservice.isRead">
@@ -29,26 +29,26 @@
       <ng-container matColumnDef="moduleGroupName">
         <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 30%'"> {{ 'table.group.moduleGroupName' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" [style.flex]="'0 0 30%'"> {{element.moduleGroupName}} </mat-cell>
-      </ng-container>  
+      </ng-container>
       <!-- User Type Column -->
       <ng-container matColumnDef="moduleName" >
         <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 40%'"> {{ 'table.group.moduleName' | translate }} </mat-header-cell>
-        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">          
+        <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">
           <span class="tag-style"*ngFor="let ele of (element.modules.length > 3 ? element.modules.slice(0,3):  element.modules)">
             {{ele.moduleName}}
-          </span>    
+          </span>
           <span *ngIf="element.modules.length > 3">
               +{{element.modules.length - 3}}
           </span>
-<!-- 
+<!--
           <mat-chip-list >
-                  <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules.length > 3 ? element.modules.slice(0,3):  element.modules)">{{ele.moduleName}}</mat-chip> 
+                  <mat-chip color="primary" selected="true" *ngFor="let ele of (element.modules.length > 3 ? element.modules.slice(0,3):  element.modules)">{{ele.moduleName}}</mat-chip>
                   <mat-chip color="default" *ngIf="element.modules.length > 3">+{{element.modules.length - 3}}</mat-chip>
               </mat-chip-list>   -->
-               
-            
+
+
         </mat-cell>
-      </ng-container> 
+      </ng-container>
       <!-- isActive Column -->
       <ng-container matColumnDef="isActive" >
           <mat-header-cell mat-sort-header *matHeaderCellDef class="statusColumn"> Status </mat-header-cell>
@@ -61,20 +61,20 @@
       <ng-container matColumnDef="action" >
         <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef class="actionColumn"> {{ 'table.action' | translate }} </mat-header-cell>
         <mat-cell class="text-align-Center padding5" *matCellDef="let element" class="actionColumn">
-            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.moduleGroupId)" title="Update {{ element.moduleGroupId }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update"></i></button>&nbsp;
+            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.moduleGroupId)">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}"></i></button>&nbsp;
             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-              <i [ngClass]="commonservice.icon.trash"  title="Delete {{ element.moduleGroupId }}"></i></button>
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
 
-            <app-confirm-dialog  #deleteModal 
-              [title]="'common.icon.warn'" 
+            <app-confirm-dialog  #deleteModal
+              [title]="'common.icon.warn'"
               [content]="'common.msg.delete'"
               [state]="'bg_header bg_warn_header'"
               [isReset]="'true'"
               (resetMethod)="resetMethod($event, element.moduleGroupId)">
             </app-confirm-dialog>
         </mat-cell>
-    </ng-container> 
+    </ng-container>
       <!-- Account Status Column -->
       <!-- <ng-container matColumnDef="accountStatusId">
         <mat-header-cell *matHeaderCellDef> Acc Status </mat-header-cell>
@@ -88,7 +88,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-  
+
   </div>
 
   <div class="float-right paddingTop-15">

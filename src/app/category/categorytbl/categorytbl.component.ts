@@ -46,6 +46,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  kword: any;
   
   private subscription: ISubscription;
   private subscriptionLang: ISubscription;
@@ -57,7 +58,8 @@ export class CategorytblComponent implements OnInit, OnDestroy {
       this.getFilterList(this.pageCount, this.pageSize, e);
     }
     else{
-      this.getRecordList(this.pageCount, this.pageSize, this.languageId);
+      this.resetSearch();
+      //this.getRecordList(this.pageCount, this.pageSize, this.languageId);
     }
   }
   
@@ -99,6 +101,8 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
@@ -160,6 +164,7 @@ export class CategorytblComponent implements OnInit, OnDestroy {
       
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
+      this.kword = keyword;
 
       this.commonservice.readProtected('content/category/code', page, size, keyword, this.languageId)
       .subscribe(data => {
@@ -202,11 +207,18 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize, this.languageId);
   }
 
   paginatorL(page) {
-    this.getRecordList(page - 1, this.pageSize, this.languageId);
+
+    if(this.kword){
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    }
+    else{
+      this.getRecordList(page - 1, this.pageSize, this.languageId);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -216,7 +228,12 @@ export class CategorytblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordList(page + 1, this.pageSize, this.languageId);
+    if(this.kword){
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    }
+    else{
+      this.getRecordList(page + 1, this.pageSize, this.languageId);
+    }
   }
 
   add() {
@@ -258,7 +275,12 @@ export class CategorytblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordList(this.pageCount, event.value, this.languageId);
+    if(this.kword){
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    }
+    else{
+      this.getRecordList(this.pageCount, event.value, this.languageId);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }

@@ -41,6 +41,8 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
   recordTable = null;
   recordList = null;
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -52,18 +54,17 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
 
   applyFilter(val) {   
 
-    
-    
     if(val){
+      this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
-    }
-    else{
-      this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
+    } else {
+      this.resetSearch();
     }
   
   }
 
   resetSearch() {
+    this.kword = '';
     this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
   }
 
@@ -104,6 +105,8 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');
@@ -159,9 +162,10 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
       });
   }
 
-  getFilterList(count, size, keyword, filterkeyword) {    
+  getFilterList(count, size, keyword, filterkeyword?) {    
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
       this.commonservice.readPortal('agency/application/code/', count, size, keyword)
       .subscribe(data => {
@@ -204,7 +208,11 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
+    
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getAgencyAppData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -214,11 +222,20 @@ export class AgencyapptblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getAgencyAppData(page + 1, this.pageSize, this.languageId);
+    
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getAgencyAppData(page + 1, this.pageSize, this.languageId);
   }
 
   pageChange(event, totalPages) {
-    this.getAgencyAppData(this.pageCount, event.value, this.languageId);
+      
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getAgencyAppData(this.pageCount, event.value, this.languageId);
+
     this.pageSize = event.value;
     this.noPrevData = true;
   }

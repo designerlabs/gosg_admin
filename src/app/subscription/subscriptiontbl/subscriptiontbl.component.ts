@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { LangChangeEvent } from '@ngx-translate/core';
+import { ISubscription } from 'rxjs/Subscription';
+import { NavService } from '../../nav/nav.service';
 
 @Component({
   selector: 'app-subscriptiontbl',
   templateUrl: './subscriptiontbl.component.html',
   styleUrls: ['./subscriptiontbl.component.css']
 })
-export class SubscriptiontblComponent implements OnInit {
+export class SubscriptiontblComponent implements OnInit, OnDestroy {
 
   subsData: Object;
   subsList = null;
@@ -41,26 +43,30 @@ export class SubscriptiontblComponent implements OnInit {
   recordTable = null;
   recordList = null;
 
+  kword: any;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   dataSource = new MatTableDataSource<object>(this.subsList);
 
+  private subscriptionLang: ISubscription;
+
   applyFilter(val) {
 
-
-
     if(val){
-      this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
+      this.kword = val;
+      this.getFilterList(this.pageCount, this.pageSize, val); //
     }
     else{
-      this.getSubsData(this.pageCount, this.pageSize);
+      this.getSubsData(this.pageCount, this.pageSize, this.languageId);
     }
 
   }
 
   resetSearch() {
-    this.getSubsData(this.pageCount, this.pageSize);
+    this.kword = '';
+    this.getSubsData(this.pageCount, this.pageSize, this.languageId);
   }
 
   constructor(
@@ -68,34 +74,49 @@ export class SubscriptiontblComponent implements OnInit {
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     public commonservice: CommonService,
     private translate: TranslateService,
+    private navservice: NavService,
     private router: Router,
     private toastr: ToastrService) {
-    /* LANGUAGE FUNC */
-    translate.onLangChange.subscribe((event: LangChangeEvent) => {
-      translate.get('HOME').subscribe((res: any) => {
-        this.commonservice.readPortal('language/all').subscribe((data:any) => {
-          let getLang = data.list;
-          let myLangData =  getLang.filter(function(val) {
-            if(val.languageCode == translate.currentLang){
-              this.lang = val.languageCode;
-              this.languageId = val.languageId;
-              this.getSubsData(this.pageCount, this.pageSize);
-              this.commonservice.getModuleId();
-            }
-          }.bind(this));
-        })
-      });
-    });
-    if(!this.languageId){
-      this.languageId = localStorage.getItem('langID');
-      this.getSubsData(this.pageCount, this.pageSize);
-      this.commonservice.getModuleId();
-    }
 
-    /* LANGUAGE FUNC */ }
+      /* LANGUAGE FUNC */
+      this.subscriptionLang = translate.onLangChange.subscribe((event: LangChangeEvent) => {
+        const myLang = translate.currentLang;
+
+        if (myLang == 'en') {
+          translate.get('HOME').subscribe((res: any) => {
+              this.lang = 'en';
+              this.languageId = 1;
+            });
+          }
+
+          if (myLang == 'ms') {
+            translate.get('HOME').subscribe((res: any) => {
+              this.lang = 'ms';
+              this.languageId = 2;
+          });
+          // alert(this.languageId + ',' + this.localeVal)
+        }
+          if(this.navservice.flagLang){
+            this.getSubsData(this.pageCount, this.pageSize, this.languageId);
+            this.commonservice.getModuleId();
+          }
+
+    });
+    /* LANGUAGE FUNC */
+  }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
+
+    if(!this.languageId){
+      this.languageId = localStorage.getItem('langID');
+    }else{
+      this.languageId = 1;
+    }
+
     this.displayedColumns = ['cb','no','email', 'categoryName', 'subsAction'];
+    this.getSubsData(this.pageCount, this.pageSize, this.languageId);
     this.commonservice.getModuleId();
   }
 
@@ -104,10 +125,14 @@ export class SubscriptiontblComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+  }
+
   // get agencyapp Data
-  getSubsData(count, size) {
+  getSubsData(count, size, lng) {
     this.loading = true;
-    this.commonservice.readProtected('subscription',count, size)
+    this.commonservice.readProtected('subscription',count, size, '', lng)
     .subscribe(
       data => {
 
@@ -143,11 +168,12 @@ export class SubscriptiontblComponent implements OnInit {
       });
   }
 
-  getFilterList(count, size, keyword, filterkeyword) {
+  getFilterList(count, size, keyword, filterkeyword?) {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
+      this.kword = keyword;
       this.loading = true;
-      this.commonservice.readProtected('subscription/search', count, size, keyword)
+      this.commonservice.readProtected('subscription/search', count, size, keyword, this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
@@ -168,11 +194,11 @@ export class SubscriptiontblComponent implements OnInit {
 
             this.showNoData = false;
 
-            if(this.totalElems <= 10) {
-              this.noNextData = true;
-            } else {
-              this.noNextData = false;
-            }
+            // if(this.totalElems <= 10) {
+            //   this.noNextData = true;
+            // } else {
+            //   this.noNextData = false;
+            // }
           } else{
             this.dataSource.data = [];
             this.showNoData = true;
@@ -194,20 +220,33 @@ export class SubscriptiontblComponent implements OnInit {
   }
 
   paginatorL(page) {
-    this.getSubsData(this.pageCount, this.pageSize);
+
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword);
+    else
+      this.getSubsData(this.pageCount, this.pageSize, this.languageId);
     this.noPrevData = page <= 2 ? true : false;
+    this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
-    this.getSubsData(page + 1, this.pageSize);
+
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword);
+    else
+      this.getSubsData(page + 1, this.pageSize, this.languageId);
     // this.noNextData = pageInc === totalPages;
   }
 
   pageChange(event, totalPages) {
-    this.getSubsData(this.pageCount, event.value);
+
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword);
+    else
+      this.getSubsData(this.pageCount, event.value, this.languageId);
     this.pageSize = event.value;
     this.noPrevData = true;
   }
@@ -229,7 +268,7 @@ export class SubscriptiontblComponent implements OnInit {
       this.commonservice.delete(refCode,'subscription/delete/').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
-            this.getSubsData(this.pageCount, this.pageSize);
+            this.getSubsData(this.pageCount, this.pageSize, this.languageId);
             this.toastr.success(this.translate.instant('common.success.deletesuccess'), 'success');
           }).bind(this));
          this.loading = false;
@@ -248,7 +287,7 @@ export class SubscriptiontblComponent implements OnInit {
 
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
-          this.getSubsData(this.pageCount, this.pageSize);
+          this.getSubsData(this.pageCount, this.pageSize, this.languageId);
 
       }).bind(this));
       this.multipleSel = [];

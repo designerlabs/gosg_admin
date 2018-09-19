@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT ERROR -->
 <div class="container right-content">
-    
+
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
@@ -16,8 +16,8 @@
     </div>
   </div>
 
-  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
   </div>
 
   <form [formGroup]="updateForm" *ngIf="commonservice.isRead || commonservice.isUpdate || commonservice.isWrite" autocomplete="off" role="form" novalidate>
@@ -29,7 +29,7 @@
           <h3>{{ fullName }}</h3>
           <h5 *ngIf="email"><i class="fa fa-envelope"></i>&nbsp;{{ email }}</h5>
         </div>
-        
+
       </div>
       <div class="row">&nbsp;</div>
       <div class="row">
@@ -75,7 +75,7 @@
           <label class="font-size-s">{{ 'usermgmt.component.mobilenum' | translate }}</label><br /><span>{{ mobilePhoneNo != null ? mobilePhoneNo : '-' }}</span>
         </div>
         <div class="col-md-4">
-          <mat-form-field class="" style="width:100%;" > 
+          <mat-form-field class="" style="width:100%;" >
             <mat-select formControlName="accountStatusSel" placeholder="{{ 'usermgmt.component.select' | translate }}" (change)="checkReqValues()">
                 <mat-option *ngFor="let status of AccStatusData" [value]="status.accountStatusId">{{ status.accountStatusDescription }}</mat-option>
             </mat-select>

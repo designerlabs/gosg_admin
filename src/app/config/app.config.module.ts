@@ -15,8 +15,9 @@ const mibisURL = environment.mibisURL;
 // let protectedBaseURL = 'http://localhost:8021/portal-protected/';
 
 const devURL = environment.uapURL;
+const stageURL = environment.stagURL;
 const commonURL = devURL + 'service-admin-protected/';
-const serviceURL = devURL + 'service/';
+const serviceURL = stageURL + 'service/';
 
 //http://10.29.56.158/service/
 //http://10.29.56.158/service-admin-protected/
@@ -63,7 +64,7 @@ export class AppConfig {
     externalMediaURL: string;
     urlHtmlParse: string;
     urlmibis: string;
-    
+
 }
 
 export const APP_DI_CONFIG: AppConfig = {
@@ -75,8 +76,8 @@ export const APP_DI_CONFIG: AppConfig = {
     urlUsers: baseURL + 'users/',
     urlGroup: baseURL + 'groups/',
     urlUserList: commonURL + 'usermanagement',
-    urlSlides: commonURL + 'slide',  
-    urlGetLanguage: serviceURL + 'language',  
+    urlSlides: commonURL + 'slide',
+    urlGetLanguage: serviceURL + 'language',
     urlModule: commonURL + 'authorization/module',
     urlModuleRef: commonURL + 'authorization/module/url',
     urlModuleList: commonURL + 'authorization/module/moduleList',

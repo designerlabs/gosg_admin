@@ -13,8 +13,8 @@
       </span>
     </div>
   </div>
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-    {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+   
   </div>
   <div *ngIf="commonservice.isRead">
     
@@ -74,13 +74,13 @@
         <ng-container matColumnDef="action">
           <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
           <mat-cell class="actionColumn" *matCellDef="let element">
-            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.refCode)" title="Update {{ element.refCode }}">
-              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.refCode }}" ></i>
-              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="View {{ element.refCode }}" ></i>
+            <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.refCode)">
+              <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" ></i>
+              <i *ngIf="!commonservice.isUpdate" [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}" ></i>
             </button>&nbsp;
             <!-- Delete option not required for Media Type -->
             <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()">
-              <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.refCode }}"></i>
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
             </button>
             <app-confirm-dialog  #deleteModal 
             [title]="'fa fa-exclamation-triangle'" 

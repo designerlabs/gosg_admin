@@ -8,7 +8,7 @@
 
 
 <div class="container right-content">
-  
+
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
@@ -23,8 +23,8 @@
       </div>
   </div>
 
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+     
   </div>
 
   <div *ngIf="commonservice.isRead">
@@ -48,16 +48,14 @@
 
               <ng-container matColumnDef="subject">
                   <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.subject' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-left" *matCellDef="let element">
-                      {{element.subject}}
+                  <mat-cell class="text-align-left" *matCellDef="let element" [innerHTML]="element.subject | truncate : [30, '...']">
+
                   </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="content">
                   <mat-header-cell class="text-align-left" *matHeaderCellDef> {{ 'inboxsent.tableHeader.content' | translate }} </mat-header-cell>
-                  <mat-cell class="text-align-left" *matCellDef="let element">
-                      {{element?.content | truncate : [30, '...']}}
-                  </mat-cell>
+                  <mat-cell class="text-align-left" *matCellDef="let element" [innerHTML]="element?.content | truncate : [30, '...']"></mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="sender">
@@ -95,12 +93,12 @@
                   <mat-header-cell class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                   <mat-cell class="actionColumn" *matCellDef="let element">
                       <button mat-mini-fab class="bg_orange" (click)="updateRow(element.inboxId)">
-                          <!-- <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.inboxId }}"></i> -->
-                          <i [ngClass]="commonservice.icon.view" title="View {{ element.inboxId }}"></i>
+                          <!-- <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}" title="Update {{ element.inboxId }}"></i> -->
+                          <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i>
                       </button>
                       &nbsp;
                       <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteModal.show()" >
-                          <i [ngClass]="commonservice.icon.trash" title="Delete {{element.inboxId}}"></i>
+                          <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
                       </button>
                       <app-confirm-dialog #deleteModal
                       [title]="'fa fa-exclamation-triangle'"

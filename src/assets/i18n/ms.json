@@ -275,6 +275,7 @@
       "info":"fa fa-info-circle"
     },
     "msg":{
+      "waitmsg": "Sila tunggu, Memeriksa Kebenaran",
       "notfound":"Tidak dijumpai.",
       "reset":"Set semula borang ini?",
       "delete":"Adakah anda pasti untuk memadam?",
@@ -350,8 +351,9 @@
       "ePartUrl": "URL e-Penyertaan ",
       "ePartArchiveUrl": "URL Arkib e-Penyertaan",
       "ePartPolicyUrl": "URL Polisi e-Penyertaan",
+      "ePartSubscribeUrl": "URL Langganan e-Penyertaan",
       "website": "URL Laman Web",
-      "rss": "URL RSS",
+      "rss": "URL RSS e-Penyertaan",
       "blog": "URL Blog"
     },
     "socmed": {
@@ -371,7 +373,9 @@
       "delete": "Padam",
       "update": "Kemaskini",
       "archive": "Arkib",
-      "history": "Sejarah"
+      "history": "Sejarah",
+      "preview": "Previu",
+      "lblpreview": "Sila klik 'Previu' sebelum hantar"
     },
     "mdecstatus": "Status MDEC",
     "agency": "Agensi",
@@ -555,7 +559,8 @@
       "cityid": "Id Bandar",
       "citycode": "Kod Bandar",
       "statename": "Nama Negeri",
-      "stateid": "Id Negeri"
+      "stateid": "Id Negeri",
+      "uniquecode": "Kod Unik"
     },
     "err": {
       "city": "Bandar diperlukan"
@@ -793,6 +798,9 @@
   },
   "gallerytbl": {
     "name": "Galeri",
+    "audiourl": "Audio URL",
+    "videourl": "Video URL",
+    "photourl": "Foto URL",
     "galleryimg": "Maklumat Galeri",
     "header": "Pengurusan Galeri",
     "publisher": "Pengurusan Percetakan Galeri",
@@ -919,7 +927,8 @@
     "header": "Bangsa/Etnik",
     "tableHeader":{
       "raceEn": "Bangsa/Etnik (EN)",
-      "raceBm": "Bangsa/Etnik (BM)"
+      "raceBm": "Bangsa/Etnik (BM)",
+      "uniquecode": "Kod Unik"
     },
     "tablebottom":{
       "race": "senarai bangsa/etnik"
@@ -929,7 +938,8 @@
     "header": "Agama",
     "tableHeader":{
       "religionEn": "Agama (EN)",
-      "religionBm": "Agama (BM)"
+      "religionBm": "Agama (BM)",
+      "uniquecode": "Kod Unik"
     },
     "tablebottom":{
       "religion": "senarai agama"
@@ -952,13 +962,10 @@
       "id": "Id Negeri"
     },
     "err": {
-      "State": "Negeri diperlukan"
+      "state": "Negeri diperlukan"
     },
     "tablebottom":{
       "state": "senarai negeri"
-    },
-    "err": {
-      "name": "Nama Negeri perlu diisi"
     }
   },
   "systemsetting": {
@@ -1009,7 +1016,7 @@
       "fullname": "Nama Penuh",
       "email": "Email",
       "idno": "No Kad Pengenalan",
-      "subrefno": "No Rujukan Serahan",
+      "subrefno": "No Permohonan",
       "accstatus": "Status Akaun",
       "svcname": "Nama Perkhidmatan",
       "status": "Status",
@@ -1033,7 +1040,12 @@
       "religion": "Religion",
       "address": "Address",
       "mobilenum": "Mobile Number",
-      "select": "Select Account Status"
+      "select": "Select Account Status",
+      "audit": "Audit Trail",
+      "polls": "Undian",
+      "feedback": "Aduan & Pertanyaan",
+      "start": "Tarikh Mula",
+      "end": "Tarikh AKhir"
     }
   },
   "mediatype": {
@@ -1070,9 +1082,9 @@
   },
   "grouping": {
     "management": {
-      "header": "Pengurusan Pengumpulan",
-      "name": "Nama Pengumpulan",
-      "description": "Keterangan Pengumpulan"
+      "header": "Pengurusan Kumpulan",
+      "name": "Nama Kumpulan",
+      "description": "Keterangan Kumpulan"
     }
   },
   "calendar": {

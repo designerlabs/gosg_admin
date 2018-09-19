@@ -21,8 +21,8 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
 
   public loading = false;
   updateForm: FormGroup;
-  
-  public entity: FormControl;  
+
+  public entity: FormControl;
   public key: FormControl;
   public value: FormControl;
   public active: FormControl;
@@ -43,10 +43,10 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
   private subscriptionRecordListC: ISubscription;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    public commonservice: CommonService, 
-    private router: Router, 
+    public commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private navservice: NavService,
     private translate: TranslateService,
@@ -70,7 +70,7 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        
+
         this.commonservice.getModuleId();
       }
 
@@ -87,6 +87,8 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -98,23 +100,23 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
     this.value = new FormControl();
     this.active = new FormControl();
 
-    this.updateForm = new FormGroup({   
+    this.updateForm = new FormGroup({
 
       entity: this.entity,
       key: this.key,
       value: this.value,
-      active: this.active     
+      active: this.active
 
     });
 
     this.urlEdit = this.router.url.split('/')[2];
-    
+
     if (this.urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true);
     }
     else{
-      this.commonservice.pageModeChange(true);      
+      this.commonservice.pageModeChange(true);
       this.getData();
     }
 
@@ -130,7 +132,7 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
 
   getData() {
 
-    let _getRefID = this.router.url.split('/')[2];  
+    let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
 
     this.commonservice.readProtectedById('systemsettings/', _getRefID, this.languageId)
@@ -139,26 +141,26 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
-          
-          
+
+
 
           this.updateForm.get('entity').setValue(this.recordList.object.settingsEntities);
-          this.updateForm.get('key').setValue(this.recordList.object.settingsKey); 
-          this.updateForm.get('value').setValue(this.recordList.object.settingsValue);       
-          this.updateForm.get('active').setValue(this.recordList.object.isActive);      
+          this.updateForm.get('key').setValue(this.recordList.object.settingsKey);
+          this.updateForm.get('value').setValue(this.recordList.object.settingsValue);
+          this.updateForm.get('active').setValue(this.recordList.object.isActive);
 
           this.getId = this.recordList.object.settings_id;
           this.checkReqValues();
 
-        }).bind(this));   
+        }).bind(this));
         this.loading = false;
       },
       error => {
 
         this.loading = false;
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        
-      
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
+
     });
   }
 
@@ -168,79 +170,79 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
     // add form
     if(this.urlEdit === 'add'){
 
-      let body = 
-      {        
+      let body =
+      {
         "settingsEntities": null,
         "settingsKey": null,
         "settingsValue": null,
         "isActive":false
-      }      
+      }
 
       body.settingsEntities = formValues.entity;
       body.settingsKey = formValues.key;
       body.settingsValue = formValues.value;
       body.isActive = formValues.active;
 
-      
-      
+
+
       this.loading = true;
 
       this.commonservice.create(body,'systemsettings').subscribe(
         data => {
-                    
+
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['systemsettings']);
-          }).bind(this));   
-          this.loading = false;         
+          }).bind(this));
+          this.loading = false;
         },
         error => {
 
           this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
       });
     }
 
     // update form
-    else{      
+    else{
 
-      let body = 
-      {        
+      let body =
+      {
         "settingsEntities": null,
         "settingsKey": null,
         "settingsValue": null,
         "isActive":false,
         "settings_id": this.getId
-      }      
+      }
 
       body.settingsEntities = formValues.entity;
       body.settingsKey = formValues.key;
       body.settingsValue = formValues.value;
       body.isActive = formValues.active;
 
-      
-      
+
+
       this.loading = true;
 
       this.commonservice.update(body,'systemsettings').subscribe(
         data => {
-                  
+
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['systemsettings']);
-          }).bind(this)); 
+          }).bind(this));
           this.loading = false;
 
         },
         error => {
-          
+
           this.loading = false;
-          this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-          
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
       });
     }
-    
+
   }
 
   checkReqValues() {
@@ -256,7 +258,7 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
         nullPointers.push(null)
       }
     }
-      
+
     if(nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -269,7 +271,7 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
 
     if(this.keyVal){
       currKeyValue = this.stripspaces(this.keyVal);
-      this.updateForm.get('key').setValue(currKeyValue); 
+      this.updateForm.get('key').setValue(currKeyValue);
     }
     // end get new key without space
   }
@@ -281,7 +283,7 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
 
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
+    this.checkReqValues();
   }
 
   back(){

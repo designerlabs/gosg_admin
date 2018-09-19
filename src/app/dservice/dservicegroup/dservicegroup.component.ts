@@ -78,6 +78,8 @@ export class DServicegroupComponent implements OnInit {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     let refstatusCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
     this.statusDescriptionBm = new FormControl()

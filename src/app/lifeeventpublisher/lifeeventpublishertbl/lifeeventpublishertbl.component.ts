@@ -116,6 +116,8 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
     this.updateForm.get('kataKunci').setValue('');
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryCodeLEP(this.languageId);
+
+    this.keywordVal = '';
   }
 
   filterStatus(e){
@@ -184,6 +186,7 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -552,17 +555,32 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getRecordListLEP(page - 1, this.pageSize, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListLEP(page - 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListLEP(page - 1, this.pageSize, this.catCode, this.languageId);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;    
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getRecordListLEP(page + 1, this.pageSize, this.catCode, this.languageId);
+    if(this.keywordVal){
+      this.getFilterListLEP(page + 1, this.pageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListLEP(page + 1, this.pageSize, this.catCode, this.languageId);
+    }
   }
 
   updateRow(row) {
@@ -601,7 +619,15 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
   }
 
   pageChange(event, totalPages) {
-    this.getRecordListLEP(this.pageCount, event.value, this.catCode, this.languageId);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListLEP(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getRecordListLEP(this.pageCount, event.value, this.catCode, this.languageId);
+    }
     this.pageSize = event.value;
     this.noPrevData = true;
   }

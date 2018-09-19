@@ -32,7 +32,7 @@ export class SitemapComponent implements OnInit {
   sitemapEnId: any;
   sitemapBmId: any;
   siteMapCode: any;
-  
+
   updateForm: FormGroup
   sitemapEnName: FormControl
   sitemapBmName: FormControl
@@ -40,15 +40,15 @@ export class SitemapComponent implements OnInit {
   public loading = false;
 
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private dialogsService: DialogsService,
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastrService
-  ) { 
-    
+  ) {
+
     /* LANGUAGE FUNC */
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
       translate.get('HOME').subscribe((res: any) => {
@@ -73,7 +73,7 @@ export class SitemapComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.commonservice.getInitialMessage();
     let refId = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
 
@@ -88,7 +88,7 @@ export class SitemapComponent implements OnInit {
       sitemapUrl: this.sitemapUrl,
 
     });
-    
+
     if(refId == "add") {
       this.isEdit = false;
       this.pageMode = 'common.add';
@@ -97,7 +97,7 @@ export class SitemapComponent implements OnInit {
       this.pageMode = 'common.update';
       this.getRow(refId);
     }
-    
+
     // #### for disable non update user ---1
     if(!this.commonservice.isUpdate && this.commonservice.isWrite){
       this.updateForm.enable();
@@ -122,8 +122,8 @@ export class SitemapComponent implements OnInit {
         this.commonservice.errorHandling(Rdata, (function(){
 
         this.sitemapData = Rdata['siteMapList'];
-        
-        // 
+
+        //
 
         // populate data
         this.updateForm.get('sitemapEnName').setValue(this.sitemapData[0]['sitemapName']);
@@ -138,20 +138,20 @@ export class SitemapComponent implements OnInit {
         // this.updateForm.get('sitemapUrl').disable();
 
         this.checkReqValues();
-              
+
       }).bind(this));
       this.loading = false;
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
       this.loading = false;
     });
-    
+
   }
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
+    this.checkReqValues();
   }
 
   checkReqValues() {
@@ -174,7 +174,7 @@ export class SitemapComponent implements OnInit {
       }
     }
 
-      // 
+      //
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -185,7 +185,7 @@ export class SitemapComponent implements OnInit {
   }
 
   updateModule(formValues: any) {
-    
+
     if(!this.isEdit) {
 
     let body = [
@@ -195,7 +195,7 @@ export class SitemapComponent implements OnInit {
         "language": {
           "languageId": 1
           }
-          
+
       },
       {
         "sitemapName": null,
@@ -203,18 +203,18 @@ export class SitemapComponent implements OnInit {
         "language": {
           "languageId": 2
           }
-          
+
       }
   ];
-    
-    // 
+
+    //
 
     body[0].sitemapName = formValues.sitemapEnName;
     body[0].sitemapRelativeUrl = formValues.sitemapUrl;
     body[1].sitemapName = formValues.sitemapBmName;
     body[1].sitemapRelativeUrl = formValues.sitemapUrl;
 
-    
+
     this.loading = true;
 
     // Add ErrorMsg Service
@@ -222,12 +222,12 @@ export class SitemapComponent implements OnInit {
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.added'), 'success');
-        }).bind(this));  
+        }).bind(this));
         this.router.navigate(['sitemap']);
         this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
       });
 
@@ -242,7 +242,7 @@ export class SitemapComponent implements OnInit {
           "language": {
             "languageId": 1
             }
-            
+
         },
         {
           "sitemapId": null,
@@ -252,12 +252,12 @@ export class SitemapComponent implements OnInit {
           "language": {
             "languageId": 2
             }
-            
+
         }
     ]
-      
-      // 
-  
+
+      //
+
       body[0].sitemapId = this.sitemapEnId;
       body[0].sitemapCode = this.siteMapCode;
       body[0].sitemapName = formValues.sitemapEnName;
@@ -267,8 +267,8 @@ export class SitemapComponent implements OnInit {
       body[1].sitemapName = formValues.sitemapBmName;
       body[1].sitemapRelativeUrl = formValues.sitemapUrl;
 
-    
-    // 
+
+    //
     // this.loading = true;
 
     // Update ErrorMsg Service
@@ -276,7 +276,7 @@ export class SitemapComponent implements OnInit {
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-        }).bind(this));  
+        }).bind(this));
         this.router.navigate(['sitemap']);
         this.loading = false;
       },
@@ -285,7 +285,7 @@ export class SitemapComponent implements OnInit {
         this.loading = false;
       });
     }
-    
+
     }
 
 }

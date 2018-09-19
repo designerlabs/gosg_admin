@@ -97,8 +97,10 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
 
   resetSearch() {
     this.getParticipantsData(this.pageCount, this.participantPageSize);
-    this.updateForm.get('kataKunci').setValue(null); 
+    this.updateForm.get('kataKunci').setValue(''); 
     this.valkey = false;
+
+    this.keywordVal = ''
   }
 
   filterStatus(e){
@@ -163,6 +165,8 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
@@ -440,11 +444,6 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
     
       this.getParticipantsData(this.pageCount, this.participantPageSize);
     }
-
-    
-    
-    
-    
     
   }
 
@@ -461,21 +460,46 @@ export class ParticipationpublishertblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getParticipantsData(this.pageCount, this.participantPageSize);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListPP(page - 1, this.participantPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getParticipantsData(page - 1, this.participantPageSize);
+    }
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
 
   paginatorR(page, totalPages) {
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
     this.noPrevData = page >= 1 ? false : true;
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getParticipantsData(page + 1, this.participantPageSize);
+
+    if(this.keywordVal){
+      this.getFilterListPP(page + 1, this.participantPageSize, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getParticipantsData(page + 1, this.participantPageSize);
+    }
   }
 
   pageChange(event, totalPages) {
-    this.getParticipantsData(this.pageCount, event.value);
+
+    this.keywordVal = this.updateForm.get('kataKunci').value;
+
+    if(this.keywordVal){
+      this.getFilterListPP(this.pageCount, event.value, this.keywordVal, this.nameStatus, this.newPublishD);
+    }
+    else{
+      this.getParticipantsData(this.pageCount, event.value);
+    }
+    
     this.participantPageSize = event.value;
     this.noPrevData = true;
   }

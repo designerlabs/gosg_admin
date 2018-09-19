@@ -14,8 +14,8 @@
       </div> 
   </div>
 
-  <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-      {{'common.msg.unauthorized' | translate}}
+  <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+      
   </div>
 
   <div *ngIf="commonservice.isRead">
@@ -70,7 +70,7 @@
             <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
             <mat-cell *matCellDef="let element" class="actionColumn">
                 <button mat-mini-fab class="bg_orange" (click)="updateRow(element.languageCode)" title="Update {{ element.languageCode }}">
-                  <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="Update {{ element.languageCode }}" ></i>
+                  <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}"></i>
                     <!-- <i [ngClass]="{ 'fa fa-eye': !commonservice.isUpdate}" title="View {{ element.fullName }}" ></i> -->
                 </button>
                 <!-- &nbsp;

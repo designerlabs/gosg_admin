@@ -56,9 +56,8 @@ export class DServicetypetblComponent implements OnInit, OnDestroy {
     
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
-    }
-    else{
-      this.getDigitalServicesTypeData(this.pageCount, this.pageSize, this.languageId);
+    } else {
+      this.resetSearch();
     }
   
   }
@@ -104,6 +103,8 @@ export class DServicetypetblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.commonservice.getInitialMessage();
 
     if(!this.languageId){
       this.languageId = localStorage.getItem('langID');

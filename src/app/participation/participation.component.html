@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT gallery -->
 <div class="container right-content">
-    
+
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft">
@@ -15,8 +15,8 @@
         </div>
     </div>
 
-    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+
     </div>
 
     <form [formGroup]="updateForm" *ngIf="commonservice.isWrite || commonservice.isUpdate || commonservice.isRead" autocomplete="off" role="form" novalidate>
@@ -195,8 +195,12 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
-              class="btn btn-md pull-right paddingTop-10" (click)="previewEn()" ><i [ngClass]="commonservice.icon.view"></i></button>
+              <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>
+              <div class="col-md-2 paddingR0">
+                <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
+                class="btn btn-md pull-right" (click)="previewEn()" >
+                <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i> {{ 'common.title.preview' | translate }}</button>
+              </div>
             </div>
           </div>
 
@@ -213,20 +217,24 @@
 
           <div class="row">
             <div class="col-md-12">
-              <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
-              class="btn btn-md pull-right paddingTop-10" (click)="previewMy()" ><i [ngClass]="commonservice.icon.view"></i></button>
+              <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>
+              <div class="col-md-2 paddingR0">
+                <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
+                class="btn btn-md pull-right" (click)="previewMy()" >
+                <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i> {{ 'common.title.preview' | translate }}</button>
+              </div>
             </div>
           </div><br>
 
           <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="example-full-width" >
-                    <input matInput type="number" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)" maxlength="100">
+                    <input matInput (keypress)="commonservice.numberOnly($event)" type="text" placeholder="Sequence Number" formControlName="seqEng" #seqEng (keyup)="copyValue(1)">
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="example-full-width" >
-                    <input matInput type="number" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)" maxlength="100">
+                    <input matInput (keypress)="commonservice.numberOnly($event)" type="text" placeholder="Nombor Urutan" formControlName="seqMy" #seqMy (keyup)="copyValue(2)">
                 </mat-form-field>
             </div>
           </div>

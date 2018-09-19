@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, OnDestroy } from '@angular/core';
 import {Http, Request, RequestOptionsArgs, Response } from '@angular/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import {map} from 'rxjs/operators/map';
@@ -11,12 +11,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import "rxjs/add/observable/throw";
 import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/retry';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 
 @Injectable()
-export class CommonService {
+export class CommonService{
 
   showPlaceHolderEn = "Category Parents";
   showPlaceHolderBm = "Induk Kategori";
@@ -54,6 +55,7 @@ export class CommonService {
   recordTable: object;
   temp = null;
   strLang: String = "language=";
+  messageSuccess:any;
 
   pageMode: String;
 
@@ -109,6 +111,8 @@ export class CommonService {
     {"id": 4, "textEn": "Approved", "textBm": "Telah Lulus"}
   ]
   defaultStatusCreator = this.listStatusCreator[0].id;
+  textVal: string;
+
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -174,11 +178,30 @@ export class CommonService {
     // }
 
     /* LANGUAGE FUNC */
+          // var that = this; // no need of this line
+
+
      }
   lang = this.lang;
   private usersUrl: string = this.appConfig.urlUsers;
   private slidersUrl: string = this.appConfig.urlSlides;
   private getUserUrl: string = this.appConfig.urlGetUser;
+
+
+  getInitialMessage(){
+
+    this.messageSuccess = "";
+
+    setTimeout(()=>{
+      this.messageSuccess = `<span class="alert alert-secondary">${this.translate.instant('common.msg.waitmsg')}</span>`;
+    },500);
+
+    setTimeout(()=>{    //<<<---    using ()=> syntax
+          this.messageSuccess = `<span class="alert alert-danger">${this.translate.instant('common.msg.unauthorized')}</span>`;
+
+    }, 5000);
+  }
+
 
   getUsersData(): Observable<any[]> {
     return this.http.get(this.usersUrl)
@@ -504,6 +527,16 @@ getMediaByCateId(id){
    }else{
      callback()
     }
+  }
+
+
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
   }
 
 

@@ -72,6 +72,8 @@ export class SchedulerComponent implements OnInit {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     let refId = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
 

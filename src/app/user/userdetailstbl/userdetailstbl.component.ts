@@ -59,6 +59,8 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   recordTable = null;
   recordList = null;
 
+  kword: any;
+
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
@@ -72,6 +74,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   applyFilter(val) {
 
     if(val){
+      this.kword = val;
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
     else{
@@ -81,6 +84,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   }
 
   resetSearch() {
+    this.kword = '';
     this.getUsersData(this.pageCount, this.pageSize);
   }
 
@@ -143,7 +147,7 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
+    this.commonservice.getInitialMessage();
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -224,28 +228,28 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   getFilterList(page, size, keyword, filterVal) {
 
     this.recordList = null;
+    let param='';
 
     if(filterVal == 2){  // by Email
-      this.dataUrl = 'usermanagement?email=';
+      this.dataUrl = 'usermanagement';
+      param = '&email='+keyword+'&page='+page+'&size='+size;
     }
 
     else if (filterVal == 3){ // by keywords
-      this.dataUrl = 'usermanagement?ic=';
+      this.dataUrl = 'usermanagement';
+      param = '&ic='+keyword+'&page='+page+'&size='+size;
     }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
-
+      this.kword = keyword;
       this.loading = true;
-      this.commonservice.readProtected(this.dataUrl+keyword+'&page='+page+'&size='+size,'','','',this.languageId).subscribe(data => {
+      this.commonservice.readProtected(this.dataUrl,'','','',this.languageId+param).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
 
 
           if(this.recordList.userList.length > 0){
-
-
-
 
             this.dataSource.data = this.recordList.userList;
             this.seqPageNum = this.recordList.pageNumber;
@@ -277,7 +281,11 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
   }
 
   paginatorL(page) {
-    this.getUsersData(this.pageCount, this.pageSize);
+
+    if(this.kword)
+      this.getFilterList(page - 1, this.pageSize, this.kword, this.filterTypeVal);
+    else
+      this.getUsersData(this.pageCount, this.pageSize);
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
   }
@@ -287,12 +295,20 @@ export class UserdetailstblComponent implements OnInit, OnDestroy {
     let pageInc: any;
     pageInc = page + 1;
     // this.noNextData = pageInc === totalPages;
-    this.getUsersData(page + 1, this.pageSize);
+
+    if(this.kword)
+      this.getFilterList(page + 1, this.pageSize, this.kword, this.filterTypeVal);
+    else
+      this.getUsersData(page + 1, this.pageSize);
   }
 
 
   pageChange(event, totalPages) {
-    this.getUsersData(this.pageCount, event.value);
+
+    if(this.kword)
+      this.getFilterList(this.pageCount, event.value, this.kword, this.filterTypeVal);
+    else
+      this.getUsersData(this.pageCount, event.value);
     this.pageSize = event.value;
     this.noPrevData = true;
   }

@@ -6,8 +6,8 @@
         </div>
     </div>
 
-    <div *ngIf="!commonservice.isRead" class="alert alert-danger">
-        {{'common.msg.unauthorized' | translate}}
+    <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+       
     </div>
     
     <div *ngIf="commonservice.isRead"> 
@@ -17,7 +17,7 @@
                 <div class="col-md-12 paddingTop-10 pdg_R_30px text-align-Right">
                     <button mat-raised-button color="primary" [disabled]="!multipleSel.length > 0" matSuffix aria-label="Clear" (click)="clearSelection()"><i [ngClass]="commonservice.icon.undo"></i> {{'common.buttons.reset' | translate}}</button>
                     &nbsp;
-                    <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash"></i> {{'common.buttons.delete' | translate}}</button>
+                    <button [disabled]="!multipleSel.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()"><i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i> {{'common.buttons.delete' | translate}}</button>
                     <app-confirm-dialog  #deleteAllModal 
                     [title]="'fa fa-exclamation-triangle'" 
                     [content]="'common.msg.deleteAll'"
@@ -136,7 +136,7 @@
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.deleteFlag == false" (click)="deleteModal.show()">
-                            <i [ngClass]="commonservice.icon.trash" title="Delete {{ element.pollRefNo }}"></i></button>
+                            <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
                         [title]="'fa fa-exclamation-triangle'" 
                         [content]="'common.msg.delete'"

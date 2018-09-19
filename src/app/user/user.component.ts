@@ -26,7 +26,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
   AccStatusData: any;
   date= new Date();
-  
+
   updateForm: FormGroup;
   userData:any;
   isRead: boolean;
@@ -74,9 +74,9 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
   // tslint:disable-next-line:max-line-length
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private router: Router,
     private translate: TranslateService,
     private validateService: ValidateService,
@@ -102,7 +102,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       }
       if (this.navservice.flagLang) {
-        
+
         this.getAccountStatus(this.languageId);
         this.commonservice.getModuleId();
       }
@@ -120,6 +120,8 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
 
+    this.commonservice.getInitialMessage();
+
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -128,7 +130,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
     let refCode = this.router.url.split('/')[2];
     this.commonservice.getModuleId();
-    
+
     this.getAccountStatus(this.languageId);
 
     this.accountStatusSel = new FormControl()
@@ -147,7 +149,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.checkReqValues();
-    
+
     // #### for disable non update user ---1
     if(!this.commonservice.isUpdate && this.commonservice.isWrite){
       this.updateForm.enable();
@@ -174,8 +176,8 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.commonservice.errorHandling(Rdata, (function(){
         this.userData = Rdata['user'];
-        
-        
+
+
         // populate data
         this.userId = this.userData.userId;
         this.fullName = this.userData.fullName;
@@ -198,20 +200,20 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
         this.accStatusId = this.userData.accountStatus.accountStatusId
         this.accStatusCode = this.userData.accountStatus.accountStatusCode
         this.accStatusDesc = this.userData.accountStatus.accountStatusDescription
-        
+
         this.updateForm.get('accountStatusSel').setValue(this.accStatusId);
         // this.refCode = dataEn.agencyCode;
 
         this.checkReqValues();
-      }).bind(this)); 
+      }).bind(this));
       this.loading = false;
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
-      
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
       this.loading = false;
     });
-    
+
   }
 
   getAccountStatus(lang) {
@@ -222,13 +224,13 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
         this.commonservice.errorHandling(Rdata, (function(){
           this.AccStatusData = Rdata['list'];
 
-          
+
         }).bind(this));
         this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        this.loading = false;       
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
       });
   }
 
@@ -248,7 +250,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
 
-      // 
+      //
 
     if (nullPointers.length > 0) {
       this.complete = false;
@@ -259,23 +261,23 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateAction(formValues: any) {
-      
-    
-    
-    
+
+
+
+
     this.loading = true;
     // Update User Status Service
     this.http.put(this.appConfig.urlCommon+'usermanagement/status/'+this.userId+'/'+formValues.accountStatusSel+ '?language='+this.languageId, null).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
           this.toastr.success(this.translate.instant('common.success.updated'), 'success');
-        }).bind(this));  
-        this.loading = false;       
+        }).bind(this));
+        this.loading = false;
         this.router.navigate(['userlist']);
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        this.loading = false;       
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
     });
   }
 

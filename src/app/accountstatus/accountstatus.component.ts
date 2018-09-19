@@ -18,12 +18,12 @@ import { DialogsService } from './../dialogs/dialogs.service';
 export class AccountstatusComponent implements OnInit {
 
   updateForm: FormGroup;
-  
-  public accEn: FormControl;  
+
+  public accEn: FormControl;
   public accBm: FormControl;
   public active: FormControl
 
-  public dataUrl: any;  
+  public dataUrl: any;
   public recordList: any;
 
   public getIdEn: any;
@@ -34,10 +34,10 @@ export class AccountstatusComponent implements OnInit {
   public languageId: any;
   public loading = false;
 
-  constructor(private http: HttpClient, 
+  constructor(private http: HttpClient,
     @Inject(APP_CONFIG) private appConfig: AppConfig,
-    public commonservice: CommonService, 
-    private router: Router, 
+    public commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
     private dialogsService: DialogsService) {
@@ -72,19 +72,22 @@ export class AccountstatusComponent implements OnInit {
 
   ngOnInit() {
 
+
+    this.commonservice.getInitialMessage();
+
     this.accEn = new FormControl();
     this.accBm = new FormControl();
     this.active = new FormControl();
 
-    this.updateForm = new FormGroup({   
+    this.updateForm = new FormGroup({
 
       accEn: this.accEn,
       accBm: this.accBm,
-      active: this.active      
+      active: this.active
     });
 
     let urlEdit = this.router.url.split('/')[2];
-    
+
     if (urlEdit === 'add'){
       this.commonservice.pageModeChange(false);
       this.updateForm.get('active').setValue(true)
@@ -107,45 +110,45 @@ export class AccountstatusComponent implements OnInit {
   getData() {
 
     let _getRefID = this.router.url.split('/')[2];
-    
+
     this.commonservice.readProtectedById('accountstatus/code', _getRefID, this.languageId)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
-        
-        
+
+
 
         this.updateForm.get('accEn').setValue(this.recordList.list[0].accountStatusDescription);
-        this.updateForm.get('accBm').setValue(this.recordList.list[1].accountStatusDescription);      
-        this.updateForm.get('active').setValue(this.recordList.list[1].enabled);      
+        this.updateForm.get('accBm').setValue(this.recordList.list[1].accountStatusDescription);
+        this.updateForm.get('active').setValue(this.recordList.list[1].enabled);
 
         this.getIdEn = this.recordList.list[0].accountStatusId;
         this.getIdBm = this.recordList.list[1].accountStatusId;
         this.getRefId = this.recordList.list[0].accountStatusCode;
 
         this.checkReqValues();
-      }).bind(this));   
+      }).bind(this));
       this.loading = false;
     },
     error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        
-      
+
+
     });
   }
 
   submit(formValues: any) {
     let urlEdit = this.router.url.split('/')[2];
-  
+
     // add form
     if(urlEdit === 'add'){
 
       let body = [
         {
-        
+
           "accountStatusDescription": null,
           "enabled":false,
           "language": {
@@ -158,30 +161,30 @@ export class AccountstatusComponent implements OnInit {
               "languageId": 2
           }
         }
-      ]    
+      ]
 
       body[0].accountStatusDescription = formValues.accEn;
       body[0].enabled = formValues.active;
       body[1].accountStatusDescription = formValues.accBm;
       body[1].enabled = formValues.active;
 
-      
-      
+
+
       this.loading = true;
       this.commonservice.create(body, 'accountstatus').subscribe(
-        data => {         
-          
+        data => {
+
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['account']);
-          }).bind(this));   
+          }).bind(this));
           this.loading = false;
         },
         error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
           this.loading = false;
-          
+
       });
     }
 
@@ -205,34 +208,34 @@ export class AccountstatusComponent implements OnInit {
               "languageId": 2
           }
         }
-      ]        
+      ]
 
       body[0].accountStatusDescription = formValues.accEn;
       body[0].enabled = formValues.active;
       body[1].accountStatusDescription = formValues.accBm;
       body[1].enabled = formValues.active;
-      
 
-      
-      
+
+
+
       this.loading = true;
       this.commonservice.update(body, 'accountstatus').subscribe(
         data => {
-          
+
           this.commonservice.errorHandling(data, (function(){
             this.toastr.success(this.translate.instant('common.success.updated'), '');
             this.router.navigate(['account']);
-          }).bind(this));   
+          }).bind(this));
           this.loading = false;
         },
         error => {
 
-          this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
-          
+          this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
           this.loading = false;
       });
     }
-    
+
   }
 
   checkReqValues() {
@@ -248,7 +251,7 @@ export class AccountstatusComponent implements OnInit {
         nullPointers.push(null)
       }
     }
-      
+
     if(nullPointers.length > 0) {
       this.complete = false;
     } else {
@@ -258,7 +261,7 @@ export class AccountstatusComponent implements OnInit {
 
   myFunction() {
     this.updateForm.reset();
-    this.checkReqValues();   
+    this.checkReqValues();
   }
 
   back(){
