@@ -1,10 +1,10 @@
 export const environment = {
   production: true,
   staging:false,
-  uapURL : 'https://gosgstag.malaysia.gov.my/',
+  uapURL : '/',
   stagURL: 'https://gosgstag.malaysia.gov.my/',
-  mediaURL: 'https://gosgstag.malaysia.gov.my/',
-  mockApiURL :'https://gosgstag.malaysia.gov.my/',
-  baseURL: 'https://gosgstag.malaysia.gov.my/',
-  mibisURL: 'https://stagam.malaysia.gov.my/'
+  mediaURL: '/',
+  mockApiURL :'/',
+  baseURL: '/',
+  mibisURL: '/'
 };
