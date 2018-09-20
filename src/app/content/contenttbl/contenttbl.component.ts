@@ -190,7 +190,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     } else {
       this.languageId = 1;
     }
-    console.log(this.onLoadEvent);
+    
 
     this.getCategoryCodeC(this.languageId);
     this.commonservice.getModuleId();
@@ -212,13 +212,14 @@ export class ContenttblComponent implements OnInit, OnDestroy {
       endD: this.endD,
       publish: this.publish
     });
-
+    
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryC(this.languageId);
     this.valkey = false;
-    // if(this.onLoadEvent == false){
+    if(this.onLoadEvent == false){
       this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
-    //}
+    }
+    console.log(this.onLoadEvent);
   }
 
   getCategoryCodeC(lng) {
