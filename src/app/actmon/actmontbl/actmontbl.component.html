@@ -70,8 +70,8 @@
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="agcAppStatusSelect" placeholder="{{ 'common.filterby.filterby' | translate }}">
                 <mat-option [value]="" (click)="currentAgencyRefNo = ''">{{ 'common.filterby.all' | translate }}</mat-option>
-                <mat-option *ngFor="let aas of ppStatusData" [value]="aas.id" title="{{ aas.name }}"
-                  (click)="currentAgencyRefNo = aas.id">{{ aas.name }}</mat-option>
+                <mat-option *ngFor="let aas of appStatusData" [value]="aas.id" title="{{ aas.name }}"
+                  (click)="currentAgcAppStatus = aas.id">{{ aas.name }}</mat-option>
                   <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
               </mat-select>
             </mat-form-field>
@@ -105,7 +105,7 @@
             </mat-form-field>
           </div>
 
-          <div *ngIf="usertype == 0" class="col-md-3">&nbsp;</div>
+          <div *ngIf="usertype == 0 && currentTab == 0" class="col-md-3">&nbsp;</div>
 
           <div class="col-md-2">
             <button [disabled]="!isComplete" mat-raised-button color="primary" (click)="search()" class="pull-right"

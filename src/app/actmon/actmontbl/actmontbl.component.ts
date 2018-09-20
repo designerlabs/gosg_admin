@@ -273,7 +273,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
           this.isComplete = false;
         }
       } else if(this.currentTab == 1) {
-        if(this.filterTypeVal != 0) {
+        if(this.agcSelect != 0) {
           this.isComplete = true;
         } else {
           this.isComplete = false;
@@ -526,6 +526,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       else
         agcRefCode = '&agencyCode='+refCode;
     }
+
+    if(this.currentAgcAppStatus)
+      agcRefCode = agcRefCode+'&statusCode='+this.currentAgcAppStatus;
 
     this.commonservice.readProtected('monitoring/dservice', page, size, '', this.languageId+agcRefCode).subscribe(data => {
 
