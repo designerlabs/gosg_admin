@@ -9,24 +9,30 @@
 
   </div>
   <div *ngIf="commonservice.isRead">
-    <div class="example-container mat-elevation-z8 col-md-12">
-      <mat-tab-group (selectedIndexChange)="tabAction($event)">
-        <!-- USERS -->
-        <mat-tab label="{{ 'actmon.component.users' | translate }}">
-
-          <div class="col-md-12">&nbsp;</div>
-          <!-- <div class="example-container mat-elevation-z8 mat-tbl"> -->
-          <div class="col-md-2">
+    <div class="example-container mat-elevation-z8">
+      <mat-accordion class="col-md-12 exp-panel">
+        <mat-expansion-panel style="background: rgba(245, 245, 245, 0.3)">
+          <mat-expansion-panel-header>
+            <mat-panel-title style="font-weight: bold">
+              {{ 'actmon.component.filters' | translate }}
+            </mat-panel-title>
+            <!-- <mat-panel-description>
+                  Type your name and age
+                </mat-panel-description> -->
+          </mat-expansion-panel-header>
+          <!-- <div class="col-md-12">&nbsp;</div> -->
+          <div *ngIf="currentTab == 0" class="col-md-3">
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="usertype" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="filterType($event)">
-                <mat-option [value]="0" (click)="getUsersDataByIDNO(0, pageCount, pageSize)">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option [value]="0" (click)="getUsersDataByIDNO(0, pageCount, pageSize)">{{
+                  'common.filterby.all' | translate }}</mat-option>
                 <mat-option [value]="2">{{ 'common.filterby.email' | translate }}</mat-option>
                 <mat-option [value]="3">{{ 'common.filterby.icno' | translate }}</mat-option>
               </mat-select>
             </mat-form-field>
           </div>
 
-          <div class="col-md-2" *ngIf="filterTypeVal != 1 && filterTypeVal != 0">
+          <div class="col-md-3" *ngIf="currentTab == 0 && filterTypeVal != 1 && filterTypeVal != 0">
             <mat-form-field class="example-full-width">
               <input #keyword matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
               <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)=" resetSearch()">
@@ -49,14 +55,34 @@
 
           </div>
 
-          <!-- <div *ngIf="filterTypeVal != 0" class="col-md-6">&nbsp;</div> -->
-
-          <div class="col-md-3" *ngIf="usertype && usertype != 0">
+          <div *ngIf="currentTab == 1" class="col-md-4">
             <mat-form-field class="example-full-width">
-              <div [ngClass]="{ 'datetimeMask':startdt, 'datetimeMaskWithValue':!startdt }">{{startdt | date:'dd/MM/yyyy' }}</div>
+              <mat-select [(ngModel)]="agcSelect" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="agcFilterType($event)">
+                <mat-option [value]="0" (click)="getAgenciesDataByID(0,1,10)">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option *ngFor="let agc of agencyList" [value]="agc.agencyCode" title="{{ agc.agencyName }}"
+                  (click)="currentAgencyRefNo = agc.agencyCode">{{ agc.agencyName }}</mat-option>
+                  <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="currentTab == 1" class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="agcAppStatusSelect" placeholder="{{ 'common.filterby.filterby' | translate }}">
+                <mat-option [value]="" (click)="currentAgencyRefNo = ''">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option *ngFor="let aas of ppStatusData" [value]="aas.id" title="{{ aas.name }}"
+                  (click)="currentAgencyRefNo = aas.id">{{ aas.name }}</mat-option>
+                  <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <div [ngClass]="{ 'datetimeMask':startdt, 'datetimeMaskWithValue':!startdt }">{{startdt |
+                date:'dd/MM/yyyy' }}</div>
               <input placeholder="{{ 'actmon.component.start' | translate }}" [owlDateTime]="startDate" style="display: none;"
-                matInput (dateTimeInput)="publishEvent('input', $event)"
-                (dateTimeChange)="publishEvent('change', $event)" />
+                matInput (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" />
               <span [owlDateTimeTrigger]="startDate"><i class="fa fa-calendar pull-right"></i></span>
               <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearDate()">
                 <mat-icon>close</mat-icon>
@@ -65,12 +91,12 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-3" *ngIf="usertype && usertype != 0">
+          <div class="col-md-2">
             <mat-form-field class="example-full-width">
-              <div [ngClass]="{ 'datetimeMask':enddt, 'datetimeMaskWithValue':!enddt }">{{enddt | date:'dd/MM/yyyy' }}</div>
+              <div [ngClass]="{ 'datetimeMask':enddt, 'datetimeMaskWithValue':!enddt }">{{enddt | date:'dd/MM/yyyy'
+                }}</div>
               <input placeholder="{{ 'actmon.component.end' | translate }}" [owlDateTime]="endDate" style="display: none;"
-                matInput (dateTimeInput)="endEvent('input', $event)"
-                (dateTimeChange)="endEvent('change', $event)" />
+                matInput (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" />
               <span [owlDateTimeTrigger]="endDate"><i class="fa fa-calendar pull-right"></i></span>
               <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearDate()">
                 <mat-icon>close</mat-icon>
@@ -79,19 +105,23 @@
             </mat-form-field>
           </div>
 
-          <div [ngClass]="{ 'col-md-2':filterTypeVal != 0, 'col-md-10':filterTypeVal == 0 }">
-              <button [disabled]="!isComplete" mat-raised-button color="primary" (click)="search()"
-                  class="pull-right" style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
-                  <i [ngClass]="commonservice.icon.search"></i>
-                  <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
-              <!-- <button [disabled]="!filterTypeVal" mat-raised-button color="warn" (click)="resetSearch()"
-                  class="pull-right" style="min-width: 5px; margin-right: 1%;" title="{{'common.buttons.reset' | translate}}">
-                  <i [ngClass]="commonservice.icon.refresh"></i>
-                  <span class="largeScreen">{{'common.buttons.reset' | translate}}</span></button> -->
-          </div>
-          <!-- <div class="col-md-12">&nbsp;</div> -->
+          <div *ngIf="usertype == 0" class="col-md-3">&nbsp;</div>
 
-          <mat-table class="col-md-12" *ngIf="userList && dataSource.data" #table [dataSource]="dataSource">
+          <div class="col-md-2">
+            <button [disabled]="!isComplete" mat-raised-button color="primary" (click)="search()" class="pull-right"
+              style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
+              <i [ngClass]="commonservice.icon.search"></i>
+              <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-tab-group (selectedIndexChange)="tabAction($event)">
+
+        <!-- USERS -->
+        <mat-tab label="{{ 'actmon.component.users' | translate }}">
+
+          <mat-table *ngIf="userList && dataSource.data" #table [dataSource]="dataSource">
 
             <!-- No Column -->
             <ng-container matColumnDef="no">
@@ -104,10 +134,10 @@
 
             <!-- slideTitle Column -->
             <ng-container matColumnDef="username">
-              <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;"> {{ 'usermgmt.tableHeader.fullname' | translate
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'usermgmt.tableHeader.fullname' | translate
                 }}</mat-header-cell>
               <!--  style="flex: 0 0 40%;" -->
-              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 20%;">
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;">
                 {{element.userName}} </mat-cell>
             </ng-container>
 
@@ -159,17 +189,7 @@
         <!-- AGENCIES -->
         <mat-tab label="{{ 'actmon.component.agencies' | translate }}">
 
-          <div class="col-md-6 paddingTop-10">
-            <mat-form-field class="example-full-width">
-              <mat-select [(ngModel)]="agcSelect" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="agcFilterType($event)">
-                <mat-option [value]="0" (click)="getAgenciesDataByID(0,1,10)">{{ 'common.filterby.all' | translate }}</mat-option>
-                <mat-option *ngFor="let agc of agencyList" [value]="agc.agencyCode" title="{{ agc.agencyName }}"
-                  (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-          <mat-table class="col-md-12" *ngIf="agencyActivityList && dataSource1.data" #table [dataSource]="dataSource1">
+          <mat-table *ngIf="agencyActivityList && dataSource1.data" #table [dataSource]="dataSource1">
 
             <!-- No Column -->
             <ng-container matColumnDef="no">
@@ -182,7 +202,8 @@
 
             <!-- svcname Column -->
             <ng-container matColumnDef="svcname">
-              <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell> -->
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
+              -->
               <!--  style="flex: 0 0 40%;" -->
               <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;">
                 {{element.serviceName}} </mat-cell>

@@ -30,6 +30,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   isActive: boolean;
   searchUserResult: string[];
   searchAgencyResult: string[];
+  appStatusData: string[];
   closeUserBtn: boolean;
   addUserBtn: boolean;
   animateClass: string;
@@ -56,10 +57,6 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   pageMode: String;
   isComplete: boolean;
   seqNo = 0;
-  // addUserForm: FormGroup;
-  // emailFld: FormControl;
-  // icFld:FormControl;
-  // userType: FormControl;
   isMailContainerShow = 'block';
   public loading = false;
   showNoData = false;
@@ -73,8 +70,6 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   events: string[] = [];
   startdt: number;
   enddt: number;
-  // publish: FormControl
-  // endD: FormControl
   disableSearch = false;
   newPublishD: any;
   newEndD: any;
@@ -93,9 +88,11 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<object>(this.userList);
   dataSource1 = new MatTableDataSource<object>(this.agencyActivityList);
   currentTab: any;
+  currentAgcAppStatus: any;
   currentAgencyRefNo: any;
   currentUserIDNO: any;
   agcSelect: any;
+  agcAppStatusSelect: any;
   usertype: any;
   identNo: any;
 
@@ -112,7 +109,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.filterTypeVal = 0;
     this.value='';
     this.isActiveList = false;
-    this.usertype = null;
+    this.usertype = 0;
     this.agcSelect = null;
     this.userList = null;
     this.agencyActivityList = null;
@@ -126,7 +123,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.value=null;
     this.isActiveList = false;
     // this.agcSelect = null;
-    this.userList = null;
+    // this.userList = null;
     // this.agencyActivityList = null;
     this.showNoData = false;
 
@@ -208,6 +205,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.getAgenciesData(this.pageCount, this.pageSize);
     this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
+    this.getAppStatusData();
+    this.currentTab = 0;
     this.usertype = 0;
     this.filterTypeVal = 0;
     this.commonservice.getModuleId();
@@ -223,6 +222,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
     this.events = [];
     this.events.push(`${event.value}`);
+    console.log(this.events[0]);
+    console.log(new Date());
     this.startdt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
 
@@ -232,7 +233,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     } else {
     }
     this.startDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
-    // console.log(this.startDate)
+    
     this.checkReqValues();
   }
 
@@ -249,7 +250,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     } else {
     }
     this.endDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
-    // console.log(this.endDate)
+    
     this.checkReqValues();
   }
 
@@ -259,34 +260,57 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.startdt = undefined;
     this.enddt = undefined;
     this.identNo = null;
-    // this.value = '';
-    // this.addUserForm.get('publish').setValue(null);
-    // this.addUserForm.get('endD').setValue(null);
     this.checkReqValues();
   }
 
   checkReqValues(){
-    if(this.usertype != 0 && this.identNo && this.startDate != '' && this.endDate != '') {
-      
-        this.isComplete = true;
-      
-        console.log('a');
-    } else {
-      this.isComplete = false;
-      
-      console.log('b');
+
+    if(this.startDate != '' && this.endDate != '' && this.startDate != undefined && this.endDate != undefined) {
+      if(this.currentTab == 0) {
+        if(this.usertype != 0 && this.identNo) {
+          this.isComplete = true;
+        } else {
+          this.isComplete = false;
+        }
+      } else if(this.currentTab == 1) {
+        if(this.filterTypeVal != 0) {
+          this.isComplete = true;
+        } else {
+          this.isComplete = false;
+        }
+      }
     }
   }
 
   tabAction(type) {
-    
-    // if(type == 0) {
-    //   this.agencyActivityList = null;
-    // } else if(type == 1) {
-    //   this.userList = null;
-    // }
     this.currentTab = type;
-    this.resetSearch();
+    this.search();
+  }
+
+  // get User Data
+  getAppStatusData() {
+    this.loading = true;
+
+    this.commonservice.readProtected('monitoring/status', '', '', '', this.languageId).subscribe(data => {
+
+      this.commonservice.errorHandling(data, (function(){
+
+        this.appStatusRes = data;
+        if(this.appStatusRes.list.length > 0){
+          this.appStatusData = this.appStatusRes.list;
+        }else{
+          this.appStatusData = null;
+        }
+
+      }).bind(this));
+
+      this.loading = false;
+
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
+    });
   }
 
   // get User Data
@@ -396,7 +420,10 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   search() {
-    this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize);
+    if(this.currentTab == 0)
+      this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize);
+    else if(this.currentTab == 1)
+      this.getAgenciesDataByID(this.agcSelect, this.pageCount, this.pageSize);
   }
 
   // get User Data by IDNO
@@ -407,7 +434,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     let idno;
 
     if(id == 0 || id == '' || id == null) {
-        idno = '';
+      idno = '';
     } else {
       if(this.startDate && this.endDate)
         idno = '&identificationNo='+id+'&startDate='+this.startDate+'&endDate='+this.endDate;
@@ -486,15 +513,21 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   // get Agencies Data By ID
   getAgenciesDataByID(refCode?, page?, size?) {
     this.loading = true;
-    let agencyCode;
-    this.currentAgencyRefNo = refCode;
+    let agencyCode, agcRefCode;
 
-    if(refCode == 0)
-      agencyCode = '';
-    else
-      agencyCode = '&agencyCode='+refCode;
-    
-    this.commonservice.readProtected('monitoring/dservice', page, size, '', this.languageId+agencyCode).subscribe(data => {
+    if(refCode == 0 || refCode == '' || refCode == null) {
+      if(this.startDate && this.endDate)
+        agcRefCode = '&startDate='+this.startDate+'&endDate='+this.endDate;
+      else
+        agcRefCode = '';
+    } else {
+      if(this.startDate && this.endDate)
+        agcRefCode = '&agencyCode='+refCode+'&startDate='+this.startDate+'&endDate='+this.endDate;
+      else
+        agcRefCode = '&agencyCode='+refCode;
+    }
+
+    this.commonservice.readProtected('monitoring/dservice', page, size, '', this.languageId+agcRefCode).subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
 
