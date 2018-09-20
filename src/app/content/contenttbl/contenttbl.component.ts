@@ -83,6 +83,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   keywordVal = "";
   displayDP: any;
   displayDE: any;
+  onLoadEvent = false;
 
   editor = { treeVal: '' };
 
@@ -166,6 +167,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
         this.getCategoryCodeC(this.languageId);
         this.selectedItem = [];
         this.commonservice.getModuleId();
+        this.getCategoryC(this.languageId);
       }
 
     });
@@ -188,6 +190,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     } else {
       this.languageId = 1;
     }
+    console.log(this.onLoadEvent);
 
     this.getCategoryCodeC(this.languageId);
     this.commonservice.getModuleId();
@@ -213,8 +216,9 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryC(this.languageId);
     this.valkey = false;
-    this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
-
+    // if(this.onLoadEvent == false){
+      this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+    //}
   }
 
   getCategoryCodeC(lng) {
@@ -269,7 +273,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-
+          //this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
 
         }).bind(this));
         this.loading = false;
@@ -760,8 +764,10 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
   onChange(ele) {
 
+    this.onLoadEvent = true;
     this.catCode = ele.refCode;
     this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+    console.log(this.onLoadEvent);
   }
 
   deleteAll() {

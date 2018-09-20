@@ -52,3 +52,10 @@
     font-weight: bold;
     padding-left: 5px;
 }
+
+@media screen and (max-width: 1363px) and (min-width: 760px){
+   
+    .grouping_margin{
+        margin-bottom: 15px;
+    }
+}

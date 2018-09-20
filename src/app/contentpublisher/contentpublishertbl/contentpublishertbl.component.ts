@@ -749,7 +749,8 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   onChange(ele){    
 
     this.catCode = ele.refCode;
-    this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);   
+    this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);
+    console.log("Onchange");   
   }
 
   resetAllMethod(){

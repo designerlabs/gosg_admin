@@ -181,7 +181,7 @@ export class InboxComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['inbox']);
           }).bind(this));  
-          this.loading = false; 
+          //this.loading = false; 
         },
         error => {
 
