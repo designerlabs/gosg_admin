@@ -216,10 +216,8 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.updateForm.get('nameStatus').setValue(1);
     this.getCategoryC(this.languageId);
     this.valkey = false;
-    if(this.onLoadEvent == false){
-      this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
-    }
-    console.log(this.onLoadEvent);
+    //this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+    
   }
 
   getCategoryCodeC(lng) {
@@ -274,7 +272,11 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-          //this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          
+          console.log(this.onLoadEvent);
+          if(this.onLoadEvent == false){
+            this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          }
 
         }).bind(this));
         this.loading = false;
