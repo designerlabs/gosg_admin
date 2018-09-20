@@ -1030,6 +1030,7 @@
     },
     "component": {
       "userstatus": "User Account Status",
+      "appstatus": "Application Status",
       "users": "Users",
       "agencies": "Agencies",
       "isstaff": "Is Staff?",
@@ -1041,6 +1042,7 @@
       "religion": "Religion",
       "address": "Address",
       "mobilenum": "Mobile Number",
+      "filters": "Filters",
       "audit": "Audit Trail",
       "polls": "Polls",
       "feedback": "Complaints & Inquiries",
