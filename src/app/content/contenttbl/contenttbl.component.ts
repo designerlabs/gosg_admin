@@ -273,7 +273,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
           
-          console.log(this.onLoadEvent);
           if(this.onLoadEvent == false){
             this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
           }
@@ -770,7 +769,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     this.onLoadEvent = true;
     this.catCode = ele.refCode;
     this.getRecordListC(this.pageCount, this.pageSize, this.catCode, this.languageId);
-    console.log(this.onLoadEvent);
   }
 
   deleteAll() {

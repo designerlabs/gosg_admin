@@ -78,6 +78,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
   recordTable = null;
   showNoData = false;
   listHistory = null;
+  onLoadEvent = false;
 
   //nameStatus=1;
   keywordVal="";
@@ -160,9 +161,9 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
       if (this.navservice.flagLang) {
 
         this.getCategoryCodeLE(this.languageId);
-        //this.getCategoryLE(this.languageId);
         this.selectedItem = [];
         this.commonservice.getModuleId();
+        this.getCategoryLE(this.languageId);
       }
 
     });
@@ -262,8 +263,9 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-
-          //this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          if(this.onLoadEvent == false){
+            this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          }
 
 
         }).bind(this));
@@ -748,6 +750,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
   onChange(ele){
 
+    this.onLoadEvent = true;
     this.catCode = ele.refCode;
     this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
   }

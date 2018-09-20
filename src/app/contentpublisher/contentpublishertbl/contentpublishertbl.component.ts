@@ -76,6 +76,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   valkey = false;
   recordTable = null;
   showNoData = false;
+  onLoadEvent = false;
 
   listHistory = null;
 
@@ -167,6 +168,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
         this.arrStatus = [];
         this.selectedItem = [];
         this.commonservice.getModuleId();
+        this.getCategoryCP(this.languageId);
       }
 
     });
@@ -267,7 +269,9 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
        
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
-          //this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);
+          if(this.onLoadEvent == false){
+            this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          }
 
         }).bind(this));
         this.loading = false;
@@ -748,6 +752,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
 
   onChange(ele){    
 
+    this.onLoadEvent = true;
     this.catCode = ele.refCode;
     this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);
     console.log("Onchange");   
