@@ -12,6 +12,7 @@ import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../../nav/nav.service';
 import { DialogResultExampleDialog } from '../../../lifeevent/lifeevent.component';
 import { DialogsService } from '../../../dialogs/dialogs.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-feedbackvisitortbl',
@@ -286,6 +287,9 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
           config.width = '800px';
           config.height = '600px';
           let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
+          
+
+         
 
           let displayTilte = "";
           if (this.languageId == 1) {
@@ -302,12 +306,14 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
           let display: any;
 
           for (let i = 0; i < this.listHistory.list.length; i++) {
-
+            let convertdate =  moment(new Date(this.listHistory.list[i].revisionDate)).format('DD-MM-YYYY hh:mm a');
             let newDate = new Date(this.listHistory.list[i].revisionDate);
             displayTilte += '<tr><td>' + this.listHistory.list[i].user.firstName;
             displayTilte += '<br>(' + this.listHistory.list[i].user.email + ')</td>';
             displayTilte += '<td>' + this.listHistory.list[i].type + '</td>';
-            displayTilte += '<td>' + newDate + '</td></tr>';
+            displayTilte += '<td>' + convertdate + '</td></tr>';
+
+            console.log(convertdate);
           }
           displayTilte += '</table>';
         
