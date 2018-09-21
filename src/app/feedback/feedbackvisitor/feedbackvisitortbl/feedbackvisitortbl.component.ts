@@ -42,6 +42,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   recordTable = null;
   kword: any;
+  listHistory = null;
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -52,6 +53,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  dataSourceH = new MatTableDataSource<object>(this.listHistory);
 
   applyFilter(val) {   
 
@@ -274,7 +276,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   detailHistory(id) {
 
-    //this.loading = true;
+    this.loading = true;
     this.commonservice.readProtected('feedback/history/' + id,'','','',this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function () {
