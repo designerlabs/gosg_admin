@@ -82,7 +82,8 @@ export class CommonService{
     view: 'fa fa-eye',
     archive: 'fa fa-archive',
     search: 'fa fa-search',
-    history: 'fa fa-history'
+    history: 'fa fa-history',
+    forward: 'fa fa-share'
   }
 
   pageSize =  [

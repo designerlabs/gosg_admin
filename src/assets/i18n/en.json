@@ -237,7 +237,8 @@
       "approve": "Approve",
       "search": "Search",
       "history": "History",
-      "sendDraft": "Send to Draft"
+      "sendDraft": "Send to Draft",
+      "forward": "Forward"
     },
     "err":{
       "servicedown": "Sorry, Server is down",

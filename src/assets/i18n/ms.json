@@ -237,7 +237,8 @@
       "approve": "Lulus",
       "search": "Carian",
       "history": "Sejarah",
-      "sendDraft": "Kembali ke Draf"
+      "sendDraft": "Kembali ke Draf",
+      "forward": "Forward"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",

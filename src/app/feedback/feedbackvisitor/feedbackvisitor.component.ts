@@ -43,6 +43,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
   public getId: any;
   public complete: boolean;
   public languageId: any;
+  public flagForward: boolean = false;
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -238,9 +239,6 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     }
 
     body.feedbackRemarks = formValues.reply;     
-
-    
-    
     this.loading = true;
 
     this.commonservice.update(body,'feedback/submitreply').subscribe(
@@ -259,6 +257,10 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
         
     });    
     
+  }
+
+  forward(formValues: any){
+    this.flagForward = true;
   }
 
   checkReqValues() {
