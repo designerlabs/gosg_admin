@@ -307,9 +307,20 @@ export class ContentComponent implements OnInit, OnDestroy {
 
     this.getCategory(this.languageId);
 
-    this.urlEdit = this.router.url.split('/')[2];
+    // =================== START SET MAMPU AGENCY BY DEFAULT ===============
+    let mampuId: any;
+    let mampuCode: any;
+    mampuCode = this.commonservice.mampuCode;
 
+    if(this.languageId == 1)
+      mampuId = this.commonservice.mampuIdEn;
+    else
+      mampuId = this.commonservice.mampuIdBm;
+    // =================== END SET MAMPU AGENCY BY DEFAULT =================
+
+    this.urlEdit = this.router.url.split('/')[2];
     if (this.urlEdit === 'add'){
+      this.getDetailsAgency(mampuId, mampuCode);
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder();
       this.updateForm.get('active').setValue(true)
@@ -319,7 +330,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
-
     }
     this.commonservice.getModuleId();
   }
@@ -361,6 +371,7 @@ export class ContentComponent implements OnInit, OnDestroy {
           this.loading = false;
         });
   }
+
   previewMy(){
     this.loading = true;
     return this.commonservice.create(this.htmlContentMy.value, 'htmlcontent/formathtml')
@@ -513,7 +524,6 @@ export class ContentComponent implements OnInit, OnDestroy {
           let arrCatEn = [];
           let arrCatBm = [];
 
-
           for(let i=0; i<this.categoryData.length; i++){
 
               if(this.categoryData[i].list.length === 2){
@@ -524,7 +534,6 @@ export class ContentComponent implements OnInit, OnDestroy {
                       // refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[0].parentId,
                       text: this.categoryData[i].list[0].categoryName,
-                      // checked: false,
                       children: []});
 
                 arrCatBm.push({
@@ -532,12 +541,9 @@ export class ContentComponent implements OnInit, OnDestroy {
                       value:this.categoryData[i].list[1].categoryId,
                       // refCode: this.categoryData[i].refCode,
                       parent: this.categoryData[i].list[1].parentId,
-                      // checked: false,
                       text: this.categoryData[i].list[1].categoryName,
                       children: []});
-
               }
-
           }
 
           if(this.languageId == 1){
@@ -594,7 +600,6 @@ export class ContentComponent implements OnInit, OnDestroy {
             }
             out.push(arr[i])
         }
-
     }
     return out
   }
@@ -707,7 +712,6 @@ export class ContentComponent implements OnInit, OnDestroy {
         let setParentEn = [];
 
         //get array of categoryId
-
         if(this.languageId == 1){
           for(let i=0; i<dataEn.contentCategories.length; i++){
             let a;
@@ -745,9 +749,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 
       });
     }
-
   }
-
 
   draft(formValues: any) {
     this.urlEdit = this.router.url.split('/')[2];
@@ -838,34 +840,26 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[1].contentDescription = formValues.descBm;
       body[0].contentSort = formValues.seqEng;
       body[1].contentSort = formValues.seqMy;
-
-      // body[0].contentCitizenFlag = formValues.citizenflag;
-      // body[0].contentNonCitizenFlag = formValues.noncitizenflag;
+      
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
-
+      // body[0].contentCitizenFlag = formValues.citizenflag;
+      // body[0].contentNonCitizenFlag = formValues.noncitizenflag;
       // body[1].contentCitizenFlag = formValues.citizenflag;
       // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;
-
-
       body[0].contentCategories = arrCatIDEn;
       body[1].contentCategories = arrCatIDBm;
-
       body[0].contentPublishDate = new Date(formValues.publish).getTime();
       body[0].contentEndDate = new Date(formValues.endD).getTime();
-
       body[1].contentPublishDate = new Date(formValues.publish).getTime();
       body[1].contentEndDate = new Date(formValues.endD).getTime();
-
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-
-
+      //console.log(JSON.stringify(body));
       this.loading = true;
-      // Add
       this.commonservice.create(body, 'content/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
@@ -931,35 +925,26 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[0].contentDescription = formValues.descEn;
       body[1].contentDescription = formValues.descBm;
       body[0].contentSort = formValues.seqEng;
-      body[1].contentSort = formValues.seqMy;
-
-      // body[0].contentCitizenFlag = formValues.citizenflag;
-      // body[0].contentCitizenFlag = formValues.noncitizenflag;
+      body[1].contentSort = formValues.seqMy;      
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
-
+      // body[0].contentCitizenFlag = formValues.citizenflag;
+      // body[0].contentCitizenFlag = formValues.noncitizenflag;
       // body[1].contentCitizenFlag = formValues.citizenflag;
       // body[1].contentNonCitizenFlag = formValues.noncitizenflag;
       body[1].contentActiveFlag = formValues.active;
       body[1].agency.agencyId = this.agencyIdBm;
-
-
       body[0].contentCategories = arrCatIDEn;
       body[1].contentCategories = arrCatIDBm;
-
       body[0].contentPublishDate = new Date(formValues.publish).getTime();
       body[0].contentEndDate = new Date(formValues.endD).getTime();
-
       body[1].contentPublishDate = new Date(formValues.publish).getTime();
       body[1].contentEndDate = new Date(formValues.endD).getTime();
-
       body[0].agencyApplications = appsEn;
       body[1].agencyApplications = appsBm;
 
-
-
+      //console.log(JSON.stringify(body));
       this.loading = true;
-      // Update
       this.commonservice.update(body, 'content/creator/draft').subscribe(
         data => {
           this.commonservice.errorHandling(data, (function () {
@@ -1227,7 +1212,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   checkReqValues() {
     let reqVal:any;
 
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm","agencyEn","agencyBm"];
 
     let nullPointers:any = [];
 
@@ -1348,7 +1333,6 @@ export class ContentComponent implements OnInit, OnDestroy {
     let indexVal: any;
     let idBm: any;
     let idEn: any;
-
 
     if(val == 1){
 
@@ -1562,7 +1546,6 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         detailsAgency = data['list'];
-
         agenName = detailsAgency[0].agencyName;
         minisName = detailsAgency[0].agencyMinistry.ministryName;
 
@@ -1575,7 +1558,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     });
   }
 
-  getValue(aId,aName,mName, refCode, langId){
+  getValue(aId, aName, mName, refCode, langId){    
 
     if(langId == 1) {
       this.agencyEn = this.updateForm.get('agencyEn').value;
@@ -1594,7 +1577,6 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.agencyBm = aId;
       this.agencyIdBm = aId;
       this.ministryNameBm = mName;
-
     }
     this.getAgencyByRefCode(refCode,langId);
   }
@@ -1614,7 +1596,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -1713,7 +1695,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       langId = 1;
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){

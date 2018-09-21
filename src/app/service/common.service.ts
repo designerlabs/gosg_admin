@@ -24,6 +24,10 @@ export class CommonService{
   showFilterEn = "Type your filter here...";
   showFilterBm = "Taip tapisan di sini...";
 
+  mampuIdEn = 203;
+  mampuIdBm = 196;
+  mampuCode = 101;
+
   sliderCategoryCode = 4;
   galleryCategoryCode = 39;
   lifeEventCategoryCode = 643;

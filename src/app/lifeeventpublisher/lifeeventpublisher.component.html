@@ -194,10 +194,13 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <input matInput tabindex="5" placeholder="Agency" formControlName="agencyEn" #agencyEn (click)="getSearchData(agencyEn.value, 1)"
-            (keyup)="getSearchData(agencyEn.value, 1)">
+            (keyup)="getSearchData(agencyEn.value, 1)" required>
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyEn.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-error *ngIf="updateForm.controls.agencyEn.hasError('required')">
+              Agency is required
+            </mat-error>
           </mat-form-field>
 
           <div *ngIf="isActiveListEn" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
@@ -213,10 +216,13 @@
         <div class="col-md-6">
           <mat-form-field class="example-full-width">
             <input matInput tabindex="5" placeholder="Agensi" formControlName="agencyBm" #agencyBm (click)="getSearchData(agencyBm.value, 2)"
-            (keyup)="getSearchData(agencyBm.value, 2)">
+            (keyup)="getSearchData(agencyBm.value, 2)" required>
             <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="agencyBm.value=''; resetSearch()">
               <mat-icon>close</mat-icon>
             </button>
+            <mat-error *ngIf="updateForm.controls.agencyBm.hasError('required')">
+              Agensi diperlukan
+            </mat-error>
           </mat-form-field>
 
           <div *ngIf="isActiveListBm" style="position:absolute; left: 3%; top:70%; z-index: 9999;"
