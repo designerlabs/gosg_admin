@@ -170,8 +170,6 @@ export class InboxComponent implements OnInit {
       body.subject = formValues.subject;
       body.content = formValues.content;
 
-
-      
       this.loading = true;
 
       this.commonservice.create(body, 'inbox').subscribe(
@@ -181,7 +179,7 @@ export class InboxComponent implements OnInit {
             this.toastr.success(this.translate.instant('common.success.added'), '');
             this.router.navigate(['inbox']);
           }).bind(this));  
-          //this.loading = false; 
+          this.loading = false; 
         },
         error => {
 

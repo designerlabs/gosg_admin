@@ -218,7 +218,19 @@ export class ParticipationComponent implements OnInit, OnDestroy {
 
     let now = new Date();
 
+    // =================== START SET MAMPU AGENCY BY DEFAULT ===============
+    let mampuId: any;
+    let mampuCode: any;
+    mampuCode = this.commonservice.mampuCode;
+
+    if(this.languageId == 1)
+      mampuId = this.commonservice.mampuIdEn;
+    else
+      mampuId = this.commonservice.mampuIdBm;
+    // =================== END SET MAMPU AGENCY BY DEFAULT =================
+
     if (refCode == "add") {
+      this.getDetailsAgency(mampuId, mampuCode);
       this.isEdit = false;
       this.pageMode = "Add";
       this.updateForm.get('active').setValue(true);
@@ -241,8 +253,6 @@ export class ParticipationComponent implements OnInit, OnDestroy {
       this.updateForm.disable();
     }
   }
-
-
 
   public htmlContentEnEditor: Object = {
 

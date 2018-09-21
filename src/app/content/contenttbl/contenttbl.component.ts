@@ -795,7 +795,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   detailHistory(id) {
 
     this.loading = true;
-    this.commonservice.readProtected('content/history/' + id).subscribe(
+    this.commonservice.readProtected('content/history/' + id,'','','',this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function () {
 

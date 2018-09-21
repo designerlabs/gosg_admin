@@ -4,12 +4,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../../config/app.config.module';
 import { CommonService } from '../../../service/common.service';
 import { Router, RouterModule } from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../../nav/nav.service';
+import { DialogResultExampleDialog } from '../../../lifeevent/lifeevent.component';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-feedbackvisitortbl',
@@ -40,6 +42,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   recordTable = null;
   kword: any;
+  listHistory = null;
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -50,6 +53,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   
   dataSource = new MatTableDataSource<object>(this.recordList);
+  dataSourceH = new MatTableDataSource<object>(this.listHistory);
 
   applyFilter(val) {   
 
@@ -78,7 +82,9 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
     public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
+    private dialogsService: DialogsService,
     private navservice: NavService,
+    public dialog: MatDialog,
     private translate: TranslateService) { 
 
     /* LANGUAGE FUNC */
@@ -266,6 +272,63 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
     }
     this.pageSize = event.value;
     this.noPrevData = true;
+  }
+
+  detailHistory(id) {
+
+    this.loading = true;
+    this.commonservice.readProtected('feedback/history/' + id,'','','',this.languageId).subscribe(
+      data => {
+        this.commonservice.errorHandling(data, (function () {
+
+          this.listHistory = data;
+          let config = new MatDialogConfig();
+          config.width = '800px';
+          config.height = '600px';
+          let dialogRef = this.dialog.open(DialogResultExampleDialog, config);
+
+          let displayTilte = "";
+          if (this.languageId == 1) {
+            displayTilte = "<h3>HISTORY</h3>"
+            displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Name</td>';
+            displayTilte += '<td width="20%">Activity</td>';
+            displayTilte += '<td width="40%">Time</td></tr>';
+          } else {
+            displayTilte = "<h3>SEJARAH</h3>";
+            displayTilte += '<table class="table"><tr class="tableHistory"><td width="40%">Nama</td>';
+            displayTilte += '<td width="20%">Aktiviti</td>';
+            displayTilte += '<td width="40%">Masa</td></tr>';
+          }
+          let display: any;
+
+          for (let i = 0; i < this.listHistory.list.length; i++) {
+
+            let newDate = new Date(this.listHistory.list[i].revisionDate);
+            displayTilte += '<tr><td>' + this.listHistory.list[i].user.firstName;
+            displayTilte += '<br>(' + this.listHistory.list[i].user.email + ')</td>';
+            displayTilte += '<td>' + this.listHistory.list[i].type + '</td>';
+            displayTilte += '<td>' + newDate + '</td></tr>';
+          }
+          displayTilte += '</table>';
+        
+          dialogRef.componentInstance.content = `${displayTilte}`;
+          display = dialogRef.componentInstance.content;
+
+          if (this.listHistory.list.length > 0) {
+            this.dataSourceH.data = this.listHistory.list;
+            this.loading = false;
+          }
+          
+
+        }).bind(this));
+        this.loading = false;
+      },
+      error => {
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      });
+
   }
 
 }

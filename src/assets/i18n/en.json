@@ -237,7 +237,8 @@
       "approve": "Approve",
       "search": "Search",
       "history": "History",
-      "sendDraft": "Send to Draft"
+      "sendDraft": "Send to Draft",
+      "forward": "Forward"
     },
     "err":{
       "servicedown": "Sorry, Server is down",
@@ -718,7 +719,8 @@
     "subject": "Subject",
     "msg": "Message",
     "replysection": "Reply Section",
-    "reply": "Reply"
+    "reply": "Reply",
+    "email": "Email"
   },
   "feedbacksubjecttbl": {
     "header": "Feedback Subject List",

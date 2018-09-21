@@ -237,7 +237,8 @@
       "approve": "Lulus",
       "search": "Carian",
       "history": "Sejarah",
-      "sendDraft": "Kembali ke Draf"
+      "sendDraft": "Kembali ke Draf",
+      "forward": "Forward"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
@@ -717,7 +718,8 @@
     "subject": "Subjek",
     "msg": "Mesej",
     "replysection": "Bahagian Balasan",
-    "reply": "Balasan"
+    "reply": "Balasan",
+    "email": "Emel"
   },
   "feedbacksubjecttbl": {
     "header": "Senarai Subjek Maklum Balas",

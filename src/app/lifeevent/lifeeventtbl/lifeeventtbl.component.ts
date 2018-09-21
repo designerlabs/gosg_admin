@@ -794,7 +794,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
 
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id).subscribe(
+      this.commonservice.readProtected('content/history/'+id, '','','', this.languageId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
 

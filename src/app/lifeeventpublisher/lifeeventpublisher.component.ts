@@ -294,9 +294,21 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
     this.getCategory(this.languageId);
 
+    // =================== START SET MAMPU AGENCY BY DEFAULT ===============
+    let mampuId: any;
+    let mampuCode: any;
+    mampuCode = this.commonservice.mampuCode;
+
+    if(this.languageId == 1)
+      mampuId = this.commonservice.mampuIdEn;
+    else
+      mampuId = this.commonservice.mampuIdBm;
+    // =================== END SET MAMPU AGENCY BY DEFAULT =================
+
     this.urlEdit = this.router.url.split('/')[3];
 
     if (this.urlEdit === 'add'){
+      this.getDetailsAgency(mampuId, mampuCode);
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder();
       this.updateForm.get('active').setValue(true)
@@ -1072,7 +1084,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
   checkReqValues() {
     let reqVal:any;
 
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm","agencyEn", "agencyBm"];
 
     let nullPointers:any = [];
 
