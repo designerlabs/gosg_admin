@@ -1018,10 +1018,24 @@
       "idno": "Identification No",
       "subrefno": "Application No",
       "email": "Email",
+      "from": "From",
+      "sent": "Time Email Sent",
       "accstatus": "Account Status",
       "svcname": "Service Name",
+      "ticno": "Ticket No",
       "status": "Status",
       "agcname": "Agency Name",
+      "pollquestion": "Question",
+      "pollanswer1": "Answer 1",
+      "pollanswer2": "Answer 2",
+      "pollanswer3": "Answer 3",
+      "pollanswer4": "Answer 4",
+      "pollanswer5": "Answer 5",
+      "pollresult1": "Result 1",
+      "pollresult2": "Result 2",
+      "pollresult3": "Result 3",
+      "pollresult4": "Result 4",
+      "pollresult5": "Result 5",
       "datereceive": "Receive Date"
     },
     "tablebottom":{
@@ -1048,6 +1062,10 @@
       "feedback": "Complaints & Inquiries",
       "start": "Start Date",
       "end": "End Date"
+    },
+    "filter": {
+      "agency": "By Agency",
+      "status": "By Status"
     }
   },
   "mediatype": {

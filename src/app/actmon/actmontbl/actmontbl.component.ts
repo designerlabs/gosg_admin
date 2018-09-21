@@ -45,8 +45,13 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   userData: Object;
   userList = null;
   agencyActivityList = null;
+  feedbackList = null;
+  pollList = null;
   displayedColumns: any;
   displayedColumns1: any;
+  displayedColumns2: any;
+  displayedColumns3: any;
+  displayedColumns4: any;
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -87,6 +92,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   dataSource = new MatTableDataSource<object>(this.userList);
   dataSource1 = new MatTableDataSource<object>(this.agencyActivityList);
+  dataSource2 = new MatTableDataSource<object>(this.pollList);
+  dataSource3 = new MatTableDataSource<object>(this.feedbackList);
   currentTab: any;
   currentAgcAppStatus: any;
   currentAgencyRefNo: any;
@@ -197,14 +204,18 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     } else {
       this.languageId = 1;
     }
-    this.isComplete = false;
+
+    this.isComplete = true;
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
     this.displayedColumns1 = ['no', 'svcname', 'name', 'status', 'date'];
+    this.displayedColumns2 = ['no', 'question', 'answer1', 'result1', 'answer2', 'result2', 'answer3', 'result3', 'answer4', 'result4', 'answer5', 'result5', 'pollsActiveFlag', 'insertDate'];
+    this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'date'];
     this.getAgenciesData(this.pageCount, this.pageSize);
     this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
+    this.getFeedbackData(this.pageCount, this.pageSize);
     this.getAppStatusData();
     this.currentTab = 0;
     this.usertype = 0;
@@ -222,8 +233,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
     this.events = [];
     this.events.push(`${event.value}`);
-    console.log(this.events[0]);
-    console.log(new Date());
+    // console.log(`${event.value}`);
+    // console.log(this.events[0]);
+    // console.log(new Date());
     this.startdt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
 
@@ -255,30 +267,35 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   clearDate() {
-    this.startDate = '';
-    this.endDate = '';
+    let today = new Date();
+    // this.events = [];
+    // this.events.push(today.toString());
+    // this.startdt = today.getTime();
+    this.startDate = undefined;
+    this.endDate = undefined;
     this.startdt = undefined;
     this.enddt = undefined;
-    this.identNo = null;
+    if(this.usertype == 0)
+      this.identNo = null;
     this.checkReqValues();
   }
 
   checkReqValues(){
 
-    if(this.startDate != '' && this.endDate != '' && this.startDate != undefined && this.endDate != undefined) {
-      if(this.currentTab == 0) {
-        if(this.usertype != 0 && this.identNo) {
-          this.isComplete = true;
-        } else {
+    if((this.startdt == undefined && this.enddt != undefined) || (this.startdt != undefined && this.enddt == undefined)) {
+      // if(this.currentTab == 0) {
+      //   if(this.usertype != 0 && this.identNo) {
           this.isComplete = false;
-        }
-      } else if(this.currentTab == 1) {
-        if(this.agcSelect != 0) {
-          this.isComplete = true;
         } else {
-          this.isComplete = false;
-        }
-      }
+          this.isComplete = true;
+      //   }
+      // } else if(this.currentTab == 1) {
+        // if(this.agcSelect != 0) {
+        //   this.isComplete = true;
+        // } else {
+        //   this.isComplete = false;
+        // }
+      // }
     }
   }
 
@@ -424,6 +441,10 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize);
     else if(this.currentTab == 1)
       this.getAgenciesDataByID(this.agcSelect, this.pageCount, this.pageSize);
+    else if(this.currentTab == 2)
+      this.getPollsData(this.pageCount, this.pageSize);
+    else if(this.currentTab == 3)
+      this.getFeedbackData(this.pageCount, this.pageSize);
   }
 
   // get User Data by IDNO
@@ -436,7 +457,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     if(id == 0 || id == '' || id == null) {
       idno = '';
     } else {
-      if(this.startDate && this.endDate)
+      if(this.startDate != '' && this.endDate != '')
         idno = '&identificationNo='+id+'&startDate='+this.startDate+'&endDate='+this.endDate;
       else
         idno = '&identificationNo='+id;
@@ -566,6 +587,102 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     });
   }
 
+  // get Feedback Data
+  getFeedbackData(page?, size?) {
+    let dateRange;
+    this.loading = true;
+    
+    if(this.startDate && this.endDate)
+      dateRange = this.startDate+'/'+this.endDate;
+    else
+      dateRange = '';
+
+    this.commonservice.readProtected('monitoring/feedback/'+dateRange, page, size, '', this.languageId).subscribe(data => {
+
+      this.commonservice.errorHandling(data, (function(){
+
+        this.feedbackList = data;
+        if(this.feedbackList['feedbackList'].length > 0){
+
+          this.feedbackList['feedbackList'].forEach(el => {
+            el.createdDate = this.changeDateFormat(el.createdDate);
+          });
+
+          this.dataSource3.data = this.feedbackList['feedbackList'];
+          this.seqPageNum = this.feedbackList.pageNumber;
+          this.seqPageSize = this.feedbackList.pageSize;
+          this.recordTable = this.feedbackList;
+          this.noNextData = this.feedbackList.pageNumber === this.feedbackList.totalPages;
+
+          this.showNoData = false;
+        }else{
+          this.dataSource3.data = [];
+          this.feedbackList = null;
+          this.showNoData = true;
+        }
+
+      }).bind(this));
+
+      this.loading = false;
+
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
+    });
+  }
+
+  // get Polls Data
+  getPollsData(page?, size?) {
+    let dateRange, filterpath;
+    this.loading = true;
+
+    if(this.startDate && this.endDate)
+      filterpath = '/filter/created';
+    else
+      filterpath = '';
+
+      // ?&language=2
+    if(this.startDate && this.endDate)
+      dateRange = '&from='+this.startDate+'&to='+this.endDate;
+    else
+      dateRange = '';
+
+    this.commonservice.readProtected('polls/question/activity'+filterpath, page, size, '', this.languageId+dateRange).subscribe(data => {
+
+      this.commonservice.errorHandling(data, (function(){
+
+        this.pollList = data;
+        if(this.pollList.list.length > 0){
+
+          this.pollList.list.forEach(el => {
+            el.createDate = this.changeDateFormat(el.createDate);
+          });
+
+          this.dataSource2.data = this.pollList.list;
+          this.seqPageNum = this.pollList.pageNumber;
+          this.seqPageSize = this.pollList.pageSize;
+          this.recordTable = this.pollList;
+          this.noNextData = this.pollList.pageNumber === this.pollList.totalPages;
+
+          this.showNoData = false;
+        }else{
+          this.dataSource2.data = [];
+          this.pollList = null;
+          this.showNoData = true;
+        }
+
+      }).bind(this));
+
+      this.loading = false;
+
+    },
+    error => {
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
+    });
+  }
+
   changeDateFormat(dateVal) {
     let res;
     res = this.datePipe.transform(new Date(dateVal*1000).getTime(), 'd/M/y h:mm a')
@@ -575,9 +692,13 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   paginatorL(page) {
     if(this.currentTab == 0)
-      this.getUsersDataByIDNO(this.currentUserIDNO, this.pageCount, this.pageSize);
-    else
-      this.getAgenciesDataByID(this.currentAgencyRefNo, this.pageCount, this.pageSize);
+      this.getUsersDataByIDNO(this.currentUserIDNO, page - 1, this.pageSize);
+    else if(this.currentTab == 1)
+      this.getAgenciesDataByID(this.currentAgencyRefNo, page - 1, this.pageSize);
+    else if(this.currentTab == 2)
+      this.getPollsData(this.pageCount, this.pageSize);
+    else if(this.currentTab == 3)
+      this.getFeedbackData(this.pageCount, this.pageSize);
 
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
@@ -590,17 +711,26 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     // this.noNextData = pageInc === totalPages;
     if(this.currentTab == 0)
       this.getUsersDataByIDNO(this.currentUserIDNO, page + 1, this.pageSize);
-    else
+    else if(this.currentTab == 1)
       this.getAgenciesDataByID(this.currentAgencyRefNo, page + 1, this.pageSize);
+    else if(this.currentTab == 2)
+      this.getPollsData(page + 1, this.pageSize);
+    else if(this.currentTab == 3)
+      this.getFeedbackData(page + 1, this.pageSize);
   }
 
 
   pageChange(event, totalPages) {
-    // this.getUsersData(this.pageCount, event.value);
+    
     if(this.currentTab == 0)
       this.getUsersDataByIDNO(this.currentUserIDNO, this.pageCount, event.value);
-    else
+    else if(this.currentTab == 1)
       this.getAgenciesDataByID(this.currentAgencyRefNo, this.pageCount, event.value);
+    else if(this.currentTab == 2)
+      this.getPollsData(this.pageCount, event.value);
+    else if(this.currentTab == 3)
+      this.getFeedbackData(this.pageCount, event.value);
+
     this.pageSize = event.value;
     this.noPrevData = true;
   }
