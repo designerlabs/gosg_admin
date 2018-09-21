@@ -11,6 +11,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../../nav/nav.service';
 import { DialogResultExampleDialog } from '../../../lifeevent/lifeevent.component';
+import { DialogsService } from '../../../dialogs/dialogs.service';
 
 @Component({
   selector: 'app-feedbackvisitortbl',
@@ -79,7 +80,9 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
     public commonservice: CommonService, 
     private router: Router, 
     private toastr: ToastrService,
+    private dialogsService: DialogsService,
     private navservice: NavService,
+    public dialog: MatDialog,
     private translate: TranslateService) { 
 
     /* LANGUAGE FUNC */
@@ -296,23 +299,27 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
           }
           let display: any;
 
-          for (let i = 0; i < this.listHistory.list.length; i++) {
+          //if(this.listHistory.list.length > 0){
 
-            let newDate = new Date(this.listHistory.list[i].revisionDate);
-            displayTilte += '<tr><td>' + this.listHistory.list[i].user.firstName;
-            displayTilte += '<br>(' + this.listHistory.list[i].user.email + ')</td>';
-            displayTilte += '<td>' + this.listHistory.list[i].type + '</td>';
-            displayTilte += '<td>' + newDate + '</td></tr>';
-          }
+            for (let i = 0; i < this.listHistory.list.length; i++) {
 
-          displayTilte += '</table>';
+              let newDate = new Date(this.listHistory.list[i].revisionDate);
+              displayTilte += '<tr><td>' + this.listHistory.list[i].user.firstName;
+              displayTilte += '<br>(' + this.listHistory.list[i].user.email + ')</td>';
+              displayTilte += '<td>' + this.listHistory.list[i].type + '</td>';
+              displayTilte += '<td>' + newDate + '</td></tr>';
+            }
+            displayTilte += '</table>';
+          //}
 
           dialogRef.componentInstance.content = `${displayTilte}`;
           display = dialogRef.componentInstance.content;
 
           if (this.listHistory.list.length > 0) {
             this.dataSourceH.data = this.listHistory.list;
+            this.loading = false;
           }
+          
 
         }).bind(this));
         this.loading = false;
