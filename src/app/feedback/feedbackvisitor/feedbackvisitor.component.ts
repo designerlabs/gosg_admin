@@ -11,6 +11,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../../nav/nav.service';
+import { ValidateService } from '../../common/validate.service';
 
 @Component({
   selector: 'app-feedbackvisitor',
@@ -18,12 +19,14 @@ import { NavService } from './../../nav/nav.service';
   styleUrls: ['./feedbackvisitor.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
   public loading = false;
   updateForm: FormGroup;
   
   public reply: FormControl;
+  public emailForward: FormControl;
 
   public name: any;
   public type: any;
@@ -54,6 +57,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     public commonservice: CommonService, 
+    private validateService:ValidateService,
     private router: Router, 
     private toastr: ToastrService,
     private navservice: NavService,
@@ -103,10 +107,12 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     }
 
     this.reply = new FormControl();
+    this.emailForward = new FormControl('', [Validators.pattern(this.validateService.getPattern().email)]);
 
     this.updateForm = new FormGroup({   
 
       reply: this.reply,
+      emailForward: this.emailForward
 
     });
 
@@ -121,6 +127,11 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     }
   }
 
+  validateCtrlChk(ctrl: FormControl){
+    // return ctrl.valid || ctrl.untouched
+    return this.validateService.validateCtrl(ctrl);
+  }
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[4];
@@ -130,9 +141,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
       this.commonservice.errorHandling(data, (function(){
 
-        this.recordList = data;
-        
-        
+        this.recordList = data;               
 
         this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks);     
 
@@ -259,13 +268,27 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     
   }
 
-  forward(formValues: any){
+  forward(){
     this.flagForward = true;
+  }
+
+  cancelForwd(){
+    this.flagForward = false;
+  }
+
+  submitForwd(formValues: any){
+
   }
 
   checkReqValues() {
 
-    let reqVal:any = ["reply"];
+    let reqVal:any;
+    
+    if(this.flagForward == false)
+      reqVal = ["reply"];
+    else
+    reqVal = ["reply", "emailForward"];
+
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

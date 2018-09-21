@@ -719,7 +719,8 @@
     "subject": "Subject",
     "msg": "Message",
     "replysection": "Reply Section",
-    "reply": "Reply"
+    "reply": "Reply",
+    "email": "Email"
   },
   "feedbacksubjecttbl": {
     "header": "Feedback Subject List",
