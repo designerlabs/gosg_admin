@@ -292,9 +292,21 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
 
     this.getCategory(this.languageId);
 
+    // =================== START SET MAMPU AGENCY BY DEFAULT ===============
+    let mampuId: any;
+    let mampuCode: any;
+    mampuCode = this.commonservice.mampuCode;
+
+    if(this.languageId == 1)
+      mampuId = this.commonservice.mampuIdEn;
+    else
+      mampuId = this.commonservice.mampuIdBm;
+    // =================== END SET MAMPU AGENCY BY DEFAULT =================
+
     this.urlEdit = this.router.url.split('/')[3];
 
     if (this.urlEdit === 'add'){
+      this.getDetailsAgency(mampuId, mampuCode);
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder();
       this.updateForm.get('active').setValue(true)
@@ -1051,7 +1063,7 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
   checkReqValues() {
     let reqVal:any;
 
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm", "agencyEn", "agencyBm"];
 
     let nullPointers:any = [];
 
@@ -1438,7 +1450,7 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -1537,7 +1549,7 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
       langId = 1;
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){

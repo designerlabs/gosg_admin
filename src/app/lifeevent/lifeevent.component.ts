@@ -280,9 +280,21 @@ export class LifeeventComponent implements OnInit, OnDestroy {
 
     this.getCategory(this.languageId);
 
+    // =================== START SET MAMPU AGENCY BY DEFAULT ===============
+    let mampuId: any;
+    let mampuCode: any;
+    mampuCode = this.commonservice.mampuCode;
+
+    if(this.languageId == 1)
+      mampuId = this.commonservice.mampuIdEn;
+    else
+      mampuId = this.commonservice.mampuIdBm;
+    // =================== END SET MAMPU AGENCY BY DEFAULT =================
+
     this.urlEdit = this.router.url.split('/')[2];
 
     if (this.urlEdit === 'add'){
+      this.getDetailsAgency(mampuId, mampuCode);
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder();
       this.updateForm.get('active').setValue(true)
@@ -292,7 +304,6 @@ export class LifeeventComponent implements OnInit, OnDestroy {
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
-
     }
     this.commonservice.getModuleId();
   }
@@ -1256,7 +1267,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
   checkReqValues() {
     let reqVal:any;
 
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm","agencyEn","agencyBm"];
 
     let nullPointers:any = [];
 
@@ -1593,7 +1604,6 @@ export class LifeeventComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         detailsAgency = data['list'];
-
         agenName = detailsAgency[0].agencyName;
         minisName = detailsAgency[0].agencyMinistry.ministryName;
 
