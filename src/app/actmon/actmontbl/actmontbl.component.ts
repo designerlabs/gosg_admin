@@ -111,18 +111,6 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   }
 
-  resetSearch() {
-    this.identNo = null;
-    this.filterTypeVal = 0;
-    this.value='';
-    this.isActiveList = false;
-    this.usertype = 0;
-    this.agcSelect = null;
-    this.userList = null;
-    this.agencyActivityList = null;
-    this.showNoData = false;
-  }
-
   filterType(filterVal) {
     this.filterTypeVal = filterVal.value;
 
@@ -301,6 +289,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   tabAction(type) {
     this.currentTab = type;
+    this.resetSearch();
     this.search();
   }
 
@@ -445,6 +434,20 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.getPollsData(this.pageCount, this.pageSize);
     else if(this.currentTab == 3)
       this.getFeedbackData(this.pageCount, this.pageSize);
+  }
+
+  resetSearch() {
+    this.identNo = null;
+    this.filterTypeVal = 0;
+    this.value='';
+    this.isActiveList = false;
+    this.usertype = 0;
+    this.agcSelect = null;
+    this.userList = null;
+    this.pollList = null;
+    this.feedbackList = null;
+    this.agencyActivityList = null;
+    this.showNoData = false;
   }
 
   // get User Data by IDNO
