@@ -274,7 +274,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   detailHistory(id) {
 
-    this.loading = true;
+    //this.loading = true;
     this.commonservice.readProtected('feedback/history/' + id,'','','',this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function () {
@@ -299,19 +299,16 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
           }
           let display: any;
 
-          //if(this.listHistory.list.length > 0){
+          for (let i = 0; i < this.listHistory.list.length; i++) {
 
-            for (let i = 0; i < this.listHistory.list.length; i++) {
-
-              let newDate = new Date(this.listHistory.list[i].revisionDate);
-              displayTilte += '<tr><td>' + this.listHistory.list[i].user.firstName;
-              displayTilte += '<br>(' + this.listHistory.list[i].user.email + ')</td>';
-              displayTilte += '<td>' + this.listHistory.list[i].type + '</td>';
-              displayTilte += '<td>' + newDate + '</td></tr>';
-            }
-            displayTilte += '</table>';
-          //}
-
+            let newDate = new Date(this.listHistory.list[i].revisionDate);
+            displayTilte += '<tr><td>' + this.listHistory.list[i].user.firstName;
+            displayTilte += '<br>(' + this.listHistory.list[i].user.email + ')</td>';
+            displayTilte += '<td>' + this.listHistory.list[i].type + '</td>';
+            displayTilte += '<td>' + newDate + '</td></tr>';
+          }
+          displayTilte += '</table>';
+        
           dialogRef.componentInstance.content = `${displayTilte}`;
           display = dialogRef.componentInstance.content;
 
