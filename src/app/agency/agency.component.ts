@@ -471,7 +471,7 @@ export class AgencyComponent implements OnInit, OnDestroy {
       selLangField = "ministryEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('ministry/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('ministry/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){

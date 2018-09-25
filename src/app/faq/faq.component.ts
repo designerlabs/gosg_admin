@@ -114,7 +114,7 @@ export class FaqComponent implements OnInit {
 
     let _getRefID = this.router.url.split('/')[2];
     this.loading = true;
-    this.commonservice.readProtectedById('faq/code/', _getRefID)
+    this.commonservice.readProtectedById('faq/code/', _getRefID, this.languageId)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
