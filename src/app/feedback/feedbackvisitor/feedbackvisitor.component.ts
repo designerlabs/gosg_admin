@@ -39,19 +39,14 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
   public feedbackUserIpAddress: any;
   public feedbackTypeId: any;
   public feedbackSubjectId: any;
-
   public dataUrl: any;  
   public recordList: any;
-
   public getId: any;
   public complete: boolean;
   public languageId: any;
   public flagForward: boolean = false;
 
   private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   constructor(
     private http: HttpClient, 
@@ -91,9 +86,6 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    //this.subscriptionContentCreator.unsubscribe();
-    //this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
@@ -223,7 +215,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
   }
 
   submitReply(formValues: any) {
-   // alert("REPLY");
+  
     let urlEdit = this.router.url.split('/')[2];
    
     let body = {
@@ -270,11 +262,14 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
   forward(){
     this.flagForward = true;
+    this.updateForm.get('emailForward').setValue('');
+    this.checkReqValues();
   }
 
   cancelForwd(){
     this.flagForward = false;
     this.updateForm.get('emailForward').setValue('');
+    this.checkReqValues();
   }
 
   submitForwd(formValues: any){
