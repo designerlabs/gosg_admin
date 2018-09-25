@@ -301,6 +301,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
     let paramEmail = '';
     paramEmail = formValues.emailForward;
+    //console.log(JSON.stringify(body));
     this.loading = true;
 
     this.commonservice.updateParam(body,'feedback/forward','&email='+paramEmail).subscribe(
