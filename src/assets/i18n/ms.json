@@ -1286,6 +1286,7 @@
     "component": {
       "header": "Kandungan Perkhidmatan Digital",
       "isdoc": "is Document",
+      "form": "Borang",
       "serviceURL": "URL Perkhidmatan"
     },
     "select":"Pilih Kandungan Perkhidmatan Digital"
