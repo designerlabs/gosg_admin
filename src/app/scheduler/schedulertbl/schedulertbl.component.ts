@@ -96,7 +96,7 @@ export class SchedulertblComponent implements OnInit {
   // get agencyType Data
   getSchedulerData() {
     this.loading = true;
-    this.commonservice.readProtected('schedule').subscribe(
+    this.commonservice.readProtected('schedule','','','', this.languageId).subscribe(
       // this.http.get(this.dataUrl).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
