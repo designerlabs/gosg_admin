@@ -795,7 +795,7 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   detailHistory(id) {
 
     this.loading = true;
-    this.commonservice.readProtected('content/history/' + id).subscribe(
+    this.commonservice.readProtected('content/history/' + id,'','','',this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function () {
 
@@ -820,12 +820,12 @@ export class ContenttblComponent implements OnInit, OnDestroy {
           let display: any;
 
           for (let i = 0; i < this.listHistory.list.length; i++) {
-
+            let convertdate =  moment(new Date(this.listHistory.list[i].revisionDate)).format('DD-MM-YYYY hh:mm a');
             let newDate = new Date(this.listHistory.list[i].revisionDate);
             displayTilte += '<tr><td>' + this.listHistory.list[i].user.firstName;
             displayTilte += '<br>(' + this.listHistory.list[i].user.email + ')</td>';
             displayTilte += '<td>' + this.listHistory.list[i].type + '</td>';
-            displayTilte += '<td>' + newDate + '</td></tr>';
+            displayTilte += '<td>' + convertdate + '</td></tr>';
           }
 
           displayTilte += '</table>';

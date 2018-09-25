@@ -11,6 +11,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../dialogs/dialogs.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../../nav/nav.service';
+import { ValidateService } from '../../common/validate.service';
 
 @Component({
   selector: 'app-feedbackvisitor',
@@ -18,12 +19,14 @@ import { NavService } from './../../nav/nav.service';
   styleUrls: ['./feedbackvisitor.component.css'],
   encapsulation: ViewEncapsulation.None
 })
+
 export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
   public loading = false;
   updateForm: FormGroup;
   
   public reply: FormControl;
+  public emailForward: FormControl;
 
   public name: any;
   public type: any;
@@ -36,23 +39,20 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
   public feedbackUserIpAddress: any;
   public feedbackTypeId: any;
   public feedbackSubjectId: any;
-
   public dataUrl: any;  
   public recordList: any;
-
   public getId: any;
   public complete: boolean;
   public languageId: any;
+  public flagForward: boolean = false;
 
   private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   constructor(
     private http: HttpClient, 
     @Inject(APP_CONFIG) private appConfig: AppConfig,
     public commonservice: CommonService, 
+    private validateService:ValidateService,
     private router: Router, 
     private toastr: ToastrService,
     private navservice: NavService,
@@ -86,9 +86,6 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    //this.subscriptionContentCreator.unsubscribe();
-    //this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
@@ -102,10 +99,12 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     }
 
     this.reply = new FormControl();
+    this.emailForward = new FormControl('', [Validators.pattern(this.validateService.getPattern().email)]);
 
     this.updateForm = new FormGroup({   
 
       reply: this.reply,
+      emailForward: this.emailForward
 
     });
 
@@ -120,6 +119,11 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     }
   }
 
+  validateCtrlChk(ctrl: FormControl){
+    // return ctrl.valid || ctrl.untouched
+    return this.validateService.validateCtrl(ctrl);
+  }
+
   getData() {
 
     let _getRefID = this.router.url.split('/')[4];
@@ -129,9 +133,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
       this.commonservice.errorHandling(data, (function(){
 
-        this.recordList = data;
-        
-        
+        this.recordList = data;               
 
         this.updateForm.get('reply').setValue(this.recordList.feedback.feedbackRemarks);     
 
@@ -213,7 +215,65 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
   }
 
   submitReply(formValues: any) {
-   // alert("REPLY");
+  
+    let urlEdit = this.router.url.split('/')[2];
+   
+    let body = {
+      "feedbackId": this.getId,
+      "feedbackName": this.name,
+      "feedbackRemarks":null,
+      "feedbackEmail": this.email,
+      "feedbackType": {
+        "feedbackTypeId": this.feedbackTypeId,
+      },
+      "feedbackSubject": {
+        "feedbackSubjectId": this.feedbackSubjectId,
+      },
+      "feedbackMessage": this.messages,
+      "feedbackUserIpAddress": this.feedbackUserIpAddress,
+      "feedbackReplyFlag": true,
+      "feedbackTicketNo": this.feedbackTicketNo,
+      "language": {
+        "languageId": this.lang
+      },
+      "feedbackDraftFlag":false
+    }
+
+    body.feedbackRemarks = formValues.reply;     
+    this.loading = true;
+
+    this.commonservice.update(body,'feedback/submitreply').subscribe(
+      data => {
+        
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.feedbacksummitted'), ''); 
+          this.router.navigate(['feedback/message/visitor']);
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        
+    });    
+    
+  }
+
+  forward(){
+    this.flagForward = true;
+    this.updateForm.get('emailForward').setValue('');
+    this.checkReqValues();
+  }
+
+  cancelForwd(){
+    this.flagForward = false;
+    this.updateForm.get('emailForward').setValue('');
+    this.checkReqValues();
+  }
+
+  submitForwd(formValues: any){
+
     let urlEdit = this.router.url.split('/')[2];
    
     let body = {
@@ -239,11 +299,12 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
 
     body.feedbackRemarks = formValues.reply;     
 
-    
-    
+    let paramEmail = '';
+    paramEmail = formValues.emailForward;
+    //console.log(JSON.stringify(body));
     this.loading = true;
 
-    this.commonservice.update(body,'feedback/submitreply').subscribe(
+    this.commonservice.updateParam(body,'feedback/forward','&email='+paramEmail).subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){
@@ -257,13 +318,18 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
         
-    });    
-    
+    }); 
   }
 
   checkReqValues() {
 
-    let reqVal:any = ["reply"];
+    let reqVal:any;
+    
+    if(this.flagForward == false)
+      reqVal = ["reply"];
+    else
+    reqVal = ["reply", "emailForward"];
+
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

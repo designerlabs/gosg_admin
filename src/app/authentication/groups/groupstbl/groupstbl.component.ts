@@ -81,7 +81,7 @@ export class GroupstblComponent implements OnInit {
     
     this.dataUrl = this.appConfig.urlGroupList;
     this.loading = true;
-    this.commonservice.readProtected('authorization/module/groupListView',count, size)
+    this.commonservice.readProtected('authorization/module/groupListView',count, size, '', this.languageId)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){

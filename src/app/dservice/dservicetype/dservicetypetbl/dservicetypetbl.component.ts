@@ -165,7 +165,7 @@ export class DServicetypetblComponent implements OnInit, OnDestroy {
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.loading = true;
-      this.commonservice.readProtected('dservice/type', count, size, keyword)
+      this.commonservice.readProtected('dservice/type', count, size, keyword, this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

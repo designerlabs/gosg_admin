@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT AGENCY APP  -->
 <div class="container right-content">
-
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading> 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
       <h3>{{ pageMode | translate }} {{ 'dservicedetails.tableHeader.header' | translate }} </h3>
@@ -188,7 +188,14 @@
         </div>
         <div class="col-md-12">&nbsp;</div>
       </div>
-    </div>
+      <div class="row">
+        <div class="col-md-6">
+            <mat-checkbox tabindex="6" formControlName="form" [checked]="false"></mat-checkbox>
+            <span class="">&nbsp;{{ 'dservicedetails.component.form' | translate }}</span>
+          </div>
+          <div class="col-md-12">&nbsp;</div>
+        </div>
+      </div>
 
     <div class="col-md-12">&nbsp;</div>
     <div class="form-group" *ngIf="commonservice.isUpdate || commonservice.isWrite">

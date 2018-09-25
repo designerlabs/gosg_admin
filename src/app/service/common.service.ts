@@ -82,7 +82,8 @@ export class CommonService{
     view: 'fa fa-eye',
     archive: 'fa fa-archive',
     search: 'fa fa-search',
-    history: 'fa fa-history'
+    history: 'fa fa-history',
+    forward: 'fa fa-share'
   }
 
   pageSize =  [
@@ -621,6 +622,14 @@ getMediaByCateId(id){
 
   update(data,moduleName) {
     let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId;
+
+    return this.http.put(updateUrl, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateParam(data,moduleName, param) {
+    let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId+param;
 
     return this.http.put(updateUrl, data)
     .map((response: Response) => response.json())

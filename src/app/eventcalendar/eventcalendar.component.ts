@@ -367,7 +367,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
   getAgency() {
     this.loading = true;
-    this.commonservice.readPortal('agency/application/code').subscribe(
+    this.commonservice.readPortal('agency/application/code','','','',this.languageId).subscribe(
         Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
             this.AgencyData = Rdata['list'];
@@ -470,7 +470,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){

@@ -100,7 +100,7 @@ export class SchedulerComponent implements OnInit {
   getSchedulerData(id) {
 
     this.loading = true;
-    this.commonservice.readProtectedById('schedule/',id).subscribe(
+    this.commonservice.readProtectedById('schedule/',id, this.languageId).subscribe(
       data => {
         this.commonservice.errorHandling(data, (function () {
           this.recordList = data;
