@@ -79,7 +79,8 @@
 
             <div class="bg-form-header col-md-12">
                 <div class="row">
-                    <label class="col-md-12">{{ 'feedbackmsg.replysection' | translate }}</label>
+                    <label class="col-md-12" *ngIf="flagForward == false">{{ 'feedbackmsg.replysection' | translate }}</label>
+                    <label class="col-md-12" *ngIf="flagForward == true">{{ 'feedbackmsg.msg' | translate }}</label>
                 </div>
             </div>
 

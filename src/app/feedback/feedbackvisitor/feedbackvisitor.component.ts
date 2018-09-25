@@ -303,7 +303,7 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     paramEmail = formValues.emailForward;
     this.loading = true;
 
-    this.commonservice.updateParam(body,'feedback/submitreply','&forwardEmail='+paramEmail).subscribe(
+    this.commonservice.updateParam(body,'feedback/forward','&email='+paramEmail).subscribe(
       data => {
         
         this.commonservice.errorHandling(data, (function(){
