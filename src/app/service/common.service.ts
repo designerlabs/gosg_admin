@@ -628,6 +628,14 @@ getMediaByCateId(id){
     .catch(this.handleError);
   }
 
+  updateParam(data,moduleName, param) {
+    let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId+param;
+
+    return this.http.put(updateUrl, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
   delete(id,moduleName) {
     let deleteUrl = this.appConfig.urlCommon  + moduleName + id+ '?language='+this.languageId;
 

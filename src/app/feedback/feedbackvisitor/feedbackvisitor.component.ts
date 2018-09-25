@@ -298,24 +298,26 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
     }
 
     body.feedbackRemarks = formValues.reply;     
-    console.log(JSON.stringify(body));
-    // this.loading = true;
 
-    // this.commonservice.update(body,'feedback/submitreply').subscribe(
-    //   data => {
-        
-    //     this.commonservice.errorHandling(data, (function(){
-    //       this.toastr.success(this.translate.instant('common.success.feedbacksummitted'), ''); 
-    //       this.router.navigate(['feedback/message/visitor']);
-    //     }).bind(this)); 
-    //     this.loading = false;
-    //   },
-    //   error => {
+    let paramEmail = '';
+    paramEmail = formValues.emailForward;
+    this.loading = true;
 
-    //     this.loading = false;
-    //     this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+    this.commonservice.updateParam(body,'feedback/submitreply','&forwardEmail='+paramEmail).subscribe(
+      data => {
         
-    // }); 
+        this.commonservice.errorHandling(data, (function(){
+          this.toastr.success(this.translate.instant('common.success.feedbacksummitted'), ''); 
+          this.router.navigate(['feedback/message/visitor']);
+        }).bind(this)); 
+        this.loading = false;
+      },
+      error => {
+
+        this.loading = false;
+        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        
+    }); 
   }
 
   checkReqValues() {
