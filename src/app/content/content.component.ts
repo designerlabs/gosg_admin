@@ -1212,7 +1212,8 @@ export class ContentComponent implements OnInit, OnDestroy {
   checkReqValues() {
     let reqVal:any;
 
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm","agencyEn","agencyBm"];
+    //,"agencyEn","agencyBm"
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
 
     let nullPointers:any = [];
 
