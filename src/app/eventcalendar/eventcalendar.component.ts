@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 import { MatPaginator, MatSort, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';

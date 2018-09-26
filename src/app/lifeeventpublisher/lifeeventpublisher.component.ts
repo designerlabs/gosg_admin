@@ -9,9 +9,9 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
-import { stringify } from '@angular/core/src/util';
-import { forEach } from '@angular/router/src/utils/collection';
-import * as $ from 'jquery';
+// import { stringify } from '@angular/core/src/util';
+// import { forEach } from '@angular/router/src/utils/collection';
+// import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import { ISubscription } from 'rxjs/Subscription';
@@ -120,11 +120,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
   fullName: any;
   email: any;
   private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
-
-
 
   public htmlContentEnEditor: Object = {
 
@@ -222,9 +218,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    //this.subscriptionContentCreator.unsubscribe();
     this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
