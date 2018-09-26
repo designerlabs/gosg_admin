@@ -172,6 +172,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
         this.getAgenciesData(this.pageCount, this.pageSize);
         this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
         this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
+        this.getFeedbackData(this.pageCount, this.pageSize);
+        this.getAppStatusData();
         this.commonservice.getModuleId();
       }
 
@@ -208,6 +210,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.currentTab = 0;
     this.usertype = 0;
     this.filterTypeVal = 0;
+    this.agcAppStatusSelect = 0;
     this.commonservice.getModuleId();
     this.checkReqValues();
   }
@@ -428,9 +431,10 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   search() {
     if(this.currentTab == 0)
       this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize);
-    else if(this.currentTab == 1)
+    else if(this.currentTab == 1) {
+      this.agcSelect = 0;
       this.getAgenciesDataByID(this.agcSelect, this.pageCount, this.pageSize);
-    else if(this.currentTab == 2)
+    } else if(this.currentTab == 2)
       this.getPollsData(this.pageCount, this.pageSize);
     else if(this.currentTab == 3)
       this.getFeedbackData(this.pageCount, this.pageSize);

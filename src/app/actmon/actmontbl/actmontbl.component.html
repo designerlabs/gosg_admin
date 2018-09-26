@@ -70,7 +70,7 @@
           <div *ngIf="currentTab == 1" class="col-md-2">
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="agcAppStatusSelect" placeholder="{{ 'actmon.filter.status' | translate }}">
-                <mat-option [value]="" (click)="currentAgencyRefNo = ''">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option [value]="0" (click)="currentAgencyRefNo = ''">{{ 'common.filterby.all' | translate }}</mat-option>
                 <mat-option *ngFor="let aas of appStatusData" [value]="aas.id" title="{{ aas.name }}"
                   (click)="currentAgcAppStatus = aas.id">{{ aas.name }}</mat-option>
                   <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
@@ -214,7 +214,7 @@
 
             <!-- name Column -->
             <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;">{{ 'agency.name' | translate }}</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;">{{ 'actmon.tableHeader.agcname' | translate }}</mat-header-cell>
               <mat-cell *matCellDef="let element" style="flex: 0 35%;">
                 {{ element.agencyName }}
               </mat-cell>
