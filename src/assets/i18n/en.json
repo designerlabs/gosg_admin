@@ -1047,7 +1047,7 @@
     "component": {
       "userstatus": "User Account Status",
       "appstatus": "Application Status",
-      "users": "Users",
+      "users": "Application License/Notice",
       "agencies": "Agencies",
       "isstaff": "Is Staff?",
       "dob": "Date of Birth",
