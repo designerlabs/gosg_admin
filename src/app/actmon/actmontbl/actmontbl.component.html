@@ -59,7 +59,7 @@
           <div *ngIf="currentTab == 1" class="col-md-4">
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="agcSelect" placeholder="{{ 'actmon.filter.agency' | translate }}" (change)="agcFilterType($event)">
-                <mat-option [value]="0" (click)="getAgenciesDataByID(0,1,10)">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option [value]="0" (click)="currentAgencyRefNo = ''">{{ 'common.filterby.all' | translate }}</mat-option>
                 <mat-option *ngFor="let agc of agencyList" [value]="agc.agencyCode" title="{{ agc.agencyName }}"
                   (click)="currentAgencyRefNo = agc.agencyCode">{{ agc.agencyName }}</mat-option>
                   <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
@@ -70,7 +70,7 @@
           <div *ngIf="currentTab == 1" class="col-md-2">
             <mat-form-field class="example-full-width">
               <mat-select [(ngModel)]="agcAppStatusSelect" placeholder="{{ 'actmon.filter.status' | translate }}">
-                <mat-option [value]="0" (click)="currentAgencyRefNo = ''">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option [value]="0" (click)="currentAgcAppStatus = '';">{{ 'common.filterby.all' | translate }}</mat-option>
                 <mat-option *ngFor="let aas of appStatusData" [value]="aas.id" title="{{ aas.name }}"
                   (click)="currentAgcAppStatus = aas.id">{{ aas.name }}</mat-option>
                   <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
@@ -150,7 +150,7 @@
             </ng-container>
 
             <ng-container matColumnDef="serviceName">
-              <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'actmon.tableHeader.agcappname' | translate }}</mat-header-cell>
               <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;">
                 {{element.serviceName}} </mat-cell>
             </ng-container>

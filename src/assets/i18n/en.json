@@ -1024,6 +1024,7 @@
       "sent": "Time Email Sent",
       "accstatus": "Account Status",
       "svcname": "Application Name",
+      "agcappname": "Agency Application Name",
       "ticno": "Ticket No",
       "status": "Status",
       "agcname": "Agency Name",

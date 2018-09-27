@@ -168,11 +168,16 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       }
       if (this.navservice.flagLang) {
 
-        // this.getUsersData(this.pageCount, this.pageSize);
-        this.getAgenciesData(this.pageCount, this.pageSize);
-        this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
-        this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
-        this.getFeedbackData(this.pageCount, this.pageSize);
+        if(this.currentTab == 0)
+          this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize);
+        else if(this.currentTab == 1) {
+          this.agcSelect = 0;
+          this.getAgenciesDataByID(this.agcSelect, this.pageCount, this.pageSize);
+        } else if(this.currentTab == 2)
+          this.getPollsData(this.pageCount, this.pageSize);
+        else if(this.currentTab == 3)
+          this.getFeedbackData(this.pageCount, this.pageSize);
+
         this.getAppStatusData();
         this.commonservice.getModuleId();
       }
@@ -205,6 +210,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.getAgenciesData(this.pageCount, this.pageSize);
     this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
+    this.getPollsData(this.pageCount, this.pageSize);
     this.getFeedbackData(this.pageCount, this.pageSize);
     this.getAppStatusData();
     this.currentTab = 0;
@@ -432,7 +438,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     if(this.currentTab == 0)
       this.getUsersDataByIDNO(this.identNo, this.pageCount, this.pageSize);
     else if(this.currentTab == 1) {
-      this.agcSelect = 0;
+      // this.agcSelect = 0;
       this.getAgenciesDataByID(this.agcSelect, this.pageCount, this.pageSize);
     } else if(this.currentTab == 2)
       this.getPollsData(this.pageCount, this.pageSize);
@@ -543,6 +549,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.loading = true;
     let agencyCode, agcRefCode;
 
+    this.currentAgencyRefNo = refCode;
+
     if(refCode == 0 || refCode == '' || refCode == null) {
       if(this.startDate && this.endDate)
         agcRefCode = '&startDate='+this.startDate+'&endDate='+this.endDate;
@@ -612,7 +620,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
         if(this.feedbackList['feedbackList'].length > 0){
 
           this.feedbackList['feedbackList'].forEach(el => {
-            el.createdDate = this.changeDateFormat(el.createdDate);
+            el.createdDate = moment(new Date(el.createdDate)).format('DD/MM/YYYY h:m A');
           });
 
           this.dataSource3.data = this.feedbackList['feedbackList'];
@@ -663,7 +671,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
         if(this.pollList.list.length > 0){
 
           this.pollList.list.forEach(el => {
-            el.createDate = this.changeDateFormat(el.createDate);
+            el.createDate = moment(new Date(el.createDate)).format('DD/MM/YYYY h:m A');
           });
 
           this.dataSource2.data = this.pollList.list;
