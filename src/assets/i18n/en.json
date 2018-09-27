@@ -353,7 +353,7 @@
       "ePartUrl": "e-Participation URL",
       "ePartArchiveUrl": "e-Participation Archive URL",
       "ePartPolicyUrl": "e-Participation Policy URL",
-      "ePartSubscribeUrl": "e-Participation Subscription URL",
+      "ePartSubscribeUrl": "e-Participation Email Subscription URL",
       "rss": "e-Participation RSS URL",
       "blog": "Blog URL"
     },
