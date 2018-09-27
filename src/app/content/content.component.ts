@@ -1212,8 +1212,7 @@ export class ContentComponent implements OnInit, OnDestroy {
   checkReqValues() {
     let reqVal:any;
 
-    //,"agencyEn","agencyBm"
-    reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
+    reqVal = ["titleEn", "titleBm", "descEn", "descBm","agencyEn","agencyBm"];
 
     let nullPointers:any = [];
 
@@ -1579,6 +1578,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       this.agencyIdBm = aId;
       this.ministryNameBm = mName;
     }
+    this.checkReqValues();
     this.getAgencyByRefCode(refCode,langId);
   }
 
@@ -1615,6 +1615,7 @@ export class ContentComponent implements OnInit, OnDestroy {
             this.agencyIdBm = aId;
             this.ministryNameBm = mName;
           }
+          this.checkReqValues();
         }).bind(this));
         this.loading = false;
     }, err => {

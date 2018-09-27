@@ -1447,7 +1447,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
       this.ministryNameBm = mName;
 
     }
-    
+    this.checkReqValues();
     this.getAgencyByRefCode(refCode,langId);
   }
 
@@ -1484,6 +1484,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
             this.agencyIdBm = aId;
             this.ministryNameBm = mName;
           }
+          this.checkReqValues();
         }).bind(this));
         this.loading = false;
     }, err => {
