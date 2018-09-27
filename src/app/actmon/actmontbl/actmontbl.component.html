@@ -206,16 +206,22 @@
             <!-- svcname Column -->
             <ng-container matColumnDef="svcname">
               <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
-              
-              <!--  style="flex: 0 0 40%;" -->
               <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;">
                 {{element.serviceName}} </mat-cell>
             </ng-container>
 
+            <!-- app no Column -->
+            <ng-container matColumnDef="submissionRefno">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'actmon.tableHeader.subrefno' | translate
+                }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;">
+                {{element.submissionRefno}} </mat-cell>
+            </ng-container>
+
             <!-- name Column -->
             <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;">{{ 'actmon.tableHeader.agcname' | translate }}</mat-header-cell>
-              <mat-cell *matCellDef="let element" style="flex: 0 35%;">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;">{{ 'actmon.tableHeader.agcname' | translate }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" style="flex: 0 30%;">
                 {{ element.agencyName }}
               </mat-cell>
             </ng-container>
@@ -453,7 +459,7 @@
       </mat-tab-group>
     </div>
 
-    <div *ngIf="userList || agencyActivityList" class="float-right paddingTop-15">
+    <div *ngIf="userList || agencyActivityList || pollList || feedbackList" class="float-right paddingTop-15">
       <mat-form-field class="table_footer_pagecount">
         <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
           <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>

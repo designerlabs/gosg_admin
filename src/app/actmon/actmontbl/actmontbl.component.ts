@@ -199,7 +199,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
-    this.displayedColumns1 = ['no', 'svcname', 'name', 'status', 'date'];
+    this.displayedColumns1 = ['no', 'svcname', 'submissionRefno', 'name', 'status', 'date'];
     this.displayedColumns2 = ['no', 'question', 'answer1', 'result1', 'answer2', 'result2', 'answer3', 'result3', 'answer4', 'result4', 'answer5', 'result5', 'pollsActiveFlag', 'insertDate'];
     this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'date'];
     this.getAgenciesData(this.pageCount, this.pageSize);
