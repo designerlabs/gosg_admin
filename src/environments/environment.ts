@@ -6,10 +6,10 @@
 export const environment = {
   production: false,
   staging: false,
-  uapURL : '',
-  stagURL: '',
-  mediaURL: '',
-  mockApiURL :'',
-  baseURL: '',
-  mibisURL: ''
+  uapURL : '/',
+  stagURL: '/',
+  mediaURL: '/',
+  mockApiURL :'/',
+  baseURL: '/',
+  mibisURL: '/'
 };
