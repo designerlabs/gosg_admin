@@ -174,6 +174,7 @@ import { ViewreportComponent } from './viewreport/viewreport.component';
 import { ActmonComponent } from './actmon/actmon.component';
 import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
 import { DatePipe } from '../../node_modules/@angular/common';
+import { UsersunregisterComponent } from './usersunregister/usersunregister.component';
 // import { AnnouncementComponent } from './announcement/announcement.component';
 // import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -324,6 +325,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ViewreportComponent,
     ActmonComponent,
     ActmontblComponent,
+    UsersunregisterComponent,
     // AnnouncementComponent,
     // AnnouncementtblComponent,  
   ],

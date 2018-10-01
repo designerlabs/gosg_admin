@@ -326,7 +326,8 @@
       "filterby": "Filter By",
       "all": "All",
       "email": "Email",
-      "icno": "IC No."
+      "icno": "IC No.",
+      "id": "IC No. / Passport No"
     },
     "component":{
       "email":"Email",
@@ -990,10 +991,35 @@
     }
   },
   "usermgmt": {
-    "header": "User Management",
+    "header": "Registered User Management",
     "tableHeader":{
       "fullname": "Fullname",
       "email": "Email",
+      "accstatus": "Account Status"
+    },
+    "tablebottom":{
+      "users": "users"
+    },
+    "component": {
+      "users": "User Account Status",
+      "isstaff": "Is Staff?",
+      "dob": "Date of Birth",
+      "citizenship": "Citizenship",
+      "country": "Country",
+      "gender": "Gender",
+      "race": "Race",
+      "religion": "Religion",
+      "address": "Address",
+      "mobilenum": "Mobile Number",
+      "select": "Select Account Status"
+    }
+  },
+  "userunregistermgmt": {
+    "header": "Unregistered User Management",
+    "tableHeader":{
+      "fullname": "Fullname",
+      "email": "Email",
+      "passport": "Passport No",
       "accstatus": "Account Status"
     },
     "tablebottom":{

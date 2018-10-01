@@ -1,0 +1,127 @@
+<div class="container right-content">
+
+  <div class="curdHeader">
+    <div class="col-md-4 curdHeadingLeft">
+        <h3>{{ 'userunregistermgmt.header' | translate }}</h3>
+    </div>
+</div>
+
+  <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+   </div>
+<div *ngIf="commonservice.isRead">
+    <div class="example-container mat-elevation-z8">
+
+      <div class="row">
+          <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
+              <mat-form-field class="example-full-width">
+                  <mat-select  placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="filterType($event)">
+                      <mat-option [value]="1">{{ 'common.filterby.all' | translate }}</mat-option>
+                      <mat-option [value]="2">{{ 'common.filterby.email' | translate }}</mat-option>
+                      <mat-option [value]="3">{{ 'common.filterby.id' | translate }}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
+
+          <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1 && filterTypeVal != 0">
+              <mat-form-field>
+                <input #keyword matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+          </div>
+      </div>
+
+      <mat-table #table [dataSource]="dataSource">
+
+          <!-- No Column -->
+        <ng-container matColumnDef="no">
+          <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+          <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+            {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+          </mat-cell>
+        </ng-container>
+
+        <!-- slideTitle Column -->
+        <ng-container matColumnDef="username">
+          <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;"> {{ 'usermgmt.tableHeader.fullname' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 20%;"> {{element.fullName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'usermgmt.tableHeader.email' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.email}} </mat-cell>
+          </ng-container>
+
+        <ng-container matColumnDef="identno">
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 15%;"> {{ 'common.filterby.icno' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 15%;"> {{element.identificationNo}} </mat-cell>
+          </ng-container>
+
+        <ng-container matColumnDef="passport">
+            <mat-header-cell *matHeaderCellDef style="flex: 0 0 15%;"> {{ 'userunregistermgmt.tableHeader.passport' | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 15%;"> {{element.passportNo}} </mat-cell>
+          </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef class="actionColumn"> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="actionColumn">
+            <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete" (click)="deleteRow.show()">
+              <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i>
+            </button>
+            <app-confirm-dialog  #deleteRow 
+            [title]="'fa fa-exclamation-triangle'" 
+            [content]="'common.msg.delete'"
+            [state]="'bg_header bg_warn_header'"
+            [isReset]="'true'" 
+            (resetMethod)="deleteItem(element.identificationNo)">
+            </app-confirm-dialog> 
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+
+
+    </div>
+
+    <div class="float-right paddingTop-15">
+      <mat-form-field class="table_footer_pagecount">
+        <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+            <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+          <!-- <mat-option value="10">10</mat-option>
+          <mat-option value="30">25</mat-option>
+          <mat-option value="50">50</mat-option> -->
+        </mat-select>
+      </mat-form-field>
+      <span class="float-right">
+        <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+          <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+          <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+          <strong>{{recordTable?.totalElements}}</strong> {{ 'usermgmt.tablebottom.users' | translate }}</span>
+        <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+            <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+        </button>
+        <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, recordTable?.totalPages)">
+            <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+        </button>
+      </span>
+    </div>
+</div>
+
+
+</div>
+
+
+
+<!--
+<app-confirm-dialog  #deleteModal
+  [title]="'common.icon.warn'"
+  [content]="'common.msg.delete'"
+  [state]="'common.state.warn'"
+  [isReset]="'true'"
+  (resetMethod)="resetMethod($event, data.messageId)">
+</app-confirm-dialog> -->

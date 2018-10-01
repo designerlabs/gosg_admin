@@ -136,6 +136,7 @@ import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.com
 import { ViewreportComponent } from './viewreport/viewreport.component';
 import { ActmonComponent } from './actmon/actmon.component';
 import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
+import { UsersunregisterComponent } from './usersunregister/usersunregister.component';
 
 // import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 // import { AnnouncementComponent } from './announcement/announcement.component';
@@ -321,6 +322,8 @@ export const appRoutes: Routes = [
 {path: 'admin/permission/:id', component: UserpermissionComponent},
 {path: 'userlist', component: UserdetailstblComponent},
 {path: 'userlist/:id', component: UserComponent},
+{path: 'unreguserslist', component: UsersunregisterComponent},
+// {path: 'unreguserslist/:id', component: UsersunregisterComponent},
 {path: 'groupmodule' , component: GroupstblComponent},
 {path: 'groups/add' , component: GroupsComponent},
 {path: 'groups/:id', component: GroupsComponent},

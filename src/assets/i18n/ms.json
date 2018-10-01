@@ -326,7 +326,8 @@
       "filterby": "Tapisan Mengikut",
       "all": "Semua",
       "email": "Emel",
-      "icno": "No. KP"
+      "icno": "No. KP",
+      "id": "No. KP / No Passpot"
     },
     "component":{
       "email":"Emel",
@@ -989,10 +990,35 @@
     }
   },
   "usermgmt": {
-    "header": "Pengurusan Pengguna",
+    "header": "Pengurusan Pengguna Berdaftar",
     "tableHeader":{
       "fullname": "Nama Penuh",
       "email": "Emel",
+      "accstatus": "Status Akaun"
+    },
+    "tablebottom":{
+      "users": "pengguna"
+    },
+    "component": {
+      "users": "Status Akaun Pengguna",
+      "isstaff": "Kakitangan?",
+      "dob": "Tarikh Lahir",
+      "citizenship": "Kewarganegaraan",
+      "country": "Negara",
+      "gender": "Jantina",
+      "race": "Bangsa",
+      "religion": "Agama",
+      "address": "Alamat",
+      "mobilenum": "No. Telefon",
+      "select": "Pilih Status Akaun"
+    }
+  },
+  "userunregistermgmt": {
+    "header": "Pengurusan Pengguna Tidak Berdaftar",
+    "tableHeader":{
+      "fullname": "Nama Penuh",
+      "email": "Emel",
+      "passport": "No Passpot",
       "accstatus": "Status Akaun"
     },
     "tablebottom":{
