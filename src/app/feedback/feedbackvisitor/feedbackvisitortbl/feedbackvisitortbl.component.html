@@ -68,6 +68,14 @@
                         {{element.feedbackEmail}}
                     </mat-cell>
                 </ng-container>
+
+                <!-- Date Column -->
+                <ng-container matColumnDef="date">
+                    <mat-header-cell class="text-align-Left" class="dateColumn" *matHeaderCellDef> {{ 'common.tableHeader.date' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left" class="dateColumn" *matCellDef="let element">
+                        {{submitDate(element.createdDate)}}
+                    </mat-cell>
+                </ng-container>
             
                 <!-- status Column -->
                 <ng-container matColumnDef="status">

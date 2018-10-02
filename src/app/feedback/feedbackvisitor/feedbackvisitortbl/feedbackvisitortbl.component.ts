@@ -24,7 +24,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
 
   public loading = false;
   public recordList = null;
-  displayedColumns = ['num','type', 'name','email', 'status', 'action'];
+  displayedColumns = ['num','type', 'name','email', 'date', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -44,6 +44,7 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
   recordTable = null;
   kword: any;
   listHistory = null;
+  displayCD: any;
 
   private subscriptionLang: ISubscription;
   private subscriptionContentCreator: ISubscription;
@@ -225,6 +226,12 @@ export class FeedbackvisitortblComponent implements OnInit, OnDestroy {
         
       });
     }
+  }
+
+  submitDate(createdDate){
+    this.displayCD = moment(new Date(createdDate)).format('DD/MM/YYYY');
+
+    return this.displayCD;
   }
 
   resetSearch() {
