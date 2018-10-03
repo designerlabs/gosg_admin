@@ -1,7 +1,7 @@
 <!-- VIEW: ADD/EDIT ERROR -->
 <div class="container right-content">
 
-
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading>
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
       <h3>{{ pageMode }} {{ 'usermgmt.component.users' | translate }}</h3>
@@ -95,3 +95,6 @@
     <div class="col-md-12">&nbsp;</div>
   </form>
 </div>
+<app-confirm-dialog #resetModal [title]="'common.icon.warn'" [content]="'common.msg.reset'" [state]="'bg_header bg_warn_header'"
+  [isReset]="'true'" (resetMethod)="myFunction()">
+</app-confirm-dialog>

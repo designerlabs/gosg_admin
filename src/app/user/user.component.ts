@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { CommonService } from '../service/common.service';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
@@ -19,10 +19,9 @@ import { NavService } from './../nav/nav.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./user.component.css']
 })
-export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
+export class UserComponent implements OnInit, OnDestroy {
 
   AccStatusData: any;
   date= new Date();
@@ -156,10 +155,6 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
     }else if(!this.commonservice.isUpdate){
       this.updateForm.disable();
     }
-  }
-
-  ngAfterViewInit() {
-
   }
 
   back(){
