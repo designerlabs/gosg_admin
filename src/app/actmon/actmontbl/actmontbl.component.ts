@@ -485,15 +485,15 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     // this.dataUrl = this.appConfig.urlUserList;
     this.currentUserIDNO = id;
     let idno;
-    if(id == 0 || id == '' || id == null) {
-      idno='';
-    }else if(this.startDate && this.endDate && id){
+   if(this.startDate && this.endDate && id){
         idno = '&identificationNo='+id+'&startDate='+this.startDate+'&endDate='+this.endDate;
     }else if(id){
       idno = '&identificationNo='+id;
     }else if(this.startDate && this.endDate && !id){
       idno = '&startDate='+this.startDate+'&endDate='+this.endDate;
-    }else{
+    }else if(id == 0 || id == '' || id == null) {
+      idno='';
+    }else {
       idno = '';
     }
 
