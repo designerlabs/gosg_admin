@@ -466,7 +466,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     // this.dataUrl = this.appConfig.urlUserList;
     this.currentUserIDNO = id;
     let idno;
-
+    debugger;
     if(id == 0 || id == '' || id == null) {
       idno='';
     }else{
