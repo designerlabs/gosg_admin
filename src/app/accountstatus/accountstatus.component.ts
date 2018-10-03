@@ -21,7 +21,7 @@ export class AccountstatusComponent implements OnInit {
 
   public accEn: FormControl;
   public accBm: FormControl;
-  public active: FormControl
+  public active: FormControl;
 
   public dataUrl: any;
   public recordList: any;
