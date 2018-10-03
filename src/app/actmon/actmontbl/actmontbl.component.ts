@@ -104,7 +104,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   identNo: any;
 
   applyFilter(val) {
-    
+
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
@@ -133,7 +133,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     if(event.target.scrollTop >= (event.target.scrollHeight - 250)) {
 
         this.getFilterList(this.pageCount, this.searchUserResult.length+10, this.value,this.filterTypeVal);
-        
+
       }
   }
 
@@ -242,7 +242,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     } else {
     }
     this.startDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
-    
+
     this.checkReqValues();
   }
 
@@ -259,7 +259,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     } else {
     }
     this.endDate = moment(new Date(this.events[0])).format('YYYY-MM-DD');
-    
+
     this.checkReqValues();
   }
 
@@ -402,7 +402,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
             this.searchUserResult = [];
             this.dataSource.data = [];
             this.showNoData = true;
-            
+
             this.isActiveList = false;
             // this.seqPageNum = this.recordList.pageNumber;
             // this.seqPageSize = this.recordList.pageSize;
@@ -421,7 +421,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
+
   // onClick
   getVal(idno, email){
       if(this.usertype == 2){
@@ -468,12 +468,13 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     let idno;
 
     if(id == 0 || id == '' || id == null) {
-      idno = '';
-    } else {
-      if(this.startDate != '' && this.endDate != '')
+      idno='';
+    }else{
+      if(this.startDate && this.endDate){
         idno = '&identificationNo='+id+'&startDate='+this.startDate+'&endDate='+this.endDate;
-      else
+      }else{
         idno = '&identificationNo='+id;
+      }
     }
 
     this.commonservice.readProtected('monitoring/userservice', page, size, '', this.languageId+idno).subscribe(data => {
@@ -606,7 +607,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   getFeedbackData(page?, size?) {
     let dateRange;
     this.loading = true;
-    
+
     if(this.startDate && this.endDate)
       dateRange = this.startDate+'/'+this.endDate;
     else
@@ -736,7 +737,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
 
   pageChange(event, totalPages) {
-    
+
     if(this.currentTab == 0)
       this.getUsersDataByIDNO(this.currentUserIDNO, this.pageCount, event.value);
     else if(this.currentTab == 1)
