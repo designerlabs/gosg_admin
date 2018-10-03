@@ -338,6 +338,12 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
         this.userList = data;
         if(this.userList.userList.length > 0){
+
+          this.userList.userList.forEach(el => {
+            el.receivedDate = this.changeDateFormat(el.receivedDate);
+          });
+
+
           this.dataSource.data = this.userList.userList;
           this.seqPageNum = this.userList.pageNumber;
           this.seqPageSize = this.userList.pageSize;
@@ -347,6 +353,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
           this.showNoData = false;
         }else{
           this.dataSource.data = [];
+          this.userList = null;
           this.showNoData = true;
         }
 
@@ -369,13 +376,24 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
     if(filterVal == 2){  // by Email
       this.dataUrl = 'usermanagement';
-      param = '&email='+keyword+'&page='+page+'&size='+size
+      if(this.startDate && this.endDate){
+        param = '&email='+keyword+'&page='+page+'&size='+size+'&startDate='+this.startDate+'&endDate='+this.endDate;
+      }else{
+        param = '&email='+keyword+'&page='+page+'&size='+size;
+      }
+
+
 
     }
 
     else if (filterVal == 3){ // by keywords
       this.dataUrl = 'usermanagement';
-      param = '&ic='+keyword+'&page='+page+'&size='+size
+      if(this.startDate && this.endDate){
+        param = '&identificationNo='+keyword+'&page='+page+'&size='+size+'&startDate='+this.startDate+'&endDate='+this.endDate;
+      }else{
+        param = '&identificationNo='+keyword+'&page='+page+'&size='+size;
+      }
+
     }
 
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
@@ -466,15 +484,15 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     // this.dataUrl = this.appConfig.urlUserList;
     this.currentUserIDNO = id;
     let idno;
-    debugger;
     if(id == 0 || id == '' || id == null) {
       idno='';
     }else{
-      if(this.startDate && this.endDate){
-        idno = '&identificationNo='+id+'&startDate='+this.startDate+'&endDate='+this.endDate;
-      }else{
-        idno = '&identificationNo='+id;
-      }
+
+    }
+    if(this.startDate && this.endDate){
+      idno = '&startDate='+this.startDate+'&endDate='+this.endDate;
+    }else{
+      idno = '';
     }
 
     this.commonservice.readProtected('monitoring/userservice', page, size, '', this.languageId+idno).subscribe(data => {
