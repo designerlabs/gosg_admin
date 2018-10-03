@@ -208,10 +208,11 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.displayedColumns2 = ['no', 'question', 'answer1', 'result1', 'answer2', 'result2', 'answer3', 'result3', 'answer4', 'result4', 'answer5', 'result5', 'pollsActiveFlag', 'insertDate'];
     this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'date'];
     this.getAgenciesData(this.pageCount, this.pageSize);
-    this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
+
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
     this.getPollsData(this.pageCount, this.pageSize);
     this.getFeedbackData(this.pageCount, this.pageSize);
+    this.getUsersDataByIDNO(0, this.pageCount, this.pageSize);
     this.getAppStatusData();
     this.currentTab = 0;
     this.usertype = 0;
@@ -486,10 +487,11 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     let idno;
     if(id == 0 || id == '' || id == null) {
       idno='';
-    }else{
-
-    }
-    if(this.startDate && this.endDate){
+    }else if(this.startDate && this.endDate && id){
+        idno = '&identificationNo='+id+'&startDate='+this.startDate+'&endDate='+this.endDate;
+    }else if(id){
+      idno = '&identificationNo='+id;
+    }else if(this.startDate && this.endDate && !id){
       idno = '&startDate='+this.startDate+'&endDate='+this.endDate;
     }else{
       idno = '';
