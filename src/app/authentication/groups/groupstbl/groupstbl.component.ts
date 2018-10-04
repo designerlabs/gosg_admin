@@ -11,8 +11,8 @@ import 'rxjs/add/operator/finally';
 @Component({
   selector: 'app-groupstbl',
   templateUrl: './groupstbl.component.html',
-  styleUrls: ['./groupstbl.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./groupstbl.component.css']
+
 })
 export class GroupstblComponent implements OnInit {
   dataUrl: any;
@@ -30,9 +30,9 @@ export class GroupstblComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   // tslint:disable-next-line:max-line-length
   constructor(
-    private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
     private router: Router,
     private route:ActivatedRoute,
     private translate: TranslateService,
@@ -63,7 +63,7 @@ export class GroupstblComponent implements OnInit {
 
     /* LANGUAGE FUNC */
 
-    
+
   }
 
   ngOnInit() {
@@ -78,14 +78,14 @@ export class GroupstblComponent implements OnInit {
   }
 
   getGroupList(count, size) {
-    
+
     this.dataUrl = this.appConfig.urlGroupList;
     this.loading = true;
     this.commonservice.readProtected('authorization/module/groupListView',count, size, '', this.languageId)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
-        
+
         this.groupList = data;
         this.dataSource.data = this.groupList.moduleGroupListViewList;
         this.seqPageNum = this.groupList.pageNumber;
@@ -96,16 +96,16 @@ export class GroupstblComponent implements OnInit {
       }).bind(this));
       this.loading = false;
 
-      
+
     },
     error => {
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-      this.loading = false;       
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+      this.loading = false;
     });
   }
 
   editGroup(gId) {
-    
+
     this.router.navigate(['groups', gId]);
   }
 
@@ -137,7 +137,7 @@ export class GroupstblComponent implements OnInit {
     this.deleteMail(msgId);
   }
 
-  
+
   deleteMail(msgId){
     this.loading = true;
     this.commonservice.delete(msgId,'authorization/module/group/').subscribe(
@@ -151,8 +151,8 @@ export class GroupstblComponent implements OnInit {
         this.loading = false;
       },
       error => {
-        this.toastr.error(JSON.parse(error._body).statusDesc, '');   
-        this.loading = false;         
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
+        this.loading = false;
       });
   }
 }

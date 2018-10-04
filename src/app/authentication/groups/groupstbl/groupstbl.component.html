@@ -27,12 +27,12 @@
         </ng-container>   -->
       <!-- groupName Column -->
       <ng-container matColumnDef="moduleGroupName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 30%'"> {{ 'table.group.moduleGroupName' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 30%'"> {{ 'table.group.moduleGroupName' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" [style.flex]="'0 0 30%'"> {{element.moduleGroupName}} </mat-cell>
       </ng-container>
       <!-- User Type Column -->
       <ng-container matColumnDef="moduleName" >
-        <mat-header-cell *matHeaderCellDef mat-sort-header [style.flex]="'0 0 40%'"> {{ 'table.group.moduleName' | translate }} </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef [style.flex]="'0 0 40%'"> {{ 'table.group.moduleName' | translate }} </mat-header-cell>
         <mat-cell *matCellDef="let element" class="padding5" [style.flex]="'0 0 40%'">
           <span class="tag-style"*ngFor="let ele of (element.modules.length > 3 ? element.modules.slice(0,3):  element.modules)">
             {{ele.moduleName}}
@@ -51,7 +51,7 @@
       </ng-container>
       <!-- isActive Column -->
       <ng-container matColumnDef="isActive" >
-          <mat-header-cell mat-sort-header *matHeaderCellDef class="statusColumn"> Status </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef class="statusColumn"> Status </mat-header-cell>
           <mat-cell *matCellDef="let element" class="statusColumn">
             <i *ngIf="element.active == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
             <i *ngIf="element.active == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
@@ -59,7 +59,7 @@
         </ng-container>
       <!-- action Column -->
       <ng-container matColumnDef="action" >
-        <mat-header-cell mat-sort-header class="text-align-Center" *matHeaderCellDef class="actionColumn"> {{ 'table.action' | translate }} </mat-header-cell>
+        <mat-header-cell class="text-align-Center" *matHeaderCellDef class="actionColumn"> {{ 'table.action' | translate }} </mat-header-cell>
         <mat-cell class="text-align-Center padding5" *matCellDef="let element" class="actionColumn">
             <button mat-mini-fab class="bg_orange" *ngIf="commonservice.isUpdate" (click)="editGroup(element.moduleGroupId)">
               <i *ngIf="commonservice.isUpdate" [ngClass]="commonservice.icon.update" title="{{ 'common.title.update' | translate }}"></i></button>&nbsp;
