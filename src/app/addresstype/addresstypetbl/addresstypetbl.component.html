@@ -26,7 +26,7 @@
                 </mat-form-field>
             </div> -->
 
-            <mat-table #table [dataSource]="dataSource" matSort>
+            <mat-table #table [dataSource]="dataSource">
 
                 <!-- num Column -->
                 <ng-container matColumnDef="num">
@@ -83,6 +83,8 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
+
+            <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
 
         </div>
 
