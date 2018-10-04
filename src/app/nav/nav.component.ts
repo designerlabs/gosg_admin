@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
+import { APP_CONFIG, AppConfig } from '../config/app.config.module';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { NavService } from './nav.service';
 
@@ -12,7 +13,7 @@ export class NavComponent implements OnInit {
   langId = this.langId;
   imgSrc: string = 'logo_en';
   lang = 'en';
-  constructor(private translate: TranslateService, private navservice:NavService) {
+  constructor(private translate: TranslateService, private navservice:NavService,     @Inject(APP_CONFIG) private appConfig: AppConfig) {
     this.lang = translate.currentLang;
     translate.addLangs(['en', 'ms']);
 
@@ -23,7 +24,7 @@ export class NavComponent implements OnInit {
       translate.setDefaultLang('en');
       translate.use('en');
     }
-    
+
     if (translate.getDefaultLang() == 'ms') {
       this.currlang = 'English';
       this.currlangMOB = 'EN';
@@ -34,7 +35,7 @@ export class NavComponent implements OnInit {
       this.langId = 1;
     }
 
-    
+
 
     translate.onLangChange.subscribe((event: LangChangeEvent) => {
 
@@ -66,7 +67,7 @@ export class NavComponent implements OnInit {
   @Input() state:string;
   @Input() getMail:string;
   @Input() superStatus:string;
-  
+
   ngOnInit() {
     if(this.currlang == 'English'){
       this.isActive = true;
@@ -81,6 +82,10 @@ export class NavComponent implements OnInit {
     if(!localStorage.getItem('langID')){
       localStorage.setItem('langID', this.langId);
     }
+  }
+
+  logout(){
+    location.href = this.appConfig.urlLog +'uapsso/Logout?return='+this.appConfig.urlLog+'portal-admin-protected/';
   }
 
 
@@ -100,6 +105,6 @@ export class NavComponent implements OnInit {
     }
     localStorage.setItem('langID', this.langId);
     this.navservice.getEventLang();
- 
+
   }
 }

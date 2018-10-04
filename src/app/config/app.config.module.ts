@@ -64,12 +64,14 @@ export class AppConfig {
     externalMediaURL: string;
     urlHtmlParse: string;
     urlmibis: string;
+    urlLog: string;
 
 }
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
     urlCommon: commonURL,
+    urlLog: devURL,
     urlService: serviceURL,
     urlMenu: commonURL + 'menu',
     baseURL: 'http://localhost/locale-api/',
