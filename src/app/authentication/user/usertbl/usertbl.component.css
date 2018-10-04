@@ -1,48 +1,48 @@
 .right-content {
     width: 100%;
     }
-    
+
     .example-container {
     display: flex;
     flex-direction: column;
     min-width: 300px;
     }
-    
+
     .bg-form-header {
     padding: 10px;
     background: transparent;
     border-bottom: 1px solid #ccc;
     }
-    
+
     .example-full-width {
     width: 100%;
     }
-    
+
     .activeFontColor {
     color: green;
     }
-    
+
     .inactiveFontColor {
     color:red;
     }
-    
+
     .backTitle {
     margin-left: -2%;
     cursor: pointer;
     }
-    
+
     .backTitle:hover {
     margin-left: -2%;
     color: #ff4081;
     cursor: pointer;
     }
-    
+
     .addBtn{
     /* position: absolute; */
     /* right: 10px;
     top: 65%; */
     }
-    
+
     .addBtn:hover {
     /* position: absolute; */
     background-color: rgb(109, 185, 38);
@@ -50,7 +50,7 @@
     /* right: 10px;
     top: 65%; */
     }
-    
+
     .addBtn-active {
     /* position: absolute; */
     background-color: rgb(109, 185, 38);
@@ -58,7 +58,7 @@
     /* right: 10px;
     top: 65%; */
     }
-    
+
     .backBtn a {
     position: absolute;
     right: 10px;
@@ -66,7 +66,7 @@
     cursor: pointer;
     text-decoration: none
     }
-    
+
     .backBtn:hover a {
     position: absolute;
     right: 10px;
@@ -74,19 +74,19 @@
     cursor: pointer;
     text-decoration: none
     }
-    
+
     .user_list_container{
         background:#eee;
-        height:500px; 
+        height:500px;
         width:20%;
         float:left;
         padding: 0px;
         overflow: auto;
         box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
     }
-    
-    
-    
+
+
+
     .user_list_container > li{
         color: #333;
         /* border-bottom: 1px solid #d0d0d0; */
@@ -105,8 +105,8 @@
         background: #fff;
         color: #000;
     }
-    
-    
+
+
     .user_list_container > li:hover {
         cursor: pointer;
         color: #fff;
@@ -146,6 +146,7 @@
         margin: 0px;
         text-decoration: none;
         color: #000;
+        cursor: pointer;
         background:#fff;
         text-align: left;
     }

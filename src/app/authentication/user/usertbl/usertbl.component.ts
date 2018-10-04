@@ -292,7 +292,7 @@ export class UsertblComponent implements OnInit {
     this.router.navigate(['slider']);
   }
 
-  getValue(type, val, usrId){
+  getValue(event, type, val, usrId){
     event.preventDefault();
     this.userId = usrId;
     this.isActive = false;
