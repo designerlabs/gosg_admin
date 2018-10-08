@@ -1231,21 +1231,23 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
   }
 
   selectedAgencyApp(e){
+    if(e.value){
+      let dataList = this.agencyAppData;
+      let idAgencyApp: any;
+      let codeAgencyApp: any;
 
-    let dataList = this.agencyAppData;
-    let idAgencyApp: any;
-    let codeAgencyApp: any;
+      for(let i=0; i<dataList.length; i++){
 
-    for(let i=0; i<dataList.length; i++){
-
-      if(e.value == dataList[i].agencyApplicationId){
-        idAgencyApp = dataList[i].agencyApplicationId;
-        codeAgencyApp = dataList[i].agencyApplicationCode;
+        if(e.value == dataList[i].agencyApplicationId){
+          idAgencyApp = dataList[i].agencyApplicationId;
+          codeAgencyApp = dataList[i].agencyApplicationCode;
+        }
       }
+
+      this.updateForm.get('agencyApp').setValue(idAgencyApp);
+      this.getAgencyAppEnBm(codeAgencyApp);
     }
 
-    this.updateForm.get('agencyApp').setValue(idAgencyApp);
-    this.getAgencyAppEnBm(codeAgencyApp);
 
   }
 
