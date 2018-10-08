@@ -6,10 +6,11 @@
 export const environment = {
   production: false,
   staging: false,
-  uapURL : '/',
-  stagURL: '/',
-  mediaURL: '/',
-  mockApiURL :'/',
-  baseURL: '/',
-  mibisURL: '/'
+  uapURL : 'https://gosgadmin.mimos.my/',
+  stagURL: 'https://gosgstag.mimos.my/',
+  mediaURL: 'https://gosgstag.mimos.my/',
+  mockApiURL :'https://gosgstag.mimos.my/',
+  baseURL: 'https://gosgstag.mimos.my/',
+  mibisURL: 'https://gosgadmin.mimos.my/'
+
 };
