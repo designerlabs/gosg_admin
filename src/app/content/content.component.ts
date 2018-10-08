@@ -840,7 +840,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[1].contentDescription = formValues.descBm;
       body[0].contentSort = formValues.seqEng;
       body[1].contentSort = formValues.seqMy;
-      
+
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
       // body[0].contentCitizenFlag = formValues.citizenflag;
@@ -925,7 +925,7 @@ export class ContentComponent implements OnInit, OnDestroy {
       body[0].contentDescription = formValues.descEn;
       body[1].contentDescription = formValues.descBm;
       body[0].contentSort = formValues.seqEng;
-      body[1].contentSort = formValues.seqMy;      
+      body[1].contentSort = formValues.seqMy;
       body[0].contentActiveFlag = formValues.active;
       body[0].agency.agencyId = this.agencyIdEn;
       // body[0].contentCitizenFlag = formValues.citizenflag;
@@ -1364,20 +1364,23 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   selectedAgencyApp(e){
 
-    let dataList = this.agencyAppData;
-    let idAgencyApp: any;
-    let codeAgencyApp: any;
+    if(e.value){
+      let dataList = this.agencyAppData;
+      let idAgencyApp: any;
+      let codeAgencyApp: any;
 
-    for(let i=0; i<dataList.length; i++){
+      for(let i=0; i<dataList.length; i++){
 
-      if(e.value == dataList[i].agencyApplicationId){
-        idAgencyApp = dataList[i].agencyApplicationId;
-        codeAgencyApp = dataList[i].agencyApplicationCode;
+        if(e.value == dataList[i].agencyApplicationId){
+          idAgencyApp = dataList[i].agencyApplicationId;
+          codeAgencyApp = dataList[i].agencyApplicationCode;
+        }
       }
-    }
 
-    this.updateForm.get('agencyApp').setValue(idAgencyApp);
-    this.getAgencyAppEnBm(codeAgencyApp);
+      this.updateForm.get('agencyApp').setValue(idAgencyApp);
+      this.getAgencyAppEnBm(codeAgencyApp);
+
+    }
 
   }
 
@@ -1558,7 +1561,7 @@ export class ContentComponent implements OnInit, OnDestroy {
     });
   }
 
-  getValue(aId, aName, mName, refCode, langId){    
+  getValue(aId, aName, mName, refCode, langId){
 
     if(langId == 1) {
       this.agencyEn = this.updateForm.get('agencyEn').value;
