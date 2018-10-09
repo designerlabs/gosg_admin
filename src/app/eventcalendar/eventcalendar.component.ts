@@ -585,7 +585,6 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
   addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
     let year, month, day;
     
-    
     this.events = [];
     this.events.push(`${event.value}`);
     this.sdt = new Date(this.events[0]).getTime();
@@ -597,19 +596,20 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
     this.eMinDate = new Date(year,month,day);
     this.edt = new Date(year,month,day).getTime();
-    this.updateForm.get('end').setValue(new Date(this.edt).toISOString());
+    //this.updateForm.get('end').setValue(new Date(this.edt).toISOString());
+    this.updateForm.get('end').setValue(null);
     this.edt = null;
 
     this.checkReqValues()
   }
 
   addEndEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+
     
     this.events = [];
     this.events.push(`${event.value}`);
     this.edt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
-    
     
     this.checkReqValues()
   }
