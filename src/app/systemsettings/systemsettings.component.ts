@@ -291,7 +291,7 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
   validValue(formValues: any){
 
     if(formValues.value != null){
-      let validValue= (formValues.value)?(formValues.value).replace(/[`~!#$%^&*@()_|+\-=÷¿?;'",<>\{\}\[\]\\]/gi, "") : '';
+      let validValue= (formValues.value)?(formValues.value).replace(/[`~!#$%^&*@() |+\÷¿?;'",<>\{\}\[\]\\]/gi, "") : '';
       this.updateForm.get('value').setValue(validValue);
     }
     this.checkReqValues();
