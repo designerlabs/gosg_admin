@@ -26,7 +26,8 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput tabindex="1" placeholder="{{ 'country.tableHeader.countryname' | translate }}" formControlName="countryName" (keyup)="checkReqValues()" required>
+              <input matInput tabindex="1" placeholder="{{ 'country.tableHeader.countryname' | translate }}" formControlName="countryName" 
+                (keyup)="validCountryName(updateForm.value)" required>
               <mat-error *ngIf="updateForm.controls.countryName.hasError('required')">
                 {{ 'country.err.name' | translate }}
               </mat-error>
@@ -42,7 +43,8 @@
           <div class="col-md-12">&nbsp;</div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput tabindex="2" placeholder="{{ 'country.tableHeader.countrycode' | translate }}" formControlName="countryCode" (keyup)="checkReqValues()" required>
+              <input matInput tabindex="2" placeholder="{{ 'country.tableHeader.countrycode' | translate }}" formControlName="countryCode"
+              (keyup)="validCountryCode(updateForm.value)" required maxlength="3">
               <mat-error *ngIf="updateForm.controls.countryCode.hasError('required')">
                 {{ 'country.err.code' | translate }}
               </mat-error>
@@ -50,7 +52,8 @@
           </div>
           <div class="col-md-6">
             <mat-form-field class="example-full-width">
-              <input matInput tabindex="3" placeholder="{{ 'country.tableHeader.dialcode' | translate }}" formControlName="countryDialCode" (keyup)="checkReqValues()" required>
+              <input matInput tabindex="3" placeholder="{{ 'country.tableHeader.dialcode' | translate }}" formControlName="countryDialCode" 
+              (keyup)="validDialCode(updateForm.value)" required maxlength="7">
               <mat-error *ngIf="updateForm.controls.countryDialCode.hasError('required')">
                 {{ 'country.err.dialcode' | translate }}
               </mat-error>
