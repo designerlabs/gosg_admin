@@ -130,7 +130,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     setTimeout(()=>{
       this.isActiveList = false;
       this.searchUserResult = [''];
-    }, 3000);
+    }, 600);
     
     ev.preventDefault();
   }
