@@ -126,8 +126,12 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   closePanel(ev){
-    this.isActiveList = false;
-    this.searchUserResult = [''];
+    
+    setTimeout(()=>{
+      this.isActiveList = false;
+      this.searchUserResult = [''];
+    }, 3000);
+    
     ev.preventDefault();
   }
 
