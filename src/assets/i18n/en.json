@@ -530,7 +530,7 @@
     },
     "component": {
       "header": "Agency Application",
-      "isdoc": "is Document",
+      "isdoc": "Downloadable Link",
       "websiteURL": "Website URL"
     },
     "select":"Select Agency Application"
