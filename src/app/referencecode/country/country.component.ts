@@ -177,7 +177,7 @@ export class CountryComponent implements OnInit, OnDestroy {
 
   validDialCode(formValue: any){
     if(formValue.countryDialCode != null){
-      let validCD = (formValue.countryDialCode)?(formValue.countryDialCode).replace(/[^0-9]/ig, "").toUpperCase() : '';
+      let validCD = (formValue.countryDialCode)?(formValue.countryDialCode).replace(/[^0-9-]/ig, "").toUpperCase() : '';
       this.updateForm.get('countryDialCode').setValue(validCD);
     }
     this.checkReqValues();
@@ -210,7 +210,9 @@ export class CountryComponent implements OnInit, OnDestroy {
   }
 
   myFunction() {  
-    this.updateForm.reset();
+    //this.updateForm.reset();
+    this.updateForm.get('countryName').setValue('');
+    this.updateForm.get('countryDialCode').setValue('');
     this.checkReqValues();
   }
 
