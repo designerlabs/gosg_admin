@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy, ElementRef} from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -90,6 +90,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  @ViewChild('spanel') private spanel : ElementRef; 
+
   dataSource = new MatTableDataSource<object>(this.userList);
   dataSource1 = new MatTableDataSource<object>(this.agencyActivityList);
   dataSource2 = new MatTableDataSource<object>(this.pollList);
@@ -103,12 +105,11 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   usertype: any;
   identNo: any;
 
-  applyFilter(val) {
-
+  applyFilter(event) {
+   let val = event.target.value;
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
-
   }
 
   filterType(filterVal) {
@@ -122,6 +123,15 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     // this.agencyActivityList = null;
     this.showNoData = false;
 
+  }
+
+  onKeydown(event){
+    let element = event.srcElement.nextElementSibling; // get the sibling element
+
+    if(element == null)  // check if its null
+        return;
+    else
+        element.focus();   // focus if not null
   }
 
   agcFilterType(filterVal) {
@@ -390,9 +400,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     else if (filterVal == 3){ // by keywords
       this.dataUrl = 'usermanagement';
       if(this.startDate && this.endDate){
-        param = '&identificationNo='+keyword+'&page='+page+'&size='+size+'&startDate='+this.startDate+'&endDate='+this.endDate;
+        param = '&ic='+keyword+'&page='+page+'&size='+size+'&startDate='+this.startDate+'&endDate='+this.endDate;
       }else{
-        param = '&identificationNo='+keyword+'&page='+page+'&size='+size;
+        param = '&ic='+keyword+'&page='+page+'&size='+size;
       }
 
     }
@@ -400,11 +410,11 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
       this.loading = true;
+      console.log(this.dataUrl);
       this.commonservice.readProtected(this.dataUrl,'','','',this.languageId+param).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
-
           if(this.recordList.userList.length > 0){
 
             this.searchUserResult = this.recordList.userList;
