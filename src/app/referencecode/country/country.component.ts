@@ -147,7 +147,7 @@ export class CountryComponent implements OnInit, OnDestroy {
         this.updateForm.get('countryName').setValue(this.countryData.countryName);
         this.updateForm.get('countryCode').setValue(this.countryData.countryCode);
         this.updateForm.get('countryDialCode').setValue(this.countryData.countryDialCode);
-        //this.updateForm.get('countryDialCode').disable();
+        this.updateForm.get('countryCode').disable();
         this.checkReqValues();
       }).bind(this));
       this.loading = false;
