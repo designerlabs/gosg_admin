@@ -228,6 +228,7 @@ export class CountryComponent implements OnInit, OnDestroy {
     body.countryName = formValues.countryName;
     body.countryCode = formValues.countryCode;
     body.countryDialCode = formValues.countryDialCode;
+    
 
     // Add ErrorMsg Service
     this.loading = true;
@@ -255,9 +256,9 @@ export class CountryComponent implements OnInit, OnDestroy {
        };
 
     body.countryName = formValues.countryName;
-    body.countryCode = formValues.countryCode;
+    body.countryCode = this.updateForm.get('countryCode').value;
     body.countryDialCode = formValues.countryDialCode;
-
+    console.log(JSON.stringify(body));
     // Update AgencyApp Service
     this.loading = true;
     this.commonservice.update(body, 'country').subscribe(
