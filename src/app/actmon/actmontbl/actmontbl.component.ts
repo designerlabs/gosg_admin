@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, OnDestroy, ElementRef} from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy} from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../../config/app.config.module';
@@ -90,7 +90,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  @ViewChild('spanel') private spanel : ElementRef; 
+  //@ViewChild('spanel') private spanel : ElementRef; 
 
   dataSource = new MatTableDataSource<object>(this.userList);
   dataSource1 = new MatTableDataSource<object>(this.agencyActivityList);
@@ -125,13 +125,10 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   }
 
-  onKeydown(event){
-    let element = event.srcElement.nextElementSibling; // get the sibling element
-
-    if(element == null)  // check if its null
-        return;
-    else
-        element.focus();   // focus if not null
+  closePanel(ev){
+    this.isActiveList = false;
+    this.searchUserResult = [''];
+    ev.preventDefault();
   }
 
   agcFilterType(filterVal) {
@@ -410,7 +407,6 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
 
       this.loading = true;
-      console.log(this.dataUrl);
       this.commonservice.readProtected(this.dataUrl,'','','',this.languageId+param).subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
