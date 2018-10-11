@@ -1065,17 +1065,22 @@
       "status": "Status",
       "agcname": "Nama Agensi",
       "pollquestion": "Soalan",
+      "pollanswer": "Jawapan",
       "pollanswer1": "Jawapan 1",
       "pollanswer2": "Jawapan 2",
       "pollanswer3": "Jawapan 3",
       "pollanswer4": "Jawapan 4",
       "pollanswer5": "Jawapan 5",
+      "pollresult": "Keputusan",
       "pollresult1": "Keputusan 1",
       "pollresult2": "Keputusan 2",
       "pollresult3": "Keputusan 3",
       "pollresult4": "Keputusan 4",
       "pollresult5": "Keputusan 5",
-      "datereceive": "Tarikh Terima"
+      "datereceive": "Tarikh Terima",
+      "appdate": "Tarikh Permohonan",
+      "moddate": "Tarikh Maklumbalas",
+      "remark": "Feedback Message"
     },
     "tablebottom":{
       "users": "Pengguna",
