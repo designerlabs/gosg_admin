@@ -315,11 +315,19 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     if((this.startdt != undefined && this.enddt != undefined)  && this.usertype != 0) {
       this.isComplete = true;
     }
+
+    if (this.currentTab > 0 && (this.startdt != undefined && this.enddt != undefined)) {
+      this.isComplete = true;
+    }
+    if (this.currentTab > 0 && (this.startdt == undefined && this.enddt == undefined)) {
+      this.isComplete = true;
+    }
    
   }
 
   tabAction(type) {
     this.currentTab = type;
+    console.log(this.currentTab);
     this.resetSearch();
     this.search();
   }
