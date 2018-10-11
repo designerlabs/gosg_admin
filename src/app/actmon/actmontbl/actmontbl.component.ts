@@ -330,6 +330,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     console.log(this.currentTab);
     this.resetSearch();
     this.search();
+    this.checkReqValues();
   }
 
   // get User Data
@@ -507,6 +508,12 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.feedbackList = null;
     this.agencyActivityList = null;
     this.showNoData = false;
+
+    this.isComplete = false;
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.startdt = undefined;
+    this.enddt = undefined;
   }
 
   // get User Data by IDNO
