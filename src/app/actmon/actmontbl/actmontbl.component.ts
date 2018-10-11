@@ -61,6 +61,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   date = new Date();
   pageMode: String;
   isComplete: boolean;
+  chooseResult:boolean = false;
   seqNo = 0;
   isMailContainerShow = 'block';
   public loading = false;
@@ -126,8 +127,17 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   closePanel(ev){
-    
-    setTimeout(()=>{
+    let email ='';
+    let idno = '';
+
+    if(this.usertype == 2){
+      email = ev.target.value;
+    } else {
+      idno = ev.target.value;
+    }
+   
+    this.identNo = idno;
+    setTimeout(()=>{ 
       this.isActiveList = false;
       this.searchUserResult = [''];
     }, 600);
@@ -211,7 +221,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
 
-    this.isComplete = true;
+    this.isComplete = false;
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];

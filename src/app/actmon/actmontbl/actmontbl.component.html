@@ -35,7 +35,7 @@
 
           <div class="col-md-3" *ngIf="currentTab == 0 && filterTypeVal != 1 && filterTypeVal != 0">
             <mat-form-field class="example-full-width">
-              <input #keyword matInput (blur)="closePanel($event)" (keyup)="applyFilter($event)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+              <input #keyword matInput (keyup)="applyFilter($event)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
               <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
                 <mat-icon>close</mat-icon>
               </button>
