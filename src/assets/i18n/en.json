@@ -1065,7 +1065,8 @@
       "pollresult3": "Result 3",
       "pollresult4": "Result 4",
       "pollresult5": "Result 5",
-      "datereceive": "Receive Date"
+      "datereceive": "Receive Date",
+      "appdate": "Application Date"
     },
     "tablebottom":{
       "users": "Users",

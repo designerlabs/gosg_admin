@@ -1064,7 +1064,8 @@
       "pollresult3": "Keputusan 3",
       "pollresult4": "Keputusan 4",
       "pollresult5": "Keputusan 5",
-      "datereceive": "Tarikh Terima"
+      "datereceive": "Tarikh Terima",
+      "appdate": "Tarikh Permohonan"
     },
     "tablebottom":{
       "users": "Pengguna",
