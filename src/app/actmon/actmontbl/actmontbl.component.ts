@@ -229,7 +229,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
     this.displayedColumns1 = ['no', 'svcname', 'submissionRefno', 'name', 'status', 'date'];
     this.displayedColumns2 = ['no', 'question', 'answer1', 'result1', 'answer2', 'result2', 'answer3', 'result3', 'answer4', 'result4', 'answer5', 'result5', 'pollsActiveFlag', 'insertDate'];
-    this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'date'];
+    this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'remark', 'date', 'moddate'];
     this.getAgenciesData(this.pageCount, this.pageSize);
 
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
@@ -664,6 +664,14 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
           this.feedbackList['feedbackList'].forEach(el => {
             el.createdDate = moment(new Date(el.createdDate)).format('DD/MM/YYYY h:m A');
+
+            if(el.feedbackReplyFlag == false) {
+              el.feedbackRemarks = "";
+              el.modifiedDate = "";
+            } else {
+              // el.feedbackRemarks = "-";
+              el.modifiedDate = moment(new Date(el.modifiedDate)).format('DD/MM/YYYY h:m A');
+            }
           });
 
           this.dataSource3.data = this.feedbackList['feedbackList'];
