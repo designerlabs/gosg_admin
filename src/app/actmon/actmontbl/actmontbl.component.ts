@@ -300,6 +300,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   checkReqValues(){
 
+    if ((this.startdt !== undefined && this.enddt !== undefined)  && this.usertype == 0) {
+      this.isComplete = true;
+    }
     if ((this.startdt == undefined || this.enddt == undefined)  && this.usertype == 0) {
       this.isComplete = false;
     }
