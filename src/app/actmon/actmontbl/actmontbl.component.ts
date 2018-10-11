@@ -61,6 +61,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   date = new Date();
   pageMode: String;
   isComplete: boolean;
+  chooseResult:boolean = false;
   seqNo = 0;
   isMailContainerShow = 'block';
   public loading = false;
@@ -123,17 +124,28 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     // this.agencyActivityList = null;
     this.showNoData = false;
 
+    this.isComplete = false;
+
   }
 
-  closePanel(ev){
-    
-    setTimeout(()=>{
+  /*closePanel(ev){
+    let email ='';
+    let idno = '';
+
+    if(this.usertype == 2){
+      email = ev.target.value;
+    } else {
+      idno = ev.target.value;
+    }
+   
+    this.identNo = idno;
+    setTimeout(()=>{ 
       this.isActiveList = false;
       this.searchUserResult = [''];
     }, 600);
     
     ev.preventDefault();
-  }
+  } */
 
   agcFilterType(filterVal) {
     this.filterTypeVal = filterVal.value;
@@ -211,7 +223,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
 
-    this.isComplete = true;
+    this.isComplete = false;
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
@@ -239,7 +251,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
-
+    //this.isComplete = false;
     this.events = [];
     this.events.push(`${event.value}`);
     // console.log(`${event.value}`);
@@ -276,10 +288,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   clearDate() {
-    let today = new Date();
-    // this.events = [];
-    // this.events.push(today.toString());
-    // this.startdt = today.getTime();
+    this.isComplete = false;
     this.startDate = undefined;
     this.endDate = undefined;
     this.startdt = undefined;
@@ -291,21 +300,22 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   checkReqValues(){
 
-    if((this.startdt == undefined && this.enddt != undefined) || (this.startdt != undefined && this.enddt == undefined)) {
-      // if(this.currentTab == 0) {
-      //   if(this.usertype != 0 && this.identNo) {
-          this.isComplete = false;
-        } else {
-          this.isComplete = true;
-      //   }
-      // } else if(this.currentTab == 1) {
-        // if(this.agcSelect != 0) {
-        //   this.isComplete = true;
-        // } else {
-        //   this.isComplete = false;
-        // }
-      // }
+    if ((this.startdt !== undefined && this.enddt !== undefined)  && this.usertype == 0) {
+      this.isComplete = true;
     }
+    if ((this.startdt == undefined || this.enddt == undefined)  && this.usertype == 0) {
+      this.isComplete = false;
+    }
+    if ((this.startdt != undefined && this.enddt != undefined)  && this.usertype == 0) {
+      this.isComplete = true;
+    }
+    if((this.startdt != undefined || this.enddt == undefined)  && this.usertype != 0) {
+      this.isComplete = false;
+    }
+    if((this.startdt != undefined && this.enddt != undefined)  && this.usertype != 0) {
+      this.isComplete = true;
+    }
+   
   }
 
   tabAction(type) {
@@ -461,6 +471,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.isActiveList = false;
       this.searchUserResult = [''];
       this.identNo = idno;
+
+      this.isComplete = true;
   }
 
   search() {

@@ -918,6 +918,17 @@
       "pollresults": "keputusan soal selidik"
     }
   },
+  "pollresultdetail": {
+    "header": "Perincian Soal Selidik",
+    "tableHeader":{
+      "pollquestionEn": "Poll Question (EN)",
+      "pollquestionBm": "Poll Question (BM)"
+    },
+    "tablebottom":{
+      "pollquestion": "polls questions"
+    },
+    "name": "Polls Questions"
+  },
   "postcode": {
     "header": "Poskod",
     "stateid": "ID Negeri",

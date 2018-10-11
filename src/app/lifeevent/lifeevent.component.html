@@ -241,7 +241,7 @@
           </div>
         </div>
       </div>
-      <div class="example-header" *ngIf="sendForApporval == false">
+      <div class="example-header" *ngIf="sendForApporval != true">
         <div class="col-md-12">
           <div class="col-md-10"><label class="fontRed pull-right" *ngIf="parseEnBtn == false">{{ 'common.title.lblpreview' | translate }}</label></div>
           <div class="col-md-2 paddingR0">
@@ -263,7 +263,7 @@
         </div>
       </div>
 
-      <div class="example-header" *ngIf="sendForApporval == false">
+      <div class="example-header" *ngIf="sendForApporval != true">
         <div class="col-md-12">
           <div class="col-md-10"><label class="fontRed pull-right" *ngIf="parseMyBtn == false">{{ 'common.title.lblpreview' | translate }}</label></div>
           <div class="col-md-2 paddingR0">

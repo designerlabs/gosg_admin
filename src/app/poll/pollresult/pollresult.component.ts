@@ -205,6 +205,10 @@ export class PollresultComponent implements OnInit, OnDestroy {
     this.noPrevData = true;
   }
 
+  clickView(refNo){
+    this.router.navigate(['poll/results', refNo]);
+  }
+
   isChecked(e) {
     // 
     if(e.checked){
