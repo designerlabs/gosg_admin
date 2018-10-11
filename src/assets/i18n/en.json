@@ -919,6 +919,17 @@
       "pollresults": "polls results"
     }
   },
+  "pollresultdetail": {
+    "header": "Polls Details",
+    "tableHeader":{
+      "pollquestionEn": "Poll Question (EN)",
+      "pollquestionBm": "Poll Question (BM)"
+    },
+    "tablebottom":{
+      "pollquestion": "polls questions"
+    },
+    "name": "Polls Questions"
+  },
   "postcode": {
     "header": "Postcode",
     "stateid": "State ID",

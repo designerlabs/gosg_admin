@@ -55,16 +55,22 @@
                 </ng-container>
 
                 <!-- Question 1 Column -->
-                <ng-container matColumnDef="question">
-                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.question' | translate }} </mat-header-cell>
+                <ng-container matColumnDef="question" *ngIf="languageId == 1">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> Question </mat-header-cell>
                     <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
                         {{element.en[0].pollquestion}} 
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="question" *ngIf="languageId == 2">
+                    <mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> Soalan </mat-header-cell>
+                    <mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">
+                        {{element.bm[0].pollquestion}} 
+                    </mat-cell>
+                </ng-container>
             
                 <!-- Option 1 Column -->
-                <ng-container matColumnDef="opt1">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt1' | translate }} </mat-header-cell>
+                <ng-container matColumnDef="opt1" *ngIf="languageId == 1">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Option 1 </mat-header-cell>
                     <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[0].option != null">
                             {{element.en[0].options[0].option}} <br>
@@ -73,10 +79,20 @@
                         <div *ngIf="element.en[0].options[0].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="opt1" *ngIf="languageId == 2">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Pilihan 1 </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.bm[0].options[0].option != null">
+                            {{element.bm[0].options[0].option}} <br>
+                            ({{element.results[0].result}}/{{element.results[0].totalResult}})
+                        </div>
+                        <div *ngIf="element.bm[0].options[0].option == null"> - </div>
+                    </mat-cell>
+                </ng-container>
 
                 <!-- Option 2 Column -->
-                <ng-container matColumnDef="opt2">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt2' | translate }} </mat-header-cell>
+                <ng-container matColumnDef="opt2" *ngIf="languageId == 1">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Option 2 </mat-header-cell>
                     <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[1].option != null">
                             {{element.en[0].options[1].option}} <br>
@@ -85,10 +101,20 @@
                         <div *ngIf="element.en[0].options[1].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="opt2" *ngIf="languageId == 2">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Pilihan 2 </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.bm[0].options[1].option != null">
+                            {{element.bm[0].options[1].option}} <br>
+                            ({{element.results[1].result}}/{{element.results[1].totalResult}})
+                        </div>
+                        <div *ngIf="element.bm[0].options[1].option == null"> - </div>
+                    </mat-cell>
+                </ng-container>
             
                 <!-- Option 3 Column -->
-                <ng-container matColumnDef="opt3">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt3' | translate }} </mat-header-cell>
+                <ng-container matColumnDef="opt3" *ngIf="languageId == 1">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Option 3 </mat-header-cell>
                     <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[2].option != null">
                             {{element.en[0].options[2].option}} <br>
@@ -97,10 +123,20 @@
                         <div *ngIf="element.en[0].options[2].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="opt3" *ngIf="languageId == 2">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Pilihan 3 </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.bm[0].options[2].option != null">
+                            {{element.bm[0].options[2].option}} <br>
+                            ({{element.results[2].result}}/{{element.results[2].totalResult}})
+                        </div>
+                        <div *ngIf="element.bm[0].options[2].option == null"> - </div>
+                    </mat-cell>
+                </ng-container>
 
                 <!-- Option 4 Column -->
-                <ng-container matColumnDef="opt4">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef>{{ 'pollresult.tableHeader.opt4' | translate }} </mat-header-cell>
+                <ng-container matColumnDef="opt4" *ngIf="languageId == 1">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Option 4 </mat-header-cell>
                     <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[3].option != null">
                             {{element.en[0].options[3].option}} <br>
@@ -109,10 +145,20 @@
                         <div *ngIf="element.en[0].options[3].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="opt4" *ngIf="languageId == 2">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Pilihan 4 </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.bm[0].options[3].option != null">
+                            {{element.bm[0].options[3].option}} <br>
+                            ({{element.results[3].result}}/{{element.results[3].totalResult}})
+                        </div>
+                        <div *ngIf="element.bm[0].options[3].option == null"> - </div>
+                    </mat-cell>
+                </ng-container>
 
                 <!-- Option 5 Column -->
-                <ng-container matColumnDef="opt5">
-                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> {{ 'pollresult.tableHeader.opt5' | translate }} </mat-header-cell>
+                <ng-container matColumnDef="opt5" *ngIf="languageId == 1">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Option 5 </mat-header-cell>
                     <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
                         <div *ngIf="element.en[0].options[4].option != null">
                             {{element.en[0].options[4].option}} <br>
@@ -121,11 +167,21 @@
                         <div *ngIf="element.en[0].options[4].option == null"> - </div>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="opt5" *ngIf="languageId == 2">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 10%;" *matHeaderCellDef> Pilihan 5 </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 10%;" *matCellDef="let element">
+                        <div *ngIf="element.bm[0].options[4].option != null">
+                            {{element.bm[0].options[4].option}} <br>
+                            ({{element.results[4].result}}/{{element.results[4].totalResult}})
+                        </div>
+                        <div *ngIf="element.bm[0].options[4].option == null"> - </div>
+                    </mat-cell>
+                </ng-container>
 
                 <!-- Delete Column -->
                 <ng-container matColumnDef="del">
-                    <mat-header-cell class="text-align-Center" class="statusColumn" *matHeaderCellDef> {{ 'common.buttons.delete' | translate }} </mat-header-cell>
-                    <mat-cell class="text-align-Center" class="statusColumn" *matCellDef="let element">
+                    <mat-header-cell class="text-align-Center" style="flex: 0 0 5%;" *matHeaderCellDef> {{ 'common.buttons.delete' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Center" style="flex: 0 0 5%;" *matCellDef="let element">
                         <i *ngIf="element.deleteFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
                         <i *ngIf="element.deleteFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
                     </mat-cell>
@@ -135,6 +191,8 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="text-align-Center" class="actionColumn" *matHeaderCellDef> {{ 'common.tableHeader.action' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Center" class="actionColumn" *matCellDef="let element">
+                        <button mat-mini-fab class="bg_orange" (click)="clickView(element.pollRefNo)">
+                                <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i></button>&nbsp;
                         <button mat-mini-fab class="bg_red" *ngIf="commonservice.isDelete && element.deleteFlag == false" (click)="deleteModal.show()">
                             <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i></button>
                         <app-confirm-dialog  #deleteModal 
