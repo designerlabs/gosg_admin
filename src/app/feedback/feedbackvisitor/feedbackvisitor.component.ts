@@ -281,6 +281,8 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
       "feedbackName": this.name,
       "feedbackRemarks":null,
       "feedbackEmail": this.email,
+      "feedbackForwardEmail": null,
+      "feedbackForwardStatus": true,
       "feedbackType": {
         "feedbackTypeId": this.feedbackTypeId,
       },
@@ -297,11 +299,12 @@ export class FeedbackvisitorComponent implements OnInit, OnDestroy {
       "feedbackDraftFlag":false
     }
 
-    body.feedbackRemarks = formValues.reply;     
+    body.feedbackRemarks = formValues.reply;  
+    body.feedbackForwardEmail = formValues.emailForward;
 
     let paramEmail = '';
     paramEmail = formValues.emailForward;
-    //console.log(JSON.stringify(body));
+    console.log(JSON.stringify(body));
     this.loading = true;
 
     this.commonservice.updateParam(body,'feedback/forward','&email='+paramEmail).subscribe(

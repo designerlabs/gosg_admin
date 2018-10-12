@@ -61,6 +61,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   date = new Date();
   pageMode: String;
   isComplete: boolean;
+  chooseResult:boolean = false;
   seqNo = 0;
   isMailContainerShow = 'block';
   public loading = false;
@@ -90,6 +91,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  //@ViewChild('spanel') private spanel : ElementRef; 
+
   dataSource = new MatTableDataSource<object>(this.userList);
   dataSource1 = new MatTableDataSource<object>(this.agencyActivityList);
   dataSource2 = new MatTableDataSource<object>(this.pollList);
@@ -103,12 +106,11 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   usertype: any;
   identNo: any;
 
-  applyFilter(val) {
-
+  applyFilter(event) {
+   let val = event.target.value;
     if(val){
       this.getFilterList(this.pageCount, this.pageSize, val, this.filterTypeVal);
     }
-
   }
 
   filterType(filterVal) {
@@ -122,7 +124,28 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     // this.agencyActivityList = null;
     this.showNoData = false;
 
+    this.isComplete = false;
+
   }
+
+  /*closePanel(ev){
+    let email ='';
+    let idno = '';
+
+    if(this.usertype == 2){
+      email = ev.target.value;
+    } else {
+      idno = ev.target.value;
+    }
+   
+    this.identNo = idno;
+    setTimeout(()=>{ 
+      this.isActiveList = false;
+      this.searchUserResult = [''];
+    }, 600);
+    
+    ev.preventDefault();
+  } */
 
   agcFilterType(filterVal) {
     this.filterTypeVal = filterVal.value;
@@ -200,13 +223,13 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.languageId = 1;
     }
 
-    this.isComplete = true;
+    this.isComplete = false;
     this.isActiveList = false;
     this.isActive = true;
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
     this.displayedColumns1 = ['no', 'svcname', 'submissionRefno', 'name', 'status', 'date'];
     this.displayedColumns2 = ['no', 'question', 'answer1', 'result1', 'answer2', 'result2', 'answer3', 'result3', 'answer4', 'result4', 'answer5', 'result5', 'pollsActiveFlag', 'insertDate'];
-    this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'date'];
+    this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'remark', 'date', 'moddate'];
     this.getAgenciesData(this.pageCount, this.pageSize);
 
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
@@ -228,7 +251,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
-
+    //this.isComplete = false;
     this.events = [];
     this.events.push(`${event.value}`);
     // console.log(`${event.value}`);
@@ -265,10 +288,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
   }
 
   clearDate() {
-    let today = new Date();
-    // this.events = [];
-    // this.events.push(today.toString());
-    // this.startdt = today.getTime();
+    this.isComplete = false;
     this.startDate = undefined;
     this.endDate = undefined;
     this.startdt = undefined;
@@ -280,27 +300,37 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
   checkReqValues(){
 
-    if((this.startdt == undefined && this.enddt != undefined) || (this.startdt != undefined && this.enddt == undefined)) {
-      // if(this.currentTab == 0) {
-      //   if(this.usertype != 0 && this.identNo) {
-          this.isComplete = false;
-        } else {
-          this.isComplete = true;
-      //   }
-      // } else if(this.currentTab == 1) {
-        // if(this.agcSelect != 0) {
-        //   this.isComplete = true;
-        // } else {
-        //   this.isComplete = false;
-        // }
-      // }
+    if ((this.startdt !== undefined && this.enddt !== undefined)  && this.usertype == 0) {
+      this.isComplete = true;
     }
+    if ((this.startdt == undefined || this.enddt == undefined)  && this.usertype == 0) {
+      this.isComplete = false;
+    }
+    if ((this.startdt != undefined && this.enddt != undefined)  && this.usertype == 0) {
+      this.isComplete = true;
+    }
+    if((this.startdt != undefined || this.enddt == undefined)  && this.usertype != 0) {
+      this.isComplete = false;
+    }
+    if((this.startdt != undefined && this.enddt != undefined)  && this.usertype != 0) {
+      this.isComplete = true;
+    }
+
+    if (this.currentTab > 0 && (this.startdt != undefined && this.enddt != undefined)) {
+      this.isComplete = true;
+    }
+    if (this.currentTab > 0 && (this.startdt == undefined && this.enddt == undefined)) {
+      this.isComplete = true;
+    }
+   
   }
 
   tabAction(type) {
     this.currentTab = type;
+    console.log(this.currentTab);
     this.resetSearch();
     this.search();
+    this.checkReqValues();
   }
 
   // get User Data
@@ -390,9 +420,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     else if (filterVal == 3){ // by keywords
       this.dataUrl = 'usermanagement';
       if(this.startDate && this.endDate){
-        param = '&identificationNo='+keyword+'&page='+page+'&size='+size+'&startDate='+this.startDate+'&endDate='+this.endDate;
+        param = '&ic='+keyword+'&page='+page+'&size='+size+'&startDate='+this.startDate+'&endDate='+this.endDate;
       }else{
-        param = '&identificationNo='+keyword+'&page='+page+'&size='+size;
+        param = '&ic='+keyword+'&page='+page+'&size='+size;
       }
 
     }
@@ -404,7 +434,6 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;
-
           if(this.recordList.userList.length > 0){
 
             this.searchUserResult = this.recordList.userList;
@@ -451,6 +480,8 @@ export class ActmontblComponent implements OnInit, OnDestroy {
       this.isActiveList = false;
       this.searchUserResult = [''];
       this.identNo = idno;
+
+      this.isComplete = true;
   }
 
   search() {
@@ -477,6 +508,12 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.feedbackList = null;
     this.agencyActivityList = null;
     this.showNoData = false;
+
+    this.isComplete = false;
+    this.startDate = undefined;
+    this.endDate = undefined;
+    this.startdt = undefined;
+    this.enddt = undefined;
   }
 
   // get User Data by IDNO
@@ -642,6 +679,14 @@ export class ActmontblComponent implements OnInit, OnDestroy {
 
           this.feedbackList['feedbackList'].forEach(el => {
             el.createdDate = moment(new Date(el.createdDate)).format('DD/MM/YYYY h:m A');
+
+            if(el.feedbackReplyFlag == false) {
+              el.feedbackRemarks = "";
+              el.modifiedDate = "";
+            } else {
+              // el.feedbackRemarks = "-";
+              el.modifiedDate = moment(new Date(el.modifiedDate)).format('DD/MM/YYYY h:m A');
+            }
           });
 
           this.dataSource3.data = this.feedbackList['feedbackList'];

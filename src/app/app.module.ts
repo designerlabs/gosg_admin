@@ -38,6 +38,7 @@ import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedback
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
+import { PollresultdetailComponent } from './poll/pollresultdetail/pollresultdetail.component';
 
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
@@ -200,6 +201,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     PollquestiontblComponent,
     PollquestionComponent,
     PollresultComponent,
+    PollresultdetailComponent,
 
     FeedbackadminComponent,
     FeedbackadmintblComponent,

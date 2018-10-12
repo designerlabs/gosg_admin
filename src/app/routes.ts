@@ -18,6 +18,7 @@ import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.compone
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
+import { PollresultdetailComponent } from './poll/pollresultdetail/pollresultdetail.component';
 
 import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
 import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
@@ -174,6 +175,7 @@ export const appRoutes: Routes = [
 {path: 'poll/questions/:id', component: PollquestionComponent},
 {path: 'poll/questions/add', component: PollquestionComponent},
 {path: 'poll/results', component: PollresultComponent},
+{path: 'poll/results/:id', component: PollresultdetailComponent},
 
 // Slider: N
 {path: 'slider', component: SlidertblComponent},

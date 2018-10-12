@@ -29,27 +29,32 @@
             </div><br>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.name' | translate }}</span></div>
-                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{name}} ({{email}})</span></div>
+                <div class="col-md-2"><span class="label-name">{{ 'feedbackmsg.name' | translate }}</span></div>
+                <div class="col-md-10"><span style="font-size: 17px;">>> &nbsp;{{name}} ({{email}})</span></div>
+            </div>
+
+            <div class="row" style="padding-bottom: 10px;" *ngIf="forwarded">
+                <div class="col-md-2"><span class="label-name">{{ 'feedbackmsg.forward' | translate }}</span></div>
+                <div class="col-md-10"><span style="font-size: 17px;">>> &nbsp;{{forwarded}}</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.type' | translate }}</span></div>
-                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{type}}</span></div>
+                <div class="col-md-2"><span class="label-name">{{ 'feedbackmsg.type' | translate }}</span></div>
+                <div class="col-md-10"><span style="font-size: 17px;">>> &nbsp;{{type}}</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.subject' | translate }}</span></div>
-                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;{{subject}}</span></div>
+                <div class="col-md-2"><span class="label-name">{{ 'feedbackmsg.subject' | translate }}</span></div>
+                <div class="col-md-10"><span style="font-size: 17px;">>> &nbsp;{{subject}}</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">{{ 'feedbackmsg.msg' | translate }}</span></div>
-                <div class="col-md-11"><span style="font-size: 17px;">>> &nbsp;</span></div>
+                <div class="col-md-2"><span class="label-name">{{ 'feedbackmsg.msg' | translate }}</span></div>
+                <div class="col-md-10"><span style="font-size: 17px;">>> &nbsp;</span></div>
             </div>
 
             <div class="row" style="padding-bottom: 10px;">
-                <div class="col-md-1"><span class="label-name">&nbsp;</span></div>
+                <div class="col-md-2"><span class="label-name">&nbsp;</span></div>
                 <div class="col-md-10"><span style="font-size: 17px; text-align:justify;">{{messages}}</span></div>
             </div>
 

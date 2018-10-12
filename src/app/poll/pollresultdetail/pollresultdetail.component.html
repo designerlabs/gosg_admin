@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading>
+    <div class="curdHeader">
+        <div class="col-md-10 curdHeadingLeft">
+            <h3>{{ 'pollresultdetail.header' | translate }}</h3>
+        </div>
+        
+        <div class="col-md-2 curdHeadingRight">
+            <span class="pull-right">
+                <button type="button" mat-fab color="accent" (click)="back()" >
+                <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
+            </span>
+        </div> 
+    </div>
+    
+    <div *ngIf="!commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
+       
+    </div>
+
+    <div *ngIf="commonservice.isRead">
+        <div class="example-container mat-elevation-z8">
+    
+            <!-- <div class="col-md-12 paddingTop-10">
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+                    <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''; resetSearch()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div> -->
+    
+            <mat-table #table [dataSource]="dataSource">
+        
+                <!-- num Column -->
+                <ng-container matColumnDef="num">
+                    <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                        {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                    </mat-cell>
+                </ng-container>
+    
+                <!-- question en Column -->
+                <ng-container matColumnDef="comment">
+                    <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'pollresultdetail.tableHeader.recommandation' | translate }} </mat-header-cell>
+                    <mat-cell class="text-align-Left padding5" *matCellDef="let element">
+                        {{element.pollsComments}} 
+                    </mat-cell>
+                </ng-container>
+        
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            <div *ngIf="showNoData" class="row text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+    
+        </div>
+    
+        <div class="float-right paddingTop-15">
+            <mat-form-field class="table_footer_pagecount">
+                <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
+                <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>
+                <!-- <mat-option value="10">10</mat-option>
+                <mat-option value="25">25</mat-option>
+                <mat-option value="50">50</mat-option> -->
+                </mat-select>
+            </mat-form-field>
+            <span class="float-right">
+                <span class="table_footer_pagination">{{ 'common.tableBottom.page' | translate }}
+                    <strong>{{recordTable?.pageNumber}}</strong> {{ 'common.tableBottom.of' | translate }}
+                    <strong>{{recordTable?.totalPages}}</strong> {{ 'common.tableBottom.in' | translate }}
+                    <strong>{{recordTable?.totalElements}}</strong> {{ 'pollresultdetail.tablebottom.pollquestion' | translate }}
+                </span>
+                <button mat-mini-fab color="basic" [disabled]="noPrevData" (click)="paginatorL(recordTable?.pageNumber)">
+                    <i [ngClass]="commonservice.icon.arrLeft" aria-hidden="true"></i>
+                </button>
+                <button mat-mini-fab color="basic" [disabled]="noNextData" (click)="paginatorR(recordTable?.pageNumber, commonservice.recordTable?.totalPages)">
+                    <i [ngClass]="commonservice.icon.arrRight" aria-hidden="true"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+   
+</div>

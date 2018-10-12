@@ -241,16 +241,16 @@
           </div>
         </div>
       </div>
-      <div class="example-header">
+      <div class="example-header" *ngIf="sendForApporval != true">
         <div class="col-md-12">
-          <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>
+          <div class="col-md-10"><label class="fontRed pull-right" *ngIf="parseEnBtn == false">{{ 'common.title.lblpreview' | translate }}</label></div>
           <div class="col-md-2 paddingR0">
             <button [disabled]="parseEnBtn" mat-raised-button type="button" color="primary"
             class="btn btn-md pull-right" (click)="previewEn()" >
             <i [ngClass]="commonservice.icon.view" title="{{ 'common.title.view' | translate }}"></i> {{ 'common.title.preview' | translate }}</button>
           </div>
         </div>
-      </div>
+      </div><br>
 
       <div class="example-header">
         <div class="col-md-12">
@@ -263,9 +263,9 @@
         </div>
       </div>
 
-      <div class="example-header">
+      <div class="example-header" *ngIf="sendForApporval != true">
         <div class="col-md-12">
-          <div class="col-md-10"><label class="fontRed pull-right">{{ 'common.title.lblpreview' | translate }}</label></div>
+          <div class="col-md-10"><label class="fontRed pull-right" *ngIf="parseMyBtn == false">{{ 'common.title.lblpreview' | translate }}</label></div>
           <div class="col-md-2 paddingR0">
             <button [disabled]="parseMyBtn" mat-raised-button type="button" color="primary"
             class="btn btn-md pull-right" (click)="previewMy()" >

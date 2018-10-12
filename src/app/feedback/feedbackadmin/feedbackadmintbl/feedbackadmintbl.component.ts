@@ -11,6 +11,7 @@ import { TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from '../../../dialogs/dialogs.service';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from '../../../nav/nav.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-feedbackadmintbl',
@@ -22,7 +23,7 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
   
   public loading = false;
   recordList = null;
-  displayedColumns = ['num','feedbackEng', 'feedbackMalay','email', 'status', 'action'];
+  displayedColumns = ['num','feedbackEng', 'feedbackMalay','email', 'date', 'status', 'action'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -225,6 +226,18 @@ export class FeedbackadmintblComponent implements OnInit, OnDestroy {
   resetSearch() {
     this.kword = '';
     this.getRecordList(this.pageCount, this.pageSize);
+  }
+
+  submitDate(createdDate){
+    let displayCD = moment(new Date(createdDate)).format('DD/MM/YYYY');
+
+    return displayCD;
+  }
+
+  replyDate(createdDate){
+    let displayRD = moment(new Date(createdDate)).format('DD/MM/YYYY');
+
+    return displayRD;
   }
 
   paginatorL(page) {

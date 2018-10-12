@@ -530,7 +530,7 @@
     },
     "component": {
       "header": "Permohonan Agensi",
-      "isdoc": "adalah dokumen",
+      "isdoc": "Pautan Boleh Dimuat Turun",
       "websiteURL": "URL Laman Web"
     },
     "select":"Pilih Aplikasi Agensi"
@@ -720,7 +720,8 @@
     "msg": "Mesej",
     "replysection": "Bahagian Balasan",
     "reply": "Balasan",
-    "email": "Emel"
+    "email": "Emel",
+    "forward": "Dimaju kepada"
   },
   "feedbacksubjecttbl": {
     "header": "Senarai Subjek Maklum Balas",
@@ -918,6 +919,16 @@
       "pollresults": "keputusan soal selidik"
     }
   },
+  "pollresultdetail": {
+    "header": "Perincian Soal Selidik",
+    "tableHeader":{
+      "recommandation": "Cadangan"
+    },
+    "tablebottom":{
+      "pollquestion": "cadangan"
+    },
+    "name": "Polls Questions"
+  },
   "postcode": {
     "header": "Poskod",
     "stateid": "ID Negeri",
@@ -1054,17 +1065,22 @@
       "status": "Status",
       "agcname": "Nama Agensi",
       "pollquestion": "Soalan",
+      "pollanswer": "Jawapan",
       "pollanswer1": "Jawapan 1",
       "pollanswer2": "Jawapan 2",
       "pollanswer3": "Jawapan 3",
       "pollanswer4": "Jawapan 4",
       "pollanswer5": "Jawapan 5",
+      "pollresult": "Keputusan",
       "pollresult1": "Keputusan 1",
       "pollresult2": "Keputusan 2",
       "pollresult3": "Keputusan 3",
       "pollresult4": "Keputusan 4",
       "pollresult5": "Keputusan 5",
-      "datereceive": "Tarikh Terima"
+      "datereceive": "Tarikh Terima",
+      "appdate": "Tarikh Permohonan",
+      "moddate": "Tarikh Maklumbalas",
+      "remark": "Feedback Message"
     },
     "tablebottom":{
       "users": "Pengguna",
