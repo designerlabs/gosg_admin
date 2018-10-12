@@ -31,7 +31,7 @@
     "content": {
       "groupingPermisionModules": "Grouping and Permission Modules",
       "adminManagement": "Admin Management",
-      "groupingManagement": "Group Management",
+      "groupingManagement": "Function Group Management",
       "groupingDetails": "Sorting and Grouping from isolate module",
       "adminDetails": "Assign Admin user and providing permission",
       "modules": "Modules",
