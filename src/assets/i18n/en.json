@@ -721,7 +721,8 @@
     "msg": "Message",
     "replysection": "Reply Section",
     "reply": "Reply",
-    "email": "Email"
+    "email": "Email",
+    "forward": "Forward to"
   },
   "feedbacksubjecttbl": {
     "header": "Feedback Subject List",
@@ -922,11 +923,10 @@
   "pollresultdetail": {
     "header": "Polls Details",
     "tableHeader":{
-      "pollquestionEn": "Poll Question (EN)",
-      "pollquestionBm": "Poll Question (BM)"
+      "recommandation": "Recommandations"
     },
     "tablebottom":{
-      "pollquestion": "polls questions"
+      "pollquestion": "recommandations"
     },
     "name": "Polls Questions"
   },

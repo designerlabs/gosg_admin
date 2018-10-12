@@ -66,8 +66,8 @@
                 <ng-container matColumnDef="email">
                     <mat-header-cell class="text-align-Left" *matHeaderCellDef> {{ 'feedbacktbl.tableHeader.email' | translate }} </mat-header-cell>
                     <mat-cell class="text-align-Left" *matCellDef="let element">
-                        {{element.feedbackEmail}} <br>
-                        <i class="fa fa-share" style="color: blue;"></i> {{element.feedbackEmail}} 
+                        <span>{{element.feedbackEmail}}</span> <br>
+                        <span><i class="fa fa-share" style="color: blue;" *ngIf="element?.feedbackForwardEmail"></i> {{element?.feedbackForwardEmail}} </span>
                     </mat-cell>
                 </ng-container>
 

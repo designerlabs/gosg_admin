@@ -29,6 +29,7 @@ export class FeedbackadminComponent implements OnInit, OnDestroy {
   public type: any;
   public subject: any;
   public messages: any;
+  public forwarded: any;
   public email: any;
   public replyMessage: any;
   public lang: any;
@@ -147,6 +148,13 @@ export class FeedbackadminComponent implements OnInit, OnDestroy {
         this.feedbackUserIpAddress = this.recordList.feedback.feedbackUserIpAddress;
         this.feedbackTypeId = this.recordList.feedback.feedbackType.feedbackTypeId;
         this.feedbackSubjectId = this.recordList.feedback.feedbackSubject.feedbackSubjectId;
+        
+        let getObjKeys = Object.keys(this.recordList.feedback);
+        let valMT = getObjKeys.filter(fmt => fmt === "feedbackForwardEmail");
+
+        if(valMT.length > 0){
+          this.forwarded = this.recordList.feedback.feedbackForwardEmail;
+        }
 
         this.getId = this.recordList.feedback.feedbackId;
         

@@ -720,7 +720,8 @@
     "msg": "Mesej",
     "replysection": "Bahagian Balasan",
     "reply": "Balasan",
-    "email": "Emel"
+    "email": "Emel",
+    "forward": "Dimaju kepada"
   },
   "feedbacksubjecttbl": {
     "header": "Senarai Subjek Maklum Balas",
@@ -921,11 +922,10 @@
   "pollresultdetail": {
     "header": "Perincian Soal Selidik",
     "tableHeader":{
-      "pollquestionEn": "Poll Question (EN)",
-      "pollquestionBm": "Poll Question (BM)"
+      "recommandation": "Cadangan"
     },
     "tablebottom":{
-      "pollquestion": "polls questions"
+      "pollquestion": "cadangan"
     },
     "name": "Polls Questions"
   },
