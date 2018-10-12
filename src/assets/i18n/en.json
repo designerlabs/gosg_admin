@@ -1078,7 +1078,9 @@
       "pollresult3": "Result 3",
       "pollresult4": "Result 4",
       "pollresult5": "Result 5",
-      "datereceive": "Receive Date",
+      "datecreate": "Created Date",
+      "datereceive": "Received Date",
+      "datesubmission": "Submission Date",
       "appdate": "Application Date",
       "moddate": "Feedback Date",
       "remark": "Feedback Message"
