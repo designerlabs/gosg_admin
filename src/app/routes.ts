@@ -137,6 +137,7 @@ import { ViewreportComponent } from './viewreport/viewreport.component';
 import { ActmonComponent } from './actmon/actmon.component';
 import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
 import { UsersunregisterComponent } from './usersunregister/usersunregister.component';
+import { GareportsComponent } from './gareports/gareports.component';
 
 // import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 // import { AnnouncementComponent } from './announcement/announcement.component';
@@ -260,6 +261,7 @@ export const appRoutes: Routes = [
 {path: 'category', component: CategorytblComponent},
 {path: 'category/:id', component: CategoryComponent},
 {path: 'category/add', component: CategoryComponent},
+{path: 'ga_reports', component: GareportsComponent},
 
 {path: 'inbox', component: InboxtblComponent},
 {path: 'inbox/:id', component: InboxComponent},
