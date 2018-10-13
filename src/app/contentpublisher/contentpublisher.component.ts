@@ -155,7 +155,13 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
 };
 
   public htmlContentMyEditor: Object = {
@@ -166,7 +172,13 @@ export class ContentpublisherComponent implements OnInit, OnDestroy {
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
   };
 
   dataSource: any;
