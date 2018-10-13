@@ -110,7 +110,13 @@ export class ContentComponent implements OnInit, OnDestroy {
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['bold', 'italic', 'underline', 'insertTable', 'paragraphFormat','alert'],
+    toolbarButtonsXS: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsSM: ['bold', 'italic', 'underline', 'paragraphFormat','alert'],
+    toolbarButtonsMD: ['bold', 'italic', 'underline', 'paragraphFormat','alert']
 };
 
   public htmlContentMyEditor: Object = {
