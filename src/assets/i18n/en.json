@@ -386,7 +386,9 @@
     "email": "Email",
     "update": "Update",
     "add": "Add",
-    "mgmt": "Management"
+    "mgmt": "Management",
+    "seconds1":"logout in",
+    "seconds2": "seconds"
   },
   "appmngt":{
     "setSearch":{

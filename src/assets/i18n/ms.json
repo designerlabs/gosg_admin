@@ -386,7 +386,9 @@
     "email": "Emel",
     "update": "Kemaskini",
     "add": "Tambah",
-    "mgmt": "Pengurusan"
+    "mgmt": "Pengurusan",
+    "seconds1":"log keluar dalam",
+    "seconds2": "saat"
   },
   "appmngt":{
     "setSearch":{

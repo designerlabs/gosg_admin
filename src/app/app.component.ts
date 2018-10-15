@@ -4,6 +4,11 @@ import { CommonService} from './service/common.service';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import { APP_CONFIG, AppConfig } from './config/app.config.module';
+import { Observable } from "rxjs/Observable";
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/skip';
+import { timer } from 'rxjs/observable/timer';
+import { take, map } from 'rxjs/operators';
 declare var $ :any;
 
 @Component({
@@ -12,6 +17,8 @@ declare var $ :any;
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  countDown;
+  count = 5;
   superAdmin: any;
   userID: any;
   getFullname: any;
@@ -26,6 +33,11 @@ export class AppComponent {
 
   constructor(private commonService:CommonService, router:Router,
     @Inject(APP_CONFIG) private appConfig: AppConfig,) {
+
+      this.countDown = timer(0,1000).pipe(
+        take(this.count),
+        map(()=> --this.count)
+      );
 
 }
 
@@ -59,14 +71,12 @@ logout(){
             localStorage.setItem('fullname',data['adminUser'].fullName);
             localStorage.setItem('email',data['adminUser'].email);
 
-            console.log("data login");
-            console.log(data);
+    
           }else{
-            console.log("before login");
-            console.log(data);
-            // setTimeout(() => {
-            //   this.logout();
-            // }, 5000);
+            this.invalidAdmin = data;
+            setTimeout(() => {
+              this.logout();
+            }, 5000);
           }
           this.loading = false;
         },
