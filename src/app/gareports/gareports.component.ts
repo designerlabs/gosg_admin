@@ -4,7 +4,8 @@ import { ChartReadyEvent } from 'ng2-google-charts';
 import { ChartErrorEvent } from 'ng2-google-charts';
 import { ChartSelectEvent } from 'ng2-google-charts';
 import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts'
-
+import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
+import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 @Component({
   selector: 'gosg-gareports',
   templateUrl: './gareports.component.html',
@@ -14,8 +15,38 @@ export class GareportsComponent implements OnInit {
   result: any;
   @ViewChild('cchart') cchart;
   public selectEvent: ChartSelectEvent;
+  publish: FormControl;
+  endD: FormControl;
+  gaForm: FormGroup;
+  dateFormatExample = "dd/mm/yyyy h:i:s";
+  events: string[] = [];
+  publishdt:number;
+  enddt: number;
+  minDate: any;
+  sMinDate: any;
+  eMinDate: any;
 
-  public columnChartData:any;
+  private columnChartData:any = {
+    chartType: 'ColumnChart',
+    dataTable: [
+      ['Country', 'Count'],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['',''],
+      ['','']
+
+    ],
+    options: {title: 'Countries'}
+  };
+  reportArray:string[] = [];
 
   constructor(private http:  HttpClient) { }
 
@@ -24,11 +55,15 @@ export class GareportsComponent implements OnInit {
   headers = new HttpHeaders({"Content-Type": "application/x-www-form-urlencoded"});
 
   ngOnInit() {
+    this.publish = new FormControl();
+    this.endD = new FormControl();
 
+    this.gaForm = new FormGroup({
+      publish: this.publish,
+      endD: this.endD
+    });
     this.getGA('2018-08-10', '2018-10-01', 'ga:city');
-    this.columnChartData.chartType = 'ColumnChart';
-    this.columnChartData.dataTable = [];
-    this.columnChartData.options.title = "Users by Countries";
+
   }
 
   getGAReport(frmDt, endDt, opt, token){
@@ -37,12 +72,18 @@ export class GareportsComponent implements OnInit {
       .subscribe(
         data => {
           console.log(data);
+          this.reportArray = [];
+          this.columnChartData = Object.create(this.columnChartData);
+          this.columnChartData.options.title = "Cities";
+          for (var i = 1; i <= data['rows'].length; i++) {
 
-          for (var i = 0; i <= data['rows'].length; i++) {
-            console.log('loop ' + i, data['rows'][i]);
-            debugger;
+            if((data['rows'][i] != undefined)){
+              this.columnChartData.dataTable[i][0] = data['rows'][i-1][0];
+              this.columnChartData.dataTable[i][1] = parseInt(data['rows'][i-1][1]);
+            }
+
             // this.columnChartData.dataTable.push(data['rows'][i]);
-            this.columnChartData = Object.create(this.columnChartData);
+
           }
 
         }, error => {
@@ -75,6 +116,33 @@ export class GareportsComponent implements OnInit {
         console.log(error);
       }
     )
+  }
+
+
+
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+
+    let year, month, day;
+    this.events = [];
+    this.events.push(`${event.value}`);
+
+    this.publishdt = new Date(this.events[0]).getTime();
+    // this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
+    this.dateFormatExample = "";
+
+    year = new Date(this.events[0]).getFullYear();
+    month = new Date(this.events[0]).getMonth();
+    day = new Date(this.events[0]).getDate();
+
+    this.eMinDate = new Date(year,month,day);
+
+    if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
+      this.enddt = new Date(this.events[0]).getTime();
+      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
+      //this.enddt = null;
+    }
+
+    // this.checkReqValues()
   }
 
 
