@@ -466,3 +466,8 @@ p.font-size-s > strong {
     color: white !important;
 
   }
+
+.toast-top-right {
+    font-size: 18px !important; 
+} 
+  

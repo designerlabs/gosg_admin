@@ -177,6 +177,9 @@ import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
 import { DatePipe } from '../../node_modules/@angular/common';
 import { UsersunregisterComponent } from './usersunregister/usersunregister.component';
 import { GareportsComponent } from './gareports/gareports.component';
+
+import { AutologoutService} from './service/autologout.service';
+
 // import { AnnouncementComponent } from './announcement/announcement.component';
 // import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -337,7 +340,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     // JoditAngularModule,
     ToastrModule.forRoot({
-      preventDuplicates: true
+      preventDuplicates: true,
+      closeButton: true,
+      positionClass: 'toast-top-right',
+      tapToDismiss: false,
+      timeOut: 6000
     }),
 
     NgxTreeSelectModule.forRoot({
@@ -375,7 +382,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, DatePipe, NavService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, DatePipe, NavService, AutologoutService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

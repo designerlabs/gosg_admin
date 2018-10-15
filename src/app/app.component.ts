@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { CommonService} from './service/common.service';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
+import { AutologoutService} from './service/autologout.service';
 declare var $ :any;
 
 @Component({
@@ -22,9 +23,9 @@ export class AppComponent {
   public loading = false;
   public languageId: any;
 
-  constructor(private commonService:CommonService, router:Router) {
-
-}
+  constructor(private commonService:CommonService, router:Router, private autoLogout: AutologoutService) {
+    this.autoLogout.starts();
+  }
 
 ngOnInit() {
 
