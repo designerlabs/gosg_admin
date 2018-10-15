@@ -16,6 +16,7 @@ import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../nav/nav.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-lifeeventpublisher',
@@ -124,7 +125,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 
   public htmlContentEnEditor: Object = {
 
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==' ,
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
@@ -141,7 +142,7 @@ export class LifeeventpublisherComponent implements OnInit, OnDestroy {
 };
 
   public htmlContentMyEditor: Object = {
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==',
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 

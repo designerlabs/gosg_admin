@@ -11,5 +11,6 @@ export const environment = {
   mediaURL: '/',
   mockApiURL :'/',
   baseURL: '/',
-  mibisURL: '/'
+  mibisURL: '/',
+  froalakey: 'bH3A7B5C5E4C2E3D3D2G2B5=='
 };

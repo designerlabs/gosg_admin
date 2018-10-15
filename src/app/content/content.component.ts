@@ -103,7 +103,8 @@ export class ContentComponent implements OnInit, OnDestroy {
 
   public htmlContentEnEditor: Object = {
 
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==',
+
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
@@ -120,7 +121,7 @@ export class ContentComponent implements OnInit, OnDestroy {
 };
 
   public htmlContentMyEditor: Object = {
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==',
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 

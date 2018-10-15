@@ -11,5 +11,6 @@ export const environment = {
     mediaURL: 'http://10.1.71.168/',
     mockApiURL :'http://10.1.22.34:3000/',
     baseURL: 'http://localhost/locale-api/',
-    mibisURL: 'https://10.1.71.176/mibis/'
+    mibisURL: 'https://10.1.71.176/mibis/',
+    froalakey: 'bH3A7B5C5E4C2E3D3D2G2B5=='
   };

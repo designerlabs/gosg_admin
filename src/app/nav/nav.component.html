@@ -28,12 +28,12 @@
       <div class="col-md-6"><a routerLink="/index"><img src="assets/images/{{imgSrc }}.jpg" alt=""></a></div>
       <div class="col-md-6 align_right">
         <div style="margin-top:12px; padding-right:8px;">
-            <ul class="list-inline font-size-s">
+            <!----<ul class="list-inline font-size-s">
               <li>
                 <button (click)="toggle()" class="btn btn-xs btn-default font-size-s hidden-xs visible-sm  visible-md visible-lg"><i class="fa fa-language"></i> {{ currlang }}</button>
                 <button (click)="toggle()" class="btn btn-xs btn-default font-size-s visible-xs hidden-sm hidden-md hidden-lg"><i class="fa fa-language"></i> {{ currlangMOB }}</button>
               </li>
-            </ul>
+            </ul>-->
             | <span class="font-size-s"><i class="fa fa-user"></i> {{state}}</span> | <a href="https://gosgstag.malaysia.gov.my/portal/" target="_blank" class="btn btn-xs font-size-s btn-default"><span><i class="fa fa-globe"></i> {{ 'home.menu.viewsite' | translate }}</span></a> <a style="cursor:pointer;" (click)="logout()" class="btn btn-xs font-size-s btn-default"><i class="fa fa-sign-out" aria-hidden="true"></i> {{ 'home.menu.logout' | translate }}</a>
         </div>
       </div>
