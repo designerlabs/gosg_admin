@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { CommonService} from './service/common.service';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
+import { APP_CONFIG, AppConfig } from './config/app.config.module';
 declare var $ :any;
 
 @Component({
@@ -19,10 +20,12 @@ export class AppComponent {
   title = 'app';
   bTop = '15px';
   side = true;
+  invalidAdmin: any;
   public loading = false;
   public languageId: any;
 
-  constructor(private commonService:CommonService, router:Router) {
+  constructor(private commonService:CommonService, router:Router,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,) {
 
 }
 
@@ -38,6 +41,10 @@ ngOnInit() {
   $.FroalaEditor.DefineIcon('alert', {NAME: 'info'});
 }
 
+logout(){
+  localStorage.removeItem('usrID');
+  location.href= this.appConfig.urlLog +'uapsso/Logout?return='+this.appConfig.urlLog+'portal_admin_protected';
+}
 
   getUserData(){
     if(!environment.staging){
@@ -51,13 +58,22 @@ ngOnInit() {
             this.superAdmin = data['adminUser'].superAdmin;
             localStorage.setItem('fullname',data['adminUser'].fullName);
             localStorage.setItem('email',data['adminUser'].email);
-          }else{
 
+            console.log("data login");
+            console.log(data);
+          }else{
+            console.log("before login");
+            console.log(data);
+            // setTimeout(() => {
+            //   this.logout();
+            // }, 5000);
           }
           this.loading = false;
         },
       error => {
         this.loading = false;
+
+        console.log(error);
           //location.href = this.config.urlUAP +'uapsso/Logout';
           //location.href = this.config.urlUAP+'portal/index';
         }
