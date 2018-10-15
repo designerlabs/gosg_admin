@@ -43,7 +43,7 @@ ngOnInit() {
 
 logout(){
   localStorage.removeItem('usrID');
-  location.href= this.appConfig.urlLog +'uapsso/Logout?return='+this.appConfig.urlLog+'portal_admin_protected';
+  location.href= this.appConfig.urlLog +'uapsso/Logout?return='+this.appConfig.urlLog+'portal-admin-protected/';
 }
 
   getUserData(){
