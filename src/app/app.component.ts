@@ -3,16 +3,13 @@ import { Http } from '@angular/http';
 import { CommonService} from './service/common.service';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
-<<<<<<< HEAD
 import { AutologoutService} from './service/autologout.service';
-=======
 import { APP_CONFIG, AppConfig } from './config/app.config.module';
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/skip';
 import { timer } from 'rxjs/observable/timer';
 import { take, map } from 'rxjs/operators';
->>>>>>> 3ca9cc6ee3ac6dc046e4b83628ab61084f755cb2
 declare var $ :any;
 
 @Component({
@@ -35,21 +32,10 @@ export class AppComponent {
   public loading = false;
   public languageId: any;
 
-<<<<<<< HEAD
-  constructor(private commonService:CommonService, router:Router, private autoLogout: AutologoutService) {
+  constructor(private commonService:CommonService, router:Router, private autoLogout: AutologoutService,
+    @Inject(APP_CONFIG) private appConfig: AppConfig) {
     this.autoLogout.starts();
   }
-=======
-  constructor(private commonService:CommonService, router:Router,
-    @Inject(APP_CONFIG) private appConfig: AppConfig,) {
-
-      this.countDown = timer(0,1000).pipe(
-        take(this.count),
-        map(()=> --this.count)
-      );
-
-}
->>>>>>> 3ca9cc6ee3ac6dc046e4b83628ab61084f755cb2
 
 ngOnInit() {
 
