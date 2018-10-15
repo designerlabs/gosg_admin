@@ -15,15 +15,7 @@ export class GareportsComponent implements OnInit {
   @ViewChild('cchart') cchart;
   public selectEvent: ChartSelectEvent;
 
-  public columnChartData:any =  {
-    chartType: 'ColumnChart',
-    dataTable: [
-      ['Country', 'count'],
-      ['Japan', 10],
-      ['Malaysia', 252]
-    ],
-    options: {title: 'Users by Countries'}
-  };
+  public columnChartData:any;
 
   constructor(private http:  HttpClient) { }
 
@@ -34,7 +26,9 @@ export class GareportsComponent implements OnInit {
   ngOnInit() {
 
     this.getGA('2018-08-10', '2018-10-01', 'ga:city');
-
+    this.columnChartData.chartType = 'ColumnChart';
+    this.columnChartData.dataTable = [];
+    this.columnChartData.options.title = "Users by Countries";
   }
 
   getGAReport(frmDt, endDt, opt, token){
@@ -42,13 +36,15 @@ export class GareportsComponent implements OnInit {
     return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A173733410&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=${opt}&access_token=${token}`)
       .subscribe(
         data => {
-          debugger;
           console.log(data);
-          this.columnChartData.dataTable = [
-            ['Country', 'count'],
-            ['America', 333],
-            ['Malaysia', 252]
-          ]
+
+          for (var i = 0; i <= data['rows'].length; i++) {
+            console.log('loop ' + i, data['rows'][i]);
+            debugger;
+            // this.columnChartData.dataTable.push(data['rows'][i]);
+            this.columnChartData = Object.create(this.columnChartData);
+          }
+
         }, error => {
           console.log(error);
         }
@@ -57,13 +53,10 @@ export class GareportsComponent implements OnInit {
 
   public changeData():void {
     // forces a reference update (otherwise angular won't detect the change
-    this.columnChartData = Object.create(this.columnChartData);
-    for (let i = 1; i < 7; i++) {
-      this.columnChartData.dataTable[i][1] = Math.round(
-        Math.random() * 1000);
-      this.columnChartData.dataTable[i][2] = Math.round(
-        Math.random() * 1000);
-    }
+    this.getGA('2018-08-10', '2018-10-01', 'ga:city');
+
+
+
   }
 
   getGA(frmDt, endDt, opt){
