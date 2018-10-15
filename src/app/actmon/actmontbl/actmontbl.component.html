@@ -41,7 +41,7 @@
               </button>
             </mat-form-field>
 
-            <div #spanel *ngIf="isActiveList" [ngClass]="{'listParent':searchUserResult.length < 10,'listParent-w-scroll':searchUserResult.length >= 10}"
+            <div *ngIf="isActiveList" [ngClass]="{'listParent':searchUserResult.length < 10,'listParent-w-scroll':searchUserResult.length >= 10}"
               (scroll)="onScroll($event,1)">
               <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
                 <li class="list-group-item" *ngFor="let data of searchUserResult">
@@ -262,14 +262,14 @@
                   {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- question Column --> <!-- style="flex: 0 35%;" -->
               <ng-container matColumnDef="question">
                 <mat-header-cell *matHeaderCellDef > {{ 'actmon.tableHeader.pollquestion' | translate }}<br />&nbsp;</mat-header-cell>
                 <mat-cell *matCellDef="let element" (click)="getRow(element)" >
                   {{element.questionTitle}} </mat-cell>
               </ng-container>
-  
+
               <!-- answer1 Column -->
               <ng-container matColumnDef="answer1">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />1</mat-header-cell>
@@ -277,7 +277,7 @@
                   {{ element.pollsAnswer1 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- result1 Column -->
               <ng-container matColumnDef="result1">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />1</mat-header-cell>
@@ -285,7 +285,7 @@
                   {{ element.pollsResult1 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- answer2 Column -->
               <ng-container matColumnDef="answer2">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />2</mat-header-cell>
@@ -293,7 +293,7 @@
                   {{ element.pollsAnswer2 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- result2 Column -->
               <ng-container matColumnDef="result2">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />2</mat-header-cell>
@@ -301,7 +301,7 @@
                   {{ element.pollsResult2 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- answer3 Column -->
               <ng-container matColumnDef="answer3">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />3</mat-header-cell>
@@ -309,7 +309,7 @@
                   {{ element.pollsAnswer3 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- result3 Column -->
               <ng-container matColumnDef="result3">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />3</mat-header-cell>
@@ -317,7 +317,7 @@
                   {{ element.pollsResult3 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- answer4 Column -->
               <ng-container matColumnDef="answer4">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />4</mat-header-cell>
@@ -325,7 +325,7 @@
                   {{ element.pollsAnswer4 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- result4 Column -->
               <ng-container matColumnDef="result4">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />4</mat-header-cell>
@@ -333,7 +333,7 @@
                   {{ element.pollsResult4 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- answer5 Column -->
               <ng-container matColumnDef="answer5">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />5</mat-header-cell>
@@ -341,7 +341,7 @@
                   {{ element.pollsAnswer5 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- result5 Column -->
               <ng-container matColumnDef="result5">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />5</mat-header-cell>
@@ -349,7 +349,7 @@
                   {{ element.pollsResult5 }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- pollsActiveFlag Column -->
               <ng-container matColumnDef="pollsActiveFlag">
                 <mat-header-cell *matHeaderCellDef class="statusColumn">{{ 'admin.component.active' | translate
@@ -360,7 +360,7 @@
                   <!-- {{ element.pollsActiveFlag }} -->
                 </mat-cell>
               </ng-container>
-  
+
               <!-- insertDate Column -->
               <ng-container matColumnDef="insertDate">
                 <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate }}<br />&nbsp;</mat-header-cell>
@@ -368,7 +368,7 @@
                   {{ element.createDate }}
                 </mat-cell>
               </ng-container>
-  
+
               <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
             </mat-table>
@@ -389,14 +389,14 @@
                   {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- ticno Column --> <!-- style="flex: 0 35%;" -->
               <ng-container matColumnDef="ticno">
                 <mat-header-cell *matHeaderCellDef > {{ 'actmon.tableHeader.ticno' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let element" (click)="getRow(element)" >
                   {{element.feedbackTicketNo}} </mat-cell>
               </ng-container>
-  
+
               <!-- type Column -->
               <ng-container matColumnDef="type">
                 <mat-header-cell *matHeaderCellDef class="text-center">{{ 'feedback.label.type' | translate }}</mat-header-cell>
@@ -404,7 +404,7 @@
                   {{ element.feedbackType.feedbackTypeDescription }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- subject Column -->
               <ng-container matColumnDef="subject">
                 <mat-header-cell *matHeaderCellDef>{{ 'feedback.label.subjek' | translate }}</mat-header-cell>
@@ -412,7 +412,7 @@
                   {{ element.feedbackSubject.feedbackSubjectDescription }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- from Column -->
               <ng-container matColumnDef="from">
                 <mat-header-cell *matHeaderCellDef style="flex: 0 15%;">{{ 'actmon.tableHeader.from' | translate }}</mat-header-cell>
@@ -420,7 +420,7 @@
                   {{ element.feedbackEmail }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- content Column -->
               <ng-container matColumnDef="content">
                 <mat-header-cell *matHeaderCellDef>{{ 'feedback.label.content' | translate }}</mat-header-cell>
@@ -428,7 +428,7 @@
                   {{ element.feedbackMessage }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- remark Column -->
               <ng-container matColumnDef="remark">
                 <mat-header-cell *matHeaderCellDef>{{ 'actmon.tableHeader.remark' | translate }}</mat-header-cell>
@@ -436,7 +436,7 @@
                   {{ element.feedbackRemarks }}
                 </mat-cell>
               </ng-container>
-  
+
               <!-- date Column -->
               <ng-container matColumnDef="date">
                 <mat-header-cell *matHeaderCellDef class="text-center" style="flex: 0 8%;">{{ 'actmon.tableHeader.datereceive' | translate
@@ -454,7 +454,7 @@
                   {{ element.modifiedDate }}
                 </mat-cell>
               </ng-container>
-  
+
               <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
             </mat-table>
@@ -493,7 +493,7 @@
     </div>
   </div>
 
- 
+
 </div>
 
 
