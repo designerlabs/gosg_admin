@@ -111,3 +111,16 @@
 .right-content {
     width: 100%;
 }
+
+.app-invalid {
+    position: fixed;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    background: rgba(10,10,10,0.5);
+  }
