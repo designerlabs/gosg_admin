@@ -13,14 +13,14 @@
         <router-outlet></router-outlet>
     </div>
 </div>
-<div class="app-invalid" *ngIf="invalidAdmin.statusCode == 'ERROR'">
+<div class="app-invalid" *ngIf="invalidAdmin?.statusCode == 'ERROR'">
     <div style="width: 35%; height: auto; background: #212121;">
         <h3 style="text-align: center; line-height: 35px; color: white;">
-            {{invalidAdmin.statusDesc}}
+            {{invalidAdmin?.statusDesc}}
         </h3>
         <!-- <h3 style="text-align: center; line-height: 35px">nnnn</h3>
         <div  style="text-align: center;"><h4>mmmmm</h4></div>-->
-        <p style="text-align: center;">{{'common.seconds1' | translate }} {{countDown | async}} {{'common.seconds2' | translate }}</p> 
+        <p style="text-align: center; color: white;">{{'common.seconds1' | translate }} {{countDown | async}} {{'common.seconds2' | translate }}</p> 
     </div>
 </div>
 
