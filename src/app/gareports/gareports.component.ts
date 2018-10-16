@@ -6,6 +6,8 @@ import { ChartSelectEvent } from 'ng2-google-charts';
 import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts'
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import * as moment from 'moment';
+
 @Component({
   selector: 'gosg-gareports',
   templateUrl: './gareports.component.html',
@@ -20,6 +22,10 @@ export class GareportsComponent implements OnInit {
   gaForm: FormGroup;
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
+  stDate:any;
+  endDate:any;
+  st_Date:any;
+  end_Date:any;
   publishdt:number;
   enddt: number;
   minDate: any;
@@ -47,6 +53,7 @@ export class GareportsComponent implements OnInit {
     options: {title: 'Countries'}
   };
   reportArray:string[] = [];
+  dimension: any;
 
   constructor(private http:  HttpClient) { }
 
@@ -68,7 +75,7 @@ export class GareportsComponent implements OnInit {
 
   getGAReport(frmDt, endDt, opt, token){
 
-    return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A173733410&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=${opt}&access_token=${token}`)
+    return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A173733410&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=${opt}&access_token=${token}&max-results=10`)
       .subscribe(
         data => {
           console.log(data);
@@ -93,12 +100,12 @@ export class GareportsComponent implements OnInit {
   }
 
   public changeData():void {
-    // forces a reference update (otherwise angular won't detect the change
-    this.getGA('2018-08-10', '2018-10-01', 'ga:city');
-
-
-
+    console.log(this.st_Date, this.end_Date);
+    this.getGA(this.st_Date, this.end_Date, this.dimension);
   }
+
+
+
 
   getGA(frmDt, endDt, opt){
 
@@ -120,11 +127,12 @@ export class GareportsComponent implements OnInit {
 
 
 
-  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
 
+  publishEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
     let year, month, day;
     this.events = [];
     this.events.push(`${event.value}`);
+    console.log(moment(event.value).format('YYYY-MM-DD'));
 
     this.publishdt = new Date(this.events[0]).getTime();
     // this.updateForm.get('publish').setValue(new Date(this.publishdt).toISOString());
@@ -135,7 +143,7 @@ export class GareportsComponent implements OnInit {
     day = new Date(this.events[0]).getDate();
 
     this.eMinDate = new Date(year,month,day);
-
+    this.st_Date = moment(event.value).format('YYYY-MM-DD');
     if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
       this.enddt = new Date(this.events[0]).getTime();
       // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
@@ -143,6 +151,21 @@ export class GareportsComponent implements OnInit {
     }
 
     // this.checkReqValues()
+  }
+
+
+
+  endEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+    this.events = [];
+    this.events.push(`${event.value}`);
+    this.enddt = new Date(this.events[0]).getTime();
+    this.end_Date = this.st_Date = moment(event.value).format('YYYY-MM-DD');
+    this.dateFormatExample = "";
+    // this.checkReqValues()
+  }
+
+  checkState(e){
+    this.dimension = e.value;
   }
 
 
