@@ -61,6 +61,9 @@ export class MinistryComponent implements OnInit {
   youtubeUrl: FormControl
   mdecStatus: FormControl
   uniqueCode: FormControl
+  gAudioUrl: FormControl
+  gVideoUrl: FormControl
+  gPhotoUrl: FormControl
 
   resetMsg = this.resetMsg;
   public loading = false;
@@ -136,6 +139,9 @@ export class MinistryComponent implements OnInit {
     this.flickrUrl = new FormControl()
     this.mdecStatus = new FormControl()
     this.uniqueCode = new FormControl()
+    this.gAudioUrl = new FormControl()
+    this.gVideoUrl = new FormControl()
+    this.gPhotoUrl = new FormControl()
 
     this.updateForm = new FormGroup({
       ministryNameEn: this.ministryNameEn,
@@ -159,6 +165,9 @@ export class MinistryComponent implements OnInit {
       flickrUrl: this.flickrUrl,
       active: this.active,
       uniqueCode: this.uniqueCode,
+      gAudioUrl: this.gAudioUrl,
+      gVideoUrl: this.gVideoUrl,
+      gPhotoUrl: this.gPhotoUrl,
       mdecStatus: this.mdecStatus
     });
 
@@ -230,6 +239,9 @@ export class MinistryComponent implements OnInit {
         this.updateForm.get('fbUrl').setValue(dataBm.ministryFacebook);
         this.updateForm.get('mdecStatus').setValue(dataBm.ministryMdecstatus);
         this.updateForm.get('uniqueCode').setValue(dataBm.ministryUniqueCode);
+        this.updateForm.get('gAudioUrl').setValue(dataBm.ministryAudioUrl);
+        this.updateForm.get('gVideoUrl').setValue(dataBm.ministryVideoUrl);
+        this.updateForm.get('gPhotoUrl').setValue(dataBm.ministryPhotoUrl);
         this.refCode = dataEn.ministryCode;
         this.ministryIdEn = dataEn.ministryId;
         this.ministryIdBm = dataBm.ministryId;
@@ -328,6 +340,9 @@ export class MinistryComponent implements OnInit {
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
         "ministryYoutube": null,
+        "ministryAudioUrl": null,
+        "ministryVideoUrl": null,
+        "ministryPhotoUrl": null,
         "language": {
           "languageId": 1
         }
@@ -353,6 +368,9 @@ export class MinistryComponent implements OnInit {
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
         "ministryYoutube": null,
+        "ministryAudioUrl": null,
+        "ministryVideoUrl": null,
+        "ministryPhotoUrl": null,
         "language": {
           "languageId": 2
         }
@@ -381,6 +399,9 @@ export class MinistryComponent implements OnInit {
     body[0].ministryTwitter = formValues.twitterUrl;
     body[0].ministryWebsiteUrl = formValues.websiteUrl;
     body[0].ministryYoutube = formValues.youtubeUrl;
+    body[0].ministryAudioUrl = formValues.gAudioUrl;
+    body[0].ministryVideoUrl = formValues.gVideoUrl;
+    body[0].ministryPhotoUrl = formValues.gPhotoUrl;
 
     body[1].ministryName = formValues.ministryNameBm;
     body[1].ministryUniqueCode = formValues.uniqueCode;
@@ -402,6 +423,9 @@ export class MinistryComponent implements OnInit {
     body[1].ministryTwitter = formValues.twitterUrl;
     body[1].ministryWebsiteUrl = formValues.websiteUrl;
     body[1].ministryYoutube = formValues.youtubeUrl;
+    body[1].ministryAudioUrl = formValues.gAudioUrl;
+    body[1].ministryVideoUrl = formValues.gVideoUrl;
+    body[1].ministryPhotoUrl = formValues.gPhotoUrl;
 
     
     this.loading = true;
@@ -450,6 +474,9 @@ export class MinistryComponent implements OnInit {
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
         "ministryYoutube": null,
+        "ministryAudioUrl": null,
+        "ministryVideoUrl": null,
+        "ministryPhotoUrl": null,
         "language": {
           "languageId": 1
         }
@@ -477,6 +504,9 @@ export class MinistryComponent implements OnInit {
         "ministryTwitter": null,
         "ministryWebsiteUrl": null,
         "ministryYoutube": null,
+        "ministryAudioUrl": null,
+        "ministryVideoUrl": null,
+        "ministryPhotoUrl": null,
         "language": {
           "languageId": 2
         }
@@ -505,6 +535,9 @@ export class MinistryComponent implements OnInit {
     body[0].ministryTwitter = formValues.twitterUrl;
     body[0].ministryWebsiteUrl = formValues.websiteUrl;
     body[0].ministryYoutube = formValues.youtubeUrl;
+    body[0].ministryAudioUrl = formValues.gAudioUrl;
+    body[0].ministryVideoUrl = formValues.gVideoUrl;
+    body[0].ministryPhotoUrl = formValues.gPhotoUrl;
   
     body[1].ministryId = this.ministryIdBm;
     body[1].ministryUniqueCode = formValues.uniqueCode;
@@ -528,6 +561,9 @@ export class MinistryComponent implements OnInit {
     body[1].ministryTwitter = formValues.twitterUrl;
     body[1].ministryWebsiteUrl = formValues.websiteUrl;
     body[1].ministryYoutube = formValues.youtubeUrl;
+    body[1].ministryAudioUrl = formValues.gAudioUrl;
+    body[1].ministryVideoUrl = formValues.gVideoUrl;
+    body[1].ministryPhotoUrl = formValues.gPhotoUrl;
 
     
 

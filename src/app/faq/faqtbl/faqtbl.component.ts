@@ -101,7 +101,7 @@ export class FaqtblComponent implements OnInit {
     this.recordList = null;
 
     this.loading = true;
-    this.commonservice.readProtected('faq/code', count, size)
+    this.commonservice.readProtected('faq/code', count, size, '', this.languageId)
     .subscribe(data => {
       this.commonservice.errorHandling(data, (function(){
         this.recordList = data;
@@ -141,7 +141,7 @@ export class FaqtblComponent implements OnInit {
 
       this.kword = val;
       this.loading = true;
-      this.commonservice.readPortal('faq', count, size, val)
+      this.commonservice.readPortal('faq', count, size, val, this.languageId)
       .subscribe(data => {
         this.commonservice.errorHandling(data, (function(){
           this.recordList = data;

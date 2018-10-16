@@ -114,7 +114,7 @@ export class SitemaptblComponent implements OnInit {
   // get errMsg Data
   getSiteMapData(page, size) {
     this.loading = true;
-    this.commonservice.readPortal('sitemap/code', page, size)
+    this.commonservice.readPortal('sitemap/code', page, size, '', this.languageId)
       .subscribe(
         data => {
 
@@ -156,7 +156,7 @@ export class SitemaptblComponent implements OnInit {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.kword = keyword;
       this.loading = true;
-      this.commonservice.readPortal('sitemap/search', page, size, keyword)
+      this.commonservice.readPortal('sitemap/search', page, size, keyword,this.languageId)
       .subscribe(
           data => {
 

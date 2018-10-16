@@ -9,13 +9,14 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
-import { stringify } from '@angular/core/src/util';
-import { forEach } from '@angular/router/src/utils/collection';
+// import { stringify } from '@angular/core/src/util';
+// import { forEach } from '@angular/router/src/utils/collection';
+// import * as $ from 'jquery';
 import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
-import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../nav/nav.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-participationpublisher',
@@ -96,9 +97,9 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
   email: any;
 
   private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
-  private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
+  // private subscriptionContentCreator: ISubscription;
+  // private subscriptionCategoryC: ISubscription;
+  // private subscriptionRecordListC: ISubscription;
 
   editor = { enVal: '', bmVal: ''};
   editorConfig = {
@@ -227,7 +228,19 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
 
     let now = new Date();
 
+    // =================== START SET MAMPU AGENCY BY DEFAULT ===============
+    let mampuId: any;
+    let mampuCode: any;
+    mampuCode = this.commonservice.mampuCode;
+
+    if(this.languageId == 1)
+      mampuId = this.commonservice.mampuIdEn;
+    else
+      mampuId = this.commonservice.mampuIdBm;
+    // =================== END SET MAMPU AGENCY BY DEFAULT =================
+
     if (refCode == "add") {
+      this.getDetailsAgency(mampuId, mampuCode);
       this.isEdit = false;
       this.pageMode = "Add";
       this.updateForm.get('active').setValue(true);
@@ -255,25 +268,37 @@ export class ParticipationpublisherComponent implements OnInit, OnDestroy {
 
   public htmlContentEnEditor: Object = {
 
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==' ,
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
 };
 
   public htmlContentMyEditor: Object = {
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==',
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
   };
 
   back() {

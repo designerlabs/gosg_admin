@@ -282,7 +282,18 @@ export class SystemsettingsComponent implements OnInit, OnDestroy {
   }
 
   myFunction() {
-    this.updateForm.reset();
+    //this.updateForm.reset();
+    this.updateForm.get('value').setValue('');
+    this.updateForm.get('active').setValue(false);
+    this.checkReqValues();
+  }
+
+  validValue(formValues: any){
+
+    if(formValues.value != null){
+      let validValue= (formValues.value)?(formValues.value).replace(/[`~!#$%^&*@() |+\÷¿?;'",<>\{\}\[\]\\]/gi, "") : '';
+      this.updateForm.get('value').setValue(validValue);
+    }
     this.checkReqValues();
   }
 

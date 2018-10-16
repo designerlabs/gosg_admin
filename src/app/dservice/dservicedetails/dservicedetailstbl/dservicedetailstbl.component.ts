@@ -170,7 +170,7 @@ export class DServicedetailstblComponent implements OnInit, OnDestroy {
     if(keyword != "" && keyword != null && keyword.length != null && keyword.length >= 3) {
       this.kword = keyword;
       this.loading = true;
-      this.commonservice.readProtected('digitalservice/details', count, size, keyword)
+      this.commonservice.readProtected('digitalservice/details', count, size, keyword, this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){

@@ -1,5 +1,5 @@
 <div class="container right-content">
-  
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading> 
 
   <div class="curdHeader">
       <div class="col-md-10 curdHeadingLeft">
@@ -46,6 +46,18 @@
               </mat-error>
             </mat-form-field>
           </div>
+        </div>
+        
+        <div class="example-header">
+        <div class="col-md-6">
+          <mat-form-field class="example-full-width font-size-s">
+            <input matInput placeholder="{{ 'city.tableHeader.uniquecode' | translate }}" formControlName="uniqueCode" #UniqueCode (keyup)="checkReqValues()"
+              required>
+            <mat-error *ngIf="updateForm.controls.uniqueCode.hasError('required')">
+              {{ 'city.tableHeader.uniquecode' | translate }} {{ 'common.isrequired' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
         </div>
       </div>
 

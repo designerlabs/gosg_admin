@@ -19,6 +19,12 @@ const stageURL = environment.stagURL;
 const commonURL = devURL + 'service-admin-protected/';
 const serviceURL = stageURL + 'service/';
 
+//http://10.29.56.158/service/
+//http://10.29.56.158/service-admin-protected/
+
+//http://10.1.67.27/service/
+//http://10.1.67.27/service-admin-protected/
+
 
 // let publicURL = 'http://10.1.70.148:8080/gosg-service-public/';
 
@@ -58,12 +64,14 @@ export class AppConfig {
     externalMediaURL: string;
     urlHtmlParse: string;
     urlmibis: string;
+    urlLog: string;
 
 }
 
 export const APP_DI_CONFIG: AppConfig = {
     apiEndpoint: '',
     urlCommon: commonURL,
+    urlLog: devURL,
     urlService: serviceURL,
     urlMenu: commonURL + 'menu',
     baseURL: 'http://localhost/locale-api/',

@@ -161,3 +161,48 @@
         min-height: 500px;
         overflow: hidden;
     }
+
+    .editBtn{
+      position: absolute;
+      right: 10px;
+      top: 65%;
+      color: #333;
+    }
+    
+    .editBtn:hover {
+      position: absolute;
+      background-color: rgb(109, 185, 38);
+      color: #FFF;
+      right: 10px;
+      top: 65%;
+    }
+    
+    .editBtn-active {
+      position: absolute;
+      background-color: rgb(109, 185, 38);
+      color: #FFF;
+      right: 10px;
+      top: 65%;
+    }
+
+    .datetimeMask {
+        color: #333;
+        margin-bottom: -6%;
+    }
+
+    .exp-panel {
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        background: rgba(245, 245, 245, 0.5);
+    }
+
+    .listParent {
+        position: absolute;
+        z-index: 9999;
+        overflow-y: scroll;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    }
+
+    .listParent-w-scroll {
+        position:absolute; left: 3%; top:70%; z-index: 1; overflow-y: scroll; height: 250px;
+        z-index: 9999;
+    }

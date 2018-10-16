@@ -1,4 +1,5 @@
 <div class="container right-content">
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading>
 
   <div class="curdHeader">
     <div class="col-md-4 curdHeadingLeft">
@@ -9,161 +10,465 @@
 
   </div>
   <div *ngIf="commonservice.isRead">
-    <div class="example-container mat-elevation-z8 col-md-12">
-    <mat-tab-group (selectedIndexChange)="tabAction($event)">
-      <!-- USERS -->
-      <mat-tab label="{{ 'actmon.component.users' | translate }}">
-        <!-- <div class="example-container mat-elevation-z8 mat-tbl"> -->
-        <div class="col-md-3 paddingTop-10" style="padding-left:30px;">
-          <mat-form-field class="example-full-width">
-            <mat-select [(ngModel)]="usertype" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="filterType($event)">
-              <!-- <mat-option [value]="1">{{ 'common.filterby.all' | translate }}</mat-option> -->
-              <mat-option [value]="2">{{ 'common.filterby.email' | translate }}</mat-option>
-              <mat-option [value]="3">{{ 'common.filterby.icno' | translate }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-md-9 paddingTop-10" *ngIf="filterTypeVal != 1 && filterTypeVal != 0">
-          <mat-form-field>
-            <input #keyword matInput (keyup)="applyFilter($event.target.value)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
-            <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)=" resetSearch()">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-
-          <div *ngIf="isActiveList" [ngClass]="{'listParent':searchUserResult.length < 10,'listParent-w-scroll':searchUserResult.length >= 10}"
-            (scroll)="onScroll($event,1)">
-            <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
-              <li class="list-group-item" *ngFor="let data of searchUserResult">
-                <a class="list-link" (click)="getVal(data?.identificationNo,data?.email)">
-                  <h4>{{data?.fullName}}</h4>
-                  <p>{{data?.identificationNo}}</p>
-                  <p>{{data?.email}}</p>
-                </a>
-              </li>
-            </ul>
+    <div class="example-container mat-elevation-z8">
+      <mat-accordion class="col-md-12 exp-panel">
+        <mat-expansion-panel style="background: rgba(245, 245, 245, 0.5)">
+          <mat-expansion-panel-header>
+            <mat-panel-title style="font-weight: bold">
+              {{ 'actmon.component.filters' | translate }}
+            </mat-panel-title>
+            <!-- <mat-panel-description>
+                  Type your name and age
+                </mat-panel-description> -->
+          </mat-expansion-panel-header>
+          <!-- <div class="col-md-12">&nbsp;</div> -->
+          <div *ngIf="currentTab == 0" class="col-md-3">
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="usertype" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="filterType($event)">
+                <mat-option [value]="0" (click)="getUsersDataByIDNO(0, pageCount, pageSize)">{{
+                  'common.filterby.all' | translate }}</mat-option>
+                <mat-option [value]="2">{{ 'common.filterby.email' | translate }}</mat-option>
+                <mat-option [value]="3">{{ 'common.filterby.icno' | translate }}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
-        </div>
+          <div class="col-md-3" *ngIf="currentTab == 0 && filterTypeVal != 1 && filterTypeVal != 0">
+            <mat-form-field class="example-full-width">
+              <input #keyword matInput (keyup)="applyFilter($event)" [(ngModel)]="value" placeholder="{{ 'common.placeholder.keywords' | translate }}">
+              <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
 
-        <mat-table class="col-md-12" *ngIf="userList && dataSource.data" #table [dataSource]="dataSource">
+            <div *ngIf="isActiveList" [ngClass]="{'listParent':searchUserResult.length < 10,'listParent-w-scroll':searchUserResult.length >= 10}"
+              (scroll)="onScroll($event,1)">
+              <ul class="list-group pmd-z-depth pmd-list pmd-card-list pmd-list">
+                <li class="list-group-item" *ngFor="let data of searchUserResult">
+                  <a class="list-link" (click)="getVal(data?.identificationNo,data?.email)">
+                    <h4>{{data?.fullName}}</h4>
+                    <p>{{data?.identificationNo}}</p>
+                    <p>{{data?.email}}</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <!-- No Column -->
-          <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-            <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
-              {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-            </mat-cell>
-          </ng-container>
+          </div>
 
-          <!-- slideTitle Column -->
-          <ng-container matColumnDef="username">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 20%;"> {{ 'usermgmt.tableHeader.fullname' | translate }}</mat-header-cell>
-            <!--  style="flex: 0 0 40%;" -->
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 20%;"> {{element.userName}} </mat-cell>
-          </ng-container>
+          <div *ngIf="currentTab == 1" class="col-md-4">
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="agcSelect" placeholder="{{ 'actmon.filter.agency' | translate }}" (change)="agcFilterType($event)">
+                <mat-option [value]="0" (click)="currentAgencyRefNo = ''">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option *ngFor="let agc of agencyList" [value]="agc.agencyCode" title="{{ agc.agencyName }}"
+                  (click)="currentAgencyRefNo = agc.agencyCode">{{ agc.agencyName }}</mat-option>
+                  <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-          <ng-container matColumnDef="idno">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'actmon.tableHeader.idno' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;"> {{element.identificationNo}} </mat-cell>
-          </ng-container>
+          <div *ngIf="currentTab == 1" class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <mat-select [(ngModel)]="agcAppStatusSelect" placeholder="{{ 'actmon.filter.status' | translate }}">
+                <mat-option [value]="0" (click)="currentAgcAppStatus = '';">{{ 'common.filterby.all' | translate }}</mat-option>
+                <mat-option *ngFor="let aas of appStatusData" [value]="aas.id" title="{{ aas.name }}"
+                  (click)="currentAgcAppStatus = aas.id">{{ aas.name }}</mat-option>
+                  <!-- (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option> -->
+              </mat-select>
+            </mat-form-field>
+          </div>
 
-          <ng-container matColumnDef="serviceName">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;"> {{element.serviceName}} </mat-cell>
-          </ng-container>
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <div [ngClass]="{ 'datetimeMask':startdt, 'datetimeMaskWithValue':!startdt }">{{startdt |
+                date:'dd/MM/yyyy' }}</div>
+              <input placeholder="{{ 'actmon.component.start' | translate }}" [owlDateTime]="startDate" style="display: none;"
+                matInput (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)" />
+              <span [owlDateTimeTrigger]="startDate"><i class="fa fa-calendar pull-right"></i></span>
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearDate()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <owl-date-time [pickerType]="'calendar'" #startDate></owl-date-time>
+            </mat-form-field>
+          </div>
 
-          <ng-container matColumnDef="submissionRefno">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'actmon.tableHeader.subrefno' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;"> {{element.submissionRefno}} </mat-cell>
-          </ng-container>
+          <div class="col-md-2">
+            <mat-form-field class="example-full-width">
+              <div [ngClass]="{ 'datetimeMask':enddt, 'datetimeMaskWithValue':!enddt }">{{enddt | date:'dd/MM/yyyy'
+                }}</div>
+              <input placeholder="{{ 'actmon.component.end' | translate }}" [owlDateTime]="endDate" style="display: none;"
+                matInput (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)" />
+              <span [owlDateTimeTrigger]="endDate"><i class="fa fa-calendar pull-right"></i></span>
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearDate()">
+                <mat-icon>close</mat-icon>
+              </button>
+              <owl-date-time [pickerType]="'calendar'" #endDate></owl-date-time>
+            </mat-form-field>
+          </div>
 
-          <!-- status Column -->
-          <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef class="statusColumn">{{ 'usermgmt.tableHeader.accstatus' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" class="statusColumn">
-              {{ element.status }}
-            </mat-cell>
-          </ng-container>
+          <div *ngIf="usertype == 0 && currentTab == 0" class="col-md-3">&nbsp;</div>
+          <div *ngIf="currentTab == 2 || currentTab == 3" class="col-md-6">&nbsp;</div>
 
-          <!-- date Column -->
-          <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" class="actionColumn">
-              {{ element.receivedDate }}
-            </mat-cell>
-          </ng-container>
+          <div class="col-md-2">
+            <button [disabled]="!isComplete" mat-raised-button color="primary" (click)="search()" class="pull-right"
+              style="min-width: 5px;" title="{{'common.buttons.search' | translate}}">
+              <i [ngClass]="commonservice.icon.search"></i>
+              <span class="largeScreen">{{'common.buttons.search' | translate}}</span></button>
+          </div>
 
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-tab-group (selectedIndexChange)="tabAction($event)">
 
+        <!-- USERS -->
+        <mat-tab label="{{ 'actmon.component.users' | translate }}">
 
-        <!-- </div> -->
-      </mat-tab>
-      <!-- AGENCIES -->
-      <mat-tab label="{{ 'actmon.component.agencies' | translate }}">
+          <mat-table *ngIf="userList && dataSource.data" #table [dataSource]="dataSource">
 
-        <div class="col-md-6 paddingTop-10">
-          <mat-form-field class="example-full-width">
-            <mat-select [(ngModel)]="agcSelect" placeholder="{{ 'common.filterby.filterby' | translate }}" (change)="agcFilterType($event)">
-              <mat-option [value]="0" (click)="getAgenciesDataByID(0,1,10)">{{ 'common.filterby.all' | translate }}</mat-option>
-              <mat-option *ngFor="let agc of agencyList" [value]="agc.agencyCode" title="{{ agc.agencyName }}" (click)="getAgenciesDataByID(agc.agencyCode,1,10)">{{ agc.agencyName }}</mat-option>
-            </mat-select>
-          </mat-form-field>
+            <!-- No Column -->
+            <ng-container matColumnDef="no">
+              <mat-header-cell class="text-align-left noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' |
+                translate }} </mat-header-cell>
+              <mat-cell class="text-align-left noColumn" *matCellDef="let element; let i = index;">
+                {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+              </mat-cell>
+            </ng-container>
 
-        </div>
+            <!-- slideTitle Column -->
+            <ng-container matColumnDef="username">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'usermgmt.tableHeader.fullname' | translate
+                }}</mat-header-cell>
+              <!--  style="flex: 0 0 40%;" -->
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;">
+                {{element.userName}} </mat-cell>
+            </ng-container>
 
-        <mat-table class="col-md-12" *ngIf="agencyActivityList && dataSource1.data" #table [dataSource]="dataSource1">
+            <ng-container matColumnDef="idno">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'actmon.tableHeader.idno' | translate }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;">
+                {{element.identificationNo}} </mat-cell>
+            </ng-container>
 
-          <!-- No Column -->
-          <ng-container matColumnDef="no">
-            <mat-header-cell class="text-align-Center noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' | translate }} </mat-header-cell>
-            <mat-cell class="text-align-Center noColumn" *matCellDef="let element; let i = index;">
-              {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
-            </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="serviceName">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 25%;"> {{ 'actmon.tableHeader.agcappname' | translate }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 25%;">
+                {{element.serviceName}} </mat-cell>
+            </ng-container>
 
-          <!-- svcname Column -->
-          <ng-container matColumnDef="svcname">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
-            <!--  style="flex: 0 0 40%;" -->
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;"> {{element.serviceName}} </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="submissionRefno">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'actmon.tableHeader.subrefno' | translate
+                }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;">
+                {{element.submissionRefno}} </mat-cell>
+            </ng-container>
 
-          <!-- name Column -->
-          <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef style="flex: 0 0 35%;">{{ 'agency.name' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" style="flex: 0 35%;">
-              {{ element.agencyName }}
-            </mat-cell>
-          </ng-container>
+            <!-- status Column -->
+            <ng-container matColumnDef="status">
+              <mat-header-cell *matHeaderCellDef class="statusColumn">{{ 'usermgmt.tableHeader.accstatus' | translate
+                }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" class="statusColumn">
+                {{ element.status }}
+              </mat-cell>
+            </ng-container>
 
-          <!-- status Column -->
-          <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'actmon.tableHeader.status' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" (click)="getRow(element)" class="statusColumn"> {{element.status}} </mat-cell>
-          </ng-container>
+            <!-- date Column -->
+            <ng-container matColumnDef="date">
+              <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate
+                }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" class="actionColumn">
+                {{ element.receivedDate }}
+              </mat-cell>
+            </ng-container>
 
-          <!-- date Column -->
-          <ng-container matColumnDef="date">
-            <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" class="actionColumn">
-              {{ element.receivedDate }}
-            </mat-cell>
-          </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }}
+          </div>
 
-          <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
-        </mat-table>
-        <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }} </div>
-      </mat-tab>
-    </mat-tab-group>
+          <!-- </div> -->
+        </mat-tab>
+
+        <!-- AGENCIES -->
+        <mat-tab label="{{ 'actmon.component.agencies' | translate }}">
+
+          <mat-table *ngIf="agencyActivityList && dataSource1.data" #table [dataSource]="dataSource1">
+
+            <!-- No Column -->
+            <ng-container matColumnDef="no">
+              <mat-header-cell class="text-align-Center noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' |
+                translate }} </mat-header-cell>
+              <mat-cell class="text-align-Center noColumn" *matCellDef="let element; let i = index;">
+                {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- svcname Column -->
+            <ng-container matColumnDef="svcname">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;"> {{ 'actmon.tableHeader.svcname' | translate }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 30%;">
+                {{element.serviceName}} </mat-cell>
+            </ng-container>
+
+            <!-- app no Column -->
+            <ng-container matColumnDef="submissionRefno">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 10%;"> {{ 'actmon.tableHeader.subrefno' | translate
+                }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" style="flex: 0 0 10%;">
+                {{element.submissionRefno}} </mat-cell>
+            </ng-container>
+
+            <!-- name Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef style="flex: 0 0 30%;">{{ 'actmon.tableHeader.agcname' | translate }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" style="flex: 0 30%;">
+                {{ element.agencyName }}
+              </mat-cell>
+            </ng-container>
+
+            <!-- status Column -->
+            <ng-container matColumnDef="status">
+              <mat-header-cell *matHeaderCellDef class="statusColumn"> {{ 'actmon.tableHeader.status' | translate }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="getRow(element)" class="statusColumn"> {{element.status}}
+              </mat-cell>
+            </ng-container>
+
+            <!-- date Column -->
+            <ng-container matColumnDef="date">
+              <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate
+                }}</mat-header-cell>
+              <mat-cell *matCellDef="let element" class="actionColumn">
+                {{ element.receivedDate }}
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+          </mat-table>
+          <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }}
+          </div>
+        </mat-tab>
+
+        <!-- Polls -->
+        <mat-tab label="{{ 'actmon.component.polls' | translate }}">
+
+          <mat-table *ngIf="pollList && dataSource2.data" #table [dataSource]="dataSource2">
+
+              <!-- No Column -->
+              <ng-container matColumnDef="no">
+                <mat-header-cell class="text-align-Center noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' |
+                  translate }}<br />&nbsp;</mat-header-cell>
+                <mat-cell class="text-align-Center noColumn" *matCellDef="let element; let i = index;">
+                  {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- question Column --> <!-- style="flex: 0 35%;" -->
+              <ng-container matColumnDef="question">
+                <mat-header-cell *matHeaderCellDef > {{ 'actmon.tableHeader.pollquestion' | translate }}<br />&nbsp;</mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="getRow(element)" >
+                  {{element.questionTitle}} </mat-cell>
+              </ng-container>
+
+              <!-- answer1 Column -->
+              <ng-container matColumnDef="answer1">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />1</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsAnswer1 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- result1 Column -->
+              <ng-container matColumnDef="result1">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />1</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsResult1 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- answer2 Column -->
+              <ng-container matColumnDef="answer2">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />2</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsAnswer2 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- result2 Column -->
+              <ng-container matColumnDef="result2">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />2</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsResult2 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- answer3 Column -->
+              <ng-container matColumnDef="answer3">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />3</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsAnswer3 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- result3 Column -->
+              <ng-container matColumnDef="result3">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />3</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsResult3 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- answer4 Column -->
+              <ng-container matColumnDef="answer4">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />4</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsAnswer4 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- result4 Column -->
+              <ng-container matColumnDef="result4">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />4</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsResult4 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- answer5 Column -->
+              <ng-container matColumnDef="answer5">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollanswer' | translate }}<br />5</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsAnswer5 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- result5 Column -->
+              <ng-container matColumnDef="result5">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'actmon.tableHeader.pollresult' | translate }}<br />5</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.pollsResult5 }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- pollsActiveFlag Column -->
+              <ng-container matColumnDef="pollsActiveFlag">
+                <mat-header-cell *matHeaderCellDef class="statusColumn">{{ 'admin.component.active' | translate
+                  }}<br />&nbsp;</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="statusColumn">
+                    <i *ngIf="element.pollsActiveFlag == true" [ngClass]="commonservice.icon.check" class="color_green"></i>
+                    <i *ngIf="element.pollsActiveFlag == false" [ngClass]="commonservice.icon.times" class="color_red"></i>
+                  <!-- {{ element.pollsActiveFlag }} -->
+                </mat-cell>
+              </ng-container>
+
+              <!-- insertDate Column -->
+              <ng-container matColumnDef="insertDate">
+                <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate }}<br />&nbsp;</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="actionColumn">
+                  {{ element.createDate }}
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns2"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns2;"></mat-row>
+            </mat-table>
+            <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }}
+            </div>
+        </mat-tab>
+
+        <!-- Feedback -->
+        <mat-tab label="{{ 'actmon.component.feedback' | translate }}">
+
+          <mat-table *ngIf="feedbackList && dataSource3.data" #table [dataSource]="dataSource3">
+
+              <!-- No Column -->
+              <ng-container matColumnDef="no">
+                <mat-header-cell class="text-align-Center noColumn" *matHeaderCellDef> {{ 'common.tableHeader.num' |
+                  translate }} </mat-header-cell>
+                <mat-cell class="text-align-Center noColumn" *matCellDef="let element; let i = index;">
+                  {{(seqPageNum == 1) ? (i + 1) : ((seqPageNum * seqPageSize) - seqPageSize) + (i + 1) }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- ticno Column --> <!-- style="flex: 0 35%;" -->
+              <ng-container matColumnDef="ticno">
+                <mat-header-cell *matHeaderCellDef > {{ 'actmon.tableHeader.ticno' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" (click)="getRow(element)" >
+                  {{element.feedbackTicketNo}} </mat-cell>
+              </ng-container>
+
+              <!-- type Column -->
+              <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef class="text-center">{{ 'feedback.label.type' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center">
+                  {{ element.feedbackType.feedbackTypeDescription }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- subject Column -->
+              <ng-container matColumnDef="subject">
+                <mat-header-cell *matHeaderCellDef>{{ 'feedback.label.subjek' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.feedbackSubject.feedbackSubjectDescription }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- from Column -->
+              <ng-container matColumnDef="from">
+                <mat-header-cell *matHeaderCellDef style="flex: 0 15%;">{{ 'actmon.tableHeader.from' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" style="flex: 0 15%;">
+                  {{ element.feedbackEmail }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- content Column -->
+              <ng-container matColumnDef="content">
+                <mat-header-cell *matHeaderCellDef>{{ 'feedback.label.content' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.feedbackMessage }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- remark Column -->
+              <ng-container matColumnDef="remark">
+                <mat-header-cell *matHeaderCellDef>{{ 'actmon.tableHeader.remark' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.feedbackRemarks }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- date Column -->
+              <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef class="text-center" style="flex: 0 8%;">{{ 'actmon.tableHeader.datereceive' | translate
+                  }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center" style="flex: 0 8%;">
+                  {{ element.createdDate }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- moddate Column -->
+              <ng-container matColumnDef="moddate">
+                <mat-header-cell *matHeaderCellDef class="text-center" style="flex: 0 8%;">{{ 'actmon.tableHeader.moddate' | translate
+                  }}</mat-header-cell>
+                <mat-cell *matCellDef="let element" class="text-center" style="flex: 0 8%;">
+                  {{ element.modifiedDate }}
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns3"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns3;"></mat-row>
+            </mat-table>
+            <div *ngIf="showNoData" class="col-md-12 text-align-Center padding-20">{{ 'common.msg.nodata' | translate }}
+            </div>
+        </mat-tab>
+
+        <!-- Audit Trail -->
+        <!-- <mat-tab label="{{ 'actmon.component.audit' | translate }}">
+        </mat-tab> -->
+      </mat-tab-group>
     </div>
 
-    <div *ngIf="userList || agencyActivityList" class="float-right paddingTop-15">
+    <div *ngIf="userList || agencyActivityList || pollList || feedbackList" class="float-right paddingTop-15">
       <mat-form-field class="table_footer_pagecount">
         <mat-select class="font-size-s text-align-Center" [(ngModel)]="commonservice.defaultPageSize" (change)="pageChange($event, commonservice.recordTable?.totalPages)">
           <mat-option *ngFor="let pgcount of commonservice.pageSize" [value]="pgcount.size">{{pgcount.size}}</mat-option>

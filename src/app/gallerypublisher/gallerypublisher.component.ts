@@ -482,7 +482,7 @@ export class GallerypublisherComponent implements OnInit, OnDestroy {
 
     getMediaTypes(){
       this.loading = true;
-      return this.commonservice.readProtected('mediatype')
+      return this.commonservice.readProtected('mediatype','','','',this.languageId)
         .subscribe(resCatData => {
           this.commonservice.errorHandling(resCatData, (function () {
             this.mediaTypes = resCatData['mediaTypes'];

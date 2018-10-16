@@ -1,6 +1,5 @@
 <div class="container right-content">
-  
-
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading>
 
   <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
@@ -26,7 +25,7 @@
       <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate> 
       
         <div class="row">
-          <div class="col-md-3 paddingTop-10 pdg_L_30px">
+          <div class="col-md-2 paddingTop-10 pdg_L_30px">
             <mat-form-field class="example-full-width">
                 <input matInput (keyup)="applyFilter($event.target.value)" formControlName="kataKunci" 
                   placeholder="{{ 'common.placeholder.keywords' | translate }}">
@@ -36,9 +35,9 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-2 paddingTop-10">
+          <div class="col-md-3 paddingTop-10">
               <mat-form-field class="example-full-width" >
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
+                <div [ngClass]="{'datetimeMaskNoValue':publishdt, 'datetimeMaskWithValue': !publishdt }">{{publishdt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="{{ 'gallerytbl.publishDt' | translate }}" [owlDateTime]="publish" 
                   style="display: none;" matInput formControlName="publish" 
                   #publish (dateTimeInput)="publishEvent('input', $event)" (dateTimeChange)="publishEvent('change', $event)"/>
@@ -50,9 +49,9 @@
               </mat-form-field>
           </div>
 
-          <div class="col-md-2 paddingTop-10">
+          <div class="col-md-3 paddingTop-10">
               <mat-form-field class="example-full-width">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
+                <div [ngClass]="{'datetimeMaskNoValue':enddt, 'datetimeMaskWithValue': !enddt }">{{enddt | date:'dd/MM/yyyy' }}</div>
                 <input placeholder="{{ 'gallerytbl.endDt' | translate }}" [owlDateTime]="endD" 
                   style="display: none;" matInput formControlName="endD" 
                   #endD (dateTimeInput)="endEvent('input', $event)" (dateTimeChange)="endEvent('change', $event)"/>
@@ -82,7 +81,7 @@
             </mat-form-field>
           </div>
 
-          <div class="col-md-3 paddingTop-15 pdg_R_30px">
+          <div class="col-md-2 paddingTop-15 pdg_R_30px">
             <button [disabled]="!selectedItem.length > 0" mat-raised-button color="warn" (click)="deleteAllModal.show()" 
               class="pull-right mgn_L_5px" style="min-width: 5px;" title="{{'common.buttons.delete' | translate}}">
               <i [ngClass]="commonservice.icon.trash" title="{{ 'common.title.delete' | translate }}"></i> 

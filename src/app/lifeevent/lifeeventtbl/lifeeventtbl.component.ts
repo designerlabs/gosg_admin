@@ -78,6 +78,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
   recordTable = null;
   showNoData = false;
   listHistory = null;
+  onLoadEvent = false;
 
   //nameStatus=1;
   keywordVal="";
@@ -160,9 +161,9 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
       if (this.navservice.flagLang) {
 
         this.getCategoryCodeLE(this.languageId);
-        //this.getCategoryLE(this.languageId);
         this.selectedItem = [];
         this.commonservice.getModuleId();
+        this.getCategoryLE(this.languageId);
       }
 
     });
@@ -262,8 +263,9 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-
-          //this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          if(this.onLoadEvent == false){
+            this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          }
 
 
         }).bind(this));
@@ -748,6 +750,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
   onChange(ele){
 
+    this.onLoadEvent = true;
     this.catCode = ele.refCode;
     this.getRecordListLE(this.pageCount, this.pageSize, this.catCode, this.languageId);
   }
@@ -791,7 +794,7 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
 
 
       this.loading = true;
-      this.commonservice.readProtected('content/history/'+id).subscribe(
+      this.commonservice.readProtected('content/history/'+id, '','','', this.languageId).subscribe(
         data => {
           this.commonservice.errorHandling(data, (function(){
 
@@ -816,12 +819,12 @@ export class LifeeventtblComponent implements OnInit, OnDestroy {
             let display: any;
 
             for(let i=0; i<this.listHistory.list.length; i++){
-
+              let convertdate =  moment(new Date(this.listHistory.list[i].revisionDate)).format('DD-MM-YYYY hh:mm a');
               let newDate = new Date(this.listHistory.list[i].revisionDate);
               displayTilte += '<tr><td>'+this.listHistory.list[i].user.firstName;
               displayTilte += '<br>('+this.listHistory.list[i].user.email+')</td>';
               displayTilte += '<td>'+this.listHistory.list[i].type+'</td>';
-              displayTilte += '<td>'+newDate+'</td></tr>';
+              displayTilte += '<td>'+convertdate+'</td></tr>';
             }
 
             displayTilte += '</table>';

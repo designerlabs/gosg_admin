@@ -97,7 +97,7 @@ export class PostcodetblComponent implements OnInit {
     this.selStateInfo = e;
     if(e){
       this.loading = true;
-      return this.commonservice.readPortalById('city/state/',e.value.stateId)
+      return this.commonservice.readPortalById('city/state/',e.value.stateId, this.languageId)
       .subscribe(resCityData => {
         this.commonservice.errorHandling(resCityData, (function(){
         this.getCityData = resCityData["cityList"];          

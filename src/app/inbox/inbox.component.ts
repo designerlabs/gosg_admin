@@ -170,8 +170,6 @@ export class InboxComponent implements OnInit {
       body.subject = formValues.subject;
       body.content = formValues.content;
 
-
-      
       this.loading = true;
 
       this.commonservice.create(body, 'inbox').subscribe(

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild, Inject, OnDestroy } from '@angular/core';
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 import { MatPaginator, MatSort, MatTableDataSource, MatDatepickerInputEvent } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from '../config/app.config.module';
@@ -367,7 +367,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
   getAgency() {
     this.loading = true;
-    this.commonservice.readPortal('agency/application/code').subscribe(
+    this.commonservice.readPortal('agency/application/code','','','',this.languageId).subscribe(
         Rdata => {
         this.commonservice.errorHandling(Rdata, (function(){
             this.AgencyData = Rdata['list'];
@@ -470,7 +470,7 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
       selLangField = "agencyEn";
     }
     this.loading = true;
-    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode)
+    this.commonservice.readPortalById('agency/refcode/language/'+langId+'/', refCode, this.languageId)
     .subscribe(
       data => {
         this.commonservice.errorHandling(data, (function(){
@@ -585,7 +585,6 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
   addStartEvent(type: string, event: OwlDateTimeInputDirective<Date>) { 
     let year, month, day;
     
-    
     this.events = [];
     this.events.push(`${event.value}`);
     this.sdt = new Date(this.events[0]).getTime();
@@ -597,19 +596,20 @@ export class EventcalendarComponent implements OnInit, OnDestroy {
 
     this.eMinDate = new Date(year,month,day);
     this.edt = new Date(year,month,day).getTime();
-    this.updateForm.get('end').setValue(new Date(this.edt).toISOString());
+    //this.updateForm.get('end').setValue(new Date(this.edt).toISOString());
+    this.updateForm.get('end').setValue(null);
     this.edt = null;
 
     this.checkReqValues()
   }
 
   addEndEvent(type: string, event: OwlDateTimeInputDirective<Date>) {
+
     
     this.events = [];
     this.events.push(`${event.value}`);
     this.edt = new Date(this.events[0]).getTime();
     this.dateFormatExample = "";
-    
     
     this.checkReqValues()
   }

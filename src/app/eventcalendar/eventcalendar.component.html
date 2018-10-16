@@ -1,6 +1,6 @@
 <!-- VIEW: ADD/EDIT SLIDER -->
 <div class="container right-content">
-  
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading> 
 
 <div class="curdHeader">
     <div class="col-md-10 curdHeadingLeft">
@@ -224,25 +224,33 @@
         <div class="form-group col-md-6">
               <label class="font-size-s" style="color: rgba(0,0,0, 0.37)">{{ 'calendar.component.startdate' | translate }} </label><span class="font-size-m" style="color: rgba(0,0,0, 0.37)"> *</span>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{sdt | date:'dd/MM/yyyy hh:mm a' }}</div>
-                <input placeholder="" [owlDateTime]="start" [owlDateTimeTrigger]="end" style="display: none;" matInput formControlName="start" #start (dateTimeInput)="addStartEvent('input', $event)" (dateTimeChange)="addStartEvent('change', $event)" [min]="sMinDate" />
-                <span tabindex="17" [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right" style="cursor: pointer;"></i></span>
+                <div *ngIf="updateForm.controls.start.value == null" [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">
+                  <span style="font-size: 11px; color: red">{{ 'calendar.err.sDateRequired' | translate }}</span></div>
+                <div *ngIf="updateForm.controls.start.value != null" [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">
+                  {{sdt | date:'dd/MM/yyyy hh:mm a' }}</div>
+                <input placeholder="" [owlDateTime]="start" [owlDateTimeTrigger]="end" style="display: none;" matInput formControlName="start" #start 
+                (dateTimeInput)="addStartEvent('input', $event)" (dateTimeChange)="addStartEvent('change', $event)" [min]="sMinDate" required/>
+                <span tabindex="17" [owlDateTimeTrigger]="start"><i class="fa fa-calendar pull-right" style="cursor: pointer;" ></i></span>
                 <owl-date-time #start></owl-date-time>
-                <div *ngIf="start.invalid">
+                <!-- <div *ngIf="start.invalid">
                   {{ 'calendar.err.sDateRequired' | translate }}
-                </div>
+                </div> -->
               </mat-form-field>
           </div>
           <div class="form-group col-md-6">
               <label class="font-size-s" style="color: rgba(0,0,0, 0.37)">{{ 'calendar.component.enddate' | translate }} </label><span class="font-size-m" style="color: rgba(0,0,0, 0.37)"> *</span>
               <mat-form-field class="example-full-width font-size-m" style="margin-top: -25px">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{edt | date:'dd/MM/yyyy hh:mm a' }}</div>
-                <input [owlDateTime]="end" style="display: none;" matInput formControlName="end" #end (dateTimeInput)="addEndEvent('input', $event)" (dateTimeChange)="addEndEvent('change', $event)" [min]="eMinDate" />
+                <div *ngIf="updateForm.controls.end.value == null" [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">
+                  <span style="font-size: 11px; color: red">{{ 'calendar.err.eDateRequired' | translate }}</span></div>
+                <div *ngIf="updateForm.controls.end.value != null" [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">
+                  {{edt | date:'dd/MM/yyyy hh:mm a' }}</div>
+                <input [owlDateTime]="end" style="display: none;" matInput formControlName="end" #end (dateTimeInput)="addEndEvent('input', $event)" 
+                (dateTimeChange)="addEndEvent('change', $event)" [min]="eMinDate" required/>
                 <span tabindex="18" [owlDateTimeTrigger]="end"><i class="fa fa-calendar pull-right" style="cursor: pointer;"></i></span>
                 <owl-date-time #end class="pull-right"></owl-date-time>
-                <div *ngIf="start.invalid">
+                <!-- <div *ngIf="start.invalid">
                   {{ 'calendar.err.eDateRequired' | translate }}
-                </div>
+                </div> -->
               </mat-form-field>
           </div>
       </div>

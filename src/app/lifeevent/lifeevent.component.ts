@@ -9,12 +9,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { ToastrService } from 'ngx-toastr';
 import {TranslateService, LangChangeEvent } from '@ngx-translate/core';
 import { DialogsService } from './../dialogs/dialogs.service';
-import { stringify } from '@angular/core/src/util';
-import { forEach } from '@angular/router/src/utils/collection';
-import * as $ from 'jquery';
+// import { stringify } from '@angular/core/src/util';
+// import { forEach } from '@angular/router/src/utils/collection';
+// import * as $ from 'jquery';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../nav/nav.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-lifeevent',
@@ -112,9 +113,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
 
   sendForApporval: any;
   private subscriptionLang: ISubscription;
-  private subscriptionContentCreator: ISubscription;
   private subscriptionCategoryC: ISubscription;
-  private subscriptionRecordListC: ISubscription;
 
   editor = { enVal: '', bmVal: '', treeVal: '' };
   editorConfig = {
@@ -210,9 +209,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionLang.unsubscribe();
-    //this.subscriptionContentCreator.unsubscribe();
     this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
@@ -280,9 +277,21 @@ export class LifeeventComponent implements OnInit, OnDestroy {
 
     this.getCategory(this.languageId);
 
+    // =================== START SET MAMPU AGENCY BY DEFAULT ===============
+    let mampuId: any;
+    let mampuCode: any;
+    mampuCode = this.commonservice.mampuCode;
+
+    if(this.languageId == 1)
+      mampuId = this.commonservice.mampuIdEn;
+    else
+      mampuId = this.commonservice.mampuIdBm;
+    // =================== END SET MAMPU AGENCY BY DEFAULT =================
+
     this.urlEdit = this.router.url.split('/')[2];
 
     if (this.urlEdit === 'add'){
+      this.getDetailsAgency(mampuId, mampuCode);
       this.commonservice.pageModeChange(false);
       this.changePlaceHolder();
       this.updateForm.get('active').setValue(true)
@@ -292,7 +301,6 @@ export class LifeeventComponent implements OnInit, OnDestroy {
     else{
       this.commonservice.pageModeChange(true);
       this.getData();
-
     }
     this.commonservice.getModuleId();
   }
@@ -300,25 +308,37 @@ export class LifeeventComponent implements OnInit, OnDestroy {
 
   public htmlContentEnEditor: Object = {
 
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==' ,
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
 };
 
   public htmlContentMyEditor: Object = {
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==',
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
   };
 
   previewEn() {
@@ -1256,6 +1276,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
   checkReqValues() {
     let reqVal:any;
 
+    //,"agencyEn","agencyBm"
     reqVal = ["titleEn", "titleBm", "descEn", "descBm"];
 
     let nullPointers:any = [];
@@ -1408,23 +1429,23 @@ export class LifeeventComponent implements OnInit, OnDestroy {
   }
 
   selectedAgencyApp(e){
+    if(e.value){
+      let dataList = this.agencyAppData;
+      let idAgencyApp: any;
+      let codeAgencyApp: any;
 
-    let dataList = this.agencyAppData;
-    let idAgencyApp: any;
-    let codeAgencyApp: any;
+      for(let i=0; i<dataList.length; i++){
 
-    for(let i=0; i<dataList.length; i++){
-
-      if(e.value == dataList[i].agencyApplicationId){
-        idAgencyApp = dataList[i].agencyApplicationId;
-        codeAgencyApp = dataList[i].agencyApplicationCode;
+        if(e.value == dataList[i].agencyApplicationId){
+          idAgencyApp = dataList[i].agencyApplicationId;
+          codeAgencyApp = dataList[i].agencyApplicationCode;
+        }
       }
+
+      this.updateForm.get('agencyApp').setValue(idAgencyApp);
+
+      this.getAgencyAppEnBm(codeAgencyApp);
     }
-
-    this.updateForm.get('agencyApp').setValue(idAgencyApp);
-
-    this.getAgencyAppEnBm(codeAgencyApp);
-
   }
 
   //onclick agenci application
@@ -1593,7 +1614,6 @@ export class LifeeventComponent implements OnInit, OnDestroy {
       this.commonservice.errorHandling(data, (function(){
 
         detailsAgency = data['list'];
-
         agenName = detailsAgency[0].agencyName;
         minisName = detailsAgency[0].agencyMinistry.ministryName;
 
@@ -1627,6 +1647,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
       this.ministryNameBm = mName;
 
     }
+    this.checkReqValues();
     this.getAgencyByRefCode(refCode,langId);
   }
 
@@ -1663,6 +1684,7 @@ export class LifeeventComponent implements OnInit, OnDestroy {
             this.agencyIdBm = aId;
             this.ministryNameBm = mName;
           }
+          this.checkReqValues();
         }).bind(this));
         this.loading = false;
     }, err => {

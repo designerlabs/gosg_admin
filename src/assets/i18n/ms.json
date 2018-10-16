@@ -237,7 +237,8 @@
       "approve": "Lulus",
       "search": "Carian",
       "history": "Sejarah",
-      "sendDraft": "Kembali ke Draf"
+      "sendDraft": "Kembali ke Draf",
+      "forward": "Forward"
     },
     "err":{
       "servicedown": "Harap maaf, Pelayan tidak aktif ",
@@ -325,7 +326,8 @@
       "filterby": "Tapisan Mengikut",
       "all": "Semua",
       "email": "Emel",
-      "icno": "No. KP"
+      "icno": "No. KP",
+      "id": "No. KP / No Passpot"
     },
     "component":{
       "email":"Emel",
@@ -384,7 +386,9 @@
     "email": "Emel",
     "update": "Kemaskini",
     "add": "Tambah",
-    "mgmt": "Pengurusan"
+    "mgmt": "Pengurusan",
+    "seconds1":"log keluar dalam",
+    "seconds2": "saat"
   },
   "appmngt":{
     "setSearch":{
@@ -528,7 +532,7 @@
     },
     "component": {
       "header": "Permohonan Agensi",
-      "isdoc": "adalah dokumen",
+      "isdoc": "Pautan Boleh Dimuat Turun",
       "websiteURL": "URL Laman Web"
     },
     "select":"Pilih Aplikasi Agensi"
@@ -559,7 +563,8 @@
       "cityid": "Id Bandar",
       "citycode": "Kod Bandar",
       "statename": "Nama Negeri",
-      "stateid": "Id Negeri"
+      "stateid": "Id Negeri",
+      "uniquecode": "Kod Unik"
     },
     "err": {
       "city": "Bandar diperlukan"
@@ -716,7 +721,9 @@
     "subject": "Subjek",
     "msg": "Mesej",
     "replysection": "Bahagian Balasan",
-    "reply": "Balasan"
+    "reply": "Balasan",
+    "email": "Emel",
+    "forward": "Dimaju kepada"
   },
   "feedbacksubjecttbl": {
     "header": "Senarai Subjek Maklum Balas",
@@ -797,6 +804,9 @@
   },
   "gallerytbl": {
     "name": "Galeri",
+    "audiourl": "Audio URL",
+    "videourl": "Video URL",
+    "photourl": "Foto URL",
     "galleryimg": "Maklumat Galeri",
     "header": "Pengurusan Galeri",
     "publisher": "Pengurusan Percetakan Galeri",
@@ -911,6 +921,16 @@
       "pollresults": "keputusan soal selidik"
     }
   },
+  "pollresultdetail": {
+    "header": "Perincian Soal Selidik",
+    "tableHeader":{
+      "recommandation": "Cadangan"
+    },
+    "tablebottom":{
+      "pollquestion": "cadangan"
+    },
+    "name": "Polls Questions"
+  },
   "postcode": {
     "header": "Poskod",
     "stateid": "ID Negeri",
@@ -923,7 +943,8 @@
     "header": "Bangsa/Etnik",
     "tableHeader":{
       "raceEn": "Bangsa/Etnik (EN)",
-      "raceBm": "Bangsa/Etnik (BM)"
+      "raceBm": "Bangsa/Etnik (BM)",
+      "uniquecode": "Kod Unik"
     },
     "tablebottom":{
       "race": "senarai bangsa/etnik"
@@ -933,7 +954,8 @@
     "header": "Agama",
     "tableHeader":{
       "religionEn": "Agama (EN)",
-      "religionBm": "Agama (BM)"
+      "religionBm": "Agama (BM)",
+      "uniquecode": "Kod Unik"
     },
     "tablebottom":{
       "religion": "senarai agama"
@@ -981,10 +1003,35 @@
     }
   },
   "usermgmt": {
-    "header": "Pengurusan Pengguna",
+    "header": "Pengurusan Pengguna Berdaftar",
     "tableHeader":{
       "fullname": "Nama Penuh",
       "email": "Emel",
+      "accstatus": "Status Akaun"
+    },
+    "tablebottom":{
+      "users": "pengguna"
+    },
+    "component": {
+      "users": "Status Akaun Pengguna",
+      "isstaff": "Kakitangan?",
+      "dob": "Tarikh Lahir",
+      "citizenship": "Kewarganegaraan",
+      "country": "Negara",
+      "gender": "Jantina",
+      "race": "Bangsa",
+      "religion": "Agama",
+      "address": "Alamat",
+      "mobilenum": "No. Telefon",
+      "select": "Pilih Status Akaun"
+    }
+  },
+  "userunregistermgmt": {
+    "header": "Pengurusan Pengguna Tidak Berdaftar",
+    "tableHeader":{
+      "fullname": "Nama Penuh",
+      "email": "Emel",
+      "passport": "No Passpot",
       "accstatus": "Status Akaun"
     },
     "tablebottom":{
@@ -1012,10 +1059,30 @@
       "idno": "No Kad Pengenalan",
       "subrefno": "No Permohonan",
       "accstatus": "Status Akaun",
-      "svcname": "Nama Perkhidmatan",
+      "svcname": "Nama Permohonan",
+      "agcappname": "Nama Permohonan",
+      "ticno": "No Ticket",
+      "from": "Penghantar",
+      "sent": "Masa Emel Dihantar",
       "status": "Status",
-      "name": "Nama Agensi",
-      "datereceive": "Tarikh Terima"
+      "agcname": "Nama Agensi",
+      "pollquestion": "Soalan",
+      "pollanswer": "Jawapan",
+      "pollanswer1": "Jawapan 1",
+      "pollanswer2": "Jawapan 2",
+      "pollanswer3": "Jawapan 3",
+      "pollanswer4": "Jawapan 4",
+      "pollanswer5": "Jawapan 5",
+      "pollresult": "Keputusan",
+      "pollresult1": "Keputusan 1",
+      "pollresult2": "Keputusan 2",
+      "pollresult3": "Keputusan 3",
+      "pollresult4": "Keputusan 4",
+      "pollresult5": "Keputusan 5",
+      "datereceive": "Tarikh Terima",
+      "appdate": "Tarikh Permohonan",
+      "moddate": "Tarikh Maklumbalas",
+      "remark": "Feedback Message"
     },
     "tablebottom":{
       "users": "Pengguna",
@@ -1023,8 +1090,9 @@
     },
     "component": {
       "userstatus": "Status Pengguna",
-      "users": "Pengguna",
-      "agencies": "Agensi",
+      "appstatus": "Status Permohonan",
+      "users": "Permohonan Lesen/Notis",
+      "agencies": "Perlaksanaan Perkhidmatan",
       "isstaff": "Is Staff?",
       "dob": "Date of Birth",
       "citizenship": "Citizenship",
@@ -1034,7 +1102,17 @@
       "religion": "Religion",
       "address": "Address",
       "mobilenum": "Mobile Number",
-      "select": "Select Account Status"
+      "filters": "Tapisan",
+      "select": "Select Account Status",
+      "audit": "Audit Trail",
+      "polls": "Undian",
+      "feedback": "Aduan & Pertanyaan",
+      "start": "Tarikh Mula",
+      "end": "Tarikh AKhir"
+    },
+    "filter": {
+      "agency": "Mengikut Agensi",
+      "status": "Mengikut Status"
     }
   },
   "mediatype": {
@@ -1253,6 +1331,7 @@
     "component": {
       "header": "Kandungan Perkhidmatan Digital",
       "isdoc": "is Document",
+      "form": "Borang",
       "serviceURL": "URL Perkhidmatan"
     },
     "select":"Pilih Kandungan Perkhidmatan Digital"

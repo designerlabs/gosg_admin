@@ -61,6 +61,7 @@ export class DServicedetailsComponent implements OnInit {
   forNonCitizen: FormControl;
   active: FormControl;
   common: FormControl;
+  form: FormControl;
   manualEn: FormControl
   manualBm: FormControl
 
@@ -124,6 +125,7 @@ export class DServicedetailsComponent implements OnInit {
     this.manualBm = new FormControl()
     this.active = new FormControl()
     this.common = new FormControl()
+    this.form = new FormControl()
 
     this.updateForm = new FormGroup({
       titleEn: this.titleEn,
@@ -138,7 +140,8 @@ export class DServicedetailsComponent implements OnInit {
       forCitizen: this.forCitizen,
       forNonCitizen: this.forNonCitizen,
       active: this.active,
-      common: this.common
+      common: this.common,
+      form: this.form
     });
     this.getDigitalServices(this.languageId);
 
@@ -194,6 +197,7 @@ export class DServicedetailsComponent implements OnInit {
         this.updateForm.get('forNonCitizen').setValue(dataBm.nonCitizen);
         this.updateForm.get('active').setValue(dataBm.enabled);
         this.updateForm.get('common').setValue(dataBm.common);
+        this.updateForm.get('form').setValue(dataBm.form);
         this.refCode = dataEn.code;
         this.idEn = dataEn.id;
         this.idBm = dataBm.id;
@@ -480,6 +484,7 @@ export class DServicedetailsComponent implements OnInit {
         "url": null,
         "enabled": null,
         "common": null,
+        "form": null,
         "description": null,
         "citizen": null,
         "nonCitizen": null,
@@ -498,6 +503,7 @@ export class DServicedetailsComponent implements OnInit {
         "url": null,
         "enabled": null,
         "common": null,
+        "form": null,
         "description": null,
         "citizen": null,
         "nonCitizen": null,
@@ -521,6 +527,7 @@ export class DServicedetailsComponent implements OnInit {
     body[0].service.id = this.categoryIdEn;
     body[0].enabled = formValues.active;
     body[0].common = formValues.common;
+    body[0].form = formValues.form;
     
     body[1].title = formValues.titleBm;
     body[1].url = formValues.serviceUrl;
@@ -530,6 +537,7 @@ export class DServicedetailsComponent implements OnInit {
     body[1].service.id = this.categoryIdBm;
     body[1].enabled = formValues.active;
     body[1].common = formValues.common;
+    body[1].form = formValues.form;
     
     if(formValues.manualEn && formValues.manuamanualBmlEn) {
       body[0].manual.mediaId = formValues.manualEn;
@@ -570,6 +578,7 @@ export class DServicedetailsComponent implements OnInit {
         "nonCitizen": null,
         "enabled": null,
         "common": null,
+        "form": null,
         "language": {
           "languageId": 1
         },
@@ -590,6 +599,7 @@ export class DServicedetailsComponent implements OnInit {
         "nonCitizen": null,
         "enabled": null,
         "common": null,
+        "form": null,
         "language": {
           "languageId": 2
         },
@@ -612,6 +622,7 @@ export class DServicedetailsComponent implements OnInit {
     body[0].service.id = this.categoryIdEn;
     body[0].enabled = formValues.active;
     body[0].common = formValues.common;
+    body[0].form = formValues.form;
     
     body[1].id = this.idBm;
     body[1].code = this.refCode;
@@ -623,6 +634,7 @@ export class DServicedetailsComponent implements OnInit {
     body[1].service.id = this.categoryIdBm;
     body[1].enabled = formValues.active;
     body[1].common = formValues.common;
+    body[1].form = formValues.form;
     
     if(formValues.manualEn && formValues.manuamanualBmlEn) {
       body[0].manual.mediaId = formValues.manualEn;

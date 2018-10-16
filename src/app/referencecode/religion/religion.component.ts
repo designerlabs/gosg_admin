@@ -22,7 +22,7 @@ export class ReligionComponent implements OnInit {
   
   public religionEng: FormControl;  
   public religionMy: FormControl;
-  // public active: FormControl
+  public uniqueCode: FormControl
 
   public dataUrl: any;  
   public recordList: any;
@@ -70,11 +70,12 @@ export class ReligionComponent implements OnInit {
     this.commonservice.getModuleId();
     this.religionEng = new FormControl();
     this.religionMy = new FormControl();
-    // this.active = new FormControl();
+    this.uniqueCode = new FormControl();
 
     this.updateForm = new FormGroup({   
       religionEng: this.religionEng,
       religionMy: this.religionMy,
+      uniqueCode: this.uniqueCode,
       // active: this.active,      
     });     
     
@@ -109,6 +110,7 @@ export class ReligionComponent implements OnInit {
 
       this.updateForm.get('religionMy').setValue(this.recordList.religionList[1].religion);
       this.updateForm.get('religionEng').setValue(this.recordList.religionList[0].religion);      
+      this.updateForm.get('uniqueCode').setValue(this.recordList.religionList[0].religionUniqueCode);      
 
       this.getReligionIdMy = this.recordList.religionList[1].religionId;
       this.getReligionCodeMy = this.recordList.religionList[1].religionCode;
@@ -144,14 +146,14 @@ export class ReligionComponent implements OnInit {
       let body = [
         {
           "religion": null,
-          // "active": false,
+          "religionUniqueCode": false,
           "language": {
               "languageId": null
           }
         },
         {
           "religion": null,
-          // "active": false,
+          "religionUniqueCode": false,
           "language": {
               "languageId": null
           }
@@ -160,11 +162,11 @@ export class ReligionComponent implements OnInit {
  
       body[1].religion = formValues.religionMy;
       body[1].language.languageId = 2;
-      // body[0].active = formValues.active;
+      body[1].religionUniqueCode = formValues.uniqueCode;
 
       body[0].religion = formValues.religionEng; 
       body[0].language.languageId = 1;
-      // body[1].active = formValues.active;
+      body[0].religionUniqueCode = formValues.uniqueCode; 
 
       this.loading = true;
       this.commonservice.create(body,'religion').subscribe(
@@ -192,16 +194,16 @@ export class ReligionComponent implements OnInit {
           "religion": null,
           "religionId": null,
           "religionCode": null,
-          // "active": false,
+          "religionUniqueCode": false,
           "language": {
-              "languageId": null
+            "languageId": null
           }
         },
         {
           "religion": null,
           "religionId": null,
           "religionCode": null,
-          // "active": false,
+          "religionUniqueCode": false,
           "language": {
               "languageId": null
           }
@@ -212,6 +214,7 @@ export class ReligionComponent implements OnInit {
       body[1].religion = formValues.religionMy;
       body[1].religionId = this.getReligionIdMy;
       body[1].religionCode = this.getReligionCodeMy;
+      body[1].religionUniqueCode = formValues.uniqueCode;
       body[1].language.languageId = 2;
 
       // body[0].active = formValues.active;
@@ -219,6 +222,7 @@ export class ReligionComponent implements OnInit {
       body[0].religion = formValues.religionEng; 
       body[0].religionId = this.getReligionIdEng; 
       body[0].religionCode = this.getReligionCodeEng; 
+      body[0].religionUniqueCode = formValues.uniqueCode; 
       body[0].language.languageId = 1;
 
       // body[1].active = formValues.active;
@@ -246,7 +250,7 @@ export class ReligionComponent implements OnInit {
 
   checkReqValues() {
 
-    let reqVal:any = ["religionEng", "religionMy"];
+    let reqVal:any = ["religionEng", "religionMy", "uniqueCode"];
     let nullPointers:any = [];
 
     for (var reqData of reqVal) {

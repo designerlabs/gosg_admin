@@ -147,6 +147,7 @@ export class CountryComponent implements OnInit, OnDestroy {
         this.updateForm.get('countryName').setValue(this.countryData.countryName);
         this.updateForm.get('countryCode').setValue(this.countryData.countryCode);
         this.updateForm.get('countryDialCode').setValue(this.countryData.countryDialCode);
+        this.updateForm.get('countryCode').disable();
         this.checkReqValues();
       }).bind(this));
       this.loading = false;
@@ -154,6 +155,32 @@ export class CountryComponent implements OnInit, OnDestroy {
       this.loading = false;
     });
     
+  }
+
+  validCountryName(formValue: any){
+
+    if(formValue.countryName != null){
+      let validName = (formValue.countryName)?(formValue.countryName).replace(/[^a-zA-Z ]/g, "") : '';
+      this.updateForm.get('countryName').setValue(validName);
+    }
+    this.checkReqValues();
+  }
+
+  validCountryCode(formValue: any){
+
+    if(formValue.countryCode != null){
+      let validCC = (formValue.countryCode)?(formValue.countryCode).replace(/[^A-Z]/ig, "").toUpperCase() : '';
+      this.updateForm.get('countryCode').setValue(validCC);
+    }
+    this.checkReqValues();
+  }
+
+  validDialCode(formValue: any){
+    if(formValue.countryDialCode != null){
+      let validCD = (formValue.countryDialCode)?(formValue.countryDialCode).replace(/[^0-9-]/ig, "").toUpperCase() : '';
+      this.updateForm.get('countryDialCode').setValue(validCD);
+    }
+    this.checkReqValues();
   }
 
   checkReqValues() {
@@ -183,7 +210,9 @@ export class CountryComponent implements OnInit, OnDestroy {
   }
 
   myFunction() {  
-    this.updateForm.reset();
+    //this.updateForm.reset();
+    this.updateForm.get('countryName').setValue('');
+    this.updateForm.get('countryDialCode').setValue('');
     this.checkReqValues();
   }
 
@@ -201,6 +230,7 @@ export class CountryComponent implements OnInit, OnDestroy {
     body.countryName = formValues.countryName;
     body.countryCode = formValues.countryCode;
     body.countryDialCode = formValues.countryDialCode;
+    
 
     // Add ErrorMsg Service
     this.loading = true;
@@ -228,9 +258,9 @@ export class CountryComponent implements OnInit, OnDestroy {
        };
 
     body.countryName = formValues.countryName;
-    body.countryCode = formValues.countryCode;
+    body.countryCode = this.updateForm.get('countryCode').value;
     body.countryDialCode = formValues.countryDialCode;
-
+    console.log(JSON.stringify(body));
     // Update AgencyApp Service
     this.loading = true;
     this.commonservice.update(body, 'country').subscribe(

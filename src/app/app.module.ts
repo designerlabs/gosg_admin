@@ -18,121 +18,70 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { UserComponent } from './user/user.component';
+import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
+import { UserpermissionComponent } from './authentication/user/userpermission.component';
+import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
+import { GroupsComponent } from './authentication/groups/groups.component';
+
 import { FeedbackadminComponent } from './feedback/feedbackadmin/feedbackadmin.component';
 import { FeedbackadmintblComponent } from './feedback/feedbackadmin/feedbackadmintbl/feedbackadmintbl.component';
 import { FeedbacktypeComponent } from './feedback/feedbacktype/feedbacktype.component';
 import { FeedbacktypetblComponent } from './feedback/feedbacktype/feedbacktypetbl/feedbacktypetbl.component';
-import { GroupstblComponent } from './authentication/groups/groupstbl/groupstbl.component';
+import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
+import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
+import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
+import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
+
 import { PollquestiontblComponent } from './poll/pollquestion/pollquestiontbl/pollquestiontbl.component';
 import { PollquestionComponent } from './poll/pollquestion/pollquestion.component';
 import { PollresultComponent } from './poll/pollresult/pollresult.component';
-import { SliderComponent } from './slider/slider.component';
-import { GroupsComponent } from './authentication/groups/groups.component';
-import { CountryComponent } from './referencecode/country/country.component';
-import { CityComponent } from './referencecode/city/city.component';
-import { StateComponent } from './referencecode/state/state.component';
-import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
-import { ReligionComponent } from './referencecode/religion/religion.component';
-import { PostcodeComponent } from './referencecode/postcode/postcode.component';
-import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
-import { FaqComponent } from './faq/faq.component';
-import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
-import { NgxEditorModule } from 'ngx-editor';
-import { EditorComponent } from './editor/editor.component';
-import { FeedbacksubjectComponent } from './feedback/feedbacksubject/feedbacksubject.component';
-import { FeedbacksubjecttblComponent } from './feedback/feedbacksubject/feedbacksubjecttbl/feedbacksubjecttbl.component';
-import { AnnouncementComponent } from './announcement/announcement.component';
-import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
+import { PollresultdetailComponent } from './poll/pollresultdetail/pollresultdetail.component';
 
-import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
-import { ToastrModule } from 'ngx-toastr';
-import { AddresstypeComponent } from './addresstype/addresstype.component';
-import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
-import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
-import { ErrormessageComponent } from './errormessage/errormessage.component';
-import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
-import { AgencyComponent } from './agency/agency.component';
-import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
-import { AccountstatusComponent } from './accountstatus/accountstatus.component';
-import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
-import { LanguageComponent } from './language/language.component';
-import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
-import { UserpermissionComponent } from './authentication/user/userpermission.component';
-import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
-import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
-import { GenderComponent } from './referencecode/gender/gender.component';
-import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
-import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
-import { FeedbackvisitorComponent } from './feedback/feedbackvisitor/feedbackvisitor.component';
-import { FeedbackvisitortblComponent } from './feedback/feedbackvisitor/feedbackvisitortbl/feedbackvisitortbl.component';
-import { MediatypeComponent } from './media/mediatype/mediatype.component';
-import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
-import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypetbl.component';
-import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
-import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
-import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
-import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
 import { MinistryComponent } from './ministry/ministry.component';
 import { MinistrytblComponent } from './ministry/ministrytbl/ministrytbl.component';
-import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
-import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
-import { TextMaskModule } from 'angular2-text-mask';
-import { ValidateService } from './common/validate.service';
-import { FootercontentComponent } from './footer/footercontent/footercontent.component';
-import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
-import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
-import { GalleryComponent } from './gallery/gallery.component';
-import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
-import { DialogsService } from './dialogs/dialogs.service';
-import { ModalModule } from 'ngx-bootstrap/modal';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { CategoryComponent } from './category/category.component';
-import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
-import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
-import { Ng4FilesModule } from './ng4-files';
 
-import { ModmenuComponent } from './modmenu/modmenu.component';
-import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
-import { ContentComponent } from './content/content.component';
-import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
-import { ColorComponent } from './color/color.component';
-import { ColortblComponent } from './color/colortbl/colortbl.component';
-import { FontComponent } from './font/font.component';
-import { FonttblComponent } from './font/fonttbl/fonttbl.component';
-import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
-import { LoadingModule } from 'ngx-loading';
-import { TruncatePipe } from './pipe/truncate.pipe';
-import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
-import {NgxTreeSelectModule} from 'ngx-tree-select';
-import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
-import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
-import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
-import { LifeeventComponent, DialogResultExampleDialog } from './lifeevent/lifeevent.component';
-import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
-// import { JoditAngularModule } from 'jodit-angular';
-import "froala-editor/js/froala_editor.pkgd.min.js";
-import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
-import { InboxComponent } from './inbox/inbox.component';
-import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
-import { InboxsentComponent } from './inboxsent/inboxsent.component';
-import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
+import { SliderComponent } from './slider/slider.component';
+import { SlidertblComponent } from './slider/slidertbl/slidertbl.component';
 import { SliderpublisherComponent } from './sliderpublisher/sliderpublisher.component';
 import { SliderpublishertblComponent } from './sliderpublisher/sliderpublishertbl/sliderpublishertbl.component';
-import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.component';
-import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
-import { SitemapComponent } from './sitemap/sitemap.component';
-import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
-import { ArchiveComponent } from './archive/archive.component';
-import { ArchivetblComponent } from './archive/archivetbl/archivetbl.component';
-import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpublishertbl/lifeeventpublishertbl.component';
-import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
+import { ContentComponent } from './content/content.component';
+import { ContenttblComponent } from './content/contenttbl/contenttbl.component';
 import { ContentpublishertblComponent } from './contentpublisher/contentpublishertbl/contentpublishertbl.component';
 import { ContentpublisherComponent } from './contentpublisher/contentpublisher.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import { GallerytblComponent } from './gallery/gallerytbl/gallerytbl.component';
+import { GallerypublisherComponent } from './gallerypublisher/gallerypublisher.component';
+import { GallerypublishertblComponent } from './gallerypublisher/gallerypublishertbl/gallerypublishertbl.component';
+import { LifeeventComponent, DialogResultExampleDialog } from './lifeevent/lifeevent.component';
+import { LifeeventtblComponent } from './lifeevent/lifeeventtbl/lifeeventtbl.component';
+import { LifeeventpublishertblComponent } from './lifeeventpublisher/lifeeventpublishertbl/lifeeventpublishertbl.component';
+import { LifeeventpublisherComponent } from './lifeeventpublisher/lifeeventpublisher.component';
 import { ParticipationComponent } from './participation/participation.component';
 import { ParticipationtblComponent } from './participation/participationtbl/participationtbl.component';
+import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
+import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
+
+import { GenderComponent } from './referencecode/gender/gender.component';
+import { CountryComponent } from './referencecode/country/country.component';
+import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
+import { CityComponent } from './referencecode/city/city.component';
+import { CitytblComponent } from './referencecode/city/citytbl/citytbl.component';
+import { StateComponent } from './referencecode/state/state.component';
+import { StatetblComponent } from './referencecode/state/statetbl/statetbl.component';
+import { EthnicityComponent } from './referencecode/ethnicity/ethnicity.component';
+import { EthnicitytblComponent } from './referencecode/ethnicity/ethnicitytbl/ethnicitytbl.component';
+import { ReligionComponent } from './referencecode/religion/religion.component';
+import { ReligiontblComponent } from './referencecode/religion/religiontbl/religiontbl.component';
+import { PostcodeComponent } from './referencecode/postcode/postcode.component';
+import { PostcodetblComponent } from './referencecode/postcode/postcodetbl/postcodetbl.component';
+import { CitizentypeComponent } from './referencecode/citizentype/citizentype.component';
+import { CitizentypetblComponent } from './referencecode/citizentype/citizentypetbl/citizentypetbl.component';
+import { IdentificationtypeComponent } from './referencecode/identificationtype/identificationtype.component';
+import { IdentificationtypetblComponent } from './referencecode/identificationtype/identificationtypetbl/identificationtypetbl.component';
+
 import { DServiceComponent } from './dservice/dservice.component';
 import { DServicetblComponent } from './dservice/dservicetbl/dservicetbl.component';
 import { DServicedetailsComponent } from './dservice/dservicedetails/dservicedetails.component';
@@ -141,21 +90,98 @@ import { DServicetypeComponent } from './dservice/dservicetype/dservicetype.comp
 import { DServicetypetblComponent } from './dservice/dservicetype/dservicetypetbl/dservicetypetbl.component';
 import { DServicegroupComponent } from './dservice/dservicegroup/dservicegroup.component';
 import { DServicegrouptblComponent } from './dservice/dservicegroup/dservicegrouptbl/dservicegrouptbl.component';
-import { ParticipationpublisherComponent } from './participationpublisher/participationpublisher.component';
-import { ParticipationpublishertblComponent } from './participationpublisher/participationpublishertbl/participationpublishertbl.component';
+
+import { FootercategoryComponent } from './footer/footercategory/footercategory.component';
+import { FootercategorytblComponent } from './footer/footercategory/footercategorytbl/footercategorytbl.component';
+import { FootercontentComponent } from './footer/footercontent/footercontent.component';
+import { FootercontenttblComponent } from './footer/footercontent/footercontenttbl/footercontenttbl.component';
+
+import { CategoryComponent } from './category/category.component';
+import { CategorytblComponent } from './category/categorytbl/categorytbl.component';
+
+import { InboxComponent } from './inbox/inbox.component';
+import { InboxtblComponent } from './inbox/inboxtbl/inboxtbl.component';
+import { InboxsentComponent } from './inboxsent/inboxsent.component';
+import { InboxsenttblComponent } from './inboxsent/inboxsenttbl/inboxsenttbl.component';
+
+import { MediatypeComponent } from './media/mediatype/mediatype.component';
+import { MediatypetblComponent } from './media/mediatype/mediatypetbl/mediatypetbl.component';
+import { MediafileuploadComponent } from './media/mediafileupload/mediafileupload.component';
+import { MediafileuploadtblComponent } from './media/mediafileupload/mediafileuploadtbl/mediafileuploadtbl.component';
+
+import { FaqComponent } from './faq/faq.component';
+import { FaqtblComponent } from './faq/faqtbl/faqtbl.component';
+import { SystemsettingsComponent } from './systemsettings/systemsettings.component';
+import { SystemsettingstblComponent } from './systemsettings/systemsettingstbl/systemsettingstbl.component';
+import { ColorComponent } from './color/color.component';
+import { ColortblComponent } from './color/colortbl/colortbl.component';
+import { FontComponent } from './font/font.component';
+import { FonttblComponent } from './font/fonttbl/fonttbl.component';
+import { AddresstypeComponent } from './addresstype/addresstype.component';
+import { AddresstypetblComponent } from './addresstype/addresstypetbl/addresstypetbl.component';
+import { AccountstatusComponent } from './accountstatus/accountstatus.component';
+import { AccountstatustblComponent } from './accountstatus/accountstatustbl/accountstatustbl.component';
+
+import { AgencyComponent } from './agency/agency.component';
+import { AgencytblComponent } from './agency/agencytbl/agencytbl.component';
+import { AgencyappComponent } from './agency/agencyapp/agencyapp.component';
+import { AgencyapptblComponent } from './agency/agencyapp/agencyapptbl/agencyapptbl.component';
+
+import { NgxEditorModule } from 'ngx-editor';
+import { EditorComponent } from './editor/editor.component';
+
+import { ToastrModule } from 'ngx-toastr';
+
+import { ErrormessageComponent } from './errormessage/errormessage.component';
+import { ErrormessagetblComponent } from './errormessage/errormessagetbl/errormessagetbl.component';
+import { LanguageComponent } from './language/language.component';
+import { LanguagetblComponent } from './language/languagetbl/languagetbl.component';
+
+import { TextMaskModule } from 'angular2-text-mask';
+import { ValidateService } from './common/validate.service';
+import { ConfirmDialogComponent } from './dialogs/confirm-dialog/confirm-dialog.component';
+
+import { DialogsService } from './dialogs/dialogs.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { Ng4FilesModule } from './ng4-files';
+
+import { ModmenuComponent } from './modmenu/modmenu.component';
+import { ModmenutblComponent } from './modmenu/modmenutbl/modmenutbl.component';
+
+import { LoadingModule } from 'ngx-loading';
+import { TruncatePipe } from './pipe/truncate.pipe';
+import { EventcalendarComponent } from './eventcalendar/eventcalendar.component';
+import {NgxTreeSelectModule} from 'ngx-tree-select';
+import { EventcalendartblComponent } from './eventcalendar/eventcalendartbl/eventcalendartbl.component';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+import { EventcalendarextComponent } from './eventcalendar/eventcalendarext/eventcalendarext.component';
+import { EventcalendarexttblComponent } from './eventcalendar/eventcalendarext/eventcalendarexttbl/eventcalendarexttbl.component';
+
+// import { JoditAngularModule } from 'jodit-angular';
+import "froala-editor/js/froala_editor.pkgd.min.js";
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { SitemapComponent } from './sitemap/sitemap.component';
+import { SitemaptblComponent } from './sitemap/sitemaptbl/sitemaptbl.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { ArchivetblComponent } from './archive/archivetbl/archivetbl.component';
+
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { SubscriptiontblComponent } from './subscription/subscriptiontbl/subscriptiontbl.component';
 import { SchedulerComponent } from './scheduler/scheduler.component';
 import { SchedulertblComponent } from './scheduler/schedulertbl/schedulertbl.component';
 import { NavService } from './nav/nav.service';
-import { PostcodetblComponent } from './referencecode/postcode/postcodetbl/postcodetbl.component';
-import { StatetblComponent } from './referencecode/state/statetbl/statetbl.component';
-import { CountrytblComponent } from './referencecode/country/countrytbl/countrytbl.component';
-import { CitytblComponent } from './referencecode/city/citytbl/citytbl.component';
 import { ViewreportComponent } from './viewreport/viewreport.component';
 import { ActmonComponent } from './actmon/actmon.component';
 import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
 import { DatePipe } from '../../node_modules/@angular/common';
+import { UsersunregisterComponent } from './usersunregister/usersunregister.component';
+import { GareportsComponent } from './gareports/gareports.component';
+
+import { AutologoutService} from './service/autologout.service';
+
+// import { AnnouncementComponent } from './announcement/announcement.component';
+// import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -167,134 +193,158 @@ export function HttpLoaderFactory(http: HttpClient) {
     LeftmenuComponent,
     RightcontentComponent,
     ErrorComponent,
+    GareportsComponent,
     UserComponent,
-    UsertblComponent,
+    UserdetailstblComponent,
     GroupstblComponent,
+    GroupsComponent,
+    UserpermissionComponent,
+    UsertblComponent,
+
     PollquestiontblComponent,
     PollquestionComponent,
     PollresultComponent,
-    SliderComponent,
-    GroupsComponent,    
+    PollresultdetailComponent,
+
     FeedbackadminComponent,
     FeedbackadmintblComponent,
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
-    CountryComponent,
-    CityComponent,
-    StateComponent,
-    EthnicityComponent,
-    ReligionComponent,
-    PostcodeComponent,
     FeedbacksubjectComponent,
     FeedbacksubjecttblComponent,
-    FaqComponent,
-    FaqtblComponent,
-    EditorComponent,
-    EthnicitytblComponent,
-    AnnouncementComponent,
-    AnnouncementtblComponent,
-    SlidertblComponent,
-    AddresstypeComponent,
-    AddresstypetblComponent,
-    ReligiontblComponent,
-    ErrormessageComponent,
-    ErrormessagetblComponent,
-    AgencyComponent,
-    AgencytblComponent,
-    AccountstatusComponent,
-    AccountstatustblComponent,
-    LanguageComponent,
-    LanguagetblComponent,
-    UserpermissionComponent,
-    AgencyappComponent,
-    AgencyapptblComponent,
-    GenderComponent,
-    CitizentypeComponent,
-    CitizentypetblComponent,
     FeedbackvisitorComponent,
     FeedbackvisitortblComponent,
-    MediatypeComponent,
-    MediafileuploadComponent,
-    MediatypetblComponent,
-    SystemsettingsComponent,
-    SystemsettingstblComponent,
-    IdentificationtypeComponent,
-    IdentificationtypetblComponent,
+
     MinistryComponent,
     MinistrytblComponent,
+
+    SliderComponent,
+    SlidertblComponent,
+    SliderpublisherComponent,
+    SliderpublishertblComponent,
+    GalleryComponent,
+    GallerytblComponent,
+    GallerypublisherComponent,
+    GallerypublishertblComponent,
+    LifeeventComponent,
+    LifeeventtblComponent,
+    LifeeventpublishertblComponent,
+    LifeeventpublisherComponent,
+    ContentComponent,
+    ContenttblComponent,
+    ContentpublishertblComponent,
+    ContentpublisherComponent,
+    ParticipationComponent,
+    ParticipationtblComponent,
+    ParticipationpublisherComponent,
+    ParticipationpublishertblComponent,
+    DialogResultExampleDialog,
+
+    GenderComponent,
+    CityComponent,
+    CitytblComponent,
+    StateComponent,
+    StatetblComponent,
+    CountrytblComponent,
+    CountryComponent,
+    EthnicityComponent,
+    EthnicitytblComponent,
+    ReligionComponent,
+    ReligiontblComponent,
+    PostcodeComponent,
+    PostcodetblComponent,
+    CitizentypeComponent,
+    CitizentypetblComponent,
+    IdentificationtypeComponent,
+    IdentificationtypetblComponent,
+
+    DServiceComponent,
+    DServicetblComponent,
+    DServicedetailsComponent,
+    DServicedetailstblComponent,
+    DServicetypeComponent,
+    DServicetypetblComponent,
+    DServicegroupComponent,
+    DServicegrouptblComponent,
+
     FootercategoryComponent,
     FootercategorytblComponent,
     FootercontentComponent,
     FootercontenttblComponent,
-    GalleryComponent,
-    GallerytblComponent,
-    ConfirmDialogComponent,
+
     CategoryComponent,
     CategorytblComponent,
+
+    InboxComponent,
+    InboxtblComponent,
+    InboxsentComponent,
+    InboxsenttblComponent,
+
+    MediatypeComponent,
+    MediatypetblComponent,
+    MediafileuploadComponent,
     MediafileuploadtblComponent,
-    ModmenuComponent,
-    ModmenutblComponent,
-    ContentComponent,
-    ContenttblComponent,
+
+    FaqComponent,
+    FaqtblComponent,
+    SystemsettingsComponent,
+    SystemsettingstblComponent,
     ColorComponent,
     ColortblComponent,
     FontComponent,
     FonttblComponent,
-    UserdetailstblComponent,
+    AddresstypeComponent,
+    AddresstypetblComponent,
+    AccountstatusComponent,
+    AccountstatustblComponent,
+
+    AgencyComponent,
+    AgencytblComponent,
+    AgencyappComponent,
+    AgencyapptblComponent,
+
+    EditorComponent,
+
+    ErrormessageComponent,
+    ErrormessagetblComponent,
+    LanguageComponent,
+    LanguagetblComponent,
+    ConfirmDialogComponent,
+    ModmenuComponent,
+    ModmenutblComponent,
+
     TruncatePipe,
     EventcalendarComponent,
     EventcalendartblComponent,
     EventcalendarextComponent,
     EventcalendarexttblComponent,
-    LifeeventComponent,
-    LifeeventtblComponent,
-    DialogResultExampleDialog,
-    InboxComponent,
-    InboxtblComponent,
-    InboxsentComponent,
-    InboxsenttblComponent,
-    SliderpublisherComponent,
-    SliderpublishertblComponent,
-    GallerypublisherComponent,
-    GallerypublishertblComponent,
+
     SitemapComponent,
     SitemaptblComponent,
     ArchiveComponent,
     ArchivetblComponent,
-    LifeeventpublishertblComponent,
-    LifeeventpublisherComponent,
-    ContentpublishertblComponent,
-    ContentpublisherComponent,
-    ParticipationComponent,
-    ParticipationtblComponent,
-    DServiceComponent,
-    DServicetblComponent,
-    DServicedetailsComponent,
-    DServicedetailstblComponent,
-    ParticipationpublisherComponent,
-    ParticipationpublishertblComponent,
+
     SubscriptionComponent,
     SubscriptiontblComponent,
     SchedulerComponent,
     SchedulertblComponent,
-    DServicetypeComponent,
-    DServicetypetblComponent,
-    DServicegroupComponent,
-    DServicegrouptblComponent,
-    PostcodetblComponent,
-    StatetblComponent,
-    CountrytblComponent,
-    CitytblComponent,
     ViewreportComponent,
     ActmonComponent,
     ActmontblComponent,
+    UsersunregisterComponent,
+    // AnnouncementComponent,
+    // AnnouncementtblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
     BrowserModule,
     // JoditAngularModule,
     ToastrModule.forRoot({
-      preventDuplicates: true
+      preventDuplicates: true,
+      closeButton: true,
+      positionClass: 'toast-top-right',
+      tapToDismiss: false,
+      timeOut: 6000
     }),
 
     NgxTreeSelectModule.forRoot({
@@ -324,14 +374,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxEditorModule,
     ModalModule.forRoot(),
     LoadingModule,
-    OwlDateTimeModule, 
+    OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot()
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+    Ng2GoogleChartsModule
 
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, DatePipe, NavService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, DatePipe, NavService, AutologoutService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

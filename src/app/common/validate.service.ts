@@ -15,15 +15,15 @@ export class ValidateService {
         return ctrl.valid || ctrl.untouched;
 	}
 	
-
+	//'email': '^[a-z0-9._]+@([a-z0-9]{2,})+\.[a-z.]{2,}$', yg asal
 	getPattern(min?, max?){
 		return {
 			'name':'^[a-zA-Z@.&*()-+/\' ]{'+min+','+max+'}$',
 			'passport':'^[a-zA-Z0-9]{'+min+','+max+'}$',
 			'numberOnly': '^[0-9]{'+min+','+max+'}$',
 			'alphaOnly':'^[a-zA-Z]{'+min+','+max+'}$',
-			'alphaNumeric':'^[a-zA-Z0-9]{'+min+','+max+'}$',
-			'email': '^[a-z0-9._]+@([a-z0-9]{2,})+\.[a-z.]{2,}$',
+			'alphaNumeric':'^[a-zA-Z0-9]{'+min+','+max+'}$',			
+			'email': '^[a-z0-9._]+@([a-z0-9]{2,})[.]([a-z.]{2,})$',
 			'colorCode':'^#[a-fA-F0-9]{'+min+','+max+'}$',
 			'alphaSpaceHyphen':'^[a-zA-Z-\' ]{'+min+','+max+'}$',
 			};

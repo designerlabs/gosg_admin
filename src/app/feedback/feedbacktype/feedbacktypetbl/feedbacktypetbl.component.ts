@@ -121,7 +121,7 @@ export class FeedbacktypetblComponent implements OnInit, OnDestroy {
   getRecordList(count, size) {
   
     this.loading = true;
-    this.commonservice.readPortal('feedback/type', count, size)
+    this.commonservice.readPortal('feedback/type', count, size, '', this.languageId)
     .subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){

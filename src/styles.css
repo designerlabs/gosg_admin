@@ -65,7 +65,7 @@ mat-header-cell{
 }
 
 p.font-size-s > strong {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* custom content styles */
@@ -359,10 +359,7 @@ p.font-size-s > strong {
         margin-bottom: 0%
     }
 
-    .datetimeMaskWithValue {
-        color:#333;
-        margin-bottom: -4%
-    }
+    
 
     .owl-dt-popup {
         margin-top: 8%;
@@ -438,8 +435,39 @@ p.font-size-s > strong {
 
 }
 
+@media screen and (max-width: 1360px) and (min-width: 760px){
+    .datetimeMaskWithValue {
+        color:#333;
+        margin-bottom: -4%
+    }
+
+    .datetimeMaskNoValue{
+        color:#333;
+        margin-bottom: -7%
+    }
+  
+  }
+
+@media screen and (min-width: 1361px) {
+    .datetimeMaskWithValue {
+        color:#333;
+        margin-bottom: -2%
+    }
+
+    .datetimeMaskNoValue{
+        color:#333;
+        margin-bottom: -5%
+    }
+  
+}
+
 .tableHistory{
     background: #0c5460 !important;
     color: white !important;
 
   }
+
+.toast-top-right {
+    font-size: 18px !important; 
+} 
+  

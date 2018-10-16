@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, Inject, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { APP_CONFIG, AppConfig } from './../../config/app.config.module';
@@ -15,8 +15,8 @@ import { NavService } from '../../nav/nav.service';
 @Component({
   selector: 'app-addresstypetbl',
   templateUrl: './addresstypetbl.component.html',
-  styleUrls: ['./addresstypetbl.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./addresstypetbl.component.css']
+
 })
 export class AddresstypetblComponent implements OnInit, OnDestroy {
 
@@ -32,19 +32,20 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
   seqPageNum = 0;
   seqPageSize = 0 ;
 
-  dataUrl: any;  
+  dataUrl: any;
   public loading = false;
   filteredArray: any;
   languageId: any;
+  showNoData = false;
   lang:any;
 
   recordTable = null;
-  
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
+
   dataSource = new MatTableDataSource<object>(this.recordList);
-  
+
   private subscription: ISubscription;
   private subscriptionLang: ISubscription;
   private subscriptionLangAll: ISubscription;
@@ -56,10 +57,10 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue;
   }
 
-  constructor(private http: HttpClient, 
-    @Inject(APP_CONFIG) private appConfig: AppConfig, 
-    public commonservice: CommonService, 
-    private router: Router, 
+  constructor(private http: HttpClient,
+    @Inject(APP_CONFIG) private appConfig: AppConfig,
+    public commonservice: CommonService,
+    private router: Router,
     private toastr: ToastrService,
     private navservice: NavService,
     private translate: TranslateService,
@@ -75,7 +76,7 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
             this.languageId = 1;
           });
         }
-        
+
         if (myLang == 'ms') {
           translate.get('HOME').subscribe((res: any) => {
             this.lang = 'ms';
@@ -112,32 +113,38 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
   getRecordList(count, size, lng) {
 
     this.recordList = null;
-  
+
     this.loading = true;
     this.commonservice.readPortal('addresstype', count, size, '', lng)
     .subscribe(data => {
-
       this.commonservice.errorHandling(data, (function(){
-
         this.recordList = data;
-        
-        
-        
-        this.dataSource.data = this.recordList.list;
-        this.seqPageNum = this.recordList.pageNumber;
-        this.seqPageSize = this.recordList.pageSize;
-        this.recordTable = this.recordList;
-        this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
-      }).bind(this)); 
+
+        if(this.recordList.list.length > 0){
+          this.dataSource.data = this.recordList.list;
+          this.seqPageNum = this.recordList.pageNumber;
+          this.seqPageSize = this.recordList.pageSize;
+          this.recordTable = this.recordList;
+          this.noNextData = this.recordList.pageNumber === this.recordList.totalPages;
+          this.showNoData = false;
+        }else{
+          this.dataSource.data = [];
+          this.showNoData = true;
+        }
+
+
+
+
+
+      }).bind(this));
       this.loading = false;
     },
     error => {
-
-      this.toastr.error(JSON.parse(error._body).statusDesc, '');  
       this.loading = false;
-      
+      this.toastr.error(JSON.parse(error._body).statusDesc, '');
+
   });
-    
+
   }
 
   paginatorL(page) {
@@ -160,33 +167,33 @@ export class AddresstypetblComponent implements OnInit, OnDestroy {
   }
 
   updateRow(row) {
-    
+
     this.router.navigate(['address/type/', row]);
     this.commonservice.pageModeChange(true);
   }
 
   deleteRow(refcode) {
     let txt;
-    
-    
+
+
     this.loading = true;
     this.commonservice.delete(refcode, 'addresstype/').subscribe(
       data => {
-        
+
         this.commonservice.errorHandling(data, (function(){
-          
+
           this.toastr.success(this.translate.instant('common.success.deletesuccess'), '');
           this.getRecordList(this.pageCount, this.pageSize, this.languageId);
-        }).bind(this)); 
+        }).bind(this));
         this.loading = false;
-                  
+
       },
       error => {
 
-        this.toastr.error(JSON.parse(error._body).statusDesc, ''); 
+        this.toastr.error(JSON.parse(error._body).statusDesc, '');
         this.loading = false;
-        
-    }); 
+
+    });
   }
 
   ngAfterViewInit() {

@@ -1,10 +1,8 @@
-<!-- <p>
-  inbox works!
-</p> -->
 
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px', fullScreenBackdrop: true}"></ngx-loading>
 
 <div class="container-fluid">
-  
+
 
     <div class="curdHeader">
         <div class="col-md-10 curdHeadingLeft" *ngIf="!commonservice.isUpdate && !commonservice.isWrite">
@@ -16,20 +14,20 @@
         <div class="col-md-10 curdHeadingLeft" *ngIf="commonservice.isWrite && urlEdit != 'add'">
             <h3>{{ 'inbox.name' | translate }}</h3>
         </div>
-      
+
       <div class="col-md-2 curdHeadingRight">
           <span class="pull-right">
               <button type="button" mat-fab color="accent" (click)="back()" >
               <i [ngClass]="commonservice.icon.arrLeft" class="font-size-l"></i></button>
           </span>
-      </div> 
+      </div>
   </div>
 
   <div *ngIf="!commonservice.isWrite && !commonservice.isUpdate && !commonservice.isRead" [innerHTML]="commonservice.messageSuccess">
-      
+
   </div>
 
-  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate">       
+  <form [formGroup]="updateForm" autocomplete="off" role="form" novalidate *ngIf="commonservice.isRead || commonservice.isWrite || commonservice.isUpdate">
       <div class="example-container mat-elevation-z8 paddingBottom-10 paddingTop-10">
           <!-- <div class="bg-form-header col-md-12">
               <div class="row">
@@ -37,11 +35,11 @@
                   <label class="col-md-6">Bahasa Malaysia</label>
               </div>
           </div><br> -->
-  
+
           <div class="example-header">
               <div class="col-md-12">
                   <mat-form-field class="example-full-width font-size-s">
-                      <input matInput placeholder="{{ 'inbox.tableHeader.subject' | translate }}" formControlName="subject"  maxlength="100" 
+                      <input matInput placeholder="{{ 'inbox.tableHeader.subject' | translate }}" formControlName="subject"  maxlength="100"
                       (keyup)="checkReqValues()" required>
                       <mat-error *ngIf="updateForm.controls.subject.hasError('required')">
                         {{ 'inbox.tableHeader.subject' | translate }}
@@ -55,7 +53,7 @@
           <div class="example-header">
               <div class="col-md-12">
                   <mat-form-field class="example-full-width font-size-s" >
-                      <textarea matInput placeholder="{{ 'inbox.tableHeader.content' | translate }}" formControlName="content" maxlength="10000" 
+                      <textarea matInput placeholder="{{ 'inbox.tableHeader.content' | translate }}" formControlName="content" maxlength="10000"
                       (keyup)="checkReqValues()"  rows="3" required></textarea>
                       <mat-error *ngIf="updateForm.controls.content.hasError('required')">
                         {{ 'inbox.tableHeader.content' | translate }}
@@ -71,7 +69,7 @@
               </div>
           </div> -->
       </div>
-  
+
       <div class="form-group paddingTop-20" *ngIf="commonservice.isWrite">
           <button mat-raised-button type="button" color="primary" id="btnsubmit" class="btn btn-md btn-success font-size-s pull-right mgn_L_5px"
           (click)="submit(updateForm.value)" [disabled]="!complete || (commonservice.isWrite && this.urlEdit != 'add')">
@@ -79,12 +77,12 @@
           <i *ngIf="!complete" [ngClass]="commonservice.icon.times"></i> {{commonservice.pageMode}} </button>
           <button tabindex="6" mat-raised-button color="warn" type="button" id="btnreset" class="btn btn-md btn-warning font-size-s pull-right" (click)="resetModal.show()" [disabled]="commonservice.isWrite && this.urlEdit != 'add'">
           <i [ngClass]="commonservice.icon.refresh"></i> Reset</button>
-      </div> 
+      </div>
   </form>
 </div>
-    
-<app-confirm-dialog  #resetModal 
-  [title]="'common.icon.warn'" 
+
+<app-confirm-dialog  #resetModal
+  [title]="'common.icon.warn'"
   [content]="'common.msg.reset'"
   [state]="'bg_header bg_warn_header'"
   [isReset]="'true'"

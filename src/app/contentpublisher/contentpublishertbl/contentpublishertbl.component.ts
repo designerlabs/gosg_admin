@@ -76,12 +76,12 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   valkey = false;
   recordTable = null;
   showNoData = false;
+  onLoadEvent = false;
 
   listHistory = null;
 
   //nameStatus=1;
   keywordVal="";
-
   displayDP: any;
   displayDE: any;
 
@@ -163,12 +163,12 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
       
       if (this.navservice.flagLang) {
         
-        this.getCategoryCodeCP(this.languageId);
-        //this.getCategoryCP(this.languageId);         
+        this.getCategoryCodeCP(this.languageId);       
         this.archiveId = [];
         this.arrStatus = [];
         this.selectedItem = [];
         this.commonservice.getModuleId();
+        this.getCategoryCP(this.languageId);
       }
 
     });
@@ -185,7 +185,7 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.commonservice.getInitialMessage();
-    //this.getRecordListCP(this.pageCount, this.pageSize);
+
     if (!this.languageId) {
       this.languageId = localStorage.getItem('langID');
     } else {
@@ -216,7 +216,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     this.updateForm.get('nameStatus').setValue(1);   
     this.getCategoryCP(this.languageId);
     this.valkey = false;
-
   }
 
   getCategoryCodeCP(lang){ 
@@ -267,12 +266,12 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
             this.catCode = this.commonservice.contentCategoryCode;
             this.categoryPlaceholder = this.catName;
           }
-
        
           this.updateForm.get('parentsEn').setValue(setParentEn);  
           this.categoryPlaceholder = this.catName;
-
-          //this.getRecordListCP(this.pageCount, this.pageSize, this.catCode);
+          if(this.onLoadEvent == false){
+            this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          }
 
         }).bind(this));
         this.loading = false;
@@ -753,8 +752,9 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
 
   onChange(ele){    
 
+    this.onLoadEvent = true;
     this.catCode = ele.refCode;
-    this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);   
+    this.getRecordListCP(this.pageCount, this.pageSize, this.catCode, this.languageId);
   }
 
   resetAllMethod(){
@@ -860,11 +860,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
     else if(countTrue > 0 && countTrue != this.arrStatus.length){
       this.flagApprove = false;
     }
-
-    
-    
-    
-    
     
     return false;
   }
@@ -872,8 +867,6 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
   deleteAll(){
     let deletedCodes = this.selectedItem.join(',');
 
-    
-    
     this.commonservice.delete('', `content/delete/multiple/${deletedCodes}`).subscribe(
       data => {
 
@@ -925,12 +918,12 @@ export class ContentpublishertblComponent implements OnInit, OnDestroy {
             let display: any;                  
 
             for(let i=0; i<this.listHistory.list.length; i++){
-
+              let convertdate =  moment(new Date(this.listHistory.list[i].revisionDate)).format('DD-MM-YYYY hh:mm a');
               let newDate = new Date(this.listHistory.list[i].revisionDate);
               displayTilte += '<tr><td>'+this.listHistory.list[i].user.firstName;
               displayTilte += '<br>('+this.listHistory.list[i].user.email+')</td>';
               displayTilte += '<td>'+this.listHistory.list[i].type+'</td>';
-              displayTilte += '<td>'+newDate+'</td></tr>';
+              displayTilte += '<td>'+convertdate+'</td></tr>';
             }
 
             displayTilte += '</table>';

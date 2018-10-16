@@ -80,6 +80,7 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
   recordTable = null;
   showNoData = false;
   listHistory = null;
+  onLoadEvent = false;
 
   displayDP: any;
   displayDE: any;
@@ -166,11 +167,11 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
       if (this.navservice.flagLang) {
 
         this.getCategoryCodeLEP(this.languageId);
-        //this.getCategoryLEP(this.languageId);
         this.archiveId = [];
         this.arrStatus = [];
         this.selectedItem = [];
         this.commonservice.getModuleId();
+        this.getCategoryLEP(this.languageId);
       }
 
     });
@@ -192,7 +193,6 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
     } else {
       this.languageId = 1;
     }
-    //this.getRecordListLEP(this.pageCount, this.pageSize);
 
     this.getCategoryCodeLEP(this.languageId);
     this.commonservice.getModuleId();
@@ -273,8 +273,9 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
 
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
-
-          //this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode);
+          if(this.onLoadEvent == false){
+            this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode, this.languageId);
+          }
 
         }).bind(this));
         this.loading = false;
@@ -752,6 +753,7 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
 
   onChange(ele){
 
+    this.onLoadEvent = true;
     this.catCode = ele.refCode;
     this.getRecordListLEP(this.pageCount, this.pageSize, this.catCode, this.languageId);
   }
@@ -913,12 +915,12 @@ export class LifeeventpublishertblComponent implements OnInit, OnDestroy {
             let display: any;
 
             for(let i=0; i<this.listHistory.list.length; i++){
-
+              let convertdate =  moment(new Date(this.listHistory.list[i].revisionDate)).format('DD-MM-YYYY hh:mm a');
               let newDate = new Date(this.listHistory.list[i].revisionDate);
               displayTilte += '<tr><td>'+this.listHistory.list[i].user.firstName;
               displayTilte += '<br>('+this.listHistory.list[i].user.email+')</td>';
               displayTilte += '<td>'+this.listHistory.list[i].type+'</td>';
-              displayTilte += '<td>'+newDate+'</td></tr>';
+              displayTilte += '<td>'+convertdate+'</td></tr>';
             }
 
             displayTilte += '</table>';

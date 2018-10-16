@@ -24,6 +24,10 @@ export class CommonService{
   showFilterEn = "Type your filter here...";
   showFilterBm = "Taip tapisan di sini...";
 
+  mampuIdEn = 203;
+  mampuIdBm = 196;
+  mampuCode = 101;
+
   sliderCategoryCode = 4;
   galleryCategoryCode = 39;
   lifeEventCategoryCode = 643;
@@ -78,7 +82,8 @@ export class CommonService{
     view: 'fa fa-eye',
     archive: 'fa fa-archive',
     search: 'fa fa-search',
-    history: 'fa fa-history'
+    history: 'fa fa-history',
+    forward: 'fa fa-share'
   }
 
   pageSize =  [
@@ -520,7 +525,7 @@ getMediaByCateId(id){
     if(err.statusCode){
       let statusCode = err.statusCode.toLowerCase();
       if(statusCode == 'error'){
-        this.toastr.error(err.statusDesc, 'Error');
+        this.toastr.error(err.statusDesc, '');
       }else{
         callback()
       }
@@ -617,6 +622,14 @@ getMediaByCateId(id){
 
   update(data,moduleName) {
     let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId;
+
+    return this.http.put(updateUrl, data)
+    .map((response: Response) => response.json())
+    .catch(this.handleError);
+  }
+
+  updateParam(data,moduleName, param) {
+    let updateUrl = this.appConfig.urlCommon  + moduleName +'?language='+this.languageId+param;
 
     return this.http.put(updateUrl, data)
     .map((response: Response) => response.json())

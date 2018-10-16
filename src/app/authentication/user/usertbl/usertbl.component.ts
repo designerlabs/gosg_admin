@@ -142,7 +142,7 @@ export class UsertblComponent implements OnInit {
   // get User Data
   getUsersData(count, size) {
     this.loading = true;
-    this.commonservice.readProtected('adminuser/userList',count, size).subscribe(data => {
+    this.commonservice.readProtected('adminuser/userList',count, size, '', this.languageId).subscribe(data => {
 
       this.commonservice.errorHandling(data, (function(){
 
@@ -292,7 +292,7 @@ export class UsertblComponent implements OnInit {
     this.router.navigate(['slider']);
   }
 
-  getValue(type, val, usrId){
+  getValue(event, type, val, usrId){
     event.preventDefault();
     this.userId = usrId;
     this.isActive = false;
