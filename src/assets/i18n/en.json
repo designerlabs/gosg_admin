@@ -522,7 +522,7 @@
     }
   },
   "agencyapp": {
-    "header": "Agency Application Management",
+    "header": "Agency Online Services",
     "tableHeader":{
       "appnameEn": "Application Name (EN)",
       "appnameBm": "Application Name (BM)"
