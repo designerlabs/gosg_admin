@@ -34,25 +34,9 @@ export class GareportsComponent implements OnInit {
 
   private columnChartData:any = {
     chartType: 'ColumnChart',
-    dataTable: [
-      ['Country', 'Count'],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['',''],
-      ['','']
-
-    ],
+    dataTable: [],
     options: {title: 'Countries'}
   };
-  reportArray:string[] = [];
   dimension: any;
 
   constructor(private http:  HttpClient) { }
@@ -69,7 +53,7 @@ export class GareportsComponent implements OnInit {
       publish: this.publish,
       endD: this.endD
     });
-    this.getGA('2018-08-10', '2018-10-01', 'ga:city');
+    // this.getGA('2018-08-10', '2018-10-01', 'ga:city');
 
   }
 
@@ -78,20 +62,36 @@ export class GareportsComponent implements OnInit {
     return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A173733410&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=${opt}&access_token=${token}&max-results=10`)
       .subscribe(
         data => {
-          console.log(data);
-          this.reportArray = [];
-          this.columnChartData = Object.create(this.columnChartData);
-          this.columnChartData.options.title = "Cities";
-          for (var i = 1; i <= data['rows'].length; i++) {
+          this.columnChartData.dataTable=[];
+          if(data['totalResults'] !== 0){
+            this.columnChartData = Object.create(this.columnChartData);
+            this.columnChartData.options.title = "Cities";
 
-            if((data['rows'][i] != undefined)){
-              this.columnChartData.dataTable[i][0] = data['rows'][i-1][0];
-              this.columnChartData.dataTable[i][1] = parseInt(data['rows'][i-1][1]);
+            this.columnChartData.dataTable.push(['Country', 'Count']);
+            console.log(this.columnChartData.dataTable);
+            for (var i = 0; i <= data['rows'].length; i++) {
+
+              if((data['rows'][i] != undefined)){
+                this.columnChartData.dataTable.push([data['rows'][i][0], parseInt(data['rows'][i][1])])
+              }
             }
-
-            // this.columnChartData.dataTable.push(data['rows'][i]);
-
+          }else{
+            this.columnChartData = Object.create(this.columnChartData);
+            this.columnChartData.options.title = "Record Not Found";
+            // this.columnChartData = Object.create(this.columnChartData);
           }
+        }, error => {
+          console.log(error);
+        }
+      )
+  }
+
+  getGAReportTable(frmDt, endDt, opt, token){
+
+    return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A173733410&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=${opt},ga:date&access_token=${token}`)
+      .subscribe(
+        data => {
+          console.log(data)
 
         }, error => {
           console.log(error);
@@ -100,7 +100,6 @@ export class GareportsComponent implements OnInit {
   }
 
   public changeData():void {
-    console.log(this.st_Date, this.end_Date);
     this.getGA(this.st_Date, this.end_Date, this.dimension);
   }
 
@@ -119,6 +118,7 @@ export class GareportsComponent implements OnInit {
       data => {
         console.log(data);
         this.getGAReport(frmDt, endDt, opt, data['access_token']);
+        this.getGAReportTable(frmDt, endDt, opt, data['access_token']);
       }, error => {
         console.log(error);
       }
@@ -145,7 +145,7 @@ export class GareportsComponent implements OnInit {
     this.eMinDate = new Date(year,month,day);
     this.st_Date = moment(event.value).format('YYYY-MM-DD');
     if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
-      this.enddt = new Date(this.events[0]).getTime();
+      // this.enddt = new Date(this.events[0]).getTime();
       // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
       //this.enddt = null;
     }
@@ -159,7 +159,7 @@ export class GareportsComponent implements OnInit {
     this.events = [];
     this.events.push(`${event.value}`);
     this.enddt = new Date(this.events[0]).getTime();
-    this.end_Date = this.st_Date = moment(event.value).format('YYYY-MM-DD');
+    this.end_Date = moment(event.value).format('YYYY-MM-DD');
     this.dateFormatExample = "";
     // this.checkReqValues()
   }

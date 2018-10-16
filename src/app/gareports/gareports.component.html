@@ -1,53 +1,54 @@
 
-<div class="example-header col-md-12">
-    <form [formGroup]="gaForm" autocomplete="off" role="form" novalidate>
-      <div class="col-md-3">
-          <label class="font-size-s">Start Date</label>
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+      <form [formGroup]="gaForm" autocomplete="off" role="form" novalidate>
+        <div class="col-md-3">
+            <mat-form-field class="example-full-width">
+              <div style="display: inline;" [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
+              <input placeholder="Start Date" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish"
+              #publish (dateTimeInput)="publishEvent('input', $event)"
+              (dateTimeChange)="publishEvent('change', $event)" [min]="sMinDate"  tabindex="8"/>
+              <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
+              <owl-date-time [pickerType]="'calendar'" #publish></owl-date-time>
+              <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
+                {{ 'gallerytbl.errorStartDate' | translate }}
+              </mat-error> -->
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-3">
           <mat-form-field class="example-full-width">
-            <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{publishdt | date:'dd/MM/yyyy' }}</div>
-            <input placeholder="Choose date" [owlDateTime]="publish" style="display: none;" matInput formControlName="publish"
-            #publish (dateTimeInput)="publishEvent('input', $event)"
-            (dateTimeChange)="publishEvent('change', $event)" [min]="sMinDate"  tabindex="8"/>
-            <span [owlDateTimeTrigger]="publish"><i class="fa fa-calendar pull-right"></i></span>
-            <owl-date-time [pickerType]="'calendar'" #publish></owl-date-time>
-            <!-- <mat-error *ngIf="updateForm.controls.publish.hasError('required')">
-              {{ 'gallerytbl.errorStartDate' | translate }}
+            <div style="display: inline;" [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
+            <input placeholder="End Date" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD"
+            #endD (dateTimeInput)="endEvent('input', $event)"
+            (dateTimeChange)="endEvent('change', $event)" [min]="eMinDate" tabindex="9" />
+            <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
+            <owl-date-time [pickerType]="'calendar'" #endD></owl-date-time>
+            <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
+              {{ 'gallerytbl.errorEndDate' | translate }}
             </mat-error> -->
           </mat-form-field>
-      </div>
+        </div>
 
-      <div class="col-md-3">
-          <label class="font-size-s">End Date</label>
-              <mat-form-field class="example-full-width">
-                <div [ngClass]="{ 'datetimeMask':isEdit, 'datetimeMaskWithValue':!isEdit }">{{enddt | date:'dd/MM/yyyy' }}</div>
-                <input placeholder="Choose date" [owlDateTime]="endD" style="display: none;" matInput formControlName="endD"
-                #endD (dateTimeInput)="endEvent('input', $event)"
-                (dateTimeChange)="endEvent('change', $event)" [min]="eMinDate" tabindex="9" />
-                <span [owlDateTimeTrigger]="endD"><i class="fa fa-calendar pull-right"></i></span>
-                <owl-date-time [pickerType]="'calendar'" #endD></owl-date-time>
-                <!-- <mat-error *ngIf="updateForm.controls.endD.hasError('required')">
-                  {{ 'gallerytbl.errorEndDate' | translate }}
-                </mat-error> -->
-              </mat-form-field>
-      </div>
-
-      <div class="col-md-3">
+        <div class="col-md-3">
           <mat-form-field class="example-full-width">
-              <mat-select placeholder="Please Select" (change)="checkState($event)">
-                <mat-option value="ga:country">
-                  Country
-                </mat-option>
-                <mat-option value="ga:city">
-                    City
-                  </mat-option>
-              </mat-select>
-            </mat-form-field>
-      </div>
-      <div class="col-md-3">
+            <mat-select placeholder="Please Select" (change)="checkState($event)">
+              <mat-option value="ga:country">
+                Country
+              </mat-option>
+              <mat-option value="ga:city">
+                City
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
           <input type="button" value="Change data" (click)="changeData()">
-      </div>
-    </form>
-  </div>
+        </div>
+      </form>
+    </div>
+</div>
+
 <div class="col-md-12">
     <google-chart [data]="columnChartData"></google-chart>
 </div>
