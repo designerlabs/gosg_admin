@@ -62,7 +62,12 @@
                         <mat-form-field style="width: 100%;">
                             <mat-select  placeholder="" formControlName="nameStatus" (change)="filterStatus($event)">
                                 <mat-option *ngFor="let statusCreator of commonservice.listStatusPublisher"
-                                [value]="statusCreator.id">{{statusCreator.textEn}}</mat-option>
+                                [value]="statusCreator.id">
+                                <span  *ngIf="statusCreator.id === 1" class="dot tiny" style="background-color: transparent; margin-right: 5px; vertical-align: middle;"></span>
+                                <span  *ngIf="statusCreator.id === 2" class="dot bg_gray tiny" style="margin-right: 5px; vertical-align: middle;"></span>
+                                <span  *ngIf="statusCreator.id === 3" class="dot bg_orange tiny" style="margin-right: 5px; vertical-align: middle;"></span>
+                                <span  *ngIf="statusCreator.id === 4" class="dot bg_green tiny" style="margin-right: 5px; vertical-align: middle;"></span>
+                                <span>{{statusCreator.textEn}}</span></mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
