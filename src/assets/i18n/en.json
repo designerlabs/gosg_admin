@@ -708,7 +708,7 @@
       "feedbacktype": "Feedback Type",
       "name": "Name",
       "email": "Email",
-      "draftstatus": "Status Draft"
+      "draftstatus": "Status"
     },
     "tablebottom":{
       "feedback": "feedback message"

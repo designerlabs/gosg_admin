@@ -707,7 +707,7 @@
       "feedbacktype": "Jenis Maklum Balas",
       "name": "Nama",
       "email": "Emel",
-      "draftstatus": "Draf Status"
+      "draftstatus": "Status"
     },
     "tablebottom":{
       "feedback": "mesej maklum balas"
