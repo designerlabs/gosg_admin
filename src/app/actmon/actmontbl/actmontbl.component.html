@@ -379,7 +379,7 @@
         <!-- Feedback -->
         <mat-tab label="{{ 'actmon.component.feedback' | translate }}" class="col-md-12">
 
-          <mat-table *ngIf="feedbackList && dataSource3.data" #table [dataSource]="dataSource3" style="overflow-x: scroll;">
+          <mat-table *ngIf="feedbackList && dataSource3.data" #table [dataSource]="dataSource3">
 
               <!-- No Column -->
               <ng-container matColumnDef="no">
@@ -417,7 +417,8 @@
               <ng-container matColumnDef="from">
                 <mat-header-cell *matHeaderCellDef style="flex: 0 15%;">{{ 'actmon.tableHeader.from' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let element" style="flex: 0 15%;">
-                  {{ element.feedbackEmail }}
+                  {{ element.feedbackEmail }} <br>
+                  <span><i class="fa fa-share" style="color: blue;" *ngIf="element?.feedbackForwardEmail"></i> {{element?.feedbackForwardEmail}} </span>
                 </mat-cell>
               </ng-container>
 
