@@ -777,9 +777,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     else if(this.currentTab == 1)
       this.getAgenciesDataByID(this.currentAgencyRefNo, page - 1, this.pageSize);
     else if(this.currentTab == 2)
-      this.getPollsData(this.pageCount, this.pageSize);
+      this.getPollsData(page - 1, this.pageSize);
     else if(this.currentTab == 3)
-      this.getFeedbackData(this.pageCount, this.pageSize);
+      this.getFeedbackData(page - 1, this.pageSize);
 
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;
