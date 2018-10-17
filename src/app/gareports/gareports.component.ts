@@ -6,6 +6,7 @@ import { ChartSelectEvent } from 'ng2-google-charts';
 import { ChartMouseOverEvent, ChartMouseOutEvent } from 'ng2-google-charts'
 import { FormControl, FormGroup, Validators, FormBuilder  } from '@angular/forms';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
+import { environment } from '../../environments/environment';
 import * as moment from 'moment';
 
 @Component({
@@ -20,6 +21,7 @@ export class GareportsComponent implements OnInit {
   publish: FormControl;
   endD: FormControl;
   gaForm: FormGroup;
+  dimensions: FormControl;
   dateFormatExample = "dd/mm/yyyy h:i:s";
   events: string[] = [];
   stDate:any;
@@ -48,10 +50,12 @@ export class GareportsComponent implements OnInit {
   ngOnInit() {
     this.publish = new FormControl();
     this.endD = new FormControl();
+    this.dimensions = new FormControl();
 
     this.gaForm = new FormGroup({
       publish: this.publish,
-      endD: this.endD
+      endD: this.endD,
+      dimensions: this.dimensions
     });
     // this.getGA('2018-08-10', '2018-10-01', 'ga:city');
 
@@ -59,14 +63,13 @@ export class GareportsComponent implements OnInit {
 
   getGAReport(frmDt, endDt, opt, token){
 
-    return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A173733410&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=${opt}&access_token=${token}&max-results=10`)
+    return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=${environment.googleId}&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=ga:${opt}&access_token=${token}&max-results=10`)
       .subscribe(
         data => {
           this.columnChartData.dataTable=[];
           if(data['totalResults'] !== 0){
             this.columnChartData = Object.create(this.columnChartData);
-            this.columnChartData.options.title = "Cities";
-
+            this.columnChartData.options.title = this.gaForm.get('dimensions').value;
             this.columnChartData.dataTable.push(['Country', 'Count']);
             console.log(this.columnChartData.dataTable);
             for (var i = 0; i <= data['rows'].length; i++) {
@@ -88,7 +91,7 @@ export class GareportsComponent implements OnInit {
 
   getGAReportTable(frmDt, endDt, opt, token){
 
-    return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=ga%3A173733410&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=${opt},ga:date&access_token=${token}`)
+    return this.http.get(`https://www.googleapis.com/analytics/v3/data/ga?ids=${environment.googleId}&start-date=${frmDt}&end-date=${endDt}&metrics=ga%3Ausers&dimensions=ga:${opt},ga:date&access_token=${token}`)
       .subscribe(
         data => {
           console.log(data)
@@ -113,7 +116,7 @@ export class GareportsComponent implements OnInit {
         'Content-Type':  'application/x-www-form-urlencoded'
       })
     };
-    return this.http.post('https://www.googleapis.com/oauth2/v4/token?client_id=416088092941-sfsmok024hga24lu058dp2qqq9a1bl70.apps.googleusercontent.com&client_secret=5MMkSNzeprFRLvVXj7dQ_e-R&grant_type=refresh_token&refresh_token=1/tEnJY667GemBRAJ-MPXmI1CNnTgs-2wfs8oSrlFpXi8','', httpOptions)
+    return this.http.post(`https://www.googleapis.com/oauth2/v4/token?client_id=${environment.gaClientId}&client_secret=${environment.gaSecret}&grant_type=refresh_token&refresh_token=${environment.gaToken}`,'', httpOptions)
     .subscribe(
       data => {
         console.log(data);
@@ -145,12 +148,7 @@ export class GareportsComponent implements OnInit {
     this.eMinDate = new Date(year,month,day);
     this.st_Date = moment(event.value).format('YYYY-MM-DD');
     if(this.publishdt>this.enddt || this.enddt == undefined || this.enddt == null){
-      // this.enddt = new Date(this.events[0]).getTime();
-      // this.updateForm.get('endD').setValue(new Date(this.enddt).toISOString());
-      //this.enddt = null;
     }
-
-    // this.checkReqValues()
   }
 
 
@@ -161,7 +159,6 @@ export class GareportsComponent implements OnInit {
     this.enddt = new Date(this.events[0]).getTime();
     this.end_Date = moment(event.value).format('YYYY-MM-DD');
     this.dateFormatExample = "";
-    // this.checkReqValues()
   }
 
   checkState(e){

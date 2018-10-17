@@ -12,5 +12,9 @@ export const environment = {
     mockApiURL :'http://10.1.22.34:3000/',
     baseURL: 'http://localhost/locale-api/',
     mibisURL: 'https://10.1.71.176/mibis/',
-    froalakey: 'bH3A7B5C5E4C2E3D3D2G2B5=='
+    froalakey: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+    googleId: 'ga:173733410',
+    gaClientId: '416088092941-sfsmok024hga24lu058dp2qqq9a1bl70.apps.googleusercontent.com',
+    gaSecret: '5MMkSNzeprFRLvVXj7dQ_e-R',
+    gaToken: '1/tEnJY667GemBRAJ-MPXmI1CNnTgs-2wfs8oSrlFpXi8'
   };
