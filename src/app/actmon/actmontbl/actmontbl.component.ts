@@ -229,7 +229,7 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     this.displayedColumns = ['no', 'username', 'idno', 'serviceName', 'submissionRefno', 'status', 'date'];
     this.displayedColumns1 = ['no', 'svcname', 'submissionRefno', 'name', 'status', 'date'];
     this.displayedColumns2 = ['no', 'question', 'answer1', 'result1', 'answer2', 'result2', 'answer3', 'result3', 'answer4', 'result4', 'answer5', 'result5', 'pollsActiveFlag', 'insertDate'];
-    this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'remark', 'date', 'moddate'];
+    this.displayedColumns3 = ['no', 'ticno', 'type', 'subject', 'from', 'content', 'date', 'remark', 'moddate'];
     this.getAgenciesData(this.pageCount, this.pageSize);
 
     this.getAgenciesDataByID(0, this.pageCount, this.pageSize);
@@ -777,9 +777,9 @@ export class ActmontblComponent implements OnInit, OnDestroy {
     else if(this.currentTab == 1)
       this.getAgenciesDataByID(this.currentAgencyRefNo, page - 1, this.pageSize);
     else if(this.currentTab == 2)
-      this.getPollsData(this.pageCount, this.pageSize);
+      this.getPollsData(page - 1, this.pageSize);
     else if(this.currentTab == 3)
-      this.getFeedbackData(this.pageCount, this.pageSize);
+      this.getFeedbackData(page - 1, this.pageSize);
 
     this.noPrevData = page <= 2 ? true : false;
     this.noNextData = false;

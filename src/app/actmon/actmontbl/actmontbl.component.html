@@ -173,7 +173,7 @@
 
             <!-- date Column -->
             <ng-container matColumnDef="date">
-              <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate
+              <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datesubmission' | translate
                 }}</mat-header-cell>
               <mat-cell *matCellDef="let element" class="actionColumn">
                 {{ element.receivedDate }}
@@ -235,7 +235,7 @@
 
             <!-- date Column -->
             <ng-container matColumnDef="date">
-              <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate
+              <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datesubmission' | translate
                 }}</mat-header-cell>
               <mat-cell *matCellDef="let element" class="actionColumn">
                 {{ element.receivedDate }}
@@ -363,7 +363,7 @@
 
               <!-- insertDate Column -->
               <ng-container matColumnDef="insertDate">
-                <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datereceive' | translate }}<br />&nbsp;</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef class="actionColumn">{{ 'actmon.tableHeader.datecreate' | translate }}<br />&nbsp;</mat-header-cell>
                 <mat-cell *matCellDef="let element" class="actionColumn">
                   {{ element.createDate }}
                 </mat-cell>
@@ -377,7 +377,7 @@
         </mat-tab>
 
         <!-- Feedback -->
-        <mat-tab label="{{ 'actmon.component.feedback' | translate }}">
+        <mat-tab label="{{ 'actmon.component.feedback' | translate }}" class="col-md-12">
 
           <mat-table *ngIf="feedbackList && dataSource3.data" #table [dataSource]="dataSource3">
 
@@ -417,7 +417,8 @@
               <ng-container matColumnDef="from">
                 <mat-header-cell *matHeaderCellDef style="flex: 0 15%;">{{ 'actmon.tableHeader.from' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let element" style="flex: 0 15%;">
-                  {{ element.feedbackEmail }}
+                  {{ element.feedbackEmail }} <br>
+                  <span><i class="fa fa-share" style="color: blue;" *ngIf="element?.feedbackForwardEmail"></i> {{element?.feedbackForwardEmail}} </span>
                 </mat-cell>
               </ng-container>
 
@@ -429,20 +430,20 @@
                 </mat-cell>
               </ng-container>
 
-              <!-- remark Column -->
-              <ng-container matColumnDef="remark">
-                <mat-header-cell *matHeaderCellDef>{{ 'actmon.tableHeader.remark' | translate }}</mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                  {{ element.feedbackRemarks }}
-                </mat-cell>
-              </ng-container>
-
               <!-- date Column -->
               <ng-container matColumnDef="date">
                 <mat-header-cell *matHeaderCellDef class="text-center" style="flex: 0 8%;">{{ 'actmon.tableHeader.datereceive' | translate
                   }}</mat-header-cell>
                 <mat-cell *matCellDef="let element" class="text-center" style="flex: 0 8%;">
                   {{ element.createdDate }}
+                </mat-cell>
+              </ng-container>
+
+              <!-- remark Column -->
+              <ng-container matColumnDef="remark">
+                <mat-header-cell *matHeaderCellDef>{{ 'actmon.tableHeader.remark' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  {{ element.feedbackRemarks }}
                 </mat-cell>
               </ng-container>
 
