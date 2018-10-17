@@ -65,7 +65,7 @@ mat-header-cell{
 }
 
 p.font-size-s > strong {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 /* custom content styles */
@@ -466,3 +466,8 @@ p.font-size-s > strong {
     color: white !important;
 
   }
+
+.toast-top-right {
+    font-size: 18px !important; 
+} 
+  

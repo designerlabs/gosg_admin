@@ -31,7 +31,7 @@
     "content": {
       "groupingPermisionModules": "Grouping and Permission Modules",
       "adminManagement": "Admin Management",
-      "groupingManagement": "Group Management",
+      "groupingManagement": "Function Group Management",
       "groupingDetails": "Sorting and Grouping from isolate module",
       "adminDetails": "Assign Admin user and providing permission",
       "modules": "Modules",
@@ -386,7 +386,9 @@
     "email": "Email",
     "update": "Update",
     "add": "Add",
-    "mgmt": "Management"
+    "mgmt": "Management",
+    "seconds1":"logout in",
+    "seconds2": "seconds"
   },
   "appmngt":{
     "setSearch":{
@@ -520,7 +522,7 @@
     }
   },
   "agencyapp": {
-    "header": "Agency Application Management",
+    "header": "Agency Online Services",
     "tableHeader":{
       "appnameEn": "Application Name (EN)",
       "appnameBm": "Application Name (BM)"
@@ -706,7 +708,7 @@
       "feedbacktype": "Feedback Type",
       "name": "Name",
       "email": "Email",
-      "draftstatus": "Status Draft"
+      "draftstatus": "Status"
     },
     "tablebottom":{
       "feedback": "feedback message"
@@ -721,7 +723,8 @@
     "msg": "Message",
     "replysection": "Reply Section",
     "reply": "Reply",
-    "email": "Email"
+    "email": "Email",
+    "forward": "Forward to"
   },
   "feedbacksubjecttbl": {
     "header": "Feedback Subject List",
@@ -922,11 +925,10 @@
   "pollresultdetail": {
     "header": "Polls Details",
     "tableHeader":{
-      "pollquestionEn": "Poll Question (EN)",
-      "pollquestionBm": "Poll Question (BM)"
+      "recommandation": "Recommandations"
     },
     "tablebottom":{
-      "pollquestion": "polls questions"
+      "pollquestion": "recommandations"
     },
     "name": "Polls Questions"
   },

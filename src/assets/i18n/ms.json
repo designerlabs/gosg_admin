@@ -386,7 +386,9 @@
     "email": "Emel",
     "update": "Kemaskini",
     "add": "Tambah",
-    "mgmt": "Pengurusan"
+    "mgmt": "Pengurusan",
+    "seconds1":"log keluar dalam",
+    "seconds2": "saat"
   },
   "appmngt":{
     "setSearch":{
@@ -520,7 +522,7 @@
     }
   },
   "agencyapp": {
-    "header": "Pengurusan Permohonan Agensi",
+    "header": "Perkhidmatan Dalam Talian Agensi",
     "tableHeader":{
       "appnameEn": "Nama Permohonan (EN)",
       "appnameBm": "Nama Permohonan (BM)"
@@ -705,7 +707,7 @@
       "feedbacktype": "Jenis Maklum Balas",
       "name": "Nama",
       "email": "Emel",
-      "draftstatus": "Draf Status"
+      "draftstatus": "Status"
     },
     "tablebottom":{
       "feedback": "mesej maklum balas"
@@ -720,7 +722,8 @@
     "msg": "Mesej",
     "replysection": "Bahagian Balasan",
     "reply": "Balasan",
-    "email": "Emel"
+    "email": "Emel",
+    "forward": "Dimaju kepada"
   },
   "feedbacksubjecttbl": {
     "header": "Senarai Subjek Maklum Balas",
@@ -921,11 +924,10 @@
   "pollresultdetail": {
     "header": "Perincian Soal Selidik",
     "tableHeader":{
-      "pollquestionEn": "Poll Question (EN)",
-      "pollquestionBm": "Poll Question (BM)"
+      "recommandation": "Cadangan"
     },
     "tablebottom":{
-      "pollquestion": "polls questions"
+      "pollquestion": "cadangan"
     },
     "name": "Polls Questions"
   },

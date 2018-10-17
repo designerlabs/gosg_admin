@@ -16,6 +16,7 @@ import { DialogResultExampleDialog } from '../lifeevent/lifeevent.component';
 import { OwlDateTimeInputDirective } from 'ng-pick-datetime/date-time/date-time-picker-input.directive';
 import { ISubscription } from 'rxjs/Subscription';
 import { NavService } from './../nav/nav.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-participation',
@@ -256,25 +257,37 @@ export class ParticipationComponent implements OnInit, OnDestroy {
 
   public htmlContentEnEditor: Object = {
 
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==' ,
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==' ,
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
 };
 
   public htmlContentMyEditor: Object = {
-    key: 'bH3A7B5C5E4C2E3D3D2G2B5==',
+    key: environment.froalakey, //'bH3A7B5C5E4C2E3D3D2G2B5==',
 
     imageUploadURL: this.appConfig.urlCommon+'image',
 
     imageUploadMethod: 'POST',
 
     // Allow to upload PNG and JPG.
-    imageAllowedTypes: ['jpeg', 'jpg', 'png']
+    imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+
+    charCounterCount: true,
+    toolbarButtons: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsXS: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsSM: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo'],
+    toolbarButtonsMD: ['paragraphFormat', 'bold', 'italic', 'underline', 'subscript', 'superscript', 'insertTable', '|', 'formatOL', 'formatUL', '|', 'alert', 'insertFile', 'insertImage', 'insertLink', 'insertVideo', '|', 'html', '|', 'undo', 'redo']
   };
 
   back() {

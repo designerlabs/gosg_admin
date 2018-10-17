@@ -18,7 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorComponent } from './error/error.component';
 import { CommonService } from './service/common.service';
 import { NavRouterActivatorService } from './service/nav-router-activator.service';
-
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { UserComponent } from './user/user.component';
 import { UserdetailstblComponent } from './user/userdetailstbl/userdetailstbl.component';
 import { UsertblComponent } from './authentication/user/usertbl/usertbl.component';
@@ -176,6 +176,10 @@ import { ActmonComponent } from './actmon/actmon.component';
 import { ActmontblComponent } from './actmon/actmontbl/actmontbl.component';
 import { DatePipe } from '../../node_modules/@angular/common';
 import { UsersunregisterComponent } from './usersunregister/usersunregister.component';
+import { GareportsComponent } from './gareports/gareports.component';
+
+import { AutologoutService} from './service/autologout.service';
+
 // import { AnnouncementComponent } from './announcement/announcement.component';
 // import { AnnouncementtblComponent } from './announcement/announcementtbl/announcementtbl.component';
 export function HttpLoaderFactory(http: HttpClient) {
@@ -189,17 +193,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     LeftmenuComponent,
     RightcontentComponent,
     ErrorComponent,
-
+    GareportsComponent,
     UserComponent,
-    UserdetailstblComponent,    
-    GroupstblComponent,    
-    GroupsComponent,      
+    UserdetailstblComponent,
+    GroupstblComponent,
+    GroupsComponent,
     UserpermissionComponent,
     UsertblComponent,
-    
+
     PollquestiontblComponent,
     PollquestionComponent,
-    PollresultComponent,      
+    PollresultComponent,
     PollresultdetailComponent,
 
     FeedbackadminComponent,
@@ -207,10 +211,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     FeedbacktypeComponent,
     FeedbacktypetblComponent,
     FeedbacksubjectComponent,
-    FeedbacksubjecttblComponent,    
+    FeedbacksubjecttblComponent,
     FeedbackvisitorComponent,
     FeedbackvisitortblComponent,
-    
+
     MinistryComponent,
     MinistrytblComponent,
 
@@ -231,38 +235,38 @@ export function HttpLoaderFactory(http: HttpClient) {
     ContentpublishertblComponent,
     ContentpublisherComponent,
     ParticipationComponent,
-    ParticipationtblComponent,    
+    ParticipationtblComponent,
     ParticipationpublisherComponent,
     ParticipationpublishertblComponent,
     DialogResultExampleDialog,
-    
+
     GenderComponent,
-    CityComponent,    
+    CityComponent,
     CitytblComponent,
     StateComponent,
     StatetblComponent,
-    CountrytblComponent,    
+    CountrytblComponent,
     CountryComponent,
-    EthnicityComponent,    
+    EthnicityComponent,
     EthnicitytblComponent,
-    ReligionComponent,    
+    ReligionComponent,
     ReligiontblComponent,
-    PostcodeComponent,    
+    PostcodeComponent,
     PostcodetblComponent,
     CitizentypeComponent,
-    CitizentypetblComponent,    
+    CitizentypetblComponent,
     IdentificationtypeComponent,
     IdentificationtypetblComponent,
 
     DServiceComponent,
     DServicetblComponent,
     DServicedetailsComponent,
-    DServicedetailstblComponent,    
+    DServicedetailstblComponent,
     DServicetypeComponent,
     DServicetypetblComponent,
     DServicegroupComponent,
     DServicegrouptblComponent,
-    
+
     FootercategoryComponent,
     FootercategorytblComponent,
     FootercontentComponent,
@@ -275,7 +279,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     InboxtblComponent,
     InboxsentComponent,
     InboxsenttblComponent,
-    
+
     MediatypeComponent,
     MediatypetblComponent,
     MediafileuploadComponent,
@@ -290,36 +294,36 @@ export function HttpLoaderFactory(http: HttpClient) {
     FontComponent,
     FonttblComponent,
     AddresstypeComponent,
-    AddresstypetblComponent,    
+    AddresstypetblComponent,
     AccountstatusComponent,
     AccountstatustblComponent,
-    
+
     AgencyComponent,
-    AgencytblComponent,    
+    AgencytblComponent,
     AgencyappComponent,
     AgencyapptblComponent,
 
     EditorComponent,
-        
+
     ErrormessageComponent,
     ErrormessagetblComponent,
     LanguageComponent,
     LanguagetblComponent,
-    ConfirmDialogComponent,        
+    ConfirmDialogComponent,
     ModmenuComponent,
     ModmenutblComponent,
-            
+
     TruncatePipe,
     EventcalendarComponent,
     EventcalendartblComponent,
     EventcalendarextComponent,
     EventcalendarexttblComponent,
-        
+
     SitemapComponent,
     SitemaptblComponent,
     ArchiveComponent,
     ArchivetblComponent,
-    
+
     SubscriptionComponent,
     SubscriptiontblComponent,
     SchedulerComponent,
@@ -329,14 +333,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     ActmontblComponent,
     UsersunregisterComponent,
     // AnnouncementComponent,
-    // AnnouncementtblComponent,  
+    // AnnouncementtblComponent,
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
     BrowserModule,
     // JoditAngularModule,
     ToastrModule.forRoot({
-      preventDuplicates: true
+      preventDuplicates: true,
+      closeButton: true,
+      positionClass: 'toast-top-right',
+      tapToDismiss: false,
+      timeOut: 6000
     }),
 
     NgxTreeSelectModule.forRoot({
@@ -366,14 +374,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgxEditorModule,
     ModalModule.forRoot(),
     LoadingModule,
-    OwlDateTimeModule, 
+    OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot()
+    FroalaEditorModule.forRoot(), FroalaViewModule.forRoot(),
+    Ng2GoogleChartsModule
 
     // FroalaEditorModule.forRoot(),
     // FroalaViewModule.forRoot()
     ],
-  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, DatePipe, NavService],
+  providers: [CommonService, NavRouterActivatorService, ValidateService, BsModalService, DialogsService, DatePipe, NavService, AutologoutService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

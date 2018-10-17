@@ -22,7 +22,7 @@ export class PollresultdetailComponent implements OnInit, OnDestroy {
   updateForm: FormGroup
 
   recordList = null;
-  displayedColumns = ['num','pq_en', 'pq_bm', 'status'];
+  displayedColumns = ['num','comment'];
   pageSize = 10;
   pageCount = 1;
   noPrevData = true;
@@ -40,8 +40,6 @@ export class PollresultdetailComponent implements OnInit, OnDestroy {
   showNoData = false;
 
   recordTable = null;
-
-  kword: any;
 
   private subscriptionLang: ISubscription;
   
@@ -101,25 +99,28 @@ export class PollresultdetailComponent implements OnInit, OnDestroy {
     } else {
       this.languageId = 1;
     }
+    
+    this.dataUrl  = this.router.url.split('/')[3];
+
     this.getRecordList(this.pageCount, this.pageSize);
     this.commonservice.getModuleId();
+
   }
 
   getRecordList(page, size) {
     
     this.recordList = null;
-    // this.dataUrl = this.appConfig.urlPoll + '/question?page=' + page + '&size=' + size + '&language=' +this.languageId;
     this.loading = true;
-    this.commonservice.readProtected('polls/question/lists', page, size, '', this.languageId)
+    this.commonservice.readProtected('polls/page/allcomments/ref/'+this.dataUrl, page, size, '', this.languageId)
       .subscribe(data => {
 
         this.commonservice.errorHandling(data, (function(){
 
           this.recordList = data;
         
-          if(this.recordList.pollQuestionFormatList.length > 0){           
+          if(this.recordList.pollComments.length > 0){           
             
-            this.dataSource.data = this.recordList.pollQuestionFormatList;
+            this.dataSource.data = this.recordList.pollComments;
             this.seqPageNum = this.recordList.pageNumber;
             this.seqPageSize = this.recordList.pageSize;
             this.recordTable = this.recordList;
