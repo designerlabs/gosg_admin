@@ -18,8 +18,8 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-contenttbl',
   templateUrl: './contenttbl.component.html',
-  styleUrls: ['./contenttbl.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./contenttbl.component.css']
+  //encapsulation: ViewEncapsulation.None
 })
 
 export class ContenttblComponent implements OnInit, OnDestroy {
@@ -107,7 +107,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
     }
     else {
       this.getCategoryCodeC(this.languageId);
-
     }
   }
 
@@ -131,7 +130,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     else {
       this.getCategoryCodeC(this.languageId);
-
     }
   }
 
@@ -166,13 +164,19 @@ export class ContenttblComponent implements OnInit, OnDestroy {
       if (this.navservice.flagLang) {
 
         this.getCategoryCodeC(this.languageId);
-        //this.getCategoryC(this.languageId);
         this.selectedItem = [];
         this.commonservice.getModuleId();
       }
 
     });
     /* LANGUAGE FUNC */
+  }
+
+  ngOnDestroy() {
+    this.subscriptionLang.unsubscribe();
+    this.subscriptionContentCreator.unsubscribe();
+    this.subscriptionCategoryC.unsubscribe();
+    //this.subscriptionRecordListC.unsubscribe();
   }
 
   ngOnInit() {
@@ -213,22 +217,14 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
   }
 
-  ngOnDestroy() {
-    this.subscriptionLang.unsubscribe();
-    this.subscriptionContentCreator.unsubscribe();
-    this.subscriptionCategoryC.unsubscribe();
-    //this.subscriptionRecordListC.unsubscribe();
-  }
-
   getCategoryCodeC(lng) {
-
-    console.log("TRy");
 
     this.loading = true;
     this.subscriptionContentCreator = this.commonservice.readProtected('content/creator/dropdown/' + this.commonservice.contentCategoryCode, '', '', '', lng)
       .subscribe(resCatData => {
         this.commonservice.errorHandling(resCatData, (function () {
           this.leCategoryCode = resCatData['list'];
+          this.categoryData = resCatData["list"];
 
           let setParentEn;
 
@@ -271,7 +267,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
             this.categoryPlaceholder = this.catName;
           }
 
-
           this.updateForm.get('parentsEn').setValue(setParentEn);
           this.categoryPlaceholder = this.catName;
 
@@ -288,8 +283,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
   }
 
   getRecordListC(page, size, code, lng) {
-
-    console.log("THIS");
 
     this.recordList = null;
     let nameStatus = this.updateForm.get('nameStatus').value;
@@ -545,7 +538,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
 
     else if (this.newPublishD == undefined || this.newPublishD == null) {
       this.getCategoryCodeC(this.languageId);
-
     }
 
   }
@@ -830,32 +822,6 @@ export class ContenttblComponent implements OnInit, OnDestroy {
           }
 
           displayTilte += '</table>';
-
-          // displayTilte += '<mat-table #table2 [dataSource]="dataSourceH">';
-          // displayTilte += '<ng-container matColumnDef="names">';
-          // displayTilte += '<mat-header-cell class="text-align-left" style="flex: 0 0 60%;" *matHeaderCellDef> {{ "common.tableHeader.name" | translate }}</mat-header-cell>';
-          // displayTilte += '<mat-cell class="text-align-left" style="flex: 0 0 60%;" *matCellDef="let element; let i = index;">';
-          // displayTilte += '{{element.user.firstName }}<br>({{element.user.email}})';
-          // displayTilte += '</mat-cell>';
-          // displayTilte += '</ng-container>';
-          // displayTilte += '<ng-container matColumnDef="actions">';
-          // displayTilte += '<mat-header-cell class="text-align-left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ "common.tableHeader.activity" | translate }} </mat-header-cell>';
-          // displayTilte += '<mat-cell class="text-align-left" style="flex: 0 0 20%;" *matCellDef="let element; let i = index;">';
-          // displayTilte += '{{element.type }}';
-          // displayTilte += '</mat-cell>';
-          // displayTilte += '</ng-container>';
-
-
-          // displayTilte += '<ng-container matColumnDef="time">';
-          // displayTilte += '<mat-header-cell class="text-align-Left" style="flex: 0 0 20%;" *matHeaderCellDef> {{ "common.tableHeader.time" | translate }} </mat-header-cell>';
-          // displayTilte += '<mat-cell class="text-align-Left" style="flex: 0 0 20%;" *matCellDef="let element">';
-          // displayTilte += '{{element.revisionDate }}';
-          // displayTilte += '</mat-cell>';
-          // displayTilte += '</ng-container> ';
-
-          // displayTilte += '<mat-header-row *matHeaderRowDef="displayedColumnsH"></mat-header-row>';
-          // displayTilte += '<mat-row *matRowDef="let row; columns: displayedColumnsH;"></mat-row>';
-          // displayTilte += '</mat-table>';
 
           dialogRef.componentInstance.content = `${displayTilte}`;
           display = dialogRef.componentInstance.content;
