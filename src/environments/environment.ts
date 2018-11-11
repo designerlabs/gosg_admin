@@ -6,9 +6,9 @@
 export const environment = {
   production: false,
   staging: false,
-  uapURL : 'http://10.1.67.27:8080/',
-  stagURL: 'http://10.1.67.27:8080/',
-  mediaURL: 'http://10.1.67.27:8080/',
+  uapURL : '/',
+  stagURL: '/',
+  mediaURL: '/',
   mockApiURL :'/',
   baseURL: '/',
   mibisURL: '/'
